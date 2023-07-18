@@ -2,10 +2,15 @@ import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { SLOTS } from "./resources";
 
 /**
@@ -15,7 +20,7 @@ import { SLOTS } from "./resources";
 @Component({
   tag: "calcite-tile",
   styleUrl: "tile.scss",
-  shadow: true
+  shadow: true,
 })
 export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
@@ -84,10 +89,12 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectInteractive(this);
   }
 
   componentDidRender(): void {
@@ -106,7 +113,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
     const iconStyle = isLargeVisual
       ? {
           height: "64px",
-          width: "64px"
+          width: "64px",
         }
       : undefined;
 

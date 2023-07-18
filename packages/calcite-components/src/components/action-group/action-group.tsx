@@ -3,14 +3,14 @@ import { CalciteActionMenuCustomEvent } from "../../components";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -18,7 +18,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Columns, Layout, Scale } from "../interfaces";
@@ -34,9 +34,9 @@ import { ICONS, SLOTS } from "./resources";
   tag: "calcite-action-group",
   styleUrl: "action-group.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ActionGroup
   implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -123,7 +123,7 @@ export class ActionGroup
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
   // --------------------------------------------------------------------------

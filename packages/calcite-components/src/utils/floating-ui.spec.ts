@@ -1,34 +1,20 @@
 import { waitForAnimationFrame } from "../tests/utils";
-import {
+import * as floatingUI from "./floating-ui";
+import { FloatingUIComponent } from "./floating-ui";
+
+const {
   cleanupMap,
   connectFloatingUI,
   defaultOffsetDistance,
   disconnectFloatingUI,
   effectivePlacements,
   filterComputedPlacements,
-  FloatingUIComponent,
   getEffectivePlacement,
   placements,
   positionFloatingUI,
   reposition,
-  repositionDebounceTimeout
-} from "./floating-ui";
-
-import * as floatingUIDOM from "@floating-ui/dom";
-
-(floatingUIDOM as any).computePosition = async (_: HTMLElement, floatingEl: HTMLElement) => {
-  floatingEl.style.transform = "some value";
-  floatingEl.style.top = "0";
-  floatingEl.style.left = "0";
-
-  return {
-    x: 0,
-    y: 0,
-    placement: "bottom",
-    strategy: "absolute",
-    middlewareData: {}
-  };
-};
+  repositionDebounceTimeout,
+} = floatingUI;
 
 it("should set calcite placement to FloatingUI placement", () => {
   const el = document.createElement("div");
@@ -56,15 +42,19 @@ describe("repositioning", () => {
   let referenceEl: HTMLButtonElement;
   let positionOptions: Parameters<typeof positionFloatingUI>[1];
 
-  beforeEach(() => {
-    fakeFloatingUiComponent = {
+  function createFakeFloatingUiComponent(): FloatingUIComponent {
+    return {
       open: false,
       reposition: async () => {
         /* noop */
       },
       overlayPositioning: "absolute",
-      placement: "auto"
+      placement: "auto",
     };
+  }
+
+  beforeEach(() => {
+    fakeFloatingUiComponent = createFakeFloatingUiComponent();
 
     floatingEl = document.createElement("div");
     referenceEl = document.createElement("button");
@@ -74,7 +64,7 @@ describe("repositioning", () => {
       referenceEl,
       overlayPositioning: fakeFloatingUiComponent.overlayPositioning,
       placement: fakeFloatingUiComponent.placement,
-      type: "popover"
+      type: "popover",
     };
   });
 
@@ -154,6 +144,23 @@ describe("repositioning", () => {
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(false);
       expect(floatingEl.style.position).toBe("fixed");
     });
+  });
+
+  it("debounces positioning per instance", async () => {
+    const positionSpy = jest.spyOn(floatingUI, "positionFloatingUI");
+    fakeFloatingUiComponent.open = true;
+
+    const anotherFakeFloatingUiComponent = createFakeFloatingUiComponent();
+    anotherFakeFloatingUiComponent.open = true;
+
+    floatingUI.reposition(fakeFloatingUiComponent, positionOptions, true);
+    expect(positionSpy).toHaveBeenCalledTimes(1);
+
+    floatingUI.reposition(anotherFakeFloatingUiComponent, positionOptions, true);
+    expect(positionSpy).toHaveBeenCalledTimes(2);
+
+    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
+    expect(positionSpy).toHaveBeenCalledTimes(2);
   });
 });
 

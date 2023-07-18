@@ -16,16 +16,16 @@ describe("calcite-shell-center-row", () => {
     defaults("calcite-shell-center-row", [
       {
         propertyName: "detached",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "heightScale",
-        defaultValue: "s"
+        defaultValue: "s",
       },
       {
         propertyName: "position",
-        defaultValue: "end"
-      }
+        defaultValue: "end",
+      },
     ]);
   });
 

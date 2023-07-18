@@ -9,10 +9,15 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -23,7 +28,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ListItemMessages } from "./assets/list-item/t9n";
 
@@ -32,10 +37,10 @@ const focusMap = new Map<HTMLCalciteListElement, number>();
 const listSelector = "calcite-list";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -50,7 +55,7 @@ import {
   tag: "calcite-list-item",
   styleUrl: "list-item.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ListItem
   implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -81,6 +86,11 @@ export class ListItem
   /** When `true`, hides the component. */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
+  @Watch("closed")
+  handleClosedChange(): void {
+    this.emitCalciteInternalListItemChange();
+  }
+
   /**
    * A description for the component. Displays below the label text.
    */
@@ -90,6 +100,11 @@ export class ListItem
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(): void {
+    this.emitCalciteInternalListItemChange();
+  }
 
   /**
    * The label text of the component. Displays above the description text.
@@ -126,10 +141,8 @@ export class ListItem
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  handleSelectedChange(value: boolean): void {
-    if (value) {
-      this.calciteInternalListItemSelect.emit();
-    }
+  handleSelectedChange(): void {
+    this.calciteInternalListItemSelect.emit();
   }
 
   /**
@@ -207,6 +220,12 @@ export class ListItem
    */
   @Event({ cancelable: false }) calciteInternalFocusPreviousItem: EventEmitter<void>;
 
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalListItemChange: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -251,6 +270,7 @@ export class ListItem
   actionsEndEl: HTMLTableCellElement;
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     const { el } = this;
@@ -274,6 +294,7 @@ export class ListItem
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -287,7 +308,7 @@ export class ListItem
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
     const focusIndex = focusMap.get(parentListEl);
 
@@ -448,7 +469,7 @@ export class ListItem
       this.renderContentStart(),
       this.renderCustomContent(),
       this.renderContentProperties(),
-      this.renderContentEnd()
+      this.renderContentEnd(),
     ];
 
     return (
@@ -457,7 +478,7 @@ export class ListItem
         class={{
           [CSS.contentContainer]: true,
           [CSS.contentContainerSelectable]: selectionMode !== "none",
-          [CSS.contentContainerHasCenterContent]: hasCenterContent
+          [CSS.contentContainerHasCenterContent]: hasCenterContent,
         }}
         key="content-container"
         onClick={this.itemClicked}
@@ -482,7 +503,7 @@ export class ListItem
       selected,
       selectionAppearance,
       selectionMode,
-      closed
+      closed,
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -501,7 +522,7 @@ export class ListItem
           class={{
             [CSS.container]: true,
             [CSS.containerBorderSelected]: borderSelected,
-            [CSS.containerBorderUnselected]: borderUnselected
+            [CSS.containerBorderUnselected]: borderUnselected,
           }}
           hidden={closed}
           onFocus={this.focusCellNull}
@@ -521,7 +542,7 @@ export class ListItem
         <div
           class={{
             [CSS.nestedContainer]: true,
-            [CSS.nestedContainerHidden]: openable && !open
+            [CSS.nestedContainerHidden]: openable && !open,
           }}
         >
           <slot onSlotchange={this.handleDefaultSlotChange} />
@@ -535,6 +556,10 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private emitCalciteInternalListItemChange(): void {
+    this.calciteInternalListItemChange.emit();
+  }
 
   closeClickHandler = (): void => {
     this.closed = true;

@@ -8,7 +8,7 @@ import {
   Method,
   Prop,
   State,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
@@ -17,10 +17,10 @@ import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -35,7 +35,7 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 @Component({
   tag: "calcite-action-menu",
   styleUrl: "action-menu.scss",
-  shadow: true
+  shadow: true,
 })
 export class ActionMenu implements LoadableComponent {
   // --------------------------------------------------------------------------
@@ -185,9 +185,9 @@ export class ActionMenu implements LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
-    focusElement(this.menuButtonEl);
+    return focusElement(this.menuButtonEl);
   }
 
   // --------------------------------------------------------------------------
@@ -249,7 +249,7 @@ export class ActionMenu implements LoadableComponent {
   setMenuButtonEl = (event: Event): void => {
     const actions = (event.target as HTMLSlotElement)
       .assignedElements({
-        flatten: true
+        flatten: true,
       })
       .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
 
@@ -292,7 +292,7 @@ export class ActionMenu implements LoadableComponent {
       label,
       placement,
       overlayPositioning,
-      flipPlacements
+      flipPlacements,
     } = this;
 
     const activeAction = actionElements[activeMenuItemIndex];
@@ -357,7 +357,7 @@ export class ActionMenu implements LoadableComponent {
   updateTooltip = (event: Event): void => {
     const tooltips = (event.target as HTMLSlotElement)
       .assignedElements({
-        flatten: true
+        flatten: true,
       })
       .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
 
@@ -394,7 +394,7 @@ export class ActionMenu implements LoadableComponent {
   handleDefaultSlotChange = (event: Event): void => {
     const actions = (event.target as HTMLSlotElement)
       .assignedElements({
-        flatten: true
+        flatten: true,
       })
       .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
 

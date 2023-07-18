@@ -9,13 +9,13 @@ export const CSS = {
   pagination: "pagination",
   pagePosition: "page-position",
   pageNext: "page-next",
-  pagePrevious: "page-previous"
+  pagePrevious: "page-previous",
 };
 
 export const ICONS = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
-  close: "x"
+  close: "x",
 };
 
 export const TEXT = {
@@ -23,5 +23,5 @@ export const TEXT = {
   defaultPaginationLabel: "Tip",
   close: "Close",
   previous: "Previous",
-  next: "Next"
+  next: "Next",
 };

@@ -10,7 +10,7 @@ import { fetchIcon, scaleToPx } from "./utils";
   tag: "calcite-icon",
   styleUrl: "icon.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Icon {
   //--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ export class Icon {
    * @see [Icons](https://esri.github.io/calcite-ui-icons)
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   icon: string = null;
 
@@ -42,7 +42,7 @@ export class Icon {
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   flipRtl = false;
 
@@ -50,7 +50,7 @@ export class Icon {
    * Specifies the size of the component.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   scale: Scale = "m";
 
@@ -100,7 +100,7 @@ export class Icon {
           aria-hidden="true"
           class={{
             [CSS.flipRtl]: dir === "rtl" && flipRtl,
-            svg: true
+            svg: true,
           }}
           fill="currentColor"
           height="100%"

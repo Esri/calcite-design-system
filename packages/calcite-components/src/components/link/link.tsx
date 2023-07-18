@@ -1,11 +1,16 @@
 import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
+import {
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
@@ -18,7 +23,7 @@ import { FlipContext } from "../interfaces";
 @Component({
   tag: "calcite-link",
   styleUrl: "link.scss",
-  shadow: true
+  shadow: true,
 })
 export class Link implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
@@ -69,6 +74,10 @@ export class Link implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectInteractive(this);
+  }
+
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -79,6 +88,10 @@ export class Link implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
   }
 
   render(): VNode {
@@ -160,7 +173,7 @@ export class Link implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     focusElement(this.childEl);
   }

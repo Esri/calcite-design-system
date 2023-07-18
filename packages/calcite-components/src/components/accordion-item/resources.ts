@@ -1,6 +1,6 @@
 export const SLOTS = {
   actionsStart: "actions-start",
-  actionsEnd: "actions-end"
+  actionsEnd: "actions-end",
 };
 
 export const CSS = {
@@ -16,5 +16,5 @@ export const CSS = {
   content: "content",
   iconStart: "icon--start",
   iconEnd: "icon--end",
-  headerContainer: "header-container"
+  headerContainer: "header-container",
 };

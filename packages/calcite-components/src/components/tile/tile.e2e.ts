@@ -20,7 +20,7 @@ describe("calcite-tile", () => {
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
-      { propertyName: "hidden", defaultValue: false }
+      { propertyName: "hidden", defaultValue: false },
     ]);
   });
 
@@ -35,11 +35,13 @@ describe("calcite-tile", () => {
       { propertyName: "embed", value: true },
       { propertyName: "focused", value: true },
       { propertyName: "href", value: "http://www.esri.com" },
-      { propertyName: "icon", value: "layers" }
+      { propertyName: "icon", value: "layers" },
     ]);
   });
 
-  it("can be disabled", () => disabled("<calcite-tile heading='test' href='http://www.esri.com'></calcite-tile>"));
+  describe("disabled", () => {
+    disabled("<calcite-tile heading='test' href='http://www.esri.com'></calcite-tile>");
+  });
 
   it("renders without a link by default", async () => {
     const page = await newE2EPage();

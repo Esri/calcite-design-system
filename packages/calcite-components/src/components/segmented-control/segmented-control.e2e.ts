@@ -22,7 +22,7 @@ describe("calcite-segmented-control", () => {
     );
   });
 
-  it("can be disabled", () =>
+  describe("disabled", () => {
     disabled(
       html`<calcite-segmented-control>
         <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
@@ -30,7 +30,8 @@ describe("calcite-segmented-control", () => {
         <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
       </calcite-segmented-control>`,
       { focusTarget: "child" }
-    ));
+    );
+  });
 
   it("sets value from selected item", async () => {
     const page = await newE2EPage();
@@ -312,7 +313,7 @@ describe("calcite-segmented-control", () => {
           </calcite-segmented-control>
         `,
         {
-          focusTargetSelector: "#child-1"
+          focusTargetSelector: "#child-1",
         }
       );
     });
@@ -327,7 +328,7 @@ describe("calcite-segmented-control", () => {
           </calcite-segmented-control>
         `,
         {
-          focusTargetSelector: "#child-3"
+          focusTargetSelector: "#child-3",
         }
       );
     });

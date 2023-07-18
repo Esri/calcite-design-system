@@ -33,18 +33,18 @@
       require(["esri/WebMap", "esri/views/MapView", "esri/widgets/LayerList"], function (WebMap, MapView, LayerList) {
         const webmap = new WebMap({
           portalItem: {
-            id: "cc316ca9e0824970ad29ac558161d42d"
-          }
+            id: "cc316ca9e0824970ad29ac558161d42d",
+          },
         });
         const view = new MapView({
           container: "viewDiv",
-          map: webmap
+          map: webmap,
         });
         view.when(function () {
           const layerList = new LayerList({
             view: view,
             selectionEnabled: true,
-            container: "layerlist-container"
+            container: "layerlist-container",
           });
         });
       });

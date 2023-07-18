@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   slotChangeHasAssignedElement,
@@ -17,15 +17,19 @@ import {
   getElementDir,
   getSlotted,
   nodeListToArray,
-  toAriaBoolean
+  toAriaBoolean,
 } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
@@ -39,11 +43,9 @@ import { CSS, ICONS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-tree-item",
   styleUrl: "tree-item.scss",
-  shadow: true
+  shadow: true,
 })
-export class TreeItem
-  implements ConditionalSlotComponent, InteractiveComponent, OpenCloseComponent
-{
+export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -78,7 +80,6 @@ export class TreeItem
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
-    onToggleOpenCloseComponent(this, true);
   }
 
   /**
@@ -119,46 +120,9 @@ export class TreeItem
   @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode;
 
   @Watch("selectionMode")
-  getselectionMode(): void {
+  getSelectionMode(): void {
     this.isSelectionMultiLike =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
-  }
-
-  openTransitionProp = "opacity";
-
-  transitionProp = "expanded";
-
-  /**
-   * Specifies element that the transition is allowed to emit on.
-   */
-  transitionEl: HTMLDivElement;
-
-  /**
-   * Defines method for `beforeOpen` event handler.
-   */
-  onBeforeOpen(): void {
-    this.transitionEl.style.transform = "scaleY(1)";
-  }
-
-  /**
-   * Defines method for `open` event handler:
-   */
-  onOpen(): void {
-    this.transitionEl.style.transform = "none";
-  }
-
-  /**
-   * Defines method for `beforeClose` event handler:
-   */
-  onBeforeClose(): void {
-    // pattern needs to be defined on how we emit events for components without `open` prop.
-  }
-
-  /**
-   * Defines method for `close` event handler:
-   */
-  onClose(): void {
-    this.transitionEl.style.transform = "scaleY(0)";
   }
 
   //--------------------------------------------------------------------------
@@ -174,10 +138,12 @@ export class TreeItem
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
     }
     connectConditionalSlotComponent(this);
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectInteractive(this);
   }
 
   componentWillRender(): void {
@@ -206,9 +172,6 @@ export class TreeItem
   }
 
   componentWillLoad(): void {
-    if (this.expanded) {
-      onToggleOpenCloseComponent(this, true);
-    }
     requestAnimationFrame(() => (this.updateAfterInitialRender = true));
   }
 
@@ -239,7 +202,7 @@ export class TreeItem
       <calcite-icon
         class={{
           [CSS.chevron]: true,
-          [CSS_UTILITY.rtl]: rtl
+          [CSS_UTILITY.rtl]: rtl,
         }}
         data-test-id="icon"
         icon={ICONS.chevronRight}
@@ -275,7 +238,7 @@ export class TreeItem
         class={{
           [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
           [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
-          [CSS_UTILITY.rtl]: rtl
+          [CSS_UTILITY.rtl]: rtl,
         }}
         icon={selectedIcon}
         scale={this.scale === "l" ? "m" : "s"}
@@ -315,7 +278,7 @@ export class TreeItem
             <div
               class={{
                 [CSS.nodeContainer]: true,
-                [CSS_UTILITY.rtl]: rtl
+                [CSS_UTILITY.rtl]: rtl,
               }}
               data-selection-mode={this.selectionMode}
               // eslint-disable-next-line react/jsx-sort-props
@@ -338,23 +301,17 @@ export class TreeItem
           <div
             class={{
               [CSS.childrenContainer]: true,
-              [CSS_UTILITY.rtl]: rtl
+              [CSS_UTILITY.rtl]: rtl,
             }}
             data-test-id="calcite-tree-children"
             onClick={this.childrenClickHandler}
             role={this.hasChildren ? "group" : undefined}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={(el) => this.setTransitionEl(el)}
           >
             <slot name={SLOTS.children} />
           </div>
         </div>
       </Host>
     );
-  }
-
-  setTransitionEl(el: HTMLDivElement): void {
-    this.transitionEl = el;
   }
 
   //--------------------------------------------------------------------------
@@ -378,7 +335,7 @@ export class TreeItem
     }
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
-      forceToggle: false
+      forceToggle: false,
     });
   }
 
@@ -404,7 +361,7 @@ export class TreeItem
         }
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
-          forceToggle: false
+          forceToggle: false,
         });
         event.preventDefault();
         break;
@@ -423,7 +380,7 @@ export class TreeItem
         } else {
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
-            forceToggle: false
+            forceToggle: false,
           });
         }
 
@@ -510,7 +467,7 @@ export class TreeItem
   private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
     const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
       all: true,
-      selector: "calcite-tree-item"
+      selector: "calcite-tree-item",
     });
     items.forEach((item) => (item.parentExpanded = expanded));
   };

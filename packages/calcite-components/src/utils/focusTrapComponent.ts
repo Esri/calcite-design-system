@@ -71,7 +71,7 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
     // the following options are not overrideable
     document: el.ownerDocument,
     tabbableOptions,
-    trapStack
+    trapStack,
   };
 
   component.focusTrap = createFocusTrap(focusTrapNode, focusTrapOptions);

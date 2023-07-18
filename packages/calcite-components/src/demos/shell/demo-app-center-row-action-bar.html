@@ -38,14 +38,14 @@
       ) {
         const webmap = new WebMap({
           portalItem: {
-            id: "cc316ca9e0824970ad29ac558161d42d"
-          }
+            id: "cc316ca9e0824970ad29ac558161d42d",
+          },
         });
 
         const view = new MapView({
           container: "viewDiv",
           map: webmap,
-          padding: { left: 49, right: 49 }
+          padding: { left: 49, right: 49 },
         });
         view.when(function () {
           view.ui.move("zoom", "bottom-right");

@@ -3,5 +3,6 @@ export const CSS = {
   heading: "heading",
   description: "description",
   anchor: "anchor",
-  image: "image"
+  image: "image",
+  standalone: "standalone",
 };

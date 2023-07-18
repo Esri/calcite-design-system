@@ -23,7 +23,9 @@ describe("calcite-chip", () => {
     focusable("<calcite-chip interactive>doritos</calcite-chip>");
   });
 
-  it("can be disabled when interactive", () => disabled("<calcite-chip interactive>doritos</calcite-chip>"));
+  describe("can be disabled when interactive", () => {
+    disabled("<calcite-chip interactive>doritos</calcite-chip>");
+  });
 
   it("should not emit event after the chip is clicked if interactive if not set", async () => {
     const page = await newE2EPage();
@@ -145,7 +147,7 @@ describe("calcite-chip", () => {
         chip.style.setProperty("--calcite-chip-transparent-press", "rgba(4, 10, 4, 0.31");
         return {
           hoverFocus: window.getComputedStyle(chip).getPropertyValue("--calcite-chip-transparent-hover"),
-          active: window.getComputedStyle(chip).getPropertyValue("--calcite-chip-transparent-press")
+          active: window.getComputedStyle(chip).getPropertyValue("--calcite-chip-transparent-press"),
         };
       });
       expect(chipStyles.hoverFocus).toEqual("rgba(3, 2, 20, 0.14)");
@@ -171,7 +173,7 @@ describe("calcite-chip", () => {
     describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${chipSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${chipSnippet}</div>`,
         });
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
@@ -195,7 +197,7 @@ describe("calcite-chip", () => {
             --calcite-button-transparent-hover: ${overrideStyle};
           }
         </style>
-        <div>${chipSnippet}</div>`
+        <div>${chipSnippet}</div>`,
       });
       chipCloseButton = await page.find("calcite-chip >>> button");
       await chipCloseButton.focus();

@@ -10,7 +10,7 @@ export interface XButtonOptions extends JSXAttributes {
 }
 
 export const CSS = {
-  button: "x-button"
+  button: "x-button",
 };
 
 export function XButton({
@@ -19,7 +19,7 @@ export function XButton({
   label,
   onClick,
   ref,
-  scale
+  scale,
 }: XButtonOptions): FunctionalComponent {
   return (
     <button

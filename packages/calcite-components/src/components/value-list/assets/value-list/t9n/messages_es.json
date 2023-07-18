@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "Reordenamiento de ${itemLabel} , posición actual ${position} de ${total}.",
-  "dragHandleChange": "${itemLabel}, nueva posición ${position} de ${total}. Presione la barra espaciadora para confirmar.",
-  "dragHandleCommit": "${itemLabel}, posición actual ${position} de ${total}.",
-  "dragHandleIdle": "${itemLabel}, presione la barra espaciadora y utilice las teclas de flecha para reordenar el contenido. Posición actual ${position} de ${total}."
+  "dragHandleActive": "Reordenamiento de {itemLabel} , posición actual {position} de {total}.",
+  "dragHandleChange": "{itemLabel}, nueva posición {position} de {total}. Presione la barra espaciadora para confirmar.",
+  "dragHandleCommit": "{itemLabel}, posición actual {position} de {total}.",
+  "dragHandleIdle": "{itemLabel}, presione la barra espaciadora y utilice las teclas de flecha para reordenar el contenido. Posición actual {position} de {total}."
 }

@@ -1,4 +1,5 @@
-/* eslint-disable jest/no-export -- util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks */
+/* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
+/* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
@@ -41,7 +42,7 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
   const componentTag = getTag(componentTagOrHTML);
   const page = await newE2EPage({
     html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
-    failOnConsoleError: true
+    failOnConsoleError: true,
   });
   await page.waitForChanges();
 
@@ -83,10 +84,8 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
- * @param {string} employee.visible - is the component visible
- * @param {string} employee.display - is the component's display "inline"
- * @param options.visible
- * @param options.display
+ * @param {string} options.visible - is the component visible
+ * @param {string} options.display - is the component's display "inline"
  */
 export async function renders(
   componentTagOrHTML: TagOrHTML,
@@ -159,13 +158,11 @@ export function reflects(
         element.setProperty(propertyName, negated);
         await page.waitForChanges();
 
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
         element.setProperty(propertyName, value);
         await page.waitForChanges();
 
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
       }
     }
@@ -284,7 +281,6 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
     await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
     if (options?.shadowFocusTargetSelector) {
-      // eslint-disable-next-line jest/no-conditional-expect
       expect(
         await page.$eval(
           tag,
@@ -295,7 +291,7 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
     }
 
     // wait for next frame before checking focus
-    await page.waitForTimeout(0);
+    await page.waitForChanges();
 
     expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
       true
@@ -370,10 +366,6 @@ export function slots(
         return defaultSlotted.assignedSlot?.name === "" && defaultSlotted.slot === "";
       });
 
-      /* eslint-disable-next-line jest/no-conditional-expect --
-       * Conditional logic here is confined to a test helper and its purpose is to handle specific scenarios/variations in the test setup.
-       * The goal is to reduce duplication and strike a balance between test readability and maintainability.
-       **/
       expect(hasDefaultSlotted).toBe(true);
     }
   });
@@ -384,7 +376,7 @@ async function assertLabelable({
   componentTag,
   propertyToToggle,
   focusTargetSelector = componentTag,
-  shadowFocusTargetSelector
+  shadowFocusTargetSelector,
 }: {
   page: E2EPage;
   componentTag: string;
@@ -478,7 +470,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -495,7 +487,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -516,7 +508,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -538,7 +530,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -557,7 +549,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -579,7 +571,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 }
@@ -633,7 +625,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
           this should cover button and calcite-button submit cases
           -->
         <input id="submitter" type="submit" />
-      </form>`
+      </form>`,
     });
     await page.waitForChanges();
     const component = await page.find(componentTag);
@@ -661,7 +653,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
         keeping things simple by using submit-type input
         this should cover button and calcite-button submit cases
         -->
-        <input id="submitter" form="test-form" type="submit" />`
+        <input id="submitter" form="test-form" type="submit" />`,
     });
     await page.waitForChanges();
     const component = await page.find(componentTag);
@@ -916,45 +908,39 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
 /**
  * Helper to test the disabled prop disabling user interaction.
  *
- * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
- * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("disabled", () => {
+ *    disabled("calcite-input")
+ * });
+ *
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
+ * @param {DisabledOptions} [options] - Disabled options.
  */
-export async function disabled(
+export function disabled(
   componentTestSetup: ComponentTestSetup,
   options: DisabledOptions = { focusTarget: "host" }
-): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentTestSetup);
+): void {
+  const addRedirectPrevention = async (page: E2EPage, tag: string): Promise<void> => {
+    await page.$eval(tag, (el) => {
+      el.addEventListener(
+        "click",
+        (event) => {
+          const path = event.composedPath() as HTMLElement[];
+          const anchor = path.find((el) => el?.tagName === "A");
 
-  const component = await page.find(tag);
-  await skipAnimations(page);
-  await page.$eval(tag, (el) => {
-    el.addEventListener(
-      "click",
-      (event) => {
-        const path = event.composedPath() as HTMLElement[];
-        const anchor = path.find((el) => el?.tagName === "A");
+          if (anchor) {
+            // we prevent the default behavior to avoid a page redirect
+            anchor.addEventListener("click", (event) => event.preventDefault(), { once: true });
+          }
+        },
+        true
+      );
+    });
+  };
 
-        if (anchor) {
-          // we prevent the default behavior to avoid a page redirect
-          anchor.addEventListener("click", (event) => event.preventDefault(), { once: true });
-        }
-      },
-      true
-    );
-  });
-
-  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
-  const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
-  const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
-  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
-
-  const eventSpies: EventSpy[] = [];
-
-  for (const event of allExpectedEvents) {
-    eventSpies.push(await component.spyOnEvent(event));
-  }
-
-  async function expectToBeFocused(tag: string): Promise<void> {
+  async function expectToBeFocused(page: E2EPage, tag: string): Promise<void> {
     const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
     expect(focusedTag).toBe(tag);
   }
@@ -965,13 +951,155 @@ export async function disabled(
     }
   }
 
-  expect(component.getAttribute("aria-disabled")).toBeNull();
+  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
+  const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
+  const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
+  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
 
-  if (options.focusTarget === "none") {
-    await page.click(tag);
-    await expectToBeFocused("body");
+  const createEventSpiesForExpectedEvents = async (component: E2EElement): Promise<EventSpy[]> => {
+    const eventSpies: EventSpy[] = [];
 
-    assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
+    for (const event of allExpectedEvents) {
+      eventSpies.push(await component.spyOnEvent(event));
+    }
+
+    return eventSpies;
+  };
+
+  async function getFocusTarget(page: E2EPage, tag: string, focusTarget: FocusTarget): Promise<string> {
+    return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+  }
+
+  const getTabAndClickFocusTarget = async (
+    page: E2EPage,
+    tag: string,
+    focusTarget: DisabledOptions["focusTarget"]
+  ): Promise<string[]> => {
+    if (typeof focusTarget === "object") {
+      return [focusTarget.tab, focusTarget.click];
+    }
+
+    const sameClickAndTabFocusTarget = await getFocusTarget(page, tag, focusTarget);
+
+    return [sameClickAndTabFocusTarget, sameClickAndTabFocusTarget];
+  };
+
+  const getShadowFocusableCenterCoordinates = async (page: E2EPage, tabFocusTarget: string): Promise<number[]> => {
+    return await page.$eval(tabFocusTarget, (element: HTMLElement) => {
+      const focusTarget = element.shadowRoot.activeElement || element;
+      const rect = focusTarget.getBoundingClientRect();
+
+      return [rect.x + rect.width / 2, rect.y + rect.height / 2];
+    });
+  };
+
+  it("prevents focusing via keyboard and mouse", async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+
+    const component = await page.find(tag);
+    await skipAnimations(page);
+    await addRedirectPrevention(page, tag);
+
+    const eventSpies = await createEventSpiesForExpectedEvents(component);
+
+    expect(component.getAttribute("aria-disabled")).toBeNull();
+
+    if (options.focusTarget === "none") {
+      await page.click(tag);
+      await page.waitForChanges();
+      await expectToBeFocused(page, "body");
+
+      assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
+
+      component.setProperty("disabled", true);
+      await page.waitForChanges();
+
+      expect(component.getAttribute("aria-disabled")).toBe("true");
+
+      await page.click(tag);
+      await page.waitForChanges();
+      await expectToBeFocused(page, "body");
+
+      await component.callMethod("click");
+      await page.waitForChanges();
+      await expectToBeFocused(page, "body");
+
+      assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
+      });
+
+      return;
+    }
+
+    await page.keyboard.press("Tab");
+
+    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
+
+    expect(tabFocusTarget).not.toBe("body");
+    await expectToBeFocused(page, tabFocusTarget);
+
+    const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
+      page,
+      tabFocusTarget
+    );
+
+    async function resetFocusOrder(): Promise<void> {
+      // test page has default margin, so clicking on 0,0 will not hit the test element
+      await page.mouse.click(0, 0);
+    }
+
+    await resetFocusOrder();
+    await expectToBeFocused(page, "body");
+
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await page.waitForChanges();
+    await expectToBeFocused(page, clickFocusTarget);
+
+    await component.callMethod("click");
+    await page.waitForChanges();
+    await expectToBeFocused(page, clickFocusTarget);
+
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        expect(spy.length).toBeGreaterThanOrEqual(2);
+      } else {
+        expect(spy).toHaveReceivedEventTimes(1);
+      }
+    });
+
+    component.setProperty("disabled", true);
+    await page.waitForChanges();
+
+    expect(component.getAttribute("aria-disabled")).toBe("true");
+
+    await resetFocusOrder();
+    await page.keyboard.press("Tab");
+    await expectToBeFocused(page, "body");
+
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await expectToBeFocused(page, "body");
+
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        expect(spy.length).toBeGreaterThanOrEqual(2);
+      } else {
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
+      }
+    });
+  });
+
+  it("events are no longer blocked right after enabling", async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+
+    const component = await page.find(tag);
+    await skipAnimations(page);
+    await addRedirectPrevention(page, tag);
+
+    const eventSpies = await createEventSpiesForExpectedEvents(component);
 
     component.setProperty("disabled", true);
     await page.waitForChanges();
@@ -979,111 +1107,34 @@ export async function disabled(
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
-    await expectToBeFocused("body");
+    await page.waitForChanges();
 
-    await component.callMethod("click");
-    await expectToBeFocused("body");
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
+    });
 
-    assertOnMouseAndPointerEvents(eventSpies, (spy) =>
-      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1)
+    // this needs to run in the browser context to ensure disabling and events fire immediately after being set
+    await page.$eval(
+      tag,
+      (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
+        component.disabled = false;
+        allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
+
+        component.disabled = true;
+        allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
+      },
+      allExpectedEvents
     );
 
-    return;
-  }
-
-  async function getFocusTarget(focusTarget: FocusTarget): Promise<string> {
-    return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
-  }
-
-  await page.keyboard.press("Tab");
-
-  let tabFocusTarget: string;
-  let clickFocusTarget: string;
-
-  if (typeof options.focusTarget === "object") {
-    tabFocusTarget = options.focusTarget.tab;
-    clickFocusTarget = options.focusTarget.click;
-  } else {
-    tabFocusTarget = clickFocusTarget = await getFocusTarget(options.focusTarget);
-  }
-
-  expect(tabFocusTarget).not.toBe("body");
-  await expectToBeFocused(tabFocusTarget);
-
-  const [shadowFocusableCenterX, shadowFocusableCenterY] = await page.$eval(tabFocusTarget, (element: HTMLElement) => {
-    const focusTarget = element.shadowRoot.activeElement || element;
-    const rect = focusTarget.getBoundingClientRect();
-
-    return [rect.x + rect.width / 2, rect.y + rect.height / 2];
-  });
-
-  async function resetFocusOrder(): Promise<void> {
-    // test page has default margin, so clicking on 0,0 will not hit the test element
-    await page.mouse.click(0, 0);
-  }
-
-  await resetFocusOrder();
-  await expectToBeFocused("body");
-
-  await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-  await expectToBeFocused(clickFocusTarget);
-
-  await component.callMethod("click");
-  await expectToBeFocused(clickFocusTarget);
-
-  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-    if (spy.eventName === "click") {
-      // some components emit more than one click event (e.g., from calling `click()`),
-      // so we check if at least one event is received
-      expect(spy.length).toBeGreaterThanOrEqual(2);
-    } else {
-      expect(spy).toHaveReceivedEventTimes(1);
-    }
-  });
-
-  component.setProperty("disabled", true);
-  await page.waitForChanges();
-
-  expect(component.getAttribute("aria-disabled")).toBe("true");
-
-  await resetFocusOrder();
-  await page.keyboard.press("Tab");
-  await expectToBeFocused("body");
-
-  await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-  await expectToBeFocused("body");
-
-  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-    if (spy.eventName === "click") {
-      // some components emit more than one click event (e.g., from calling `click()`),
-      // so we check if at least one event is received
-      expect(spy.length).toBeGreaterThanOrEqual(2);
-    } else {
-      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
-    }
-  });
-
-  // this needs to run in the browser context to ensure disabling and events fire immediately after being set
-  await page.$eval(
-    tag,
-    (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
-      component.disabled = false;
-      allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
-
-      component.disabled = true;
-      allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
-    },
-    allExpectedEvents
-  );
-
-  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-    if (spy.eventName === "click") {
-      // some components emit more than one click event (e.g., from calling `click()`),
-      // so we check if at least one event is received
-      expect(spy.length).toBeGreaterThanOrEqual(3);
-    } else {
-      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 4 : 2);
-    }
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        expect(spy.length).toBeGreaterThanOrEqual(1);
+      } else {
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 3 : 1);
+      }
+    });
   });
 }
 
@@ -1102,10 +1153,10 @@ export async function disabled(
  *  )
  * });
  *
- * @param componentTagOrHTML - The component tag or HTML markup to test against.
- * @param togglePropName - The component property that toggles the floating-ui.
- * @param options - The floating-ui owner test configuration.
- * @param options.shadowSelector
+ * @param {TagOrHTML} componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param {string} togglePropName - The component property that toggles the floating-ui.
+ * @param [options] - additional options for asserting focus
+ * @param {string} [options.shadowSelector] - The selector in the shadow DOM for the floating-ui element.
  */
 export function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
@@ -1125,7 +1176,7 @@ export function floatingUIOwner(
       content: `body {
       height: ${scrollablePageSizeInPx}px;
       width: ${scrollablePageSizeInPx}px;
-    }`
+    }`,
     });
     await page.waitForChanges();
 
@@ -1198,12 +1249,12 @@ export function floatingUIOwner(
 
 export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
   let component: E2EElement;
-  let E2Epage: E2EPage;
+  let page: E2EPage;
   let getCurrentMessages: () => Promise<MessageBundle>;
 
   beforeEach(async () => {
-    const { page, tag } = await getTagAndPage(componentTestSetup);
-    E2Epage = page;
+    const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
+    page = e2ePage;
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
       return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
@@ -1224,22 +1275,22 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     const messageOverride = { [firstMessageProp]: "override test" };
 
     component.setProperty("messageOverrides", messageOverride);
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
 
     expect(await getCurrentMessages()).toEqual({
       ...messages,
-      ...messageOverride
+      ...messageOverride,
     });
 
     // reset test changes
     component.setProperty("messageOverrides", undefined);
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
   }
 
   async function assertLangSwitch(): Promise<void> {
     const enMessages = await getCurrentMessages();
     const fakeBundleIdentifier = "__fake__";
-    await E2Epage.evaluate(
+    await page.evaluate(
       (enMessages, fakeBundleIdentifier) => {
         const orig = window.fetch;
         window.fetch = async function (input, init) {
@@ -1247,7 +1298,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
             const fakeEsMessages = {
               ...enMessages, // reuse real message bundle in case component rendering depends on strings
 
-              [fakeBundleIdentifier]: true // we inject a fake identifier for assertion-purposes
+              [fakeBundleIdentifier]: true, // we inject a fake identifier for assertion-purposes
             };
             window.fetch = orig;
             return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
@@ -1261,14 +1312,14 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     );
 
     component.setAttribute("lang", "es");
-    await E2Epage.waitForChanges();
-    await E2Epage.waitForTimeout(3000);
+    await page.waitForChanges();
+    await page.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
     expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
   }
 }

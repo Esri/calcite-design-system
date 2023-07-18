@@ -9,80 +9,80 @@ describe("calcite-button", () => {
     defaults("calcite-button", [
       {
         propertyName: "alignment",
-        defaultValue: "center"
+        defaultValue: "center",
       },
       {
         propertyName: "appearance",
-        defaultValue: "solid"
+        defaultValue: "solid",
       },
       {
         propertyName: "label",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "kind",
-        defaultValue: "brand"
+        defaultValue: "brand",
       },
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "href",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "iconEnd",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "iconFlipRtl",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "iconStart",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "loading",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "name",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "rel",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "form",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "round",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "splitChild",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "target",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "type",
-        defaultValue: "button"
+        defaultValue: "button",
       },
       {
         propertyName: "width",
-        defaultValue: "auto"
-      }
+        defaultValue: "auto",
+      },
     ]);
   });
 
@@ -139,7 +139,9 @@ describe("calcite-button", () => {
     labelable("calcite-button");
   });
 
-  it("can be disabled", () => disabled("calcite-button"));
+  describe("disabled", () => {
+    disabled("calcite-button");
+  });
 
   it("should update childElType when href changes", async () => {
     const page = await newE2EPage({ html: `<calcite-button>Continue</calcite-button>` });
@@ -451,7 +453,7 @@ describe("calcite-button", () => {
         buttonEl.style.setProperty("--calcite-button-transparent-press", "rgba(1, 20, 44, 0.1");
         return {
           hoverFocus: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-hover"),
-          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-press")
+          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-press"),
         };
       });
       expect(buttonStyles.hoverFocus).toEqual("rgba(34, 23, 200, 0.4)");
@@ -477,7 +479,7 @@ describe("calcite-button", () => {
     describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`,
         });
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
@@ -501,7 +503,7 @@ describe("calcite-button", () => {
             --calcite-button-transparent-hover: ${overrideStyle};
           }
         </style>
-        <div>${buttonSnippet}</div>`
+        <div>${buttonSnippet}</div>`,
       });
       buttonEl = await page.find("calcite-button >>> button");
       await buttonEl.focus();

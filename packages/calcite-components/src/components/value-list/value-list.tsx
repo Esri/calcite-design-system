@@ -9,15 +9,20 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import Sortable from "sortablejs";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
+import {
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -26,7 +31,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import {
   calciteInternalListItemValueChangeHandler,
@@ -49,7 +54,7 @@ import {
   removeItem,
   selectSiblings,
   setFocus,
-  setUpItems
+  setUpItems,
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { ListItemAndHandle } from "../value-list-item/interfaces";
@@ -61,7 +66,7 @@ import {
   disconnectSortableComponent,
   onSortingStart,
   SortableComponent,
-  onSortingEnd
+  onSortingEnd,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -74,7 +79,7 @@ import { focusElement } from "../../utils/dom";
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
@@ -220,6 +225,7 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     initialize.call(this);
@@ -242,6 +248,7 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectSortableComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -351,7 +358,7 @@ export class ValueList<
         this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
         const values = this.items.map((item) => item.value);
         this.calciteListOrderChange.emit(values);
-      }
+      },
     });
   }
 
@@ -441,7 +448,7 @@ export class ValueList<
    */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     return setFocus.call(this, focusId);
   }

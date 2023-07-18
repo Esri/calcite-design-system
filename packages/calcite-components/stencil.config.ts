@@ -32,8 +32,8 @@ export const create: () => Config = () => ({
         "calcite-date-picker",
         "calcite-date-picker-day",
         "calcite-date-picker-month",
-        "calcite-date-picker-month-header"
-      ]
+        "calcite-date-picker-month-header",
+      ],
     },
     { components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"] },
     { components: ["calcite-fab"] },
@@ -78,13 +78,15 @@ export const create: () => Config = () => ({
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-value-list", "calcite-value-list-item"] }
+    { components: ["calcite-value-list", "calcite-value-list-item"] },
   ],
   outputTargets: [
     reactOutputTarget({
       componentCorePackage: "@esri/calcite-components",
       proxiesFile: "../calcite-components-react/src/components.ts",
-      excludeComponents: ["context-consumer"]
+      excludeComponents: ["context-consumer"],
+      customElementsDir: "dist/components",
+      includeImportCustomElements: true,
     }),
     { type: "dist-hydrate-script" },
     { type: "dist-custom-elements", autoDefineCustomElements: true },
@@ -93,7 +95,7 @@ export const create: () => Config = () => ({
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
     {
       type: "docs-vscode",
-      file: "./dist/extras/vscode-data.json"
+      file: "./dist/extras/vscode-data.json",
     },
     { type: "custom", name: "preact", generator: generatePreactTypes },
     {
@@ -102,18 +104,18 @@ export const create: () => Config = () => ({
       prerenderConfig: "./prerender.config.ts",
       copy: [
         { src: "demos", dest: "demos" },
-        { src: "robots.txt", dest: "robots.txt" }
+        { src: "robots.txt", dest: "robots.txt" },
       ],
       serviceWorker: {
-        unregister: true
-      }
-    }
+        unregister: true,
+      },
+    },
   ],
   globalStyle: "src/assets/styles/global.scss",
   globalScript: "src/utils/globalScript.ts",
   plugins: [
     sass({
-      injectGlobalPaths: ["src/assets/styles/includes.scss"]
+      injectGlobalPaths: ["src/assets/styles/includes.scss"],
     }),
     postcss({
       plugins: [
@@ -121,27 +123,28 @@ export const create: () => Config = () => ({
         autoprefixer(),
         stylelint({
           configFile: ".stylelintrc-postcss.json",
-          fix: true
-        })
-      ]
-    })
+          fix: true,
+        }),
+      ],
+    }),
   ],
   testing: {
+    watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
-      "^lodash-es$": "lodash"
+      "^lodash-es$": "lodash",
     },
-    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
   },
   hydratedFlag: {
     selector: "attribute",
-    name: "calcite-hydrated"
+    name: "calcite-hydrated",
   },
-  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.\nv${version}`,
+  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.\nv${version}`,
   extras: {
     experimentalImportInjection: true,
-    scriptDataOpts: true
-  }
+    scriptDataOpts: true,
+  },
 });
 
 export const config = create();

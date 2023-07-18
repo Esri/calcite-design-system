@@ -12,10 +12,10 @@ export default {
   parameters: {
     notes: [readme, itemReadme, groupReadme],
     chromatic: {
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
@@ -121,7 +121,7 @@ export const nestedItems = (): string => html`
 `;
 
 nestedItems.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const groupedItems = (): string => html`
@@ -166,7 +166,7 @@ export const groupedItems = (): string => html`
 `;
 
 groupedItems.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsHTML()}>
@@ -543,3 +543,50 @@ export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
       </calcite-list-item>
     </calcite-list-item-group>
   </calcite-list>`;
+
+export const filterActions_TestOnly = (): string => html`<calcite-list
+  selection-mode="single"
+  label="test"
+  filter-enabled
+>
+  <calcite-action
+    appearance="transparent"
+    icon="banana"
+    text="menu"
+    label="menu"
+    slot="filter-actions-start"
+  ></calcite-action>
+  <calcite-action
+    appearance="transparent"
+    icon="ellipsis"
+    text="menu"
+    label="menu"
+    slot="filter-actions-start"
+  ></calcite-action>
+  <calcite-action
+    appearance="transparent"
+    icon="filter"
+    text="menu"
+    label="menu"
+    slot="filter-actions-end"
+  ></calcite-action>
+  <calcite-action
+    appearance="transparent"
+    icon="sort-ascending"
+    text="menu"
+    label="menu"
+    slot="filter-actions-end"
+  ></calcite-action>
+  <calcite-list-item label="test1" value="test1" description="hello world 1">
+    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item label="test2" value="test2" description="hello world 2">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item label="test3" value="test3" description="hello world 3">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+</calcite-list>`;

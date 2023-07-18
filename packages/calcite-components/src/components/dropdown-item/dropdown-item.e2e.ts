@@ -31,6 +31,7 @@ describe("calcite-dropdown-item", () => {
 
     calciteDropdownItemSelectEvent = page.waitForEvent("calciteDropdownItemSelect");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.press("Enter");
     await calciteDropdownItemSelectEvent;
 
@@ -38,6 +39,7 @@ describe("calcite-dropdown-item", () => {
 
     calciteDropdownItemSelectEvent = page.waitForEvent("calciteDropdownItemSelect");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.press("Space");
     await calciteDropdownItemSelectEvent;
 

@@ -9,7 +9,7 @@ import {
   labelable,
   reflects,
   renders,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { html } from "../../../support/formatting";
@@ -23,12 +23,12 @@ describe("calcite-text-area", () => {
     defaults("calcite-text-area", [
       {
         propertyName: "wrap",
-        defaultValue: "soft"
+        defaultValue: "soft",
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
-      }
+        defaultValue: "m",
+      },
     ]);
   });
 
@@ -40,22 +40,24 @@ describe("calcite-text-area", () => {
     labelable("calcite-text-area");
   });
 
-  it("can be disabled", () => disabled("calcite-text-area"));
+  describe("disabled", () => {
+    disabled("calcite-text-area");
+  });
 
   describe("reflects", () => {
     reflects("calcite-text-area", [
       {
         propertyName: "columns",
-        value: "10"
+        value: "10",
       },
       {
         propertyName: "rows",
-        value: "50"
+        value: "50",
       },
       {
         propertyName: "scale",
-        value: "s"
-      }
+        value: "s",
+      },
     ]);
   });
 
@@ -74,7 +76,7 @@ describe("calcite-text-area", () => {
     formAssociated("calcite-text-area", {
       testValue: "zion national park",
       expectedSubmitValue: "zion national park",
-      submitsOnEnter: false
+      submitsOnEnter: false,
     });
   });
 

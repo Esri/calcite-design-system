@@ -1,10 +1,10 @@
 (async function () {
   const {
-    promises: { readFile, copyFile }
+    promises: { readFile, copyFile },
   } = await import("fs");
   const { resolve, sep, win32 } = await import("path");
 
-  const t9nManifestPath = "./t9nmanifest.txt";
+  const t9nManifestPath = "../../t9nmanifest.txt";
   const contents = await readFile(t9nManifestPath, { encoding: "utf-8" });
   const entries = contents.split("\n");
   const synchronized: string[] = [];

@@ -9,16 +9,21 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
+import {
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -26,7 +31,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { FilterMessages } from "./assets/filter/t9n";
@@ -36,9 +41,9 @@ import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
   tag: "calcite-filter",
   styleUrl: "filter.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Filter
   implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -61,7 +66,7 @@ export class Filter
 
   @Watch("items")
   watchItemsHandler(): void {
-    this.filter(this.value);
+    this.filterDebounced(this.value);
   }
 
   /**
@@ -112,7 +117,7 @@ export class Filter
 
   @Watch("value")
   valueHandler(value: string): void {
-    this.filter(value);
+    this.filterDebounced(value);
   }
 
   // --------------------------------------------------------------------------
@@ -158,6 +163,7 @@ export class Filter
   }
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -167,8 +173,10 @@ export class Filter
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.filterDebounced.cancel();
   }
 
   componentDidLoad(): void {
@@ -181,10 +189,26 @@ export class Filter
   //
   // --------------------------------------------------------------------------
 
+  /**
+   * Performs a filter on the component.
+   *
+   * This method can be useful because filtering is delayed and asynchronous.
+   *
+   * @param {string} value - The filter text value.
+   * @returns {Promise<void>}
+   */
+  @Method()
+  async filter(value: string = this.value): Promise<void> {
+    return new Promise((resolve) => {
+      this.value = value;
+      this.filterDebounced(value, false, resolve);
+    });
+  }
+
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.el?.focus();
   }
@@ -195,15 +219,16 @@ export class Filter
   //
   // --------------------------------------------------------------------------
 
-  private filter = debounce(
-    (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
+  private filterDebounced = debounce(
+    (value: string, emit = false, onFilter?: () => void): void =>
+      this.updateFiltered(filter(this.items, value), emit, onFilter),
     DEBOUNCE_TIMEOUT
   );
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
     this.value = target.value;
-    this.filter(target.value, true);
+    this.filterDebounced(target.value, true);
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -219,16 +244,16 @@ export class Filter
 
   clear = (): void => {
     this.value = "";
-    this.filter("", true);
+    this.filterDebounced("", true);
     this.setFocus();
   };
 
-  updateFiltered(filtered: any[], emit = false): void {
-    this.filteredItems.length = 0;
-    this.filteredItems = this.filteredItems.concat(filtered);
+  updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
+    this.filteredItems = filtered;
     if (emit) {
       this.calciteFilterChange.emit();
     }
+    callback?.();
   }
 
   // --------------------------------------------------------------------------

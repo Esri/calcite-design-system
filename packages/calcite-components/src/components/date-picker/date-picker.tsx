@@ -10,7 +10,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   dateFromISO,
@@ -18,13 +18,13 @@ import {
   dateToISO,
   getDaysDiff,
   HoverRange,
-  setEndOfDay
+  setEndOfDay,
 } from "../../utils/date";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
@@ -32,14 +32,14 @@ import {
   getDateTimeFormat,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
@@ -51,8 +51,8 @@ import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
   tag: "calcite-date-picker",
   styleUrl: "date-picker.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class DatePicker implements LocalizedComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -193,8 +193,18 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
+  }
+
+  /**
+   * Resets active date state.
+   * @internal
+   */
+  @Method()
+  async reset(): Promise<void> {
+    this.resetActiveDates();
+    this.mostRecentRangeValue = undefined;
   }
 
   // --------------------------------------------------------------------------
@@ -275,7 +285,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           : this.maxAsDate
         : this.maxAsDate;
     return (
-      <Host onBlur={this.reset} onKeyDown={this.keyDownHandler}>
+      <Host onBlur={this.resetActiveDates} onKeyDown={this.keyDownHandler}>
         {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
       </Host>
     );
@@ -319,7 +329,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @State() private localeData: DateLocaleData;
 
-  private mostRecentRangeValue?: Date;
+  @State() private mostRecentRangeValue?: Date;
 
   @State() startAsDate: Date;
 
@@ -331,7 +341,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
-      this.reset();
+      this.resetActiveDates();
     }
   };
 
@@ -353,7 +363,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
       locale: this.effectiveLocale,
-      useGrouping: false
+      useGrouping: false,
     };
 
     this.localeData = await getLocaleData(this.effectiveLocale);
@@ -402,7 +412,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.hoverRange = {
       focused: this.activeRange || "start",
       start,
-      end
+      end,
     };
     if (!this.proximitySelectionDisabled) {
       if (end) {
@@ -427,7 +437,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             this.hoverRange = {
               focused: "start",
               start: date,
-              end: start
+              end: start,
             };
           } else {
             this.hoverRange.end = date;
@@ -441,7 +451,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           this.hoverRange = {
             focused: "start",
             start: date,
-            end: start
+            end: start,
           };
         } else {
           this.hoverRange.end = date;
@@ -504,36 +514,23 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
-        />
+        />,
       ]
     );
   }
 
-  /**
-   * Reset active date and close
-   */
-  reset = (): void => {
+  private resetActiveDates = (): void => {
     const { valueAsDate } = this;
-    if (
-      !Array.isArray(valueAsDate) &&
-      valueAsDate &&
-      valueAsDate?.getTime() !== this.activeDate?.getTime()
-    ) {
+
+    if (!Array.isArray(valueAsDate) && valueAsDate && valueAsDate !== this.activeDate) {
       this.activeDate = new Date(valueAsDate);
     }
+
     if (Array.isArray(valueAsDate)) {
-      if (
-        valueAsDate[0] &&
-        valueAsDate[0]?.getTime() !==
-          (this.activeStartDate instanceof Date && this.activeStartDate?.getTime())
-      ) {
+      if (valueAsDate[0] && valueAsDate[0] !== this.activeStartDate) {
         this.activeStartDate = new Date(valueAsDate[0]);
       }
-      if (
-        valueAsDate[1] &&
-        valueAsDate[1]?.getTime() !==
-          (this.activeStartDate instanceof Date && this.activeEndDate?.getTime())
-      ) {
+      if (valueAsDate[1] && valueAsDate[1] !== this.activeEndDate) {
         this.activeEndDate = new Date(valueAsDate[1]);
       }
     }

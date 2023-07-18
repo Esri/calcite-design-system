@@ -7,15 +7,20 @@ import {
   Method,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
+import {
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
@@ -28,8 +33,8 @@ import { CSS } from "./resources";
   tag: "calcite-split-button",
   styleUrl: "split-button.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class SplitButton implements InteractiveComponent, LoadableComponent {
   @Element() el: HTMLCalciteSplitButtonElement;
@@ -131,7 +136,7 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 
@@ -140,6 +145,10 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectInteractive(this);
+  }
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
@@ -153,12 +162,16 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
     updateHostInteraction(this);
   }
 
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
+  }
+
   render(): VNode {
     const widthClasses = {
       [CSS.container]: true,
       [CSS.widthAuto]: this.width === "auto",
       [CSS.widthHalf]: this.width === "half",
-      [CSS.widthFull]: this.width === "full"
+      [CSS.widthFull]: this.width === "full",
     };
     const buttonWidth = this.width === "auto" ? "auto" : "full";
 

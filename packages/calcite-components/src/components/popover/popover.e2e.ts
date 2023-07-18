@@ -8,7 +8,7 @@ describe("calcite-popover", () => {
   describe("renders", () => {
     renders("calcite-popover", { visible: false, display: "block" });
     renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`, {
-      display: "block"
+      display: "block",
     });
   });
 
@@ -56,40 +56,40 @@ describe("calcite-popover", () => {
     defaults("calcite-popover", [
       {
         propertyName: "placement",
-        defaultValue: "auto"
+        defaultValue: "auto",
       },
       {
         propertyName: "referenceElement",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "offsetDistance",
-        defaultValue: 6
+        defaultValue: 6,
       },
       {
         propertyName: "offsetSkidding",
-        defaultValue: 0
+        defaultValue: 0,
       },
       {
         propertyName: "open",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "closable",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "flipDisabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "pointerDisabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "overlayPositioning",
-        defaultValue: "absolute"
-      }
+        defaultValue: "absolute",
+      },
     ]);
   });
 
@@ -178,8 +178,8 @@ describe("calcite-popover", () => {
             top: 100,
             right: 100,
             bottom: 100,
-            left: 600
-          } as DOMRect)
+            left: 600,
+          } as DOMRect),
       };
 
       popover.referenceElement = virtualElement;
@@ -734,13 +734,13 @@ describe("calcite-popover", () => {
 
     describe("should focus content by default", () => {
       focusable(createPopoverHTML(buttonContentHTML), {
-        focusTargetSelector: `.${contentButtonClass}`
+        focusTargetSelector: `.${contentButtonClass}`,
       });
     });
 
     describe.skip("should focus close button", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
-        shadowFocusTargetSelector: `.${CSS.closeButton}`
+        shadowFocusTargetSelector: `.${CSS.closeButton}`,
       });
     });
   });

@@ -1,11 +1,16 @@
 import { Component, Element, h, Method, Prop, VNode } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
+import {
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Kind, Scale } from "../interfaces";
 import { CSS, ICONS } from "./resources";
@@ -13,7 +18,7 @@ import { CSS, ICONS } from "./resources";
 @Component({
   tag: "calcite-fab",
   styleUrl: "fab.scss",
-  shadow: true
+  shadow: true,
 })
 export class Fab implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -89,6 +94,10 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectInteractive(this);
+  }
+
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -101,6 +110,10 @@ export class Fab implements InteractiveComponent, LoadableComponent {
     updateHostInteraction(this);
   }
 
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Methods
@@ -110,7 +123,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     focusElement(this.buttonEl);
   }
@@ -132,7 +145,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
       icon,
       label,
       text,
-      iconFlipRtl
+      iconFlipRtl,
     } = this;
 
     const title = !textEnabled ? label || text || null : null;

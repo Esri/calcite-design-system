@@ -10,28 +10,33 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale } from "../interfaces";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail
+  StepperItemKeyEventDetail,
 } from "../stepper/interfaces";
 import {
   numberStringFormatter,
   LocalizedComponent,
   disconnectLocalized,
   connectLocalized,
-  NumberingSystem
+  NumberingSystem,
 } from "../../utils/locale";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
-  componentLoaded
+  componentFocusable,
 } from "../../utils/loadable";
 
 /**
@@ -40,7 +45,7 @@ import {
 @Component({
   tag: "calcite-stepper-item",
   styleUrl: "stepper-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class StepperItem implements InteractiveComponent, LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
@@ -129,7 +134,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     numberStringFormatter.numberFormatOptions = {
       locale,
       numberingSystem: this.numberingSystem,
-      useGrouping: false
+      useGrouping: false,
     };
   }
 
@@ -172,6 +177,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
   }
 
@@ -199,6 +205,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
   }
 
@@ -260,7 +267,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     (this.layout === "vertical" ? this.el : this.headerEl)?.focus();
   }
@@ -326,7 +333,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   private registerStepperItem(): void {
     this.calciteInternalStepperItemRegister.emit({
-      position: this.itemPosition
+      position: this.itemPosition,
     });
   }
 
@@ -350,7 +357,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
       const position = this.itemPosition;
 
       this.calciteInternalUserRequestedStepperItemSelect.emit({
-        position
+        position,
       });
     }
   };
@@ -360,7 +367,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
       const position = this.itemPosition;
 
       this.calciteInternalStepperItemSelect.emit({
-        position
+        position,
       });
     }
   };
@@ -375,7 +382,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: false
+      useGrouping: false,
     };
     return numberStringFormatter.numberFormatter.format(this.itemPosition + 1);
   }

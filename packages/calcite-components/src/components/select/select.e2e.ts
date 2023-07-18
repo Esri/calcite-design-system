@@ -7,7 +7,7 @@ import {
   labelable,
   reflects,
   renders,
-  hidden
+  hidden,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -41,12 +41,12 @@ describe("calcite-select", () => {
     reflects(simpleTestMarkup, [
       {
         propertyName: "disabled",
-        value: true
+        value: true,
       },
       {
         propertyName: "scale",
-        value: "m"
-      }
+        value: "m",
+      },
     ]);
   });
 
@@ -63,7 +63,9 @@ describe("calcite-select", () => {
     labelable("calcite-select");
   });
 
-  it("can be disabled", () => disabled("calcite-select"));
+  describe("disabled", () => {
+    disabled("calcite-select");
+  });
 
   describe("flat options", () => {
     it("allows selecting items", async () => {
@@ -74,7 +76,7 @@ describe("calcite-select", () => {
             <calcite-option>dos</calcite-option>
             <calcite-option>tres</calcite-option>
           </calcite-select>
-        `
+        `,
       });
       const select = await page.find("calcite-select");
       const spy = await select.spyOnEvent("calciteSelectChange");
@@ -113,7 +115,7 @@ describe("calcite-select", () => {
             <calcite-option selected>dos</calcite-option>
             <calcite-option selected>tres</calcite-option>
           </calcite-select>
-        `
+        `,
       });
       const selected = await page.findAll("calcite-option[selected]");
 
@@ -130,7 +132,7 @@ describe("calcite-select", () => {
             <calcite-option>dos</calcite-option>
             <calcite-option>tres</calcite-option>
           </calcite-select>
-        `
+        `,
       });
       const selected = await page.findAll("calcite-option[selected]");
 
@@ -147,7 +149,7 @@ describe("calcite-select", () => {
             <calcite-option>dos</calcite-option>
             <calcite-option>tres</calcite-option>
           </calcite-select>
-        `
+        `,
       });
       const internalSelect = await page.find(`calcite-select >>> .${CSS.select}`);
 
@@ -189,7 +191,7 @@ describe("calcite-select", () => {
               <calcite-option label="three">3</calcite-option>
             </calcite-option-group>
           </calcite-select>
-        `
+        `,
       });
       const select = await page.find("calcite-select");
       const spy = await select.spyOnEvent("calciteSelectChange");
@@ -235,7 +237,7 @@ describe("calcite-select", () => {
               <calcite-option selected>3</calcite-option>
             </calcite-option-group>
           </calcite-select>
-        `
+        `,
       });
       const selected = await page.findAll("calcite-option[selected]");
 
@@ -259,7 +261,7 @@ describe("calcite-select", () => {
               <calcite-option>3</calcite-option>
             </calcite-option-group>
           </calcite-select>
-        `
+        `,
       });
       const selected = await page.findAll("calcite-option[selected]");
 
@@ -281,7 +283,7 @@ describe("calcite-select", () => {
             </calcite-option-group>
             <calcite-option-group label="empty"></calcite-option-group>
           </calcite-select>
-        `
+        `,
       });
       const internalSelect = await page.find(`calcite-select >>> .${CSS.select}`);
 
@@ -325,7 +327,7 @@ describe("calcite-select", () => {
           <calcite-option id="2">dos</calcite-option>
           <calcite-option id="3">tres</calcite-option>
         </calcite-select>
-      `
+      `,
     });
 
     type TestWindow = typeof window & { selectedOptionId: string };

@@ -10,7 +10,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
@@ -26,7 +26,7 @@ import {
   FloatingUIComponent,
   LogicalPlacement,
   OverlayPositioning,
-  reposition
+  reposition,
 } from "../../utils/floating-ui";
 import {
   afterConnectDefaultValueSet,
@@ -34,30 +34,35 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  submitForm
+  submitForm,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent,
-  OpenCloseComponent
+  OpenCloseComponent,
 } from "../../utils/openCloseComponent";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Scale, SelectionMode } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
@@ -87,7 +92,7 @@ const inputUidPrefix = "combobox-input-";
   tag: "calcite-combobox",
   styleUrl: "combobox.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Combobox
   implements
@@ -333,7 +338,7 @@ export class Combobox
         overlayPositioning,
         placement,
         flipPlacements: filteredFlipPlacements,
-        type: "menu"
+        type: "menu",
       },
       delayed
     );
@@ -342,7 +347,7 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.textInput?.focus();
     this.activeChipIndex = -1;
@@ -387,6 +392,7 @@ export class Combobox
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.internalValueChangeFlag = true;
@@ -427,6 +433,7 @@ export class Combobox
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
@@ -970,7 +977,7 @@ export class Combobox
     return this.items.map((item) => ({
       filterDisabled: item.filterDisabled,
       value: item.value,
-      label: item.textLabel
+      label: item.textLabel,
     }));
   }
 
@@ -1132,7 +1139,7 @@ export class Combobox
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
-        "chip--active": activeChipIndex === i
+        "chip--active": activeChipIndex === i,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
@@ -1167,14 +1174,14 @@ export class Combobox
       <span
         class={{
           "input-wrap": true,
-          "input-wrap--single": single
+          "input-wrap--single": single,
         }}
       >
         {showLabel && (
           <span
             class={{
               label: true,
-              "label--icon": !!selectedItem?.icon
+              "label--icon": !!selectedItem?.icon,
             }}
             key="label"
           >
@@ -1191,7 +1198,7 @@ export class Combobox
             "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
-            "input--icon": !!this.placeholderIcon
+            "input--icon": !!this.placeholderIcon,
           }}
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
@@ -1226,7 +1233,7 @@ export class Combobox
     const classes = {
       [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
-      [FloatingCSS.animationActive]: open
+      [FloatingCSS.animationActive]: open,
     };
 
     return (
@@ -1234,7 +1241,7 @@ export class Combobox
         aria-hidden="true"
         class={{
           "floating-ui-container": true,
-          "floating-ui-container--active": open
+          "floating-ui-container--active": open,
         }}
         // eslint-disable-next-line react/jsx-sort-props
         ref={setFloatingEl}
@@ -1304,7 +1311,7 @@ export class Combobox
           class={{
             wrapper: true,
             "wrapper--single": single || !this.selectedItems.length,
-            "wrapper--active": open
+            "wrapper--active": open,
           }}
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}

@@ -1,4 +1,4 @@
 {
   "invalid": "Neteisingas",
-  "tooLong": "Viršytas simbolių limitas"
+  "tooLong": "Dabartinis simbolių skaičius yra {currentLength}, o tai viršija maksimalų {maxLength} simbolių ilgį."
 }

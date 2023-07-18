@@ -7,30 +7,35 @@ import {
   Host,
   Method,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
   disconnectForm,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "switch.scss",
-  shadow: true
+  shadow: true,
 })
 export class Switch
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
@@ -104,7 +109,7 @@ export class Switch
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     focusElement(this.switchEl);
   }
@@ -168,6 +173,7 @@ export class Switch
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
@@ -181,6 +187,7 @@ export class Switch
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }

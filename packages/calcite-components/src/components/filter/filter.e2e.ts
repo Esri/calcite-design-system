@@ -20,18 +20,20 @@ describe("calcite-filter", () => {
     focusable("calcite-filter");
   });
 
-  it("can be disabled", () => disabled("calcite-filter"));
+  describe("disabled", () => {
+    disabled("calcite-filter");
+  });
 
   describe("reflects", () => {
     reflects("calcite-filter", [
       {
         propertyName: "disabled",
-        value: true
+        value: true,
       },
       {
         propertyName: "scale",
-        value: "s"
-      }
+        value: "s",
+      },
     ]);
   });
 
@@ -39,16 +41,16 @@ describe("calcite-filter", () => {
     defaults("calcite-filter", [
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "filteredItems",
-        defaultValue: []
+        defaultValue: [],
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
-      }
+        defaultValue: "m",
+      },
     ]);
   });
 
@@ -91,6 +93,7 @@ describe("calcite-filter", () => {
       it("should clear the value in the input when pressed", async () => {
         const filter = await page.find("calcite-filter");
         await filter.callMethod("setFocus");
+        await page.waitForChanges();
 
         await page.keyboard.type("developer");
         await page.waitForChanges();
@@ -116,6 +119,7 @@ describe("calcite-filter", () => {
       it("should clear the value in the input when the Escape key is pressed", async () => {
         const filter = await page.find("calcite-filter");
         await filter.callMethod("setFocus");
+        await page.waitForChanges();
 
         await page.keyboard.type("developer");
         await page.waitForChanges();
@@ -147,38 +151,38 @@ describe("calcite-filter", () => {
             name: "Harry",
             description: "developer",
             value: "harry",
-            metadata: { haircolor: "red", favoriteBand: "MetallicA" }
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
           },
           {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
           },
           {
             name: "Franco",
             description: "developer",
             value: "franco",
-            metadata: { haircolor: "black", favoriteBand: "The Mars Volta" }
+            metadata: { haircolor: "black", favoriteBand: "The Mars Volta" },
           },
           {
             name: "Katy",
             description: "engineer",
             value: "katy",
-            metadata: { haircolor: "red", favoriteBand: "unknown" }
+            metadata: { haircolor: "red", favoriteBand: "unknown" },
           },
           {
             name: "Jon",
             description: "developer",
             value: "jon",
-            metadata: { haircolor: "brown", favoriteBand: "Hippity Hops" }
+            metadata: { haircolor: "brown", favoriteBand: "Hippity Hops" },
           },
           {
             name: "regex",
             description: "regex",
             value: "regex",
-            metadata: { haircolor: "rainbow", favoriteBand: "regex()" }
-          }
+            metadata: { haircolor: "rainbow", favoriteBand: "regex()" },
+          },
         ];
       });
     });
@@ -196,11 +200,12 @@ describe("calcite-filter", () => {
         "franco",
         "katy",
         "jon",
-        "regex"
+        "regex",
       ]);
 
       const filterChangeEvent = page.waitForEvent("calciteFilterChange");
       await filter.callMethod("setFocus");
+      await page.waitForChanges();
       await filter.type("developer");
       await filterChangeEvent;
 
@@ -222,6 +227,7 @@ describe("calcite-filter", () => {
       const filter = await page.find("calcite-filter");
 
       await filter.callMethod("setFocus");
+      await page.waitForChanges();
       await filter.type("volt");
       await waitForEvent;
 
@@ -233,6 +239,7 @@ describe("calcite-filter", () => {
       const filter = await page.find("calcite-filter");
 
       await filter.callMethod("setFocus");
+      await page.waitForChanges();
       await filter.type("regex()");
       await waitForEvent;
 
@@ -253,14 +260,14 @@ describe("calcite-filter", () => {
             name: "Harry",
             description: "developer",
             value: "harry",
-            metadata: { haircolor: "red", favoriteBand: "MetallicA" }
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
           },
           {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
-          }
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
+          },
         ];
       });
     });
@@ -268,6 +275,52 @@ describe("calcite-filter", () => {
     it("should return matching value", async () => {
       const filter = await page.find("calcite-filter");
       await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
+    });
+  });
+
+  describe("filter method", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`<calcite-filter></calcite-filter>`);
+      await page.evaluate(() => {
+        const filter = document.querySelector("calcite-filter");
+        filter.items = [
+          {
+            name: "Harry",
+            description: "developer",
+            value: "harry",
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
+          },
+          {
+            name: "Matt",
+            description: "developer",
+            value: "matt",
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
+          },
+        ];
+      });
+    });
+
+    it("should filter with value argument", async () => {
+      const filter = await page.find("calcite-filter");
+      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+      await filter.callMethod("filter", "Matt");
+      await page.waitForChanges();
+      expect(filterChangeSpy).toHaveReceivedEventTimes(0);
+      assertMatchingItems(await filter.getProperty("filteredItems"), ["matt"]);
+    });
+
+    it("should filter without value argument", async () => {
+      const filter = await page.find("calcite-filter");
+      filter.setProperty("value", "harry");
+      await page.waitForChanges();
+      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+      await filter.callMethod("filter");
+      await page.waitForChanges();
+      expect(filterChangeSpy).toHaveReceivedEventTimes(0);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });

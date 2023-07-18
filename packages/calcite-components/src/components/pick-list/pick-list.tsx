@@ -8,14 +8,19 @@ import {
   Method,
   Prop,
   State,
-  VNode
+  VNode,
 } from "@stencil/core";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
+import {
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { HeadingLevel } from "../functional/Heading";
@@ -40,7 +45,7 @@ import {
   removeItem,
   selectSiblings,
   setFocus,
-  setUpItems
+  setUpItems,
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 
@@ -52,7 +57,7 @@ import List from "./shared-list-render";
 @Component({
   tag: "calcite-pick-list",
   styleUrl: "pick-list.scss",
-  shadow: true
+  shadow: true,
 })
 export class PickList<
   ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement
@@ -156,10 +161,12 @@ export class PickList<
   connectedCallback(): void {
     initialize.call(this);
     initializeObserver.call(this);
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     cleanUpObserver.call(this);
+    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {
@@ -277,7 +284,7 @@ export class PickList<
    */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     return setFocus.call(this, focusId);
   }

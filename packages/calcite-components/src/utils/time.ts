@@ -35,7 +35,7 @@ function createLocaleDateTimeFormatter(
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "UTC",
-    numberingSystem: getSupportedNumberingSystem(numberingSystem)
+    numberingSystem: getSupportedNumberingSystem(numberingSystem),
   };
   if (includeSeconds) {
     options.second = "2-digit";
@@ -178,7 +178,7 @@ export function localizeTimePart({
   value,
   part,
   locale,
-  numberingSystem = "latn"
+  numberingSystem = "latn",
 }: LocalizeTimePartParameters): string {
   if (!isValidTimePart(value, part)) {
     return;
@@ -213,7 +213,7 @@ export function localizeTimeString({
   value,
   locale,
   numberingSystem,
-  includeSeconds = true
+  includeSeconds = true,
 }: LocalizeTimeStringParameters): string {
   if (!isValidTime(value)) {
     return null;
@@ -233,7 +233,7 @@ interface LocalizeTimeStringToPartsParameters {
 export function localizeTimeStringToParts({
   value,
   locale = "en",
-  numberingSystem = "latn"
+  numberingSystem = "latn",
 }: LocalizeTimeStringToPartsParameters): LocalizedTime {
   const emptyLocalizedTime = {
     localizedHour: null,
@@ -242,7 +242,7 @@ export function localizeTimeStringToParts({
     localizedMinuteSuffix: null,
     localizedSecond: null,
     localizedSecondSuffix: null,
-    localizedMeridiem: null
+    localizedMeridiem: null,
   };
   if (!isValidTime(value)) {
     return emptyLocalizedTime;
@@ -260,7 +260,7 @@ export function localizeTimeStringToParts({
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedTimePart("meridiem", parts)
+      localizedMeridiem: getLocalizedTimePart("meridiem", parts),
     };
   }
   return emptyLocalizedTime;
@@ -274,7 +274,7 @@ interface GetTimePartsParameters {
 export function getTimeParts({
   value,
   locale,
-  numberingSystem = "latn"
+  numberingSystem = "latn",
 }: GetTimePartsParameters): Intl.DateTimeFormatPart[] {
   if (!isValidTime(value)) {
     return null;
@@ -295,13 +295,13 @@ export function parseTimeString(value: string): Time {
     return {
       hour,
       minute,
-      second
+      second,
     };
   }
   return {
     hour: null,
     minute: null,
-    second: null
+    second: null,
   };
 }
 

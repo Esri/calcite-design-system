@@ -8,7 +8,7 @@ import {
   reflects,
   renders,
   hidden,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
@@ -45,24 +45,24 @@ describe("calcite-input", () => {
     reflects("calcite-input", [
       {
         propertyName: "status",
-        value: "valid"
+        value: "valid",
       },
       {
         propertyName: "alignment",
-        value: "center"
+        value: "center",
       },
       {
         propertyName: "numberButtonType",
-        value: "horizontal"
+        value: "horizontal",
       },
       {
         propertyName: "type",
-        value: "color"
+        value: "color",
       },
       {
         propertyName: "scale",
-        value: "s"
-      }
+        value: "s",
+      },
     ]);
   });
 
@@ -70,32 +70,34 @@ describe("calcite-input", () => {
     defaults("calcite-input", [
       {
         propertyName: "status",
-        defaultValue: "idle"
+        defaultValue: "idle",
       },
       {
         propertyName: "alignment",
-        defaultValue: "start"
+        defaultValue: "start",
       },
       {
         propertyName: "numberButtonType",
-        defaultValue: "vertical"
+        defaultValue: "vertical",
       },
       {
         propertyName: "type",
-        defaultValue: "text"
+        defaultValue: "text",
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "value",
-        defaultValue: ""
-      }
+        defaultValue: "",
+      },
     ]);
   });
 
-  it("can be disabled", () => disabled("calcite-input"));
+  describe("disabled", () => {
+    disabled("calcite-input");
+  });
 
   it("spinner buttons on disabled number input should not be interactive/should not nudge the number", async () => {
     const page = await newE2EPage();
@@ -220,7 +222,7 @@ describe("calcite-input", () => {
 
   describe("is focusable", () => {
     focusable(`calcite-input`, {
-      shadowFocusTargetSelector: "input"
+      shadowFocusTargetSelector: "input",
     });
   });
 
@@ -232,38 +234,33 @@ describe("calcite-input", () => {
 
     it("correctly increments/decrements numbers greater than MAX_SAFE_INTEGER", async () => {
       await page.setContent(
-        html`<calcite-input-number
+        html`<calcite-input
           value="100000000000000000000000000000000000000000000000000."
           step="10"
-        ></calcite-input-number>`
+          type="number"
+        ></calcite-input>`
       );
-      const element = await page.find("calcite-input-number");
-      const numberHorizontalItemDown = await page.find(
-        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
-      );
-      const numberHorizontalItemUp = await page.find(
-        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
-      );
+      const element = await page.find("calcite-input");
+      const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
+      const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
       expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000000");
       await numberHorizontalItemUp.click();
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000010");
       element.setProperty("step", 0.1);
       await page.waitForChanges();
-      Array.from({ length: 10 }, async () => await numberHorizontalItemDown.click());
-      await page.waitForChanges();
+      for (let i = 0; i < 10; i++) {
+        await numberHorizontalItemDown.click();
+        await page.waitForChanges();
+      }
       expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000009");
     });
 
     it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
-      await page.setContent(html`<calcite-input-number value="1.23e-60"></calcite-input-number>`);
-      const element = await page.find("calcite-input-number");
-      const numberHorizontalItemDown = await page.find(
-        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
-      );
-      const numberHorizontalItemUp = await page.find(
-        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
-      );
+      await page.setContent(html`<calcite-input value="1.23e-60" type="number"></calcite-input>`);
+      const element = await page.find("calcite-input");
+      const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
+      const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
       expect(await element.getProperty("value")).toBe("1.23e-60");
       await numberHorizontalItemUp.click();
       await page.waitForChanges();
@@ -272,8 +269,10 @@ describe("calcite-input", () => {
       );
       element.setProperty("step", 0.1);
       await page.waitForChanges();
-      Array.from({ length: 5 }, async () => await numberHorizontalItemDown.click());
-      await page.waitForChanges();
+      for (let i = 0; i < 5; i++) {
+        await numberHorizontalItemDown.click();
+        await page.waitForChanges();
+      }
       expect(await element.getProperty("value")).toBe(
         "0.50000000000000000000000000000000000000000000000000000000000123"
       );
@@ -512,6 +511,7 @@ describe("calcite-input", () => {
       const input = await page.find("calcite-input");
       expect(calciteInputInput).toHaveReceivedEventTimes(0);
       await input.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.down("ArrowUp");
       await page.waitForTimeout(delayFor2UpdatesInMs);
@@ -595,6 +595,7 @@ describe("calcite-input", () => {
       await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
+      await page.waitForChanges();
 
       await Promise.all((["ArrowUp", "ArrowDown"] as const).map((key) => page.keyboard.press(key)));
       await page.waitForTimeout(delayFor2UpdatesInMs);
@@ -606,6 +607,7 @@ describe("calcite-input", () => {
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
+      await page.waitForChanges();
 
       const arrowUpDown = page.keyboard.down("ArrowUp");
       const arrowUpUp = page.keyboard.up("ArrowUp");
@@ -620,6 +622,7 @@ describe("calcite-input", () => {
       await page.setContent(html`<calcite-input step="0.1" type="number"></calcite-input> `);
       const input = await page.find("calcite-input");
       await input.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
@@ -645,6 +648,7 @@ describe("calcite-input", () => {
       await page.setContent(html`<calcite-input step="5" type="number" value="1.008"></calcite-input>`);
       const input = await page.find("calcite-input");
       await input.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
@@ -694,6 +698,7 @@ describe("calcite-input", () => {
       expect(changeEventSpy).not.toHaveReceivedEvent();
 
       await input.callMethod("setFocus");
+      await page.waitForChanges();
       await input.setProperty("value", "not a random value");
       await page.keyboard.press("Tab");
       await page.waitForChanges();
@@ -716,34 +721,40 @@ describe("calcite-input", () => {
 
       const inputFirstPart = "12345";
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await typeNumberValue(page, inputFirstPart);
       expect(await element.getProperty("value")).toBe(inputFirstPart);
       expect(calciteInputInput).toHaveReceivedEventTimes(5);
       expect(calciteInputChange).toHaveReceivedEventTimes(0);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Enter");
       expect(calciteInputInput).toHaveReceivedEventTimes(5);
       expect(calciteInputChange).toHaveReceivedEventTimes(1);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Enter");
       expect(calciteInputInput).toHaveReceivedEventTimes(5);
       expect(calciteInputChange).toHaveReceivedEventTimes(1);
 
       const textSecondPart = "67890";
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await typeNumberValue(page, textSecondPart);
       expect(calciteInputInput).toHaveReceivedEventTimes(10);
       expect(calciteInputChange).toHaveReceivedEventTimes(1);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Tab");
       expect(calciteInputInput).toHaveReceivedEventTimes(10);
       expect(calciteInputChange).toHaveReceivedEventTimes(2);
       expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Tab");
       expect(calciteInputInput).toHaveReceivedEventTimes(10);
       expect(calciteInputChange).toHaveReceivedEventTimes(2);
@@ -758,6 +769,7 @@ describe("calcite-input", () => {
       expect(calciteInputChange).toHaveReceivedEventTimes(2);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await selectText(element);
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Tab");
@@ -802,6 +814,7 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("");
@@ -840,6 +853,7 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
 
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
@@ -870,6 +884,7 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
 
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
@@ -885,6 +900,7 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
 
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     expect(calciteInputInput).not.toHaveReceivedEvent();
     await page.keyboard.press("Escape");
     await page.waitForChanges();
@@ -904,6 +920,7 @@ describe("calcite-input", () => {
 
     const input = await page.find("calcite-input");
     await input.callMethod("setFocus");
+    await page.waitForChanges();
 
     await typeNumberValue(page, "1");
 
@@ -1053,20 +1070,42 @@ describe("calcite-input", () => {
       expect(Number(await element.getProperty("value"))).toBe(195);
     });
 
-    it("disallows typing any letter or number with shift modifier key down", async () => {
+    it("allows deleting exponentail number from decimal and adding trailing zeros", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
+
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("calcite-input >>> input");
+      await calciteInput.callMethod("setFocus");
+      await page.waitForChanges();
+      await typeNumberValue(page, "2.100e10");
+      await page.waitForChanges();
+      expect(await calciteInput.getProperty("value")).toBe("2.1e10");
+      expect(await input.getProperty("value")).toBe("2.1e10");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(await calciteInput.getProperty("value")).toBe("2.1e1");
+      expect(await input.getProperty("value")).toBe("2.1e1");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(await calciteInput.getProperty("value")).toBe("2.1");
+      expect(await input.getProperty("value")).toBe("2.1");
+
+      await page.keyboard.type("000");
+      await page.waitForChanges();
+      expect(await calciteInput.getProperty("value")).toBe("2.1000");
+      expect(await input.getProperty("value")).toBe("2.1000");
+    });
+
+    it("disallows typing any non-numeric characters with shift modifier key down", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const calciteInput = await page.find("calcite-input");
       const input = await page.find("calcite-input >>> input");
       await calciteInput.callMethod("setFocus");
-
-      for (let i = 0; i < numberKeys.length; i++) {
-        await page.keyboard.down("Shift");
-        await page.keyboard.press(numberKeys[i] as KeyInput);
-        await page.keyboard.up("Shift");
-        expect(await calciteInput.getProperty("value")).toBeFalsy();
-        expect(await input.getProperty("value")).toBeFalsy();
-      }
+      await page.waitForChanges();
       const nonELetterKeys = letterKeys.filter((key) => key !== "e");
       for (let i = 0; i < nonELetterKeys.length; i++) {
         await page.keyboard.down("Shift");
@@ -1074,6 +1113,26 @@ describe("calcite-input", () => {
         await page.keyboard.up("Shift");
         expect(await calciteInput.getProperty("value")).toBeFalsy();
         expect(await input.getProperty("value")).toBeFalsy();
+      }
+    });
+
+    it("allows typing numeric characters with shift modifier key down (#6854)", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("calcite-input >>> input");
+      await calciteInput.callMethod("setFocus");
+      await page.waitForChanges();
+      const numberKeysExcludingZero = numberKeys.slice(1);
+
+      let result = "";
+      for (let i = 0; i < numberKeysExcludingZero.length; i++) {
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(numberKeysExcludingZero[i] as KeyInput);
+        result += numberKeysExcludingZero[i];
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBe(result);
+        expect(await input.getProperty("value")).toBe(result);
       }
     });
 
@@ -1085,6 +1144,7 @@ describe("calcite-input", () => {
       `);
       const calciteInput2 = await page.find("#input2");
       await calciteInput2.callMethod("setFocus");
+      await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.getAttribute("label"))).toEqual("two");
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
@@ -1098,6 +1158,7 @@ describe("calcite-input", () => {
       const calciteInput = await page.find("calcite-input");
 
       await calciteInput.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("0");
       await page.waitForChanges();
@@ -1117,6 +1178,7 @@ describe("calcite-input", () => {
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const input = await page.find("calcite-input");
       await input.callMethod("setFocus");
+      await page.waitForChanges();
       await typeNumberValue(page, "1.005");
       await page.waitForChanges();
 
@@ -1133,6 +1195,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe("");
 
       await input.callMethod("setFocus");
+      await page.waitForChanges();
       await typeNumberValue(page, "-123");
       await page.waitForChanges();
       expect(await input.getProperty("value")).toBe("-123");
@@ -1140,7 +1203,7 @@ describe("calcite-input", () => {
   });
 
   describe("number locale support", () => {
-    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-components/issues/2323
+    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
     const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
@@ -1155,7 +1218,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const localizedValue = numberStringFormatter.localize(value);
@@ -1176,7 +1239,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: true
+            useGrouping: true,
           };
 
           const localizedValue = numberStringFormatter.localize(value);
@@ -1189,7 +1252,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const page = await newE2EPage();
@@ -1207,7 +1270,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const localizedValue = numberStringFormatter.localize(unformattedValue);
@@ -1220,7 +1283,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const page = await newE2EPage();
@@ -1270,13 +1333,89 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const localizedValue = numberStringFormatter.localize(assertedValue);
 
           expect(await calciteInput.getProperty("value")).toBe(assertedValue);
           expect(await internalLocaleInput.getProperty("value")).toBe(localizedValue);
+        });
+
+        it(`should be able to append values after Backspace for ${locale} locale`, async () => {
+          const page = await newE2EPage();
+          await page.setContent(`
+          <calcite-input lang="${locale}" type="number"></calcite-input>
+          `);
+
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false,
+          };
+          const decimalSeparator = numberStringFormatter.decimal;
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("calcite-input >>> input");
+          await calciteInput.callMethod("setFocus");
+          await page.waitForChanges();
+          await typeNumberValue(page, `0${decimalSeparator}0000`);
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}0000`);
+
+          await page.keyboard.press("Backspace");
+          await typeNumberValue(page, "1");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}0001`);
+
+          await typeNumberValue(page, "01");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}000101`);
+        });
+
+        it(`should keep leading decimal separator while input is focused on Backspace ${locale} locale `, async () => {
+          const page = await newE2EPage();
+          await page.setContent(`
+          <calcite-input lang="${locale}" type="number"></calcite-input>
+          `);
+
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false,
+          };
+          const decimalSeparator = numberStringFormatter.decimal;
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("calcite-input >>> input");
+          await calciteInput.callMethod("setFocus");
+          await page.waitForChanges();
+          await typeNumberValue(page, `0${decimalSeparator}01`);
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}01`);
+
+          await page.keyboard.press("Backspace");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}0`);
+
+          await page.keyboard.press("Backspace");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}`);
+
+          await typeNumberValue(page, "01");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}01`);
+        });
+
+        it(`should sanitize leading decimal zeros on initial render ${locale} locale`, async () => {
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-input value="0.0000" lang="${locale}" type="number"></calcite-input>`);
+
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false,
+          };
+          const input = await page.find("calcite-input >>> input");
+          expect(await input.getProperty("value")).toBe("0");
         });
       });
   });
@@ -1287,6 +1426,7 @@ describe("calcite-input", () => {
     await page.setContent(html`<calcite-input lang="ar" type="number"></calcite-input>`);
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     await typeNumberValue(page, value);
     await page.waitForChanges();
     await page.keyboard.press("Tab");
@@ -1301,6 +1441,7 @@ describe("calcite-input", () => {
     // overwrite initial value by selecting and typing
     await element.callMethod("selectText");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     await typeNumberValue(page, value);
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe(value);
@@ -1365,6 +1506,7 @@ describe("calcite-input", () => {
     await page.keyboard.up("Meta");
 
     await calciteInput.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.down("Meta");
     await page.keyboard.press("v");
     await page.keyboard.up("Meta");
@@ -1393,6 +1535,7 @@ describe("calcite-input", () => {
     await page.keyboard.up("Meta");
 
     await calciteInput.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.down("Meta");
     await page.keyboard.press("v");
     await page.keyboard.up("Meta");
@@ -1420,6 +1563,7 @@ describe("calcite-input", () => {
     await page.keyboard.up("Meta");
 
     await calciteInput.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.down("Meta");
     await page.keyboard.press("v");
     await page.keyboard.up("Meta");
@@ -1442,7 +1586,7 @@ describe("calcite-input", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "en-US",
       numberingSystem: "latn",
-      useGrouping: true
+      useGrouping: true,
     };
 
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
@@ -1455,6 +1599,7 @@ describe("calcite-input", () => {
     await page.keyboard.up("Meta");
 
     await calciteInput.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.down("Meta");
     await page.keyboard.press("v");
     await page.keyboard.up("Meta");
@@ -1471,6 +1616,7 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
     expect(await element.getProperty("value")).toBe("John Doe");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
 
     await page.keyboard.press("a");
     await page.waitForChanges();
@@ -1490,6 +1636,7 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
     expect(await element.getProperty("value")).toBe("5");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
@@ -1535,10 +1682,11 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
     expect(await element.getProperty("value")).toBe("1.2");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
 
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("1");
+    expect(await element.getProperty("value")).toBe("1.");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -1550,6 +1698,7 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
     await typeNumberValue(page, "0000000");
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("0");
@@ -1569,6 +1718,7 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
+    await page.waitForChanges();
 
     await typeNumberValue(page, "1--2---3");
     await page.waitForChanges();
@@ -1609,6 +1759,7 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.type("test");
       await page.waitForChanges();
 
@@ -1628,6 +1779,7 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.type("test");
       await page.waitForChanges();
 
@@ -1647,6 +1799,7 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.type("12345");
       await page.waitForChanges();
 
@@ -1699,6 +1852,7 @@ describe("calcite-input", () => {
     const button = await page.find("calcite-button");
 
     await input.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.type("1");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("1");
@@ -1717,6 +1871,7 @@ describe("calcite-input", () => {
     await input.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.type("3");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("13");
@@ -1726,6 +1881,7 @@ describe("calcite-input", () => {
     await button.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.type("4");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("134");
@@ -1735,6 +1891,7 @@ describe("calcite-input", () => {
     await input.setProperty("disabled", true);
     await page.waitForChanges();
     await input.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.type("5");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("134");
@@ -1746,59 +1903,59 @@ describe("calcite-input", () => {
     const supportedSubmissionTypes = [
       {
         type: "color",
-        value: "#abcdef"
+        value: "#abcdef",
       },
       {
         type: "date",
-        value: "2018-07-22"
+        value: "2018-07-22",
       },
       {
         type: "datetime-local",
-        value: "2018-06-12T19:30"
+        value: "2018-06-12T19:30",
       },
       {
         type: "email",
-        value: "test@test.com"
+        value: "test@test.com",
       },
       {
         type: "month",
-        value: "2018-05"
+        value: "2018-05",
       },
       {
         type: "number",
-        value: "1337"
+        value: "1337",
       },
       {
         type: "tel",
-        value: "1234567890"
+        value: "1234567890",
       },
       {
         type: "text",
-        value: "test"
+        value: "test",
       },
       {
         type: "password",
-        value: "password"
+        value: "password",
       },
       {
         type: "time",
-        value: "01:00"
+        value: "01:00",
       },
       {
         type: "url",
-        value: "http://www.example.com"
+        value: "http://www.example.com",
       },
       {
         type: "week",
-        value: "2018-W26"
-      }
+        value: "2018-W26",
+      },
     ];
 
     for (const { type, value } of supportedSubmissionTypes) {
       formAssociated(`<calcite-input type="${type}"></calcite-input>`, {
         testValue: value,
         submitsOnEnter: true,
-        inputType: type
+        inputType: type,
       });
     }
   });

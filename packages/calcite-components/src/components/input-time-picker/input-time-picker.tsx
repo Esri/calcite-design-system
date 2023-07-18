@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
@@ -17,17 +17,22 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  submitForm
+  submitForm,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
@@ -35,20 +40,20 @@ import {
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter,
-  SupportedLocales
+  SupportedLocales,
 } from "../../utils/locale";
 import {
   activateFocusTrap,
   connectFocusTrap,
   deactivateFocusTrap,
-  FocusTrapComponent
+  FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
 import { FocusTrap } from "focus-trap";
 import {
   formatTimeString,
   isValidTime,
   localizeTimeString,
-  toISOTimeString
+  toISOTimeString,
 } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
@@ -115,7 +120,7 @@ const supportedDayJsLocaleToLocaleConfigImport = new Map([
   ["vi", () => import("dayjs/esm/locale/vi.js")],
   ["zh-cn", () => import("dayjs/esm/locale/zh-cn.js")],
   ["zh-hk", () => import("dayjs/esm/locale/zh-hk.js")],
-  ["zh-tw", () => import("dayjs/esm/locale/zh-tw.js")]
+  ["zh-tw", () => import("dayjs/esm/locale/zh-tw.js")],
 ]);
 
 dayjs.extend(customParseFormat);
@@ -128,9 +133,9 @@ dayjs.extend(updateLocale);
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class InputTimePicker
   implements
@@ -246,7 +251,7 @@ export class InputTimePicker
         value: this.value,
         locale: this.effectiveLocale,
         numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds()
+        includeSeconds: this.shouldIncludeSeconds(),
       })
     );
   }
@@ -347,7 +352,7 @@ export class InputTimePicker
         value: this.value,
         locale,
         numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds()
+        includeSeconds: this.shouldIncludeSeconds(),
       })
     );
   }
@@ -386,7 +391,7 @@ export class InputTimePicker
       value: this.value,
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      includeSeconds: this.shouldIncludeSeconds()
+      includeSeconds: this.shouldIncludeSeconds(),
     });
 
     if (localizedTimeString !== inputValue) {
@@ -411,7 +416,7 @@ export class InputTimePicker
       numberStringFormatter.numberFormatOptions = {
         locale,
         numberingSystem,
-        useGrouping: false
+        useGrouping: false,
       };
 
       const valueInNumberingSystem = numberStringFormatter
@@ -439,7 +444,7 @@ export class InputTimePicker
         value,
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
-        includeSeconds
+        includeSeconds,
       })
     );
   };
@@ -453,7 +458,7 @@ export class InputTimePicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 
@@ -498,7 +503,7 @@ export class InputTimePicker
       onDeactivate: () => {
         this.calciteInputEl.setFocus();
         this.focusOnOpen = false;
-      }
+      },
     });
   };
 
@@ -509,7 +514,7 @@ export class InputTimePicker
           this.calciteTimePickerEl.setFocus();
           this.focusOnOpen = false;
         }
-      }
+      },
     });
   };
 
@@ -538,7 +543,7 @@ export class InputTimePicker
         value: this.value,
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds()
+        includeSeconds: this.shouldIncludeSeconds(),
       });
 
       if (newValue && this.calciteInputEl.value !== localizedTimeString) {
@@ -586,26 +591,26 @@ export class InputTimePicker
           L: "DD/MM/YYYY",
           LL: "D MMMM YYYY",
           LLL: "D MMMM YYYY HH:mm A",
-          LLLL: "dddd D MMMM YYYY HH:mm A"
-        }
+          LLLL: "dddd D MMMM YYYY HH:mm A",
+        },
       };
     }
 
     if (locale === "en-au") {
       return {
-        meridiem: (hour) => (hour > 12 ? "pm" : "am")
+        meridiem: (hour) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "en-ca") {
       return {
-        meridiem: (hour) => (hour > 12 ? "p.m." : "a.m.")
+        meridiem: (hour) => (hour > 12 ? "p.m." : "a.m."),
       };
     }
 
     if (locale === "el") {
       return {
-        meridiem: (hour) => (hour > 12 ? "μ.μ." : "π.μ.")
+        meridiem: (hour) => (hour > 12 ? "μ.μ." : "π.μ."),
       };
     }
 
@@ -617,15 +622,15 @@ export class InputTimePicker
           L: "DD/MM/YYYY",
           LL: "D MMMM YYYY",
           LLL: "D MMMM YYYY, h:mm A",
-          LLLL: "dddd, D MMMM YYYY, h:mm A"
+          LLLL: "dddd, D MMMM YYYY, h:mm A",
         },
-        meridiem: (hour) => (hour > 12 ? "pm" : "am")
+        meridiem: (hour) => (hour > 12 ? "pm" : "am"),
       };
     }
 
     if (locale === "ko") {
       return {
-        meridiem: (hour) => (hour > 12 ? "오후" : "오전")
+        meridiem: (hour) => (hour > 12 ? "오후" : "오전"),
       };
     }
 
@@ -633,8 +638,8 @@ export class InputTimePicker
       return {
         formats: {
           LT: "AHH:mm",
-          LTS: "AHH:mm:ss"
-        }
+          LTS: "AHH:mm:ss",
+        },
       };
     }
 
@@ -642,9 +647,9 @@ export class InputTimePicker
       return {
         formats: {
           LT: "AHH:mm",
-          LTS: "AHH:mm:ss"
+          LTS: "AHH:mm:ss",
         },
-        meridiem: (hour) => (hour > 12 ? "下午" : "上午")
+        meridiem: (hour) => (hour > 12 ? "下午" : "上午"),
       };
     }
   }
@@ -671,8 +676,8 @@ export class InputTimePicker
       focusTrapEl: el,
       focusTrapOptions: {
         initialFocus: false,
-        setReturnFocus: false
-      }
+        setReturnFocus: false,
+      },
     });
   };
 
@@ -710,7 +715,7 @@ export class InputTimePicker
           value: oldValue,
           locale: this.effectiveLocale,
           numberingSystem: this.numberingSystem,
-          includeSeconds: this.shouldIncludeSeconds()
+          includeSeconds: this.shouldIncludeSeconds(),
         })
       );
     }
@@ -731,7 +736,7 @@ export class InputTimePicker
             value: this.value,
             includeSeconds,
             locale: this.effectiveLocale,
-            numberingSystem: this.numberingSystem
+            numberingSystem: this.numberingSystem,
           })
         : ""
     );
@@ -752,6 +757,7 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+    connectInteractive(this);
     connectLocalized(this);
 
     if (isValidTime(this.value)) {
@@ -778,13 +784,14 @@ export class InputTimePicker
           value: this.value,
           locale: this.effectiveLocale,
           numberingSystem: this.numberingSystem,
-          includeSeconds: this.shouldIncludeSeconds()
+          includeSeconds: this.shouldIncludeSeconds(),
         })
       );
     }
   }
 
   disconnectedCallback() {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);

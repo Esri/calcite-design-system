@@ -1,5 +1,5 @@
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
@@ -16,8 +16,8 @@ describe("calcite-block-section", () => {
     reflects("calcite-block-section", [
       {
         propertyName: "open",
-        value: true
-      }
+        value: true,
+      },
     ]);
   });
 
@@ -25,17 +25,41 @@ describe("calcite-block-section", () => {
     defaults("calcite-block-section", [
       {
         propertyName: "open",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "toggleDisplay",
-        defaultValue: "button"
-      }
+        defaultValue: "button",
+      },
     ]);
   });
 
   describe("translation support", () => {
     t9n("calcite-block-section");
+  });
+
+  describe("setFocus", () => {
+    describe("focuses toggle switch", () => {
+      focusable(
+        html`<calcite-block-section text="text" toggle-display="switch" open>
+          <div>some content</div>
+        </calcite-block-section>`,
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`,
+        }
+      );
+    });
+
+    describe("focuses toggle button", () => {
+      focusable(
+        html`<calcite-block-section text="text" toggle-display="button" open>
+          <div>some content</div>
+        </calcite-block-section>`,
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`,
+        }
+      );
+    });
   });
 
   describe("toggle-display = 'switch'", () => {
@@ -57,21 +81,21 @@ describe("calcite-block-section", () => {
 
     it("can display/hide content", async () => {
       const page = await newE2EPage({
-        html: `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`
+        html: `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`,
       });
       await assertContentIsDisplayedAndHidden(page);
     });
 
     it("can be toggled", async () => {
       const page = await newE2EPage({
-        html: `<calcite-block-section toggle-display="switch"></calcite-block-section>`
+        html: `<calcite-block-section toggle-display="switch"></calcite-block-section>`,
       });
       await assertToggleBehavior(page);
     });
 
     it("renders section text", async () => {
       const page = await newE2EPage({
-        html: `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`
+        html: `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`,
       });
       const element = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
       expect(element.textContent).toBe("test text");
@@ -103,7 +127,7 @@ describe("calcite-block-section", () => {
   describe("status = 'invalid'", () => {
     it("displays a status indicator when `status` is an accepted value", async () => {
       const page = await newE2EPage({
-        html: `<calcite-block-section status="invalid"><div>content</div></calcite-block-section>`
+        html: `<calcite-block-section status="invalid"><div>content</div></calcite-block-section>`,
       });
       const statusIconEl = await page.find(`calcite-block-section >>> .${CSS.statusIcon}`);
       expect(statusIconEl).not.toBeNull();
@@ -113,7 +137,7 @@ describe("calcite-block-section", () => {
   describe("status = 'foo'", () => {
     it("does not display a status indicator when `status` is not an accepted value", async () => {
       const page2 = await newE2EPage({
-        html: `<calcite-block-section status="foo"><div>content</div></calcite-block-section>`
+        html: `<calcite-block-section status="foo"><div>content</div></calcite-block-section>`,
       });
       const statusIconEl2 = await page2.find(`calcite-block-section >>> .${CSS.statusIcon}`);
       await page2.waitForChanges();

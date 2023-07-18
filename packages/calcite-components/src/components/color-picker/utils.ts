@@ -133,7 +133,7 @@ export const CSSColorMode = enumify({
   RGB_CSS: "rgb-css",
   RGBA_CSS: "rgba-css",
   HSL_CSS: "hsl-css",
-  HSLA_CSS: "hsla-css"
+  HSLA_CSS: "hsla-css",
 });
 type CSSColorMode = Enumify<typeof CSSColorMode>;
 
@@ -143,7 +143,7 @@ export const ObjectColorMode = enumify({
   HSL: "hsl",
   HSLA: "hsla",
   HSV: "hsv",
-  HSVA: "hsva"
+  HSVA: "hsva",
 });
 type ObjectColorMode = Enumify<typeof ObjectColorMode>;
 

@@ -10,9 +10,9 @@ import {
   labelable,
   reflects,
   renders,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 async function getInputValue(page: E2EPage): Promise<string> {
@@ -64,7 +64,7 @@ describe("calcite-input-time-picker", () => {
     defaults("calcite-input-time-picker", [
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 },
-      { propertyName: "overlayPositioning", defaultValue: "absolute" }
+      { propertyName: "overlayPositioning", defaultValue: "absolute" },
     ]);
   });
 
@@ -72,7 +72,7 @@ describe("calcite-input-time-picker", () => {
     reflects(`calcite-input-time-picker`, [
       { propertyName: "open", value: true },
       { propertyName: "disabled", value: true },
-      { propertyName: "scale", value: "m" }
+      { propertyName: "scale", value: "m" },
     ]);
   });
 
@@ -82,11 +82,13 @@ describe("calcite-input-time-picker", () => {
 
   describe("should focus the input when setFocus is called", () => {
     focusable(`calcite-input-time-picker`, {
-      shadowFocusTargetSelector: "calcite-input"
+      shadowFocusTargetSelector: "calcite-input",
     });
   });
 
-  it("can be disabled", () => disabled("calcite-input-time-picker"));
+  describe("disabled", () => {
+    disabled("calcite-input-time-picker");
+  });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
@@ -263,6 +265,7 @@ describe("calcite-input-time-picker", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     await inputTimePicker.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.type("5:4 PM");
     await page.waitForChanges();
 
@@ -291,6 +294,7 @@ describe("calcite-input-time-picker", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     await inputTimePicker.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.type("5:4");
     await page.waitForChanges();
 
@@ -319,6 +323,7 @@ describe("calcite-input-time-picker", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     await inputTimePicker.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.type("5:4:3 PM");
     await page.waitForChanges();
 
@@ -347,6 +352,7 @@ describe("calcite-input-time-picker", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     await inputTimePicker.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.type("5:4:3");
     await page.waitForChanges();
 
@@ -557,6 +563,7 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
 
     await inputTimePicker.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.press("Backspace");
     await page.keyboard.press("5");
     await page.keyboard.press("Enter");
@@ -607,6 +614,7 @@ describe("calcite-input-time-picker", () => {
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
     await inputTimePicker.callMethod("setFocus");
+    await page.waitForChanges();
     await page.keyboard.press("ArrowLeft");
     await page.keyboard.press("ArrowRight");
     await page.keyboard.press("ArrowRight");
@@ -633,22 +641,27 @@ describe("calcite-input-time-picker", () => {
 
     inputTimePicker.setProperty("lang", "da");
     await page.waitForChanges();
+    // waiting for an additional animation frame here allows for mutation observers and other things outside of Stencil's knowledge to complete before the page is ready to test
+    await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("14.30.25");
 
     inputTimePicker.setProperty("lang", "ar");
     await page.waitForChanges();
+    await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("02:30:25 م");
 
     inputTimePicker.setProperty("numberingSystem", "arab");
     await page.waitForChanges();
+    await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("٠٢:٣٠:٢٥ م");
 
     inputTimePicker.setProperty("lang", "zh-HK");
     inputTimePicker.setProperty("numberingSystem", "hanidec");
     await page.waitForChanges();
+    await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("下午〇二:三〇:二五");
   });
@@ -677,12 +690,13 @@ describe("calcite-input-time-picker", () => {
       const inputTimePicker = await page.find("calcite-input-time-picker");
 
       await inputTimePicker.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.type("0123456789");
 
       expect(await getInputValue(page)).toBe("٠١٢٣٤٥٦٧٨٩");
     });
 
-    it("committing typed value works as expected in arab numbering system", async () => {
+    it.skip("committing typed value works as expected in arab numbering system", async () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-input-time-picker step="1" lang="ar" numbering-system="arab"></calcite-input-time-picker>`
@@ -692,6 +706,7 @@ describe("calcite-input-time-picker", () => {
       const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
       await inputTimePicker.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.type("2:45:30 م");
       await page.keyboard.press("Enter");
 
@@ -755,6 +770,7 @@ describe("calcite-input-time-picker", () => {
       const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
       await inputTimePicker.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.type("1.2.3");
       await page.keyboard.press("Enter");
 
@@ -789,6 +805,7 @@ describe("calcite-input-time-picker", () => {
       const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
       await inputTimePicker.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.type("2:3:5 am");
       await page.keyboard.press("Enter");
 

@@ -10,7 +10,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 
@@ -20,23 +20,28 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
@@ -54,8 +59,8 @@ function isRange(value: number | number[]): value is number[] {
   tag: "calcite-slider",
   styleUrl: "slider.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class Slider
   implements
@@ -100,7 +105,7 @@ export class Slider
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
    */
   @Prop() histogram: DataSeries;
 
@@ -203,6 +208,7 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
@@ -211,6 +217,7 @@ export class Slider
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -278,7 +285,7 @@ export class Slider
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
@@ -304,7 +311,7 @@ export class Slider
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
@@ -339,7 +346,7 @@ export class Slider
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
@@ -375,7 +382,7 @@ export class Slider
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true
+          "thumb--precise": true,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
@@ -403,7 +410,7 @@ export class Slider
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true
+          "thumb--precise": true,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
@@ -431,7 +438,7 @@ export class Slider
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true
+          "thumb--precise": true,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
@@ -468,7 +475,7 @@ export class Slider
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true
+          "thumb--precise": true,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
@@ -504,7 +511,7 @@ export class Slider
         class={{
           thumb: true,
           "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue"
+          "thumb--active": this.dragProp === "minValue",
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
@@ -530,7 +537,7 @@ export class Slider
         class={{
           thumb: true,
           "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue"
+          "thumb--active": this.dragProp === "minValue",
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
@@ -565,7 +572,7 @@ export class Slider
         class={{
           thumb: true,
           "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue"
+          "thumb--active": this.dragProp === "minValue",
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
@@ -601,7 +608,7 @@ export class Slider
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
-          "thumb--precise": true
+          "thumb--precise": true,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
@@ -629,7 +636,7 @@ export class Slider
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
-          "thumb--precise": true
+          "thumb--precise": true,
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
@@ -661,7 +668,7 @@ export class Slider
           class={{
             ["container"]: true,
             ["container--range"]: valueIsRange,
-            [`scale--${this.scale}`]: true
+            [`scale--${this.scale}`]: true,
           }}
         >
           {this.renderGraph()}
@@ -675,7 +682,7 @@ export class Slider
               onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
               style={{
                 left: `${mirror ? 100 - maxInterval : minInterval}%`,
-                right: `${mirror ? minInterval : 100 - maxInterval}%`
+                right: `${mirror ? minInterval : 100 - maxInterval}%`,
               }}
             />
             <div class="ticks">
@@ -690,11 +697,11 @@ export class Slider
                   <span
                     class={{
                       tick: true,
-                      "tick--active": activeTicks
+                      "tick--active": activeTicks,
                     }}
                     style={{
                       left: mirror ? "" : tickOffset,
-                      right: mirror ? tickOffset : ""
+                      right: mirror ? tickOffset : "",
                     }}
                   >
                     {this.renderTickLabel(tick)}
@@ -759,7 +766,7 @@ export class Slider
         class={{
           tick__label: true,
           [CSS.tickMin]: isMinTickLabel,
-          [CSS.tickMax]: isMaxTickLabel
+          [CSS.tickMax]: isMaxTickLabel,
         }}
       >
         {displayedTickValue}
@@ -873,7 +880,7 @@ export class Slider
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
     this.setValue({
-      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp)
+      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp),
     });
   }
 
@@ -940,7 +947,7 @@ export class Slider
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle?.focus();
@@ -1087,7 +1094,7 @@ export class Slider
           ) {
             this.setValue({
               minValue: this.clamp(newMinValue, "minValue"),
-              maxValue: this.clamp(newMaxValue, "maxValue")
+              maxValue: this.clamp(newMaxValue, "maxValue"),
             });
           }
         } else {
@@ -1520,7 +1527,7 @@ export class Slider
       numberStringFormatter.numberFormatOptions = {
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
-        useGrouping: this.groupSeparator
+        useGrouping: this.groupSeparator,
       };
 
       return numberStringFormatter.localize(value.toString());

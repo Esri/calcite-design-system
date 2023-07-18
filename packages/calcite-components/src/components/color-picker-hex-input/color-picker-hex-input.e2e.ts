@@ -23,16 +23,16 @@ describe("calcite-color-picker-hex-input", () => {
     defaults("calcite-color-picker-hex-input", [
       {
         propertyName: "allowEmpty",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "alphaChannel",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "value",
-        defaultValue: "#000000"
-      }
+        defaultValue: "#000000",
+      },
     ]);
   });
 
@@ -40,8 +40,8 @@ describe("calcite-color-picker-hex-input", () => {
     reflects("calcite-color-picker-hex-input", [
       {
         propertyName: "value",
-        value: "#ffffff"
-      }
+        value: "#ffffff",
+      },
     ]);
   });
 
@@ -407,6 +407,7 @@ describe("calcite-color-picker-hex-input", () => {
             await input.setProperty("value", noColorValue);
             await page.waitForChanges();
             await input.callMethod("setFocus");
+            await page.waitForChanges();
 
             await page.keyboard.press("ArrowUp");
             await page.waitForChanges();
@@ -525,6 +526,7 @@ describe("calcite-color-picker-hex-input", () => {
             await input.setProperty("value", noColorValue);
             await page.waitForChanges();
             await input.callMethod("setFocus");
+            await page.waitForChanges();
 
             await page.keyboard.press("ArrowUp");
             await page.waitForChanges();

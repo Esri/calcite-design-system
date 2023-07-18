@@ -1,12 +1,17 @@
 import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -15,7 +20,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { ButtonMessages } from "./assets/button/t9n";
@@ -30,7 +35,7 @@ import { CSS } from "./resources";
   tag: "calcite-button",
   styleUrl: "button.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Button
   implements
@@ -175,6 +180,7 @@ export class Button
   //--------------------------------------------------------------------------
 
   async connectedCallback(): Promise<void> {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.hasLoader = this.loading;
@@ -185,6 +191,7 @@ export class Button
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -256,7 +263,7 @@ export class Button
           [CSS.buttonPaddingShrunk]: !noStartEndIcons,
           [CSS.contentSlotted]: this.hasContent,
           [CSS.iconStartEmpty]: !this.iconStart,
-          [CSS.iconEndEmpty]: !this.iconEnd
+          [CSS.iconEndEmpty]: !this.iconEnd,
         }}
         disabled={this.disabled || this.loading}
         href={childElType === "a" && this.href}
@@ -286,7 +293,7 @@ export class Button
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.childEl?.focus();
   }

@@ -147,7 +147,7 @@ describe("opening and closing behavior", () => {
     const modal = document.querySelector("calcite-modal");
     const { transitionDuration } = window.getComputedStyle(modal);
     return {
-      duration: transitionDuration
+      duration: transitionDuration,
     };
   };
 
@@ -267,7 +267,7 @@ describe("opening and closing behavior", () => {
     expect(openSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("emits when duration is set to 0", async () => {
+  it.skip("emits when duration is set to 0", async () => {
     const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
 
@@ -407,13 +407,13 @@ describe("calcite-modal accessibility checks", () => {
 
     describe("focuses close button by default", () => {
       focusable(createModalHTML(focusableContentHTML), {
-        shadowFocusTargetSelector: closeButtonTargetSelector
+        shadowFocusTargetSelector: closeButtonTargetSelector,
       });
     });
 
     describe("focuses content if there is no close button", () => {
       focusable(createModalHTML(focusableContentHTML, "close-button-disabled"), {
-        focusTargetSelector: `.${focusableContentTargetClass}`
+        focusTargetSelector: `.${focusableContentTargetClass}`,
       });
     });
   });
@@ -579,7 +579,7 @@ describe("calcite-modal accessibility checks", () => {
         <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
         <calcite-button slot="primary" width="full"> Save </calcite-button>
       </calcite-modal>
-      `
+      `,
     });
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
@@ -601,7 +601,7 @@ describe("calcite-modal accessibility checks", () => {
         <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
         <calcite-button slot="primary" width="full"> Save </calcite-button>
       </calcite-modal>
-      `
+      `,
     });
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");

@@ -6,7 +6,7 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -14,9 +14,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Action Bar",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -30,7 +30,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("expandDisabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "expanded",
@@ -38,7 +38,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("expanded", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "position",
@@ -46,8 +46,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("position", position.values, position.defaultValue);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -128,12 +128,12 @@ export const darkModeRTL_TestOnly = (): string =>
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       {
         name: "dir",
-        value: "rtl"
+        value: "rtl",
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
-      }
+        value: "calcite-mode-dark",
+      },
     ]),
     html`
       <calcite-action-group>
@@ -148,6 +148,36 @@ export const darkModeRTL_TestOnly = (): string =>
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
+export const adjacentTooltipsOpenQuickly = (): string => html`<div style="display:flex; height:500px; width: 200px;">
+  <calcite-action-bar>
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus">
+        <calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip>
+      </calcite-action>
+      <calcite-action text="Save" icon="save"
+        ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
+      >
+      <calcite-action text="Layers" icon="layers"
+        ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
+      >
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"
+        ><calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip></calcite-action
+      >
+      <calcite-action text="Save" active icon="save"
+        ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
+      >
+      <calcite-action text="Layers" icon="layers"
+        ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
+      >
+    </calcite-action-group>
+    <calcite-action slot="bottom-actions" text="hello world" icon="layers"
+      ><calcite-tooltip placement="right" slot="tooltip">hello world</calcite-tooltip></calcite-action
+    >
+  </calcite-action-bar>
+</div>`;
+
 export const withTooltip_NoTest = (): string =>
   create(
     "calcite-action-bar",
@@ -159,7 +189,7 @@ export const withTooltip_NoTest = (): string =>
   );
 
 withTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">

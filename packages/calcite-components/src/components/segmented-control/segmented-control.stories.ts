@@ -8,9 +8,9 @@ import readme1 from "./readme.md";
 export default {
   title: "Components/Controls/Radio/Segmented Control",
   parameters: {
-    notes: [readme1, readme2]
+    notes: [readme1, readme2],
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

@@ -12,10 +12,10 @@ export default {
   parameters: {
     notes: [readme1, readme2, readme3],
     chromatic: {
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -293,7 +293,7 @@ export const scrollingAfterCertainItems_TestOnly = (): string => html`
 `;
 
 scrollingAfterCertainItems_TestOnly.parameters = {
-  chromatic: { delay: 1500 }
+  chromatic: { delay: 1500 },
 };
 
 export const scrollingWithoutMaxItems_TestOnly = (): string => html`
@@ -386,7 +386,7 @@ export const flipPositioning_TestOnly = (): string => html`
   </div>
 `;
 flipPositioning_TestOnly.parameters = {
-  layout: "fullscreen"
+  layout: "fullscreen",
 };
 
 export const alignedCenter_TestOnly = (): string => html`

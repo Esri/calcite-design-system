@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
-import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
+import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
@@ -38,28 +38,28 @@ describe("calcite-action-menu", () => {
     defaults("calcite-action-menu", [
       {
         propertyName: "expanded",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "flipPlacements",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "open",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "placement",
-        defaultValue: "auto"
+        defaultValue: "auto",
       },
       {
         propertyName: "overlayPositioning",
-        defaultValue: "absolute"
+        defaultValue: "absolute",
       },
       {
         propertyName: "scale",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -67,16 +67,16 @@ describe("calcite-action-menu", () => {
     reflects("calcite-action-menu", [
       {
         propertyName: "expanded",
-        value: true
+        value: true,
       },
       {
         propertyName: "open",
-        value: true
+        value: true,
       },
       {
         propertyName: "placement",
-        value: "auto"
-      }
+        value: "auto",
+      },
     ]);
   });
 
@@ -84,7 +84,7 @@ describe("calcite-action-menu", () => {
     const page = await newE2EPage({
       html: `<calcite-action-menu>
       <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>`
+    </calcite-action-menu>`,
     });
 
     await page.waitForChanges();
@@ -110,7 +110,7 @@ describe("calcite-action-menu", () => {
         ></calcite-action-menu>
       `,
       {
-        focusTargetSelector: `#triggerAction`
+        focusTargetSelector: `#triggerAction`,
       }
     );
   });
@@ -124,7 +124,7 @@ describe("calcite-action-menu", () => {
         </calcite-action-menu>
         <div>
         <button id="outside">outside</button>
-        </div>`
+        </div>`,
     });
 
     await page.waitForChanges();
@@ -151,7 +151,7 @@ describe("calcite-action-menu", () => {
         </calcite-action-menu>
         <div>
         <button id="outside">outside</button>
-        </div>`
+        </div>`,
     });
 
     await page.waitForChanges();
@@ -188,7 +188,7 @@ describe("calcite-action-menu", () => {
       <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>
-    `
+    `,
     });
 
     const actionMenu = await page.find("calcite-action-menu");
@@ -198,7 +198,7 @@ describe("calcite-action-menu", () => {
     expect(await tooltip.isVisible()).toBe(false);
 
     await trigger.hover();
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
 
@@ -215,7 +215,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -226,9 +226,10 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowDown");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -237,7 +238,7 @@ describe("calcite-action-menu", () => {
       expect(await actions[2].getProperty("active")).toBe(false);
 
       await page.keyboard.press("ArrowDown");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actions[0].getProperty("active")).toBe(false);
@@ -251,7 +252,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -262,9 +263,10 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowUp");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -273,7 +275,7 @@ describe("calcite-action-menu", () => {
       expect(await actions[2].getProperty("active")).toBe(true);
 
       await page.keyboard.press("ArrowUp");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actions[0].getProperty("active")).toBe(false);
@@ -287,7 +289,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -298,9 +300,9 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("Enter");
-
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -345,7 +347,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -356,9 +358,9 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowDown");
-
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -379,7 +381,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -390,9 +392,9 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowDown");
-
       await page.waitForChanges();
 
       const clickSpy = await actions[0].spyOnEvent("click");

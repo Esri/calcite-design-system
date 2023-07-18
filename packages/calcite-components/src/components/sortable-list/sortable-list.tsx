@@ -1,6 +1,11 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import Sortable from "sortablejs";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
@@ -10,7 +15,7 @@ import {
   disconnectSortableComponent,
   onSortingStart,
   SortableComponent,
-  onSortingEnd
+  onSortingEnd,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -20,7 +25,7 @@ import { focusElement } from "../../utils/dom";
 @Component({
   tag: "calcite-sortable-list",
   styleUrl: "sortable-list.scss",
-  shadow: true
+  shadow: true,
 })
 export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
@@ -86,9 +91,11 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   connectedCallback(): void {
     this.setUpSorting();
     this.beginObserving();
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectSortableComponent(this);
     this.endObserving();
   }
@@ -189,7 +196,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       onUpdate: () => {
         this.items = Array.from(this.el.children);
         this.calciteListOrderChange.emit();
-      }
+      },
     };
 
     if (dragSelector) {
@@ -222,7 +229,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
         class={{
           [CSS.container]: true,
           [CSS.containerVertical]: !horizontal,
-          [CSS.containerHorizontal]: horizontal
+          [CSS.containerHorizontal]: horizontal,
         }}
       >
         <slot />

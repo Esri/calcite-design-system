@@ -9,7 +9,7 @@ import {
   formAssociated,
   disabled,
   t9n,
-  reflects
+  reflects,
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
@@ -27,16 +27,16 @@ describe("calcite-combobox", () => {
     defaults("calcite-combobox", [
       {
         propertyName: "clearDisabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "overlayPositioning",
-        defaultValue: "absolute"
+        defaultValue: "absolute",
       },
       {
         propertyName: "flipPlacements",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -44,53 +44,53 @@ describe("calcite-combobox", () => {
     reflects("calcite-combobox", [
       {
         propertyName: "allowCustomValues",
-        value: true
+        value: true,
       },
       {
         propertyName: "clearDisabled",
-        value: true
+        value: true,
       },
       {
         propertyName: "form",
-        value: "test-form"
+        value: "test-form",
       },
       {
         propertyName: "maxItems",
-        value: 1
+        value: 1,
       },
       {
         propertyName: "name",
-        value: "test-name"
+        value: "test-name",
       },
       {
         propertyName: "open",
-        value: true
+        value: true,
       },
       {
         // needs to run after `open` since it resets `open` after it's asserted value
         propertyName: "disabled",
-        value: true
+        value: true,
       },
       {
         propertyName: "placeholderIcon",
-        value: "banana"
+        value: "banana",
       },
       {
         propertyName: "placeholderIconFlipRtl",
-        value: true
+        value: true,
       },
       {
         propertyName: "required",
-        value: true
+        value: true,
       },
       {
         propertyName: "scale",
-        value: "s"
+        value: "s",
       },
       {
         propertyName: "selectionMode",
-        value: "single"
-      }
+        value: "single",
+      },
     ]);
   });
 
@@ -131,7 +131,9 @@ describe("calcite-combobox", () => {
     labelable("calcite-combobox");
   });
 
-  it("can be disabled", () => disabled("calcite-combobox"));
+  describe("disabled", () => {
+    disabled("calcite-combobox");
+  });
 
   it("filtering does not match property with value of undefined", async () => {
     const page = await newE2EPage({
@@ -142,7 +144,7 @@ describe("calcite-combobox", () => {
           <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
           <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
         </calcite-combobox>
-      `
+      `,
     });
 
     const combobox = await page.find("calcite-combobox");
@@ -169,7 +171,7 @@ describe("calcite-combobox", () => {
           <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
           <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
         </calcite-combobox>
-      `
+      `,
     });
 
     const combobox = await page.find("calcite-combobox");
@@ -554,7 +556,7 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage({
         html: `<calcite-combobox>
         <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
-      </calcite-combobox>`
+      </calcite-combobox>`,
       });
 
       const eventSpy = await page.spyOnEvent("calciteComboboxChipClose", "window");
@@ -672,7 +674,7 @@ describe("calcite-combobox", () => {
               <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
               <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
             </calcite-combobox>
-          `
+          `,
         },
         {
           selectionMode: "multiple",
@@ -682,7 +684,7 @@ describe("calcite-combobox", () => {
               <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
               <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
             </calcite-combobox>
-          `
+          `,
         },
         {
           selectionMode: "ancestors",
@@ -693,8 +695,8 @@ describe("calcite-combobox", () => {
                 <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
               </calcite-combobox-item>
             </calcite-combobox>
-          `
-        }
+          `,
+        },
       ];
 
       describe("via mouse", () => {
@@ -722,7 +724,7 @@ describe("calcite-combobox", () => {
               <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
               <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
             </calcite-combobox>
-          `
+          `,
         },
         {
           selectionMode: "multiple",
@@ -732,7 +734,7 @@ describe("calcite-combobox", () => {
               <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
               <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
             </calcite-combobox>
-          `
+          `,
         },
         {
           selectionMode: "ancestors",
@@ -743,8 +745,8 @@ describe("calcite-combobox", () => {
                 <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
               </calcite-combobox-item>
             </calcite-combobox>
-          `
-        }
+          `,
+        },
       ];
 
       describe("via mouse", () => {
@@ -781,6 +783,7 @@ describe("calcite-combobox", () => {
         }
       } else {
         await combobox.callMethod("setFocus");
+        await page.waitForChanges();
         await page.keyboard.press("Escape");
       }
 
@@ -921,7 +924,7 @@ describe("calcite-combobox", () => {
             margin: 0;
             padding: 0;
           }
-      `
+      `,
       });
       const combobox = await page.find("calcite-combobox");
       await combobox.callMethod(`setFocus`);

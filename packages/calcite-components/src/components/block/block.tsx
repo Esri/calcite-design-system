@@ -5,31 +5,43 @@ import {
   EventEmitter,
   h,
   Host,
+  Method,
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import { BlockMessages } from "./assets/block/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -41,10 +53,15 @@ import { CSS, ICONS, SLOTS } from "./resources";
   tag: "calcite-block",
   styleUrl: "block.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Block
-  implements ConditionalSlotComponent, InteractiveComponent, LocalizedComponent, T9nComponent
+  implements
+    ConditionalSlotComponent,
+    InteractiveComponent,
+    LocalizedComponent,
+    T9nComponent,
+    LoadableComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -116,6 +133,22 @@ export class Block
     /* wired up by t9n util */
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -143,22 +176,29 @@ export class Block
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------
@@ -197,30 +237,31 @@ export class Block
   }
 
   renderIcon(): VNode[] {
-    const { el, status } = this;
+    const { loading, messages, status } = this;
 
-    const showingLoadingStatus = this.loading && !this.open;
+    const hasSlottedIcon = !!getSlotted(this.el, SLOTS.icon);
 
-    const statusIcon = showingLoadingStatus ? ICONS.refresh : ICONS[status];
-
-    const hasIcon = getSlotted(el, SLOTS.icon) || statusIcon;
-
-    const iconEl = !statusIcon ? (
-      <slot key="icon-slot" name={SLOTS.icon} />
-    ) : (
-      <calcite-icon
-        class={{
-          [CSS.statusIcon]: true,
-          [CSS.valid]: status == "valid",
-          [CSS.invalid]: status == "invalid",
-          [CSS.loading]: showingLoadingStatus
-        }}
-        icon={statusIcon}
-        scale="m"
-      />
-    );
-
-    return hasIcon ? <div class={CSS.icon}>{iconEl}</div> : null;
+    return loading ? (
+      <div class={CSS.icon} key="loader">
+        <calcite-loader inline label={messages.loading} />
+      </div>
+    ) : !!status ? (
+      <div class={CSS.icon} key="status-icon">
+        <calcite-icon
+          class={{
+            [CSS.statusIcon]: true,
+            [CSS.valid]: status == "valid",
+            [CSS.invalid]: status == "invalid",
+          }}
+          icon={ICONS[status]}
+          scale="m"
+        />
+      </div>
+    ) : hasSlottedIcon ? (
+      <div class={CSS.icon} key="icon-slot">
+        <slot key="icon-slot" name={SLOTS.icon} />
+      </div>
+    ) : null;
   }
 
   renderTitle(): VNode {
@@ -281,9 +322,7 @@ export class Block
         ) : (
           headerContent
         )}
-        {loading ? (
-          <calcite-loader inline label={messages.loading} />
-        ) : hasControl ? (
+        {hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>
@@ -301,7 +340,7 @@ export class Block
         <article
           aria-busy={toAriaBoolean(loading)}
           class={{
-            [CSS.container]: true
+            [CSS.container]: true,
           }}
         >
           {headerNode}

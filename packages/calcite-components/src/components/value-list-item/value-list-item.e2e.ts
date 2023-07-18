@@ -35,7 +35,9 @@ describe("calcite-value-list-item", () => {
     focusable("calcite-value-list-item");
   });
 
-  it("can be disabled", async () => disabled("calcite-value-list-item"));
+  describe("disabled", () => {
+    disabled("calcite-value-list-item");
+  });
 
   it("should toggle selected attribute when clicked", async () => {
     const page = await newE2EPage({ html: `<calcite-value-list-item label="test"></calcite-value-list-item>` });
@@ -52,7 +54,7 @@ describe("calcite-value-list-item", () => {
 
   it("should fire event calciteListItemChange when item is clicked", async () => {
     const page = await newE2EPage({
-      html: `<calcite-value-list-item label="test" value="example"></calcite-value-list-item>`
+      html: `<calcite-value-list-item label="test" value="example"></calcite-value-list-item>`,
     });
     const item = await page.find("calcite-value-list-item");
     await page.evaluate(() =>
@@ -74,7 +76,7 @@ describe("calcite-value-list-item", () => {
 
   it("prevents deselection when deselectDisabled is true", async () => {
     const page = await newE2EPage({
-      html: `<calcite-value-list-item label="test" value="example" deselect-disabled selected></calcite-value-list-item>`
+      html: `<calcite-value-list-item label="test" value="example" deselect-disabled selected></calcite-value-list-item>`,
     });
     const item = await page.find("calcite-value-list-item");
 
@@ -85,7 +87,7 @@ describe("calcite-value-list-item", () => {
 
   it("prevents selection when nonInteractive is true", async () => {
     const page = await newE2EPage({
-      html: `<calcite-value-list-item label="test" value="example" non-interactive></calcite-value-list-item>`
+      html: `<calcite-value-list-item label="test" value="example" non-interactive></calcite-value-list-item>`,
     });
     const item = await page.find("calcite-value-list-item");
 
@@ -96,7 +98,7 @@ describe("calcite-value-list-item", () => {
 
   it("prevents deselection when nonInteractive is true", async () => {
     const page = await newE2EPage({
-      html: `<calcite-value-list-item label="test" value="example" non-interactive selected></calcite-value-list-item>`
+      html: `<calcite-value-list-item label="test" value="example" non-interactive selected></calcite-value-list-item>`,
     });
     const item = await page.find("calcite-value-list-item");
 
@@ -124,7 +126,7 @@ describe("calcite-value-list-item", () => {
 
   it("allows for easy removal", async () => {
     const page = await newE2EPage({
-      html: `<calcite-value-list-item label="test" value="example" removable></calcite-value-list-item>`
+      html: `<calcite-value-list-item label="test" value="example" removable></calcite-value-list-item>`,
     });
 
     const item = await page.find("calcite-value-list-item");

@@ -1,5 +1,10 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { TileSelectGroupLayout } from "./interfaces";
 
 /**
@@ -8,7 +13,7 @@ import { TileSelectGroupLayout } from "./interfaces";
 @Component({
   tag: "calcite-tile-select-group",
   styleUrl: "tile-select-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class TileSelectGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
@@ -41,8 +46,16 @@ export class TileSelectGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectInteractive(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
   }
 
   render(): VNode {

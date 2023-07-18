@@ -62,6 +62,10 @@
   font-medium;
 }
 
+.standalone {
+  @apply text-1;
+}
+
 .description {
   @apply text-color-2 truncate;
   font-size: var(--calcite-font-size--1);

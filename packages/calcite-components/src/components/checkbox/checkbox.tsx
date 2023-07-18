@@ -7,31 +7,36 @@ import {
   Host,
   Method,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
   disconnectForm,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "checkbox.scss",
-  shadow: true
+  shadow: true,
 })
 export class Checkbox
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
@@ -135,7 +140,7 @@ export class Checkbox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.toggleEl?.focus();
   }
@@ -226,11 +231,13 @@ export class Checkbox
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
+    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }

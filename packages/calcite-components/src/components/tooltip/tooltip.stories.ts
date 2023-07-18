@@ -12,9 +12,9 @@ const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appe
 export default {
   title: "Components/Tooltip",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -68,7 +68,7 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const rightAligned_TestOnly = (): string => html`<div style="text-align: right">
   <a href="#" id="tooltip-button">Hover for Tooltip</a>
-  <calcite-tooltip open label="Example label" reference-element="tooltip-button">
+  <calcite-tooltip open reference-element="tooltip-button">
     <span>Tooltip content lorem ipsum</span>
   </calcite-tooltip>
 </div>`;

@@ -6,9 +6,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Controls/Slider/support/Graph",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const data: HTMLCalciteGraphElement["data"] = [
@@ -22,7 +22,7 @@ const data: HTMLCalciteGraphElement["data"] = [
   [70, 48],
   [80, 30],
   [90, 10],
-  [100, 0]
+  [100, 0],
 ];
 
 const rainbow = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];

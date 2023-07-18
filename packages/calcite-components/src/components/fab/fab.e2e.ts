@@ -15,20 +15,22 @@ describe("calcite-fab", () => {
     defaults("calcite-fab", [
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "appearance",
-        defaultValue: "solid"
-      }
+        defaultValue: "solid",
+      },
     ]);
   });
 
-  it("can be disabled", () => disabled("calcite-fab"));
+  describe("disabled", () => {
+    disabled("calcite-fab");
+  });
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage({
-      html: "<calcite-fab></calcite-fab>"
+      html: "<calcite-fab></calcite-fab>",
     });
 
     const buttons = await page.findAll("calcite-fab >>> calcite-button");
@@ -121,7 +123,7 @@ describe("calcite-fab", () => {
             text-enabled
             appearance="transparent"
           ></calcite-fab>
-          `
+          `,
         });
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
         expect(fab.getAttribute("appearance")).toBe("outline-fill");
@@ -137,7 +139,7 @@ describe("calcite-fab", () => {
             text-enabled
             appearance="outline"
           ></calcite-fab>
-          `
+          `,
         });
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
         expect(fab.getAttribute("appearance")).toBe("outline-fill");

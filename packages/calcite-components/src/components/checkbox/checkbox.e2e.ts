@@ -6,7 +6,7 @@ import {
   formAssociated,
   HYDRATED_ATTR,
   labelable,
-  hidden
+  hidden,
 } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
@@ -32,7 +32,9 @@ describe("calcite-checkbox", () => {
     formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" });
   });
 
-  it("can be disabled", () => disabled("calcite-checkbox"));
+  describe("disabled", () => {
+    disabled("calcite-checkbox");
+  });
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
@@ -162,7 +164,7 @@ describe("calcite-checkbox", () => {
 
   describe("is focusable", () => {
     focusable("calcite-checkbox", {
-      shadowFocusTargetSelector: ".toggle"
+      shadowFocusTargetSelector: ".toggle",
     });
   });
 });

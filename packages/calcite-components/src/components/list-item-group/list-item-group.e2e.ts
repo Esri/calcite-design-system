@@ -9,22 +9,24 @@ describe("calcite-list-item-group", () => {
     hidden("calcite-list-item-group");
   });
 
-  it("can be disabled", () => disabled("calcite-list-item-group", { focusTarget: "none" }));
+  describe("disabled", () => {
+    disabled("calcite-list-item-group", { focusTarget: "none" });
+  });
 
   describe("defaults", () => {
     defaults("calcite-list-item-group", [
       {
         propertyName: "heading",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "headingLevel",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "disabled",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 });

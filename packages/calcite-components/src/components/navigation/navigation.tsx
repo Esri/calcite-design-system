@@ -9,15 +9,15 @@ import {
   Prop,
   State,
   VNode,
-  Method
+  Method,
 } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, ICONS, SLOTS } from "./resources";
 import {
   LoadableComponent,
-  componentLoaded,
+  componentFocusable,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -34,7 +34,7 @@ import {
 @Component({
   tag: "calcite-navigation",
   styleUrl: "navigation.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteNavigation implements LoadableComponent {
   //--------------------------------------------------------------------------
@@ -104,8 +104,8 @@ export class CalciteNavigation implements LoadableComponent {
   /** When `navigation-action` is `true`, sets focus on the component's action element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-    await this.navigationActionEl?.setFocus();
+    await componentFocusable(this);
+    return this.navigationActionEl?.setFocus();
   }
 
   //--------------------------------------------------------------------------
@@ -228,7 +228,7 @@ export class CalciteNavigation implements LoadableComponent {
             [CSS.container]: true,
             [CSS.secondary]: slotName === SLOTS.navSecondary,
             [CSS.tertiary]: slotName === SLOTS.navTertiary,
-            [CSS.primary]: primaryLevelHasElements
+            [CSS.primary]: primaryLevelHasElements,
           }}
         >
           <div class={{ [CSS.hide]: !this.progressSlotHasElement, [SLOTS.progress]: true }}>

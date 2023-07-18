@@ -1,4 +1,4 @@
 {
   "rating": "Peringkat",
-  "stars": "Bintang: ${num}"
+  "stars": "Bintang: {num}"
 }

@@ -9,7 +9,7 @@ import {
   Method,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
 import {
@@ -17,15 +17,20 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { Scale, Width } from "../interfaces";
@@ -50,7 +55,7 @@ function isOptionGroup(
 @Component({
   tag: "calcite-select",
   styleUrl: "select.scss",
-  shadow: true
+  shadow: true,
 })
 export class Select
   implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
@@ -156,15 +161,17 @@ export class Select
 
     this.mutationObserver?.observe(el, {
       subtree: true,
-      childList: true
+      childList: true,
     });
 
+    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }
@@ -191,7 +198,7 @@ export class Select
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     focusElement(this.selectEl);
   }

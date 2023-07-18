@@ -1,5 +1,10 @@
 import { Component, Element, h, Host, Prop, State, VNode } from "@stencil/core";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getDepth } from "../list-item/utils";
 import { CSS } from "./resources";
@@ -9,7 +14,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-list-item-group",
   styleUrl: "list-item-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class ListItemGroup implements InteractiveComponent {
   // --------------------------------------------------------------------------
@@ -38,10 +43,15 @@ export class ListItemGroup implements InteractiveComponent {
   connectedCallback(): void {
     const { el } = this;
     this.visualLevel = getDepth(el, true);
+    connectInteractive(this);
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
   }
 
   // --------------------------------------------------------------------------

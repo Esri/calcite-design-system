@@ -7,36 +7,36 @@ describe("calcite-action", () => {
     defaults("calcite-action", [
       {
         propertyName: "active",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "appearance",
-        defaultValue: "solid"
+        defaultValue: "solid",
       },
       {
         propertyName: "compact",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "indicator",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "loading",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "textEnabled",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -48,7 +48,9 @@ describe("calcite-action", () => {
     hidden("calcite-action");
   });
 
-  it("can be disabled", () => disabled("calcite-action"));
+  describe("disabled", () => {
+    disabled("calcite-action");
+  });
 
   describe("slots", () => {
     slots("calcite-action", SLOTS);

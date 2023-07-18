@@ -7,12 +7,17 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { dateToISO } from "../../utils/date";
 
 import { closestElementCrossShadowBoundary, getElementDir, toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -21,7 +26,7 @@ import { Scale } from "../interfaces";
 @Component({
   tag: "calcite-date-picker-day",
   styleUrl: "date-picker-day.scss",
-  shadow: true
+  shadow: true,
 })
 export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
@@ -157,7 +162,7 @@ export class DatePickerDay implements InteractiveComponent {
       numberStringFormatter.numberFormatOptions = {
         useGrouping: false,
         ...(numberingSystem && { numberingSystem }),
-        ...(locale && { locale })
+        ...(locale && { locale }),
       };
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));
@@ -185,8 +190,16 @@ export class DatePickerDay implements InteractiveComponent {
     );
   }
 
+  connectedCallback(): void {
+    connectInteractive(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this, this.isTabbable);
+  }
+
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
   }
 
   isTabbable(): boolean {

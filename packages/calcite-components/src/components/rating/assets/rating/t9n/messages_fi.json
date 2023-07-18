@@ -1,4 +1,4 @@
 {
   "rating": "Arviointi",
-  "stars": "Tähdet: ${num}"
+  "stars": "Tähdet: {num}"
 }

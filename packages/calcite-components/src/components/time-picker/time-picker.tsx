@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
@@ -19,14 +19,14 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  NumberingSystem
+  NumberingSystem,
 } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import {
   formatTimePart,
@@ -41,16 +41,16 @@ import {
   Meridiem,
   MinuteOrSecond,
   parseTimeString,
-  TimePart
+  TimePart,
 } from "../../utils/time";
 import { TimePickerMessages } from "./assets/time-picker/t9n";
 import { CSS } from "./resources";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 function capitalize(str: string): string {
@@ -61,9 +61,9 @@ function capitalize(str: string): string {
   tag: "calcite-time-picker",
   styleUrl: "time-picker.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class TimePicker
   implements LocalizedComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -295,7 +295,7 @@ export class TimePicker
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.el?.focus();
   }
@@ -311,7 +311,7 @@ export class TimePicker
   }
 
   private async focusPart(target: TimePart): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this[`${target || "hour"}El`]?.focus();
   }
@@ -603,7 +603,7 @@ export class TimePicker
         localizedMinuteSuffix,
         localizedSecond,
         localizedSecondSuffix,
-        localizedMeridiem
+        localizedMeridiem,
       } = localizeTimeStringToParts({ value, locale, numberingSystem });
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
@@ -665,7 +665,7 @@ export class TimePicker
           value: this.hour,
           part: "hour",
           locale,
-          numberingSystem
+          numberingSystem,
         });
       }
     } else {
@@ -674,7 +674,7 @@ export class TimePicker
         value: this[key],
         part: key,
         locale,
-        numberingSystem
+        numberingSystem,
       });
     }
     if (this.hour && this.minute) {
@@ -728,7 +728,7 @@ export class TimePicker
       getTimeParts({
         value: "0:00:00",
         locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem
+        numberingSystem: this.numberingSystem,
       })
     );
   }
@@ -765,7 +765,7 @@ export class TimePicker
           [CSS.timePicker]: true,
           [CSS.showMeridiem]: showMeridiem,
           [CSS.showSecond]: this.showSecond,
-          [CSS[`scale-${this.scale}`]]: true
+          [CSS[`scale-${this.scale}`]]: true,
         }}
         dir="ltr"
       >
@@ -775,7 +775,7 @@ export class TimePicker
             class={{
               [CSS.button]: true,
               [CSS.buttonHourUp]: true,
-              [CSS.buttonTopLeft]: true
+              [CSS.buttonTopLeft]: true,
             }}
             onClick={this.incrementHour}
             onKeyDown={this.hourUpButtonKeyDownHandler}
@@ -791,7 +791,7 @@ export class TimePicker
             aria-valuetext={this.hour}
             class={{
               [CSS.input]: true,
-              [CSS.hour]: true
+              [CSS.hour]: true,
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.hourKeyDownHandler}
@@ -807,7 +807,7 @@ export class TimePicker
             class={{
               [CSS.button]: true,
               [CSS.buttonHourDown]: true,
-              [CSS.buttonBottomLeft]: true
+              [CSS.buttonBottomLeft]: true,
             }}
             onClick={this.decrementHour}
             onKeyDown={this.hourDownButtonKeyDownHandler}
@@ -822,7 +822,7 @@ export class TimePicker
             aria-label={this.messages.minuteUp}
             class={{
               [CSS.button]: true,
-              [CSS.buttonMinuteUp]: true
+              [CSS.buttonMinuteUp]: true,
             }}
             onClick={this.incrementMinute}
             onKeyDown={this.minuteUpButtonKeyDownHandler}
@@ -839,7 +839,7 @@ export class TimePicker
             aria-valuetext={this.minute}
             class={{
               [CSS.input]: true,
-              [CSS.minute]: true
+              [CSS.minute]: true,
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.minuteKeyDownHandler}
@@ -854,7 +854,7 @@ export class TimePicker
             aria-label={this.messages.minuteDown}
             class={{
               [CSS.button]: true,
-              [CSS.buttonMinuteDown]: true
+              [CSS.buttonMinuteDown]: true,
             }}
             onClick={this.decrementMinute}
             onKeyDown={this.minuteDownButtonKeyDownHandler}
@@ -870,7 +870,7 @@ export class TimePicker
               aria-label={this.messages.secondUp}
               class={{
                 [CSS.button]: true,
-                [CSS.buttonSecondUp]: true
+                [CSS.buttonSecondUp]: true,
               }}
               onClick={this.incrementSecond}
               onKeyDown={this.secondUpButtonKeyDownHandler}
@@ -886,7 +886,7 @@ export class TimePicker
               aria-valuetext={this.second}
               class={{
                 [CSS.input]: true,
-                [CSS.second]: true
+                [CSS.second]: true,
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.secondKeyDownHandler}
@@ -901,7 +901,7 @@ export class TimePicker
               aria-label={this.messages.secondDown}
               class={{
                 [CSS.button]: true,
-                [CSS.buttonSecondDown]: true
+                [CSS.buttonSecondDown]: true,
               }}
               onClick={this.decrementSecond}
               onKeyDown={this.secondDownButtonKeyDownHandler}
@@ -918,7 +918,7 @@ export class TimePicker
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: this.meridiemOrder === 0
+              [CSS.meridiemStart]: this.meridiemOrder === 0,
             }}
             role="group"
           >
@@ -927,7 +927,7 @@ export class TimePicker
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemUp]: true,
-                [CSS.buttonTopRight]: true
+                [CSS.buttonTopRight]: true,
               }}
               onClick={this.incrementMeridiem}
               onKeyDown={this.meridiemUpButtonKeyDownHandler}
@@ -943,7 +943,7 @@ export class TimePicker
               aria-valuetext={this.meridiem}
               class={{
                 [CSS.input]: true,
-                [CSS.meridiem]: true
+                [CSS.meridiem]: true,
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
@@ -959,7 +959,7 @@ export class TimePicker
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemDown]: true,
-                [CSS.buttonBottomRight]: true
+                [CSS.buttonBottomRight]: true,
               }}
               onClick={this.decrementMeridiem}
               onKeyDown={this.meridiemDownButtonKeyDownHandler}

@@ -4,5 +4,5 @@ export const CSS = {
   divider: "split-button__divider",
   widthAuto: "width-auto",
   widthHalf: "width-half",
-  widthFull: "width-full"
+  widthFull: "width-full",
 };

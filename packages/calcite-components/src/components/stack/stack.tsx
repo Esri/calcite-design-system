@@ -12,7 +12,7 @@ import { CSS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-stack",
   styleUrl: "stack.scss",
-  shadow: true
+  shadow: true,
 })
 export class Stack {
   //--------------------------------------------------------------------------

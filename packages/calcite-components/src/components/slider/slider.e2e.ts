@@ -19,44 +19,44 @@ describe("calcite-slider", () => {
     defaults("calcite-slider", [
       {
         propertyName: "mirrored",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "hasHistogram",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "max",
-        defaultValue: 100
+        defaultValue: 100,
       },
       {
         propertyName: "min",
-        defaultValue: 0
+        defaultValue: 0,
       },
       {
         propertyName: "mirrored",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "snap",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "step",
-        defaultValue: 1
+        defaultValue: 1,
       },
       {
         propertyName: "value",
-        defaultValue: 0
-      }
+        defaultValue: 0,
+      },
     ]);
   });
 
@@ -64,7 +64,9 @@ describe("calcite-slider", () => {
     labelable("calcite-slider");
   });
 
-  it("can be disabled", () => disabled("calcite-slider"));
+  describe("disabled", () => {
+    disabled("calcite-slider");
+  });
 
   it("sets aria attributes properly for single value", async () => {
     const page = await newE2EPage();
@@ -343,7 +345,7 @@ describe("calcite-slider", () => {
 
     it("should focus the min thumb when clicked on track close to minValue", async () => {
       const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`
+        html: `${sliderForThumbFocusTests}`,
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -365,7 +367,7 @@ describe("calcite-slider", () => {
 
     it("should focus the max thumb when clicked on track close to maxValue", async () => {
       const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`
+        html: `${sliderForThumbFocusTests}`,
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -387,7 +389,7 @@ describe("calcite-slider", () => {
 
     it("should focus the max thumb when clicked on middle of the track", async () => {
       const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`
+        html: `${sliderForThumbFocusTests}`,
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -411,7 +413,7 @@ describe("calcite-slider", () => {
   describe("mouse interaction", () => {
     it("single handle: clicking the track changes value on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+        html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -433,7 +435,7 @@ describe("calcite-slider", () => {
 
     it("single handle: clicking and dragging the track changes and emits the value", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+        html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -459,7 +461,7 @@ describe("calcite-slider", () => {
 
     it("range: clicking the track to the left of the min handle changes minValue on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       });
       await page.waitForChanges();
 
@@ -488,7 +490,7 @@ describe("calcite-slider", () => {
 
     it("range: clicking and dragging the track to the left of the min handle changes minValue and emits", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       });
       await page.waitForChanges();
 
@@ -517,7 +519,7 @@ describe("calcite-slider", () => {
 
     it("range: clicking the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       });
       await page.waitForChanges();
 
@@ -543,7 +545,7 @@ describe("calcite-slider", () => {
 
     it("range: clicking and dragging the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`,
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -611,13 +613,13 @@ describe("calcite-slider", () => {
           [0, 4],
           [1, 7],
           [4, 6],
-          [6, 2]
+          [6, 2],
         ],
         histogramStops: [
           { offset: 0, color: "red" },
           { offset: 0.5, color: "green" },
-          { offset: 1, color: "blue" }
-        ]
+          { offset: 1, color: "blue" },
+        ],
       };
 
       await page.$eval(
@@ -663,7 +665,7 @@ describe("calcite-slider", () => {
 
     it("click/tap should grab the max value thumb", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider ${commonSliderAttrs}></calcite-slider>`
+        html: `<calcite-slider ${commonSliderAttrs}></calcite-slider>`,
       });
       await page.waitForChanges();
       const element = await page.find("calcite-slider");
@@ -689,7 +691,7 @@ describe("calcite-slider", () => {
 
     it("mirrored: click/tap should grab the max value thumb", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider ${commonSliderAttrs} mirrored></calcite-slider>`
+        html: `<calcite-slider ${commonSliderAttrs} mirrored></calcite-slider>`,
       });
       const element = await page.find("calcite-slider");
       const changeEvent = await element.spyOnEvent("calciteSliderChange");
@@ -751,7 +753,7 @@ describe("calcite-slider", () => {
           [40, 25],
           [60, 55],
           [80, 10],
-          [100, 0]
+          [100, 0],
         ];
       });
       await page.waitForChanges();
@@ -779,7 +781,7 @@ describe("calcite-slider", () => {
     let noSeparator: string[];
     const expectedNotSeparatedValueArray = {
       en: ["2500", "500000.5", "1000", "1000000.5"],
-      fr: ["2500", "500000,5", "1000", "1000000,5"]
+      fr: ["2500", "500000,5", "1000", "1000000,5"],
     };
     let withSeparator: string[];
     let getDisplayedValuesArray;
@@ -789,7 +791,7 @@ describe("calcite-slider", () => {
       en: ["2,500", "500,000.5", "1,000", "1,000,000.5"],
       es: ["2500", "500.000,5", "1000", "1.000.000,5"],
       fr: ["2 500", "500 000,5", "1 000", "1 000 000,5"],
-      hi: ["2,500", "5,00,000.5", "1,000", "10,00,000.5"]
+      hi: ["2,500", "5,00,000.5", "1,000", "10,00,000.5"],
     };
 
     beforeEach(async () => {

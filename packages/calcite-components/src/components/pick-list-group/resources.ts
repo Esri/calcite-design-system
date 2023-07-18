@@ -1,9 +1,9 @@
 export const CSS = {
   heading: "heading",
   container: "container",
-  indented: "container--indented"
+  indented: "container--indented",
 };
 
 export const SLOTS = {
-  parentItem: "parent-item"
+  parentItem: "parent-item",
 };

@@ -7,16 +7,21 @@ import {
   Host,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getElementProp, getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
@@ -28,7 +33,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-combobox-item",
   styleUrl: "combobox-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class ComboboxItem implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
@@ -99,10 +104,12 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.ancestors = getAncestors(this.el);
     this.scale = getElementProp(this.el, "scale", this.scale);
     connectConditionalSlotComponent(this);
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectInteractive(this);
   }
 
   componentDidRender(): void {
@@ -152,7 +159,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.custom]: !!this.icon,
           [CSS.iconActive]: this.icon && this.selected,
-          [CSS.iconIndent]: true
+          [CSS.iconIndent]: true,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -168,7 +175,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.dot]: true,
-          [CSS.iconIndent]: true
+          [CSS.iconIndent]: true,
         }}
       />
     ) : (
@@ -176,7 +183,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.iconActive]: this.selected,
-          [CSS.iconIndent]: true
+          [CSS.iconIndent]: true,
         }}
         flipRtl={this.iconFlipRtl}
         icon={iconPath}
@@ -208,7 +215,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
       [CSS.label]: true,
       [CSS.selected]: this.selected,
       [CSS.active]: this.active,
-      [CSS.single]: isSingleSelect
+      [CSS.single]: isSingleSelect,
     };
     const depth = getDepth(this.el);
 

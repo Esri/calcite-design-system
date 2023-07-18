@@ -130,6 +130,7 @@ const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
 const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
+const hasTrailingDecimalZeros = /0*$/;
 
 export const sanitizeNumberString = (numberString: string): string =>
   sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
@@ -137,13 +138,22 @@ export const sanitizeNumberString = (numberString: string): string =>
       .replace(allHyphensExceptTheStart, "")
       .replace(decimalOnlyAtEndOfString, "")
       .replace(allLeadingZerosOptionallyNegative, "$1");
-
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : new BigDecimal(sanitizedValue).toString()
+        : getBigDecimalAsString(sanitizedValue)
       : nonExpoNumString;
   });
+
+export function getBigDecimalAsString(sanitizedValue: string): string {
+  const sanitizedValueDecimals = sanitizedValue.split(".")[1];
+  const value = new BigDecimal(sanitizedValue).toString();
+  const [bigDecimalValueInteger, bigDecimalValueDecimals] = value.split(".");
+
+  return sanitizedValueDecimals && bigDecimalValueDecimals !== sanitizedValueDecimals
+    ? `${bigDecimalValueInteger}.${sanitizedValueDecimals}`
+    : value;
+}
 
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
   if (!numberString) {
@@ -216,4 +226,36 @@ export function expandExponentialNumberString(numberString: string): string {
 
 function stringContainsNumbers(string: string): boolean {
   return numberKeys.some((number) => string.includes(number));
+}
+
+/**
+ * Adds localized trailing decimals zero values to the number string.
+ * BigInt conversion to string removes the trailing decimal zero values (Ex: 1.000 is returned as 1). This method helps adding them back.
+ *
+ * @param {string} localizedValue - localized number string value
+ * @param {string} value - current value in the input field
+ * @param {NumberStringFormat} formatter - numberStringFormatter instance to localize the number value
+ * @returns {string} localized number string value
+ */
+export function addLocalizedTrailingDecimalZeros(
+  localizedValue: string,
+  value: string,
+  formatter: NumberStringFormat
+): string {
+  const decimals = value.split(".")[1];
+  if (decimals) {
+    const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)[0];
+    if (
+      trailingDecimalZeros &&
+      formatter.delocalize(localizedValue).length !== value.length &&
+      decimals.indexOf("e") === -1
+    ) {
+      const decimalSeparator = formatter.decimal;
+      localizedValue = !localizedValue.includes(decimalSeparator)
+        ? `${localizedValue}${decimalSeparator}`
+        : localizedValue;
+      return localizedValue.padEnd(localizedValue.length + trailingDecimalZeros.length, formatter.localize("0"));
+    }
+  }
+  return localizedValue;
 }

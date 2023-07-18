@@ -9,13 +9,13 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   getElementDir,
   getSlotted,
   isPrimaryPointerButton,
-  setRequestedIcon
+  setRequestedIcon,
 } from "../../utils/dom";
 import { Position, Scale, Status } from "../interfaces";
 
@@ -24,30 +24,35 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  submitForm
+  submitForm,
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
-  defaultNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
 import {
+  addLocalizedTrailingDecimalZeros,
   BigDecimal,
   isValidNumber,
   parseNumberString,
-  sanitizeNumberString
+  sanitizeNumberString,
 } from "../../utils/number";
 import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -56,7 +61,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { InputNumberMessages } from "./assets/input-number/t9n";
@@ -69,7 +74,7 @@ import { CSS, SLOTS } from "./resources";
   tag: "calcite-input-number",
   styleUrl: "input-number.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class InputNumber
   implements
@@ -319,7 +324,7 @@ export class InputNumber
             ? ""
             : isValidNumber(newValue)
             ? newValue
-            : this.previousValue || ""
+            : this.previousValue || "",
       });
       this.warnAboutInvalidNumberValue(newValue);
     }
@@ -385,7 +390,7 @@ export class InputNumber
     numberStringFormatter.numberFormatOptions = {
       locale,
       numberingSystem: this.numberingSystem,
-      useGrouping: false
+      useGrouping: false,
     };
   }
 
@@ -402,6 +407,7 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -417,7 +423,7 @@ export class InputNumber
     this.warnAboutInvalidNumberValue(this.value);
     this.setNumberValue({
       origin: "connected",
-      value: isValidNumber(this.value) ? this.value : ""
+      value: isValidNumber(this.value) ? this.value : "",
     });
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
@@ -429,6 +435,7 @@ export class InputNumber
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -450,7 +457,7 @@ export class InputNumber
     if (property === "value" && newValue && !isValidNumber(newValue)) {
       this.setNumberValue({
         origin: "reset",
-        value: oldValue
+        value: oldValue,
       });
       return false;
     }
@@ -496,7 +503,7 @@ export class InputNumber
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.childNumberEl?.focus();
   }
@@ -563,7 +570,7 @@ export class InputNumber
       committing: true,
       nativeEvent,
       origin: "user",
-      value: finalValue
+      value: finalValue,
     });
   }
 
@@ -572,7 +579,7 @@ export class InputNumber
       committing: true,
       nativeEvent,
       origin: "user",
-      value: ""
+      value: "",
     });
   };
 
@@ -611,7 +618,7 @@ export class InputNumber
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
+      useGrouping: this.groupSeparator,
     };
     const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
@@ -621,14 +628,14 @@ export class InputNumber
       this.setNumberValue({
         nativeEvent,
         origin: "user",
-        value: parseNumberString(delocalizedValue)
+        value: parseNumberString(delocalizedValue),
       });
       this.childNumberEl.value = this.localizedValue;
     } else {
       this.setNumberValue({
         nativeEvent,
         origin: "user",
-        value: delocalizedValue
+        value: delocalizedValue,
       });
     }
   };
@@ -655,13 +662,13 @@ export class InputNumber
       "Delete",
       "Enter",
       "Escape",
-      "Tab"
+      "Tab",
     ];
     if (event.altKey || event.ctrlKey || event.metaKey) {
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
+    if (supportedKeys.includes(event.key) || isShiftTabEvent) {
       if (event.key === "Enter") {
         this.emitChangeIfUserModified();
       }
@@ -671,7 +678,7 @@ export class InputNumber
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
+      useGrouping: this.groupSeparator,
     };
 
     if (event.key === numberStringFormatter.decimal) {
@@ -753,7 +760,7 @@ export class InputNumber
   onFormReset(): void {
     this.setNumberValue({
       origin: "reset",
-      value: this.defaultValue
+      value: this.defaultValue,
     });
   }
 
@@ -767,7 +774,7 @@ export class InputNumber
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setNumberValue({
         value: (event.target as HTMLInputElement).value,
-        origin: "direct"
+        origin: "direct",
       });
     }
     event.stopPropagation();
@@ -819,7 +826,7 @@ export class InputNumber
     nativeEvent,
     origin,
     previousValue,
-    value
+    value,
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
@@ -830,15 +837,14 @@ export class InputNumber
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
+      useGrouping: this.groupSeparator,
     };
 
-    const sanitizedValue = sanitizeNumberString(
-      // no need to delocalize a string that ia already in latn numerals
-      (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
-        ? numberStringFormatter.delocalize(value)
-        : value
-    );
+    const isValueDeleted =
+      this.previousValue?.length > value.length || this.value?.length > value.length;
+    const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
+    const sanitizedValue =
+      hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
 
     const newValue =
       value && !sanitizedValue
@@ -847,8 +853,21 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    const newLocalizedValue = numberStringFormatter.localize(newValue);
-    this.localizedValue = newLocalizedValue;
+    let newLocalizedValue = numberStringFormatter.localize(newValue);
+
+    if (origin !== "connected" && !hasTrailingDecimalSeparator) {
+      newLocalizedValue = addLocalizedTrailingDecimalZeros(
+        newLocalizedValue,
+        newValue,
+        numberStringFormatter
+      );
+    }
+
+    // adds localized trailing decimal separator
+    this.localizedValue =
+      hasTrailingDecimalSeparator && isValueDeleted
+        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+        : newLocalizedValue;
 
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
@@ -925,7 +944,7 @@ export class InputNumber
         aria-hidden="true"
         class={{
           [CSS.numberButtonItem]: true,
-          [CSS.buttonItemHorizontal]: isHorizontalNumberButton
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
@@ -944,7 +963,7 @@ export class InputNumber
         aria-hidden="true"
         class={{
           [CSS.numberButtonItem]: true,
-          [CSS.buttonItemHorizontal]: isHorizontalNumberButton
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}

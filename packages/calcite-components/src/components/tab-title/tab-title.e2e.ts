@@ -49,7 +49,9 @@ describe("calcite-tab-title", () => {
     hidden("calcite-tab-title");
   });
 
-  it("can be disabled", () => disabled("<calcite-tab-title selected></calcite-tab-title>"));
+  describe("disabled", () => {
+    disabled("<calcite-tab-title selected></calcite-tab-title>");
+  });
 
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
@@ -344,7 +346,7 @@ describe("calcite-tab-title", () => {
           <calcite-tab-nav>
             <calcite-tab-title id="for-hover">Tab 1 title</calcite-tab-title>
           </calcite-tab-nav>
-          `
+          `,
         });
         const element = await page.find("#for-hover");
         await element.hover();
@@ -364,7 +366,7 @@ describe("calcite-tab-title", () => {
             <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title id="for-hover">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-          `
+          `,
         });
         const element = await page.find("#for-hover");
         await element.hover();
@@ -455,7 +457,7 @@ describe("calcite-tab-title", () => {
           html: `<calcite-tabs>
             <calcite-tab-title selected>Tab Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          </calcite-tabs>`
+          </calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-title");
         expect(element).toEqualAttribute("scale", "m");
@@ -466,7 +468,7 @@ describe("calcite-tab-title", () => {
           html: `<calcite-tabs scale="s">
             <calcite-tab-title selected>Tab Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          </calcite-tabs>`
+          </calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-title");
         expect(element).toEqualAttribute("scale", "s");
@@ -477,7 +479,7 @@ describe("calcite-tab-title", () => {
           html: `<calcite-tabs scale="l">
             <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          </calcite-tabs>`
+          </calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-title");
         expect(element).toEqualAttribute("scale", "l");
@@ -501,7 +503,7 @@ describe("calcite-tab-title", () => {
           <calcite-tab>Tab 3 Content</calcite-tab>
           <calcite-tab>Tab 4 Content</calcite-tab>
         </calcite-tabs>
-        `
+        `,
       });
       const tabTitle1 = await page.find(".title-1");
       const tabTitle2 = await page.find(".title-2");

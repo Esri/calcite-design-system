@@ -22,7 +22,12 @@
 }
 
 .table {
-  @apply w-full;
+  @apply w-full border-collapse;
+}
+
+.stack {
+  --calcite-stack-padding-inline: 0;
+  --calcite-stack-padding-block: 0;
 }
 
 ::slotted(calcite-list-item) {
@@ -34,9 +39,11 @@
 }
 
 .sticky-pos {
-  @apply sticky top-0 z-sticky;
-}
-
-calcite-filter {
-  @apply mb-px;
+  @apply sticky
+  top-0
+  z-sticky
+  bg-foreground-1;
+  & th {
+    @apply p-0;
+  }
 }

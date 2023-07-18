@@ -9,16 +9,21 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
+import {
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -27,7 +32,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Alignment, Appearance, Scale } from "../interfaces";
 import { ActionMessages } from "./assets/action/t9n";
@@ -40,7 +45,7 @@ import { CSS, SLOTS } from "./resources";
   tag: "calcite-action",
   styleUrl: "action.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Action
   implements InteractiveComponent, LocalizedComponent, T9nComponent, LoadableComponent
@@ -163,6 +168,7 @@ export class Action
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -180,6 +186,7 @@ export class Action
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.mutationObserver?.disconnect();
@@ -198,8 +205,7 @@ export class Action
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
+    await componentFocusable(this);
     this.buttonEl?.focus();
   }
 
@@ -214,7 +220,7 @@ export class Action
 
     const textContainerClasses = {
       [CSS.textContainer]: true,
-      [CSS.textContainerVisible]: textEnabled
+      [CSS.textContainerVisible]: textEnabled,
     };
 
     return text ? (
@@ -256,7 +262,7 @@ export class Action
       <div
         class={{
           [CSS.slotContainer]: true,
-          [CSS.slotContainerHidden]: loading
+          [CSS.slotContainerHidden]: loading,
         }}
       >
         <slot />
@@ -283,14 +289,14 @@ export class Action
       indicator,
       indicatorId,
       buttonId,
-      messages
+      messages,
     } = this;
     const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
 
     const buttonClasses = {
       [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
-      [CSS.buttonCompact]: compact
+      [CSS.buttonCompact]: compact,
     };
 
     return (
@@ -325,7 +331,7 @@ export class Action
   handleTooltipSlotChange = (event: Event): void => {
     const tooltips = (event.target as HTMLSlotElement)
       .assignedElements({
-        flatten: true
+        flatten: true,
       })
       .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
 

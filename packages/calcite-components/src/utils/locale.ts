@@ -44,7 +44,7 @@ export const t9nLocales = [
   "vi",
   "zh-CN",
   "zh-HK",
-  "zh-TW"
+  "zh-TW",
 ];
 
 export const locales = [
@@ -97,7 +97,7 @@ export const locales = [
   "vi",
   "zh-CN",
   "zh-HK",
-  "zh-TW"
+  "zh-TW",
 ];
 
 export const numberingSystems = [
@@ -122,7 +122,7 @@ export const numberingSystems = [
   "tamldec",
   "telu",
   "thai",
-  "tibt"
+  "tibt",
 ] as const;
 
 export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as const;
@@ -236,7 +236,7 @@ export function connectLocalized(component: LocalizedComponent): void {
     mutationObserver?.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["lang"],
-      subtree: true
+      subtree: true,
     });
   }
 
@@ -397,12 +397,16 @@ export class NumberStringFormat {
     this._digits = [
       ...new Intl.NumberFormat(this._numberFormatOptions.locale, {
         useGrouping: false,
-        numberingSystem: this._numberFormatOptions.numberingSystem
-      } as Intl.NumberFormatOptions).format(9876543210)
+        numberingSystem: this._numberFormatOptions.numberingSystem,
+      } as Intl.NumberFormatOptions).format(9876543210),
     ].reverse();
 
     const index = new Map(this._digits.map((d, i) => [d, i]));
-    const parts = new Intl.NumberFormat(this._numberFormatOptions.locale).formatToParts(-12345678.9);
+
+    // numberingSystem is parsed to return consistent decimal separator across browsers.
+    const parts = new Intl.NumberFormat(this._numberFormatOptions.locale, {
+      numberingSystem: this._numberFormatOptions.numberingSystem,
+    } as Intl.NumberFormatOptions).formatToParts(-12345678.9);
 
     this._actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group characters that don't render correctly

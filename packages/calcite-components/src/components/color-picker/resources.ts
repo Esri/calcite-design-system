@@ -30,7 +30,7 @@ export const CSS = {
   section: "section",
   slider: "slider",
   sliders: "sliders",
-  splitSection: "section--split"
+  splitSection: "section--split",
 };
 
 export const DEFAULT_COLOR = Color("#007AC2");
@@ -39,58 +39,58 @@ export const DEFAULT_STORAGE_KEY_PREFIX = "calcite-color-";
 export const RGB_LIMITS = {
   r: 255,
   g: 255,
-  b: 255
+  b: 255,
 };
 
 export const HSV_LIMITS = {
   h: 360,
   s: 100,
-  v: 100
+  v: 100,
 };
 
 export const OPACITY_LIMITS = {
   min: 0,
-  max: 100
+  max: 100,
 };
 
 export const DIMENSIONS = {
   s: {
     slider: {
       height: 12,
-      width: 104
+      width: 104,
     },
     colorField: {
       height: 80,
-      width: 160
+      width: 160,
     },
     thumb: {
-      radius: 10
-    }
+      radius: 10,
+    },
   },
   m: {
     slider: {
       height: 12,
-      width: 204
+      width: 204,
     },
     colorField: {
       height: 150,
-      width: 272
+      width: 272,
     },
     thumb: {
-      radius: 10
-    }
+      radius: 10,
+    },
   },
   l: {
     slider: {
       height: 12,
-      width: 384
+      width: 384,
     },
     colorField: {
       height: 200,
-      width: 464
+      width: 464,
     },
     thumb: {
-      radius: 10
-    }
-  }
+      radius: 10,
+    },
+  },
 };

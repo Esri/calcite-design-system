@@ -11,11 +11,16 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementDir, getElementProp, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
@@ -27,7 +32,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
 
@@ -42,7 +47,7 @@ import { TabTitleMessages } from "./assets/tab-title/t9n";
   tag: "calcite-tab-title",
   styleUrl: "tab-title.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -144,6 +149,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
@@ -156,10 +162,11 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabTitleUnregister", {
-        detail: this.el
+        detail: this.el,
       })
     );
     this.resizeObserver?.disconnect();
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -221,7 +228,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         <div
           class={{
             container: true,
-            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd
+            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
           }}
           hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props
@@ -355,7 +362,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts#L1)
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
@@ -368,7 +375,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts)
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabCloseEventDetail>;

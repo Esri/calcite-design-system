@@ -12,16 +12,16 @@ interface Mode {
 export const MODES: Mode[] = [
   {
     name: "light",
-    className: lightMode
+    className: lightMode,
   },
   {
     name: "dark",
-    className: darkMode
+    className: darkMode,
   },
   {
     name: "auto",
-    className: autoMode
-  }
+    className: autoMode,
+  },
 ];
 
 export const CSS_UTILITY = {
@@ -35,9 +35,9 @@ export const CSS_UTILITY = {
   calciteAnimateInDown: "calcite-animate__in-down",
   calciteAnimateInRight: "calcite-animate__in-right",
   calciteAnimateInLeft: "calcite-animate__in-left",
-  calciteAnimateInScale: "calcite-animate__in-scale"
+  calciteAnimateInScale: "calcite-animate__in-scale",
 };
 
 export const TEXT = {
-  loading: "Loading"
+  loading: "Loading",
 };

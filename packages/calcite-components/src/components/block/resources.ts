@@ -15,20 +15,19 @@ export const CSS = {
   controlContainer: "control-container",
   valid: "valid",
   invalid: "invalid",
-  loading: "loading"
 };
 
 export const TEXT = {
   collapse: "Collapse",
   expand: "Expand",
   loading: "Loading",
-  options: "Options"
+  options: "Options",
 };
 
 export const SLOTS = {
   icon: "icon",
   control: "control",
-  headerMenuActions: "header-menu-actions"
+  headerMenuActions: "header-menu-actions",
 };
 
 export const ICONS = {
@@ -36,5 +35,4 @@ export const ICONS = {
   closed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
-  refresh: "refresh"
 };
