@@ -640,9 +640,8 @@ describe("calcite-input-time-picker", () => {
     expect(await getInputValue(page)).toBe("02:30:25 PM");
 
     inputTimePicker.setProperty("lang", "da");
-    // waitForChanges and waitForAnimationFrame are both required here,
-    // which allows the page to effectively wait for the async locale data fetching to complete
     await page.waitForChanges();
+    // waiting for an additional animation frame here allows for mutation observers and other things outside of Stencil's knowledge to complete before the page is ready to test
     await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("14.30.25");
