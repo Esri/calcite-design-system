@@ -811,12 +811,23 @@ describe("calcite-color-picker", () => {
         html`<calcite-color-picker numbering-system="arab" value="#fff000"></calcite-color-picker>`
       );
 
-      const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
-      await selectText(channelInput);
-      await channelInput.type("25555");
-      await channelInput.press("Enter");
+      const calciteInputNumber = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+
+      await selectText(calciteInputNumber);
+      await calciteInputNumber.type("25555");
+      await calciteInputNumber.press("Enter");
       await page.waitForChanges();
-      expect(await channelInput.getProperty("value")).toBe("٢٥٥");
+
+      const nativeInputValue = await page.evaluate(
+        async (CSS) =>
+          document
+            .querySelector("calcite-color-picker")
+            .shadowRoot.querySelector(`.${CSS.channel}`)
+            .shadowRoot.querySelector("input").value,
+        CSS
+      );
+
+      expect(nativeInputValue).toBe("٢٥٥");
     });
 
     describe("default", () => {
