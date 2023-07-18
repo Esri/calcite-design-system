@@ -282,7 +282,6 @@ export class ColorPickerHexInput implements LoadableComponent {
     if (isValidHex(hex)) {
       event.preventDefault();
       this.hexInputNode.value = hex.slice(1);
-      this.hexInputNode.internalSyncChildElValue();
     }
   };
 
@@ -292,14 +291,14 @@ export class ColorPickerHexInput implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private hexInputNode: HTMLCalciteInputElement;
+  private hexInputNode: HTMLCalciteInputTextElement;
 
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
   @State() internalColor: Color | null = DEFAULT_COLOR;
 
-  private opacityInputNode: HTMLCalciteInputElement;
+  private opacityInputNode: HTMLCalciteInputNumberElement;
 
   private previousNonNullValue: string = this.value;
 
@@ -317,13 +316,12 @@ export class ColorPickerHexInput implements LoadableComponent {
 
     return (
       <div class={CSS.container}>
-        <calcite-input
+        <calcite-input-text
           class={CSS.hexInput}
           label={messages?.hex || hexLabel}
           maxLength={6}
-          numberingSystem={this.numberingSystem}
-          onCalciteInputChange={this.onHexInputChange}
-          onCalciteInternalInputBlur={this.onHexInputBlur}
+          onCalciteInputTextChange={this.onHexInputChange}
+          onCalciteInternalInputTextBlur={this.onHexInputBlur}
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}
           prefixText="#"
@@ -414,11 +412,11 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.value = oldValue;
   }
 
-  private storeHexInputRef = (node: HTMLCalciteInputElement): void => {
+  private storeHexInputRef = (node: HTMLCalciteInputTextElement): void => {
     this.hexInputNode = node;
   };
 
-  private storeOpacityInputRef = (node: HTMLCalciteInputElement): void => {
+  private storeOpacityInputRef = (node: HTMLCalciteInputNumberElement): void => {
     this.opacityInputNode = node;
   };
 
