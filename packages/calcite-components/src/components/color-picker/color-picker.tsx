@@ -439,7 +439,7 @@ export class ColorPicker
   };
 
   private handleChannelInput = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputElement;
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const isAlphaChannel = channelIndex === 3;
 
@@ -462,10 +462,6 @@ export class ColorPicker
     }
 
     input.value = inputValue;
-
-    // TODO: refactor calcite-input so we don't need to sync the internals
-    // https://github.com/Esri/calcite-design-system/issues/6100
-    input.internalSyncChildElValue();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -503,7 +499,7 @@ export class ColorPicker
   }
 
   private handleChannelChange = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputElement;
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
@@ -992,7 +988,7 @@ export class ColorPicker
     suffix?: string
   ): VNode => {
     return (
-      <calcite-input
+      <calcite-input-number
         class={CSS.channel}
         data-channel-index={index}
         dir={direction}
@@ -1001,8 +997,8 @@ export class ColorPicker
         lang={this.effectiveLocale}
         numberButtonType="none"
         numberingSystem={this.numberingSystem}
-        onCalciteInputChange={this.handleChannelChange}
-        onCalciteInputInput={this.handleChannelInput}
+        onCalciteInputNumberChange={this.handleChannelChange}
+        onCalciteInputNumberInput={this.handleChannelInput}
         onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
         // workaround to ensure input borders overlap as desired
@@ -1013,7 +1009,6 @@ export class ColorPicker
             index > 0 && !(this.scale === "s" && this.alphaChannel && index === 3) ? "-1px" : "",
         }}
         suffixText={suffix}
-        type="number"
         value={value?.toString()}
       />
     );
