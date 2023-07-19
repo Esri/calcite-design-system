@@ -52,6 +52,11 @@
   @apply focus-base w-auto;
 }
 
+.container {
+  @apply rounded-full
+  border;
+}
+
 .track {
   @apply bg-foreground-2
     border-color-2

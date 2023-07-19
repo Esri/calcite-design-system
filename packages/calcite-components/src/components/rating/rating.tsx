@@ -202,7 +202,7 @@ export class Rating
         !this.value &&
         value <= this.average;
       const checked = value === this.value;
-      const focused = this.isKeyboardInteraction && this.hasFocus && this.focusValue === value;
+      const focused = this.hasFocus && this.focusValue === value;
       const fraction = this.average && this.average + 1 - value;
       const hovered = value <= this.hoverValue;
       const id = `${this.guid}-${value}`;
@@ -348,8 +348,6 @@ export class Rating
   private handleRatingPointerOut = () => {
     this.isKeyboardInteraction = true;
     this.hoverValue = null;
-    this.focusValue = null;
-    this.hasFocus = false;
   };
 
   private handleRatingFocusIn = (): void => {
