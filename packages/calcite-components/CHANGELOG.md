@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.22...@esri/calcite-components@1.5.0-next.23) (2023-07-19)
+
+### Bug Fixes
+
+- **color-picker:** maintains correct numbering system when entering invalid RGB value ([#7327](https://github.com/Esri/calcite-design-system/issues/7327)) ([8d2a3a5](https://github.com/Esri/calcite-design-system/commit/8d2a3a59c0bd208a6ecb826a709d6389b2a72aa4)), closes [#5978](https://github.com/Esri/calcite-design-system/issues/5978)
+
 ## [1.5.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.21...@esri/calcite-components@1.5.0-next.22) (2023-07-14)
 
 ### Bug Fixes
