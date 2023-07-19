@@ -532,7 +532,7 @@ export class Modal
     this.contentId = ensureId(contentEl);
 
     if (!this.slottedInShell) {
-      document.documentElement.classList.add(CSS.overflowHidden);
+      document.documentElement.style.setProperty("overflow", "hidden");
     }
   }
 
@@ -554,7 +554,7 @@ export class Modal
   };
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.classList.remove(CSS.overflowHidden);
+    document.documentElement.style.removeProperty("overflow");
   }
 
   private handleMutationObserver = (): void => {
