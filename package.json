@@ -85,7 +85,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rimraf": "5.0.1",
-    "rollup": "2.77.1",
+    "rollup": "3.26.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "semver": "7.5.4",
     "shell-quote": "1.8.1",
