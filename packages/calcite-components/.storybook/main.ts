@@ -35,7 +35,7 @@ module.exports = {
 
       <template id="internalStorybookNotice">
         <calcite-notice open icon="exclamation-mark-triangle" closable kind="warning" scale="l" style="font-family: var(--calcite-sans-family)">
-          <div slot="title">This storybook is meant for internal, testing purposes only (using @next)</div>
+          <div slot="title">This storybook is on the current @next version and is meant for internal, testing purposes only.</div>
           <div slot="link">
             Please refer to the
             <calcite-link
