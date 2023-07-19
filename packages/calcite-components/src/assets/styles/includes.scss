@@ -15,10 +15,6 @@
   }
 }
 
-:host([hidden]) {
-  display: none;
-}
-
 @mixin word-break() {
   word-wrap: break-word;
   word-break: break-word;
