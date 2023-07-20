@@ -351,14 +351,15 @@ export class Rating
   };
 
   private handleRatingFocusIn = (): void => {
+    const isValueZero = this.value === 0;
     const selectedInput = this.value > 0 ? this.value - 1 : 0;
     const focusInput = this.inputRefs[selectedInput];
     const focusValue = Number(focusInput.value);
 
     focusInput.select();
-    this.focusValue = focusValue;
-    this.hoverValue = focusValue;
-    this.hasFocus = true;
+    this.focusValue = isValueZero && !this.isKeyboardInteraction ? null : focusValue;
+    this.hoverValue = isValueZero && !this.isKeyboardInteraction ? null : focusValue;
+    this.hasFocus = !!this.focusValue;
   };
 
   private handleRatingFocusLeave = (): void => {
@@ -421,15 +422,13 @@ export class Rating
     const target = event.currentTarget as HTMLLabelElement;
     const newPointerValue = Number(target.firstChild["value"] || 0);
     this.hoverValue = newPointerValue;
-    this.focusValue = null;
   };
 
   private handleLabelPointerDown = (event: PointerEvent) => {
     const target = event.currentTarget as HTMLLabelElement;
-    const inputVal = Number(target.firstChild["value"] || 0);
-
-    this.focusValue = null;
-    this.hoverValue = null;
+    const inputVal = Number(target.firstChild["value"]);
+    this.focusValue = inputVal || null;
+    this.hoverValue = inputVal || null;
     this.emit = true;
     this.value = !this.required && this.value === inputVal ? 0 : inputVal;
   };

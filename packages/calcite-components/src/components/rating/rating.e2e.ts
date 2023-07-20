@@ -369,7 +369,7 @@ describe("calcite-rating", () => {
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
       expect(hoveredEl.length).toBe(3);
-      expect(focusedEl.length).toBe(0);
+      expect(focusedEl.length).toBe(1);
       expect(selectedEl.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
       expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -504,9 +504,17 @@ describe("calcite-rating", () => {
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
 
       await ratingItem1.click();
+      await page.waitForChanges();
+
+      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
+      const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
+      const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
       expect(element).toEqualAttribute("value", "4");
       expect(changeEvent).toHaveReceivedEventTimes(0);
+      expect(hoveredEl.length).toBe(0);
+      expect(focusedEl.length).toBe(0);
+      expect(selectedEl.length).toBe(4);
     });
 
     it("should reset the rating when the current value is equal to the value of the clicked input", async () => {
@@ -519,8 +527,15 @@ describe("calcite-rating", () => {
       await labels[2].click();
       await page.waitForChanges();
 
+      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
+      const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
+      const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
+
       expect(await element.getProperty("value")).toBe(0);
       expect(changeEvent).toHaveReceivedEventTimes(1);
+      expect(hoveredEl.length).toBe(0);
+      expect(focusedEl.length).toBe(0);
+      expect(selectedEl.length).toBe(0);
     });
 
     it("should not allow rating to be cleared/reset when required props is set true", async () => {
@@ -534,8 +549,15 @@ describe("calcite-rating", () => {
       await labels[2].click();
       await page.waitForChanges();
 
+      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
+      const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
+      const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
+
       expect(await element.getProperty("value")).toBe(3);
       expect(changeEvent).toHaveReceivedEventTimes(1);
+      expect(hoveredEl.length).toBe(3);
+      expect(focusedEl.length).toBe(1);
+      expect(selectedEl.length).toBe(3);
     });
 
     it("should not allow click interaction when read-only is set", async () => {
@@ -545,7 +567,16 @@ describe("calcite-rating", () => {
       const ratingItem1 = await page.find("calcite-rating >>> .star");
 
       await ratingItem1.click();
+      await page.waitForChanges();
+
+      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
+      const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
+      const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
+
       expect(element).toEqualAttribute("value", "4");
+      expect(hoveredEl.length).toBe(0);
+      expect(focusedEl.length).toBe(0);
+      expect(selectedEl.length).toBe(4);
     });
   });
 
