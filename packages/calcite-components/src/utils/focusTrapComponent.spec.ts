@@ -7,7 +7,7 @@ import {
 } from "./focusTrapComponent";
 
 import { JSDOM } from "jsdom";
-import { CalciteComponentsConfig } from "./config";
+import { CalciteConfig } from "./config";
 import { GlobalTestProps } from "../tests/utils";
 
 describe("focusTrapComponent", () => {
@@ -71,9 +71,9 @@ describe("focusTrapComponent", () => {
       window = win; // make window references use JSDOM
       globalThis.MutationObserver = window.MutationObserver; // needed for focus-trap
 
-      type TestGlobal = GlobalTestProps<{ calciteComponentsConfig: CalciteComponentsConfig }>;
+      type TestGlobal = GlobalTestProps<{ calciteConfig: CalciteConfig }>;
 
-      (globalThis as TestGlobal).calciteComponentsConfig = {
+      (globalThis as TestGlobal).calciteConfig = {
         focusTrapStack: customFocusTrapStack,
       };
 

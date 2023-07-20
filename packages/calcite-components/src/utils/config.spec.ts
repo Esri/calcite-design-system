@@ -1,12 +1,12 @@
-import type { CalciteComponentsConfig } from "./config";
+import type { CalciteConfig } from "./config";
 
 describe("config", () => {
-  let config: CalciteComponentsConfig;
+  let config: CalciteConfig;
 
   /**
    * Need to load the config at runtime to allow test to specify custom configuration if needed.
    */
-  async function loadConfig(): Promise<CalciteComponentsConfig> {
+  async function loadConfig(): Promise<CalciteConfig> {
     return import("./config");
   }
 
@@ -20,8 +20,8 @@ describe("config", () => {
   it("allows custom configuration", async () => {
     const customFocusTrapStack = [];
 
-    globalThis.calciteComponentsConfig = {
-      focusTrapStack: customFocusTrapStack
+    globalThis.calciteConfig = {
+      focusTrapStack: customFocusTrapStack,
     };
 
     config = await loadConfig();

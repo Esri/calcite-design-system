@@ -4,7 +4,7 @@
 
 import { FocusTrap } from "./focusTrapComponent";
 
-export interface CalciteComponentsConfig {
+export interface CalciteConfig {
   /**
    * Defines the global trap stack to use for focus-trapping components.
    *
@@ -15,6 +15,6 @@ export interface CalciteComponentsConfig {
   focusTrapStack: FocusTrap[];
 }
 
-const customConfig: CalciteComponentsConfig = globalThis["calciteComponentsConfig"];
+const customConfig: CalciteConfig = globalThis["calciteConfig"];
 
 export const focusTrapStack: FocusTrap[] = customConfig?.focusTrapStack || [];
