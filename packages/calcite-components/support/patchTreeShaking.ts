@@ -2,7 +2,7 @@
 // https://github.com/ionic-team/stencil/issues/3470
 (async function () {
   const {
-    promises: { readFile, writeFile }
+    promises: { readFile, writeFile },
   } = await import("fs");
   const { dirname, normalize } = await import("path");
   const { quote } = await import("shell-quote");

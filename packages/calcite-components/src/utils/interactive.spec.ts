@@ -10,7 +10,7 @@ describe("interactive", () => {
 
     const fakeInteractive = {
       el: fakeInteractiveEl,
-      disabled: false
+      disabled: false,
     };
 
     updateHostInteraction(fakeInteractive);

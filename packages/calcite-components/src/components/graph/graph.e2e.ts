@@ -25,7 +25,7 @@ describe("calcite-graph", () => {
           [0, 4],
           [1, 7],
           [4, 6],
-          [6, 2]
+          [6, 2],
         ];
       });
 
@@ -39,8 +39,8 @@ describe("calcite-graph", () => {
     defaults("calcite-graph", [
       {
         propertyName: "data",
-        defaultValue: []
-      }
+        defaultValue: [],
+      },
     ]);
   });
 
@@ -53,7 +53,7 @@ describe("calcite-graph", () => {
         [0, 4],
         [1, 7],
         [4, 6],
-        [6, 2]
+        [6, 2],
       ];
     });
     await page.waitForChanges();
@@ -72,12 +72,12 @@ describe("calcite-graph", () => {
         [0, 4],
         [1, 7],
         [4, 6],
-        [6, 2]
+        [6, 2],
       ];
       elm.colorStops = [
         { offset: 0, color: "red" },
         { offset: 0.5, color: "green" },
-        { offset: 1, color: "blue" }
+        { offset: 1, color: "blue" },
       ];
     });
 

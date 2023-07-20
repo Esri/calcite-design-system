@@ -42,7 +42,7 @@ describe("calcite-tooltip", () => {
   describe("renders", () => {
     renders(`calcite-tooltip`, { visible: false, display: "block" });
     renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
-      display: "block"
+      display: "block",
     });
   });
 
@@ -66,28 +66,28 @@ describe("calcite-tooltip", () => {
     defaults("calcite-tooltip", [
       {
         propertyName: "open",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "placement",
-        defaultValue: "auto"
+        defaultValue: "auto",
       },
       {
         propertyName: "offsetDistance",
-        defaultValue: 6
+        defaultValue: 6,
       },
       {
         propertyName: "offsetSkidding",
-        defaultValue: 0
+        defaultValue: 0,
       },
       {
         propertyName: "referenceElement",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "overlayPositioning",
-        defaultValue: "absolute"
-      }
+        defaultValue: "absolute",
+      },
     ]);
   });
 
@@ -194,8 +194,8 @@ describe("calcite-tooltip", () => {
             top: 100,
             right: 100,
             bottom: 100,
-            left: 600
-          } as DOMRect)
+            left: 600,
+          } as DOMRect),
       };
 
       tooltip.referenceElement = virtualElement;
@@ -818,32 +818,32 @@ describe("calcite-tooltip", () => {
         delay: 0,
         property: "open",
         value: false,
-        selector: "#ref"
+        selector: "#ref",
       },
       {
         delay: TOOLTIP_OPEN_DELAY_MS * 0.25,
         property: "open",
         value: false,
-        selector: "#ref"
+        selector: "#ref",
       },
       {
         delay: TOOLTIP_OPEN_DELAY_MS * 0.5,
         property: "open",
         value: false,
-        selector: "#ref"
+        selector: "#ref",
       },
       {
         delay: TOOLTIP_OPEN_DELAY_MS,
         property: "open",
         value: true,
-        selector: "#ref"
+        selector: "#ref",
       },
       {
         delay: TOOLTIP_OPEN_DELAY_MS + TOOLTIP_OPEN_DELAY_MS * 0.5,
         property: "open",
         value: true,
-        selector: "#ref"
-      }
+        selector: "#ref",
+      },
     ];
 
     for (let i = 0; i < pointerMoves.length; i++) {
@@ -879,32 +879,32 @@ describe("calcite-tooltip", () => {
         delay: 0,
         property: "open",
         value: false,
-        selector: "#ref"
+        selector: "#ref",
       },
       {
         delay: TOOLTIP_CLOSE_DELAY_MS,
         property: "open",
         value: true,
-        selector: "#ref"
+        selector: "#ref",
       },
       {
         delay: TOOLTIP_CLOSE_DELAY_MS * 0.25,
         property: "open",
         value: true,
-        selector: "#ref2"
+        selector: "#ref2",
       },
       {
         delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
         property: "open",
         value: true,
-        selector: "#ref2"
+        selector: "#ref2",
       },
       {
         delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
         property: "open",
         value: false,
-        selector: "#ref2"
-      }
+        selector: "#ref2",
+      },
     ];
 
     for (let i = 0; i < pointerMoves.length; i++) {
@@ -929,12 +929,12 @@ describe("calcite-tooltip", () => {
             html: `<button id="tooltip-button">Data disclaimer</button>
         <calcite-tooltip reference-element="tooltip-button">
           <span>This data was collected over a 24 hour period</span>
-        </calcite-tooltip>`
+        </calcite-tooltip>`,
           },
           {
             name: "shadow-component-b",
-            html: "<shadow-component-a></shadow-component-a>"
-          }
+            html: "<shadow-component-a></shadow-component-a>",
+          },
         ];
 
         for (let i = 0; i < customComponents.length; i++) {

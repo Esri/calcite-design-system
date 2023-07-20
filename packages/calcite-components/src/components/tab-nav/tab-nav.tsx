@@ -9,13 +9,13 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   filterDirectChildren,
   focusElementInGroup,
   FocusElementInGroupDestination,
-  getElementDir
+  getElementDir,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -28,7 +28,7 @@ import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 @Component({
   tag: "calcite-tab-nav",
   styleUrl: "tab-nav.scss",
-  shadow: true
+  shadow: true,
 })
 export class TabNav {
   //--------------------------------------------------------------------------
@@ -104,7 +104,7 @@ export class TabNav {
     }
 
     this.calciteInternalTabChange.emit({
-      tab: this.selectedTabId
+      tab: this.selectedTabId,
     });
 
     this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
@@ -163,7 +163,7 @@ export class TabNav {
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
         this.calciteInternalTabChange.emit({
-          tab
+          tab,
         });
       });
     }

@@ -10,7 +10,7 @@ import {
   parseCalendarYear,
   parseDateString,
   prevMonth,
-  sameDate
+  sameDate,
 } from "./date";
 
 import arabic from "../components/date-picker/assets/date-picker/nls/ar.json";
@@ -148,14 +148,14 @@ describe("format number", () => {
   it("preserves standard numerals", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "dummyLocale",
-      numberingSystem: "dummyNumberingSystem" as any
+      numberingSystem: "dummyNumberingSystem" as any,
     };
     expect(numberStringFormatter.localize("123")).toEqual("123");
   });
   it("converts standard numerals to arabic", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "ar",
-      numberingSystem: "arab"
+      numberingSystem: "arab",
     };
     expect(numberStringFormatter.localize("123")).toEqual("١٢٣");
   });
@@ -165,14 +165,14 @@ describe("parse number", () => {
   it("correctly parses number string", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "dummyLocale",
-      numberingSystem: "dummyNumberingSystem" as NumberingSystem
+      numberingSystem: "dummyNumberingSystem" as NumberingSystem,
     };
     expect(numberStringFormatter.localize("123")).toEqual("123");
   });
   it("parses arabic number", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "ar",
-      numberingSystem: "arab"
+      numberingSystem: "arab",
     };
     expect(numberStringFormatter.delocalize("٧٨٩")).toEqual("789");
   });

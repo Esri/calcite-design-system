@@ -130,7 +130,6 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
  *
  * @param component
  * @deprecated Call `onToggleOpenClose` in `componentWillLoad` and `open` property watchers instead.
- *
  */
 export function connectOpenCloseComponent(component: OpenCloseComponent): void {
   disconnectOpenCloseComponent(component);
@@ -141,7 +140,7 @@ export function connectOpenCloseComponent(component: OpenCloseComponent): void {
     componentToTransitionListeners.set(component, [
       component.transitionEl,
       boundOnTransitionStart,
-      boundOnTransitionEnd
+      boundOnTransitionEnd,
     ]);
 
     component.transitionEl.addEventListener("transitionstart", boundOnTransitionStart);

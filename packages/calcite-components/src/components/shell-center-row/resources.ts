@@ -1,8 +1,8 @@
 export const CSS = {
   actionBarContainer: "action-bar-container",
-  content: "content"
+  content: "content",
 };
 
 export const SLOTS = {
-  actionBar: "action-bar"
+  actionBar: "action-bar",
 };

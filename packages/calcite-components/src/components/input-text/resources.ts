@@ -9,9 +9,9 @@ export const CSS = {
   wrapper: "element-wrapper",
   inputWrapper: "wrapper",
   actionWrapper: "action-wrapper",
-  resizeIconWrapper: "resize-icon-wrapper"
+  resizeIconWrapper: "resize-icon-wrapper",
 };
 
 export const SLOTS = {
-  action: "action"
+  action: "action",
 };

@@ -6,7 +6,7 @@ import { getFocusedElementProp } from "../../tests/utils";
 describe("calcite-menu", () => {
   describe("renders", () => {
     renders(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`, {
-      display: "flex"
+      display: "flex",
     });
   });
 
@@ -20,7 +20,7 @@ describe("calcite-menu", () => {
 
   describe("focusable", () => {
     focusable(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`, {
-      focusTargetSelector: "calcite-menu-item"
+      focusTargetSelector: "calcite-menu-item",
     });
   });
 

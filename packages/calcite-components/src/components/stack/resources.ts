@@ -4,12 +4,12 @@ export const CSS = {
   contentStart: "content-start",
   content: "content",
   contentEnd: "content-end",
-  actionsEnd: "actions-end"
+  actionsEnd: "actions-end",
 };
 
 export const SLOTS = {
   actionsStart: "actions-start",
   contentStart: "content-start",
   contentEnd: "content-end",
-  actionsEnd: "actions-end"
+  actionsEnd: "actions-end",
 };

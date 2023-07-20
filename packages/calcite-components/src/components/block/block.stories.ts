@@ -3,7 +3,7 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create
+  createComponentHTML as create,
 } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import blockReadme from "./readme.md";
@@ -16,10 +16,10 @@ export default {
   parameters: {
     notes: {
       block: blockReadme,
-      section: sectionReadme
-    }
+      section: sectionReadme,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes = (
@@ -35,7 +35,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = text("heading", "Heading", group);
           delete this.build;
           return this;
-        }
+        },
       },
 
       {
@@ -44,7 +44,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = text("description", "description", group);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "open",
@@ -52,7 +52,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = boolean("open", true, group);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "collapsible",
@@ -60,7 +60,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = boolean("collapsible", true, group);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "loading",
@@ -68,7 +68,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = boolean("loading", false, group);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "disabled",
@@ -76,7 +76,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = boolean("disabled", false, group);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "heading-level",
@@ -84,8 +84,8 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = number("heading-level", 2, { min: 1, max: 6, step: 1 }, group);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -98,16 +98,16 @@ const createSectionAttributes: () => Attributes = () => {
   return [
     {
       name: "text",
-      value: text("text", "Animals", group)
+      value: text("text", "Animals", group),
     },
     {
       name: "open",
-      value: boolean("open", true, group)
+      value: boolean("open", true, group),
     },
     {
       name: "toggle-display",
-      value: select("toggleDisplay", toggleDisplayOptions, toggleDisplayOptions[0], group)
-    }
+      value: select("toggleDisplay", toggleDisplayOptions, toggleDisplayOptions[0], group),
+    },
   ];
 };
 
@@ -168,7 +168,7 @@ export const darkModeRTL_TestOnly = (): string =>
     createBlockAttributes({ exceptions: ["dir"] }).concat(
       {
         name: "class",
-        value: "calcite-mode-dark"
+        value: "calcite-mode-dark",
       },
       { name: "dir", value: "rtl" }
     ),
@@ -218,6 +218,11 @@ export const contentSpacing_TestOnly = (): string =>
 
 export const loadingWithSlottedIcon_TestOnly = (): string =>
   html`
+    <style>
+      :root {
+        --calcite-duration-factor: 0;
+      }
+    </style>
     <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
       <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
       <calcite-notice open>
@@ -228,6 +233,11 @@ export const loadingWithSlottedIcon_TestOnly = (): string =>
 
 export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string =>
   html`
+    <style>
+      :root {
+        --calcite-duration-factor: 0;
+      }
+    </style>
     <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
       <calcite-notice open>
         <div slot="message">Use layer effects sparingly</div>
@@ -237,6 +247,11 @@ export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string =>
 
 export const loadingWithStatusIcon_TestOnly = (): string =>
   html`
+    <style>
+      :root {
+        --calcite-duration-factor: 0;
+      }
+    </style>
     <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
       <calcite-input icon="form-field" placeholder="This is valid input field"></calcite-input>
     </calcite-block>

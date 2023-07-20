@@ -6,9 +6,9 @@ import { select, text } from "@storybook/addon-knobs";
 export default {
   title: "Components/Menu Item",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html` <calcite-menu>

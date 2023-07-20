@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import {
@@ -22,7 +22,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition
+  reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -40,7 +40,7 @@ const manager = new TooltipManager();
 @Component({
   tag: "calcite-tooltip",
   styleUrl: "tooltip.scss",
-  shadow: true
+  shadow: true,
 })
 export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
@@ -223,7 +223,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
-      arrowEl
+      arrowEl,
     } = this;
 
     return reposition(
@@ -236,7 +236,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         offsetDistance,
         offsetSkidding,
         arrowEl,
-        type: "tooltip"
+        type: "tooltip",
       },
       delayed
     );
@@ -276,7 +276,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el
+        el,
       });
     }
 
@@ -340,7 +340,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         <div
           class={{
             [FloatingCSS.animation]: true,
-            [FloatingCSS.animationActive]: displayed
+            [FloatingCSS.animationActive]: displayed,
           }}
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}

@@ -8,9 +8,9 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Stepper",
   parameters: {
-    notes: [readme1, readme2]
+    notes: [readme1, readme2],
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

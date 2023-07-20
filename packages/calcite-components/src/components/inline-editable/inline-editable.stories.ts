@@ -7,9 +7,9 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Controls/Inline Editable",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

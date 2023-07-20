@@ -31,7 +31,7 @@ export default {
         2: "var(--calcite-ui-border-2)",
         3: "var(--calcite-ui-border-3)",
         input: "var(--calcite-ui-border-input)",
-        transparent: theme("colors.transparent")
+        transparent: theme("colors.transparent"),
       },
       "color-brand": theme("colors.brand"),
       "color-brand-hover": theme("colors.brand-hover"),
@@ -41,7 +41,7 @@ export default {
       "color-warning": theme("colors.warning"),
       "color-danger": theme("colors.danger"),
       "color-danger-hover": theme("colors.danger-hover"),
-      "color-danger-press": theme("colors.danger-press")
+      "color-danger-press": theme("colors.danger-press"),
     }),
     colors: {
       current: "currentColor",
@@ -59,8 +59,8 @@ export default {
         foreground: {
           1: "var(--calcite-ui-foreground-1)",
           2: "var(--calcite-ui-foreground-2)",
-          3: "var(--calcite-ui-foreground-3)"
-        }
+          3: "var(--calcite-ui-foreground-3)",
+        },
       },
       color: {
         1: "var(--calcite-ui-text-1)",
@@ -68,15 +68,15 @@ export default {
         3: "var(--calcite-ui-text-3)",
         inverse: "var(--calcite-ui-text-inverse)",
         link: "var(--calcite-ui-text-link)",
-        icon: "var(--calcite-ui-icon-color)"
+        icon: "var(--calcite-ui-icon-color)",
       },
-      transparent: "transparent"
+      transparent: "transparent",
     },
     fontFamily: {
       // assets/styles/_type
       sans: "var(--calcite-sans-family)",
       mono: "var(--calcite-code-family)",
-      inherit: "inherit"
+      inherit: "inherit",
     },
     fontSize: {
       // assets/styles/_type
@@ -118,20 +118,20 @@ export default {
       "5-wrap": ["var(--calcite-font-size-5)", { lineHeight: "1.25" }],
       "6-wrap": ["var(--calcite-font-size-6)", { lineHeight: "1.25" }],
       "7-wrap": ["var(--calcite-font-size-7)", { lineHeight: "1.25" }],
-      "8-wrap": ["var(--calcite-font-size-8)", { lineHeight: "1.25" }]
+      "8-wrap": ["var(--calcite-font-size-8)", { lineHeight: "1.25" }],
     },
     fontWeight: {
       // assets/styles/_type
       light: "var(--calcite-font-weight-light)",
       normal: "var(--calcite-font-weight-normal)",
       medium: "var(--calcite-font-weight-medium)",
-      bold: "var(--calcite-font-weight-bold)"
+      bold: "var(--calcite-font-weight-bold)",
     },
     screens: {
       s: "480px",
       m: "864px",
       l: "1024px",
-      xl: "1440px"
+      xl: "1440px",
     },
     backgroundColor: ({ theme }): object => ({
       ...theme("colors.background"),
@@ -144,17 +144,17 @@ export default {
       warning: theme("colors.warning"),
       danger: theme("colors.danger"),
       "danger-hover": theme("colors.danger-hover"),
-      "danger-press": theme("colors.danger-press")
+      "danger-press": theme("colors.danger-press"),
     }),
     extend: {
       animation: {
         in: "in var(--calcite-internal-animation-timing-slow) ease-in-out",
         "in-down": "in-down var(--calcite-internal-animation-timing-slow) ease-in-out",
         "in-up": "in-up var(--calcite-internal-animation-timing-slow) ease-in-out",
-        "in-scale": "in-scale var(--calcite-internal-animation-timing-slow) linear"
+        "in-scale": "in-scale var(--calcite-internal-animation-timing-slow) linear",
       },
       borderRadius: {
-        half: "50%"
+        half: "50%",
       },
       boxShadow: {
         0: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
@@ -168,67 +168,67 @@ export default {
         "outline-active": "0 0 0 1px var(--calcite-ui-brand)",
         none: "none",
         xs: "0 0 0 1px rgba(0, 0, 0, 0.05)",
-        outline: "0 0 0 3px rgba(66, 153, 225, 0.5)"
+        outline: "0 0 0 3px rgba(66, 153, 225, 0.5)",
       },
       keyframes: {
         in: {
           "0%": {
-            opacity: 0
+            opacity: 0,
           },
           "100%": {
-            opacity: 1
-          }
+            opacity: 1,
+          },
         },
         "in-down": {
           "0%": {
             opacity: 0,
-            transform: "translate3D(0, -5px, 0)"
+            transform: "translate3D(0, -5px, 0)",
           },
           "100%": {
             opacity: 1,
-            transform: "translate3D(0, 0, 0)"
-          }
+            transform: "translate3D(0, 0, 0)",
+          },
         },
         "in-up": {
           "0%": {
             opacity: 0,
-            transform: "translate3D(0, 5px, 0)"
+            transform: "translate3D(0, 5px, 0)",
           },
           "100%": {
             opacity: 1,
-            transform: "translate3D(0, 0, 0)"
-          }
+            transform: "translate3D(0, 0, 0)",
+          },
         },
         "in-scale": {
           "0%": {
             opacity: 0,
-            transform: "scale3D(0.95, 0.95, 1)"
+            transform: "scale3D(0.95, 0.95, 1)",
           },
           "100%": {
             opacity: 1,
-            transform: "scale3D(1, 1, 1)"
-          }
-        }
+            transform: "scale3D(1, 1, 1)",
+          },
+        },
       },
       opacity: {
-        disabled: "var(--calcite-ui-opacity-disabled)"
+        disabled: "var(--calcite-ui-opacity-disabled)",
       },
       spacing: {
         0.5: "0.125rem",
         2.5: "0.625rem",
         3.5: "0.875rem",
         9: "2.25rem",
-        11: "2.75rem"
+        11: "2.75rem",
       },
       transitionProperty: {
         margin: "margin",
-        color: "color"
+        color: "color",
       },
       transitionTimingFunction: {
-        cubic: "cubic-bezier(0.215, 0.440, 0.420, 0.880)"
+        cubic: "cubic-bezier(0.215, 0.440, 0.420, 0.880)",
       },
       maxHeight: {
-        menu: "45vh"
+        menu: "45vh",
       },
       zIndex: {
         deep: "var(--calcite-app-z-index-deep)",
@@ -240,42 +240,42 @@ export default {
         overlay: "var(--calcite-app-z-index-overlay)",
         modal: "var(--calcite-app-z-index-modal)",
         popover: "var(--calcite-app-z-index-popup)",
-        tooltip: "901"
-      }
-    }
+        tooltip: "var(--calcite-app-z-index-tooltip)",
+      },
+    },
   },
   plugins: [
     plugin(({ addUtilities }) => {
       const newUtilities = {
         ".word-break": {
           "word-wrap": "break-word",
-          "word-break": "break-word"
+          "word-break": "break-word",
         },
         ".focus-base": {
-          "outline-color": "transparent"
+          "outline-color": "transparent",
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))"
+          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))",
         },
         ".focus-outset": {
           outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))",
-          "outline-offset": invert("2px", "--calcite-ui-focus-offset-invert")
+          "outline-offset": invert("2px", "--calcite-ui-focus-offset-invert"),
         },
         ".focus-inset": {
           outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))",
-          "outline-offset": invert("-2px", "--calcite-ui-focus-offset-invert")
+          "outline-offset": invert("-2px", "--calcite-ui-focus-offset-invert"),
         },
         ".focus-outset-danger": {
           outline: "2px solid var(--calcite-ui-danger)",
-          "outline-offset": invert("2px", "--calcite-ui-focus-offset-invert")
+          "outline-offset": invert("2px", "--calcite-ui-focus-offset-invert"),
         },
         ".focus-inset-danger": {
           outline: "2px solid var(--calcite-ui-danger)",
-          "outline-offset": invert("-2px", "--calcite-ui-focus-offset-invert")
+          "outline-offset": invert("-2px", "--calcite-ui-focus-offset-invert"),
         },
         ".transition-default": {
-          transition: "all var(--calcite-animation-timing) ease-in-out 0s, outline 0s, outline-offset 0s"
-        }
+          transition: "all var(--calcite-animation-timing) ease-in-out 0s, outline 0s, outline-offset 0s",
+        },
       };
       addUtilities(newUtilities);
     }),
@@ -287,11 +287,11 @@ export default {
         [`.border-t-${color}`]: { borderTopColor: colors[color] },
         [`.border-r-${color}`]: { borderRightColor: colors[color] },
         [`.border-b-${color}`]: { borderBottomColor: colors[color] },
-        [`.border-l-${color}`]: { borderLeftColor: colors[color] }
+        [`.border-l-${color}`]: { borderLeftColor: colors[color] },
       }));
       const utilities = Object.assign({}, ...colorMap);
 
       addUtilities(utilities);
-    })
-  ]
+    }),
+  ],
 };
