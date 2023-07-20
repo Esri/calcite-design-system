@@ -282,6 +282,7 @@ export class Rating
                       partial,
                     }}
                     htmlFor={id}
+                    key={id}
                     onPointerDown={this.handleLabelPointerDown}
                     onPointerOver={this.handleLabelPointerOver}
                   >
