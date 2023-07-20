@@ -71,8 +71,10 @@ function transitionEnd(event: TransitionEvent): void {
  * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
  *
  * @example
+ * import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+ *
  * async componentWillLoad() {
- * // When componenet initially renders, if `open` was set we need to trigger on load as watcher doesn't fire.
+ * // When component initially renders, if `open` was set we need to trigger on load as watcher doesn't fire.
  * if (this.open) {
  *    onToggleOpenCloseComponent(this);
  * }
@@ -81,8 +83,8 @@ function transitionEnd(event: TransitionEvent): void {
  *    onToggleOpenCloseComponent(this);
  * }
  *
- * @param component
- * @param nonOpenCloseComponent
+ * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
+ * @param nonOpenCloseComponent - OpenCloseComponent uses `expanded` prop to emit (before)open/close.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
   readTask((): void => {
