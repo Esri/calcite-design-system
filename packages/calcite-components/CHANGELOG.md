@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.23...@esri/calcite-components@1.5.0-next.24) (2023-07-20)
+
+### Bug Fixes
+
+- **tooltip:** ensure --calcite-app-z-index-tooltip is applied ([#7345](https://github.com/Esri/calcite-design-system/issues/7345)) ([a9a7072](https://github.com/Esri/calcite-design-system/commit/a9a7072d2383f6ec53d38337afbabb9f994b4dd5)), closes [#7344](https://github.com/Esri/calcite-design-system/issues/7344)
+
 ## [1.5.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.22...@esri/calcite-components@1.5.0-next.23) (2023-07-19)
 
 ### Bug Fixes
