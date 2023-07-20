@@ -240,7 +240,7 @@ export default {
         overlay: "var(--calcite-app-z-index-overlay)",
         modal: "var(--calcite-app-z-index-modal)",
         popover: "var(--calcite-app-z-index-popup)",
-        tooltip: "901",
+        tooltip: "var(--calcite-app-z-index-tooltip)",
       },
     },
   },
