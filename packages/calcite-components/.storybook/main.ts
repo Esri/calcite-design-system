@@ -23,6 +23,19 @@ module.exports = {
       ],
     };
   },
+  previewHead: (head: string): string =>
+    `
+    ${head}
+    ${
+      process.env.STORYBOOK_SCREENSHOT_TEST_BUILD
+        ? `<style>
+          :root {
+            --calcite-duration-factor: 0;
+          }
+        </style>`
+        : ""
+    }
+  `,
   managerHead: (head: string): string => {
     if (process.env.STORYBOOK_SCREENSHOT_TEST_BUILD) {
       return head;

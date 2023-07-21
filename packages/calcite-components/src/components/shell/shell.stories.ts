@@ -907,7 +907,6 @@ export const overlayDisplayMode_TestOnly = (): string => html`<calcite-shell
 width:800px;
 height:600px;
 position:relative;
---calcite-duration-factor: 0;
 "
 >
   <calcite-shell-panel display-mode="overlay" resizable id="primary-panel" slot="panel-start" position="start">
