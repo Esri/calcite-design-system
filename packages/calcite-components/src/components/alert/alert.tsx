@@ -83,9 +83,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @Watch("open")
   openHandler(): void {
+    onToggleOpenCloseComponent(this);
     if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
-      onToggleOpenCloseComponent(this);
     }
     if (!this.open) {
       this.queue = this.queue.filter((el) => el !== this.el);
