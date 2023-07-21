@@ -25,11 +25,7 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 
 import TooltipManager from "./TooltipManager";
@@ -94,6 +90,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   openHandler(value: boolean): void {
     if (value) {
       this.reposition(true);
+      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -165,8 +162,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectOpenCloseComponent(this);
     this.setUpReferenceElement(this.hasLoaded);
+    onToggleOpenCloseComponent(this);
   }
 
   componentDidLoad(): void {
@@ -180,7 +177,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   disconnectedCallback(): void {
     this.removeReferences();
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
-    disconnectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -264,7 +260,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   setUpReferenceElement = (warn = true): void => {

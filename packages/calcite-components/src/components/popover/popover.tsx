@@ -38,11 +38,7 @@ import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./re
 
 import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 
@@ -198,6 +194,7 @@ export class Popover
   openHandler(value: boolean): void {
     if (value) {
       this.reposition(true);
+      onToggleOpenCloseComponent(this);
     }
 
     this.setExpandedAttr();
@@ -300,9 +297,9 @@ export class Popover
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    connectOpenCloseComponent(this);
     this.setUpReferenceElement(this.hasLoaded);
     connectFocusTrap(this);
+    onToggleOpenCloseComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -324,7 +321,6 @@ export class Popover
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
-    disconnectOpenCloseComponent(this);
     deactivateFocusTrap(this);
   }
 
@@ -414,7 +410,6 @@ export class Popover
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   setFilteredPlacements = (): void => {
