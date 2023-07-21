@@ -192,9 +192,10 @@ export class Popover
 
   @Watch("open")
   openHandler(value: boolean): void {
+    onToggleOpenCloseComponent(this);
+
     if (value) {
       this.reposition(true);
-      onToggleOpenCloseComponent(this);
     }
 
     this.setExpandedAttr();

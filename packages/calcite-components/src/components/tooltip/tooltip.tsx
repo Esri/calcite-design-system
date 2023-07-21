@@ -88,9 +88,9 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("open")
   openHandler(value: boolean): void {
+    onToggleOpenCloseComponent(this);
     if (value) {
       this.reposition(true);
-      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -163,7 +163,9 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   connectedCallback(): void {
     this.setUpReferenceElement(this.hasLoaded);
-    onToggleOpenCloseComponent(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {

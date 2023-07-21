@@ -261,6 +261,8 @@ export class InputDatePicker
 
   @Watch("open")
   openHandler(value: boolean): void {
+    onToggleOpenCloseComponent(this);
+
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
@@ -268,7 +270,6 @@ export class InputDatePicker
 
     if (value) {
       this.reposition(true);
-      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -464,7 +465,6 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectMessages(this);
-    onToggleOpenCloseComponent(this);
 
     this.setFilteredPlacements();
     this.reposition(true);
@@ -474,6 +474,10 @@ export class InputDatePicker
       locale: this.effectiveLocale,
       useGrouping: false,
     };
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
