@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Pick-list</title>
+    <script src="./_assets/head.js"></script>
+
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 40%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 10px 0;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 15%;
+      }
+
+      hr {
+        margin: 35px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+
+      calcite-pick-list {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <demo-dom-swapper>
+      <!-- default selection -->
+      <div class="parent">
+        <div class="child right-aligned-text">default selection</div>
+
+        <div class="child">
+          <calcite-pick-list id="one">
+            <calcite-pick-list-item
+              label="T. Rex"
+              description="arm strength impaired"
+              removable
+              value="trex"
+            ></calcite-pick-list-item>
+            <calcite-pick-list-item
+              label="Triceratops"
+              description="3 horn"
+              value="triceratops"
+              removable
+              selected
+            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
+          </calcite-pick-list>
+          <script>
+            const pickList1 = document.querySelector("#one");
+
+            pickList1.addEventListener("calciteListChange", (event) => console.log(event.detail));
+
+            pickList1.addEventListener("calciteListItemRemove", (event) => console.log("item removed", event));
+          </script>
+        </div>
+      </div>
+
+      <!-- disabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">disabled</div>
+
+        <div class="child">
+          <calcite-pick-list disabled>
+            <calcite-pick-list-item label="Uno" removable value="1"></calcite-pick-list-item>
+            <calcite-pick-list-item label="Dos" value="2" removable selected></calcite-pick-list-item>
+            <calcite-pick-list-item label="Tres" value="3"></calcite-pick-list-item>
+          </calcite-pick-list>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- single select follows focus -->
+      <div class="parent">
+        <div class="child right-aligned-text">single select follows focus</div>
+
+        <div class="child">
+          <calcite-pick-list selection-follows-focus>
+            <calcite-pick-list-item label="Uno" value="1" removable selected></calcite-pick-list-item>
+            <calcite-pick-list-item label="Dos" value="2" removable></calcite-pick-list-item>
+            <calcite-pick-list-item label="Tres" value="3" removable></calcite-pick-list-item>
+          </calcite-pick-list>
+        </div>
+      </div>
+
+      <!-- single-select, grouped -->
+      <div class="parent">
+        <div class="child right-aligned-text">single-select, grouped</div>
+
+        <div class="child">
+          <calcite-pick-list id="three">
+            <calcite-pick-list-group group-title="numbers">
+              <calcite-pick-list-item label="2023 Diversity Index (Esri)" description="DIVINDX_FY" value="DIVINDX_FY">
+                <calcite-action
+                  slot="actions-end"
+                  id="action-test"
+                  label="click-me"
+                  onClick="console.log('clicked');"
+                  icon="information"
+                >
+                </calcite-action>
+              </calcite-pick-list-item>
+              <calcite-pick-list-item label="2023 Per Capita Income (Esri)" description="PCI_FY" value="PCI_FY">
+                <calcite-action
+                  slot="actions-end"
+                  id="action-test"
+                  label="click-me"
+                  onClick="console.log('clicked');"
+                  icon="information"
+                >
+                </calcite-action>
+              </calcite-pick-list-item>
+            </calcite-pick-list-group>
+            <calcite-pick-list-group group-title="colors">
+              <calcite-pick-list-item label="2018 Total Housing Units (Esri)" description="TOTHU_CY" value="TOTHU_CY">
+                <calcite-action
+                  slot="actions-end"
+                  id="action-test"
+                  label="click-me"
+                  onClick="console.log('clicked');"
+                  icon="information"
+                >
+                </calcite-action>
+              </calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="2018 Owner Occupied Housing Units (Esri)"
+                description="OWNER_CY"
+                value="OWNER_CY"
+              >
+                <calcite-action
+                  slot="actions-end"
+                  id="action-test"
+                  label="click-me"
+                  onClick="console.log('clicked');"
+                  icon="information"
+                >
+                </calcite-action>
+              </calcite-pick-list-item>
+            </calcite-pick-list-group>
+          </calcite-pick-list>
+          <script>
+            const pickList3 = document.querySelector("#three");
+            pickList3.addEventListener("calcitePickListSelectionChange", (event) => {
+              console.log(event.detail);
+            });
+          </script>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- multi-select, filter-enabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">multi-select, filter-enabled</div>
+
+        <div class="child">
+          <calcite-pick-list id="two" multiple filter-enabled>
+            <calcite-action scale="s" text="filters" slot="menu-actions" icon="sliders"> </calcite-action>
+            <calcite-pick-list-item label="Chocolate" description="Dark is the best." value="chocolate">
+              <calcite-icon
+                scale="s"
+                icon="title"
+                slot="actions-start"
+                style="align-self: center; padding: 0 var(--calcite-spacing)"
+              ></calcite-icon>
+              <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="ellipsis">
+              </calcite-action>
+            </calcite-pick-list-item>
+            <script>
+              document.currentScript.previousElementSibling.metadata = {
+                category: "flavors",
+                tags: ["icecream", "ice cream"],
+              };
+            </script>
+
+            <calcite-pick-list-item label="Vanilla" description="Oldie but goodie" value="vanilla">
+              <calcite-action label="action start" slot="actions-start">
+                <div style="align-self: center; width: 16px; height: 16px; background-color: #56ccf2"></div>
+              </calcite-action>
+              <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="ellipsis">
+              </calcite-action>
+            </calcite-pick-list-item>
+            <script>
+              document.currentScript.previousElementSibling.metadata = {
+                category: "flavors",
+                tags: ["icecream", "ice cream"],
+              };
+              document.currentScript.previousElementSibling.selected = true;
+            </script>
+            <calcite-pick-list-item label="actions-start" description="no metadata on this one" value="strawberry">
+              <calcite-action
+                slot="actions-start"
+                text="click-me"
+                onClick="console.log('clicked');"
+                icon="banana"
+              ></calcite-action>
+
+              <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="ellipsis">
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item
+              label="Winner of best category by the ice cream committee of hoth - Hulka Hulka of Burning Fudge"
+              description="Sooo good"
+              value="hulk"
+            >
+              <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="ellipsis">
+              </calcite-action>
+            </calcite-pick-list-item>
+            <script>
+              document.currentScript.previousElementSibling.metadata = {
+                category: "flavors",
+                tags: ["icecream", "ice cream", "best"],
+              };
+            </script>
+          </calcite-pick-list>
+          <script>
+            const pickList2 = document.querySelector("#two");
+            pickList2.addEventListener("calciteListChange", (event) => {
+              console.log(event.detail);
+            });
+          </script>
+        </div>
+      </div>
+
+      <!-- multi-select, grouped, filter-enabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">multi-select, grouped, filter-enabled</div>
+
+        <div class="child">
+          <calcite-pick-list id="four" filter-enabled multiple>
+            <calcite-pick-list-group group-title="Cool group">
+              <calcite-pick-list-item label="You can count on numbers." value="numbers"></calcite-pick-list-item>
+              <calcite-pick-list-item label="One item label" value="one" icon="grip" selected></calcite-pick-list-item>
+              <calcite-pick-list-item label="Another item label" value="two" icon="grip"></calcite-pick-list-item>
+            </calcite-pick-list-group>
+            <calcite-pick-list-group group-title="Neat group">
+              <calcite-pick-list-item
+                label="Colors go outside the lines"
+                value="red"
+                icon="grip"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item label="Magenta the color" value="blue" icon="grip"></calcite-pick-list-item>
+              <calcite-pick-list-item label="Green" value="blue" icon="grip"></calcite-pick-list-item>
+            </calcite-pick-list-group>
+          </calcite-pick-list>
+          <script>
+            const pickList4 = document.querySelector("#four");
+            pickList4.addEventListener("calciteListChange", (event) => {
+              console.log(event.detail);
+            });
+          </script>
+        </div>
+      </div>
+
+      <!-- multi-select, sub-grouped, filter-enabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">multi-select, sub-grouped, filter-enabled</div>
+
+        <div class="child">
+          <calcite-pick-list id="three" filter-enabled multiple>
+            <calcite-pick-list-group>
+              <calcite-pick-list-item
+                label="You can count on numbers."
+                description="Are real"
+                value="numbers"
+                slot="parent-item"
+              >
+                <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="information">
+                </calcite-action>
+              </calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="One item label"
+                description="One description of the item."
+                value="one"
+                icon="grip"
+                selected
+              >
+                <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="information">
+                </calcite-action>
+              </calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="Another item label"
+                description="Another description of the item."
+                value="two"
+                icon="grip"
+              >
+                <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="information">
+                </calcite-action>
+              </calcite-pick-list-item>
+            </calcite-pick-list-group>
+            <calcite-pick-list-group>
+              <calcite-pick-list-item
+                label="Colors go outside the lines"
+                description="Description of colors."
+                value="all"
+                icon="grip"
+                slot="parent-item"
+              >
+                <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="information">
+                </calcite-action>
+              </calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="Magenta the color"
+                description="It's not the other one."
+                value="magenta"
+                icon="grip"
+              >
+                <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="information">
+                </calcite-action>
+              </calcite-pick-list-item>
+              <calcite-pick-list-item label="Green" description="It's not easy." value="green" icon="grip">
+                <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="information">
+                </calcite-action>
+              </calcite-pick-list-item>
+            </calcite-pick-list-group>
+          </calcite-pick-list>
+          <script>
+            const pickList3 = document.querySelector("#three");
+            pickList3.addEventListener("calciteListChange", (event) => {
+              console.log(event.detail);
+            });
+          </script>
+        </div>
+      </div>
+
+      <!-- multi-select w/ filter -->
+      <div class="parent">
+        <div class="child right-aligned-text">multi-select w/ filter</div>
+
+        <div class="child">
+          <calcite-pick-list id="one_rtl" multiple filter-enabled>
+            <calcite-pick-list-item label="2018 Population Density (NO SUMMARY) (Esri)" value="POPDENS_CY">
+              <calcite-action
+                slot="actions-end"
+                id="action-test"
+                label="click-me"
+                onClick="console.log('clicked');"
+                icon="ellipsis"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item
+              label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
+              description="POPDENS_CY"
+              value="POPDENS_CY2"
+            >
+              <calcite-action
+                slot="actions-end"
+                id="action-test"
+                label="click-me"
+                onClick="console.log('clicked');"
+                icon="ellipsis"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item label="2018 Total Households (Esri)" description="TOTHH_CY" value="TOTHH_CY">
+              <calcite-action
+                slot="actions-end"
+                id="action-test"
+                label="click-me"
+                onClick="console.log('clicked');"
+                icon="ellipsis"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item
+              label="2018 Generation Alpha Population (Born 2017 or Later)"
+              description="GENALPHACY"
+              value="GENALPHACY"
+            >
+              <calcite-action
+                slot="actions-end"
+                id="action-test"
+                label="click-me"
+                onClick="console.log('clicked');"
+                icon="ellipsis"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item
+              label="2010-2018 Households: Annual Growth Rate (Esri)"
+              description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
+              value="HHGRW10CY"
+            >
+              <calcite-action
+                slot="actions-end"
+                id="action-test"
+                label="click-me"
+                onClick="console.log('clicked');"
+                icon="ellipsis"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+          </calcite-pick-list>
+          <script>
+            const pickList4 = document.querySelector("#one_rtl");
+            pickList4.addEventListener("calcitePickListSelectionChange", (event) => {
+              console.log(event.detail);
+            });
+          </script>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

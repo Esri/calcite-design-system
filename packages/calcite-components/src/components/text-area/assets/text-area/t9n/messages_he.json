@@ -1,0 +1,4 @@
+{
+  "invalid": "לא תקין",
+  "tooLong": "אורך התו הנוכחי הוא {currentLength}, אשר חורג מאורך התו המרבי של {maxLength}."
+}

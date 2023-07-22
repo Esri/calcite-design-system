@@ -1,0 +1,6 @@
+__docs-temp__/*
+docs/
+hydrate/
+*.js
+src/components/icon/assets
+www/

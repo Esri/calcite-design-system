@@ -2,18 +2,18 @@
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-Note: New contributors should first contact [Ben Elan](mailto:belan@esri.com) or [Juan Carlos Franco](mailto:JFranco@esri.com) to join the [Calcite Components GitHub team](https://github.com/orgs/Esri/teams/calcite-components/members). Then, clone the repo via SSH key on your machine (this Git workflow is required in order to work with our Chromatic test integration).
+Note: New contributors should first contact [Ben Elan](mailto:belan@esri.com) or [Juan Carlos Franco](mailto:JFranco@esri.com) to join the [Calcite Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-contributors/members). Then, clone the repo via SSH key on your machine (this Git workflow is required in order to work with our Chromatic test integration).
 
 ## I want to contribute, what should I work on?
 
-Calcite Components is still in its early stages. You can help most by:
+You can help most by:
 
-- Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
-- Requesting features for existing components by [creating a Enhancement issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml).
-- Reporting problems by [creating a Bug issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml).
-- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started.
+- Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
+- Requesting features for existing components by [creating a Enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml).
+- Reporting problems by [creating a Bug issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml).
+- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started.
   - Comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue.
-- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/introduction).
+- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/introduction).
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -25,9 +25,9 @@ If you aren't familiar with the basics of Web Components and Shadow DOM, please 
 
 Have you found a new bug? Want to request a new feature? We'd love to hear from you!
 
-If something isn't working the way you expect, take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. You can also report a bug or request an enhancement with [Esri Support](https://support.esri.com/en-us/contact), or ask questions, share ideas, and collaborate with others on [Esri Community](https://community.esri.com/t5/calcite-design-system/ct-p/calcite-design-system).
+If something isn't working the way you expect, take a look at the [existing issues](https://github.com/Esri/calcite-design-system/issues) before logging a new one. You can also report a bug or request an enhancement with [Esri Support](https://support.esri.com/en-us/contact), or ask questions, share ideas, and collaborate with others on [Esri Community](https://community.esri.com/t5/calcite-design-system/ct-p/calcite-design-system).
 
-When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to help get started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other things to consider:
+When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-design-system/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to help get started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other things to consider:
 
 - Use a clear and descriptive title
 - Detail what is happening now vs what should happen
@@ -40,7 +40,7 @@ When filing an issue, provide all of the requested info from the appropriate [is
 
 ### Labels
 
-GitHub labels are used for organizing issues and providing context. You can familiarize yourself with the [label descriptions](https://github.com/Esri/calcite-components/labels) to understand what they signify.
+GitHub labels are used for organizing issues and providing context. You can familiarize yourself with the [label descriptions](https://github.com/Esri/calcite-design-system/labels) to understand what they signify.
 
 ### Lifecycle
 
@@ -49,7 +49,7 @@ There are four issue lifecycle labels:
 - `0 - new`: Issues that are up for grabs.
 - `1 - assigned`: Issues that someone will work on soon.
 - `2 - in development`: Issues are currently being worked on.
-- `3 - installed`: Issues that have been merged to master.
+- `3 - installed`: Issues that have been merged to `main`.
 - `4 - verified`: Issues that have been tested and are ready to close.
 
 An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
@@ -112,11 +112,11 @@ If your IDE supports the [Language Server Protocol (LSP) specification](https://
 
 ## Starting the demos
 
-First, clone the repo and install the NPM dependencies from within the `calcite-components` directory:
+First, clone the repo and then install the NPM dependencies:
 
 ```sh
-git clone git@github.com:Esri/calcite-components.git
-cd calcite-components
+git clone git@github.com:Esri/calcite-design-system.git
+cd calcite-design-system
 npm install
 ```
 
@@ -126,29 +126,44 @@ Next, start the local Stencil development server on localhost:
 npm start
 ```
 
-The demos will open in the browser after building. Edit the pages in [`src/demos`](./src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`index.html`](./src/index.html) so others can find it. You can also edit the component code in [`src/components`](./src/components), and the changes will be reflected in the demos.
+The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](.packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/src/index.html`](./packages/calcite-components/src/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components`](packages/calcite-components/src/components`./src/components), and the changes will be reflected in the demos.
 
 ## Linting
 
-This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. There are also NPM scripts in [`package.json`](./package.json) to lint a variety of filetypes. To run them all:
+This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. Each package has it's own linting NPM scripts, so check there for more options. For example, calcite-components has NPM scripts that lint by different filetypes. To run the `lint` NPM script for all packages that have one, do:
 
 ```sh
 npm run lint
 ```
 
+Or use the `--workspace` flag to lint a single package.
+
+```sh
+npm --workspace=packages/calcite-components run lint
+```
+
+You can avoid using the `--workspace` flag in every command by `cd`ing into the package you're working on:
+
+```sh
+cd packages/calcite-components
+# the following will only lint and test calcite-components
+npm run lint
+npm test
+```
+
 ## Running the tests
 
-`npm test` will run the current test suite.
+`npm test` will run the test suites.
 
 Calcite Components include Stencil's default testing tools which are built on [Jest](https://jestjs.io/) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm run test:watch` to retest on file changes. Once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component.
+If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. Once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
 Please refer to the [Stencil testing documentation](https://stenciljs.com/docs/testing-overview) and Calcite's [testing conventions](./conventions/Testing.md) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [component conventions guide](./conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
@@ -156,9 +171,9 @@ Stencil creates API reference documentation using JSDoc, here is their [document
 
 1. Create a new file inside your component directory like `X.stories.js`
 2. Write stories
-3. Run the documentation locally with `npm run docs:preview`
+3. Run the documentation locally with `npm --workspace=packages/calcite-components run docs:preview`
 
-The `docs:preview` command will build Calcite Components and open your browser to view the storybook docs locally.
+Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
 Please refer to the [Documentation Conventions](./conventions/Documentation.md) for more information.
 
@@ -215,3 +230,9 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
 
 You can update the PR title any time before merging the PR. This may be necessary when the scope or type of the PR changes, or if additional details are needed for the changelog entry.
+
+By default, the PR body will be used for the commit message when squash merging, so make sure to add any relevant details there.
+
+Once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required for rerunning snapshots, e.g. when pushing additional updates.
+
+If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent rerunning Chromatic after pushing minor cleanup changes before merging.

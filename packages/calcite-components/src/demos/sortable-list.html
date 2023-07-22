@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Sortable list</title>
+
+    <style>
+      .parent {
+        display: flex;
+        flex-direction: column;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        margin: 0 10% 0;
+        padding: 30px;
+      }
+
+      .child {
+        display: inline-flex;
+        flex-direction: column;
+        width: 30%;
+        padding: 10px;
+      }
+
+      #one,
+      #two,
+      #three,
+      #four,
+      #first-block,
+      #second-block {
+        padding-right: 25px;
+      }
+    </style>
+
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Sortable list</h1>
+
+      <!-- calcite-sortable-list -->
+      <div class="parent">
+        <div class="child">calcite-sortable-list</div>
+
+        <div class="child">
+          <calcite-sortable-list>
+            <div id="one">
+              <calcite-handle></calcite-handle>
+              1
+            </div>
+            <div id="two">
+              <calcite-handle></calcite-handle>
+              2
+            </div>
+            <div id="three">
+              <calcite-handle></calcite-handle>
+              3
+            </div>
+            <div id="four">
+              <calcite-handle></calcite-handle>
+              4
+            </div>
+          </calcite-sortable-list>
+        </div>
+      </div>
+
+      <!-- calcite-sortable-list of calcite-block elements -->
+      <div class="parent">
+        <div class="child">calcite-sortable-list of calcite-block elements</div>
+
+        <div class="child">
+          <calcite-sortable-list>
+            <calcite-block heading="First Block" summary="animals and nature" collapsible drag-handle>
+              <calcite-block-section text="Animals" open>
+                <img alt="demo" src="https://placeimg.com/640/480/animals" />
+              </calcite-block-section>
+
+              <calcite-block-section text="Nature" open>
+                <img alt="demo" src="https://placeimg.com/640/480/nature" />
+              </calcite-block-section>
+            </calcite-block>
+            <calcite-block heading="Second Block" summary="Architecture and People" collapsible drag-handle>
+              <calcite-block-section text="Architecture" open>
+                <img alt="demo" src="https://placeimg.com/640/480/architecture" />
+              </calcite-block-section>
+
+              <calcite-block-section text="People" open>
+                <img alt="demo" src="https://placeimg.com/640/480/people" />
+              </calcite-block-section>
+            </calcite-block>
+          </calcite-sortable-list>
+        </div>
+      </div>
+
+      <!-- vertical -->
+      <div class="parent">
+        <div class="child">vertical</div>
+
+        <div class="child">
+          <calcite-sortable-list style="flex-direction: column">
+            <calcite-block heading="First Block" summary="animals and nature" collapsible drag-handle>
+              <calcite-block-section text="Animals" open>
+                <img alt="demo" src="https://placeimg.com/640/480/animals" />
+              </calcite-block-section>
+
+              <calcite-block-section text="Nature" open>
+                <img alt="demo" src="https://placeimg.com/640/480/nature" />
+              </calcite-block-section>
+            </calcite-block>
+            <calcite-block heading="Second Block" summary="Architecture and People" collapsible drag-handle>
+              <calcite-block-section text="Architecture" open>
+                <img alt="demo" src="https://placeimg.com/640/480/architecture" />
+              </calcite-block-section>
+
+              <calcite-block-section text="People" open>
+                <img alt="demo" src="https://placeimg.com/640/480/people" />
+              </calcite-block-section>
+            </calcite-block>
+
+            <calcite-block heading="Third Block" summary="animals and nature" collapsible drag-handle>
+              <calcite-block-section text="Animals" open>
+                <img alt="demo" src="https://placeimg.com/640/480/animals" />
+              </calcite-block-section>
+
+              <calcite-block-section text="Nature" open>
+                <img alt="demo" src="https://placeimg.com/640/480/nature" />
+              </calcite-block-section>
+            </calcite-block>
+            <calcite-block heading="Fourth Block" summary="Architecture and People" collapsible drag-handle>
+              <calcite-block-section text="Architecture" open>
+                <img alt="demo" src="https://placeimg.com/640/480/architecture" />
+              </calcite-block-section>
+
+              <calcite-block-section text="People" open>
+                <img alt="demo" src="https://placeimg.com/640/480/people" />
+              </calcite-block-section>
+            </calcite-block>
+          </calcite-sortable-list>
+        </div>
+      </div>
+
+      <!-- nested -->
+      <div class="parent">
+        <div class="child">Nested Example</div>
+
+        <div class="child">
+          <calcite-sortable-list>
+            <calcite-block drag-handle="true" heading="Block A" collapsible="" calcite-hydrated="" open>
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content A </calcite-label>
+            </calcite-block>
+            <calcite-block
+              drag-handle="true"
+              heading="Block B"
+              intl-collapse="Collapse"
+              intl-expand="Expand"
+              collapsible=""
+              calcite-hydrated=""
+              open
+            >
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content B </calcite-label>
+              <calcite-value-list drag-enabled>
+                <calcite-value-list-item label="Rent" description="Mortgage + housing costs" value="rent">
+                </calcite-value-list-item>
+                <calcite-value-list-item label="Food" description="its what you eat." value="food">
+                </calcite-value-list-item>
+                <calcite-value-list-item label="Utilities" value="utilities"> </calcite-value-list-item>
+                <calcite-value-list-item label="Entertainment" description="Toys and leisure" value="entertainment">
+                </calcite-value-list-item>
+              </calcite-value-list>
+            </calcite-block>
+            <calcite-block drag-handle="true" heading="Block C" collapsible="" calcite-hydrated="" open>
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content C </calcite-label>
+            </calcite-block>
+          </calcite-sortable-list>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>
