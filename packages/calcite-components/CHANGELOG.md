@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.24...@esri/calcite-components@1.5.0-next.25) (2023-07-20)
+
+### Features
+
+- allow sharing focus trap stacks via configuration global ([#7334](https://github.com/Esri/calcite-design-system/issues/7334)) ([934a19f](https://github.com/Esri/calcite-design-system/commit/934a19f0c7bbd6c89a8383b918cf47034c11f483)), closes [#6659](https://github.com/Esri/calcite-design-system/issues/6659)
+
+### Bug Fixes
+
+- **link:** adds outline-offset to avoid overlapping with text. ([#7342](https://github.com/Esri/calcite-design-system/issues/7342)) ([c30db4e](https://github.com/Esri/calcite-design-system/commit/c30db4e8d47b28c5498cf4f6cf64dd7e0df8dbe9)), closes [#6588](https://github.com/Esri/calcite-design-system/issues/6588)
+
+## [1.5.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.23...@esri/calcite-components@1.5.0-next.24) (2023-07-20)
+
+### Bug Fixes
+
+- **tooltip:** ensure --calcite-app-z-index-tooltip is applied ([#7345](https://github.com/Esri/calcite-design-system/issues/7345)) ([a9a7072](https://github.com/Esri/calcite-design-system/commit/a9a7072d2383f6ec53d38337afbabb9f994b4dd5)), closes [#7344](https://github.com/Esri/calcite-design-system/issues/7344)
+
 ## [1.5.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.22...@esri/calcite-components@1.5.0-next.23) (2023-07-19)
 
 ### Bug Fixes

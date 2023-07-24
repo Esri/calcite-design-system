@@ -28,7 +28,7 @@
 :host span {
   @apply focus-base;
   &:focus {
-    @apply focus-inset;
+    @apply focus-outset;
   }
 }
 
