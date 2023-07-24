@@ -14,6 +14,10 @@ describe("calcite-action-group", () => {
         propertyName: "layout",
         defaultValue: "vertical",
       },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
     ]);
   });
 
@@ -41,6 +45,17 @@ describe("calcite-action-group", () => {
     const page = await newE2EPage({ html: actionGroupHTML });
     const menu = await page.find(`calcite-action-group >>> calcite-action-menu`);
     expect(await menu.getProperty("scale")).toBe("l");
+  });
+
+  it("should honor overlayPositioning", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-action-group scale="l">
+    <calcite-action id="plus" overlay-positioning="fixed" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+    <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
+    </calcite-action-group>`);
+    await page.waitForChanges();
+    const menu = await page.find(`calcite-action-group >>> calcite-action-menu`);
+    expect(await menu.getProperty("overlayPositioning")).toBe("fixed");
   });
 
   describe("translation support", () => {
