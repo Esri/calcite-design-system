@@ -6,8 +6,6 @@
  * @prop --calcite-label-margin-bottom: The spacing below the component.
  */
 
-@include calciteComponentCommon();
-
 :host {
   @apply flex;
 }
@@ -89,3 +87,5 @@
     @apply bg-opacity-0;
   }
 }
+
+@include calciteComponentCommon();

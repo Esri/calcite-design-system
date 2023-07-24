@@ -37,8 +37,6 @@
   }
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply flex;
   writing-mode: horizontal-tb;
@@ -104,3 +102,5 @@
 .ellipsis {
   @apply text-color-3 flex items-end;
 }
+
+@include calciteComponentCommon();

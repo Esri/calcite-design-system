@@ -15,7 +15,6 @@
 :host([scale="l"]) {
   --calcite-checkbox-size: theme("spacing.4");
 }
-@include calciteComponentCommon();
 
 :host {
   @apply relative
@@ -70,3 +69,4 @@
 
 @include disabled();
 @include hidden-form-input();
+@include calciteComponentCommon();

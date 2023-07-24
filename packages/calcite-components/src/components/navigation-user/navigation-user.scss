@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply inline-flex outline-none;
   & .button {
@@ -63,3 +61,5 @@ calcite-avatar ~ .text-container {
   @apply text-color-2;
   font-size: var(--calcite-font-size--1);
 }
+
+@include calciteComponentCommon();

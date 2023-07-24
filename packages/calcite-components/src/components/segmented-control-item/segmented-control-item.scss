@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply flex
     cursor-pointer
@@ -120,3 +118,5 @@
 :host([icon-end]) .label--scale-l .segmented-control-item-icon {
   margin-inline-start: theme("margin.4");
 }
+
+@include calciteComponentCommon();

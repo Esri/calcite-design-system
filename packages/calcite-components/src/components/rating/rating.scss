@@ -6,8 +6,6 @@
  * @prop --calcite-rating-spacing-unit: The amount of left and right margin spacing between each rating star.
  */
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
@@ -102,3 +100,4 @@ calcite-chip {
 }
 
 @include hidden-form-input();
+@include calciteComponentCommon();

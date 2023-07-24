@@ -21,8 +21,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative mx-auto hidden items-center justify-center opacity-100;
   min-block-size: var(--calcite-loader-size);
@@ -228,3 +226,5 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
     transform: rotate(360deg);
   }
 }
+
+@include calciteComponentCommon();

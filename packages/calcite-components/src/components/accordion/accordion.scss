@@ -20,8 +20,6 @@
   @apply text-0h;
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative
     block
@@ -39,3 +37,5 @@
 .accordion {
   @apply border border-solid border-color-2 border-b-0;
 }
+
+@include calciteComponentCommon();

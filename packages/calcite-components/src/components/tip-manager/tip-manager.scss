@@ -7,8 +7,6 @@
  * @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
  */
 
-@include calciteComponentCommon();
-
 :host {
   @apply bg-foreground-1
   text-color-2
@@ -121,3 +119,5 @@
     transform: translate3d(0, 0, 0) scale(1);
   }
 }
+
+@include calciteComponentCommon();

@@ -1,7 +1,5 @@
 $spacing: $baseline * 0.5;
 
-@include calciteComponentCommon();
-
 :host {
   @apply block;
 
@@ -131,3 +129,4 @@ $spacing: $baseline * 0.5;
 }
 
 @include disabled();
+@include calciteComponentCommon();

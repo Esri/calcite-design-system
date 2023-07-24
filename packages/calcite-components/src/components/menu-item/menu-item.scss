@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply flex
   items-center
@@ -173,3 +171,5 @@ calcite-action {
 .content:hover .hover-href-icon {
   @apply opacity-100 -end-1;
 }
+
+@include calciteComponentCommon();

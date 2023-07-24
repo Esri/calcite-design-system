@@ -6,8 +6,6 @@
  * @prop --calcite-action-bar-expanded-max-width: optionally specify the expanded max width of the action bar when in "vertical" layout.
  */
 
-@include calciteComponentCommon();
-
 :host {
   @extend %component-host;
   @apply pointer-events-auto
@@ -63,3 +61,5 @@
 .action-group--bottom {
   @apply justify-end;
 }
+
+@include calciteComponentCommon();

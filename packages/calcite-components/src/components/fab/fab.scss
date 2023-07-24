@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply flex bg-transparent;
 }
@@ -15,3 +13,5 @@ calcite-button {
     @apply shadow-2-sm;
   }
 }
+
+@include calciteComponentCommon();

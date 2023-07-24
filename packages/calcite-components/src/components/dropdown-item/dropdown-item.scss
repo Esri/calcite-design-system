@@ -50,8 +50,6 @@
     ease-in-out;
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative
     flex
@@ -219,3 +217,5 @@
     margin-inline-start: theme("margin.4");
   }
 }
+
+@include calciteComponentCommon();

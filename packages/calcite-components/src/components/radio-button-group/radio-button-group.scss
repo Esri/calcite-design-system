@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply flex;
   max-inline-size: 100vw;
@@ -19,3 +17,5 @@
 :host([layout="vertical"]) {
   @apply flex-col;
 }
+
+@include calciteComponentCommon();

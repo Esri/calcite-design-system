@@ -35,8 +35,6 @@
   }
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative
     inline-block
@@ -127,3 +125,4 @@
 }
 
 @include hidden-form-input();
+@include calciteComponentCommon();

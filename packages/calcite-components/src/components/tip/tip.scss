@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply border-color-2
     bg-foreground-1
@@ -79,3 +77,5 @@
 ::slotted(img) {
   @apply max-w-full;
 }
+
+@include calciteComponentCommon();

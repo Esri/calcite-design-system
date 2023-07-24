@@ -1,7 +1,5 @@
 @import "../../assets/styles/animation";
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative block w-full;
 }
@@ -55,3 +53,5 @@
     transform: translate3d(600%, 0, 0);
   }
 }
+
+@include calciteComponentCommon();

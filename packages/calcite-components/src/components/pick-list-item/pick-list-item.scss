@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply bg-foreground-1
     text-n1
@@ -101,3 +99,4 @@
 }
 
 @include disabled();
+@include calciteComponentCommon();

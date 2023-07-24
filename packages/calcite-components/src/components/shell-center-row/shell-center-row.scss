@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @extend %component-host;
   @apply flex
@@ -63,3 +61,5 @@
   border-inline-end: theme("borderWidth.DEFAULT") solid;
   @apply border-color-3;
 }
+
+@include calciteComponentCommon();

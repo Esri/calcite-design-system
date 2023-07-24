@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply block flex-initial outline-none;
   margin-inline-start: theme("margin.0");
@@ -300,3 +298,5 @@
     @apply z-default;
   }
 }
+
+@include calciteComponentCommon();

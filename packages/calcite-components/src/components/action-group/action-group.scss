@@ -6,8 +6,6 @@
  * @prop --calcite-action-group-columns: Sets number of grid-template-columns when the `layout` property is `"grid"`.
  */
 
-@include calciteComponentCommon();
-
 :host {
   @extend %component-host;
 
@@ -54,3 +52,5 @@
 
   grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
 }
+
+@include calciteComponentCommon();

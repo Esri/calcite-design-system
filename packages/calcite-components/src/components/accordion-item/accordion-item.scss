@@ -28,8 +28,6 @@
   --calcite-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply text-color-3
     relative
@@ -215,3 +213,5 @@
     }
   }
 }
+
+@include calciteComponentCommon();

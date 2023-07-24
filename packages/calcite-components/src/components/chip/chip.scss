@@ -47,8 +47,6 @@
   }
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply inline-flex
     cursor-default
@@ -304,3 +302,4 @@ slot[name="image"]::slotted(*) {
 }
 
 @include disabled();
+@include calciteComponentCommon();

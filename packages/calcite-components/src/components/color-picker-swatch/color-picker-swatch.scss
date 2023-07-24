@@ -2,8 +2,6 @@ $size-s: 20px;
 $size-m: 24px;
 $size-l: 28px;
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative inline-flex;
 }
@@ -43,3 +41,5 @@ $size-l: 28px;
 .checker {
   fill: #cacaca;
 }
+
+@include calciteComponentCommon();

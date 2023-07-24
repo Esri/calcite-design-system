@@ -6,8 +6,6 @@
  * @prop --calcite-shell-tip-spacing: The left and right spacing of the `calcite-tip-manager` when slotted in the component.
  */
 
-@include calciteComponentCommon();
-
 :host {
   @extend %component-host;
   @apply absolute
@@ -122,3 +120,5 @@ slot[name="panel-top"]::slotted(calcite-shell-center-row) {
   pointer-events: none;
   inset: 0;
 }
+
+@include calciteComponentCommon();

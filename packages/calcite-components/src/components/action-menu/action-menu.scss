@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply bg-foreground-1
   text-color-2
@@ -37,3 +35,5 @@
 .menu {
   @apply flex-col flex-nowrap outline-none;
 }
+
+@include calciteComponentCommon();

@@ -6,8 +6,6 @@
  * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper.
  */
 
-@include calciteComponentCommon();
-
 :host {
   @apply inline-flex flex-initial;
 }
@@ -55,3 +53,5 @@
 :host([width="l"]) {
   --calcite-dropdown-width: theme("spacing.64");
 }
+
+@include calciteComponentCommon();

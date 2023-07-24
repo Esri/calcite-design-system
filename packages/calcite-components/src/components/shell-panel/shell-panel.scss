@@ -14,8 +14,6 @@
  *
  */
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative
     pointer-events-none
@@ -317,3 +315,5 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   border-inline: 0;
   border-block-end: 0;
 }
+
+@include calciteComponentCommon();

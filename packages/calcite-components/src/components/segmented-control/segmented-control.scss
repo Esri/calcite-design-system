@@ -1,5 +1,3 @@
-@include calciteComponentCommon();
-
 :host {
   @apply bg-foreground-1 flex;
   inline-size: fit-content;
@@ -32,3 +30,4 @@
 }
 
 @include hidden-form-input();
+@include calciteComponentCommon();

@@ -31,8 +31,6 @@
   }
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply relative
   flex
@@ -349,3 +347,5 @@
     border-color: highlight;
   }
 }
+
+@include calciteComponentCommon();

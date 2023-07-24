@@ -65,8 +65,6 @@
   --calcite-notice-width: theme("width.full");
 }
 
-@include calciteComponentCommon();
-
 :host {
   @apply mx-auto hidden max-w-full items-center;
   inline-size: var(--calcite-notice-width);
@@ -179,3 +177,5 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
     }
   }
 }
+
+@include calciteComponentCommon();

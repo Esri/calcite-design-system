@@ -6,8 +6,6 @@
  * @prop --calcite-ui-icon-color: The component's color. Defaults to `currentColor`.
  */
 
-@include calciteComponentCommon();
-
 :host {
   @apply text-color-icon inline-flex;
 }
@@ -37,3 +35,5 @@
 .svg {
   @apply block;
 }
+
+@include calciteComponentCommon();
