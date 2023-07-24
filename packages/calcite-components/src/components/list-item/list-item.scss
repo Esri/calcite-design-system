@@ -1,3 +1,5 @@
+@include calciteComponentCommon();
+
 :host {
   @apply flex flex-col;
   --calcite-list-item-icon-color: theme("colors.brand");
@@ -140,8 +142,4 @@ td:focus {
 
 ::slotted(calcite-list-item) {
   @apply border-solid border-0 border-t border-color-3;
-}
-
-[hidden] {
-  display: none;
 }

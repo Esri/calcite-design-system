@@ -6,6 +6,8 @@
  * @prop --calcite-action-pad-expanded-max-width: optionally specify the expanded max width of the action pad when in "vertical" layout.
  */
 
+@include calciteComponentCommon();
+
 :host {
   @extend %component-host;
   @apply animate-in block rounded-sm;

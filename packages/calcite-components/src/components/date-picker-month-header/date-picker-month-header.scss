@@ -1,3 +1,5 @@
+@include calciteComponentCommon();
+
 :host {
   @apply block;
 }
@@ -126,7 +128,7 @@
 }
 
 .suffix {
-  @apply top-0 
+  @apply top-0
     whitespace-nowrap
     text-start;
   inset-inline-start: 0;

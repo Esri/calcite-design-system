@@ -1,3 +1,5 @@
+@include calciteComponentCommon();
+
 :host {
   @extend %component-host;
   @apply flex

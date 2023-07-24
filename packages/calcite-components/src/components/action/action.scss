@@ -6,6 +6,8 @@
  * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
  */
 
+@include calciteComponentCommon();
+
 :host {
   @extend %component-host;
   @apply flex bg-transparent;

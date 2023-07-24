@@ -37,6 +37,8 @@
   }
 }
 
+@include calciteComponentCommon();
+
 :host {
   @apply flex;
   writing-mode: horizontal-tb;

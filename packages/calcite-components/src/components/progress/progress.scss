@@ -1,5 +1,7 @@
 @import "../../assets/styles/animation";
 
+@include calciteComponentCommon();
+
 :host {
   @apply relative block w-full;
 }

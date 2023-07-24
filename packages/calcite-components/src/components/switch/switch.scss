@@ -35,6 +35,8 @@
   }
 }
 
+@include calciteComponentCommon();
+
 :host {
   @apply relative
     inline-block

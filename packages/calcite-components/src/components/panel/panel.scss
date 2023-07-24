@@ -6,6 +6,8 @@
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
  */
 
+@include calciteComponentCommon();
+
 :host {
   @extend %component-host;
   @apply relative flex w-full h-full flex-auto overflow-hidden;
@@ -130,8 +132,4 @@
   z-sticky;
   inset-inline: 0;
   inline-size: fit-content;
-}
-
-[hidden] {
-  display: none;
 }

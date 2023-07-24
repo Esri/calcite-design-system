@@ -11,6 +11,8 @@
  *
  */
 
+@include calciteComponentCommon();
+
 :host {
   @apply absolute flex inset-0 opacity-0 z-overlay;
   visibility: hidden !important;

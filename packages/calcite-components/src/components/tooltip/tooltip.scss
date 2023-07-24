@@ -6,6 +6,8 @@
  * @prop --calcite-tooltip-z-index: Sets the z-index value for the component.
  */
 
+@include calciteComponentCommon();
+
 :host {
   --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
 }

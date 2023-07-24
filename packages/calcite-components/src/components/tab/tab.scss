@@ -5,6 +5,8 @@
   }
 }
 
+@include calciteComponentCommon();
+
 :host {
   @apply hidden h-full w-full;
 }

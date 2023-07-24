@@ -6,6 +6,8 @@
  * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
  */
 
+@include calciteComponentCommon();
+
 :host {
   @extend %component-host;
   @extend %component-spacing;

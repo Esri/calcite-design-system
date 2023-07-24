@@ -47,6 +47,8 @@
   }
 }
 
+@include calciteComponentCommon();
+
 :host {
   @apply inline-flex
     cursor-default

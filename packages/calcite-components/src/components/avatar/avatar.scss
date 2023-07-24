@@ -1,3 +1,5 @@
+@include calciteComponentCommon();
+
 :host {
   @apply rounded-half inline-block overflow-hidden;
 }

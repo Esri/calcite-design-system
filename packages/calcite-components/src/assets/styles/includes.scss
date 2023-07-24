@@ -71,6 +71,16 @@
   }
 }
 
+@mixin calciteComponentCommon() {
+  :host([hidden]) {
+    @apply hidden;
+  }
+
+  [hidden] {
+    @apply hidden;
+  }
+}
+
 @mixin xButton() {
   :host([scale="s"]) {
     .x-button {

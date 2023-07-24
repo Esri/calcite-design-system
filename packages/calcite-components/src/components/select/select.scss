@@ -7,6 +7,8 @@
  * @prop --calcite-select-spacing: The padding around the selected option text.
  */
 
+@include calciteComponentCommon();
+
 :host {
   @extend %component-spacing;
 

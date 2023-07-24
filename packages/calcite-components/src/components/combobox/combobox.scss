@@ -6,6 +6,8 @@
  * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
  */
 
+@include calciteComponentCommon();
+
 :host {
   @apply relative block;
 }

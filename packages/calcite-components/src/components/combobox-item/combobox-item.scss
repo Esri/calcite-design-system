@@ -1,3 +1,5 @@
+@include calciteComponentCommon();
+
 .scale--s {
   @apply text-n2h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");

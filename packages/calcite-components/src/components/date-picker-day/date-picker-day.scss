@@ -1,3 +1,5 @@
+@include calciteComponentCommon();
+
 :host {
   @apply text-color-3 flex cursor-pointer;
 }

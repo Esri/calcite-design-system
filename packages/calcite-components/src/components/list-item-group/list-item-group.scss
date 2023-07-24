@@ -1,3 +1,5 @@
+@include calciteComponentCommon();
+
 :host {
   @apply flex flex-col bg-foreground-1;
   --calcite-list-item-spacing-indent: theme("spacing.4");
@@ -21,8 +23,4 @@
 
 ::slotted(calcite-list-item:last-child) {
   @apply shadow-none;
-}
-
-[hidden] {
-  display: none;
 }

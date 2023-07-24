@@ -1,3 +1,5 @@
+@include calciteComponentCommon();
+
 :host {
   @apply flex
     cursor-pointer

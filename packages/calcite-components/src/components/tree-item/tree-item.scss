@@ -1,12 +1,10 @@
+@include calciteComponentCommon();
+
 :host {
   @apply text-color-3
     block
     max-w-full
     cursor-pointer;
-}
-
-[hidden] {
-  @apply hidden;
 }
 
 .node-actions-container {

@@ -7,6 +7,8 @@
  * @prop --calcite-stack-padding-block: Specifies the block padding of the component's content.
  */
 
+@include calciteComponentCommon();
+
 :host {
   @apply flex flex-col flex-1;
 }
@@ -68,8 +70,4 @@
 
     color: inherit;
   }
-}
-
-[hidden] {
-  display: none;
 }

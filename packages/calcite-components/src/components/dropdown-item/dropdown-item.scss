@@ -50,6 +50,8 @@
     ease-in-out;
 }
 
+@include calciteComponentCommon();
+
 :host {
   @apply relative
     flex
