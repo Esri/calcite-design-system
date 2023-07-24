@@ -10,4 +10,4 @@ ul {
   @apply flex flex-col w-full;
 }
 
-@include calciteComponentCommon();
+@include baseComponent();

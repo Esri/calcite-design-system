@@ -299,4 +299,4 @@ input[type="text"]::-ms-reveal {
 }
 
 @include hidden-form-input();
-@include calciteComponentCommon();
+@include baseComponent();

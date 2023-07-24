@@ -121,4 +121,4 @@ slot[name="panel-top"]::slotted(calcite-shell-center-row) {
   inset: 0;
 }
 
-@include calciteComponentCommon();
+@include baseComponent();

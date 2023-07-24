@@ -71,7 +71,7 @@
   }
 }
 
-@mixin calciteComponentCommon() {
+@mixin baseComponent() {
   :host([hidden]) {
     @apply hidden;
   }

@@ -570,4 +570,4 @@ input[type="time"]::-webkit-clear-button {
 }
 
 @include hidden-form-input();
-@include calciteComponentCommon();
+@include baseComponent();

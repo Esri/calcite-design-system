@@ -129,4 +129,4 @@ $spacing: $baseline * 0.5;
 }
 
 @include disabled();
-@include calciteComponentCommon();
+@include baseComponent();

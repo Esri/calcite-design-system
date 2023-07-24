@@ -178,4 +178,4 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
   }
 }
 
-@include calciteComponentCommon();
+@include baseComponent();

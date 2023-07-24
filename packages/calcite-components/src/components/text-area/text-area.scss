@@ -179,4 +179,4 @@ textarea.block-size--full {
 
 @include hidden-form-input();
 @include disabled();
-@include calciteComponentCommon();
+@include baseComponent();

@@ -11,4 +11,4 @@
   max-inline-size: var(--calcite-tip-max-width);
 }
 
-@include calciteComponentCommon();
+@include baseComponent();

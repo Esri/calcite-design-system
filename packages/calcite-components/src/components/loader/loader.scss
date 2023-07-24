@@ -227,4 +227,4 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-@include calciteComponentCommon();
+@include baseComponent();
