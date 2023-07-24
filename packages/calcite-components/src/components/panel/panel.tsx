@@ -11,7 +11,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusFirstTabbable, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
+import {
+  focusFirstTabbable,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -168,6 +173,8 @@ export class Panel
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
+  @State() hasDefaultContent = false;
+
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -214,6 +221,10 @@ export class Panel
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private handleDefaultSlotChange = (event: Event): void => {
+    this.hasDefaultContent = slotChangeHasAssignedElement(event);
+  };
 
   resizeHandler = (): void => {
     const { panelScrollEl } = this;
@@ -498,12 +509,15 @@ export class Panel
   }
 
   renderFooterNode(): VNode {
-    const { hasFooterContent, hasFooterActions } = this;
+    const { hasFooterContent, hasFooterActions, hasDefaultContent } = this;
 
     const showFooter = hasFooterContent || hasFooterActions;
 
     return (
-      <footer class={CSS.footer} hidden={!showFooter}>
+      <footer
+        class={{ [CSS.footer]: true, [CSS.footerBorder]: hasDefaultContent }}
+        hidden={!showFooter}
+      >
         <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
         <slot
           key="footer-actions-slot"
@@ -527,7 +541,9 @@ export class Panel
   renderContent(): VNode {
     const { hasFab } = this;
 
-    const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const defaultSlotNode: VNode = (
+      <slot key="default-slot" onSlotchange={this.handleDefaultSlotChange} />
+    );
     const containerNode = hasFab ? (
       <section class={CSS.contentContainer}>{defaultSlotNode}</section>
     ) : (

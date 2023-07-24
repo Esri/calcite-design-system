@@ -15,6 +15,7 @@ export const CSS = {
   contentHeight: "content-height",
   fabContainer: "fab-container",
   footer: "footer",
+  footerBorder: "footer-border",
 };
 
 export const ICONS = {
