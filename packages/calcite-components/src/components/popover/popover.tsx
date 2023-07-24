@@ -300,7 +300,9 @@ export class Popover
     connectMessages(this);
     this.setUpReferenceElement(this.hasLoaded);
     connectFocusTrap(this);
-    onToggleOpenCloseComponent(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
