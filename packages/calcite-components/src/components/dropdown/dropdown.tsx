@@ -46,11 +46,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
@@ -94,6 +90,7 @@ export class Dropdown
       if (value) {
         this.reposition(true);
       }
+      onToggleOpenCloseComponent(this);
       return;
     }
 
@@ -216,9 +213,9 @@ export class Dropdown
     this.reposition(true);
     if (this.open) {
       this.openHandler(this.open);
+      onToggleOpenCloseComponent(this);
     }
     connectInteractive(this);
-    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
@@ -239,7 +236,6 @@ export class Dropdown
     this.resizeObserver?.disconnect();
     disconnectInteractive(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {
@@ -550,7 +546,6 @@ export class Dropdown
     this.scrollerEl = el;
 
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   onBeforeOpen(): void {

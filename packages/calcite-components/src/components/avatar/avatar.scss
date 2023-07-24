@@ -29,3 +29,5 @@
 .thumbnail {
   @apply rounded-half h-full w-full;
 }
+
+@include base-component();
