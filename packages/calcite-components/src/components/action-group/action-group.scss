@@ -53,4 +53,4 @@
   grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
 }
 
-@include baseComponent();
+@include base-component();

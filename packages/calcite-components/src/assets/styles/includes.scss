@@ -71,7 +71,7 @@
   }
 }
 
-@mixin baseComponent() {
+@mixin base-component() {
   :host([hidden]) {
     @apply hidden;
   }

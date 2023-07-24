@@ -8,7 +8,7 @@
  * @prop --calcite-navigation-border-color: Specifies the border color of the component.
  */
 
-@include baseComponent();
+@include base-component();
 
 .container {
   @apply flex
