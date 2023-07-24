@@ -269,27 +269,15 @@ export class Panel
   };
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasStartActions = !!elements.length;
+    this.hasStartActions = slotChangeHasAssignedElement(event);
   };
 
   handleHeaderActionsEndSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasEndActions = !!elements.length;
+    this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 
   handleHeaderMenuActionsSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasMenuItems = !!elements.length;
+    this.hasMenuItems = slotChangeHasAssignedElement(event);
   };
 
   handleActionBarSlotChange = (event: Event): void => {
@@ -303,35 +291,19 @@ export class Panel
   };
 
   handleHeaderContentSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasHeaderContent = !!elements.length;
+    this.hasHeaderContent = slotChangeHasAssignedElement(event);
   };
 
   handleFooterSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasFooterContent = !!elements.length;
+    this.hasFooterContent = slotChangeHasAssignedElement(event);
   };
 
   handleFooterActionsSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasFooterActions = !!elements.length;
+    this.hasFooterActions = slotChangeHasAssignedElement(event);
   };
 
   handleFabSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasFab = !!elements.length;
+    this.hasFab = slotChangeHasAssignedElement(event);
   };
 
   // --------------------------------------------------------------------------
@@ -541,13 +513,12 @@ export class Panel
   renderContent(): VNode {
     const { hasFab } = this;
 
-    const defaultSlotNode: VNode = (
-      <slot key="default-slot" onSlotchange={this.handleDefaultSlotChange} />
-    );
     const containerNode = hasFab ? (
-      <section class={CSS.contentContainer}>{defaultSlotNode}</section>
+      <section class={CSS.contentContainer}>
+        <slot key="default-slot" onSlotchange={this.handleDefaultSlotChange} />
+      </section>
     ) : (
-      defaultSlotNode
+      <slot key="default-slot-inside-fab" onSlotchange={this.handleDefaultSlotChange} />
     );
 
     return (
