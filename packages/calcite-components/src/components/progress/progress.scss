@@ -53,3 +53,5 @@
     transform: translate3d(600%, 0, 0);
   }
 }
+
+@include base-component();
