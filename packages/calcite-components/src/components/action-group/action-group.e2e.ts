@@ -49,8 +49,8 @@ describe("calcite-action-group", () => {
 
   it("should honor overlayPositioning", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-action-group scale="l">
-    <calcite-action id="plus" overlay-positioning="fixed" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+    await page.setContent(`<calcite-action-group scale="l" overlay-positioning="fixed">
+    <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
     <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
     </calcite-action-group>`);
     await page.waitForChanges();
