@@ -1,3 +1,5 @@
 :host {
   @apply block;
 }
+
+@include base-component();
