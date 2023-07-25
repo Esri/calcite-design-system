@@ -1323,3 +1323,67 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     await page.waitForChanges();
   }
 }
+
+/*
+ * @param {ComponentTestSetup} ComponentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
+ * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
+ * @param {string} containerSelector - Container element selector to test for visibility.
+ *
+ * @example
+ * import { emitsOpenCloseTransitionChainedEvents } from "../../tests/commonTests";
+ *
+ * describe("emitsOpenCloseTransitionChainedEvents", () => {
+ *   emitsOpenCloseTransitionChainedEvents("calcite-dropdown", "open", ".container");
+ * });
+ *
+ */
+export function emitsOpenCloseTransitionChainedEvents(
+  componentTestSetup: ComponentTestSetup,
+  toggleProp: string,
+  containerSelector: string
+): void {
+  it(`should emit component status for transition-chained events: 'calciteComponentBeforeOpen', 'calciteComponentOpen', 'calciteComponentBeforeClose', 'calciteComponentClose'`, async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+    await page.setContent(`${componentTestSetup}`);
+    const element = await page.find(tag);
+
+    const camelCaseTag = tag.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+
+    const beforeOpenEvent = page.waitForEvent(`${camelCaseTag}BeforeOpen`);
+    const openEvent = page.waitForEvent(`${camelCaseTag}Open`);
+
+    const beforeOpenSpy = await element.spyOnEvent(`${camelCaseTag}BeforeOpen`);
+    const openSpy = await element.spyOnEvent(`${camelCaseTag}Open`);
+
+    const beforeCloseEvent = page.waitForEvent(`${camelCaseTag}BeforeClose`);
+    const closeEvent = page.waitForEvent(`${camelCaseTag}Close`);
+
+    const beforeCloseSpy = await element.spyOnEvent(`${camelCaseTag}BeforeClose`);
+    const closeSpy = await element.spyOnEvent(`${camelCaseTag}Close`);
+
+    element.setProperty(toggleProp, true);
+    await page.waitForChanges();
+
+    const container = await page.find(`calcite-dropdown-group >>> ${containerSelector}`);
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(true);
+
+    await beforeOpenEvent;
+    await openEvent;
+
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
+
+    element.setProperty(toggleProp, false);
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(false);
+
+    await beforeCloseEvent;
+    await closeEvent;
+
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(closeSpy).toHaveReceivedEventTimes(1);
+  });
+}
