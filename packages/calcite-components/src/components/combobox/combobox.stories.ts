@@ -449,22 +449,28 @@ export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
   </calcite-combobox>
 `;
 
-export const nestedGroups_TestOnly = (): string => html`
-  <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="s" open>
-    <calcite-combobox-item-group label="Pokemon">
+export const nestedGroups = (): string => html`
+  <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m" open>
+    <calcite-combobox-item-group label="First item group">
       <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
-      <calcite-combobox-item value="Venusaur" text-label="Venusaur"></calcite-combobox-item>
       <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
-      <calcite-combobox-item-group label="Cutest Pokemon">
+
+      <calcite-combobox-item-group label="Cutest Pokémon">
         <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
-        <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+        <calcite-combobox-item-group label="No Pokémon 🙃"></calcite-combobox-item-group>
+
+        <calcite-combobox-item-group label="Cutest Pokémon">
           <calcite-combobox-item value="Squirtle" text-label="Squirtle">
-            <calcite-combobox-item value="Squirtle" text-label="Squirtle">
-              <calcite-combobox-item value="Squirtle" text-label="Squirtle"></calcite-combobox-item>
-            </calcite-combobox-item>
+            <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
           </calcite-combobox-item>
-        </calcite-combobox-item>
+        </calcite-combobox-item-group>
       </calcite-combobox-item-group>
+    </calcite-combobox-item-group>
+
+    <calcite-combobox-item-group label="Last item group">
+      <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+        <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+      </calcite-combobox-item>
     </calcite-combobox-item-group>
   </calcite-combobox>
 `;
