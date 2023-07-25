@@ -161,11 +161,17 @@ export class TimePicker
 
   @State() hourCycle: HourCycle;
 
+  // TODO: set this per locale
+  @State() localizedDecimalSeparator: string = ".";
+
   @State() localizedHour: string;
 
   @State() localizedHourSuffix: string;
 
   @State() localizedMeridiem: string;
+
+  // TODO: set localizedMillisecond on mount and whenever millisecond value changes
+  @State() localizedMillisecond: string;
 
   @State() localizedMinute: string;
 
@@ -180,6 +186,9 @@ export class TimePicker
   @State() minute: string;
 
   @State() second: string;
+
+  // TODO: calculate this on mount and whenever step changes
+  @State() showMillisecond: boolean;
 
   @State() showSecond: boolean;
 
@@ -307,7 +316,8 @@ export class TimePicker
   // --------------------------------------------------------------------------
 
   private updateShowSecond(): void {
-    this.showSecond = this.step < 60;
+    this.showSecond = this.step >= 0 && this.step < 60;
+    this.showMillisecond = this.step >= 0.001 && this.step < 1;
   }
 
   private async focusPart(target: TimePart): Promise<void> {
@@ -334,6 +344,10 @@ export class TimePicker
   private decrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
     this.setValuePart("meridiem", newMeridiem);
+  };
+
+  private decrementMillisecond = (): void => {
+    // TODO: decrementMillisecond
   };
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
@@ -446,6 +460,10 @@ export class TimePicker
     this.incrementMinuteOrSecond("minute");
   };
 
+  private incrementMillisecond = (): void => {
+    // TODO: increment millisecond
+  };
+
   private incrementSecond = (): void => {
     this.incrementMinuteOrSecond("second");
   };
@@ -485,6 +503,12 @@ export class TimePicker
   private meridiemUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.incrementMeridiem();
+    }
+  };
+
+  private millisecondUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.incrementMillisecond();
     }
   };
 
@@ -905,6 +929,70 @@ export class TimePicker
               }}
               onClick={this.decrementSecond}
               onKeyDown={this.secondDownButtonKeyDownHandler}
+              role="button"
+            >
+              <calcite-icon icon="chevron-down" scale={iconScale} />
+            </span>
+          </div>
+        )}
+        {this.showMillisecond && (
+          <span class={CSS.delimiter}>{this.localizedDecimalSeparator}</span>
+        )}
+        {this.showMillisecond && (
+          <div class={CSS.column} role="group">
+            <span
+              aria-label={this.messages.millisecondUp}
+              class={{
+                [CSS.button]: true,
+                [CSS.buttonMillisecondUp]: true,
+              }}
+              onClick={this.incrementMillisecond}
+              onKeyDown={this.millisecondUpButtonKeyDownHandler}
+              role="button"
+            >
+              <calcite-icon icon="chevron-up" scale={iconScale} />
+            </span>
+            <span
+              aria-label={this.messages.millisecond}
+              // TODO: aria-valuemax
+              // aria-valuemax="59"
+
+              // TODO: aria-valuemin
+              // aria-valuemin="0"
+
+              // TODO: aria-valuenow
+              // aria-valuenow={(millisecondIsNumber && parseInt(this.millisecond)) || "0"}
+
+              // TODO: this.millisecond
+              // aria-valuetext={this.millisecond}
+              class={{
+                [CSS.input]: true,
+                [CSS.millisecond]: true,
+              }}
+              onFocus={this.focusHandler}
+              // TODO: millisecondKeyDownHandler
+              // onKeyDown={this.millisecondKeyDownHandler}
+
+              role="spinbutton"
+              tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+
+              // TODO: setMillisecondEl
+              // ref={this.setMillisecondEl}
+            >
+              {/* TODO: localizedMillisecond */}
+              {this.localizedMillisecond || "--"}
+            </span>
+            <span
+              aria-label={this.messages.millisecondDown}
+              class={{
+                [CSS.button]: true,
+                [CSS.buttonMillisecondDown]: true,
+              }}
+              // TODO: onclick
+              onClick={this.decrementMillisecond}
+              // TODO: onKeyDown
+              // onKeyDown={this.millisecondDownButtonKeyDownHandler}
               role="button"
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
