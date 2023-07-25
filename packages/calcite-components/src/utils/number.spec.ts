@@ -6,6 +6,7 @@ import {
   isValidNumber,
   parseNumberString,
   sanitizeNumberString,
+  getDecimalPlaces,
 } from "./number";
 
 describe("isValidNumber", () => {
@@ -227,5 +228,17 @@ describe("addLocalizedTrailingDecimalZeros", () => {
       const localizedValue = numberStringFormatter.localize("0.001");
       expect(addLocalizedTrailingDecimalZeros(localizedValue, "0.001", numberStringFormatter)).toBe(localizedValue);
     });
+  });
+});
+
+describe("getDecimalPlaces", () => {
+  it("returns the amount of decimal places for a string representation of a decimal", () => {
+    const decimalPlaces = getDecimalPlaces("0.001");
+    expect(decimalPlaces).toBe(3);
+  });
+
+  it("returns the amount of decimal places for a number representation of a decimal", () => {
+    const decimalPlaces = getDecimalPlaces(0.001);
+    expect(decimalPlaces).toBe(3);
   });
 });

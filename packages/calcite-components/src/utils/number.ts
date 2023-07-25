@@ -259,3 +259,24 @@ export function addLocalizedTrailingDecimalZeros(
   }
   return localizedValue;
 }
+
+/**
+ * Returns the amount of decimal places for a number.
+ *
+ * @link https://stackoverflow.com/questions/10454518/javascript-how-to-retrieve-the-number-of-decimals-of-a-string-number
+ * @param {string | number} decimal - decimal value
+ * @returns {number} the amount of decimal places in a number
+ */
+export function getDecimalPlaces(decimal: string | number): number {
+  var match = ("" + decimal).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+  if (!match) {
+    return 0;
+  }
+  return Math.max(
+    0,
+    // Number of digits right of decimal point.
+    (match[1] ? match[1].length : 0) -
+      // Adjust for scientific notation.
+      (match[2] ? +match[2] : 0)
+  );
+}
