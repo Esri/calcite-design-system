@@ -81,8 +81,8 @@
     z-default
     rounded-full
     bg-transparent;
-  inline-size: 0.1px;
-  block-size: 0.1px;
+  inline-size: 1px;
+  block-size: 1px;
   &:focus {
     @apply focus-outset;
     outline-offset: 12px;

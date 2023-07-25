@@ -770,7 +770,10 @@ export class ColorPicker
             class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
-            style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
+            style={{
+              top: `${colorFieldScopeTop - DIMENSIONS.scopeNode / 2 || 0}px`,
+              left: `${colorFieldScopeLeft - DIMENSIONS.scopeNode / 2 || 0}px`,
+            }}
             tabindex="0"
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.storeColorFieldScope}
@@ -794,7 +797,10 @@ export class ColorPicker
                 class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                 onKeyDown={this.handleHueScopeKeyDown}
                 role="slider"
-                style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
+                style={{
+                  top: `${hueTop - DIMENSIONS.scopeNode / 2}px`,
+                  left: `${hueLeft - DIMENSIONS.scopeNode / 2}px`,
+                }}
                 tabindex="0"
                 // eslint-disable-next-line react/jsx-sort-props
                 ref={this.storeHueScope}
