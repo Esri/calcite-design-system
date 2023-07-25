@@ -487,7 +487,7 @@ export class Panel
 
     return (
       <footer
-        class={{ [CSS.footer]: true, [CSS.footerBorder]: hasDefaultContent && showFooter }}
+        class={{ [CSS.footer]: true, [CSS.footerBorder]: hasDefaultContent }}
         hidden={!showFooter}
       >
         <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
