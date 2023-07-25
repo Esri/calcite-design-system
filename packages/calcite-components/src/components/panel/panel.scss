@@ -29,7 +29,6 @@
 }
 
 .header {
-  border-block-end: 1px solid var(--calcite-ui-border-3);
   @apply bg-foreground-1
     w-full
     items-stretch
@@ -39,9 +38,12 @@
 }
 
 .action-bar-container {
-  border-block-end: 1px solid var(--calcite-ui-border-3);
   @apply w-full
   z-header;
+}
+
+.border-block-end {
+  border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
 .action-bar-container ::slotted(calcite-action-bar) {
@@ -111,9 +113,6 @@
 
   flex: 0 0 auto;
   padding: var(--calcite-panel-footer-padding);
-}
-
-.footer-border {
   border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 

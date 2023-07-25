@@ -3,6 +3,7 @@ export const CSS = {
   backButton: "back-button",
   container: "container",
   header: "header",
+  borderBlockEnd: "border-block-end",
   heading: "heading",
   summary: "summary",
   description: "description",
@@ -14,7 +15,6 @@ export const CSS = {
   contentContainer: "content-container",
   fabContainer: "fab-container",
   footer: "footer",
-  footerBorder: "footer-border",
 };
 
 export const ICONS = {

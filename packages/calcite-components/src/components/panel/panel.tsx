@@ -363,7 +363,10 @@ export class Panel
 
   renderActionBar(): VNode {
     return (
-      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
+      <div
+        class={{ [CSS.actionBarContainer]: true, [CSS.borderBlockEnd]: this.hasDefaultContent }}
+        hidden={!this.hasActionBar}
+      >
         <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
       </div>
     );
@@ -458,7 +461,15 @@ export class Panel
   }
 
   renderHeaderNode(): VNode {
-    const { hasHeaderContent, hasStartActions, hasEndActions, closable, hasMenuItems } = this;
+    const {
+      hasHeaderContent,
+      hasStartActions,
+      hasEndActions,
+      closable,
+      hasMenuItems,
+      hasDefaultContent,
+      hasActionBar,
+    } = this;
 
     const headerContentNode = this.renderHeaderContent();
 
@@ -471,7 +482,10 @@ export class Panel
       hasMenuItems;
 
     return (
-      <header class={CSS.header} hidden={!showHeader}>
+      <header
+        class={{ [CSS.header]: true, [CSS.borderBlockEnd]: hasDefaultContent || hasActionBar }}
+        hidden={!showHeader}
+      >
         {this.renderHeaderStartActions()}
         {this.renderHeaderSlottedContent()}
         {headerContentNode}
@@ -481,15 +495,12 @@ export class Panel
   }
 
   renderFooterNode(): VNode {
-    const { hasFooterContent, hasFooterActions, hasDefaultContent } = this;
+    const { hasFooterContent, hasFooterActions } = this;
 
     const showFooter = hasFooterContent || hasFooterActions;
 
     return (
-      <footer
-        class={{ [CSS.footer]: true, [CSS.footerBorder]: hasDefaultContent }}
-        hidden={!showFooter}
-      >
+      <footer class={CSS.footer} hidden={!showFooter}>
         <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
         <slot
           key="footer-actions-slot"
