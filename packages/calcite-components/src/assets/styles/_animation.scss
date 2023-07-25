@@ -1,68 +1,102 @@
-@keyframes in {
-  0% {
-    opacity: 0;
+@mixin animation-helper-classes() {
+  @keyframes in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
-  100% {
-    opacity: 1;
+
+  @keyframes in-down {
+    0% {
+      opacity: 0;
+      transform: translate3D(0, -5px, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3D(0, 0, 0);
+    }
+  }
+
+  @keyframes in-up {
+    0% {
+      opacity: 0;
+      transform: translate3D(0, 5px, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3D(0, 0, 0);
+    }
+  }
+
+  @keyframes in-right {
+    0% {
+      opacity: 0;
+      transform: translate3D(-5px, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3D(0, 0, 0);
+    }
+  }
+
+  @keyframes in-left {
+    0% {
+      opacity: 0;
+      transform: translate3D(5px, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3D(0, 0, 0);
+    }
+  }
+
+  @keyframes in-scale {
+    0% {
+      opacity: 0;
+      transform: scale3D(0.95, 0.95, 1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale3D(1, 1, 1);
+    }
+  }
+
+  // allows animation trigger via JS by adding class to element
+  .calcite-animate {
+    opacity: 0;
+    animation-fill-mode: both;
+    animation-duration: var(--calcite-animation-timing);
+  }
+
+  // specify animation
+  .calcite-animate__in {
+    animation-name: in;
+  }
+
+  .calcite-animate__in-down {
+    animation-name: in-down;
+  }
+
+  .calcite-animate__in-up {
+    animation-name: in-up;
+  }
+
+  .calcite-animate__in-right {
+    animation-name: in-right;
+  }
+
+  .calcite-animate__in-left {
+    animation-name: in-left;
+  }
+
+  .calcite-animate__in-scale {
+    animation-name: in-scale;
   }
 }
 
-@keyframes in-down {
-  0% {
-    opacity: 0;
-    transform: translate3D(0, -5px, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3D(0, 0, 0);
-  }
-}
-
-@keyframes in-up {
-  0% {
-    opacity: 0;
-    transform: translate3D(0, 5px, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3D(0, 0, 0);
-  }
-}
-
-@keyframes in-right {
-  0% {
-    opacity: 0;
-    transform: translate3D(-5px, 0, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3D(0, 0, 0);
-  }
-}
-
-@keyframes in-left {
-  0% {
-    opacity: 0;
-    transform: translate3D(5px, 0, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3D(0, 0, 0);
-  }
-}
-
-@keyframes in-scale {
-  0% {
-    opacity: 0;
-    transform: scale3D(0.95, 0.95, 1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale3D(1, 1, 1);
-  }
-}
-
-:root {
+@mixin animation-base() {
   --calcite-animation-timing: calc(150ms * var(--calcite-internal-duration-factor));
   --calcite-internal-duration-factor: var(--calcite-duration-factor, 1);
   --calcite-internal-animation-timing-fast: calc(100ms * var(--calcite-internal-duration-factor));
@@ -70,43 +104,13 @@
   --calcite-internal-animation-timing-slow: calc(300ms * var(--calcite-internal-duration-factor));
 }
 
-// allows animation trigger via JS by adding class to element
-.calcite-animate {
-  opacity: 0;
-  animation-fill-mode: both;
-  animation-duration: var(--calcite-animation-timing);
-}
-
-// specify animation
-.calcite-animate__in {
-  animation-name: in;
-}
-
-.calcite-animate__in-down {
-  animation-name: in-down;
-}
-
-.calcite-animate__in-up {
-  animation-name: in-up;
-}
-
-.calcite-animate__in-right {
-  animation-name: in-right;
-}
-
-.calcite-animate__in-left {
-  animation-name: in-left;
-}
-
-.calcite-animate__in-scale {
-  animation-name: in-scale;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    // [workaround] using 0.01 to ensure `openCloseComponent` utils work consistently
-    // this should be removed once https://github.com/Esri/calcite-design-system/issues/6604 is addressed
-    --calcite-internal-duration-factor: 0.01;
+@mixin animation-reduced-motion() {
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      // [workaround] using 0.01 to ensure `openCloseComponent` utils work consistently
+      // this should be removed once https://github.com/Esri/calcite-design-system/issues/6604 is addressed
+      --calcite-internal-duration-factor: 0.01;
+    }
   }
 }
 
