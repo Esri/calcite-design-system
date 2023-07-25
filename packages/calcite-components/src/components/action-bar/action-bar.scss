@@ -61,3 +61,5 @@
 .action-group--bottom {
   @apply justify-end;
 }
+
+@include base-component();

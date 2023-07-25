@@ -69,3 +69,5 @@ input[type="text"]:focus {
     @apply text-color-1;
   }
 }
+
+@include base-component();

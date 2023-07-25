@@ -1,7 +1,7 @@
 :host {
   @apply flex
-  items-center 
-  relative 
+  items-center
+  relative
   box-border;
   flex-shrink: 0;
   & .container,
@@ -29,14 +29,14 @@
   items-center
   relative
   justify-center
-  cursor-pointer 
+  cursor-pointer
   outline-none
   text-0
-  text-color-2 
-  box-border 
+  text-color-2
+  box-border
   bg-foreground-1
-  px-4 
-  h-full 
+  px-4
+  h-full
   w-full;
   text-decoration: none;
   border-block-end: theme("spacing[0.5]") solid transparent;
@@ -171,3 +171,5 @@ calcite-action {
 .content:hover .hover-href-icon {
   @apply opacity-100 -end-1;
 }
+
+@include base-component();

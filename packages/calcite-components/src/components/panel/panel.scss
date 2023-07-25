@@ -133,6 +133,4 @@
   inline-size: fit-content;
 }
 
-[hidden] {
-  display: none;
-}
+@include base-component();
