@@ -50,7 +50,6 @@
   margin-inline-start: var(--calcite-combobox-item-indent-value);
 }
 
-.trailingPadding {
-  padding-block-end: var(--calcite-combobox-item-spacing-unit-l);
-  padding-inline-end: var(--calcite-combobox-item-spacing-unit-s);
+:host(:not(:first-child)) {
+  padding-block-start: var(--calcite-combobox-item-spacing-unit-l);
 }

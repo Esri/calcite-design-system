@@ -207,5 +207,9 @@
   @apply block;
 }
 
+calcite-combobox-item-group:empty + calcite-combobox-item-group {
+  padding-block-start: none;
+}
+
 @include hidden-form-input();
 @include base-component();

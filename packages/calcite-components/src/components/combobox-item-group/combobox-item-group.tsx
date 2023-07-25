@@ -52,24 +52,6 @@ export class ComboboxItemGroup {
 
   // --------------------------------------------------------------------------
   //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  private isPaddingPresent(): boolean {
-    const groupEl = this.ancestors[this.ancestors.length - 1];
-    if (groupEl) {
-      const findLastChild = (groupEl: ComboboxChildElement) => {
-        return groupEl.lastElementChild
-          ? findLastChild(groupEl.lastElementChild as ComboboxChildElement)
-          : groupEl;
-      };
-      return findLastChild(groupEl);
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
@@ -84,7 +66,6 @@ export class ComboboxItemGroup {
         class={{
           [CSS.list]: true,
           [`scale--${scale}`]: true,
-          [CSS.trailingPadding]: this.isPaddingPresent(),
         }}
         role="group"
       >
