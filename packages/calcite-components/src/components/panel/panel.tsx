@@ -524,11 +524,9 @@ export class Panel
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
-        {
-          <section class={{ [CSS.contentContainer]: hasFab }}>
-            <slot onSlotchange={this.handleDefaultSlotChange} />
-          </section>
-        }
+        <section class={{ [CSS.contentContainer]: hasFab }}>
+          <slot onSlotchange={this.handleDefaultSlotChange} />
+        </section>
         {this.renderFab()}
       </div>
     );
