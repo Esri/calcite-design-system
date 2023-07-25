@@ -222,7 +222,7 @@ export const actionBarBackgroundColor_TestOnly = (): string => html`<calcite-pan
 export const footerWithoutContent_TestOnly = (): string => html`<calcite-panel
   height-scale="s"
   heading="Header!"
-  style="width: 300px;"
+  style="width: 300px; height:auto;"
 >
   <p slot="footer">Footer content!</p>
 </calcite-panel>`;
