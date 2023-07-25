@@ -222,10 +222,6 @@ export class Panel
   //
   // --------------------------------------------------------------------------
 
-  private handleDefaultSlotChange = (event: Event): void => {
-    this.hasDefaultContent = slotChangeHasAssignedElement(event);
-  };
-
   resizeHandler = (): void => {
     const { panelScrollEl } = this;
 
@@ -266,6 +262,10 @@ export class Panel
 
   panelScrollHandler = (): void => {
     this.calcitePanelScroll.emit();
+  };
+
+  handleDefaultSlotChange = (event: Event): void => {
+    this.hasDefaultContent = slotChangeHasAssignedElement(event);
   };
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {
@@ -487,7 +487,7 @@ export class Panel
 
     return (
       <footer
-        class={{ [CSS.footer]: true, [CSS.footerBorder]: hasDefaultContent }}
+        class={{ [CSS.footer]: true, [CSS.footerBorder]: hasDefaultContent && showFooter }}
         hidden={!showFooter}
       >
         <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
@@ -513,12 +513,13 @@ export class Panel
   renderContent(): VNode {
     const { hasFab } = this;
 
+    const defaultSlotNode: VNode = (
+      <slot key="default-slot" onSlotchange={this.handleDefaultSlotChange} />
+    );
     const containerNode = hasFab ? (
-      <section class={CSS.contentContainer}>
-        <slot key="default-slot" onSlotchange={this.handleDefaultSlotChange} />
-      </section>
+      <section class={CSS.contentContainer}>{defaultSlotNode}</section>
     ) : (
-      <slot key="default-slot-inside-fab" onSlotchange={this.handleDefaultSlotChange} />
+      defaultSlotNode
     );
 
     return (
