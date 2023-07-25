@@ -91,11 +91,7 @@
 }
 
 .content-wrapper {
-  @apply overflow-auto;
-}
-
-.content-height {
-  @apply h-full;
+  @apply overflow-auto h-full;
 }
 
 .content-container {

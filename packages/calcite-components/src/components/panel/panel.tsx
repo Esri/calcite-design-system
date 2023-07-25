@@ -511,20 +511,14 @@ export class Panel
   };
 
   renderContent(): VNode {
-    const { hasFab } = this;
-
     return (
       <div
-        class={{
-          [CSS.contentWrapper]: true,
-          [CSS.contentContainer]: !hasFab,
-          [CSS.contentHeight]: hasFab,
-        }}
+        class={CSS.contentWrapper}
         onScroll={this.panelScrollHandler}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
-        <section class={{ [CSS.contentContainer]: hasFab }}>
+        <section class={CSS.contentContainer}>
           <slot onSlotchange={this.handleDefaultSlotChange} />
         </section>
         {this.renderFab()}
