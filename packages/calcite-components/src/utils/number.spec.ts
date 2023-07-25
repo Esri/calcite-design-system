@@ -233,12 +233,18 @@ describe("addLocalizedTrailingDecimalZeros", () => {
 
 describe("getDecimalPlaces", () => {
   it("returns the amount of decimal places for a string representation of a decimal", () => {
-    const decimalPlaces = getDecimalPlaces("0.001");
-    expect(decimalPlaces).toBe(3);
+    expect(getDecimalPlaces("0")).toBe(0);
+    expect(getDecimalPlaces("0.1")).toBe(1);
+    expect(getDecimalPlaces("0.01")).toBe(2);
+    expect(getDecimalPlaces("0.001")).toBe(3);
+    expect(getDecimalPlaces("0.0001")).toBe(4);
   });
 
   it("returns the amount of decimal places for a number representation of a decimal", () => {
-    const decimalPlaces = getDecimalPlaces(0.001);
-    expect(decimalPlaces).toBe(3);
+    expect(getDecimalPlaces(0)).toBe(0);
+    expect(getDecimalPlaces(0.1)).toBe(1);
+    expect(getDecimalPlaces(0.01)).toBe(2);
+    expect(getDecimalPlaces(0.001)).toBe(3);
+    expect(getDecimalPlaces(0.0001)).toBe(4);
   });
 });
