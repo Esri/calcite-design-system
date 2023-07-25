@@ -513,15 +513,6 @@ export class Panel
   renderContent(): VNode {
     const { hasFab } = this;
 
-    const defaultSlotNode: VNode = (
-      <slot key="default-slot" onSlotchange={this.handleDefaultSlotChange} />
-    );
-    const containerNode = hasFab ? (
-      <section class={CSS.contentContainer}>{defaultSlotNode}</section>
-    ) : (
-      defaultSlotNode
-    );
-
     return (
       <div
         class={{
@@ -533,7 +524,11 @@ export class Panel
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
-        {containerNode}
+        {
+          <section class={{ [CSS.contentContainer]: hasFab }}>
+            <slot onSlotchange={this.handleDefaultSlotChange} />
+          </section>
+        }
         {this.renderFab()}
       </div>
     );
