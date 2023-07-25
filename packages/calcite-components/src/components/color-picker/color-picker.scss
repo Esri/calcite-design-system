@@ -78,11 +78,14 @@
   @apply text-n1
     focus-base
     absolute
-    z-default;
-
+    z-default
+    rounded-full
+    bg-transparent;
+  inline-size: 0.1px;
+  block-size: 0.1px;
   &:focus {
     @apply focus-outset;
-    outline-offset: 16px;
+    outline-offset: 12px;
   }
 }
 
