@@ -520,10 +520,10 @@ describe("calcite-modal accessibility checks", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    const isOverflowHIdden = await page.evaluate(() => {
+    const isOverflowHidden = await page.evaluate(() => {
       return document.documentElement.style.overflow === "hidden";
     });
-    expect(isOverflowHIdden).toEqual(true);
+    expect(isOverflowHidden).toEqual(true);
   });
 
   it("correctly does not add overflow class on document when open and slotted in shell modals slot", async () => {
@@ -532,10 +532,10 @@ describe("calcite-modal accessibility checks", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    const isOverflowHIdden = await page.evaluate(() => {
+    const isOverflowHidden = await page.evaluate(() => {
       return document.documentElement.style.overflow === "hidden";
     });
-    expect(isOverflowHIdden).toEqual(false);
+    expect(isOverflowHidden).toEqual(false);
   });
 
   it("correctly removes overflow class on document once closed", async () => {
