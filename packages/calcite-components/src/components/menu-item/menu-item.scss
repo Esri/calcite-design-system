@@ -62,11 +62,14 @@
 }
 
 :host([active]) .content {
-  @apply text-color-1 px-3;
+  @apply text-color-1;
   border-color: var(--calcite-ui-brand);
   .icon {
     --calcite-ui-icon-color: var(--calcite-ui-brand);
   }
+}
+:host([layout="vertical"]) .content {
+  @apply px-3;
 }
 
 .icon--start {
