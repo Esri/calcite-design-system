@@ -91,7 +91,11 @@
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
-  @apply ms-3;
+  @apply ms-4;
+}
+
+:host([layout="vertical"]) .hover-href-icon {
+  @apply ps-2;
 }
 
 .icon--breadcrumb {
@@ -171,7 +175,7 @@ calcite-action {
 }
 
 .hover-href-icon {
-  @apply ps-4 pe-3 ms-auto relative end-1 opacity-0;
+  @apply ms-auto relative end-1 opacity-0;
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
 }
 
