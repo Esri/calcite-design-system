@@ -6,7 +6,7 @@ import { Component, Event, EventEmitter, Fragment, h, Prop, VNode, Watch } from 
 @Component({
   tag: "calcite-option-group",
   styleUrl: "option-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class OptionGroup {
   //--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ export class OptionGroup {
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   disabled = false;
 

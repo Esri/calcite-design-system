@@ -6,7 +6,7 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -15,9 +15,9 @@ import { SLOTS } from "./resources";
 export default {
   title: "Components/Panel",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -31,7 +31,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("closed", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "disabled",
@@ -39,7 +39,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("disabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "closable",
@@ -47,7 +47,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("closable", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "height-scale",
@@ -55,7 +55,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("heightScale", scale.values, scale.defaultValue);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "loading",
@@ -63,8 +63,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("loading", false);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -151,12 +151,12 @@ export const darkModeRTL_TestOnly = (): string =>
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       {
         name: "dir",
-        value: "rtl"
+        value: "rtl",
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
-      }
+        value: "calcite-mode-dark",
+      },
     ]),
     panelContent
   );

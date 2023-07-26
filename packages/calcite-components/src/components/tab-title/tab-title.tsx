@@ -11,7 +11,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementDir, getElementProp, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
@@ -19,7 +19,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
@@ -32,7 +32,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
 
@@ -47,7 +47,7 @@ import { TabTitleMessages } from "./assets/tab-title/t9n";
   tag: "calcite-tab-title",
   styleUrl: "tab-title.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -162,7 +162,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabTitleUnregister", {
-        detail: this.el
+        detail: this.el,
       })
     );
     this.resizeObserver?.disconnect();
@@ -228,7 +228,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         <div
           class={{
             container: true,
-            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd
+            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
           }}
           hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props

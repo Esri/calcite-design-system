@@ -1,4 +1,4 @@
-# When the "design-complete" label is added to an issue:
+# When the "ready-for-dev" label is added to an issue:
 # 1. Modifies the labels,
 # 2. Updates the assignees and milestone, and
 # 3. Generates a notification to the Calcite project manager(s)
@@ -6,15 +6,15 @@
 # The secret is formatted like so: person1, person2, person3
 #
 # Note the script automatically adds the "@" character in to notify the project manager(s)
-name: "Design complete"
+name: "Ready for dev"
 
 on:
   issues:
     types: [labeled]
 
 jobs:
-  design-complete:
-    if: github.event.label.name == 'design-complete'
+  ready-for-dev:
+    if: github.event.label.name == 'ready-for-dev'
     permissions:
       issues: write
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
             const { managers } = process.env;
             const { label } = context.payload;
 
-            if (label && label.name === "design-complete") {
+            if (label && label.name === "ready-for-dev") {
 
               // Add a "@" character to notify the user
               const calcite_managers = managers.split(",").map(v => " @" + v.trim());
@@ -43,16 +43,6 @@ jobs:
               /* Tries to remove labels */
               /* If the label is not associated with the issue,
                  the error is logged and the script will continue. */
-
-              // Tries to remove "Design" label
-              try {
-                await github.rest.issues.removeLabel({
-                  ...issueProps,
-                  name: "design"
-                });
-              } catch(err) {
-                console.log("The 'design' label is not associated with the issue", err);
-              }
 
               // Try to remove "1 - assigned" label
               try {

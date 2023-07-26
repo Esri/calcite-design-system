@@ -8,14 +8,14 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
@@ -23,7 +23,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { HandleMessages } from "./assets/handle/t9n";
 import { HandleNudge } from "./interfaces";
@@ -33,7 +33,7 @@ import { CSS, ICONS } from "./resources";
   tag: "calcite-handle",
   styleUrl: "handle.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Handle implements LoadableComponent, T9nComponent {
   // --------------------------------------------------------------------------

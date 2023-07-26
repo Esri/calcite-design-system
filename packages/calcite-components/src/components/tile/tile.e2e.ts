@@ -20,7 +20,7 @@ describe("calcite-tile", () => {
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
-      { propertyName: "hidden", defaultValue: false }
+      { propertyName: "hidden", defaultValue: false },
     ]);
   });
 
@@ -35,7 +35,7 @@ describe("calcite-tile", () => {
       { propertyName: "embed", value: true },
       { propertyName: "focused", value: true },
       { propertyName: "href", value: "http://www.esri.com" },
-      { propertyName: "icon", value: "layers" }
+      { propertyName: "icon", value: "layers" },
     ]);
   });
 

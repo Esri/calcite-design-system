@@ -113,3 +113,5 @@
 ::slotted(calcite-flow) {
   @apply h-full;
 }
+
+@include base-component();

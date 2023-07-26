@@ -22,8 +22,8 @@ describe("calcite-color-picker-swatch", () => {
     defaults("calcite-color-picker-swatch", [
       {
         propertyName: "active",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -31,8 +31,8 @@ describe("calcite-color-picker-swatch", () => {
     reflects("calcite-color-picker-swatch", [
       {
         propertyName: "active",
-        value: true
-      }
+        value: true,
+      },
     ]);
   });
 

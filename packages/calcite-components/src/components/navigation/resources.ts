@@ -5,7 +5,7 @@ export const CSS = {
   hide: "hide",
   primary: "primary",
   secondary: "secondary",
-  tertiary: "tertiary"
+  tertiary: "tertiary",
 };
 
 export const SLOTS = {
@@ -17,9 +17,9 @@ export const SLOTS = {
   contentEnd: "content-end",
   contentCenter: "content-center",
   navSecondary: "navigation-secondary",
-  navTertiary: "navigation-tertiary"
+  navTertiary: "navigation-tertiary",
 };
 
 export const ICONS = {
-  hamburger: "hamburger"
+  hamburger: "hamburger",
 };

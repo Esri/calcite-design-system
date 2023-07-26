@@ -14,7 +14,7 @@ export const geActionDimensions = (
   const actionLen = actions?.length;
   return {
     actionWidth: actionLen ? getAverage(actions.map((action) => action.clientWidth || 0)) : 0,
-    actionHeight: actionLen ? getAverage(actions.map((action) => action.clientHeight || 0)) : 0
+    actionHeight: actionLen ? getAverage(actions.map((action) => action.clientHeight || 0)) : 0,
   };
 };
 
@@ -24,7 +24,7 @@ const getMaxActionCount = ({
   layout,
   height,
   actionHeight,
-  groupCount
+  groupCount,
 }: {
   layout: Extract<"horizontal" | "vertical", Layout>;
   height: number;
@@ -45,7 +45,7 @@ export const getOverflowCount = ({
   width,
   actionHeight,
   height,
-  groupCount
+  groupCount,
 }: {
   layout: Extract<"horizontal" | "vertical", Layout>;
   actionCount: number;
@@ -67,7 +67,7 @@ export const queryActions = (el: HTMLElement): HTMLCalciteActionElement[] => {
 export const overflowActions = ({
   actionGroups,
   expanded,
-  overflowCount
+  overflowCount,
 }: {
   actionGroups: HTMLCalciteActionGroupElement[];
   expanded: boolean;

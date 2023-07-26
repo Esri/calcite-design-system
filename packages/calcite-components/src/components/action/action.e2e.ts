@@ -7,36 +7,36 @@ describe("calcite-action", () => {
     defaults("calcite-action", [
       {
         propertyName: "active",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "appearance",
-        defaultValue: "solid"
+        defaultValue: "solid",
       },
       {
         propertyName: "compact",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "indicator",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "loading",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "textEnabled",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 

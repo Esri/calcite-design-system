@@ -1,3 +1,3 @@
 export const SLOTS = {
-  titleGroup: "title-group"
+  titleGroup: "title-group",
 };

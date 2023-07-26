@@ -127,7 +127,7 @@ export function connectOpenCloseComponent(component: OpenCloseComponent): void {
     componentToTransitionListeners.set(component, [
       component.transitionEl,
       boundOnTransitionStart,
-      boundOnTransitionEnd
+      boundOnTransitionEnd,
     ]);
 
     component.transitionEl.addEventListener("transitionstart", boundOnTransitionStart);

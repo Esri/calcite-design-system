@@ -1,7 +1,7 @@
 export const SLOTS = {
-  input: "input"
+  input: "input",
 };
 
 export const CSS = {
-  segmentedControlItemIcon: "segmented-control-item-icon"
+  segmentedControlItemIcon: "segmented-control-item-icon",
 };

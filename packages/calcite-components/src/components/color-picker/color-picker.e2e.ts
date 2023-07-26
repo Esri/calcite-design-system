@@ -33,7 +33,7 @@ describe("calcite-color-picker", () => {
 
   describe("should focus scope by default", () => {
     focusable("<calcite-color-picker></calcite-color-picker>", {
-      shadowFocusTargetSelector: `.${CSS.colorFieldScope}`
+      shadowFocusTargetSelector: `.${CSS.colorFieldScope}`,
     });
   });
 
@@ -50,8 +50,8 @@ describe("calcite-color-picker", () => {
     reflects("calcite-color-picker", [
       {
         propertyName: "scale",
-        value: "m"
-      }
+        value: "m",
+      },
     ]);
   });
 
@@ -63,48 +63,48 @@ describe("calcite-color-picker", () => {
     defaults("calcite-color-picker", [
       {
         propertyName: "allowEmpty",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "alphaChannel",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "channelsDisabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "format",
-        defaultValue: "auto"
+        defaultValue: "auto",
       },
       {
         propertyName: "hexDisabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "hideChannels",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "hideHex",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "hideSaved",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "savedDisabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "value",
-        defaultValue: "#007ac2"
-      }
+        defaultValue: "#007ac2",
+      },
     ]);
   });
 
@@ -200,7 +200,7 @@ describe("calcite-color-picker", () => {
     await page.mouse.move(draggedColorFieldScopeX, draggedColorFieldScopeY);
     await page.mouse.down();
     await page.mouse.move(draggedColorFieldScopeX + 10, draggedColorFieldScopeY, {
-      steps: mouseDragSteps
+      steps: mouseDragSteps,
     });
     await page.mouse.up();
     await page.waitForChanges();
@@ -258,7 +258,7 @@ describe("calcite-color-picker", () => {
     "hsl-css": "hsl(0, 0%, 100%)",
     rgb: { r: 255, g: 255, b: 255 },
     hsl: { h: 0, s: 0, l: 100 },
-    hsv: { h: 0, s: 0, v: 100 }
+    hsv: { h: 0, s: 0, v: 100 },
   };
 
   const supportedAlphaFormatToSampleValue = {
@@ -267,12 +267,12 @@ describe("calcite-color-picker", () => {
     "hsla-css": "hsla(0, 0%, 100%, 1)",
     rgba: { r: 255, g: 255, b: 255, a: 1 },
     hsla: { h: 0, s: 0, l: 100, a: 1 },
-    hsva: { h: 0, s: 0, v: 100, a: 1 }
+    hsva: { h: 0, s: 0, v: 100, a: 1 },
   };
 
   const allSupportedFormatToSampleValue = {
     ...supportedFormatToSampleValue,
-    ...supportedAlphaFormatToSampleValue
+    ...supportedAlphaFormatToSampleValue,
   };
 
   const clearAndEnterHexOrChannelValue = async (
@@ -401,7 +401,7 @@ describe("calcite-color-picker", () => {
       const supportedStringFormats = [
         supportedFormatToSampleValue.hex,
         supportedFormatToSampleValue["rgb-css"],
-        supportedFormatToSampleValue["hsl-css"]
+        supportedFormatToSampleValue["hsl-css"],
       ];
 
       for (const value of supportedStringFormats) {
@@ -414,7 +414,7 @@ describe("calcite-color-picker", () => {
       const supportedObjectFormats = [
         supportedFormatToSampleValue.rgb,
         supportedFormatToSampleValue.hsl,
-        supportedFormatToSampleValue.hsv
+        supportedFormatToSampleValue.hsv,
       ];
 
       for (const value of supportedObjectFormats) {
@@ -436,7 +436,7 @@ describe("calcite-color-picker", () => {
         [allSupportedFormatToSampleValue["rgb-css"], allSupportedFormatToSampleValue["rgba-css"]],
         [allSupportedFormatToSampleValue["rgba-css"], allSupportedFormatToSampleValue["rgba-css"]],
         [allSupportedFormatToSampleValue["hsl-css"], allSupportedFormatToSampleValue["hsla-css"]],
-        [allSupportedFormatToSampleValue["hsla-css"], allSupportedFormatToSampleValue["hsla-css"]]
+        [allSupportedFormatToSampleValue["hsla-css"], allSupportedFormatToSampleValue["hsla-css"]],
       ];
 
       for (const [value, expected] of supportedStringFormats) {
@@ -452,7 +452,7 @@ describe("calcite-color-picker", () => {
         [allSupportedFormatToSampleValue.hsl, allSupportedFormatToSampleValue.hsla],
         [allSupportedFormatToSampleValue.hsla, allSupportedFormatToSampleValue.hsla],
         [allSupportedFormatToSampleValue.hsv, allSupportedFormatToSampleValue.hsva],
-        [allSupportedFormatToSampleValue.hsva, allSupportedFormatToSampleValue.hsva]
+        [allSupportedFormatToSampleValue.hsva, allSupportedFormatToSampleValue.hsva],
       ];
 
       for (const [value, expected] of supportedObjectFormats) {
@@ -520,7 +520,7 @@ describe("calcite-color-picker", () => {
       "#0095ff",
       "#4800ff",
       "#ff00dd",
-      "#ff0004"
+      "#ff0004",
     ];
 
     for (let i = 0; i < expectedColorSamples.length; i++) {
@@ -763,7 +763,7 @@ describe("calcite-color-picker", () => {
     it("value as property", async () => {
       // initialize page with calcite-color-picker to make it available in the evaluate callback below
       const page = await newE2EPage({
-        html: "<calcite-color-picker></calcite-color-picker>"
+        html: "<calcite-color-picker></calcite-color-picker>",
       });
       await page.setContent("");
 
@@ -783,27 +783,52 @@ describe("calcite-color-picker", () => {
     // see https://jasmine.github.io/tutorials/custom_argument_matchers for more info
     function toBeInteger(): any {
       return {
-        asymmetricMatch(abc): boolean {
+        asymmetricMatch(abc: string): boolean {
           return Number.isInteger(abc);
         },
 
         jasmineToString(): string {
           return `Expected value to be an integer.`;
-        }
+        },
       };
     }
 
     function toBeNumber(): any {
       return {
-        asymmetricMatch(expected): boolean {
-          return !isNaN(parseFloat(expected)) && isFinite(expected);
+        asymmetricMatch(expected: string): boolean {
+          return !isNaN(parseFloat(expected)) && isFinite(Number(expected));
         },
 
         jasmineToString(): string {
           return `Expected value to be an number.`;
-        }
+        },
       };
     }
+
+    it("numbering system does not revert to latn when clamping RGB channels", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-color-picker numbering-system="arab" value="#fff000"></calcite-color-picker>`
+      );
+
+      const calciteInputNumber = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+
+      await selectText(calciteInputNumber);
+      await calciteInputNumber.type("25555");
+      await calciteInputNumber.press("Enter");
+      await page.waitForChanges();
+
+      const nativeInputValue = await page.evaluate(
+        async (CSS) =>
+          document
+            .querySelector("calcite-color-picker")
+            .shadowRoot.querySelector(`.${CSS.channel}`)
+            .shadowRoot.querySelector("input").value,
+        CSS
+      );
+
+      expect(nativeInputValue).toBe("٢٥٥");
+    });
 
     describe("default", () => {
       describe("keeps value in same format when applying updates", () => {
@@ -828,7 +853,7 @@ describe("calcite-color-picker", () => {
 
           const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
           const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
-            `calcite-color-picker >>> calcite-input.${CSS.channel}`
+            `calcite-color-picker >>> .${CSS.channel}`
           );
 
           await rgbModeButton.click();
@@ -899,7 +924,7 @@ describe("calcite-color-picker", () => {
             expect(value).toMatchObject({
               r: toBeInteger(),
               g: toBeInteger(),
-              b: toBeInteger()
+              b: toBeInteger(),
             });
           });
 
@@ -916,7 +941,7 @@ describe("calcite-color-picker", () => {
             expect(value).toMatchObject({
               h: toBeInteger(),
               s: toBeInteger(),
-              l: toBeInteger()
+              l: toBeInteger(),
             });
           });
 
@@ -933,7 +958,7 @@ describe("calcite-color-picker", () => {
             expect(value).toMatchObject({
               h: toBeInteger(),
               s: toBeInteger(),
-              v: toBeInteger()
+              v: toBeInteger(),
             });
           });
 
@@ -953,7 +978,7 @@ describe("calcite-color-picker", () => {
 
             const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              `calcite-color-picker >>> .${CSS.channel}`
             );
 
             await rgbModeButton.click();
@@ -988,9 +1013,7 @@ describe("calcite-color-picker", () => {
 
             it("allows modifying color via RGB inputs", async () => {
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-              const [rInput, gInput, bInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
-              );
+              const [rInput, gInput, bInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
               await rgbModeButton.click();
 
               await clearAndEnterHexOrChannelValue(page, rInput, "128");
@@ -1002,9 +1025,7 @@ describe("calcite-color-picker", () => {
 
             it("allows modifying color via HSV inputs", async () => {
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-              const [, , , hInput, sInput, vInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
-              );
+              const [, , , hInput, sInput, vInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
               await hsvModeButton.click();
 
               // modifying value channel first to ensure other channel changes affect the underlying color
@@ -1027,9 +1048,7 @@ describe("calcite-color-picker", () => {
 
             it("allows nudging RGB values", async () => {
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-              const [rInput, gInput, bInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
-              );
+              const [rInput, gInput, bInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
               await rgbModeButton.click();
 
               await assertChannelValueNudge(page, rInput);
@@ -1040,9 +1059,7 @@ describe("calcite-color-picker", () => {
             it("allows nudging HSV values", async () => {
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
 
-              const [, , , hInput, sInput, vInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
-              );
+              const [, , , hInput, sInput, vInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
               await hsvModeButton.click();
 
               await assertChannelValueNudge(page, hInput);
@@ -1089,7 +1106,7 @@ describe("calcite-color-picker", () => {
 
             const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              `calcite-color-picker >>> .${CSS.channel}`
             );
 
             await rgbModeButton.click();
@@ -1119,9 +1136,7 @@ describe("calcite-color-picker", () => {
 
             it("restores previous color to RGB inputs", async () => {
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-              const [rInput, gInput, bInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
-              );
+              const [rInput, gInput, bInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
               await rgbModeButton.click();
 
               await assertChannelValueNudge(page, rInput);
@@ -1131,9 +1146,7 @@ describe("calcite-color-picker", () => {
 
             it("restores previous color to HSV inputs", async () => {
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-              const [, , , hInput, sInput, vInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
-              );
+              const [, , , hInput, sInput, vInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
               await hsvModeButton.click();
 
               await assertChannelValueNudge(page, hInput);
@@ -1205,9 +1218,7 @@ describe("calcite-color-picker", () => {
               const picker = await page.find("calcite-color-picker");
 
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-              const [rInput, gInput, bInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
-              );
+              const [rInput, gInput, bInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
 
               await rgbModeButton.click();
 
@@ -1227,9 +1238,7 @@ describe("calcite-color-picker", () => {
 
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
 
-              const [, , , hInput, sInput, vInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
-              );
+              const [, , , hInput, sInput, vInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
 
               await hsvModeButton.click();
 
@@ -1270,7 +1279,7 @@ describe("calcite-color-picker", () => {
 
           const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
           const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await page.findAll(
-            `calcite-color-picker >>> calcite-input.${CSS.channel}`
+            `calcite-color-picker >>> .${CSS.channel}`
           );
 
           await rgbModeButton.click();
@@ -1383,7 +1392,7 @@ describe("calcite-color-picker", () => {
               r: toBeInteger(),
               g: toBeInteger(),
               b: toBeInteger(),
-              a: toBeNumber()
+              a: toBeNumber(),
             });
           });
 
@@ -1401,7 +1410,7 @@ describe("calcite-color-picker", () => {
               r: toBeInteger(),
               g: toBeInteger(),
               b: toBeInteger(),
-              a: toBeNumber()
+              a: toBeNumber(),
             });
           });
 
@@ -1419,7 +1428,7 @@ describe("calcite-color-picker", () => {
               h: toBeInteger(),
               s: toBeInteger(),
               l: toBeInteger(),
-              a: toBeNumber()
+              a: toBeNumber(),
             });
           });
 
@@ -1437,7 +1446,7 @@ describe("calcite-color-picker", () => {
               h: toBeInteger(),
               s: toBeInteger(),
               l: toBeInteger(),
-              a: toBeNumber()
+              a: toBeNumber(),
             });
           });
 
@@ -1454,7 +1463,7 @@ describe("calcite-color-picker", () => {
             expect(value).toMatchObject({
               h: toBeInteger(),
               s: toBeInteger(),
-              v: toBeInteger()
+              v: toBeInteger(),
             });
           });
 
@@ -1472,7 +1481,7 @@ describe("calcite-color-picker", () => {
               h: toBeInteger(),
               s: toBeInteger(),
               v: toBeInteger(),
-              a: toBeNumber()
+              a: toBeNumber(),
             });
           });
 
@@ -1492,7 +1501,7 @@ describe("calcite-color-picker", () => {
 
             const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              `calcite-color-picker >>> .${CSS.channel}`
             );
 
             await rgbModeButton.click();
@@ -1530,7 +1539,7 @@ describe("calcite-color-picker", () => {
             it("allows modifying color via RGBA inputs", async () => {
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
               const [rInput, gInput, bInput, rgbAInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+                `calcite-color-picker >>> .${CSS.channel}`
               );
               await rgbModeButton.click();
 
@@ -1545,7 +1554,7 @@ describe("calcite-color-picker", () => {
             it("allows modifying color via HSVA inputs", async () => {
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
               const [, , , , hInput, sInput, vInput, hsvAInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+                `calcite-color-picker >>> .${CSS.channel}`
               );
               await hsvModeButton.click();
 
@@ -1573,7 +1582,7 @@ describe("calcite-color-picker", () => {
             it("allows nudging RGBA values", async () => {
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
               const [rInput, gInput, bInput, rgbAInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+                `calcite-color-picker >>> .${CSS.channel}`
               );
               await rgbModeButton.click();
 
@@ -1586,7 +1595,7 @@ describe("calcite-color-picker", () => {
             it("allows nudging HSVA values", async () => {
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
               const [, , , , hInput, sInput, vInput, hsvAInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+                `calcite-color-picker >>> .${CSS.channel}`
               );
               await hsvModeButton.click();
 
@@ -1645,7 +1654,7 @@ describe("calcite-color-picker", () => {
 
             const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
             const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              `calcite-color-picker >>> .${CSS.channel}`
             );
 
             await rgbModeButton.click();
@@ -1678,7 +1687,7 @@ describe("calcite-color-picker", () => {
             it("restores color to RGBA inputs", async () => {
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
               const [rInput, gInput, bInput, rgbAInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+                `calcite-color-picker >>> .${CSS.channel}`
               );
               await rgbModeButton.click();
 
@@ -1691,7 +1700,7 @@ describe("calcite-color-picker", () => {
             it("restores color to HSVA inputs", async () => {
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
               const [, , , , hInput, sInput, vInput, hsvAInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+                `calcite-color-picker >>> .${CSS.channel}`
               );
               await hsvModeButton.click();
 
@@ -1797,7 +1806,7 @@ describe("calcite-color-picker", () => {
 
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
               const [rInput, gInput, bInput, rgbAInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+                `calcite-color-picker >>> .${CSS.channel}`
               );
 
               await rgbModeButton.click();
@@ -1822,7 +1831,7 @@ describe("calcite-color-picker", () => {
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
 
               const [, , , , hInput, sInput, vInput, hsvAInput] = await page.findAll(
-                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+                `calcite-color-picker >>> .${CSS.channel}`
               );
 
               await hsvModeButton.click();
@@ -2072,7 +2081,7 @@ describe("calcite-color-picker", () => {
       const sectionVisibility: Record<HiddenSection, boolean> = {
         hex: true,
         channels: true,
-        saved: true
+        saved: true,
       };
 
       hiddenSections.forEach((section) => (sectionVisibility[section] = false));
@@ -2091,13 +2100,13 @@ describe("calcite-color-picker", () => {
       const [hex, channels, saved] = await Promise.all([
         page.find(`calcite-color-picker >>> .${CSS.hexOptions}`),
         page.find(`calcite-color-picker >>> .${CSS.colorModeContainer}`),
-        page.find(`calcite-color-picker >>> .${CSS.savedColors}`)
+        page.find(`calcite-color-picker >>> .${CSS.savedColors}`),
       ]);
 
       const sectionNodes: Record<HiddenSection, E2EElement> = {
         hex,
         channels,
-        saved
+        saved,
       };
 
       sections.forEach((section) => {
@@ -2228,7 +2237,7 @@ describe("calcite-color-picker", () => {
 
       expect(await hueSliderScope.getComputedStyle()).toMatchObject({
         top: "10px",
-        left: "0px"
+        left: "0px",
       });
     });
   });

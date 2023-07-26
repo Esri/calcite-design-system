@@ -16,23 +16,23 @@ describe("utils", () => {
 
       const smallBanana: FetchIconProps = {
         icon: "banana",
-        scale: "s"
+        scale: "s",
       };
       const mediumBanana: FetchIconProps = {
         icon: "banana",
-        scale: "m"
+        scale: "m",
       };
       const circle: FetchIconProps = {
         icon: "circleF",
-        scale: "s"
+        scale: "s",
       };
       const circleKebab: FetchIconProps = {
         icon: "circle-f",
-        scale: "m"
+        scale: "m",
       };
       const circleCamel: FetchIconProps = {
         icon: "circleF",
-        scale: "m"
+        scale: "m",
       };
 
       await fetchIcon(smallBanana);

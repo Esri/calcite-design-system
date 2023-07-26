@@ -38,28 +38,28 @@ describe("calcite-action-menu", () => {
     defaults("calcite-action-menu", [
       {
         propertyName: "expanded",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "flipPlacements",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "open",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "placement",
-        defaultValue: "auto"
+        defaultValue: "auto",
       },
       {
         propertyName: "overlayPositioning",
-        defaultValue: "absolute"
+        defaultValue: "absolute",
       },
       {
         propertyName: "scale",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -67,16 +67,16 @@ describe("calcite-action-menu", () => {
     reflects("calcite-action-menu", [
       {
         propertyName: "expanded",
-        value: true
+        value: true,
       },
       {
         propertyName: "open",
-        value: true
+        value: true,
       },
       {
         propertyName: "placement",
-        value: "auto"
-      }
+        value: "auto",
+      },
     ]);
   });
 
@@ -84,7 +84,7 @@ describe("calcite-action-menu", () => {
     const page = await newE2EPage({
       html: `<calcite-action-menu>
       <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>`
+    </calcite-action-menu>`,
     });
 
     await page.waitForChanges();
@@ -110,7 +110,7 @@ describe("calcite-action-menu", () => {
         ></calcite-action-menu>
       `,
       {
-        focusTargetSelector: `#triggerAction`
+        focusTargetSelector: `#triggerAction`,
       }
     );
   });
@@ -124,7 +124,7 @@ describe("calcite-action-menu", () => {
         </calcite-action-menu>
         <div>
         <button id="outside">outside</button>
-        </div>`
+        </div>`,
     });
 
     await page.waitForChanges();
@@ -151,7 +151,7 @@ describe("calcite-action-menu", () => {
         </calcite-action-menu>
         <div>
         <button id="outside">outside</button>
-        </div>`
+        </div>`,
     });
 
     await page.waitForChanges();
@@ -188,7 +188,7 @@ describe("calcite-action-menu", () => {
       <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>
-    `
+    `,
     });
 
     const actionMenu = await page.find("calcite-action-menu");
@@ -215,7 +215,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -252,7 +252,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -289,7 +289,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -347,7 +347,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -381,7 +381,7 @@ describe("calcite-action-menu", () => {
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
           <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();

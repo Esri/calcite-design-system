@@ -9,21 +9,21 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -32,7 +32,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { InlineEditableMessages } from "./assets/inline-editable/t9n";
@@ -44,10 +44,10 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-inline-editable",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
   styleUrl: "inline-editable.scss",
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class InlineEditable
   implements
@@ -187,7 +187,7 @@ export class InlineEditable
             scale={this.scale}
             style={{
               opacity: this.editingEnabled ? "0" : "1",
-              width: this.editingEnabled ? "0" : "inherit"
+              width: this.editingEnabled ? "0" : "inherit",
             }}
             type="button"
             // eslint-disable-next-line react/jsx-sort-props
@@ -222,7 +222,7 @@ export class InlineEditable
               type="button"
               // eslint-disable-next-line react/jsx-sort-props
               ref={(el) => (this.confirmEditingButton = el)}
-            />
+            />,
           ]}
         </div>
       </div>
@@ -326,7 +326,7 @@ export class InlineEditable
 
   updateSlottedInput(): void {
     const inputElement: HTMLCalciteInputElement = getSlotted(this.el, {
-      matches: "calcite-input"
+      matches: "calcite-input",
     });
 
     this.inputElement = inputElement;

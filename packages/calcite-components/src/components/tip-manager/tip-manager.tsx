@@ -8,7 +8,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
@@ -17,7 +17,7 @@ import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { TipManagerMessages } from "./assets/tip-manager/t9n";
@@ -30,7 +30,7 @@ import { CSS, ICONS } from "./resources";
   tag: "calcite-tip-manager",
   styleUrl: "tip-manager.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class TipManager {
   // --------------------------------------------------------------------------
@@ -319,7 +319,7 @@ export class TipManager {
           class={{
             [CSS.tipContainer]: true,
             [CSS.tipContainerAdvancing]: !closed && direction === "advancing",
-            [CSS.tipContainerRetreating]: !closed && direction === "retreating"
+            [CSS.tipContainerRetreating]: !closed && direction === "retreating",
           }}
           key={selectedIndex}
           tabIndex={0}

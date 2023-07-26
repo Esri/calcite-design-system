@@ -35,3 +35,5 @@
 .svg {
   @apply block;
 }
+
+@include base-component();

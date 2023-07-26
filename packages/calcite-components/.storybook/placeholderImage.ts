@@ -49,7 +49,7 @@ export function placeholderImage({
   bgColor = "#ddd",
   textColor = "rgba(0,0,0,0.5)",
   dataUri = true,
-  charset = "UTF-8"
+  charset = "UTF-8",
 }: SimpleSvgPlaceholderParams): string {
   const str = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
     <rect fill="${bgColor}" width="${width}" height="${height}"/>

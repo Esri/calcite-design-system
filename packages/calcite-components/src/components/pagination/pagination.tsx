@@ -9,27 +9,27 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { PaginationMessages } from "./assets/pagination/t9n";
@@ -46,9 +46,9 @@ export interface PaginationDetail {
   tag: "calcite-pagination",
   styleUrl: "pagination.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Pagination
   implements LocalizedComponent, LocalizedComponent, LoadableComponent, T9nComponent
@@ -119,7 +119,7 @@ export class Pagination
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
+      useGrouping: this.groupSeparator,
     };
   }
 
@@ -275,7 +275,7 @@ export class Pagination
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
+      useGrouping: this.groupSeparator,
     };
 
     const displayedPage = numberStringFormatter.localize(page.toString());
@@ -286,7 +286,7 @@ export class Pagination
         aria-current={selected ? "page" : "false"}
         class={{
           [CSS.page]: true,
-          [CSS.selected]: selected
+          [CSS.selected]: selected,
         }}
         onClick={() => {
           this.startItem = start;
@@ -321,7 +321,7 @@ export class Pagination
           aria-label={this.messages.previous}
           class={{
             [CSS.previous]: true,
-            [CSS.disabled]: prevDisabled
+            [CSS.disabled]: prevDisabled,
           }}
           disabled={prevDisabled}
           onClick={this.previousClicked}
@@ -337,7 +337,7 @@ export class Pagination
           aria-label={this.messages.next}
           class={{
             [CSS.next]: true,
-            [CSS.disabled]: nextDisabled
+            [CSS.disabled]: nextDisabled,
           }}
           disabled={nextDisabled}
           onClick={this.nextClicked}
