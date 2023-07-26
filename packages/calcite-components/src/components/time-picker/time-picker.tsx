@@ -170,8 +170,8 @@ export class TimePicker
 
   @State() localizedMeridiem: string;
 
-  // TODO: set localizedMillisecond on mount and whenever millisecond value changes
-  @State() localizedMillisecond: string;
+  // TODO: set localizedFractionalSecond on mount and whenever fractionalSecond value changes
+  @State() localizedFractionalSecond: string;
 
   @State() localizedMinute: string;
 
@@ -188,7 +188,7 @@ export class TimePicker
   @State() second: string;
 
   // TODO: calculate this on mount and whenever step changes
-  @State() showMillisecond: boolean;
+  @State() showFractionalSecond: boolean;
 
   @State() showSecond: boolean;
 
@@ -317,7 +317,7 @@ export class TimePicker
 
   private updateShowSecond(): void {
     this.showSecond = this.step >= 0 && this.step < 60;
-    this.showMillisecond = this.step >= 0.001 && this.step < 1;
+    this.showFractionalSecond = this.step >= 0.001 && this.step < 1;
   }
 
   private async focusPart(target: TimePart): Promise<void> {
@@ -346,8 +346,8 @@ export class TimePicker
     this.setValuePart("meridiem", newMeridiem);
   };
 
-  private decrementMillisecond = (): void => {
-    // TODO: decrementMillisecond
+  private decrementFractionalSecond = (): void => {
+    // TODO: decrementFractionalSecond
   };
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
@@ -460,8 +460,8 @@ export class TimePicker
     this.incrementMinuteOrSecond("minute");
   };
 
-  private incrementMillisecond = (): void => {
-    // TODO: increment millisecond
+  private incrementFractionalSecond = (): void => {
+    // TODO: increment fractionalSecond
   };
 
   private incrementSecond = (): void => {
@@ -506,9 +506,9 @@ export class TimePicker
     }
   };
 
-  private millisecondUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
+  private fractionalSecondUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
-      this.incrementMillisecond();
+      this.incrementFractionalSecond();
     }
   };
 
@@ -621,23 +621,23 @@ export class TimePicker
       const { hour, minute, second } = parseTimeString(value);
       const { effectiveLocale: locale, numberingSystem } = this;
       const {
-        localizedDecimalSeparator,
         localizedHour,
         localizedHourSuffix,
-        localizedMillisecond,
         localizedMinute,
         localizedMinuteSuffix,
         localizedSecond,
+        localizedDecimalSeparator,
+        localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
       } = localizeTimeStringToParts({ value, locale, numberingSystem });
-      this.localizedDecimalSeparator = localizedDecimalSeparator;
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
-      this.localizedMillisecond = localizedMillisecond;
       this.localizedMinute = localizedMinute;
       this.localizedMinuteSuffix = localizedMinuteSuffix;
       this.localizedSecond = localizedSecond;
+      this.localizedDecimalSeparator = localizedDecimalSeparator;
+      this.localizedFractionalSecond = localizedFractionalSecond;
       this.localizedSecondSuffix = localizedSecondSuffix;
       this.hour = hour;
       this.minute = minute;
@@ -650,14 +650,14 @@ export class TimePicker
       }
     } else {
       this.hour = null;
-      this.localizedDecimalSeparator = null;
       this.localizedHour = null;
       this.localizedHourSuffix = null;
       this.localizedMeridiem = null;
-      this.localizedMillisecond = null;
       this.localizedMinute = null;
       this.localizedMinuteSuffix = null;
       this.localizedSecond = null;
+      this.localizedDecimalSeparator = null;
+      this.localizedFractionalSecond = null;
       this.localizedSecondSuffix = null;
       this.meridiem = null;
       this.minute = null;
@@ -941,25 +941,25 @@ export class TimePicker
             </span>
           </div>
         )}
-        {this.showMillisecond && (
+        {this.showFractionalSecond && (
           <span class={CSS.delimiter}>{this.localizedDecimalSeparator}</span>
         )}
-        {this.showMillisecond && (
+        {this.showFractionalSecond && (
           <div class={CSS.column} role="group">
             <span
-              aria-label={this.messages.millisecondUp}
+              aria-label={this.messages.fractionalSecondUp}
               class={{
                 [CSS.button]: true,
-                [CSS.buttonMillisecondUp]: true,
+                [CSS.buttonFractionalSecondUp]: true,
               }}
-              onClick={this.incrementMillisecond}
-              onKeyDown={this.millisecondUpButtonKeyDownHandler}
+              onClick={this.incrementFractionalSecond}
+              onKeyDown={this.fractionalSecondUpButtonKeyDownHandler}
               role="button"
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.messages.millisecond}
+              aria-label={this.messages.fractionalSecond}
               // TODO: aria-valuemax
               // aria-valuemax="59"
 
@@ -967,36 +967,36 @@ export class TimePicker
               // aria-valuemin="0"
 
               // TODO: aria-valuenow
-              // aria-valuenow={(millisecondIsNumber && parseInt(this.millisecond)) || "0"}
+              // aria-valuenow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
 
-              aria-valuetext={this.localizedMillisecond}
+              aria-valuetext={this.localizedFractionalSecond}
               class={{
                 [CSS.input]: true,
-                [CSS.millisecond]: true,
+                [CSS.fractionalSecond]: true,
               }}
               onFocus={this.focusHandler}
-              // TODO: millisecondKeyDownHandler
-              // onKeyDown={this.millisecondKeyDownHandler}
+              // TODO: fractionalSecondKeyDownHandler
+              // onKeyDown={this.fractionalSecondKeyDownHandler}
 
               role="spinbutton"
               tabIndex={0}
               // eslint-disable-next-line react/jsx-sort-props
 
-              // TODO: setMillisecondEl
-              // ref={this.setMillisecondEl}
+              // TODO: setFractionalSecondEl
+              // ref={this.setFractionalSecondEl}
             >
-              {this.localizedMillisecond || "--"}
+              {this.localizedFractionalSecond || "--"}
             </span>
             <span
-              aria-label={this.messages.millisecondDown}
+              aria-label={this.messages.fractionalSecondDown}
               class={{
                 [CSS.button]: true,
-                [CSS.buttonMillisecondDown]: true,
+                [CSS.buttonFractionalSecondDown]: true,
               }}
               // TODO: onclick
-              onClick={this.decrementMillisecond}
+              onClick={this.decrementFractionalSecond}
               // TODO: onKeyDown
-              // onKeyDown={this.millisecondDownButtonKeyDownHandler}
+              // onKeyDown={this.fractionalSecondDownButtonKeyDownHandler}
               role="button"
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />

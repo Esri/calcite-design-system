@@ -18,7 +18,7 @@ describe("isValidTime", () => {
 });
 
 describe("localizeTimeStringToParts", () => {
-  it("returns localized decimal and millisecond value", () => {
+  it("returns localized decimal separator and fractional second value", () => {
     // TODO: write test
   });
 });

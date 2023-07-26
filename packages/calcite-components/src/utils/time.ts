@@ -3,13 +3,13 @@ import { getDecimalPlaces, isValidNumber } from "./number";
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
-  localizedDecimalSeparator: string;
   localizedHour: string;
   localizedHourSuffix: string;
-  localizedMillisecond: string;
   localizedMinute: string;
   localizedMinuteSuffix: string;
   localizedSecond: string;
+  localizedDecimalSeparator: string;
+  localizedFractionalSecond: string;
   localizedSecondSuffix: string;
   localizedMeridiem: string;
 }
@@ -213,11 +213,11 @@ export function localizeTimeStringToParts({
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
 
-    let millisecond, millisecondDecimal, localizedMillisecondDecimal, localizedDecimalSeparator;
+    let fractionalSecond, millisecondDecimal, localizedMillisecondDecimal, localizedDecimalSeparator;
     const secondPrecision = getDecimalPlaces(second);
-    if (secondPrecision && secondPrecision > 3) {
-      millisecond = parseFloat(second).toFixed(3);
-      millisecondDecimal = millisecond.split(".", 2)[1];
+    if (secondPrecision && secondPrecision > 1) {
+      fractionalSecond = parseFloat(second).toFixed(3);
+      millisecondDecimal = fractionalSecond.split(".", 2)[1];
       numberStringFormatter.numberFormatOptions = {
         locale,
         numberingSystem,
@@ -230,7 +230,7 @@ export function localizeTimeStringToParts({
       localizedDecimalSeparator,
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
-      localizedMillisecond: localizedMillisecondDecimal,
+      localizedFractionalSecond: localizedMillisecondDecimal,
       localizedMinute: getLocalizedTimePart("minute", parts),
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
