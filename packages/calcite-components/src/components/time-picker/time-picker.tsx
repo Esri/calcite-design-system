@@ -162,7 +162,7 @@ export class TimePicker
   @State() hourCycle: HourCycle;
 
   // TODO: set this per locale
-  @State() localizedDecimalSeparator: string = ".";
+  @State() localizedDecimalSeparator = ".";
 
   @State() localizedHour: string;
 
@@ -621,16 +621,20 @@ export class TimePicker
       const { hour, minute, second } = parseTimeString(value);
       const { effectiveLocale: locale, numberingSystem } = this;
       const {
+        localizedDecimalSeparator,
         localizedHour,
         localizedHourSuffix,
+        localizedMillisecond,
         localizedMinute,
         localizedMinuteSuffix,
         localizedSecond,
         localizedSecondSuffix,
         localizedMeridiem,
       } = localizeTimeStringToParts({ value, locale, numberingSystem });
+      this.localizedDecimalSeparator = localizedDecimalSeparator;
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
+      this.localizedMillisecond = localizedMillisecond;
       this.localizedMinute = localizedMinute;
       this.localizedMinuteSuffix = localizedMinuteSuffix;
       this.localizedSecond = localizedSecond;
@@ -646,9 +650,11 @@ export class TimePicker
       }
     } else {
       this.hour = null;
+      this.localizedDecimalSeparator = null;
       this.localizedHour = null;
       this.localizedHourSuffix = null;
       this.localizedMeridiem = null;
+      this.localizedMillisecond = null;
       this.localizedMinute = null;
       this.localizedMinuteSuffix = null;
       this.localizedSecond = null;
@@ -963,8 +969,7 @@ export class TimePicker
               // TODO: aria-valuenow
               // aria-valuenow={(millisecondIsNumber && parseInt(this.millisecond)) || "0"}
 
-              // TODO: this.millisecond
-              // aria-valuetext={this.millisecond}
+              aria-valuetext={this.localizedMillisecond}
               class={{
                 [CSS.input]: true,
                 [CSS.millisecond]: true,
@@ -980,7 +985,6 @@ export class TimePicker
               // TODO: setMillisecondEl
               // ref={this.setMillisecondEl}
             >
-              {/* TODO: localizedMillisecond */}
               {this.localizedMillisecond || "--"}
             </span>
             <span
