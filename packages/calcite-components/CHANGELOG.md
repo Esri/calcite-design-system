@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.25...@esri/calcite-components@1.5.0-next.26) (2023-07-25)
+
+### Features
+
+- **action-group:** Adds overlayPositioning property. ([#7366](https://github.com/Esri/calcite-design-system/issues/7366)) ([ca9f35a](https://github.com/Esri/calcite-design-system/commit/ca9f35a13e4bb6c293d11349e22cee0628a87c35))
+
+### Bug Fixes
+
+- remove style modifying all host components with hidden attribute ([#7346](https://github.com/Esri/calcite-design-system/issues/7346)) ([3103e2f](https://github.com/Esri/calcite-design-system/commit/3103e2f4f507fba8cf895938a7beae7675fdbc2f)), closes [#7325](https://github.com/Esri/calcite-design-system/issues/7325)
+
 ## [1.5.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.24...@esri/calcite-components@1.5.0-next.25) (2023-07-20)
 
 ### Features
