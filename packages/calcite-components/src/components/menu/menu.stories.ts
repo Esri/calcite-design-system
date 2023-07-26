@@ -53,7 +53,63 @@ export const darkModeRTL_TestOnly = (): string => html`<calcite-menu dir="rtl" c
   <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
 </calcite-menu>`;
 
-export const verticalLyoutInDarkModeRTL_TestOnly = (): string => html`<calcite-menu
+export const verticalComplexUseCase_TestOnly = (): string => html`<calcite-shell-panel
+  slot="panel-start"
+  width-scale="l"
+>
+  <calcite-panel heading="Example vertical menu">
+    <calcite-menu layout="vertical">
+      <calcite-menu-item icon-start="layer" icon-end="layer" text="Home"> </calcite-menu-item>
+      <calcite-menu-item icon-start="layer" icon-end="layer" href="#" text="Example nested" icon-start="layer">
+        <calcite-menu-item icon-end="layer" icon-start="layer" slot="submenu-item" text="Capabilities">
+        </calcite-menu-item>
+        <calcite-menu-item icon-start="layer" slot="submenu-item" title text="ArcGIS Online">
+          <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities">
+            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item text="Example nested" icon-start="layer" icon-end="layer" open>
+        <calcite-menu-item slot="submenu-item" title text="ArcGIS Online">
+          <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Capabilities">
+            <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Something else"> </calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Another thing">
+            <calcite-menu-item slot="submenu-item" text="Great examples">
+              <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+            </calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu-item>
+        <calcite-menu-item open href="#" slot="submenu-item" text="It's stupendous">
+          <calcite-menu-item slot="submenu-item" text="Very nice example"> </calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Short one">
+            <calcite-menu-item open slot="submenu-item" text="Another thing">
+              <calcite-menu-item slot="submenu-item" text="Great examples">
+                <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+              </calcite-menu-item>
+            </calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu-item>
+        <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+      <calcite-menu-item text="Reference" active> </calcite-menu-item>
+      <calcite-menu-item text="Reference"> </calcite-menu-item>
+      <calcite-menu-item text="Reference"> </calcite-menu-item>
+    </calcite-menu>
+  </calcite-panel>
+</calcite-shell-panel>`;
+
+export const verticalLayoutInDarkModeRTL_TestOnly = (): string => html`<calcite-menu
   layout="vertical"
   dir="rtl"
   class="calcite-mode-dark"
