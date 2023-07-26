@@ -588,7 +588,6 @@ export class ColorPicker
   };
 
   private globalPointerUpHandler = (event: PointerEvent): void => {
-    console.log("pointer up");
     if (!isPrimaryPointerButton(event)) {
       return;
     }
@@ -606,7 +605,6 @@ export class ColorPicker
     const { activeCanvasInfo, el } = this;
 
     if (!el.isConnected || !activeCanvasInfo) {
-      console.log("move handler");
       return;
     }
 
