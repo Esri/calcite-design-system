@@ -93,5 +93,5 @@ export const DIMENSIONS = {
       radius: 10,
     },
   },
-  scopeNode: 1,
+  thumbNode: 1,
 };

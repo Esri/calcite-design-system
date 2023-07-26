@@ -780,8 +780,8 @@ export class ColorPicker
             onPointerDown={this.handleColorFieldPointerDown}
             role="slider"
             style={{
-              top: `${colorFieldScopeTop - DIMENSIONS.scopeNode / 2 || 0}px`,
-              left: `${colorFieldScopeLeft - DIMENSIONS.scopeNode / 2 || 0}px`,
+              top: `${colorFieldScopeTop - DIMENSIONS.thumbNode / 2 || 0}px`,
+              left: `${colorFieldScopeLeft - DIMENSIONS.thumbNode / 2 || 0}px`,
             }}
             tabindex="0"
             // eslint-disable-next-line react/jsx-sort-props
@@ -808,8 +808,8 @@ export class ColorPicker
                 onPointerDown={this.handleHueSliderPointerDown}
                 role="slider"
                 style={{
-                  top: `${hueTop - DIMENSIONS.scopeNode / 2}px`,
-                  left: `${hueLeft - DIMENSIONS.scopeNode / 2}px`,
+                  top: `${hueTop - DIMENSIONS.thumbNode / 2}px`,
+                  left: `${hueLeft - DIMENSIONS.thumbNode / 2}px`,
                 }}
                 tabindex="0"
                 // eslint-disable-next-line react/jsx-sort-props
