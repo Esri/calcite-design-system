@@ -53,7 +53,7 @@ export const darkModeRTL_TestOnly = (): string => html`<calcite-menu dir="rtl" c
   <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
 </calcite-menu>`;
 
-export const verticalComplexUseCase_TestOnly = (): string => html` <calcite-shell-panel slot="panel-start">
+export const verticalComplexUseCase_TestOnly = (): string => html` <calcite-shell-panel width-scale="l">
   <calcite-panel heading="Extreme nested vertical menu">
     <calcite-menu layout="vertical">
       <calcite-menu-item icon-start="layer" icon-end="layer" text="Home"> </calcite-menu-item>
