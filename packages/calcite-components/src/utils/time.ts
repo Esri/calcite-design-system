@@ -1,10 +1,12 @@
-import { getDateTimeFormat, getSupportedNumberingSystem, NumberingSystem } from "./locale";
-import { isValidNumber } from "./number";
+import { getDateTimeFormat, getSupportedNumberingSystem, NumberingSystem, numberStringFormatter } from "./locale";
+import { getDecimalPlaces, isValidNumber } from "./number";
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
+  localizedDecimalSeparator: string;
   localizedHour: string;
   localizedHourSuffix: string;
+  localizedMillisecond: string;
   localizedMinute: string;
   localizedMinuteSuffix: string;
   localizedSecond: string;
@@ -17,6 +19,7 @@ export type Meridiem = "AM" | "PM";
 export type MinuteOrSecond = "minute" | "second";
 
 export interface Time {
+  fractionalSecond: string;
   hour: string;
   minute: string;
   second: string;
@@ -209,9 +212,25 @@ export function localizeTimeStringToParts({
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
+
+    let millisecond, millisecondDecimal, localizedMillisecondDecimal, localizedDecimalSeparator;
+    const secondPrecision = getDecimalPlaces(second);
+    if (secondPrecision && secondPrecision > 3) {
+      millisecond = parseFloat(second).toFixed(3);
+      millisecondDecimal = millisecond.split(".", 2)[1];
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem,
+      };
+      localizedMillisecondDecimal = numberStringFormatter.localize(millisecondDecimal);
+      localizedDecimalSeparator = numberStringFormatter.localize("1.1").split("")[1];
+    }
+
     return {
+      localizedDecimalSeparator,
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
+      localizedMillisecond: localizedMillisecondDecimal,
       localizedMinute: getLocalizedTimePart("minute", parts),
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
@@ -243,14 +262,20 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
 
 export function parseTimeString(value: string): Time {
   if (isValidTime(value)) {
-    const [hour, minute, second] = value.split(":");
+    const [hour, minute, secondDecimal] = value.split(":");
+    let second, fractionalSecond;
+    if (secondDecimal) {
+      [second, fractionalSecond] = secondDecimal.split(".");
+    }
     return {
+      fractionalSecond: fractionalSecond && parseInt(fractionalSecond) !== 0 ? fractionalSecond : null,
       hour,
       minute,
       second,
     };
   }
   return {
+    fractionalSecond: null,
     hour: null,
     minute: null,
     second: null,
