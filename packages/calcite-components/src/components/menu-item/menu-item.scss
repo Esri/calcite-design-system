@@ -93,10 +93,6 @@
   @apply ms-3;
 }
 
-:host([layout="vertical"]) .hover-href-icon ~ .icon--end {
-  @apply ms-4;
-}
-
 :host([layout="vertical"]) .hover-href-icon {
   @apply ps-2;
 }
