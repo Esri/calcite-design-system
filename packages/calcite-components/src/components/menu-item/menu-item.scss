@@ -35,7 +35,7 @@
   text-color-2
   box-border
   bg-foreground-1
-  px-4
+  px-3
   h-full
   w-full;
   text-decoration: none;
@@ -77,13 +77,21 @@
   @apply ms-3;
 }
 
+:host([layout="vertical"]) .icon--end {
+  @apply ms-auto;
+}
+
 .icon--dropdown {
   @apply ms-auto me-0 ps-2 relative;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
 }
 
-:host([layout="vertical"]) .icon--dropdown {
-  inset-inline-start: theme("spacing.1");
+:host([layout="vertical"]) .icon--end ~ .icon--dropdown {
+  @apply ms-3;
+}
+
+:host([layout="vertical"]) .hover-href-icon ~ .icon--end {
+  @apply ms-3;
 }
 
 .icon--breadcrumb {
@@ -151,7 +159,7 @@ calcite-action {
 }
 
 :host([slot="submenu-item"]) .parent--vertical {
-  padding-inline-start: theme("spacing.7");
+  @apply ps-6;
 }
 
 .dropdown-menu-items.nested.calcite--rtl {
@@ -163,7 +171,7 @@ calcite-action {
 }
 
 .hover-href-icon {
-  @apply ps-8 ms-auto relative end-1 opacity-0;
+  @apply ps-4 pe-3 ms-auto relative end-1 opacity-0;
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
 }
 

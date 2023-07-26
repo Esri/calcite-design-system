@@ -444,6 +444,13 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         <div class={CSS.textContainer}>
           <span>{this.text}</span>
         </div>
+        {this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem) ? (
+          <calcite-icon
+            class={CSS.hoverHrefIcon}
+            icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
+            scale="s"
+          />
+        ) : null}
         {this.iconEnd && this.renderIconEnd()}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
@@ -480,13 +487,6 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
               ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}
-              {this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem) ? (
-                <calcite-icon
-                  class={CSS.hoverHrefIcon}
-                  icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
-                  scale="s"
-                />
-              ) : null}
             </a>
             {this.href && this.hasSubmenu ? this.renderDropdownAction(dir) : null}
           </div>
