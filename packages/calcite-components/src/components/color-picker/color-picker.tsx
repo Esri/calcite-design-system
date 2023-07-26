@@ -539,6 +539,11 @@ export class ColorPicker
       context: this.colorFieldRenderingContext,
       bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect(),
     };
+
+    if (event.target === this.colorFieldScopeNode) {
+      return;
+    }
+
     this.captureColorFieldColor(offsetX, offsetY);
     this.colorFieldScopeNode.focus();
   };
@@ -557,6 +562,9 @@ export class ColorPicker
       context: this.hueSliderRenderingContext,
       bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect(),
     };
+    if (event.target === this.hueScopeNode) {
+      return;
+    }
     this.captureHueSliderColor(offsetX);
     this.hueScopeNode.focus();
   };
@@ -580,6 +588,7 @@ export class ColorPicker
   };
 
   private globalPointerUpHandler = (event: PointerEvent): void => {
+    console.log("pointer up");
     if (!isPrimaryPointerButton(event)) {
       return;
     }
@@ -597,6 +606,7 @@ export class ColorPicker
     const { activeCanvasInfo, el } = this;
 
     if (!el.isConnected || !activeCanvasInfo) {
+      console.log("move handler");
       return;
     }
 
@@ -769,6 +779,7 @@ export class ColorPicker
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
             class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
+            onPointerDown={this.handleColorFieldPointerDown}
             role="slider"
             style={{
               top: `${colorFieldScopeTop - DIMENSIONS.scopeNode / 2 || 0}px`,
@@ -796,6 +807,7 @@ export class ColorPicker
                 aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
                 class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                 onKeyDown={this.handleHueScopeKeyDown}
+                onPointerDown={this.handleHueSliderPointerDown}
                 role="slider"
                 style={{
                   top: `${hueTop - DIMENSIONS.scopeNode / 2}px`,
