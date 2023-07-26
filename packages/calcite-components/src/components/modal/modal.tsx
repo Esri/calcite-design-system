@@ -352,6 +352,8 @@ export class Modal
 
   modalContent: HTMLDivElement;
 
+  initialOverflowCSS: string;
+
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver()
   );
@@ -532,7 +534,9 @@ export class Modal
     this.contentId = ensureId(contentEl);
 
     if (!this.slottedInShell) {
-      document.documentElement.classList.add(CSS.overflowHidden);
+      this.initialOverflowCSS = document.documentElement.style.overflow;
+      // use an inline style instead of a utility class to avoid global class declarations.
+      document.documentElement.style.setProperty("overflow", "hidden");
     }
   }
 
@@ -554,7 +558,7 @@ export class Modal
   };
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.classList.remove(CSS.overflowHidden);
+    document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
   }
 
   private handleMutationObserver = (): void => {

@@ -52,11 +52,7 @@ import {
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   connectMessages,
   disconnectMessages,
@@ -127,6 +123,8 @@ export class Combobox
 
   @Watch("open")
   openHandler(): void {
+    onToggleOpenCloseComponent(this);
+
     if (this.disabled) {
       this.open = false;
       return;
@@ -401,11 +399,11 @@ export class Combobox
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLabel(this);
     connectForm(this);
-    connectOpenCloseComponent(this);
     this.setFilteredPlacements();
     this.reposition(true);
     if (this.open) {
       this.openHandler();
+      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -437,7 +435,6 @@ export class Combobox
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -783,7 +780,6 @@ export class Combobox
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {

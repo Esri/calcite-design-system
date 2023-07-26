@@ -61,3 +61,5 @@
   border-inline-end: theme("borderWidth.DEFAULT") solid;
   @apply border-color-3;
 }
+
+@include base-component();
