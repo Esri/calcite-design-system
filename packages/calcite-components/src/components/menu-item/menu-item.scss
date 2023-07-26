@@ -81,7 +81,7 @@
 }
 
 :host([layout="vertical"]) .icon--end {
-  @apply ms-auto;
+  @apply ms-auto ps-3;
 }
 
 .icon--dropdown {
@@ -104,6 +104,10 @@
 .icon--breadcrumb {
   @apply ps-2 me-0;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
+}
+
+:host([layout="vertical"]) .icon--breadcrumb {
+  @apply ms-2;
 }
 
 :host([breadcrumb]) .content {
