@@ -35,7 +35,7 @@
   text-color-2
   box-border
   bg-foreground-1
-  px-3
+  px-4
   h-full
   w-full;
   text-decoration: none;
@@ -62,7 +62,7 @@
 }
 
 :host([active]) .content {
-  @apply text-color-1;
+  @apply text-color-1 px-3;
   border-color: var(--calcite-ui-brand);
   .icon {
     --calcite-ui-icon-color: var(--calcite-ui-brand);
