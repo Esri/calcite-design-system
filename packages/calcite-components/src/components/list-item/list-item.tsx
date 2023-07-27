@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Listen,
   Method,
   Prop,
   State,
@@ -233,6 +234,13 @@ export class ListItem
    */
   @Event({ cancelable: false }) calciteInternalListItemChange: EventEmitter<void>;
 
+  @Listen("calciteInternalListItemGroupDefaultSlotChange")
+  @Listen("calciteInternalListDefaultSlotChange")
+  handleCalciteInternalListDefaultSlotChanges(event: CustomEvent): void {
+    event.stopPropagation();
+    this.handleOpenableChange(this.defaultSlotEl);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -275,6 +283,8 @@ export class ListItem
   actionsStartEl: HTMLTableCellElement;
 
   actionsEndEl: HTMLTableCellElement;
+
+  defaultSlotEl: HTMLSlotElement;
 
   // --------------------------------------------------------------------------
   //
@@ -567,7 +577,10 @@ export class ListItem
             [CSS.nestedContainerHidden]: openable && !open,
           }}
         >
-          <slot onSlotchange={this.handleDefaultSlotChange} />
+          <slot
+            onSlotchange={this.handleDefaultSlotChange}
+            ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
+          />
         </div>
       </Host>
     );
@@ -624,9 +637,13 @@ export class ListItem
     }
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
+  handleOpenableChange(slotEl: HTMLSlotElement): void {
+    if (!slotEl) {
+      return;
+    }
+
     const { parentListEl } = this;
-    const listItemChildren = getListItemChildren(event);
+    const listItemChildren = getListItemChildren(slotEl);
     updateListItemChildren(listItemChildren);
     const openable = !!listItemChildren.length;
 
@@ -639,6 +656,10 @@ export class ListItem
     if (!openable) {
       this.open = false;
     }
+  }
+
+  handleDefaultSlotChange = (event: Event): void => {
+    this.handleOpenableChange(event.target as HTMLSlotElement);
   };
 
   toggleOpen = (): void => {

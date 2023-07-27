@@ -169,7 +169,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   @Watch("dragEnabled")
   @Watch("selectionMode")
   @Watch("selectionAppearance")
-  handleSelectionAppearanceChange(): void {
+  handleListItemChange(): void {
     this.updateListItems();
   }
 
@@ -193,6 +193,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
    * Emitted when the order of the list has changed.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragEvent>;
+
+  /**
+   * Emitted when the default slot has changes in order to notify parent lists.
+   */
+  @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<DragEvent>;
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
@@ -261,6 +266,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
     event.stopPropagation();
     this.updateListItems(true);
+  }
+
+  @Listen("calciteInternalListItemGroupDefaultSlotChange")
+  handleCalciteInternalListItemGroupDefaultSlotChange(event: CustomEvent): void {
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -449,7 +459,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
-    updateListItemChildren(getListItemChildren(event));
+    updateListItemChildren(getListItemChildren(event.target as HTMLSlotElement));
+    if (this.parentListEl) {
+      this.calciteInternalListDefaultSlotChange.emit();
+    }
   };
 
   private handleFilterActionsStartSlotChange = (event: Event): void => {
