@@ -413,5 +413,41 @@ describe("calcite-list", () => {
 
       await isElementFocused(page, "#four");
     });
+
+    it("should navigate via ArrowUp, ArrowDown with filtered items", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list filter-enabled filter-text="water">
+          <calcite-list-item id="one" value="fire" label="fire" description="fire"></calcite-list-item>
+          <calcite-list-item id="two" value="fire" label="fire" description="fire"></calcite-list-item>
+          <calcite-list-item id="three" value="fire" label="fire" description="fire"></calcite-list-item>
+          <calcite-list-item id="four" value="water" label="water" description="water"></calcite-list-item>
+          <calcite-list-item id="five" value="water" label="water" description="water"></calcite-list-item>
+          <calcite-list-item id="six" value="water" label="water" description="water"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+      const list = await page.find("calcite-list");
+      await list.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await isElementFocused(page, "calcite-filter");
+
+      await list.press("ArrowDown");
+
+      await isElementFocused(page, "#four");
+
+      await list.press("ArrowDown");
+
+      await isElementFocused(page, "#five");
+
+      await list.press("ArrowUp");
+
+      await isElementFocused(page, "#four");
+
+      await list.press("ArrowUp");
+
+      await isElementFocused(page, "calcite-filter");
+    });
   });
 });
