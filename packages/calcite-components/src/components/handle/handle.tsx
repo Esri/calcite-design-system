@@ -26,7 +26,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { HandleMessages } from "./assets/handle/t9n";
-import { HandleNudge } from "./interfaces";
+import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS } from "./resources";
 
 @Component({
@@ -45,7 +45,21 @@ export class Handle implements LoadableComponent, T9nComponent {
   /**
    * @internal
    */
+  // todo: rename to active
   @Prop({ mutable: true, reflect: true }) activated = false;
+
+  @Watch("activated")
+  @Watch("setPosition")
+  @Watch("setSize")
+  handleActivatedChange(): void {
+    const message = this.getAriaText("live");
+
+    if (message) {
+      this.calciteInternalHandleChange.emit({
+        message,
+      });
+    }
+  }
 
   /**
    * Value for the button title attribute
@@ -58,6 +72,27 @@ export class Handle implements LoadableComponent, T9nComponent {
    * @internal
    */
   @Prop() messages: HandleMessages;
+
+  /**
+   *
+   *
+   * @internal
+   */
+  @Prop() setPosition: number;
+
+  /**
+   *
+   *
+   * @internal
+   */
+  @Prop() setSize: number;
+
+  /**
+   *
+   *
+   * @internal
+   */
+  @Prop() label: string;
 
   /**
    * Use this property to override individual strings used by the component.
@@ -124,6 +159,11 @@ export class Handle implements LoadableComponent, T9nComponent {
    */
   @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
 
+  /**
+   * Emitted when the handle is activated or deactivated.
+   */
+  @Event({ cancelable: false }) calciteInternalHandleChange: EventEmitter<HandleChange>;
+
   // --------------------------------------------------------------------------
   //
   //  Methods
@@ -143,6 +183,27 @@ export class Handle implements LoadableComponent, T9nComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  getAriaText(type: "label" | "live"): string {
+    const { setPosition, setSize, label, messages, activated } = this;
+
+    if (!label || typeof setSize !== "number" || typeof setPosition !== "number") {
+      return null;
+    }
+
+    const text =
+      type === "label"
+        ? activated
+          ? messages.dragHandleChange
+          : messages.dragHandleIdle
+        : activated
+        ? messages.dragHandleActive
+        : messages.dragHandleCommit;
+
+    const replacePosition = text.replace("{position}", setPosition.toString());
+    const replaceLabel = replacePosition.replace("{itemLabel}", label);
+    return replaceLabel.replace("{total}", setSize.toString());
+  }
 
   handleKeyDown = (event: KeyboardEvent): void => {
     switch (event.key) {
@@ -181,6 +242,7 @@ export class Handle implements LoadableComponent, T9nComponent {
     return (
       // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
       <span
+        aria-label={this.getAriaText("label")}
         aria-pressed={toAriaBoolean(this.activated)}
         class={{ [CSS.handle]: true, [CSS.handleActivated]: this.activated }}
         onBlur={this.handleBlur}

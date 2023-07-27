@@ -46,8 +46,6 @@ import {
 } from "../../utils/loadable";
 import { HandleNudge } from "../handle/interfaces";
 
-// todo: keyboard nav sorting
-
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
@@ -242,6 +240,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateSelectedItems(true);
   }
 
+  @Listen("calciteInternalHandleChange")
+  handleCalciteInternalHandleChange(event: CustomEvent): void {
+    this.assistiveText = event.detail.message;
+    event.stopPropagation();
+  }
+
   @Listen("calciteHandleNudge")
   calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
     if (!!this.parentListEl) {
@@ -323,7 +327,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Element() el: HTMLCalciteListElement;
 
-  assistiveTextEl: HTMLSpanElement;
+  @State() assistiveText: string;
 
   sortable: Sortable;
 
@@ -381,12 +385,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     return (
       <div class={CSS.container}>
         {this.dragEnabled ? (
-          <span
-            aria-live="assertive"
-            class="assistive-text"
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={this.storeAssistiveEl}
-          />
+          <span aria-live="assertive" class="assistive-text">
+            {this.assistiveText}
+          </span>
         ) : null}
         {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         <table
@@ -730,8 +731,6 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       (el: HTMLElement) => "matches" in el && el.matches("calcite-list-item")
     ) as HTMLCalciteListItemElement;
 
-    console.log({ direction, composedPath, sortItem });
-
     const { enabledListItems } = this;
 
     const sameParentItems = enabledListItems.filter(
@@ -768,18 +767,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     }
 
     this.updateListItems();
-
     this.connectObserver();
-    requestAnimationFrame(() => handle.setFocus());
 
-    handle.activated = true;
-  }
-
-  storeAssistiveEl = (el: HTMLSpanElement): void => {
-    this.assistiveTextEl = el;
-  };
-
-  updateScreenReaderText(text: string): void {
-    this.assistiveTextEl.textContent = text;
+    handle.setFocus().then(() => {
+      handle.activated = true;
+    });
   }
 }
