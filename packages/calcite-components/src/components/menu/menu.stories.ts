@@ -83,7 +83,7 @@ export const WithSubmenuOpen_TestOnly = (): string => html`<calcite-menu>
 export const WithSubmenuOpenInVerticalLayout_TestOnly = (): string => html`<calcite-menu layout="vertical">
   <calcite-menu-item text="Item" href="#item" open>
     <calcite-menu-item text="item1" slot="submenu-item" active></calcite-menu-item>
-    <calcite-menu-item text="item2" slot="submenu-item" active></calcite-menu-item>
+    <calcite-menu-item text="item2" slot="submenu-item"></calcite-menu-item>
   </calcite-menu-item>
   <calcite-menu-item text="Item 2" href="#item"></calcite-menu-item>
   <calcite-menu-item text="Item 3" href="#item"></calcite-menu-item>
