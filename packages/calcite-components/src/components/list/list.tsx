@@ -385,7 +385,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     return (
       <div class={CSS.container}>
         {this.dragEnabled ? (
-          <span aria-live="assertive" class="assistive-text">
+          <span aria-live="assertive" class={CSS.assistiveText}>
             {this.assistiveText}
           </span>
         ) : null}

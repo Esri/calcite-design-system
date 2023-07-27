@@ -45,7 +45,6 @@ export class Handle implements LoadableComponent, T9nComponent {
   /**
    * @internal
    */
-  // todo: rename to active
   @Prop({ mutable: true, reflect: true }) activated = false;
 
   @Watch("activated")
