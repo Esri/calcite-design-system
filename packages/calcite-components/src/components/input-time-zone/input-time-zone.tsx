@@ -37,7 +37,7 @@ import {
 } from "./utils";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
@@ -130,7 +130,7 @@ export class InputTimeZone
 
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     await this.comboboxEl.setFocus();
   }
 
