@@ -150,6 +150,10 @@ calcite-action {
   }
 }
 
+:host([layout="vertical"]:last-of-type) .dropdown-menu-items {
+  border-block-end: 0;
+}
+
 :host([slot="submenu-item"]) .parent--vertical {
   padding-inline-start: theme("spacing.7");
 }
