@@ -44,6 +44,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { HandleNudge } from "../handle/interfaces";
 
 // todo: keyboard nav sorting
 
@@ -241,6 +242,15 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateSelectedItems(true);
   }
 
+  @Listen("calciteHandleNudge")
+  calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
+    if (!!this.parentListEl) {
+      return;
+    }
+
+    this.handleNudgeEvent(event);
+  }
+
   @Listen("calciteInternalListItemSelect")
   handleCalciteInternalListItemSelect(event: CustomEvent): void {
     if (!!this.parentListEl) {
@@ -284,7 +294,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateListItems();
     this.setUpSorting();
     connectInteractive(this);
-    this.parentListEl = this.el.closest("calcite-list");
+    this.parentListEl = this.el.parentElement.closest("calcite-list");
   }
 
   disconnectedCallback(): void {
@@ -696,4 +706,58 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       }
     }
   };
+
+  handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
+    const { direction } = event.detail;
+
+    const composedPath = event.composedPath();
+
+    const handle = composedPath.find(
+      (el: HTMLElement) => "matches" in el && el.matches("calcite-handle")
+    ) as HTMLCalciteHandleElement;
+
+    const sortItem = composedPath.find(
+      (el: HTMLElement) => "matches" in el && el.matches("calcite-list-item")
+    ) as HTMLCalciteListItemElement;
+
+    console.log({ direction, composedPath, sortItem });
+
+    const { enabledListItems } = this;
+
+    const lastIndex = enabledListItems.length - 1;
+    const startingIndex = enabledListItems.indexOf(sortItem);
+    let appendInstead = false;
+    let buddyIndex: number;
+
+    if (direction === "up") {
+      if (startingIndex === 0) {
+        appendInstead = true;
+      } else {
+        buddyIndex = startingIndex - 1;
+      }
+    } else {
+      if (startingIndex === lastIndex) {
+        buddyIndex = 0;
+      } else if (startingIndex === lastIndex - 1) {
+        appendInstead = true;
+      } else {
+        buddyIndex = startingIndex + 2;
+      }
+    }
+
+    this.disconnectObserver();
+
+    if (appendInstead) {
+      sortItem.parentElement.appendChild(sortItem);
+    } else {
+      sortItem.parentElement.insertBefore(sortItem, enabledListItems[buddyIndex]);
+    }
+
+    this.updateListItems();
+
+    this.connectObserver();
+    requestAnimationFrame(() => handle.setFocus());
+
+    handle.activated = true;
+  }
 }
