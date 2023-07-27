@@ -5,8 +5,7 @@ import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 import { GlobalTestProps, selectText, getElementXY, newProgrammaticE2EPage } from "../../tests/utils";
 import { html } from "../../../support/formatting";
-
-const thumbNodeOffset = DIMENSIONS.thumbNode / 2;
+import { getCenterXYOfThumbNode } from "./utils";
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
@@ -667,25 +666,29 @@ describe("calcite-color-picker", () => {
 
     let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
 
-    await page.mouse.move(hueScopeX + thumbNodeOffset, hueScopeY + thumbNodeOffset);
+    let [hueScopeCenterX, hueScopeCenterY] = getCenterXYOfThumbNode(hueScopeX, hueScopeY);
+
+    await page.mouse.move(hueScopeCenterX, hueScopeCenterY);
     await page.mouse.down();
-    await page.mouse.move(0, hueScopeY + thumbNodeOffset);
+    await page.mouse.move(0, hueScopeCenterY);
     await page.mouse.up();
     await page.waitForChanges();
 
     [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+    [hueScopeCenterX, hueScopeCenterY] = getCenterXYOfThumbNode(hueScopeX, hueScopeY);
 
-    expect(hueScopeX).toBe(hueSliderX - thumbNodeOffset);
+    expect(hueScopeCenterX).toBe(hueSliderX);
 
-    await page.mouse.move(hueScopeX, hueScopeY);
+    await page.mouse.move(hueScopeCenterX, hueScopeCenterY);
     await page.mouse.down();
-    await page.mouse.move(hueScopeX + DIMENSIONS.m.slider.width, hueScopeY);
+    await page.mouse.move(hueScopeCenterX + DIMENSIONS.m.slider.width, hueScopeCenterY);
     await page.mouse.up();
     await page.waitForChanges();
 
     [hueScopeX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+    [hueScopeCenterX] = getCenterXYOfThumbNode(hueScopeX, hueScopeY);
 
-    expect(hueScopeX).toBe(hueSliderX + DIMENSIONS.m.slider.width - 1);
+    expect(hueScopeCenterX).toBe(hueSliderX + DIMENSIONS.m.slider.width - 1);
   });
 
   describe("unsupported value handling", () => {
@@ -2160,7 +2163,7 @@ describe("calcite-color-picker", () => {
       const scope = await page.find(`calcite-color-picker >>> .${CSS.colorFieldScope}`);
 
       const initialStyle = await scope.getComputedStyle();
-      expect(initialStyle.left).toBe(`${0 - thumbNodeOffset}px`);
+      expect(initialStyle.left).toBe("-0.5px");
 
       await clickScope(page, "color-field");
 
@@ -2172,7 +2175,7 @@ describe("calcite-color-picker", () => {
       await page.waitForChanges();
 
       const finalStyle = await scope.getComputedStyle();
-      expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width - thumbNodeOffset}px`);
+      expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width - DIMENSIONS.thumbNode / 2}px`);
     });
 
     it("allows nudging color's hue even if it does not change RGB value", async () => {
@@ -2192,23 +2195,23 @@ describe("calcite-color-picker", () => {
 
       const getScopeLeftOffset = async () => parseFloat((await scope.getComputedStyle()).left);
 
-      expect(await getScopeLeftOffset()).toBe(0 - thumbNodeOffset);
+      expect(await getScopeLeftOffset()).toBe(-0.5);
 
       await nudgeAQuarterOfSlider();
-      expect(await getScopeLeftOffset()).toBe(68 - thumbNodeOffset);
+      expect(await getScopeLeftOffset()).toBe(67.5);
 
       await nudgeAQuarterOfSlider();
-      expect(await getScopeLeftOffset()).toBe(136 - thumbNodeOffset);
+      expect(await getScopeLeftOffset()).toBe(135.5);
 
       await nudgeAQuarterOfSlider();
       // hue wraps around, so we nudge it back to assert position at the edge
       await scope.press("ArrowLeft");
-      expect(await getScopeLeftOffset()).toBeLessThanOrEqual(204 - thumbNodeOffset);
-      expect(await getScopeLeftOffset()).toBeGreaterThan(203 - thumbNodeOffset);
+      expect(await getScopeLeftOffset()).toBeLessThanOrEqual(203.5);
+      expect(await getScopeLeftOffset()).toBeGreaterThan(202.5);
 
       // nudge it to wrap around
       await scope.press("ArrowRight");
-      expect(await getScopeLeftOffset()).toBe(0 - thumbNodeOffset);
+      expect(await getScopeLeftOffset()).toBe(-0.5);
     });
 
     it("allows editing hue slider via keyboard", async () => {
@@ -2239,8 +2242,8 @@ describe("calcite-color-picker", () => {
       const hueSliderScope = await page.find(`calcite-color-picker >>> .${CSS.hueScope}`);
 
       expect(await hueSliderScope.getComputedStyle()).toMatchObject({
-        top: `${10 - thumbNodeOffset}px`,
-        left: `${0 - thumbNodeOffset}px`,
+        top: "9.5px",
+        left: "-0.5px",
       });
     });
   });

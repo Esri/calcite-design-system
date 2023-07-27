@@ -1,5 +1,7 @@
 import {
   colorEqual,
+  getAdjustedLeftAndTop,
+  getCenterXYOfThumbNode,
   hexToRGB,
   isLonghandHex,
   isShorthandHex,
@@ -148,5 +150,15 @@ describe("utils", () => {
     expect(isLonghandHex("#00ff00", true)).toBe(false);
     expect(isLonghandHex("#00ff00f", true)).toBe(false);
     expect(isLonghandHex("#00ff00ff0", true)).toBe(false);
+  });
+
+  it("getAdjustedLeftAndTop", () => {
+    expect(getAdjustedLeftAndTop(100, 50)).toStrictEqual([99.5, 49.5]);
+    expect(getAdjustedLeftAndTop(0, 0)).toStrictEqual([-0.5, -0.5]);
+  });
+
+  it("getCenterXYOfThumbNode", () => {
+    expect(getCenterXYOfThumbNode(100, 50)).toStrictEqual([100.5, 50.5]);
+    expect(getCenterXYOfThumbNode(0, 0)).toStrictEqual([0.5, 0.5]);
   });
 });

@@ -32,6 +32,7 @@ import {
   colorEqual,
   CSSColorMode,
   Format,
+  getAdjustedLeftAndTop,
   hexify,
   normalizeAlpha,
   normalizeColor,
@@ -760,6 +761,11 @@ export class ColorPicker
     const noHex = hexDisabled || hideHex;
     const noChannels = channelsDisabled || hideChannels;
     const noSaved = savedDisabled || hideSaved;
+    const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = getAdjustedLeftAndTop(
+      colorFieldScopeLeft,
+      colorFieldScopeTop
+    );
+    const [adjustedHueLeft, adjustedHueTop] = getAdjustedLeftAndTop(hueLeft, hueTop);
 
     return (
       <div class={CSS.container}>
@@ -780,8 +786,8 @@ export class ColorPicker
             onPointerDown={this.handleColorFieldPointerDown}
             role="slider"
             style={{
-              top: `${colorFieldScopeTop - DIMENSIONS.thumbNode / 2 || 0}px`,
-              left: `${colorFieldScopeLeft - DIMENSIONS.thumbNode / 2 || 0}px`,
+              top: `${adjustedColorFieldScopeTop || 0}px`,
+              left: `${adjustedColorFieldScopeLeft || 0}px`,
             }}
             tabindex="0"
             // eslint-disable-next-line react/jsx-sort-props
@@ -808,8 +814,8 @@ export class ColorPicker
                 onPointerDown={this.handleHueSliderPointerDown}
                 role="slider"
                 style={{
-                  top: `${hueTop - DIMENSIONS.thumbNode / 2}px`,
-                  left: `${hueLeft - DIMENSIONS.thumbNode / 2}px`,
+                  top: `${adjustedHueTop}px`,
+                  left: `${adjustedHueLeft}px`,
                 }}
                 tabindex="0"
                 // eslint-disable-next-line react/jsx-sort-props
