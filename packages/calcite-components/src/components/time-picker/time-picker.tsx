@@ -960,12 +960,8 @@ export class TimePicker
             </span>
             <span
               aria-label={this.messages.fractionalSecond}
-              // TODO: aria-valuemax
-              // aria-valuemax="59"
-
-              // TODO: aria-valuemin
-              // aria-valuemin="0"
-
+              aria-valuemax="999"
+              aria-valuemin="1"
               // TODO: aria-valuenow
               // aria-valuenow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
 
