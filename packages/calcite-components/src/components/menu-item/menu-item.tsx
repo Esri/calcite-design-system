@@ -442,7 +442,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
       <calcite-icon
         class={CSS.hoverHrefIcon}
         icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
-        key={CSS.dropdownAction}
+        key={CSS.hoverHrefIcon}
         scale="s"
       />
     );
