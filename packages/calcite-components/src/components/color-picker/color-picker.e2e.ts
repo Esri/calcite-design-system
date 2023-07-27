@@ -661,11 +661,9 @@ describe("calcite-color-picker", () => {
   it("does not wrap the hue slider thumb when dragging past the edge", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
-
     const [hueSliderX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueSlider}`);
 
     let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-
     let [hueScopeCenterX, hueScopeCenterY] = getCenterXYOfThumbNode(hueScopeX, hueScopeY);
 
     await page.mouse.move(hueScopeCenterX, hueScopeCenterY);
