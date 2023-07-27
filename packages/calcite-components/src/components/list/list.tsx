@@ -269,6 +269,11 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
+
+    if (this.filterEl && this.filterEnabled) {
+      return this.filterEl.setFocus();
+    }
+
     return this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 
