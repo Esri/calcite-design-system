@@ -213,16 +213,16 @@ export function localizeTimeStringToParts({
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
 
-    let fractionalSecond, millisecondDecimal, localizedMillisecondDecimal, localizedDecimalSeparator;
+    let fractionalSecond, fractionalSecondDecimal, localizedFractionalSecondDecimal, localizedDecimalSeparator;
     const secondPrecision = getDecimalPlaces(second);
     if (secondPrecision && secondPrecision > 1) {
       fractionalSecond = parseFloat(second).toFixed(3);
-      millisecondDecimal = fractionalSecond.split(".", 2)[1];
+      fractionalSecondDecimal = fractionalSecond.split(".", 2)[1];
       numberStringFormatter.numberFormatOptions = {
         locale,
         numberingSystem,
       };
-      localizedMillisecondDecimal = numberStringFormatter.localize(millisecondDecimal);
+      localizedFractionalSecondDecimal = numberStringFormatter.localize(fractionalSecondDecimal);
       localizedDecimalSeparator = numberStringFormatter.localize("1.1").split("")[1];
     }
 
@@ -230,7 +230,7 @@ export function localizeTimeStringToParts({
       localizedDecimalSeparator,
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
-      localizedFractionalSecond: localizedMillisecondDecimal,
+      localizedFractionalSecond: localizedFractionalSecondDecimal,
       localizedMinute: getLocalizedTimePart("minute", parts),
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
