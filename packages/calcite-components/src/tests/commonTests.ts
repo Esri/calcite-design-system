@@ -1337,29 +1337,25 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  * });
  *
  */
-export function emitsOpenCloseTransitionChainedEvents(
+export function emitsOpenCloseEvents(
   componentTestSetup: ComponentTestSetup,
   toggleProp: string,
   containerSelector: string
 ): void {
-  it(`should emit component status for transition-chained events: 'calciteComponentBeforeOpen', 'calciteComponentOpen', 'calciteComponentBeforeClose', 'calciteComponentClose'`, async () => {
+  it(`should emit (before)open/close events`, async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
     await page.setContent(`${componentTestSetup}`);
     const element = await page.find(tag);
 
-    const camelCaseTag = tag.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+    const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
+    const events = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
 
-    const beforeOpenEvent = page.waitForEvent(`${camelCaseTag}BeforeOpen`);
-    const openEvent = page.waitForEvent(`${camelCaseTag}Open`);
-
-    const beforeOpenSpy = await element.spyOnEvent(`${camelCaseTag}BeforeOpen`);
-    const openSpy = await element.spyOnEvent(`${camelCaseTag}Open`);
-
-    const beforeCloseEvent = page.waitForEvent(`${camelCaseTag}BeforeClose`);
-    const closeEvent = page.waitForEvent(`${camelCaseTag}Close`);
-
-    const beforeCloseSpy = await element.spyOnEvent(`${camelCaseTag}BeforeClose`);
-    const closeSpy = await element.spyOnEvent(`${camelCaseTag}Close`);
+    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = events.map((event) =>
+      page.waitForEvent(`${camelCaseTag}${event}`)
+    );
+    const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
+      events.map(async (event) => await element.spyOnEvent(`${camelCaseTag}${event}`))
+    );
 
     element.setProperty(toggleProp, true);
     await page.waitForChanges();

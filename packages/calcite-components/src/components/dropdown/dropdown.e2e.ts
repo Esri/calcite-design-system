@@ -9,7 +9,7 @@ import {
   floatingUIOwner,
   hidden,
   renders,
-  emitsOpenCloseTransitionChainedEvents,
+  emitsOpenCloseEvents,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 
@@ -61,8 +61,8 @@ describe("calcite-dropdown", () => {
     });
   });
 
-  describe("emitsOpenCloseTransitionChainedEvents", () => {
-    emitsOpenCloseTransitionChainedEvents(simpleDropdownHTML, "open", ".container");
+  describe("emitsOpenCloseEvents", () => {
+    emitsOpenCloseEvents(simpleDropdownHTML, "open", ".container");
   });
 
   interface SelectedItemsAssertionOptions {
