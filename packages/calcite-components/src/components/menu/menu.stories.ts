@@ -19,11 +19,47 @@ export const simple = (): string => html` <calcite-menu
   <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
 </calcite-menu>`;
 
+export const iconsAndBreadcrumb = (): string => html` <calcite-menu>
+  <calcite-menu-item
+    icon-start="layer"
+    breadcrumb
+    icon-end="layer"
+    text="Example item 1"
+    text-enabled
+  ></calcite-menu-item>
+  <calcite-menu-item
+    icon-start="layer"
+    breadcrumb
+    icon-end="layer"
+    text="Example item 2"
+    text-enabled
+  ></calcite-menu-item>
+  <calcite-menu-item icon-start="layer" icon-end="layer" text="Example item 3" active text-enabled></calcite-menu-item>
+</calcite-menu>`;
+
+export const iconsAndBreadcrumbVertical_TestOnly = (): string => html` <calcite-menu layout="vertical">
+  <calcite-menu-item
+    icon-start="layer"
+    breadcrumb
+    icon-end="layer"
+    text="Example item 1"
+    text-enabled
+  ></calcite-menu-item>
+  <calcite-menu-item
+    icon-start="layer"
+    breadcrumb
+    icon-end="layer"
+    text="Example item 2"
+    text-enabled
+  ></calcite-menu-item>
+  <calcite-menu-item icon-start="layer" icon-end="layer" text="Example item 3" active text-enabled></calcite-menu-item>
+</calcite-menu>`;
+
 export const withNesting = (): string => html`<calcite-panel>
   <calcite-menu layout="${select("layout", ["horizontal", "vertical"], "horizontal")}">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
-    <calcite-menu-item text="Example item 3" text-enabled>
+    <calcite-menu-item text="Example item 3" text-enabled open>
       <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled> </calcite-menu-item>
       <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled>
         <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
@@ -38,13 +74,19 @@ export const withNesting = (): string => html`<calcite-panel>
 export const WithSubmenuOpen_TestOnly = (): string => html`<calcite-menu>
   <calcite-menu-item text="Item" href="#item" open>
     <calcite-menu-item text="item1" slot="submenu-item" active> </calcite-menu-item>
+    <calcite-menu-item text="item2" slot="submenu-item"> </calcite-menu-item>
   </calcite-menu-item>
+  <calcite-menu-item text="Item 2" href="#item"> </calcite-menu-item>
+  <calcite-menu-item text="Item 3" href="#item"> </calcite-menu-item>
 </calcite-menu>`;
 
 export const WithSubmenuOpenInVerticalLayout_TestOnly = (): string => html` <calcite-menu layout="vertical">
   <calcite-menu-item text="Item" href="#item" open>
     <calcite-menu-item text="item1" slot="submenu-item" active> </calcite-menu-item>
+    <calcite-menu-item text="item2" slot="submenu-item" active> </calcite-menu-item>
   </calcite-menu-item>
+  <calcite-menu-item text="Item 2" href="#item"> </calcite-menu-item>
+  <calcite-menu-item text="Item 3" href="#item"> </calcite-menu-item>
 </calcite-menu>`;
 
 export const darkModeRTL_TestOnly = (): string => html`<calcite-menu dir="rtl" class="calcite-mode-dark">

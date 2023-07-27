@@ -96,6 +96,9 @@
 :host([layout="vertical"]) .hover-href-icon {
   @apply ps-2;
 }
+:host([layout="vertical"]) .hover-href-icon ~ .icon--end {
+  @apply ms-2;
+}
 
 .icon--breadcrumb {
   @apply ps-2 me-0;
@@ -103,6 +106,14 @@
 }
 
 :host([layout="vertical"]) .icon--breadcrumb {
+  @apply ms-auto;
+}
+
+:host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
+  @apply ms-2;
+}
+
+:host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
   @apply ms-2;
 }
 
