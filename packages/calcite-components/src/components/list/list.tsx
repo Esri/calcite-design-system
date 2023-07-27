@@ -269,6 +269,11 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
+
+    if (this.filterEnabled) {
+      return this.filterEl?.setFocus();
+    }
+
     return this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 
@@ -493,7 +498,7 @@ export class List implements InteractiveComponent, LoadableComponent {
       }
     }
     this.updateFilteredItems(emit);
-    this.enabledListItems = items.filter((item) => !item.disabled && !item.closed);
+    this.enabledListItems = this.filteredItems.filter((item) => !item.disabled && !item.closed);
     this.setActiveListItem();
     this.updateSelectedItems(emit);
   }, debounceTimeout);
@@ -535,13 +540,19 @@ export class List implements InteractiveComponent, LoadableComponent {
 
     if (key === "ArrowDown") {
       event.preventDefault();
-      const nextIndex = currentIndex + 1;
+      const nextIndex = event.target === this.filterEl ? 0 : currentIndex + 1;
 
       if (filteredItems[nextIndex]) {
         this.focusRow(filteredItems[nextIndex]);
       }
     } else if (key === "ArrowUp") {
       event.preventDefault();
+
+      if (currentIndex === 0 && this.filterEnabled) {
+        this.filterEl?.setFocus();
+        return;
+      }
+
       const prevIndex = currentIndex - 1;
 
       if (filteredItems[prevIndex]) {

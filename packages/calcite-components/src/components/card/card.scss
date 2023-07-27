@@ -125,3 +125,5 @@ slot[name="footer-start"]::slotted(*),
 slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
 }
+
+@include base-component();
