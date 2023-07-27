@@ -531,7 +531,11 @@ export class ColorPicker
       return;
     }
 
-    const { offsetX, offsetY } = event;
+    let { offsetX, offsetY } = event;
+    if (event.target === this.colorFieldScopeNode) {
+      offsetX = this.colorFieldScopeLeft + offsetX;
+      offsetY = this.colorFieldScopeTop + offsetY;
+    }
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
@@ -540,10 +544,6 @@ export class ColorPicker
       context: this.colorFieldRenderingContext,
       bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect(),
     };
-
-    if (event.target === this.colorFieldScopeNode) {
-      return;
-    }
 
     this.captureColorFieldColor(offsetX, offsetY);
     this.colorFieldScopeNode.focus();
@@ -554,7 +554,10 @@ export class ColorPicker
       return;
     }
 
-    const { offsetX } = event;
+    let { offsetX } = event;
+    if (event.target === this.hueScopeNode) {
+      offsetX = this.hueScopeLeft + offsetX;
+    }
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
@@ -563,9 +566,7 @@ export class ColorPicker
       context: this.hueSliderRenderingContext,
       bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect(),
     };
-    if (event.target === this.hueScopeNode) {
-      return;
-    }
+
     this.captureHueSliderColor(offsetX);
     this.hueScopeNode.focus();
   };
@@ -575,7 +576,11 @@ export class ColorPicker
       return;
     }
 
-    const { offsetX } = event;
+    let { offsetX } = event;
+
+    if (event.target === this.opacityScopeNode) {
+      offsetX = this.opacityScopeLeft + offsetX;
+    }
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
@@ -765,7 +770,11 @@ export class ColorPicker
       colorFieldScopeLeft,
       colorFieldScopeTop
     );
-    const [adjustedHueLeft, adjustedHueTop] = getAdjustedLeftAndTop(hueLeft, hueTop);
+    const [adjustedHueScopeLeft, adjustedHueScopeTop] = getAdjustedLeftAndTop(hueLeft, hueTop);
+    const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = getAdjustedLeftAndTop(
+      opacityLeft,
+      opacityTop
+    );
 
     return (
       <div class={CSS.container}>
@@ -814,8 +823,8 @@ export class ColorPicker
                 onPointerDown={this.handleHueSliderPointerDown}
                 role="slider"
                 style={{
-                  top: `${adjustedHueTop}px`,
-                  left: `${adjustedHueLeft}px`,
+                  top: `${adjustedHueScopeTop}px`,
+                  left: `${adjustedHueScopeLeft}px`,
                 }}
                 tabindex="0"
                 // eslint-disable-next-line react/jsx-sort-props
@@ -837,8 +846,12 @@ export class ColorPicker
                   aria-valuenow={(color || DEFAULT_COLOR).round().alpha()}
                   class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                   onKeyDown={this.handleOpacityScopeKeyDown}
+                  onPointerDown={this.handleOpacitySliderPointerDown}
                   role="slider"
-                  style={{ top: `${opacityTop}px`, left: `${opacityLeft}px` }}
+                  style={{
+                    top: `${adjustedOpacityScopeTop}px`,
+                    left: `${adjustedOpacityScopeLeft}px`,
+                  }}
                   tabindex="0"
                   // eslint-disable-next-line react/jsx-sort-props
                   ref={this.storeOpacityScope}
@@ -977,7 +990,12 @@ export class ColorPicker
     const channelsToRender = alphaChannel ? channels : channels.slice(0, 3);
 
     return (
-      <calcite-tab class={CSS.control} key={channelMode} selected={selected}>
+      <calcite-tab
+        class={CSS.control}
+        is-container-disabled={true}
+        key={channelMode}
+        selected={selected}
+      >
         {/* channel order should not be mirrored */}
         <div class={CSS.channels} dir="ltr">
           {channelsToRender.map((channelValue, index) => {

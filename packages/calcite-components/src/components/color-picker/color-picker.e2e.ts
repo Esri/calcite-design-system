@@ -2245,4 +2245,61 @@ describe("calcite-color-picker", () => {
       });
     });
   });
+
+  describe("mouse interaction with scope", () => {
+    it("should update value when color field scope is moved", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-color-picker ></calcite-color-picker>`);
+      const colorPicker = await page.find("calcite-color-picker");
+
+      const [colorFieldScopeX, colorFieldScopeY] = await getElementXY(
+        page,
+        "calcite-color-picker",
+        `.${CSS.colorFieldScope}`
+      );
+      const value = await colorPicker.getProperty("value");
+
+      await page.mouse.move(colorFieldScopeX, colorFieldScopeY + 0.8);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+      expect(await colorPicker.getProperty("value")).not.toBe(value);
+    });
+
+    it("should update value when hue scope is moved", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-color-picker ></calcite-color-picker>`);
+      const colorPicker = await page.find("calcite-color-picker");
+
+      const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+      const value = await colorPicker.getProperty("value");
+
+      await page.mouse.move(hueScopeX + 0.8, hueScopeY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+      expect(await colorPicker.getProperty("value")).not.toBe(value);
+    });
+
+    it("should update value when opacity scope is moved", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-color-picker alpha-channel></calcite-color-picker>`);
+
+      const [opacityScopeX, opacityScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.opacityScope}`);
+      const opacityInputEl = await page.find(`calcite-color-picker >>> [data-channel-index='3']`);
+
+      await page.mouse.move(opacityScopeX - 10, opacityScopeY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+      const value = await opacityInputEl.getProperty("value");
+
+      await page.mouse.move(opacityScopeX + 0.8, opacityScopeY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(await opacityInputEl.getProperty("value")).not.toBe(value);
+    });
+  });
 });
