@@ -1327,7 +1327,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 /*
  * @param {ComponentTestSetup} ComponentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
- * @param {string} containerSelector - Container element selector to test for visibility.
+ * @param {string} containerSelector - Container element selector.
  *
  * @example
  * import { emitsOpenCloseTransitionChainedEvents } from "../../tests/commonTests";
@@ -1360,7 +1360,7 @@ export function emitsOpenCloseEvents(
     element.setProperty(toggleProp, true);
     await page.waitForChanges();
 
-    const container = await page.find(`calcite-dropdown-group >>> ${containerSelector}`);
+    const container = await page.find(containerSelector);
     await page.waitForChanges();
 
     expect(await container.isVisible()).toBe(true);
@@ -1370,6 +1370,9 @@ export function emitsOpenCloseEvents(
 
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
+
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+    expect(closeSpy).toHaveReceivedEventTimes(0);
 
     element.setProperty(toggleProp, false);
     await page.waitForChanges();
@@ -1381,5 +1384,8 @@ export function emitsOpenCloseEvents(
 
     expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
     expect(closeSpy).toHaveReceivedEventTimes(1);
+
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
   });
 }
