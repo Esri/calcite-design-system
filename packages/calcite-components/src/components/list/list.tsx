@@ -270,8 +270,8 @@ export class List implements InteractiveComponent, LoadableComponent {
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    if (this.filterEl && this.filterEnabled) {
-      return this.filterEl.setFocus();
+    if (this.filterEnabled) {
+      return this.filterEl?.setFocus();
     }
 
     return this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
@@ -538,28 +538,25 @@ export class List implements InteractiveComponent, LoadableComponent {
     const filteredItems = this.enabledListItems.filter((listItem) => this.isNavigable(listItem));
     const currentIndex = filteredItems.findIndex((listItem) => listItem.active);
 
-    if (key === "ArrowDown" && event.target === this.filterEl) {
+    if (key === "ArrowDown") {
       event.preventDefault();
-      const nextIndex = 0;
-
-      if (filteredItems[nextIndex]) {
-        this.focusRow(filteredItems[nextIndex]);
-      }
-    } else if (key === "ArrowDown") {
-      event.preventDefault();
-      const nextIndex = currentIndex + 1;
+      const nextIndex = event.target === this.filterEl ? 0 : currentIndex + 1;
 
       if (filteredItems[nextIndex]) {
         this.focusRow(filteredItems[nextIndex]);
       }
     } else if (key === "ArrowUp") {
       event.preventDefault();
+
+      if (currentIndex === 0 && this.filterEnabled) {
+        this.filterEl?.setFocus();
+        return;
+      }
+
       const prevIndex = currentIndex - 1;
 
       if (filteredItems[prevIndex]) {
         this.focusRow(filteredItems[prevIndex]);
-      } else if (currentIndex === 0 && this.filterEnabled && this.filterEl) {
-        this.filterEl.setFocus();
       }
     } else if (key === "Home") {
       event.preventDefault();
