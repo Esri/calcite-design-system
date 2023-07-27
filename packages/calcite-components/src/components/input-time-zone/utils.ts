@@ -1,37 +1,11 @@
-import { BasicTimeZoneGroup, TimeZone, TimeZoneGroup } from "./interfaces";
-import { SupportedLocales } from "../../utils/locale";
+import { BasicTimeZoneGroup } from "./interfaces";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
 
-function toGMT0(offset: string): string {
-  return offset.replace(/\s?[0-9+\-−:]/g, "");
-}
-
-function toOffsetValue(offset: string): number {
-  const gmt0 = toGMT0(offset);
-  const offsetValue =
-    Number(offset === gmt0 ? 0 : offset.replace(gmt0, "").replace(":30", ".5").replace(":45", ".75")) * hourToMinutes;
-
-  if (isNaN(offsetValue)) {
-    debugger;
-  }
-
-  return offsetValue;
-}
-
 export function getUserTimeZoneOffset(): number {
   const localDate = new Date();
   return localDate.getTimezoneOffset() * -1;
-}
-
-function getTimeZoneOffset(locale: SupportedLocales, timeZone: TimeZone): string {
-  const dataFormatter = new Intl.DateTimeFormat(locale, {
-    timeZone,
-    timeZoneName: "shortOffset",
-  });
-
-  return dataFormatter.formatToParts(Date.now()).find((part) => part.type === "timeZoneName")?.value;
 }
 
 function getFallbackTimeZoneGroups(): BasicTimeZoneGroup[] {
@@ -57,39 +31,16 @@ export function toGMTLabel(offsetInHours: number): string {
   return `GMT${offsetInHours.toLocaleString("en", { signDisplay: "always" })}`;
 }
 
-export async function generateTimeZoneGroups(
-  locale: SupportedLocales,
-  messages: InputTimeZoneMessages
-): Promise<TimeZoneGroup[] | BasicTimeZoneGroup[]> {
-  if (!("supportedValuesOf" in Intl)) {
-    return getFallbackTimeZoneGroups();
+let timeZoneGeneration: Promise<BasicTimeZoneGroup[]>;
+
+export async function generateTimeZoneGroups(): Promise<BasicTimeZoneGroup[]> {
+  if (timeZoneGeneration) {
+    return timeZoneGeneration;
   }
 
-  return Intl.supportedValuesOf("timeZone")
-    .map((timeZone) => {
-      const groupLabel = messages[timeZone];
+  timeZoneGeneration = Promise.resolve(getFallbackTimeZoneGroups());
 
-      if (!groupLabel) {
-        return;
-      }
-
-      const offsetLabel = getTimeZoneOffset(locale, timeZone);
-      const offsetValue = toOffsetValue(offsetLabel);
-      const offsetGroupLabel = createGroupLabel(messages, offsetLabel, groupLabel);
-
-      return {
-        offsetLabel,
-        offsetValue,
-        offsetGroupLabel,
-        offsetGroupRepTimeZone: timeZone,
-      };
-    })
-    .filter((group) => !!group)
-    .sort((groupA, groupB) => groupA.offsetValue - groupB.offsetValue);
-}
-
-export function isBasicTimeZoneGroup(group: TimeZoneGroup | BasicTimeZoneGroup): group is BasicTimeZoneGroup {
-  return !("offsetGroupRepTimeZone" in group);
+  return timeZoneGeneration;
 }
 
 function createGroupLabel(messages: InputTimeZoneMessages, offsetLabel: string, groupLabel: string): string {

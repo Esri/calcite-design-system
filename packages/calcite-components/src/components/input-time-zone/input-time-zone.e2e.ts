@@ -54,47 +54,41 @@ describe("calcite-input-time-zone", () => {
 
   it("supports translations", () => t9n("calcite-input-time-zone"));
 
-  describe("fallback time zone offset list", () => {
-    /*
-     * We can only test the fallback list due to the lack of support for `Intl.DateTimeFormatOptions#timeZoneName` in Chromium v92 (bundled in Puppeteer v10).
-     */
+  describe("selects user's matching timezone offset by default", () => {
+    const timeZoneNamesAndOffsets = [
+      { name: "America/Los_Angeles", offset: -420 },
+      { name: "Europe/London", offset: 60 },
+    ];
 
-    describe("selects user's matching timezone offset by default", () => {
-      const timeZoneNamesAndOffsets = [
-        { name: "America/Los_Angeles", offset: -420 },
-        { name: "Europe/London", offset: 60 },
-      ];
+    timeZoneNamesAndOffsets.forEach(({ name, offset }) => {
+      it(`selects default timezone for "${name}"`, async () => {
+        const page = await newE2EPage();
+        await page.emulateTimezone(name);
+        await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
+        await page.waitForTimeout(1000);
 
-      timeZoneNamesAndOffsets.forEach(({ name, offset }) => {
-        it(`selects default timezone for "${name}"`, async () => {
-          const page = await newE2EPage();
-          await page.emulateTimezone(name);
-          await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
-          await page.waitForTimeout(1000);
+        const input = await page.find("calcite-input-time-zone");
 
-          const input = await page.find("calcite-input-time-zone");
+        expect(await input.getProperty("value")).toBe(offset);
 
-          expect(await input.getProperty("value")).toBe(offset);
+        const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-          const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
-
-          expect(await timeZoneItem.getProperty("textLabel")).toMatch(toGMTLabel(offset / 60));
-        });
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(toGMTLabel(offset / 60));
       });
     });
+  });
 
-    it("allows users to preselect a timezone offset", async () => {
-      const page = await newE2EPage();
-      await page.emulateTimezone("America/Los_Angeles");
-      await page.setContent(html`<calcite-input-time-zone value="-360"></calcite-input-time-zone>`);
+  it("allows users to preselect a timezone offset", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(html`<calcite-input-time-zone value="-360"></calcite-input-time-zone>`);
 
-      const input = await page.find("calcite-input-time-zone");
+    const input = await page.find("calcite-input-time-zone");
 
-      expect(await input.getProperty("value")).toBe(-360);
+    expect(await input.getProperty("value")).toBe(-360);
 
-      const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+    const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-      expect(await timeZoneItem.getProperty("textLabel")).toMatch("GMT-6");
-    });
+    expect(await timeZoneItem.getProperty("textLabel")).toMatch("GMT-6");
   });
 });

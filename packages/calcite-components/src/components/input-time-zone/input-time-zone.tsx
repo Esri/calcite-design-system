@@ -19,7 +19,7 @@ import {
   LocalizedComponent,
   SupportedLocales,
 } from "../../utils/locale";
-import { BasicTimeZoneGroup, TimeZoneGroup } from "./interfaces";
+import { BasicTimeZoneGroup } from "./interfaces";
 import { Scale } from "../interfaces";
 import {
   connectMessages,
@@ -29,12 +29,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import {
-  createBasicGroupLabel,
-  generateTimeZoneGroups,
-  getUserTimeZoneOffset,
-  isBasicTimeZoneGroup,
-} from "./utils";
+import { createBasicGroupLabel, generateTimeZoneGroups, getUserTimeZoneOffset } from "./utils";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
   componentFocusable,
@@ -169,9 +164,9 @@ export class InputTimeZone
 
   labelEl: HTMLCalciteLabelElement;
 
-  private selectedTimeZoneGroup: TimeZoneGroup | BasicTimeZoneGroup;
+  private selectedTimeZoneGroup: BasicTimeZoneGroup;
 
-  private timeZoneGroups: TimeZoneGroup[] | BasicTimeZoneGroup[];
+  private timeZoneGroups: BasicTimeZoneGroup[];
 
   //--------------------------------------------------------------------------
   //
@@ -251,7 +246,7 @@ export class InputTimeZone
     setUpLoadableComponent(this);
     await setUpMessages(this);
 
-    const timeZoneGroups = await generateTimeZoneGroups(this.effectiveLocale, this.messages);
+    const timeZoneGroups = await generateTimeZoneGroups();
     this.timeZoneGroups = timeZoneGroups;
     const offsetToMatch = this.value ?? getUserTimeZoneOffset();
     this.selectedTimeZoneGroup = timeZoneGroups.find(
@@ -284,9 +279,12 @@ export class InputTimeZone
         >
           {this.timeZoneGroups.map((group) => {
             const selected = this.selectedTimeZoneGroup === group;
-            const label = isBasicTimeZoneGroup(group)
-              ? createBasicGroupLabel(this.messages, group.offsetLabel, group.offsetValue)
-              : group.offsetGroupLabel;
+            const label = createBasicGroupLabel(
+              this.messages,
+              group.offsetLabel,
+              group.offsetValue
+            );
+
             const value = group.offsetValue;
 
             return (
