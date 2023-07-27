@@ -97,6 +97,6 @@ export const darkModeRTL_TestOnly = (): string =>
     active
     dir="rtl"
     class="calcite-mode-dark"
-    icon-start="Layers"
-    icon-end="Layers"
+    icon-start="layer"
+    icon-end="layer"
   />`;
