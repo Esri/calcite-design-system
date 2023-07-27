@@ -261,15 +261,17 @@ export function addLocalizedTrailingDecimalZeros(
 }
 
 /**
- * Returns the amount of decimal places for a number.
+ * Returns the amount of real decimal places for a number, which excludes trailing zeros.
+ *
+ * Adapted from:
  *
  * @link https://stackoverflow.com/questions/10454518/javascript-how-to-retrieve-the-number-of-decimals-of-a-string-number
  * @param {string | number} decimal - decimal value
  * @returns {number} the amount of decimal places in a number
  */
-export function getDecimalPlaces(decimal: string | number): number {
-  var match = ("" + decimal).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
-  if (!match) {
+export function getRealDecimalPlaces(decimal: string | number): number {
+  const match = ("" + decimal).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+  if (!match || parseInt(match[1]) === 0) {
     return 0;
   }
   return Math.max(

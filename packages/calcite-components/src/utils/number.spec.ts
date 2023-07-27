@@ -6,7 +6,7 @@ import {
   isValidNumber,
   parseNumberString,
   sanitizeNumberString,
-  getDecimalPlaces,
+  getRealDecimalPlaces,
 } from "./number";
 
 describe("isValidNumber", () => {
@@ -231,20 +231,24 @@ describe("addLocalizedTrailingDecimalZeros", () => {
   });
 });
 
-describe("getDecimalPlaces", () => {
-  it("returns the amount of decimal places for a string representation of a decimal", () => {
-    expect(getDecimalPlaces("0")).toBe(0);
-    expect(getDecimalPlaces("0.1")).toBe(1);
-    expect(getDecimalPlaces("0.01")).toBe(2);
-    expect(getDecimalPlaces("0.001")).toBe(3);
-    expect(getDecimalPlaces("0.0001")).toBe(4);
+describe("getRealDecimalPlaces", () => {
+  it("returns the amount of non-zero decimal places for a given number string", () => {
+    expect(getRealDecimalPlaces("0")).toBe(0);
+    expect(getRealDecimalPlaces("0.0")).toBe(0);
+    expect(getRealDecimalPlaces("0.00")).toBe(0);
+    expect(getRealDecimalPlaces("0.000")).toBe(0);
+    expect(getRealDecimalPlaces("0.1")).toBe(1);
+    expect(getRealDecimalPlaces("0.01")).toBe(2);
+    expect(getRealDecimalPlaces("0.001")).toBe(3);
+    expect(getRealDecimalPlaces("0.0001")).toBe(4);
   });
 
   it("returns the amount of decimal places for a number representation of a decimal", () => {
-    expect(getDecimalPlaces(0)).toBe(0);
-    expect(getDecimalPlaces(0.1)).toBe(1);
-    expect(getDecimalPlaces(0.01)).toBe(2);
-    expect(getDecimalPlaces(0.001)).toBe(3);
-    expect(getDecimalPlaces(0.0001)).toBe(4);
+    expect(getRealDecimalPlaces(0)).toBe(0);
+    expect(getRealDecimalPlaces(0.0)).toBe(0);
+    expect(getRealDecimalPlaces(0.1)).toBe(1);
+    expect(getRealDecimalPlaces(0.01)).toBe(2);
+    expect(getRealDecimalPlaces(0.001)).toBe(3);
+    expect(getRealDecimalPlaces(0.0001)).toBe(4);
   });
 });
