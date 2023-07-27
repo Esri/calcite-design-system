@@ -323,6 +323,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Element() el: HTMLCalciteListElement;
 
+  assistiveTextEl: HTMLSpanElement;
+
   sortable: Sortable;
 
   handleSelector = "calcite-handle";
@@ -378,6 +380,14 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     } = this;
     return (
       <div class={CSS.container}>
+        {this.dragEnabled ? (
+          <span
+            aria-live="assertive"
+            class="assistive-text"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.storeAssistiveEl}
+          />
+        ) : null}
         {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         <table
           aria-busy={toAriaBoolean(loading)}
@@ -724,8 +734,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
     const { enabledListItems } = this;
 
-    const lastIndex = enabledListItems.length - 1;
-    const startingIndex = enabledListItems.indexOf(sortItem);
+    const sameParentItems = enabledListItems.filter(
+      (item) => item.parentElement === sortItem.parentElement
+    );
+
+    const lastIndex = sameParentItems.length - 1;
+    const startingIndex = sameParentItems.indexOf(sortItem);
     let appendInstead = false;
     let buddyIndex: number;
 
@@ -750,7 +764,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     if (appendInstead) {
       sortItem.parentElement.appendChild(sortItem);
     } else {
-      sortItem.parentElement.insertBefore(sortItem, enabledListItems[buddyIndex]);
+      sortItem.parentElement.insertBefore(sortItem, sameParentItems[buddyIndex]);
     }
 
     this.updateListItems();
@@ -759,5 +773,13 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     requestAnimationFrame(() => handle.setFocus());
 
     handle.activated = true;
+  }
+
+  storeAssistiveEl = (el: HTMLSpanElement): void => {
+    this.assistiveTextEl = el;
+  };
+
+  updateScreenReaderText(text: string): void {
+    this.assistiveTextEl.textContent = text;
   }
 }
