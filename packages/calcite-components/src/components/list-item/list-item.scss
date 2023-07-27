@@ -143,6 +143,4 @@ td:focus {
   @apply border-solid border-0 border-t border-color-3;
 }
 
-[hidden] {
-  display: none;
-}
+@include base-component();

@@ -120,3 +120,5 @@ slot[name="panel-top"]::slotted(calcite-shell-center-row) {
   pointer-events: none;
   inset: 0;
 }
+
+@include base-component();
