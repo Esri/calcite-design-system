@@ -572,7 +572,7 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
   });
 
-  it("emptys initial value when it is not a valid time value", async () => {
+  it("empties initial value when it is not a valid time value", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`);
 

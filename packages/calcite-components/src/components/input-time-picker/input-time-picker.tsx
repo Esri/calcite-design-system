@@ -40,7 +40,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter,
-  SupportedLocales,
+  SupportedLocale,
 } from "../../utils/locale";
 import {
   activateFocusTrap,
@@ -345,7 +345,7 @@ export class InputTimePicker
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  async effectiveLocaleWatcher(locale: SupportedLocales): Promise<void> {
+  async effectiveLocaleWatcher(locale: SupportedLocale): Promise<void> {
     await this.loadDateTimeLocaleData();
     this.setInputValue(
       localizeTimeString({
