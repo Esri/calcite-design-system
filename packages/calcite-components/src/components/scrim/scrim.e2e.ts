@@ -99,7 +99,7 @@ describe("calcite-scrim", () => {
     expect(contentNode).toBeNull();
   });
 
-  it("renders conent in the default slot has content", async () => {
+  it("renders content in the default slot has content", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-scrim>This is a test.</calcite-scrim>`);

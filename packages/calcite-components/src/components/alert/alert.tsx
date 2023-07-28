@@ -31,11 +31,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   connectMessages,
   disconnectMessages,
@@ -87,6 +83,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @Watch("open")
   openHandler(): void {
+    onToggleOpenCloseComponent(this);
     if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
@@ -188,8 +185,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     if (open && !this.queued) {
       this.openHandler();
       this.calciteInternalAlertRegister.emit();
+      onToggleOpenCloseComponent(this);
     }
-    connectOpenCloseComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -210,7 +207,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
-    disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.slottedInShell = false;
@@ -450,7 +446,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   /** determine which alert is active */

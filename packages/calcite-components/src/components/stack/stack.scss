@@ -70,6 +70,4 @@
   }
 }
 
-[hidden] {
-  display: none;
-}
+@include base-component();

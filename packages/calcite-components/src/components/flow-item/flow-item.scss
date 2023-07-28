@@ -24,3 +24,5 @@
 calcite-panel {
   --calcite-panel-footer-padding: var(--calcite-flow-item-footer-padding);
 }
+
+@include base-component();

@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.27...@esri/calcite-components@1.5.0-next.28) (2023-07-28)
+
+### Bug Fixes
+
+- **menu-item:** Prevent duplicate border in nested vertical menu-items ([#7387](https://github.com/Esri/calcite-design-system/issues/7387)) ([186a738](https://github.com/Esri/calcite-design-system/commit/186a738eb671978f0408d58aeb1bd11bd08e1424)), closes [#7386](https://github.com/Esri/calcite-design-system/issues/7386)
+
+## [1.5.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.26...@esri/calcite-components@1.5.0-next.27) (2023-07-28)
+
+### Features
+
+- **menu-item:** Update spacing and icon layout ([#7381](https://github.com/Esri/calcite-design-system/issues/7381)) ([5659671](https://github.com/Esri/calcite-design-system/commit/5659671061dd169fa365581f71676d052b192475)), closes [#7105](https://github.com/Esri/calcite-design-system/issues/7105)
+
+### Bug Fixes
+
+- **list:** fix keyboard navigation when filterEnabled is true ([#7385](https://github.com/Esri/calcite-design-system/issues/7385)) ([41a2e42](https://github.com/Esri/calcite-design-system/commit/41a2e4266160665a72d11a69e8f4ec0c6a30304d)), closes [#6736](https://github.com/Esri/calcite-design-system/issues/6736)
+
+## [1.5.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.25...@esri/calcite-components@1.5.0-next.26) (2023-07-25)
+
+### Features
+
+- **action-group:** Adds overlayPositioning property. ([#7366](https://github.com/Esri/calcite-design-system/issues/7366)) ([ca9f35a](https://github.com/Esri/calcite-design-system/commit/ca9f35a13e4bb6c293d11349e22cee0628a87c35))
+
+### Bug Fixes
+
+- remove style modifying all host components with hidden attribute ([#7346](https://github.com/Esri/calcite-design-system/issues/7346)) ([3103e2f](https://github.com/Esri/calcite-design-system/commit/3103e2f4f507fba8cf895938a7beae7675fdbc2f)), closes [#7325](https://github.com/Esri/calcite-design-system/issues/7325)
+
 ## [1.5.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.24...@esri/calcite-components@1.5.0-next.25) (2023-07-20)
 
 ### Features
