@@ -58,11 +58,6 @@ export class Tab {
    */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
-  /**
-   * @internal
-   */
-  @Prop() containerDisabled: boolean;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -74,7 +69,7 @@ export class Tab {
 
     return (
       <Host aria-labelledby={this.labeledBy} id={id}>
-        <div class="container" role="tabpanel" tabIndex={this.getContainerTabIndex()}>
+        <div class="container" role="tabpanel" tabIndex={this.selected ? 0 : -1}>
           <section>
             <slot />
           </section>
@@ -187,13 +182,5 @@ export class Tab {
   @Method()
   async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
-  }
-
-  private getContainerTabIndex(): number {
-    if (this.containerDisabled) {
-      return -1;
-    } else {
-      return this.selected ? 0 : -1;
-    }
   }
 }

@@ -991,12 +991,7 @@ export class ColorPicker
     const channelsToRender = alphaChannel ? channels : channels.slice(0, 3);
 
     return (
-      <calcite-tab
-        class={CSS.control}
-        container-disabled={true}
-        key={channelMode}
-        selected={selected}
-      >
+      <calcite-tab class={CSS.control} key={channelMode} selected={selected}>
         {/* channel order should not be mirrored */}
         <div class={CSS.channels} dir="ltr">
           {channelsToRender.map((channelValue, index) => {
