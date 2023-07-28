@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.26...@esri/calcite-components@1.5.0-next.27) (2023-07-28)
+
+### Features
+
+- **menu-item:** Update spacing and icon layout ([#7381](https://github.com/Esri/calcite-design-system/issues/7381)) ([5659671](https://github.com/Esri/calcite-design-system/commit/5659671061dd169fa365581f71676d052b192475)), closes [#7105](https://github.com/Esri/calcite-design-system/issues/7105)
+
+### Bug Fixes
+
+- **list:** fix keyboard navigation when filterEnabled is true ([#7385](https://github.com/Esri/calcite-design-system/issues/7385)) ([41a2e42](https://github.com/Esri/calcite-design-system/commit/41a2e4266160665a72d11a69e8f4ec0c6a30304d)), closes [#6736](https://github.com/Esri/calcite-design-system/issues/6736)
+
 ## [1.5.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.25...@esri/calcite-components@1.5.0-next.26) (2023-07-25)
 
 ### Features
