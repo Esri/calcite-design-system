@@ -196,7 +196,7 @@ export class InputTimeZone
     event.stopPropagation();
     const combobox = event.target as HTMLCalciteComboboxElement;
     const selected = this.timeZoneGroups.find(
-      ({ offsetValue }) => combobox.value === offsetValue.toString()
+      ({ offsetValue }) => combobox.value === `${offsetValue}`
     );
 
     // workaround to prevent deselecting of item
@@ -207,7 +207,7 @@ export class InputTimeZone
       return;
     }
 
-    this.value = selected.offsetValue;
+    this.value = `${selected.offsetValue}`;
     this.selectedTimeZoneGroup = selected;
     this.calciteInputTimeZoneChange.emit();
   };
@@ -252,7 +252,7 @@ export class InputTimeZone
     this.selectedTimeZoneGroup = timeZoneGroups.find(
       ({ offsetValue }) => offsetValue === offsetToMatch
     );
-    this.value = this.selectedTimeZoneGroup.offsetValue;
+    this.value = `${this.selectedTimeZoneGroup.offsetValue}`;
   }
 
   componentDidLoad(): void {
