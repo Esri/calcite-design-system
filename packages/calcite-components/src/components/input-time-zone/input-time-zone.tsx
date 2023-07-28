@@ -258,6 +258,7 @@ export class InputTimeZone
           clearDisabled={true}
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
+          lang={this.effectiveLocale}
           onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
           onCalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
           onCalciteComboboxChange={this.onComboboxChange}
