@@ -1,7 +1,7 @@
 import { accessible, hidden, renders, focusable, disabled, defaults } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
@@ -453,6 +453,123 @@ describe("calcite-list", () => {
       await list.press("ArrowUp");
 
       expect(await isElementFocused(page, "calcite-filter", { shadowed: true })).toBe(true);
+    });
+  });
+
+  describe("drag and drop", () => {
+    async function createSimpleList(): Promise<E2EPage> {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-list drag-enabled>
+      <calcite-list-item value="one" label="One"></calcite-list-item>
+      <calcite-list-item value="two" label="Two"></calcite-list-item>
+      <calcite-list-item value="three" label="Three"></calcite-list-item>
+    </calcite-list>`);
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+      return page;
+    }
+
+    it("works using a keyboard", async () => {
+      const page = await createSimpleList();
+
+      const handle = await page.find(`calcite-list-item[value="one"] >>> calcite-handle`);
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Space");
+      expect(await handle.getProperty("activated")).toBe(true);
+      await page.waitForChanges();
+
+      let totalMoves = 0;
+
+      const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
+
+      async function assertKeyboardMove(
+        arrowKey: "ArrowDown" | "ArrowUp",
+        expectedValueOrder: string[]
+      ): Promise<void> {
+        await page.keyboard.press(arrowKey);
+        await page.waitForTimeout(listDebounceTimeout);
+        const itemsAfter = await page.findAll("calcite-list-item");
+        expect(itemsAfter.length).toBe(3);
+
+        for (let i = 0; i < itemsAfter.length; i++) {
+          expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
+        }
+
+        expect(listOrderChangeSpy).toHaveReceivedEventTimes(++totalMoves);
+      }
+
+      await assertKeyboardMove("ArrowDown", ["two", "one", "three"]);
+      await assertKeyboardMove("ArrowDown", ["two", "three", "one"]);
+
+      await assertKeyboardMove("ArrowUp", ["two", "one", "three"]);
+      await assertKeyboardMove("ArrowUp", ["one", "two", "three"]);
+    });
+
+    it("is drag and drop list accessible", async () => {
+      const page = await createSimpleList();
+      let startIndex = 0;
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const items = await page.findAll("calcite-list-item");
+      const item = await page.find('calcite-list-item[value="one"]');
+      const handle = await page.find('calcite-list-item[value="one"] >>> calcite-handle');
+      const assistiveTextElement = await page.find("calcite-list >>> .assistive-text");
+
+      async function getAriaLabel(): Promise<string> {
+        return page.$eval("calcite-list-item[value='one']", (el: HTMLCalciteListItemElement) => {
+          return el.shadowRoot
+            .querySelector("calcite-handle")
+            .shadowRoot.querySelector("span")
+            .getAttribute("aria-label");
+        });
+      }
+
+      const handleAriaLabel = await getAriaLabel();
+      const itemLabel = await item.getProperty("label");
+
+      expect(handleAriaLabel).toBe(
+        `${itemLabel}, press space and use arrow keys to reorder content. Current position ${startIndex + 1} of ${
+          items.length
+        }.`
+      );
+
+      await page.keyboard.press("Space");
+      expect(await handle.getProperty("activated")).toBe(true);
+      await page.waitForChanges();
+
+      expect(assistiveTextElement.textContent).toBe(
+        `Reordering ${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
+      );
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await handle.getProperty("activated")).toBe(true);
+      await page.waitForTimeout(debounceTimeout);
+
+      startIndex += 1;
+      const changeHandleLabel = await getAriaLabel();
+
+      expect(changeHandleLabel).toBe(
+        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
+      );
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+
+      expect(assistiveTextElement.textContent).toBe(
+        `${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
+      );
+
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowUp");
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(await handle.getProperty("activated")).toBe(false);
     });
   });
 });

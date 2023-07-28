@@ -47,10 +47,12 @@ export class Handle implements LoadableComponent, T9nComponent {
    */
   @Prop({ mutable: true, reflect: true }) activated = false;
 
+  @Watch("messages")
+  @Watch("label")
   @Watch("activated")
   @Watch("setPosition")
   @Watch("setSize")
-  handleActivatedChange(): void {
+  handleAriaTextChange(): void {
     const message = this.getAriaText("live");
 
     if (message) {
@@ -186,7 +188,7 @@ export class Handle implements LoadableComponent, T9nComponent {
   getAriaText(type: "label" | "live"): string {
     const { setPosition, setSize, label, messages, activated } = this;
 
-    if (!label || typeof setSize !== "number" || typeof setPosition !== "number") {
+    if (!messages || !label || typeof setSize !== "number" || typeof setPosition !== "number") {
       return null;
     }
 
@@ -248,7 +250,7 @@ export class Handle implements LoadableComponent, T9nComponent {
         onKeyDown={this.handleKeyDown}
         role="button"
         tabindex="0"
-        title={this.messages.dragHandle}
+        title={this.messages?.dragHandle}
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el): void => {
           this.handleButton = el;
