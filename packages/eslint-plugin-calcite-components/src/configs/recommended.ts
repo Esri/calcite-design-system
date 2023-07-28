@@ -3,6 +3,6 @@ export default {
   rules: {
     "@esri/calcite-components/ban-props-on-host": 2,
     "@esri/calcite-components/require-event-emitter-type": 2,
-    "@esri/calcite-components/strict-boolean-attributes": 2,
-  },
+    "@esri/calcite-components/strict-boolean-attributes": 2
+  }
 };

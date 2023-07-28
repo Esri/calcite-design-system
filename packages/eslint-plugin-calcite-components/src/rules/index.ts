@@ -7,5 +7,5 @@ export default {
   "ban-events": banEvents,
   "ban-props-on-host": banPropsOnHost,
   "require-event-emitter-type": requireEventEmitterType,
-  "strict-boolean-attributes": strictBooleanAttributes,
+  "strict-boolean-attributes": strictBooleanAttributes
 };

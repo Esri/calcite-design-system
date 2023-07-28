@@ -6,12 +6,12 @@ export default {
   input: "src/index.ts",
   plugins: [
     nodeResolve({
-      preferBuiltins: true,
+      preferBuiltins: true
     }),
-    typescript(),
+    typescript()
   ],
   treeshake: {
-    moduleSideEffects: "no-external",
+    moduleSideEffects: "no-external"
   },
   external: ["stencil-eslint-core"],
   output: {
@@ -20,6 +20,6 @@ All material copyright ESRI, All Rights Reserved, unless otherwise specified.
 See https://github.com/Esri/calcite-components/blob/${version}/LICENSE.md for details.
 */`,
     file: "dist/index.js",
-    format: "commonjs",
-  },
+    format: "commonjs"
+  }
 };
