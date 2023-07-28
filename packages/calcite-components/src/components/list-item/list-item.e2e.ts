@@ -61,6 +61,8 @@ describe("calcite-list-item", () => {
   it("renders dragHandle when property is true", async () => {
     const page = await newE2EPage({ html: `<calcite-list-item drag-handle"></calcite-list-item>` });
 
+    await page.waitForChanges();
+
     const contentNode = await page.find("calcite-list-item >>> calcite-handle");
 
     expect(contentNode).not.toBeNull();
