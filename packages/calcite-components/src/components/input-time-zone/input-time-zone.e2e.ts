@@ -4,6 +4,7 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   labelable,
   reflects,
@@ -20,6 +21,10 @@ describe("calcite-input-time-zone", () => {
 
   describe("focusable", () => {
     focusable("calcite-input-time-zone");
+  });
+
+  describe("formAssociated", () => {
+    formAssociated("calcite-input-time-zone", { testValue: -360 });
   });
 
   describe("hidden", () => {

@@ -37,6 +37,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { FormComponent } from "../../utils/form";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -48,6 +49,7 @@ import {
 })
 export class InputTimeZone
   implements
+    FormComponent,
     InteractiveComponent,
     LabelableComponent,
     LoadableComponent,
@@ -74,6 +76,13 @@ export class InputTimeZone
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true }) form: string;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -92,6 +101,13 @@ export class InputTimeZone
     /* wired up by t9n util */
   }
 
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
+  @Prop({ reflect: true }) name: string;
+
   /** When `true`, displays and positions the component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
@@ -104,6 +120,13 @@ export class InputTimeZone
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * When `true`, the component must have a value in order for the form to submit.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -155,12 +178,16 @@ export class InputTimeZone
 
   @State() defaultMessages: InputTimeZoneMessages;
 
+  defaultValue: InputTimeZone["value"];
+
   @State() effectiveLocale: SupportedLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
     updateMessages(this, this.effectiveLocale);
   }
+
+  formEl: HTMLFormElement;
 
   labelEl: HTMLCalciteLabelElement;
 
