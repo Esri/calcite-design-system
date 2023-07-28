@@ -138,7 +138,7 @@ export class InputTimeZone
    *
    * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
    */
-  @Prop({ mutable: true }) value: string | null = null;
+  @Prop({ mutable: true }) value: string;
 
   //--------------------------------------------------------------------------
   //
