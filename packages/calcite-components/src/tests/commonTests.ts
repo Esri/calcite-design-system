@@ -925,7 +925,7 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {DisabledOptions} [options] - Disabled options.
  */
-export function disabled(componentTestSetup: ComponentTestSetup, options: DisabledOptions): void {
+export function disabled(componentTestSetup: ComponentTestSetup, options?: DisabledOptions): void {
   options = { focusTarget: "host", ...options };
 
   const addRedirectPrevention = async (page: E2EPage, tag: string): Promise<void> => {
