@@ -261,7 +261,7 @@ export function addLocalizedTrailingDecimalZeros(
 }
 
 /**
- * Returns the amount of real decimal places for a number, which excludes trailing zeros.
+ * Returns the quantity of real decimal places for a number, which excludes trailing zeros.
  *
  * Adapted from:
  *
@@ -269,7 +269,7 @@ export function addLocalizedTrailingDecimalZeros(
  * @param {string | number} decimal - decimal value
  * @returns {number} the amount of decimal places in a number
  */
-export function getRealDecimalPlaces(decimal: string | number): number {
+export function getRealDecimalPlacesCount(decimal: string | number): number {
   const match = ("" + decimal).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
   if (!match || parseInt(match[1]) === 0) {
     return 0;

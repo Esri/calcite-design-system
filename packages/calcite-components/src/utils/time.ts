@@ -1,5 +1,5 @@
 import { getDateTimeFormat, getSupportedNumberingSystem, NumberingSystem, numberStringFormatter } from "./locale";
-import { getDecimalPlaces, isValidNumber } from "./number";
+import { getRealDecimalPlacesCount, isValidNumber } from "./number";
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
@@ -195,45 +195,40 @@ export function localizeTimeString({
 interface LocalizeTimeStringToPartsParameters {
   value: string;
   locale: string;
-  numberingSystem: NumberingSystem;
+  numberingSystem?: NumberingSystem;
 }
 
 export function localizeTimeStringToParts({
   value,
   locale,
-  numberingSystem,
+  numberingSystem = "latn",
 }: LocalizeTimeStringToPartsParameters): LocalizedTime {
   if (!isValidTime(value)) {
     return null;
   }
 
-  const { hour, minute, second = "0" } = parseTimeString(value);
+  const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
-
-    let fractionalSecond, fractionalSecondDecimal, localizedFractionalSecondDecimal, localizedDecimalSeparator;
-    const secondPrecision = getDecimalPlaces(second);
-    if (secondPrecision && secondPrecision > 1) {
-      fractionalSecond = parseFloat(second).toFixed(3);
-      fractionalSecondDecimal = fractionalSecond.split(".", 2)[1];
+    let localizedFractionalSecond, localizedDecimalSeparator;
+    if (fractionalSecond) {
       numberStringFormatter.numberFormatOptions = {
         locale,
         numberingSystem,
       };
-      localizedFractionalSecondDecimal = numberStringFormatter.localize(fractionalSecondDecimal);
+      localizedFractionalSecond = numberStringFormatter.localize(parseInt(fractionalSecond).toFixed(3));
       localizedDecimalSeparator = numberStringFormatter.localize("1.1").split("")[1];
     }
-
     return {
-      localizedDecimalSeparator,
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
-      localizedFractionalSecond: localizedFractionalSecondDecimal,
       localizedMinute: getLocalizedTimePart("minute", parts),
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
+      localizedDecimalSeparator,
+      localizedFractionalSecond,
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem: getLocalizedTimePart("meridiem", parts),
     };
@@ -263,12 +258,20 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
 export function parseTimeString(value: string): Time {
   if (isValidTime(value)) {
     const [hour, minute, secondDecimal] = value.split(":");
-    let second, fractionalSecond;
-    if (secondDecimal) {
-      [second, fractionalSecond] = secondDecimal.split(".");
+    const secondDecimalPlaces = getRealDecimalPlacesCount(secondDecimal);
+    let second,
+      fractionalSecond = null;
+    if (secondDecimalPlaces > 0) {
+      [second, fractionalSecond] = parseFloat(secondDecimal)
+        .toFixed(secondDecimalPlaces > 3 ? 3 : secondDecimalPlaces)
+        .toString()
+        .split(".");
+      fractionalSecond = fractionalSecond && parseInt(fractionalSecond) !== 0 ? fractionalSecond : null;
+    } else {
+      second = secondDecimal ? formatTimePart(parseInt(secondDecimal)) : "00";
     }
     return {
-      fractionalSecond: fractionalSecond && parseInt(fractionalSecond) !== 0 ? fractionalSecond : null,
+      fractionalSecond,
       hour,
       minute,
       second,

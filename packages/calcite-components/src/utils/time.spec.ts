@@ -1,4 +1,4 @@
-import { isValidTime, parseTimeString, toISOTimeString } from "./time";
+import { isValidTime, localizeTimeStringToParts, parseTimeString, toISOTimeString } from "./time";
 
 describe("isValidTime", () => {
   it("returns true when time string contains fractional seconds", () => {
@@ -19,12 +19,34 @@ describe("isValidTime", () => {
 
 describe("localizeTimeStringToParts", () => {
   it("returns localized decimal separator and fractional second value", () => {
-    // TODO: write test
+    expect(localizeTimeStringToParts({ value: "06:45:30.12123", locale: "fr" })).toEqual({
+      localizedHour: "06",
+      localizedHourSuffix: ":",
+      localizedMinute: "45",
+      localizedMinuteSuffix: ":",
+      localizedSecond: "30",
+      localizedDecimalSeparator: ",",
+      localizedFractionalSecond: "121",
+      localizedSecondSuffix: null,
+      localizedMeridiem: null,
+    });
+
+    expect(localizeTimeStringToParts({ value: "06:45:30.12123", locale: "da" })).toEqual({
+      localizedHour: "06",
+      localizedHourSuffix: ".",
+      localizedMinute: "45",
+      localizedMinuteSuffix: ".",
+      localizedSecond: "30",
+      localizedDecimalSeparator: ",",
+      localizedFractionalSecond: "121",
+      localizedSecondSuffix: null,
+      localizedMeridiem: null,
+    });
   });
 });
 
 describe("parseTimeString", () => {
-  it("returns hour, minute, and fractional second", () => {
+  it("returns real fractional second, rounded to the nearest millisecond", () => {
     expect(parseTimeString("12:30:45.0")).toEqual({
       hour: "12",
       minute: "30",
@@ -47,7 +69,13 @@ describe("parseTimeString", () => {
       hour: "12",
       minute: "30",
       second: "45",
-      fractionalSecond: "0001",
+      fractionalSecond: null,
+    });
+    expect(parseTimeString("12:30:45.0049")).toEqual({
+      hour: "12",
+      minute: "30",
+      second: "45",
+      fractionalSecond: "005",
     });
     expect(parseTimeString("12:30:45.1")).toEqual({
       hour: "12",
@@ -71,13 +99,13 @@ describe("parseTimeString", () => {
       hour: "12",
       minute: "30",
       second: "45",
-      fractionalSecond: "1234",
+      fractionalSecond: "123",
     });
     expect(parseTimeString("12:30:45.12345")).toEqual({
       hour: "12",
       minute: "30",
       second: "45",
-      fractionalSecond: "12345",
+      fractionalSecond: "123",
     });
   });
 

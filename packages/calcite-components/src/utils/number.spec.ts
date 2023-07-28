@@ -6,7 +6,7 @@ import {
   isValidNumber,
   parseNumberString,
   sanitizeNumberString,
-  getRealDecimalPlaces,
+  getRealDecimalPlacesCount,
 } from "./number";
 
 describe("isValidNumber", () => {
@@ -231,24 +231,24 @@ describe("addLocalizedTrailingDecimalZeros", () => {
   });
 });
 
-describe("getRealDecimalPlaces", () => {
+describe("getRealDecimalPlacesCount", () => {
   it("returns the amount of non-zero decimal places for a given number string", () => {
-    expect(getRealDecimalPlaces("0")).toBe(0);
-    expect(getRealDecimalPlaces("0.0")).toBe(0);
-    expect(getRealDecimalPlaces("0.00")).toBe(0);
-    expect(getRealDecimalPlaces("0.000")).toBe(0);
-    expect(getRealDecimalPlaces("0.1")).toBe(1);
-    expect(getRealDecimalPlaces("0.01")).toBe(2);
-    expect(getRealDecimalPlaces("0.001")).toBe(3);
-    expect(getRealDecimalPlaces("0.0001")).toBe(4);
+    expect(getRealDecimalPlacesCount("0")).toBe(0);
+    expect(getRealDecimalPlacesCount("0.0")).toBe(0);
+    expect(getRealDecimalPlacesCount("0.00")).toBe(0);
+    expect(getRealDecimalPlacesCount("0.000")).toBe(0);
+    expect(getRealDecimalPlacesCount("0.1")).toBe(1);
+    expect(getRealDecimalPlacesCount("0.01")).toBe(2);
+    expect(getRealDecimalPlacesCount("0.001")).toBe(3);
+    expect(getRealDecimalPlacesCount("0.0001")).toBe(4);
   });
 
   it("returns the amount of decimal places for a number representation of a decimal", () => {
-    expect(getRealDecimalPlaces(0)).toBe(0);
-    expect(getRealDecimalPlaces(0.0)).toBe(0);
-    expect(getRealDecimalPlaces(0.1)).toBe(1);
-    expect(getRealDecimalPlaces(0.01)).toBe(2);
-    expect(getRealDecimalPlaces(0.001)).toBe(3);
-    expect(getRealDecimalPlaces(0.0001)).toBe(4);
+    expect(getRealDecimalPlacesCount(0)).toBe(0);
+    expect(getRealDecimalPlacesCount(0.0)).toBe(0);
+    expect(getRealDecimalPlacesCount(0.1)).toBe(1);
+    expect(getRealDecimalPlacesCount(0.01)).toBe(2);
+    expect(getRealDecimalPlacesCount(0.001)).toBe(3);
+    expect(getRealDecimalPlacesCount(0.0001)).toBe(4);
   });
 });
