@@ -29,7 +29,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { createBasicGroupLabel, generateTimeZoneGroups, getUserTimeZoneOffset } from "./utils";
+import { generateTimeZoneGroups, getUserTimeZoneOffset } from "./utils";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
   componentFocusable,
@@ -272,7 +272,7 @@ export class InputTimeZone
         >
           {this.timeZoneGroups.map((group) => {
             const selected = this.selectedTimeZoneGroup === group;
-            const label = createBasicGroupLabel(this.messages, group.offsetLabel);
+            const label = group.offsetLabel;
             const value = group.offsetValue;
 
             return (

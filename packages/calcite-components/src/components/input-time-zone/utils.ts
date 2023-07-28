@@ -1,5 +1,4 @@
 import { BasicTimeZoneGroup } from "./interfaces";
-import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
 
@@ -28,7 +27,7 @@ function getFallbackTimeZoneGroups(): BasicTimeZoneGroup[] {
  * @internal
  */
 export function toGMTLabel(offsetInHours: number): string {
-  return `GMT${offsetInHours.toLocaleString("en", { signDisplay: "always" })}`;
+  return `GMT${offsetInHours === 0 ? "" : offsetInHours.toLocaleString("en", { signDisplay: "always" })}`;
 }
 
 let timeZoneGeneration: Promise<BasicTimeZoneGroup[]>;
@@ -41,12 +40,4 @@ export async function generateTimeZoneGroups(): Promise<BasicTimeZoneGroup[]> {
   timeZoneGeneration = Promise.resolve(getFallbackTimeZoneGroups());
 
   return timeZoneGeneration;
-}
-
-function createGroupLabel(messages: InputTimeZoneMessages, offsetLabel: string, groupLabel: string): string {
-  return messages.timeZoneLabel.replace("{offset}", offsetLabel).replace("{cities}", groupLabel);
-}
-
-export function createBasicGroupLabel(messages: InputTimeZoneMessages, offsetLabel: string): string {
-  return createGroupLabel(messages, offsetLabel, "");
 }
