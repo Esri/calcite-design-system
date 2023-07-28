@@ -1,5 +1,5 @@
 import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
-import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS } from "./resources";
+import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, SCOPE_DIMENSION } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
@@ -23,7 +23,7 @@ describe("calcite-color-picker", () => {
   }
 
   function getCenterOfThumbNode(X: number, Y: number): [number, number] {
-    return [X + DIMENSIONS.thumbNode / 2, Y + DIMENSIONS.thumbNode / 2];
+    return [X + SCOPE_DIMENSION / 2, Y + SCOPE_DIMENSION / 2];
   }
 
   beforeEach(
@@ -2176,7 +2176,7 @@ describe("calcite-color-picker", () => {
       await page.waitForChanges();
 
       const finalStyle = await scope.getComputedStyle();
-      expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width - DIMENSIONS.thumbNode / 2}px`);
+      expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width - SCOPE_DIMENSION / 2}px`);
     });
 
     it("allows nudging color's hue even if it does not change RGB value", async () => {

@@ -93,5 +93,6 @@ export const DIMENSIONS = {
       radius: 10,
     },
   },
-  thumbNode: 1,
 };
+
+export const SCOPE_DIMENSION = 1;
