@@ -92,7 +92,7 @@ export class InputTimeZone
     /* wired up by t9n util */
   }
 
-  /**When `true`, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   /**
@@ -111,7 +111,7 @@ export class InputTimeZone
   /**
    * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
    *
-   * If no value is provided, the user's time zone offset will be selected by default
+   * If no value is provided, the user's time zone offset will be selected by default.
    *
    * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
    */
