@@ -764,12 +764,15 @@ export class ColorPicker
     const noHex = hexDisabled || hideHex;
     const noChannels = channelsDisabled || hideChannels;
     const noSaved = savedDisabled || hideSaved;
-    const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedLeftAndTop(
+    const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
       colorFieldScopeTop
     );
-    const [adjustedHueScopeLeft, adjustedHueScopeTop] = this.getAdjustedLeftAndTop(hueLeft, hueTop);
-    const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = this.getAdjustedLeftAndTop(
+    const [adjustedHueScopeLeft, adjustedHueScopeTop] = this.getAdjustedScopePosition(
+      hueLeft,
+      hueTop
+    );
+    const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = this.getAdjustedScopePosition(
       opacityLeft,
       opacityTop
     );
@@ -1636,14 +1639,7 @@ export class ColorPicker
     return channels as Channels;
   }
 
-  /**
-   * Returns adjusted left and top values of thumb node by substracting half of width/height of the thumb from computed left and top values.
-   * The current thumb node has 1px in width and height.
-   *
-   * @param left
-   * @param top
-   */
-  private getAdjustedLeftAndTop(left: number, top: number): [number, number] {
+  private getAdjustedScopePosition(left: number, top: number): [number, number] {
     return [left - DIMENSIONS.thumbNode / 2, top - DIMENSIONS.thumbNode / 2];
   }
 }
