@@ -153,3 +153,9 @@
 }
 
 @include hidden-form-input();
+
+.assistive-text {
+  @apply sr-only;
+}
+
+@include base-component();

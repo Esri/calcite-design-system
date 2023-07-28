@@ -6,9 +6,9 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Action Group",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const gridCenteringOfActionsInAGroup = (): string => html`

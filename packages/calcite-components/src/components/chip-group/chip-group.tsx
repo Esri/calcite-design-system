@@ -8,21 +8,21 @@ import {
   EventEmitter,
   Event,
   Method,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { Scale, SelectionMode } from "../interfaces";
 import {
   componentFocusable,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 /**
  * @slot - A slot for adding one or more `calcite-chip`s.
@@ -30,7 +30,7 @@ import {
 @Component({
   tag: "calcite-chip-group",
   styleUrl: "chip-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------

@@ -7,7 +7,7 @@ import { CSS as CHIP_CSS } from "../chip/resources";
 describe("calcite-chip-group", () => {
   describe("renders", () => {
     renders("<calcite-chip-group><calcite-chip></calcite-chip></calcite-chip-group>", {
-      display: "flex"
+      display: "flex",
     });
   });
 
@@ -17,7 +17,7 @@ describe("calcite-chip-group", () => {
 
   describe("disabled", () => {
     disabled("<calcite-chip-group><calcite-chip></calcite-chip></calcite-chip-group>", {
-      focusTarget: "child"
+      focusTarget: "child",
     });
   });
 

@@ -6,5 +6,5 @@ export const CSS = {
   disabled: "is-disabled",
   ellipsis: "ellipsis",
   ellipsisStart: "ellipsis--start",
-  ellipsisEnd: "ellipsis--end"
+  ellipsisEnd: "ellipsis--end",
 };

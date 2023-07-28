@@ -13,9 +13,9 @@ const iconNames = Object.keys(icons)
 export default {
   title: "Components/Link",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

@@ -34,7 +34,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
     filterText,
     setFilterEl,
     dragEnabled,
-    storeAssistiveEl
+    storeAssistiveEl,
   },
   ...rest
 }): VNode => {

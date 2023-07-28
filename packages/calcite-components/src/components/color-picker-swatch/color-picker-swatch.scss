@@ -41,3 +41,5 @@ $size-l: 28px;
 .checker {
   fill: #cacaca;
 }
+
+@include base-component();

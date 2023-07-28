@@ -9,19 +9,19 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -29,7 +29,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
@@ -45,9 +45,9 @@ import { createObserver } from "../../utils/observers";
   tag: "calcite-action-pad",
   styleUrl: "action-pad.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ActionPad
   implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -246,10 +246,10 @@ export class ActionPad
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
+        collapseText={messages.collapse}
         el={el}
+        expandText={messages.expand}
         expanded={expanded}
-        intlCollapse={messages.collapse}
-        intlExpand={messages.expand}
         position={position}
         scale={scale}
         toggle={toggleExpand}

@@ -8,10 +8,12 @@
  * @prop --calcite-navigation-border-color: Specifies the border color of the component.
  */
 
+@include base-component();
+
 .container {
-  @apply flex 
+  @apply flex
   flex-col
-  mx-auto 
+  mx-auto
   w-full;
   margin-block: 0;
   margin-inline: auto;
@@ -46,9 +48,9 @@
 }
 
 .container-content {
-  @apply flex 
-  w-full 
-  h-full 
+  @apply flex
+  w-full
+  h-full
   mx-auto;
   margin-block: 0;
   inline-size: var(--calcite-navigation-width, 100%);

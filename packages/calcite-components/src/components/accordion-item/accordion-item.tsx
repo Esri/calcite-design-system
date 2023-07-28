@@ -7,12 +7,12 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -28,7 +28,7 @@ import { RequestedItem } from "./interfaces";
 @Component({
   tag: "calcite-accordion-item",
   styleUrl: "accordion-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
@@ -178,7 +178,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         <div
           class={{
             [`icon-position--${this.iconPosition}`]: true,
-            [`icon-type--${this.iconType}`]: true
+            [`icon-type--${this.iconType}`]: true,
           }}
         >
           <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
@@ -290,7 +290,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   private emitRequestedItem(): void {
     this.calciteInternalAccordionItemSelect.emit({
-      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
+      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement,
     });
   }
 }

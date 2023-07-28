@@ -8,9 +8,9 @@ import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 export default {
   title: "Components/Controls/Time/Input Time Picker",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

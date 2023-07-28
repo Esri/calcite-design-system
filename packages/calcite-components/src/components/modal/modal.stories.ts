@@ -9,10 +9,10 @@ export default {
   parameters: {
     notes: readme,
     chromatic: {
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

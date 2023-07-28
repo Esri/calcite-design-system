@@ -11,7 +11,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   dateFromISO,
@@ -19,7 +19,7 @@ import {
   dateFromRange,
   datePartsFromLocalizedString,
   dateToISO,
-  inRange
+  inRange,
 } from "../../utils/date";
 import { toAriaBoolean } from "../../utils/dom";
 import {
@@ -32,20 +32,20 @@ import {
   FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  reposition
+  reposition,
 } from "../../utils/floating-ui";
 import {
   connectForm,
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  submitForm
+  submitForm,
 } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
@@ -53,20 +53,16 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
@@ -77,7 +73,7 @@ import {
   activateFocusTrap,
   connectFocusTrap,
   deactivateFocusTrap,
-  FocusTrapComponent
+  FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
 import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
@@ -86,9 +82,9 @@ import { guid } from "../../utils/guid";
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class InputDatePicker
   implements
@@ -265,6 +261,8 @@ export class InputDatePicker
 
   @Watch("open")
   openHandler(value: boolean): void {
+    onToggleOpenCloseComponent(this);
+
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
@@ -425,7 +423,7 @@ export class InputDatePicker
         overlayPositioning,
         placement,
         flipPlacements: filteredFlipPlacements,
-        type: "menu"
+        type: "menu",
       },
       delayed
     );
@@ -466,7 +464,6 @@ export class InputDatePicker
 
     connectLabel(this);
     connectForm(this);
-    connectOpenCloseComponent(this);
     connectMessages(this);
 
     this.setFilteredPlacements();
@@ -475,8 +472,12 @@ export class InputDatePicker
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
       locale: this.effectiveLocale,
-      useGrouping: false
+      useGrouping: false,
     };
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -498,7 +499,6 @@ export class InputDatePicker
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -512,7 +512,7 @@ export class InputDatePicker
     numberStringFormatter.numberFormatOptions = {
       numberingSystem,
       locale: effectiveLocale,
-      useGrouping: false
+      useGrouping: false,
     };
 
     return (
@@ -528,6 +528,7 @@ export class InputDatePicker
               <calcite-input
                 aria-autocomplete="none"
                 aria-controls={this.dialogId}
+                aria-describedby={this.placeholderTextId}
                 aria-expanded={toAriaBoolean(this.open)}
                 aria-haspopup="dialog"
                 class={`input ${
@@ -550,6 +551,9 @@ export class InputDatePicker
                 ref={this.setStartInput}
               />
               {this.renderToggleIcon(this.open && this.focusedInput === "start")}
+              <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
+                Date Format: {this.localeData?.placeholder}
+              </span>
             </div>
             <div
               aria-hidden={toAriaBoolean(!this.open)}
@@ -558,7 +562,7 @@ export class InputDatePicker
               aria-modal="true"
               class={{
                 [CSS.menu]: true,
-                [CSS.menuActive]: this.open
+                [CSS.menuActive]: this.open,
               }}
               id={this.dialogId}
               role="dialog"
@@ -570,7 +574,7 @@ export class InputDatePicker
                   ["calendar-picker-wrapper"]: true,
                   ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
                   [FloatingCSS.animation]: true,
-                  [FloatingCSS.animationActive]: this.open
+                  [FloatingCSS.animationActive]: this.open,
                 }}
                 // eslint-disable-next-line react/jsx-sort-props
                 ref={this.setTransitionEl}
@@ -626,7 +630,7 @@ export class InputDatePicker
                   aria-haspopup="dialog"
                   class={{
                     input: true,
-                    "border-top-color-one": this.layout === "vertical" && this.range
+                    "border-top-color-one": this.layout === "vertical" && this.range,
                   }}
                   disabled={disabled}
                   icon="calendar"
@@ -729,6 +733,8 @@ export class InputDatePicker
 
   private valueAsDateChangedExternally = false;
 
+  private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -755,7 +761,6 @@ export class InputDatePicker
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   onLabelClick(): void {
@@ -773,7 +778,7 @@ export class InputDatePicker
           this.datePickerEl.setFocus();
           this.focusOnOpen = false;
         }
-      }
+      },
     });
     this.calciteInputDatePickerOpen.emit();
   }
@@ -819,20 +824,20 @@ export class InputDatePicker
         if (date) {
           this.setRangeValue([
             focusedInput === "start" ? date : dateFromISO(value[0]),
-            focusedInput === "end" ? date : dateFromISO(value[1])
+            focusedInput === "end" ? date : dateFromISO(value[1]),
           ]);
           this.localizeInputValues();
         } else {
           this.setRangeValue([
             focusedInput === "end" && dateFromISO(value[0]),
-            focusedInput === "start" && dateFromISO(value[1])
+            focusedInput === "start" && dateFromISO(value[1]),
           ]);
         }
       } else {
         if (date) {
           this.setRangeValue([
             focusedInput === "start" ? date : dateFromISO(value[0]),
-            focusedInput === "end" ? date : dateFromISO(value[1])
+            focusedInput === "end" ? date : dateFromISO(value[1]),
           ]);
           this.localizeInputValues();
         }
@@ -912,8 +917,8 @@ export class InputDatePicker
       focusTrapEl: el,
       focusTrapOptions: {
         initialFocus: false,
-        setReturnFocus: false
-      }
+        setReturnFocus: false,
+      },
     });
   };
 
@@ -925,7 +930,7 @@ export class InputDatePicker
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
       locale: this.effectiveLocale,
-      useGrouping: false
+      useGrouping: false,
     };
     this.localeData = await getLocaleData(this.effectiveLocale);
     this.localizeInputValues();

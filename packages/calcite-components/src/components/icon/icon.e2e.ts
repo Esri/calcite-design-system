@@ -11,14 +11,14 @@ describe("calcite-icon", () => {
   describe("defaults", () => {
     defaults("calcite-icon", [
       { propertyName: "flipRtl", defaultValue: false },
-      { propertyName: "scale", defaultValue: "m" }
+      { propertyName: "scale", defaultValue: "m" },
     ]);
   });
 
   describe("reflects", () => {
     reflects("calcite-icon", [
       { propertyName: "flipRtl", value: true },
-      { propertyName: "scale", value: "m" }
+      { propertyName: "scale", value: "m" },
     ]);
   });
 

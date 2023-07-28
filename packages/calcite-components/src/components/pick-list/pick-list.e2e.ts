@@ -10,7 +10,7 @@ import {
   itemRemoval,
   keyboardNavigation,
   loadingState,
-  selectionAndDeselection
+  selectionAndDeselection,
 } from "./shared-list-tests";
 
 describe("calcite-pick-list", () => {
@@ -18,8 +18,8 @@ describe("calcite-pick-list", () => {
     defaults("calcite-pick-list", [
       {
         propertyName: "headingLevel",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -116,7 +116,7 @@ describe("calcite-pick-list", () => {
             <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
             <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
-        </calcite-pick-list>`
+        </calcite-pick-list>`,
         });
 
         groupOrParentItem = await page.find(`calcite-pick-list-group`);
@@ -150,7 +150,7 @@ describe("calcite-pick-list", () => {
             <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
             <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
-        </calcite-pick-list>`
+        </calcite-pick-list>`,
         });
 
         groupOrParentItem = await page.find(`calcite-pick-list-item[slot="parent-item"]`);
@@ -210,7 +210,7 @@ describe("calcite-pick-list", () => {
         <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
         <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
       </calcite-pick-list-group>
-    </calcite-pick-list>`
+    </calcite-pick-list>`,
     });
 
     await page.waitForChanges();

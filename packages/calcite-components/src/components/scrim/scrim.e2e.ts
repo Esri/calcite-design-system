@@ -25,8 +25,8 @@ describe("calcite-scrim", () => {
     defaults("calcite-scrim", [
       {
         propertyName: "loading",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -99,7 +99,7 @@ describe("calcite-scrim", () => {
     expect(contentNode).toBeNull();
   });
 
-  it("renders conent in the default slot has content", async () => {
+  it("renders content in the default slot has content", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-scrim>This is a test.</calcite-scrim>`);
@@ -114,33 +114,33 @@ describe("calcite-scrim", () => {
       {
         width: BREAKPOINTS.s - 1,
         height: 800,
-        scale: "s"
+        scale: "s",
       },
       {
         width: 800,
         height: BREAKPOINTS.s - 1,
-        scale: "s"
+        scale: "s",
       },
       {
         width: BREAKPOINTS.l - 1,
         height: 800,
-        scale: "m"
+        scale: "m",
       },
       {
         width: 800,
         height: BREAKPOINTS.l - 1,
-        scale: "m"
+        scale: "m",
       },
       {
         width: BREAKPOINTS.l,
         height: 800,
-        scale: "l"
+        scale: "l",
       },
       {
         width: 800,
         height: BREAKPOINTS.l,
-        scale: "l"
-      }
+        scale: "l",
+      },
     ];
 
     testValues.forEach((scaleSize) => {
@@ -205,7 +205,7 @@ describe("calcite-scrim", () => {
     describe("when mode attribute is dark", () => {
       it("should render scrim background with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${scrimSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${scrimSnippet}</div>`,
         });
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
@@ -224,7 +224,7 @@ describe("calcite-scrim", () => {
           }
         </style>
         ${scrimSnippet}
-        `
+        `,
       });
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
@@ -242,7 +242,7 @@ describe("calcite-scrim", () => {
           }
         </style>
         ${scrimSnippet}
-        `
+        `,
       });
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();

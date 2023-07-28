@@ -3,7 +3,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getDepth } from "../list-item/utils";
@@ -14,7 +14,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-list-item-group",
   styleUrl: "list-item-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class ListItemGroup implements InteractiveComponent {
   // --------------------------------------------------------------------------

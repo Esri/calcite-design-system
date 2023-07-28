@@ -27,7 +27,7 @@ export const parameters = {
     element: "#root",
     config: {},
     options: {},
-    manual: false
+    manual: false,
   },
   modes,
   docs: {
@@ -44,16 +44,16 @@ export const parameters = {
 
       return null;
     },
-    page: globalDocsPage
+    page: globalDocsPage,
   },
   layout: "centered",
   options: {
     storySort: {
-      order: ["Overview", "Components", "App Components"]
-    }
+      order: ["Overview", "Components", "App Components"],
+    },
   },
   chromatic: {
     // https://www.chromatic.com/docs/threshold
-    diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.15
-  }
+    diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.15,
+  },
 };

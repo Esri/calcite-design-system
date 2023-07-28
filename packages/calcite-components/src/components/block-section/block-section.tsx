@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 
 import { focusFirstTabbable, getElementDir, toAriaBoolean } from "../../utils/dom";
@@ -21,7 +21,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Status } from "../interfaces";
 import { BlockSectionMessages } from "./assets/block-section/t9n";
@@ -31,7 +31,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -41,7 +41,7 @@ import {
   tag: "calcite-block-section",
   styleUrl: "block-section.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class BlockSection implements LocalizedComponent, T9nComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -194,7 +194,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     const statusIconClasses = {
       [CSS.statusIcon]: true,
       [CSS.valid]: status == "valid",
-      [CSS.invalid]: status == "invalid"
+      [CSS.invalid]: status == "invalid",
     };
 
     return !!statusIcon ? (
@@ -224,7 +224,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
           aria-label={toggleLabel}
           class={{
             [CSS.toggle]: true,
-            [CSS.toggleSwitch]: true
+            [CSS.toggleSwitch]: true,
           }}
           id={buttonId}
           onClick={this.toggleSection}
@@ -244,7 +244,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
           aria-label={toggleLabel}
           class={{
             [CSS.sectionHeader]: true,
-            [CSS.toggle]: true
+            [CSS.toggle]: true,
           }}
           id={buttonId}
           name={toggleLabel}

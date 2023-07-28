@@ -8,7 +8,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   alphaToOpacity,
@@ -18,7 +18,7 @@ import {
   isValidHex,
   normalizeHex,
   opacityToAlpha,
-  rgbToHex
+  rgbToHex,
 } from "../color-picker/utils";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
@@ -29,7 +29,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { NumberingSystem } from "../../utils/locale";
 import { OPACITY_LIMITS } from "../color-picker/resources";
@@ -40,7 +40,7 @@ const DEFAULT_COLOR = Color();
 @Component({
   tag: "calcite-color-picker-hex-input",
   styleUrl: "color-picker-hex-input.scss",
-  shadow: true
+  shadow: true,
 })
 export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
@@ -282,7 +282,6 @@ export class ColorPickerHexInput implements LoadableComponent {
     if (isValidHex(hex)) {
       event.preventDefault();
       this.hexInputNode.value = hex.slice(1);
-      this.hexInputNode.internalSyncChildElValue();
     }
   };
 
@@ -292,14 +291,14 @@ export class ColorPickerHexInput implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private hexInputNode: HTMLCalciteInputElement;
+  private hexInputNode: HTMLCalciteInputTextElement;
 
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
   @State() internalColor: Color | null = DEFAULT_COLOR;
 
-  private opacityInputNode: HTMLCalciteInputElement;
+  private opacityInputNode: HTMLCalciteInputNumberElement;
 
   private previousNonNullValue: string = this.value;
 
@@ -317,13 +316,12 @@ export class ColorPickerHexInput implements LoadableComponent {
 
     return (
       <div class={CSS.container}>
-        <calcite-input
+        <calcite-input-text
           class={CSS.hexInput}
           label={messages?.hex || hexLabel}
           maxLength={6}
-          numberingSystem={this.numberingSystem}
-          onCalciteInputChange={this.onHexInputChange}
-          onCalciteInternalInputBlur={this.onHexInputBlur}
+          onCalciteInputTextChange={this.onHexInputChange}
+          onCalciteInternalInputTextBlur={this.onHexInputBlur}
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}
           prefixText="#"
@@ -414,11 +412,11 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.value = oldValue;
   }
 
-  private storeHexInputRef = (node: HTMLCalciteInputElement): void => {
+  private storeHexInputRef = (node: HTMLCalciteInputTextElement): void => {
     this.hexInputNode = node;
   };
 
-  private storeOpacityInputRef = (node: HTMLCalciteInputElement): void => {
+  private storeOpacityInputRef = (node: HTMLCalciteInputNumberElement): void => {
     this.opacityInputNode = node;
   };
 
@@ -439,7 +437,7 @@ export class ColorPickerHexInput implements LoadableComponent {
       const nudgedRGBChannels = rgbChannels.map((channel) => channel + amount);
       nudgedChannels = [
         ...nudgedRGBChannels,
-        this.alphaChannel ? channels[3] : undefined
+        this.alphaChannel ? channels[3] : undefined,
       ] as Channels;
     } else {
       const nudgedAlpha = opacityToAlpha(alphaToOpacity(color.alpha()) + amount);

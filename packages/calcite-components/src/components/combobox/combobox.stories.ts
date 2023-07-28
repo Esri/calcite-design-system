@@ -8,9 +8,9 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Controls/Combobox",
   parameters: {
-    notes: [readme1, readme2]
+    notes: [readme1, readme2],
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -251,7 +251,7 @@ export const flipPositioning_TestOnly = (): string => html`
   </div>
 `;
 flipPositioning_TestOnly.parameters = {
-  layout: "fullscreen"
+  layout: "fullscreen",
 };
 
 export const darkModeRTL_TestOnly = (): string => html`
@@ -416,7 +416,7 @@ export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnl
   </div>
 `;
 
-export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
+export const mediumIconForLargeComboboxItem_TestOnly = (): string => html`
   <calcite-combobox open scale="l">
     <calcite-combobox-item
       icon="altitude"

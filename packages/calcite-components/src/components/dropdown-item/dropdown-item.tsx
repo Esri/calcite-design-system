@@ -8,7 +8,7 @@ import {
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
@@ -19,7 +19,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -28,7 +28,7 @@ import {
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "dropdown-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class DropdownItem implements LoadableComponent {
   //--------------------------------------------------------------------------
@@ -128,10 +128,11 @@ export class DropdownItem implements LoadableComponent {
 
   render(): VNode {
     const scale = getElementProp(this.el, "scale", this.scale);
+    const { href, selectionMode, label, iconFlipRtl } = this;
     const iconStartEl = (
       <calcite-icon
         class={CSS.iconStart}
-        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        flipRtl={iconFlipRtl === "start" || iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={scale === "l" ? "m" : "s"}
       />
@@ -144,7 +145,7 @@ export class DropdownItem implements LoadableComponent {
     const iconEndEl = (
       <calcite-icon
         class={CSS.iconEnd}
-        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        flipRtl={iconFlipRtl === "end" || iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale={scale === "l" ? "m" : "s"}
       />
@@ -159,13 +160,13 @@ export class DropdownItem implements LoadableComponent {
         ? [contentNode, iconEndEl]
         : contentNode;
 
-    const contentEl = !this.href ? (
+    const contentEl = !href ? (
       slottedContent
     ) : (
       <a
-        aria-label={this.label}
+        aria-label={label}
         class={CSS.link}
-        href={this.href}
+        href={href}
         rel={this.rel}
         tabIndex={-1}
         target={this.target}
@@ -176,34 +177,34 @@ export class DropdownItem implements LoadableComponent {
       </a>
     );
 
-    const itemRole = this.href
+    const itemRole = href
       ? null
-      : this.selectionMode === "single"
+      : selectionMode === "single"
       ? "menuitemradio"
-      : this.selectionMode === "multiple"
+      : selectionMode === "multiple"
       ? "menuitemcheckbox"
       : "menuitem";
 
-    const itemAria = this.selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
+    const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
 
     return (
-      <Host aria-checked={itemAria} role={itemRole} tabindex="0">
+      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole} tabindex="0">
         <div
           class={{
             container: true,
-            [CSS.containerLink]: !!this.href,
+            [CSS.containerLink]: !!href,
             [CSS.containerSmall]: scale === "s",
             [CSS.containerMedium]: scale === "m",
             [CSS.containerLarge]: scale === "l",
-            [CSS.containerMulti]: this.selectionMode === "multiple",
-            [CSS.containerSingle]: this.selectionMode === "single",
-            [CSS.containerNone]: this.selectionMode === "none"
+            [CSS.containerMulti]: selectionMode === "multiple",
+            [CSS.containerSingle]: selectionMode === "single",
+            [CSS.containerNone]: selectionMode === "none",
           }}
         >
-          {this.selectionMode !== "none" ? (
+          {selectionMode !== "none" ? (
             <calcite-icon
               class={CSS.icon}
-              icon={this.selectionMode === "multiple" ? "check" : "bullet-point"}
+              icon={selectionMode === "multiple" ? "check" : "bullet-point"}
               scale={scale === "l" ? "m" : "s"}
             />
           ) : null}
@@ -327,7 +328,7 @@ export class DropdownItem implements LoadableComponent {
     this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.parentDropdownGroupEl
+      requestedDropdownGroup: this.parentDropdownGroupEl,
     });
   }
 }

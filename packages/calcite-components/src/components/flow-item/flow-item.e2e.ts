@@ -16,28 +16,28 @@ describe("calcite-flow-item", () => {
     defaults("calcite-flow-item", [
       {
         propertyName: "closable",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "closed",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "loading",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "menuOpen",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "showBackButton",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -64,7 +64,7 @@ describe("calcite-flow-item", () => {
 
   describe("should focus on back button", () => {
     focusable(`<calcite-flow-item show-back-button>test</calcite-flow-item>`, {
-      shadowFocusTargetSelector: "calcite-action"
+      shadowFocusTargetSelector: "calcite-action",
     });
   });
 
@@ -153,7 +153,7 @@ describe("calcite-flow-item", () => {
     await page.$eval("calcite-flow-item", (panel: HTMLCalcitePanelElement) =>
       panel.scrollContentTo({
         top: 0,
-        behavior: "auto"
+        behavior: "auto",
       })
     );
 
@@ -162,7 +162,7 @@ describe("calcite-flow-item", () => {
 
   it("honors calciteFlowItemScroll event", async () => {
     const page = await newE2EPage({
-      html: "<calcite-flow-item>test</calcite-flow-item>"
+      html: "<calcite-flow-item>test</calcite-flow-item>",
     });
 
     const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");

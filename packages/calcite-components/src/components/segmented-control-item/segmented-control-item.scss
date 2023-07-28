@@ -118,3 +118,5 @@
 :host([icon-end]) .label--scale-l .segmented-control-item-icon {
   margin-inline-start: theme("margin.4");
 }
+
+@include base-component();

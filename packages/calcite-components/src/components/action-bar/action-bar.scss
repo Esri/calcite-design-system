@@ -16,10 +16,16 @@
 
 :host([layout="vertical"]) {
   @apply flex-col;
+  .action-group--bottom {
+    margin-block-start: auto;
+  }
 }
 
 :host([layout="horizontal"]) {
   @apply flex-row;
+  .action-group--bottom {
+    @apply ms-auto;
+  }
 }
 
 :host([layout="vertical"][overflow-actions-disabled]) {
@@ -53,5 +59,7 @@
 }
 
 .action-group--bottom {
-  @apply flex-grow justify-end;
+  @apply justify-end;
 }
+
+@include base-component();

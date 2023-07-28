@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
@@ -17,7 +17,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
@@ -34,7 +34,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -47,7 +47,7 @@ import {
 @Component({
   tag: "calcite-list",
   styleUrl: "list.scss",
-  shadow: true
+  shadow: true,
 })
 export class List implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -269,6 +269,11 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
+
+    if (this.filterEnabled) {
+      return this.filterEl?.setFocus();
+    }
+
     return this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 
@@ -288,7 +293,7 @@ export class List implements InteractiveComponent, LoadableComponent {
       filterPlaceholder,
       filterText,
       hasFilterActionsStart,
-      hasFilterActionsEnd
+      hasFilterActionsEnd,
     } = this;
     return (
       <div class={CSS.container}>
@@ -376,7 +381,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   private filterElements({
     el,
     filteredItems,
-    visibleParents
+    visibleParents,
   }: {
     el: HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement;
     filteredItems: HTMLCalciteListItemElement[];
@@ -402,7 +407,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.filterElements({
       el: closestParent,
       filteredItems,
-      visibleParents
+      visibleParents,
     });
   }
 
@@ -474,7 +479,7 @@ export class List implements InteractiveComponent, LoadableComponent {
       label: item.label,
       description: item.description,
       metadata: item.metadata,
-      value: item.value
+      value: item.value,
     }));
   };
 
@@ -493,7 +498,7 @@ export class List implements InteractiveComponent, LoadableComponent {
       }
     }
     this.updateFilteredItems(emit);
-    this.enabledListItems = items.filter((item) => !item.disabled && !item.closed);
+    this.enabledListItems = this.filteredItems.filter((item) => !item.disabled && !item.closed);
     this.setActiveListItem();
     this.updateSelectedItems(emit);
   }, debounceTimeout);
@@ -535,13 +540,19 @@ export class List implements InteractiveComponent, LoadableComponent {
 
     if (key === "ArrowDown") {
       event.preventDefault();
-      const nextIndex = currentIndex + 1;
+      const nextIndex = event.target === this.filterEl ? 0 : currentIndex + 1;
 
       if (filteredItems[nextIndex]) {
         this.focusRow(filteredItems[nextIndex]);
       }
     } else if (key === "ArrowUp") {
       event.preventDefault();
+
+      if (currentIndex === 0 && this.filterEnabled) {
+        this.filterEl?.setFocus();
+        return;
+      }
+
       const prevIndex = currentIndex - 1;
 
       if (filteredItems[prevIndex]) {

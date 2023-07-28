@@ -17,14 +17,14 @@ describe("calcite-date-picker", () => {
     defaults("calcite-date-picker", [
       {
         propertyName: "scale",
-        defaultValue: "m"
-      }
+        defaultValue: "m",
+      },
     ]);
   });
 
   describe("focusable", () => {
     focusable("calcite-date-picker", {
-      shadowFocusTargetSelector: "calcite-date-picker-month-header"
+      shadowFocusTargetSelector: "calcite-date-picker-month-header",
     });
   });
 
@@ -282,7 +282,7 @@ describe("calcite-date-picker", () => {
   describe("when the lang is set to Slovak calendar", () => {
     it("should start the week on Monday", async () => {
       const page = await newE2EPage({
-        html: `<calcite-date-picker scale="m" lang="sk" value="2000-11-27"></calcite-date-picker>`
+        html: `<calcite-date-picker scale="m" lang="sk" value="2000-11-27"></calcite-date-picker>`,
       });
       await page.waitForChanges();
       const text: string = await page.evaluate(
@@ -323,7 +323,7 @@ describe("calcite-date-picker", () => {
     expect(await date.getProperty("messages")).toEqual({
       nextMonth: "Next month",
       prevMonth: "Previous month",
-      year: "Year"
+      year: "Year",
     });
   });
 
