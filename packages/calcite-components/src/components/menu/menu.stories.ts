@@ -134,7 +134,7 @@ export const verticalComplexUseCase_TestOnly = (): string => html`<calcite-shell
             </calcite-menu-item>
           </calcite-menu-item>
         </calcite-menu-item>
-        <calcite-menu-item href="#" slot="submenu-item" text="It's stupendous">
+        <calcite-menu-item href="#" slot="submenu-item" text="It's stupendous" open>
           <calcite-menu-item slot="submenu-item" text="Very nice example"></calcite-menu-item>
           <calcite-menu-item icon-start="layer" slot="submenu-item" text="Short one" open>
             <calcite-menu-item icon-start="layer" slot="submenu-item" text="Another thing" open>
