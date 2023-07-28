@@ -255,6 +255,7 @@ export class InputTimeZone
     return (
       <Host>
         <calcite-combobox
+          clearDisabled={true}
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
           onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
