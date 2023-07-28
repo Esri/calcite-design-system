@@ -1,6 +1,5 @@
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
 import Color from "color";
-import { DIMENSIONS } from "./resources";
 
 export const hexChar = /^[0-9A-F]$/i;
 const shorthandHex = /^#[0-9A-F]{3}$/i;
@@ -254,27 +253,4 @@ export function toNonAlphaMode(mode: SupportedMode): SupportedMode {
       : mode;
 
   return nonAlphaMode;
-}
-
-/**
- * Returns adjusted left and top values of thumb node by substracting half of width/height of the thumb from computed left and top values.
- * The current thumb node has 1px in width and height.
- *
- * @param left
- * @param top
- * @returns {[number, number]}
- */
-export function getAdjustedLeftAndTop(left: number, top: number): [number, number] {
-  return [left - DIMENSIONS.thumbNode / 2, top - DIMENSIONS.thumbNode / 2];
-}
-
-/**
- * Returns center of the thumb node. The current thumb node has 1px in width and height.
- *
- * @param X
- * @param Y
- * @returns {[number, number]}
- */
-export function getCenterXYOfThumbNode(X: number, Y: number): [number, number] {
-  return [X + DIMENSIONS.thumbNode / 2, Y + DIMENSIONS.thumbNode / 2];
 }

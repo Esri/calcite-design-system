@@ -32,7 +32,6 @@ import {
   colorEqual,
   CSSColorMode,
   Format,
-  getAdjustedLeftAndTop,
   hexify,
   normalizeAlpha,
   normalizeColor,
@@ -737,7 +736,6 @@ export class ColorPicker
       colorFieldScopeLeft,
       colorFieldScopeTop,
       dimensions: {
-        colorField: { width: colorFieldWidth },
         slider: { width: sliderWidth },
         thumb: { radius: thumbRadius },
       },
@@ -760,18 +758,18 @@ export class ColorPicker
     const opacityTop = thumbRadius;
     const opacityLeft =
       opacityScopeLeft ??
-      (colorFieldWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
+      (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
     const noHex = hexDisabled || hideHex;
     const noChannels = channelsDisabled || hideChannels;
     const noSaved = savedDisabled || hideSaved;
-    const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = getAdjustedLeftAndTop(
+    const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedLeftAndTop(
       colorFieldScopeLeft,
       colorFieldScopeTop
     );
-    const [adjustedHueScopeLeft, adjustedHueScopeTop] = getAdjustedLeftAndTop(hueLeft, hueTop);
-    const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = getAdjustedLeftAndTop(
+    const [adjustedHueScopeLeft, adjustedHueScopeTop] = this.getAdjustedLeftAndTop(hueLeft, hueTop);
+    const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = this.getAdjustedLeftAndTop(
       opacityLeft,
       opacityTop
     );
@@ -1636,5 +1634,16 @@ export class ColorPicker
     }
 
     return channels as Channels;
+  }
+
+  /**
+   * Returns adjusted left and top values of thumb node by substracting half of width/height of the thumb from computed left and top values.
+   * The current thumb node has 1px in width and height.
+   *
+   * @param left
+   * @param top
+   */
+  private getAdjustedLeftAndTop(left: number, top: number): [number, number] {
+    return [left - DIMENSIONS.thumbNode / 2, top - DIMENSIONS.thumbNode / 2];
   }
 }

@@ -5,7 +5,6 @@ import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 import { GlobalTestProps, selectText, getElementXY, newProgrammaticE2EPage } from "../../tests/utils";
 import { html } from "../../../support/formatting";
-import { getCenterXYOfThumbNode } from "./utils";
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
@@ -21,6 +20,10 @@ describe("calcite-color-picker", () => {
       `.${scope === "hue" ? CSS.hueScope : CSS.colorFieldScope}`
     );
     await page.waitForChanges();
+  }
+
+  function getCenterOfThumbNode(X: number, Y: number): [number, number] {
+    return [X + DIMENSIONS.thumbNode / 2, Y + DIMENSIONS.thumbNode / 2];
   }
 
   beforeEach(
@@ -664,7 +667,7 @@ describe("calcite-color-picker", () => {
     const [hueSliderX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueSlider}`);
 
     let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    let [hueScopeCenterX, hueScopeCenterY] = getCenterXYOfThumbNode(hueScopeX, hueScopeY);
+    let [hueScopeCenterX, hueScopeCenterY] = getCenterOfThumbNode(hueScopeX, hueScopeY);
 
     await page.mouse.move(hueScopeCenterX, hueScopeCenterY);
     await page.mouse.down();
@@ -673,7 +676,7 @@ describe("calcite-color-picker", () => {
     await page.waitForChanges();
 
     [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    [hueScopeCenterX, hueScopeCenterY] = getCenterXYOfThumbNode(hueScopeX, hueScopeY);
+    [hueScopeCenterX, hueScopeCenterY] = getCenterOfThumbNode(hueScopeX, hueScopeY);
 
     expect(hueScopeCenterX).toBe(hueSliderX);
 
@@ -684,7 +687,7 @@ describe("calcite-color-picker", () => {
     await page.waitForChanges();
 
     [hueScopeX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    [hueScopeCenterX] = getCenterXYOfThumbNode(hueScopeX, hueScopeY);
+    [hueScopeCenterX] = getCenterOfThumbNode(hueScopeX, hueScopeY);
 
     expect(hueScopeCenterX).toBe(hueSliderX + DIMENSIONS.m.slider.width - 1);
   });
@@ -2283,22 +2286,20 @@ describe("calcite-color-picker", () => {
 
     it("should update value when opacity scope is moved", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-color-picker alpha-channel></calcite-color-picker>`);
-
-      const [opacityScopeX, opacityScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.opacityScope}`);
+      await page.setContent(`<calcite-color-picker alpha-channel></calcite-color-picker> <p>BROKEN</p>`);
+      let [opacityScopeX, opacityScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.opacityScope}`);
       const opacityInputEl = await page.find(`calcite-color-picker >>> [data-channel-index='3']`);
-
       await page.mouse.move(opacityScopeX - 10, opacityScopeY);
       await page.mouse.down();
       await page.mouse.up();
       await page.waitForChanges();
       const value = await opacityInputEl.getProperty("value");
 
-      await page.mouse.move(opacityScopeX + 0.8, opacityScopeY);
+      [opacityScopeX, opacityScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.opacityScope}`);
+      await page.mouse.move(opacityScopeX + 2, opacityScopeY);
       await page.mouse.down();
       await page.mouse.up();
       await page.waitForChanges();
-
       expect(await opacityInputEl.getProperty("value")).not.toBe(value);
     });
   });
