@@ -30,29 +30,36 @@ describe("calcite-input-time-zone", () => {
     renders("calcite-input-time-zone", { display: "block" });
   });
 
-  it("is labelable", () => labelable("calcite-input-time-zone"));
+  describe("labelable", () => {
+    labelable("calcite-input-time-zone");
+  });
 
-  it("is reflects", () =>
+  describe("reflects", () => {
     reflects("calcite-input-time-zone", [
       { propertyName: "disabled", value: true },
       { propertyName: "open", value: true },
       { propertyName: "scale", value: "m" },
       { propertyName: "overlayPositioning", value: "absolute" },
-    ]));
+    ]);
+  });
 
-  it("has defaults", () =>
+  describe("defaults", () => {
     defaults("calcite-input-time-zone", [
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "messageOverrides", defaultValue: undefined },
       { propertyName: "open", defaultValue: false },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
       { propertyName: "scale", defaultValue: "m" },
-    ]));
+    ]);
+  });
 
-  it("can be disabled", () =>
-    disabled("calcite-input-time-zone", { shadowAriaAttributeTargetSelector: "calcite-combobox" }));
+  describe("disabled", () => {
+    disabled("calcite-input-time-zone", { shadowAriaAttributeTargetSelector: "calcite-combobox" });
+  });
 
-  it("supports translations", () => t9n("calcite-input-time-zone"));
+  describe("t9n", () => {
+    t9n("calcite-input-time-zone");
+  });
 
   describe("selects user's matching timezone offset by default", () => {
     const timeZoneNamesAndOffsets = [
