@@ -269,7 +269,9 @@ export class InputTimeZone
     this.timeZoneGroups = timeZoneGroups;
     const offsetToMatch = this.value ?? getUserTimeZoneOffset();
     this.selectedTimeZoneGroup = timeZoneGroups.find(
-      ({ offsetValue }) => offsetValue === offsetToMatch
+      ({ offsetValue }) =>
+        // intentional == to match string to number
+        offsetValue == offsetToMatch
     );
     this.value = `${this.selectedTimeZoneGroup.offsetValue}`;
   }
