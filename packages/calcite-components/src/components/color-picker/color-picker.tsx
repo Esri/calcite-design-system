@@ -576,7 +576,6 @@ export class ColorPicker
     }
 
     let { offsetX } = event;
-
     if (event.target === this.opacityScopeNode) {
       offsetX = this.opacityScopeLeft + offsetX;
     }
