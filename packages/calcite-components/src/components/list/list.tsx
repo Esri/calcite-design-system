@@ -735,11 +735,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => "matches" in el && el.matches("calcite-handle")
+      (el: HTMLElement) => el.tagName === "CALCITE-HANDLE"
     ) as HTMLCalciteHandleElement;
 
     const sortItem = composedPath.find(
-      (el: HTMLElement) => "matches" in el && el.matches("calcite-list-item")
+      (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM"
     ) as HTMLCalciteListItemElement;
 
     const { enabledListItems, el } = this;

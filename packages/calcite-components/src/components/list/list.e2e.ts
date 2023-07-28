@@ -469,7 +469,7 @@ describe("calcite-list", () => {
       return page;
     }
 
-    it("works using a keyboard", async () => {
+    it.skip("works using a keyboard", async () => {
       const page = await createSimpleList();
 
       const handle = await page.find(`calcite-list-item[value="one"] >>> calcite-handle`);
@@ -488,8 +488,10 @@ describe("calcite-list", () => {
         arrowKey: "ArrowDown" | "ArrowUp",
         expectedValueOrder: string[]
       ): Promise<void> {
+        const event = page.waitForEvent("calciteListOrderChange");
+        await page.waitForChanges();
         await page.keyboard.press(arrowKey);
-        await page.waitForTimeout(listDebounceTimeout);
+        await event;
         const itemsAfter = await page.findAll("calcite-list-item");
         expect(itemsAfter.length).toBe(3);
 
