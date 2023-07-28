@@ -993,7 +993,7 @@ export class ColorPicker
     return (
       <calcite-tab
         class={CSS.control}
-        is-container-disabled={true}
+        container-disabled={true}
         key={channelMode}
         selected={selected}
       >
