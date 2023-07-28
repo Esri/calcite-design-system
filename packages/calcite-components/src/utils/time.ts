@@ -212,7 +212,8 @@ export function localizeTimeStringToParts({
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
-    let localizedFractionalSecond, localizedDecimalSeparator;
+    let localizedFractionalSecond = null,
+      localizedDecimalSeparator = null;
     if (fractionalSecond) {
       numberStringFormatter.numberFormatOptions = {
         locale,
