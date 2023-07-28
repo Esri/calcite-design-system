@@ -4,6 +4,7 @@ module.exports = {
     "jest/globals": true
   },
   extends: [
+    "plugin:@cspell/recommended",
     "plugin:@esri/calcite-components/recommended",
     "plugin:@stencil-community/recommended",
     "plugin:@typescript-eslint/recommended",
