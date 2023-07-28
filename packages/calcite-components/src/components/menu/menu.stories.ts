@@ -53,7 +53,7 @@ export const darkModeRTL_TestOnly = (): string => html`<calcite-menu dir="rtl" c
   <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
 </calcite-menu>`;
 
-export const verticalLyoutInDarkModeRTL_TestOnly = (): string => html`<calcite-menu
+export const verticalLayoutInDarkModeRTL_TestOnly = (): string => html`<calcite-menu
   layout="vertical"
   dir="rtl"
   class="calcite-mode-dark"
