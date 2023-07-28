@@ -218,8 +218,8 @@ export function localizeTimeStringToParts({
         locale,
         numberingSystem,
       };
-      localizedFractionalSecond = numberStringFormatter.localize(parseInt(fractionalSecond).toFixed(3));
       localizedDecimalSeparator = numberStringFormatter.localize("1.1").split("")[1];
+      localizedFractionalSecond = numberStringFormatter.localize(fractionalSecond);
     }
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
