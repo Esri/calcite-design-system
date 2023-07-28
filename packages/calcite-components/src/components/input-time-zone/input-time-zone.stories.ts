@@ -16,9 +16,18 @@ export default {
 };
 
 export const simple = (): string => html`
-  <calcite-input-time-zone>
-    ${boolean("disabled", false)} scale="${select("scale", ["s", "m", "l"], "m")}"
-  </calcite-input-time-zone>
+  <calcite-input-time-zone
+    ${boolean("disabled", false)}
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  ></calcite-input-time-zone>
+`;
+
+export const initialOffsetSelected_TestOnly = (): string => html`
+  <calcite-input-time-zone value="-360"></calcite-input-time-zone>
+`;
+
+export const displayingTimeZoneOffsets_TestOnly = (): string => html`
+  <calcite-input-time-zone open></calcite-input-time-zone>
 `;
 
 export const disabled_TestOnly = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
