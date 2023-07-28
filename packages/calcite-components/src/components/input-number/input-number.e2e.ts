@@ -911,7 +911,7 @@ describe("calcite-input-number", () => {
     expect(Number(await element.getProperty("value"))).toBe(195);
   });
 
-  it("allows deleting exponentail number from decimal and adding trailing zeros", async () => {
+  it("allows deleting exponential number from decimal and adding trailing zeros", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number></calcite-input-number>`);
 
