@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.27...@esri/calcite-components@1.5.0-next.28) (2023-07-28)
+
+### Bug Fixes
+
+- **menu-item:** Prevent duplicate border in nested vertical menu-items ([#7387](https://github.com/Esri/calcite-design-system/issues/7387)) ([186a738](https://github.com/Esri/calcite-design-system/commit/186a738eb671978f0408d58aeb1bd11bd08e1424)), closes [#7386](https://github.com/Esri/calcite-design-system/issues/7386)
+
 ## [1.5.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.26...@esri/calcite-components@1.5.0-next.27) (2023-07-28)
 
 ### Features
