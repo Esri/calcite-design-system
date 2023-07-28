@@ -199,14 +199,6 @@ export class InputTimeZone
       ({ offsetValue }) => combobox.value === `${offsetValue}`
     );
 
-    // workaround to prevent deselecting of item
-    if (!selected) {
-      requestAnimationFrame(() => {
-        combobox.value = this.selectedTimeZoneGroup.offsetValue.toString();
-      });
-      return;
-    }
-
     this.value = `${selected.offsetValue}`;
     this.selectedTimeZoneGroup = selected;
     this.calciteInputTimeZoneChange.emit();
