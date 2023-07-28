@@ -17,7 +17,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  SupportedLocales,
+  SupportedLocale,
 } from "../../utils/locale";
 import { BasicTimeZoneGroup } from "./interfaces";
 import { Scale } from "../interfaces";
@@ -155,7 +155,7 @@ export class InputTimeZone
 
   @State() defaultMessages: InputTimeZoneMessages;
 
-  @State() effectiveLocale: SupportedLocales = "";
+  @State() effectiveLocale: SupportedLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
