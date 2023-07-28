@@ -279,12 +279,7 @@ export class InputTimeZone
         >
           {this.timeZoneGroups.map((group) => {
             const selected = this.selectedTimeZoneGroup === group;
-            const label = createBasicGroupLabel(
-              this.messages,
-              group.offsetLabel,
-              group.offsetValue
-            );
-
+            const label = createBasicGroupLabel(this.messages, group.offsetLabel);
             const value = group.offsetValue;
 
             return (
