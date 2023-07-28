@@ -76,7 +76,7 @@ describe("calcite-input-time-zone", () => {
 
         const input = await page.find("calcite-input-time-zone");
 
-        expect(await input.getProperty("value")).toBe(offset);
+        expect(await input.getProperty("value")).toBe(`${offset}`);
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
@@ -92,7 +92,7 @@ describe("calcite-input-time-zone", () => {
 
     const input = await page.find("calcite-input-time-zone");
 
-    expect(await input.getProperty("value")).toBe(-360);
+    expect(await input.getProperty("value")).toBe("-360");
 
     const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
