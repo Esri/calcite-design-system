@@ -61,6 +61,10 @@ describe("calcite-list", () => {
         propertyName: "filterPlaceholder",
         defaultValue: undefined,
       },
+      {
+        propertyName: "dragEnabled",
+        defaultValue: false,
+      },
     ]);
   });
 

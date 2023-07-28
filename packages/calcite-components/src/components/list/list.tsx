@@ -742,7 +742,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       (el: HTMLElement) => "matches" in el && el.matches("calcite-list-item")
     ) as HTMLCalciteListItemElement;
 
-    const { enabledListItems } = this;
+    const { enabledListItems, el } = this;
 
     const sameParentItems = enabledListItems.filter(
       (item) => item.parentElement === sortItem.parentElement
@@ -779,6 +779,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
     this.updateListItems();
     this.connectObserver();
+
+    this.calciteListOrderChange.emit({
+      dragEl: sortItem,
+      fromEl: el,
+      toEl: el,
+    });
 
     handle.setFocus().then(() => {
       handle.activated = true;

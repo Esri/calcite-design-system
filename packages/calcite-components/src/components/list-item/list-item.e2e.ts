@@ -43,6 +43,10 @@ describe("calcite-list-item", () => {
         propertyName: "open",
         defaultValue: false,
       },
+      {
+        propertyName: "dragHandle",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -52,6 +56,14 @@ describe("calcite-list-item", () => {
 
   describe("disabled", () => {
     disabled(`<calcite-list-item label="test" active></calcite-list-item>`);
+  });
+
+  it("renders dragHandle when property is true", async () => {
+    const page = await newE2EPage({ html: `<calcite-list-item drag-handle"></calcite-list-item>` });
+
+    const contentNode = await page.find("calcite-list-item >>> calcite-handle");
+
+    expect(contentNode).not.toBeNull();
   });
 
   it("renders content node when label is provided", async () => {
