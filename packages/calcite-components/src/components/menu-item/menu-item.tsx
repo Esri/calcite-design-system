@@ -437,13 +437,26 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     );
   }
 
+  renderHrefIcon(dir: Direction): VNode {
+    return (
+      <calcite-icon
+        class={CSS.hoverHrefIcon}
+        icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
+        key={CSS.hoverHrefIcon}
+        scale="s"
+      />
+    );
+  }
+
   renderItemContent(dir: Direction): VNode {
+    const hasHref = this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem);
     return (
       <Fragment>
         {this.iconStart && this.renderIconStart()}
         <div class={CSS.textContainer}>
           <span>{this.text}</span>
         </div>
+        {hasHref && this.renderHrefIcon(dir)}
         {this.iconEnd && this.renderIconEnd()}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
@@ -480,13 +493,6 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
               ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}
-              {this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem) ? (
-                <calcite-icon
-                  class={CSS.hoverHrefIcon}
-                  icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
-                  scale="s"
-                />
-              ) : null}
             </a>
             {this.href && this.hasSubmenu ? this.renderDropdownAction(dir) : null}
           </div>
