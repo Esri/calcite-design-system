@@ -8,19 +8,19 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -28,7 +28,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
@@ -53,7 +53,7 @@ import { CSS, SLOTS } from "./resources";
   tag: "calcite-notice",
   styleUrl: "notice.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Notice
   implements ConditionalSlotComponent, LoadableComponent, T9nComponent, LocalizedComponent
@@ -214,7 +214,7 @@ export class Notice
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     const noticeLinkEl = this.el.querySelector("calcite-link");
 
@@ -222,7 +222,7 @@ export class Notice
       return;
     }
     if (noticeLinkEl) {
-      noticeLinkEl.setFocus();
+      return noticeLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }

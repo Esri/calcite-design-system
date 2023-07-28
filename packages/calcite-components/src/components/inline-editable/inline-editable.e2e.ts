@@ -53,7 +53,7 @@ describe("calcite-inline-editable", () => {
       const page = await newE2EPage({
         html: html`<calcite-inline-editable controls editing-enabled>
           <calcite-input />
-        </calcite-inline-editable>`
+        </calcite-inline-editable>`,
       });
 
       const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
@@ -369,7 +369,7 @@ describe("calcite-inline-editable", () => {
             <calcite-input value="John Doe"></calcite-input>
           </calcite-inline-editable>`,
           {
-            focusTargetSelector: "calcite-input"
+            focusTargetSelector: "calcite-input",
           }
         );
       });

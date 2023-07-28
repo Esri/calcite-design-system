@@ -11,242 +11,242 @@ export const locales: Locale[] = [
   {
     name: "Arabic",
     locale: "ar",
-    dir: "rtl"
+    dir: "rtl",
   },
   {
     name: "Arabic (Arab Numerals)",
     locale: "ar",
     dir: "rtl",
-    numberingSystem: "arab"
+    numberingSystem: "arab",
   },
   {
     name: "Arabic (Arab Ext Numerals)",
     locale: "ar",
     dir: "rtl",
-    numberingSystem: "arabext"
+    numberingSystem: "arabext",
   },
   {
     name: "Bulgarian",
-    locale: "bg"
+    locale: "bg",
   },
   {
     name: "Bosnian",
-    locale: "bs"
+    locale: "bs",
   },
   {
     name: "Catalan",
-    locale: "ca"
+    locale: "ca",
   },
   {
     name: "Czech",
-    locale: "cs"
+    locale: "cs",
   },
   {
     name: "Danish",
-    locale: "da"
+    locale: "da",
   },
   {
     name: "German",
-    locale: "de"
+    locale: "de",
   },
   {
     name: "German (Austria)",
-    locale: "de-AT"
+    locale: "de-AT",
   },
   {
     name: "German (Switzerland)",
-    locale: "de-CH"
+    locale: "de-CH",
   },
   {
     name: "Greek",
-    locale: "el"
+    locale: "el",
   },
   {
     name: "English",
-    locale: "en"
+    locale: "en",
   },
   {
     name: "English (Australia)",
-    locale: "en-AU"
+    locale: "en-AU",
   },
   {
     name: "English (Canada)",
-    locale: "en-CA"
+    locale: "en-CA",
   },
   {
     name: "English (Great Britain)",
-    locale: "en-GB"
+    locale: "en-GB",
   },
   {
     name: "English (United States)",
-    locale: "en-US"
+    locale: "en-US",
   },
   {
     name: "Spanish",
-    locale: "es"
+    locale: "es",
   },
   {
     name: "Spanish (Mexico)",
-    locale: "es-MX"
+    locale: "es-MX",
   },
   {
     name: "Estonian",
-    locale: "et"
+    locale: "et",
   },
   {
     name: "Finnish",
-    locale: "fi"
+    locale: "fi",
   },
   {
     name: "French",
-    locale: "fr"
+    locale: "fr",
   },
   {
     name: "French (Switzerland)",
-    locale: "fr-CH"
+    locale: "fr-CH",
   },
   {
     name: "Hebrew",
-    locale: "he"
+    locale: "he",
   },
   {
     name: "Hindi",
-    locale: "hi"
+    locale: "hi",
   },
   {
     name: "Croatian",
-    locale: "hr"
+    locale: "hr",
   },
   {
     name: "Hungarian",
-    locale: "hu"
+    locale: "hu",
   },
   {
     name: "Indonesian (ISO 3166)",
-    locale: "id"
+    locale: "id",
   },
   {
     name: "Italian",
-    locale: "it"
+    locale: "it",
   },
   {
     name: "Italian (Switzerland)",
-    locale: "it-CH"
+    locale: "it-CH",
   },
   {
     name: "Japanese",
-    locale: "ja"
+    locale: "ja",
   },
   {
     name: "Korean",
-    locale: "ko"
+    locale: "ko",
   },
   {
     name: "Lithuanian",
-    locale: "lt"
+    locale: "lt",
   },
   {
     name: "Latvian",
-    locale: "lv"
+    locale: "lv",
   },
   {
     name: "Macedonian",
-    locale: "mk"
+    locale: "mk",
   },
   {
     name: "Norwegian",
-    locale: "no"
+    locale: "no",
   },
   {
     name: "Dutch",
-    locale: "nl"
+    locale: "nl",
   },
   {
     name: "Polish",
-    locale: "pl"
+    locale: "pl",
   },
   {
     name: "Portuguese",
-    locale: "pt"
+    locale: "pt",
   },
   {
     name: "Portuguese (Brazil)",
-    locale: "pt-BR"
+    locale: "pt-BR",
   },
   {
     name: "Portuguese (Portugal)",
-    locale: "pt-PT"
+    locale: "pt-PT",
   },
   {
     name: "Romanian",
-    locale: "ro"
+    locale: "ro",
   },
   {
     name: "Russian",
-    locale: "ru"
+    locale: "ru",
   },
   {
     name: "Slovak",
-    locale: "sk"
+    locale: "sk",
   },
   {
     name: "Slovenian",
-    locale: "sl"
+    locale: "sl",
   },
   {
     name: "Serbian",
-    locale: "sr"
+    locale: "sr",
   },
   {
     name: "Swedish",
-    locale: "sv"
+    locale: "sv",
   },
   {
     name: "Thai",
-    locale: "th"
+    locale: "th",
   },
   {
     name: "Thai (Thai digits)",
     locale: "th",
-    numberingSystem: "thai"
+    numberingSystem: "thai",
   },
   {
     name: "Turkish",
-    locale: "tr"
+    locale: "tr",
   },
   {
     name: "Ukrainian",
-    locale: "uk"
+    locale: "uk",
   },
   {
     name: "Vietnamese",
-    locale: "vi"
+    locale: "vi",
   },
   {
     name: "Chinese (China)",
-    locale: "zh-CN"
+    locale: "zh-CN",
   },
   {
     name: "Chinese (China) (Hanidec numerals)",
     locale: "zh-CN",
-    numberingSystem: "hanidec"
+    numberingSystem: "hanidec",
   },
   {
     name: "Chinese (Hong Kong)",
-    locale: "zh-HK"
+    locale: "zh-HK",
   },
   {
     name: "Chinese (Hong Kong) (Hanidec numerals)",
     locale: "zh-HK",
-    numberingSystem: "hanidec"
+    numberingSystem: "hanidec",
   },
   {
     name: "Chinese (Taiwan)",
-    locale: "zh-TW"
+    locale: "zh-TW",
   },
   {
     name: "Chinese (Taiwan) (Hanidec numerals)",
     locale: "zh-TW",
-    numberingSystem: "hanidec"
-  }
+    numberingSystem: "hanidec",
+  },
 ];

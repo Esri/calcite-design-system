@@ -7,12 +7,12 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -21,7 +21,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { LogicalFlowPosition } from "../interfaces";
 import { CardMessages } from "./assets/card/t9n";
@@ -45,7 +45,7 @@ import { CSS, SLOTS } from "./resources";
   tag: "calcite-card",
   styleUrl: "card.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -114,7 +114,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     connectMessages(this);
   }
 
-  disonnectedCallback(): void {
+  disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);

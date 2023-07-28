@@ -16,7 +16,7 @@ export const CSS = {
   contentEnd: "content-end",
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
-  openContainer: "open-container"
+  openContainer: "open-container",
 };
 
 export const SLOTS = {
@@ -24,7 +24,7 @@ export const SLOTS = {
   contentStart: "content-start",
   content: "content",
   contentEnd: "content-end",
-  actionsEnd: "actions-end"
+  actionsEnd: "actions-end",
 };
 
 export const MAX_COLUMNS = 5;
@@ -37,5 +37,5 @@ export const ICONS = {
   closedRTL: "caret-left",
   open: "caret-down",
   blank: "blank",
-  close: "x"
+  close: "x",
 };

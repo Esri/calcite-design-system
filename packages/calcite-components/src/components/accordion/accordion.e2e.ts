@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
 
@@ -11,6 +11,14 @@ describe("calcite-accordion", () => {
       <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
     </calcite-accordion-item>
     <calcite-accordion-item heading="Accordion Title 1" id="2" expanded>Accordion Item Content </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
+  `;
+
+  const accordionContentInheritablePropsNonDefault = html`
+    <calcite-accordion-item heading="Accordion Title 1" id="1">
+      <calcite-action></calcite-action>Accordion Item Content<calcite-action></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 1" id="2">Accordion Item Content </calcite-accordion-item>
     <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
   `;
 
@@ -26,18 +34,70 @@ describe("calcite-accordion", () => {
     accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`);
   });
 
-  it("renders default props when none are provided", async () => {
+  describe("defaults", () => {
+    defaults("calcite-accordion", [
+      {
+        propertyName: "appearance",
+        defaultValue: "solid",
+      },
+      {
+        propertyName: "iconPosition",
+        defaultValue: "end",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "selectionMode",
+        defaultValue: "multiple",
+      },
+      {
+        propertyName: "iconType",
+        defaultValue: "chevron",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-accordion", [
+      {
+        propertyName: "iconPosition",
+        value: "start",
+      },
+      {
+        propertyName: "iconPosition",
+        value: "end",
+      },
+      {
+        propertyName: "selectionMode",
+        value: "single-persist",
+      },
+      {
+        propertyName: "selectionMode",
+        value: "single",
+      },
+      {
+        propertyName: "selectionMode",
+        value: "multiple",
+      },
+    ]);
+  });
+
+  it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion>
-    ${accordionContent}
+    <calcite-accordion icon-position="start", icon-type="plus-minus", selection-mode="single-persist" scale="l">
+    ${accordionContentInheritablePropsNonDefault}
     </calcite-accordion>`);
-    const element = await page.find("calcite-accordion");
-    expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("icon-position", "end");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("selection-mode", "multiple");
-    expect(element).toEqualAttribute("icon-type", "chevron");
+    const accordionItems = await page.findAll("calcite-accordion-items");
+
+    accordionItems.forEach(async (item) => {
+      expect(await item.getProperty("iconPosition")).toBe("start");
+      expect(await item.getProperty("iconType")).toBe("plus-minus");
+      expect(await item.getProperty("selectionMode")).toBe("single-persist");
+      expect(await item.getProperty("scale")).toBe("l");
+    });
   });
 
   it("renders requested props when valid props are provided", async () => {
@@ -150,7 +210,7 @@ describe("calcite-accordion", () => {
   it("clicking on an accordion with selection-mode=single does not toggle unrelated accordions with the same selection mode", async () => {
     const page = await newE2EPage({
       html: html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
-        <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`
+        <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`,
     });
     await page.waitForChanges();
 

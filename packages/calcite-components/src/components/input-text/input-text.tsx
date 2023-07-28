@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
@@ -17,20 +17,20 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  submitForm
+  submitForm,
 } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -40,7 +40,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { SetValueOrigin } from "../input/interfaces";
 import { Position, Scale, Status } from "../interfaces";
@@ -54,7 +54,7 @@ import { CSS, SLOTS } from "./resources";
   tag: "calcite-input-text",
   styleUrl: "input-text.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class InputText
   implements
@@ -254,7 +254,7 @@ export class InputText
       this.setValue({
         origin: "direct",
         previousValue,
-        value: !newValue ? "" : newValue
+        value: !newValue ? "" : newValue,
       });
     }
     this.userChangedValue = false;
@@ -398,7 +398,7 @@ export class InputText
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.childEl?.focus();
   }
@@ -438,7 +438,7 @@ export class InputText
       committing: true,
       nativeEvent,
       origin: "user",
-      value: ""
+      value: "",
     });
   };
 
@@ -452,7 +452,7 @@ export class InputText
   private inputTextBlurHandler = () => {
     this.calciteInternalInputTextBlur.emit({
       element: this.childEl,
-      value: this.value
+      value: this.value,
     });
 
     this.emitChangeIfUserModified();
@@ -472,7 +472,7 @@ export class InputText
   private inputTextFocusHandler = (): void => {
     this.calciteInternalInputTextFocus.emit({
       element: this.childEl,
-      value: this.value
+      value: this.value,
     });
   };
 
@@ -483,7 +483,7 @@ export class InputText
     this.setValue({
       nativeEvent,
       origin: "user",
-      value: (nativeEvent.target as HTMLInputElement).value
+      value: (nativeEvent.target as HTMLInputElement).value,
     });
   };
 
@@ -499,7 +499,7 @@ export class InputText
   onFormReset(): void {
     this.setValue({
       origin: "reset",
-      value: this.defaultValue
+      value: this.defaultValue,
     });
   }
 
@@ -517,7 +517,7 @@ export class InputText
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setValue({
         value: (event.target as HTMLInputElement).value,
-        origin: "direct"
+        origin: "direct",
       });
     }
     event.stopPropagation();
@@ -565,7 +565,7 @@ export class InputText
     nativeEvent,
     origin,
     previousValue,
-    value
+    value,
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
@@ -639,7 +639,7 @@ export class InputText
         autofocus={this.autofocus ? true : null}
         class={{
           [CSS.editingEnabled]: this.editingEnabled,
-          [CSS.inlineChild]: !!this.inlineEditableEl
+          [CSS.inlineChild]: !!this.inlineEditableEl,
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

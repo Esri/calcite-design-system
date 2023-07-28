@@ -10,7 +10,7 @@ import {
   Method,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
@@ -18,21 +18,21 @@ import {
   CheckableFormComponent,
   connectForm,
   disconnectForm,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
@@ -40,7 +40,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-radio-button",
   styleUrl: "radio-button.scss",
-  shadow: true
+  shadow: true,
 })
 export class RadioButton
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
@@ -168,7 +168,7 @@ export class RadioButton
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     if (!this.disabled) {
       focusElement(this.containerEl);

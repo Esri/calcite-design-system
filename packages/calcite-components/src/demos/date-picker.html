@@ -240,7 +240,7 @@
           "tamldec",
           "telu",
           "thai",
-          "tibt"
+          "tibt",
         ];
 
         let selectedLang = "th";
@@ -302,7 +302,7 @@
         document.addEventListener("calciteDropdownSelect", ({ target: { selectedItems } }) =>
           createLocaleDatePicker({
             numberingSystem: selectedItems[0].getAttribute("data-numbering-system") || selectedNumberingSystem,
-            lang: selectedItems[0].getAttribute("data-lang") || selectedLang
+            lang: selectedItems[0].getAttribute("data-lang") || selectedLang,
           })
         );
 

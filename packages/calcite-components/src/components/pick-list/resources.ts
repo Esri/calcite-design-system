@@ -1,16 +1,16 @@
 export const CSS = {
-  sticky: "sticky-pos"
+  sticky: "sticky-pos",
 };
 
 export enum ICON_TYPES {
   circle = "circle",
   square = "square",
-  grip = "grip"
+  grip = "grip",
 }
 export const TEXT = {
-  filterResults: "Filter results"
+  filterResults: "Filter results",
 };
 
 export const SLOTS = {
-  menuActions: "menu-actions"
+  menuActions: "menu-actions",
 };

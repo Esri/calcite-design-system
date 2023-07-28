@@ -18,8 +18,8 @@ describe("calcite-option-group", () => {
     defaults("calcite-option-group", [
       {
         propertyName: "disabled",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -27,14 +27,14 @@ describe("calcite-option-group", () => {
     reflects("calcite-option-group", [
       {
         propertyName: "disabled",
-        value: true
-      }
+        value: true,
+      },
     ]);
   });
 
   it("has a label", async () => {
     const page = await newE2EPage({
-      html: `<calcite-option-group label="test-group"></calcite-option-group>`
+      html: `<calcite-option-group label="test-group"></calcite-option-group>`,
     });
 
     const group = await page.find("calcite-option-group");

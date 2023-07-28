@@ -46,7 +46,7 @@ describe("calcite-label", () => {
         page = await newE2EPage({
           html: `<calcite-label>Label text
           <calcite-input></calcite-input>
-          </calcite-label>`
+          </calcite-label>`,
         });
         element = await page.find("calcite-label");
         expect(await element.getProperty("alignment")).toEqual("start");
@@ -60,7 +60,7 @@ describe("calcite-label", () => {
               <calcite-label dir="ltr">Label text
               <calcite-input></calcite-input>
               </calcite-label>
-              </div>`
+              </div>`,
             });
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
@@ -75,7 +75,7 @@ describe("calcite-label", () => {
               <calcite-label dir="rtl">Label text
               <calcite-input></calcite-input>
               </calcite-label>
-              </div>`
+              </div>`,
             });
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
@@ -91,7 +91,7 @@ describe("calcite-label", () => {
           page = await newE2EPage({
             html: `<calcite-label alignment="center">Label text
             <calcite-input></calcite-input>
-            </calcite-label>`
+            </calcite-label>`,
           });
           element = await page.find("calcite-label >>> .container");
           style = await element.getComputedStyle();
@@ -105,7 +105,7 @@ describe("calcite-label", () => {
             page = await newE2EPage({
               html: `<calcite-label alignment="end" dir="ltr">Label text
               <calcite-input></calcite-input>
-              </calcite-label>`
+              </calcite-label>`,
             });
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
@@ -118,7 +118,7 @@ describe("calcite-label", () => {
             page = await newE2EPage({
               html: `<calcite-label alignment="end" dir="rtl">Label text
               <calcite-input></calcite-input>
-              </calcite-label>`
+              </calcite-label>`,
             });
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();

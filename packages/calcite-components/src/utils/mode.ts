@@ -31,6 +31,6 @@ export function initModeChangeEvent(): void {
   // emits event when toggling between mode classes on <body>
   new MutationObserver(() => modeChangeHandler(getMode())).observe(document.body, {
     attributes: true,
-    attributeFilter: ["class"]
+    attributeFilter: ["class"],
   });
 }

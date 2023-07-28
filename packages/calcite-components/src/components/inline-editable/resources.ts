@@ -5,5 +5,5 @@ export const CSS = {
   inputWrapper: "input-wrapper",
   cancelEditingButtonWrapper: "cancel-editing-button-wrapper",
   enableEditingButton: "enable-editing-button",
-  controlsWrapper: "controls-wrapper"
+  controlsWrapper: "controls-wrapper",
 };

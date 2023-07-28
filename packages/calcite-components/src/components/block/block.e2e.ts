@@ -16,16 +16,16 @@ describe("calcite-block", () => {
     defaults("calcite-block", [
       {
         propertyName: "collapsible",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "headingLevel",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "open",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -55,7 +55,7 @@ describe("calcite-block", () => {
           </calcite-block-section>
         </calcite-block>`,
         {
-          shadowFocusTargetSelector: `.${CSS.toggle}`
+          shadowFocusTargetSelector: `.${CSS.toggle}`,
         }
       );
     });
@@ -72,7 +72,7 @@ describe("calcite-block", () => {
           </calcite-block-section>
         </calcite-block>`,
         {
-          focusTargetSelector: `.${blockSectionClass}`
+          focusTargetSelector: `.${blockSectionClass}`,
         }
       );
     });
@@ -88,7 +88,7 @@ describe("calcite-block", () => {
         <calcite-block heading="heading" description="description" open collapsible>
           <div class="content">content</div>
         </calcite-block>
-    `
+    `,
     });
 
     await page.waitForChanges();
@@ -262,7 +262,7 @@ describe("calcite-block", () => {
       const page = await newE2EPage({
         html: html` <calcite-block heading="With header actions" description="has header actions">
           <calcite-action label="Add" icon="plus" slot="header-menu-actions"></calcite-action>
-        </calcite-block>`
+        </calcite-block>`,
       });
 
       const menuSlot = await page.find(`calcite-block >>> calcite-action-menu slot[name=${SLOTS.headerMenuActions}]`);

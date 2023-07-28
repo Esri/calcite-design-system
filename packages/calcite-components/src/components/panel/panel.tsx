@@ -9,20 +9,20 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { focusFirstTabbable, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -35,7 +35,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { PanelMessages } from "./assets/panel/t9n";
 
@@ -54,7 +54,7 @@ import { PanelMessages } from "./assets/panel/t9n";
   tag: "calcite-panel",
   styleUrl: "panel.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Panel
   implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -259,7 +259,7 @@ export class Panel
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     });
 
     this.hasStartActions = !!elements.length;
@@ -267,7 +267,7 @@ export class Panel
 
   handleHeaderActionsEndSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     });
 
     this.hasEndActions = !!elements.length;
@@ -275,7 +275,7 @@ export class Panel
 
   handleHeaderMenuActionsSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     });
 
     this.hasMenuItems = !!elements.length;
@@ -293,7 +293,7 @@ export class Panel
 
   handleHeaderContentSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     });
 
     this.hasHeaderContent = !!elements.length;
@@ -301,7 +301,7 @@ export class Panel
 
   handleFooterSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     });
 
     this.hasFooterContent = !!elements.length;
@@ -309,7 +309,7 @@ export class Panel
 
   handleFooterActionsSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     });
 
     this.hasFooterActions = !!elements.length;
@@ -317,7 +317,7 @@ export class Panel
 
   handleFabSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     });
 
     this.hasFab = !!elements.length;
@@ -334,7 +334,7 @@ export class Panel
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     focusFirstTabbable(this.containerEl);
   }
 
@@ -539,7 +539,7 @@ export class Panel
         class={{
           [CSS.contentWrapper]: true,
           [CSS.contentContainer]: !hasFab,
-          [CSS.contentHeight]: hasFab
+          [CSS.contentHeight]: hasFab,
         }}
         onScroll={this.panelScrollHandler}
         // eslint-disable-next-line react/jsx-sort-props

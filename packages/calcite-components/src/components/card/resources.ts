@@ -5,7 +5,7 @@ export const CSS = {
   title: "title",
   subtitle: "subtitle",
   checkboxWrapper: "checkbox-wrapper",
-  thumbnailWrapper: "thumbnail-wrapper"
+  thumbnailWrapper: "thumbnail-wrapper",
 };
 
 export const SLOTS = {
@@ -13,5 +13,5 @@ export const SLOTS = {
   title: "title",
   subtitle: "subtitle",
   footerStart: "footer-start",
-  footerEnd: "footer-end"
+  footerEnd: "footer-end",
 };

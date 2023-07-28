@@ -12,16 +12,16 @@ export const CSS = {
   selectIcon: "select-icon",
   selectIconActive: "select-icon--active",
   nonInteractive: "non-interactive",
-  isCircle: "is-circle"
+  isCircle: "is-circle",
 };
 
 export const SLOTS = {
-  image: "image"
+  image: "image",
 };
 
 export const ICONS = {
   close: "x",
   unchecked: "circle",
   checkedSingle: "circle-f",
-  checked: "check-circle-f"
+  checked: "check-circle-f",
 };

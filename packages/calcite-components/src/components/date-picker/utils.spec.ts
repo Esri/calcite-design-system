@@ -4,7 +4,7 @@ function fetchFakeData(data: any): () => Promise<any> {
   return () =>
     new Promise((resolve) => {
       resolve({
-        json: () => Promise.resolve({ data })
+        json: () => Promise.resolve({ data }),
       });
     });
 }

@@ -10,7 +10,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   dateFromISO,
@@ -18,13 +18,13 @@ import {
   dateToISO,
   getDaysDiff,
   HoverRange,
-  setEndOfDay
+  setEndOfDay,
 } from "../../utils/date";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
@@ -32,14 +32,14 @@ import {
   getDateTimeFormat,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
@@ -51,8 +51,8 @@ import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
   tag: "calcite-date-picker",
   styleUrl: "date-picker.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class DatePicker implements LocalizedComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -193,7 +193,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 
@@ -363,7 +363,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
       locale: this.effectiveLocale,
-      useGrouping: false
+      useGrouping: false,
     };
 
     this.localeData = await getLocaleData(this.effectiveLocale);
@@ -412,7 +412,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.hoverRange = {
       focused: this.activeRange || "start",
       start,
-      end
+      end,
     };
     if (!this.proximitySelectionDisabled) {
       if (end) {
@@ -437,7 +437,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             this.hoverRange = {
               focused: "start",
               start: date,
-              end: start
+              end: start,
             };
           } else {
             this.hoverRange.end = date;
@@ -451,7 +451,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           this.hoverRange = {
             focused: "start",
             start: date,
-            end: start
+            end: start,
           };
         } else {
           this.hoverRange.end = date;
@@ -514,7 +514,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
-        />
+        />,
       ]
     );
   }

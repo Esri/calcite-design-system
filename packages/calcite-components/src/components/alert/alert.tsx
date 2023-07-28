@@ -10,38 +10,34 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   getSlotted,
   setRequestedIcon,
   slotChangeHasAssignedElement,
-  toAriaBoolean
+  toAriaBoolean,
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
@@ -65,7 +61,7 @@ import { CSS, DURATIONS, SLOTS } from "./resources";
   tag: "calcite-alert",
   styleUrl: "alert.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -87,6 +83,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @Watch("open")
   openHandler(): void {
+    onToggleOpenCloseComponent(this);
     if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
@@ -188,8 +185,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     if (open && !this.queued) {
       this.openHandler();
       this.calciteInternalAlertRegister.emit();
+      onToggleOpenCloseComponent(this);
     }
-    connectOpenCloseComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -205,12 +202,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   disconnectedCallback(): void {
     window.dispatchEvent(
       new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
-        detail: { alert: this.el }
+        detail: { alert: this.el },
       })
     );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
-    disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.slottedInShell = false;
@@ -234,7 +230,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      signDisplay: "always"
+      signDisplay: "always",
     };
 
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
@@ -272,7 +268,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             container: true,
             queued,
             [placement]: true,
-            [CSS.slottedInShell]: this.slottedInShell
+            [CSS.slottedInShell]: this.slottedInShell,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
@@ -366,7 +362,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
-        detail: { queue }
+        detail: { queue },
       })
     );
   }
@@ -380,14 +376,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** Sets focus on the component's "close" button (the first focusable item). */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     const alertLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { selector: "calcite-link" });
 
     if (!this.closeButton && !alertLinkEl) {
       return;
     } else if (alertLinkEl) {
-      alertLinkEl.setFocus();
+      return alertLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }
@@ -450,7 +446,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   /** determine which alert is active */

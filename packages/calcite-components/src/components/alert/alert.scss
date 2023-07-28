@@ -126,10 +126,6 @@
 
 @include calciteHydratedHidden();
 
-[hidden] {
-  @apply hidden;
-}
-
 .container {
   @apply flex
     w-full
@@ -333,3 +329,5 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 .container.slotted-in-shell {
   position: absolute;
 }
+
+@include base-component();

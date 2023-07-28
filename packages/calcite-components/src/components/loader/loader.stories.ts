@@ -6,9 +6,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Loader",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple_NoTest = (): string => html`
@@ -20,15 +20,10 @@ export const simple_NoTest = (): string => html`
 `;
 
 simple_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const simple_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -46,15 +41,10 @@ export const inline_NoTest = (): string => html`
 `;
 
 inline_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const inline_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
   <calcite-loader
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -76,15 +66,10 @@ export const customTheme_NoTest = (): string => html`
 `;
 
 customTheme_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const customTheme_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"

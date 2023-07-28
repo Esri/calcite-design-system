@@ -28,7 +28,7 @@
 :host span {
   @apply focus-base;
   &:focus {
-    @apply focus-inset;
+    @apply focus-outset;
   }
 }
 
@@ -86,3 +86,4 @@ calcite-icon {
 }
 
 @include disabled();
+@include base-component();

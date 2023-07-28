@@ -11,10 +11,10 @@ export default {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -76,7 +76,7 @@ export const darkModeMirroredRange_TestOnly = (): string => html`
 `;
 
 darkModeMirroredRange_TestOnly.story = {
-  parameters: { modes: modesDarkDefault }
+  parameters: { modes: modesDarkDefault },
 };
 
 export const rangeLabeledTicks_TestOnly = (): string => html`
@@ -96,7 +96,7 @@ export const rangeLabeledTicks_TestOnly = (): string => html`
 `;
 
 rangeLabeledTicks_TestOnly.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
@@ -116,7 +116,7 @@ export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
 `;
 
 rangeLabeledTicksOverlappingAtMax_TestOnly.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
@@ -136,7 +136,7 @@ export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
 `;
 
 rangeLabeledTicksOverlappingAtMin_TestOnly.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html`
@@ -156,7 +156,7 @@ export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html
 `;
 
 rangeLabeledTicksEdgePositioningAtMax_TestOnly.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html`
@@ -176,7 +176,7 @@ export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html
 `;
 
 rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const Histogram = (): HTMLCalciteSliderElement => {
@@ -193,7 +193,7 @@ export const Histogram = (): HTMLCalciteSliderElement => {
       [-20, 25],
       [20, 55],
       [60, 10],
-      [90, 0]
+      [90, 0],
     ] as any,
     "  "
   ) as any;
@@ -221,7 +221,7 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
       [40, 25],
       [60, 55],
       [80, 10],
-      [100, 0]
+      [100, 0],
     ] as any,
     "  "
   ) as any;
@@ -248,7 +248,7 @@ export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
     [40, 25],
     [60, 55],
     [80, 10],
-    [100, 0]
+    [100, 0],
   ];
   slider.labelHandles = booleanFn("label-handles", false);
   slider.labelTicks = booleanFn("label-ticks", false);
