@@ -12,7 +12,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -37,7 +37,13 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { FormComponent } from "../../utils/form";
+import {
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+} from "../../utils/form";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -140,6 +146,13 @@ export class InputTimeZone
    */
   @Prop({ mutable: true }) value: string;
 
+  @Watch("value")
+  valueWatcher(value: string): void {
+    if (this.comboboxEl && this.comboboxEl.value !== value) {
+      this.comboboxEl.value = value;
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -226,7 +239,12 @@ export class InputTimeZone
       ({ offsetValue }) => combobox.value === `${offsetValue}`
     );
 
-    this.value = `${selected.offsetValue}`;
+    const selectedValue = `${selected.offsetValue}`;
+    if (this.value === selectedValue) {
+      return;
+    }
+
+    this.value = selectedValue;
     this.selectedTimeZoneGroup = selected;
     this.calciteInputTimeZoneChange.emit();
   };
@@ -250,12 +268,14 @@ export class InputTimeZone
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectForm(this);
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
+    disconnectForm(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -273,11 +293,17 @@ export class InputTimeZone
         // intentional == to match string to number
         offsetValue == offsetToMatch
     );
-    this.value = `${this.selectedTimeZoneGroup.offsetValue}`;
+    const selectedValue = `${this.selectedTimeZoneGroup.offsetValue}`;
+    afterConnectDefaultValueSet(this, selectedValue);
+    this.value = selectedValue;
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   render(): VNode {
@@ -310,11 +336,12 @@ export class InputTimeZone
                 key={label}
                 selected={selected}
                 textLabel={label}
-                value={value}
+                value={`${value}`}
               />
             );
           })}
         </calcite-combobox>
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }

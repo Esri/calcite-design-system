@@ -24,7 +24,7 @@ describe("calcite-input-time-zone", () => {
   });
 
   describe("formAssociated", () => {
-    formAssociated("calcite-input-time-zone", { testValue: -360 });
+    formAssociated("calcite-input-time-zone", { testValue: "-360", clearable: false });
   });
 
   describe("hidden", () => {

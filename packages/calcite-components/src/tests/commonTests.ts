@@ -593,9 +593,14 @@ interface FormAssociatedOptions {
   inputType?: HTMLInputElement["type"];
 
   /**
-   * Specifies if the component supports submitting the form on Enter key press
+   * Specifies if the component supports submitting the form on Enter key press.
    */
   submitsOnEnter?: boolean;
+
+  /**
+   * Specifies if the component supports clearing its value (i.e., setting to null).
+   */
+  clearable?: boolean;
 }
 
 /**
@@ -759,21 +764,23 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
       await page.waitForChanges();
       expect(await submitAndGetValue()).toBe(null);
     } else {
-      component.setProperty("required", true);
-      component.setProperty("value", null);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toBe(
-        options.inputType === "color"
-          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
-            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
-            "#000000"
-          : undefined
-      );
+      if (options.clearable) {
+        component.setProperty("required", true);
+        component.setProperty("value", null);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(
+          options.inputType === "color"
+            ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+              // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+              "#000"
+            : undefined
+        );
 
-      component.setProperty("required", false);
-      component.setProperty("value", options.testValue);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+        component.setProperty("required", false);
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+      }
 
       component.setProperty("disabled", true);
       await page.waitForChanges();
