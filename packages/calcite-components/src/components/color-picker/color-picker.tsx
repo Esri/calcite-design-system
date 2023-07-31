@@ -544,7 +544,6 @@ export class ColorPicker
       context: this.colorFieldRenderingContext,
       bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect(),
     };
-
     this.captureColorFieldColor(offsetX, offsetY);
     this.colorFieldScopeNode.focus();
   };
@@ -566,7 +565,6 @@ export class ColorPicker
       context: this.hueSliderRenderingContext,
       bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect(),
     };
-
     this.captureHueSliderColor(offsetX);
     this.hueScopeNode.focus();
   };
