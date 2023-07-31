@@ -515,12 +515,12 @@ describe("calcite-color-picker", () => {
     const expectedColorSamples = [
       "#ff0000",
       "#ffd900",
-      "#48ff00",
-      "#00ff91",
+      "#4cff00",
+      "#00ff8c",
       "#0095ff",
-      "#4800ff",
-      "#ff00dd",
-      "#ff0004",
+      "#4400ff",
+      "#ff00e1",
+      "#ff0008",
     ];
 
     for (let i = 0; i < expectedColorSamples.length; i++) {
@@ -672,7 +672,7 @@ describe("calcite-color-picker", () => {
 
     [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
 
-    expect(hueScopeX).toBe(hueSliderX);
+    expect(hueScopeX).toBe(hueSliderX + DIMENSIONS.m.thumb.radius);
 
     await page.mouse.move(hueScopeX, hueScopeY);
     await page.mouse.down();
@@ -682,7 +682,7 @@ describe("calcite-color-picker", () => {
 
     [hueScopeX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
 
-    expect(hueScopeX).toBe(hueSliderX + DIMENSIONS.m.slider.width - 1);
+    expect(hueScopeX).toBe(hueSliderX + DIMENSIONS.m.slider.width - DIMENSIONS.m.thumb.radius);
   });
 
   describe("unsupported value handling", () => {
@@ -2187,25 +2187,27 @@ describe("calcite-color-picker", () => {
         }
       };
 
-      const getScopeLeftOffset = async () => parseFloat((await scope.getComputedStyle()).left);
+      const getScopeLeftOffset = async () =>
+        /* use int to simplify test */
+        parseInt((await scope.getComputedStyle()).left);
 
-      expect(await getScopeLeftOffset()).toBe(0);
+      expect(await getScopeLeftOffset()).toBe(0 + DIMENSIONS.m.thumb.radius);
 
       await nudgeAQuarterOfSlider();
-      expect(await getScopeLeftOffset()).toBe(68);
+      expect(await getScopeLeftOffset()).toBe(71);
 
       await nudgeAQuarterOfSlider();
-      expect(await getScopeLeftOffset()).toBe(136);
+      expect(await getScopeLeftOffset()).toBe(133);
 
       await nudgeAQuarterOfSlider();
       // hue wraps around, so we nudge it back to assert position at the edge
       await scope.press("ArrowLeft");
-      expect(await getScopeLeftOffset()).toBeLessThanOrEqual(204);
-      expect(await getScopeLeftOffset()).toBeGreaterThan(203);
+      expect(await getScopeLeftOffset()).toBeLessThanOrEqual(194);
+      expect(await getScopeLeftOffset()).toBeGreaterThan(193);
 
       // nudge it to wrap around
       await scope.press("ArrowRight");
-      expect(await getScopeLeftOffset()).toBe(0);
+      expect(await getScopeLeftOffset()).toBe(0 + DIMENSIONS.m.thumb.radius);
     });
 
     it("allows editing hue slider via keyboard", async () => {
@@ -2237,7 +2239,7 @@ describe("calcite-color-picker", () => {
 
       expect(await hueSliderScope.getComputedStyle()).toMatchObject({
         top: "10px",
-        left: "0px",
+        left: `${DIMENSIONS.m.thumb.radius}px`,
       });
     });
   });

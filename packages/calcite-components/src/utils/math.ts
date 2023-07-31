@@ -15,3 +15,7 @@ export const decimalPlaces = (value: number): number => {
       (match[2] ? +match[2] : 0)
   );
 };
+
+export function remap(value: number, fromMin: number, fromMax: number, toMin: number, toMax: number): number {
+  return ((value - fromMin) * (toMax - toMin)) / (fromMax - fromMin) + toMin;
+}
