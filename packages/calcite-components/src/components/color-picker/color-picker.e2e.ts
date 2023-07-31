@@ -22,7 +22,7 @@ describe("calcite-color-picker", () => {
     await page.waitForChanges();
   }
 
-  function getCenterOfThumbNode(X: number, Y: number): [number, number] {
+  function getScopeCenter(X: number, Y: number): [number, number] {
     return [X + SCOPE_DIMENSION / 2, Y + SCOPE_DIMENSION / 2];
   }
 
@@ -663,11 +663,11 @@ describe("calcite-color-picker", () => {
 
   it("does not wrap the hue slider thumb when dragging past the edge", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
+    await page.setContent(`<calcite-color-picker></calcite-color-picker>`);
     const [hueSliderX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueSlider}`);
 
     let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    let [hueScopeCenterX, hueScopeCenterY] = getCenterOfThumbNode(hueScopeX, hueScopeY);
+    let [hueScopeCenterX, hueScopeCenterY] = getScopeCenter(hueScopeX, hueScopeY);
 
     await page.mouse.move(hueScopeCenterX, hueScopeCenterY);
     await page.mouse.down();
@@ -676,7 +676,7 @@ describe("calcite-color-picker", () => {
     await page.waitForChanges();
 
     [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    [hueScopeCenterX, hueScopeCenterY] = getCenterOfThumbNode(hueScopeX, hueScopeY);
+    [hueScopeCenterX, hueScopeCenterY] = getScopeCenter(hueScopeX, hueScopeY);
 
     expect(hueScopeCenterX).toBe(hueSliderX);
 
@@ -687,7 +687,7 @@ describe("calcite-color-picker", () => {
     await page.waitForChanges();
 
     [hueScopeX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    [hueScopeCenterX] = getCenterOfThumbNode(hueScopeX, hueScopeY);
+    [hueScopeCenterX] = getScopeCenter(hueScopeX, hueScopeY);
 
     expect(hueScopeCenterX).toBe(hueSliderX + DIMENSIONS.m.slider.width - 1);
   });
