@@ -46,3 +46,7 @@ export const Focus_TestOnly = (): string =>
       })();
     </script>
   `;
+
+Focus_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
