@@ -1,5 +1,6 @@
 import { getDateTimeFormat, getSupportedNumberingSystem, NumberingSystem, numberStringFormatter } from "./locale";
-import { getRealDecimalPlacesCount, isValidNumber } from "./number";
+import { decimalPlaces } from "./math";
+import { isValidNumber } from "./number";
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
@@ -25,7 +26,16 @@ export interface Time {
   second: string;
 }
 
-export type TimePart = "hour" | "hourSuffix" | "minute" | "minuteSuffix" | "second" | "secondSuffix" | "meridiem";
+export type TimePart =
+  | "hour"
+  | "hourSuffix"
+  | "minute"
+  | "minuteSuffix"
+  | "second"
+  | "decimalSeparator"
+  | "fractionalSecond"
+  | "secondSuffix"
+  | "meridiem";
 
 export const maxTenthForMinuteAndSecond = 5;
 
@@ -48,6 +58,7 @@ function createLocaleDateTimeFormatter(
 }
 
 export function formatTimePart(number: number): string {
+  // TODO: support decimals
   const numberAsString = number.toString();
   return number >= 0 && number <= 9 ? numberAsString.padStart(2, "0") : numberAsString;
 }
@@ -259,7 +270,7 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
 export function parseTimeString(value: string): Time {
   if (isValidTime(value)) {
     const [hour, minute, secondDecimal] = value.split(":");
-    const secondDecimalPlaces = getRealDecimalPlacesCount(secondDecimal);
+    const secondDecimalPlaces = decimalPlaces(secondDecimal);
     let second,
       fractionalSecond = null;
     if (secondDecimalPlaces > 0) {

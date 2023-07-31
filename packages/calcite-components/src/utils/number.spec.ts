@@ -6,7 +6,6 @@ import {
   isValidNumber,
   parseNumberString,
   sanitizeNumberString,
-  getRealDecimalPlacesCount,
 } from "./number";
 
 describe("isValidNumber", () => {
@@ -228,27 +227,5 @@ describe("addLocalizedTrailingDecimalZeros", () => {
       const localizedValue = numberStringFormatter.localize("0.001");
       expect(addLocalizedTrailingDecimalZeros(localizedValue, "0.001", numberStringFormatter)).toBe(localizedValue);
     });
-  });
-});
-
-describe("getRealDecimalPlacesCount", () => {
-  it("returns the amount of non-zero decimal places for a given number string", () => {
-    expect(getRealDecimalPlacesCount("0")).toBe(0);
-    expect(getRealDecimalPlacesCount("0.0")).toBe(0);
-    expect(getRealDecimalPlacesCount("0.00")).toBe(0);
-    expect(getRealDecimalPlacesCount("0.000")).toBe(0);
-    expect(getRealDecimalPlacesCount("0.1")).toBe(1);
-    expect(getRealDecimalPlacesCount("0.01")).toBe(2);
-    expect(getRealDecimalPlacesCount("0.001")).toBe(3);
-    expect(getRealDecimalPlacesCount("0.0001")).toBe(4);
-  });
-
-  it("returns the amount of decimal places for a number representation of a decimal", () => {
-    expect(getRealDecimalPlacesCount(0)).toBe(0);
-    expect(getRealDecimalPlacesCount(0.0)).toBe(0);
-    expect(getRealDecimalPlacesCount(0.1)).toBe(1);
-    expect(getRealDecimalPlacesCount(0.01)).toBe(2);
-    expect(getRealDecimalPlacesCount(0.001)).toBe(3);
-    expect(getRealDecimalPlacesCount(0.0001)).toBe(4);
   });
 });
