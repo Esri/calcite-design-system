@@ -37,12 +37,12 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 export const disabled_TestOnly = (): string => html`<calcite-switch disabled checked></calcite-switch>`;
 
 export const Focus_TestOnly = (): string =>
-  html` <div>
+  html`
     <calcite-switch> </calcite-switch>
     <script>
       (async () => {
-        await customElements.whenDefined("calcite-date-picker");
+        await customElements.whenDefined("calcite-switch");
         await document.querySelector("calcite-switch").focus();
       })();
     </script>
-  </div>`;
+  `;
