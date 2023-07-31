@@ -25,7 +25,7 @@ import {
   HSV_LIMITS,
   OPACITY_LIMITS,
   RGB_LIMITS,
-  SCOPE_DIMENSION,
+  SCOPE_SIZE,
 } from "./resources";
 import {
   alphaCompatible,
@@ -1620,6 +1620,6 @@ export class ColorPicker
   }
 
   private getAdjustedScopePosition(left: number, top: number): [number, number] {
-    return [left - SCOPE_DIMENSION / 2, top - SCOPE_DIMENSION / 2];
+    return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
 }

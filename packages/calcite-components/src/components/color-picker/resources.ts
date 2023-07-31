@@ -95,4 +95,4 @@ export const DIMENSIONS = {
   },
 };
 
-export const SCOPE_DIMENSION = 1;
+export const SCOPE_SIZE = 1;
