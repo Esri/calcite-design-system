@@ -35,3 +35,20 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-switch disabled checked></calcite-switch>`;
+
+export const Focus_TestOnly = (): string =>
+  html`
+    <div style="width:300px;height:300px; padding: 20px">
+      <calcite-switch> </calcite-switch>
+    </div>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-switch");
+        await document.querySelector("calcite-switch").setFocus();
+      })();
+    </script>
+  `;
+
+Focus_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
