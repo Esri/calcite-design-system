@@ -115,7 +115,7 @@ export const RussianLocale_TestOnly = (): string => html`<calcite-color-picker l
 
 export const ThaiLocale_TestOnly = (): string => html`<calcite-color-picker lang="th"></calcite-color-picker>`;
 
-export const Focus_TestOnly = (): string => html`<calcite-color-picker></calcite-color-picker>
+export const Focus_TestOnly = (): string => html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
   <script>
     (async () => {
       await customElements.whenDefined("calcite-color-picker");

@@ -531,11 +531,7 @@ export class ColorPicker
       return;
     }
 
-    let { offsetX, offsetY } = event;
-    if (event.target === this.colorFieldScopeNode) {
-      offsetX = this.colorFieldScopeLeft + offsetX;
-      offsetY = this.colorFieldScopeTop + offsetY;
-    }
+    const { offsetX, offsetY } = event;
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
@@ -553,10 +549,7 @@ export class ColorPicker
       return;
     }
 
-    let { offsetX } = event;
-    if (event.target === this.hueScopeNode) {
-      offsetX = this.hueScopeLeft + offsetX;
-    }
+    const { offsetX } = event;
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
@@ -574,10 +567,7 @@ export class ColorPicker
       return;
     }
 
-    let { offsetX } = event;
-    if (event.target === this.opacityScopeNode) {
-      offsetX = this.opacityScopeLeft + offsetX;
-    }
+    const { offsetX } = event;
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
@@ -791,7 +781,6 @@ export class ColorPicker
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
             class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
-            onPointerDown={this.handleColorFieldPointerDown}
             role="slider"
             style={{
               top: `${adjustedColorFieldScopeTop || 0}px`,
@@ -819,7 +808,6 @@ export class ColorPicker
                 aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
                 class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                 onKeyDown={this.handleHueScopeKeyDown}
-                onPointerDown={this.handleHueSliderPointerDown}
                 role="slider"
                 style={{
                   top: `${adjustedHueScopeTop}px`,
@@ -845,7 +833,6 @@ export class ColorPicker
                   aria-valuenow={(color || DEFAULT_COLOR).round().alpha()}
                   class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                   onKeyDown={this.handleOpacityScopeKeyDown}
-                  onPointerDown={this.handleOpacitySliderPointerDown}
                   role="slider"
                   style={{
                     top: `${adjustedOpacityScopeTop}px`,
