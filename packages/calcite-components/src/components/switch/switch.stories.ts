@@ -42,7 +42,7 @@ export const Focus_TestOnly = (): string =>
     <script>
       (async () => {
         await customElements.whenDefined("calcite-switch");
-        await document.querySelector("calcite-switch").focus();
+        await document.querySelector("calcite-switch").setFocus();
       })();
     </script>
   `;
