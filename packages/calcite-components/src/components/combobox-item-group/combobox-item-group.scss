@@ -52,4 +52,8 @@
 
 :host(:not(:first-child)) {
   padding-block-start: var(--calcite-combobox-item-spacing-unit-l);
+
+  .childless + calcite-combobox-item-group {
+    padding-block-start: 0;
+  }
 }
