@@ -2299,5 +2299,31 @@ describe("calcite-color-picker", () => {
         expect(await colorPicker.getProperty("value")).not.toBe(value);
       });
     });
+
+    describe("alpha channel", () => {
+      it("allows editing alpha value via keyboard", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-color-picker alpha-channel value="#ffffffff"></calcite-color-picker>`);
+
+        const picker = await page.find("calcite-color-picker");
+        const scope = await page.find(`calcite-color-picker >>> .${CSS.opacityScope}`);
+
+        await scope.press("ArrowDown");
+        expect(await picker.getProperty("value")).toBe("#fffffffc");
+        await scope.press("ArrowDown");
+        expect(await picker.getProperty("value")).toBe("#fffffffa");
+        await scope.press("ArrowDown");
+        expect(await picker.getProperty("value")).toBe("#fffffff7");
+
+        await scope.press("ArrowUp");
+        expect(await picker.getProperty("value")).toBe("#fffffffa");
+
+        await scope.press("ArrowRight");
+        expect(await picker.getProperty("value")).toBe("#fffffffc");
+
+        await scope.press("ArrowLeft");
+        expect(await picker.getProperty("value")).toBe("#fffffffa");
+      });
+    });
   });
 });

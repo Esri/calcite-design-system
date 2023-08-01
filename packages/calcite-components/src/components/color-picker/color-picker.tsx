@@ -1581,16 +1581,18 @@ export class ColorPicker
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
     const arrowKeyToXOffset = {
-      ArrowUp: 1,
-      ArrowRight: 1,
-      ArrowDown: -1,
-      ArrowLeft: -1,
+      ArrowUp: 0.01,
+      ArrowRight: 0.01,
+      ArrowDown: -0.01,
+      ArrowLeft: -0.01,
     };
 
     if (arrowKeyToXOffset[key]) {
       event.preventDefault();
-      const delta = opacityToAlpha(arrowKeyToXOffset[key] * modifier);
-      this.captureHueSliderColor(this.opacityScopeLeft + delta);
+      const delta = arrowKeyToXOffset[key] * modifier;
+      const alpha = this.baseColorFieldColor.alpha();
+      const color = this.baseColorFieldColor.alpha(alpha + delta);
+      this.internalColorSet(color, false);
     }
   };
 
