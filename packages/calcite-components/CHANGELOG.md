@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.28...@esri/calcite-components@1.5.0-next.29) (2023-07-31)
+
+### Features
+
+- **input-time-zone:** add input-time-zone component ([#6947](https://github.com/Esri/calcite-design-system/issues/6947)) ([87bd496](https://github.com/Esri/calcite-design-system/commit/87bd496bb122f46eec4fe2017ae5b332b27dccd3)), closes [#6590](https://github.com/Esri/calcite-design-system/issues/6590)
+- **switch:** updates focus outline to be rounded ([#7390](https://github.com/Esri/calcite-design-system/issues/7390)) ([2616b82](https://github.com/Esri/calcite-design-system/commit/2616b822fac369166f0c5292e112a47e93725789)), closes [#4633](https://github.com/Esri/calcite-design-system/issues/4633)
+
+## [1.5.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.27...@esri/calcite-components@1.5.0-next.28) (2023-07-28)
+
+### Bug Fixes
+
+- **menu-item:** Prevent duplicate border in nested vertical menu-items ([#7387](https://github.com/Esri/calcite-design-system/issues/7387)) ([186a738](https://github.com/Esri/calcite-design-system/commit/186a738eb671978f0408d58aeb1bd11bd08e1424)), closes [#7386](https://github.com/Esri/calcite-design-system/issues/7386)
+
 ## [1.5.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.26...@esri/calcite-components@1.5.0-next.27) (2023-07-28)
 
 ### Features
