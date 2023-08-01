@@ -1,0 +1,124 @@
+@include base-component();
+
+:host {
+  @apply flex;
+  --calcite-meter-space-internal: theme("spacing[0.5]");
+  --calcite-meter-height-internal: theme("spacing.4");
+  --calcite-meter-font-size-internal: var(--calcite-ui-font-size--1);
+}
+
+:host([scale="s"]) {
+  --calcite-meter-height-internal: theme("spacing.3");
+  --calcite-meter-font-size-internal: var(--calcite-ui-font-size--0);
+}
+
+:host([scale="l"]) {
+  --calcite-meter-height-internal: theme("spacing.6");
+  --calcite-meter-font-size-internal: var(--calcite-ui-font-size-2);
+}
+
+.meter {
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  block-size: var(--calcite-meter-height-internal);
+  margin: 0;
+  background-color: var(--calcite-ui-foreground-2);
+  border: 1px solid var(--calcite-ui-border-3);
+  position: relative;
+  border-radius: var(--calcite-meter-height-internal);
+}
+
+.meter.solid {
+  border: 1px solid var(--calcite-ui-foreground-3);
+  background-color: var(--calcite-ui-foreground-3);
+}
+
+.meter.outline {
+  background-color: transparent;
+}
+
+.meter-value-visible {
+  margin-block-start: theme("spacing.6");
+}
+
+.meter-steps-visible {
+  margin-block-end: theme("spacing.6");
+}
+
+.meter-step-line {
+  display: block;
+  inline-size: var(--calcite-meter-space-internal);
+  background-color: var(--calcite-ui-border-2);
+  z-index: 100;
+  position: absolute;
+  inset-block: 0;
+}
+
+.meter-label {
+  position: absolute;
+  line-height: 1;
+  font-size: var(--calcite-meter-font-size-internal);
+}
+
+.meter-label-value {
+  inset-block-end: calc(100% + 0.5em);
+  font-weight: 500;
+  color: var(--calcite-ui-text-1);
+}
+
+.meter-label-step {
+  inset-block-start: calc(100% + 0.5em);
+  color: var(--calcite-ui-text-2);
+}
+
+.meter-unit-label {
+  font-size: 0.85rem;
+  margin-inline-start: 0.25rem;
+  color: var(--calcite-ui-text-3);
+}
+
+.meter-fill {
+  display: block;
+  position: absolute;
+  z-index: 200;
+  background-color: var(--calcite-ui-brand);
+  inset-inline-start: var(--calcite-meter-space-internal);
+  inset-block: var(--calcite-meter-space-internal);
+  border-radius: var(--calcite-meter-height-internal);
+  max-inline-size: calc(100% - (var(--calcite-meter-space-internal) * 2));
+  min-inline-size: calc(var(--calcite-meter-height-internal) - (var(--calcite-meter-space-internal) * 2));
+  transition: inline-size 0.25s ease-in-out, background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+}
+
+.meter.solid .meter-fill {
+  inset-block: 0;
+  inset-inline-start: 0;
+  max-inline-size: 100%;
+  min-inline-size: calc(var(--calcite-meter-height-internal));
+  box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+
+  &.danger {
+    box-shadow: 0 0 0 1px var(--calcite-ui-danger);
+  }
+
+  &.success {
+    box-shadow: 0 0 0 1px var(--calcite-ui-success);
+  }
+
+  &.warning {
+    box-shadow: 0 0 0 1px var(--calcite-ui-warning);
+  }
+}
+
+.danger {
+  background-color: var(--calcite-ui-danger);
+}
+
+.success {
+  background-color: var(--calcite-ui-success);
+}
+
+.warning {
+  background-color: var(--calcite-ui-warning);
+}
