@@ -45,7 +45,7 @@
             <calcite-meter
               group-separator="en"
               unit-label="GB"
-              display-steps
+              display-step-lines
               display-value
               display-step-values
               min="0"
@@ -60,7 +60,7 @@
             <calcite-meter
               group-separator="en"
               unit-label="GB"
-              display-steps
+              display-step-lines
               display-value
               display-step-values
               label-type="units"
@@ -94,7 +94,7 @@
               <calcite-switch id="switch-themed"></calcite-switch>
             </calcite-label>
             <calcite-label
-              >displaySteps
+              >displayStepLines
               <calcite-switch id="switch-steps"></calcite-switch>
             </calcite-label>
             <calcite-label
@@ -180,45 +180,52 @@
             >low=25, high=75, value=200
             <calcite-meter low="25" high="75" value="200" label="350 degrees"></calcite-meter>
           </calcite-label>
-          <h5>displaySteps</h5>
+          <h5>displayStepLines</h5>
           <calcite-label
             >value=0
-            <calcite-meter display-steps value="0" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines value="0" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=5
-            <calcite-meter display-steps low="10" high="90" value="5" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="10" high="90" value="5" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=65, high=80, value=60
-            <calcite-meter display-steps low="65" high="80" value="60" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="65" high="80" value="60" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=15, high=40, value=60
-            <calcite-meter display-steps low="40" high="80" value="60" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="40" high="80" value="60" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=95
-            <calcite-meter display-steps low="10" high="90" value="95" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="10" high="90" value="95" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=25, high=75, value=200
-            <calcite-meter display-steps low="25" high="75" value="200" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="25" high="75" value="200" label="350 degrees"></calcite-meter>
           </calcite-label>
           <h5>displayValue</h5>
           <calcite-label
             >value=0
-            <calcite-meter display-value display-steps value="0" label="350 degrees"></calcite-meter>
+            <calcite-meter display-value display-step-lines value="0" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=5
-            <calcite-meter display-value display-steps low="10" high="90" value="5" label="350 degrees"></calcite-meter>
+            <calcite-meter
+              display-value
+              display-step-lines
+              low="10"
+              high="90"
+              value="5"
+              label="350 degrees"
+            ></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=65, high=80, value=60
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               low="65"
               high="80"
               value="80"
@@ -229,7 +236,7 @@
             >low=15, high=40, value=60
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               low="40"
               high="80"
               value="60"
@@ -240,7 +247,7 @@
             >low=10, high=90, value=95
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               low="10"
               high="90"
               value="95"
@@ -251,7 +258,7 @@
             >low=25, high=75, value=200
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               low="25"
               high="75"
               value="200"
@@ -263,11 +270,11 @@
             >value=0
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               value="0"
               label="350 degrees"
@@ -277,11 +284,11 @@
             >low=10, high=90, value=5
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               low="10"
               high="90"
               value="5"
@@ -292,11 +299,11 @@
             >low=65, high=80, value=60
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               low="65"
               high="80"
               value="80"
@@ -307,11 +314,11 @@
             >low=15, high=40, value=60
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               low="40"
               high="80"
               value="60"
@@ -322,11 +329,11 @@
             >low=10, high=90, value=95
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               low="10"
               high="90"
               value="95"
@@ -337,11 +344,11 @@
             >low=25, high=75, value=200
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               low="25"
               high="75"
               value="200"
@@ -375,15 +382,15 @@
             >low=25, high=75, value=200
             <calcite-meter fill-type="single" low="25" high="75" value="200" label="350 degrees"></calcite-meter>
           </calcite-label>
-          <h5>displaySteps</h5>
+          <h5>displayStepLines</h5>
           <calcite-label
             >value=0
-            <calcite-meter display-steps fill-type="single" value="0" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines fill-type="single" value="0" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=5
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -394,7 +401,7 @@
           <calcite-label
             >low=65, high=80, value=60
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="65"
               high="80"
@@ -405,7 +412,7 @@
           <calcite-label
             >low=15, high=40, value=60
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="40"
               high="80"
@@ -416,7 +423,7 @@
           <calcite-label
             >low=10, high=90, value=95
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -427,7 +434,7 @@
           <calcite-label
             >low=25, high=75, value=200
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="25"
               high="75"
@@ -438,13 +445,19 @@
           <h5>displayValue</h5>
           <calcite-label
             >value=0
-            <calcite-meter display-value display-steps fill-type="single" value="0" label="350 degrees"></calcite-meter>
+            <calcite-meter
+              display-value
+              display-step-lines
+              fill-type="single"
+              value="0"
+              label="350 degrees"
+            ></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=5
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -456,7 +469,7 @@
             >low=65, high=80, value=60
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="65"
               high="80"
@@ -468,7 +481,7 @@
             >low=15, high=40, value=60
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="40"
               high="80"
@@ -480,7 +493,7 @@
             >low=10, high=90, value=95
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -492,7 +505,7 @@
             >low=25, high=75, value=200
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="25"
               high="75"
@@ -505,11 +518,11 @@
             >value=0
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               value="0"
               label="350 degrees"
@@ -519,11 +532,11 @@
             >low=10, high=90, value=5
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -535,11 +548,11 @@
             >low=65, high=80, value=60
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="65"
               high="80"
@@ -551,11 +564,11 @@
             >low=15, high=40, value=60
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="40"
               high="80"
@@ -567,11 +580,11 @@
             >low=10, high=90, value=95
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -583,11 +596,11 @@
             >low=25, high=75, value=200
             <calcite-meter
               label-type="units"
-              display-steps
+              display-step-lines
               display-step-values
               unit-label="credits"
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="25"
               high="75"
@@ -626,45 +639,52 @@
             >low=25, high=75, value=200
             <calcite-meter low="25" high="75" value="200" label="350 degrees"></calcite-meter>
           </calcite-label>
-          <h5>displaySteps</h5>
+          <h5>displayStepLines</h5>
           <calcite-label
             >value=0
-            <calcite-meter display-steps value="0" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines value="0" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=5
-            <calcite-meter display-steps low="10" high="90" value="5" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="10" high="90" value="5" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=65, high=80, value=60
-            <calcite-meter display-steps low="65" high="80" value="60" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="65" high="80" value="60" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=15, high=40, value=60
-            <calcite-meter display-steps low="40" high="80" value="60" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="40" high="80" value="60" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=95
-            <calcite-meter display-steps low="10" high="90" value="95" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="10" high="90" value="95" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=25, high=75, value=200
-            <calcite-meter display-steps low="25" high="75" value="200" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines low="25" high="75" value="200" label="350 degrees"></calcite-meter>
           </calcite-label>
           <h5>displayValue</h5>
           <calcite-label
             >value=0
-            <calcite-meter display-value display-steps value="0" label="350 degrees"></calcite-meter>
+            <calcite-meter display-value display-step-lines value="0" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=5
-            <calcite-meter display-value display-steps low="10" high="90" value="5" label="350 degrees"></calcite-meter>
+            <calcite-meter
+              display-value
+              display-step-lines
+              low="10"
+              high="90"
+              value="5"
+              label="350 degrees"
+            ></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=65, high=80, value=60
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               low="65"
               high="80"
               value="80"
@@ -675,7 +695,7 @@
             >low=15, high=40, value=60
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               low="40"
               high="80"
               value="60"
@@ -686,7 +706,7 @@
             >low=10, high=90, value=95
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               low="10"
               high="90"
               value="95"
@@ -697,7 +717,7 @@
             >low=25, high=75, value=200
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               low="25"
               high="75"
               value="200"
@@ -731,15 +751,15 @@
             >low=25, high=75, value=200
             <calcite-meter fill-type="single" low="25" high="75" value="200" label="350 degrees"></calcite-meter>
           </calcite-label>
-          <h5>displaySteps</h5>
+          <h5>displayStepLines</h5>
           <calcite-label
             >value=0
-            <calcite-meter display-steps fill-type="single" value="0" label="350 degrees"></calcite-meter>
+            <calcite-meter display-step-lines fill-type="single" value="0" label="350 degrees"></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=5
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -750,7 +770,7 @@
           <calcite-label
             >low=65, high=80, value=60
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="65"
               high="80"
@@ -761,7 +781,7 @@
           <calcite-label
             >low=15, high=40, value=60
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="40"
               high="80"
@@ -772,7 +792,7 @@
           <calcite-label
             >low=10, high=90, value=95
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -783,7 +803,7 @@
           <calcite-label
             >low=25, high=75, value=200
             <calcite-meter
-              display-steps
+              display-step-lines
               fill-type="single"
               low="25"
               high="75"
@@ -794,13 +814,19 @@
           <h5>displayValue</h5>
           <calcite-label
             >value=0
-            <calcite-meter display-value display-steps fill-type="single" value="0" label="350 degrees"></calcite-meter>
+            <calcite-meter
+              display-value
+              display-step-lines
+              fill-type="single"
+              value="0"
+              label="350 degrees"
+            ></calcite-meter>
           </calcite-label>
           <calcite-label
             >low=10, high=90, value=5
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -812,7 +838,7 @@
             >low=65, high=80, value=60
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="65"
               high="80"
@@ -824,7 +850,7 @@
             >low=15, high=40, value=60
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="40"
               high="80"
@@ -836,7 +862,7 @@
             >low=10, high=90, value=95
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="10"
               high="90"
@@ -848,7 +874,7 @@
             >low=25, high=75, value=200
             <calcite-meter
               display-value
-              display-steps
+              display-step-lines
               fill-type="single"
               low="25"
               high="75"
@@ -903,7 +929,7 @@
         });
 
         switchSteps.addEventListener("calciteSwitchChange", function () {
-          meter.displaySteps = event.target.checked;
+          meter.displayStepLines = event.target.checked;
         });
 
         switchThemed.addEventListener("calciteSwitchChange", function () {

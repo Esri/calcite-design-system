@@ -75,7 +75,7 @@ export class Meter implements LocalizedComponent {
   @Prop() unitLabel: "";
 
   /** When true, and `low` or `high` properties are populated, display visual indicators of these values.*/
-  @Prop() displaySteps: boolean;
+  @Prop() displayStepLines: boolean;
 
   /** When true, displays the values of `high`, `low`, `min`, and `max` */
   @Prop() displayStepValues: boolean;
@@ -200,19 +200,20 @@ export class Meter implements LocalizedComponent {
     const style = { insetInlineStart: `${position}%` };
     return (
       <Fragment>
-        {line && (
+        {line && this.displayStepLines && (
           <div
             class={{ [CSS.meterStepLine]: true, [CSS.meterLabelContainer]: true }}
             style={style}
           />
         )}
-
-        <div class={{ [CSS.meterLabel]: true, [labelClass]: true }} style={style}>
-          {value}
-          {label && this.unitLabel && this.labelType !== "percent" && (
-            <span class={CSS.meterUnitLabel}>{label}</span>
-          )}
-        </div>
+        {(this.displayStepValues || isValue) && (
+          <div class={{ [CSS.meterLabel]: true, [labelClass]: true }} style={style}>
+            {value}
+            {label && this.unitLabel && this.labelType !== "percent" && (
+              <span class={CSS.meterUnitLabel}>{label}</span>
+            )}
+          </div>
+        )}
       </Fragment>
     );
   }
@@ -221,6 +222,7 @@ export class Meter implements LocalizedComponent {
     const {
       appearanceType,
       currentPercent,
+      displayStepLines,
       displayStepValues,
       displayValue,
       fillType,
@@ -270,7 +272,7 @@ export class Meter implements LocalizedComponent {
             style={{ width: `${currentPercent}%` }}
           />
           {displayValue && this.renderStep(valuePosition, labelValue, false, unitLabel, true)}
-          {displayStepValues && (
+          {(displayStepValues || displayStepLines) && (
             <Fragment>
               {this.renderStep(minPercent, labelMin, false, unitLabel)}
               {displayLow && this.renderStep(lowPercent, labelLow, true)}
