@@ -25,6 +25,7 @@ import {
   HSV_LIMITS,
   OPACITY_LIMITS,
   RGB_LIMITS,
+  SCOPE_SIZE,
 } from "./resources";
 import {
   alphaCompatible,
@@ -723,7 +724,6 @@ export class ColorPicker
       colorFieldScopeLeft,
       colorFieldScopeTop,
       dimensions: {
-        colorField: { width: colorFieldWidth },
         slider: { width: sliderWidth },
         thumb: { radius: thumbRadius },
       },
@@ -746,12 +746,24 @@ export class ColorPicker
     const opacityTop = thumbRadius;
     const opacityLeft =
       opacityScopeLeft ??
-      (colorFieldWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
+      (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
     const noHex = hexDisabled || hideHex;
     const noChannels = channelsDisabled || hideChannels;
     const noSaved = savedDisabled || hideSaved;
+    const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
+      colorFieldScopeLeft,
+      colorFieldScopeTop
+    );
+    const [adjustedHueScopeLeft, adjustedHueScopeTop] = this.getAdjustedScopePosition(
+      hueLeft,
+      hueTop
+    );
+    const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = this.getAdjustedScopePosition(
+      opacityLeft,
+      opacityTop
+    );
 
     return (
       <div class={CSS.container}>
@@ -770,7 +782,10 @@ export class ColorPicker
             class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
-            style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
+            style={{
+              top: `${adjustedColorFieldScopeTop || 0}px`,
+              left: `${adjustedColorFieldScopeLeft || 0}px`,
+            }}
             tabindex="0"
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.storeColorFieldScope}
@@ -794,7 +809,10 @@ export class ColorPicker
                 class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                 onKeyDown={this.handleHueScopeKeyDown}
                 role="slider"
-                style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
+                style={{
+                  top: `${adjustedHueScopeTop}px`,
+                  left: `${adjustedHueScopeLeft}px`,
+                }}
                 tabindex="0"
                 // eslint-disable-next-line react/jsx-sort-props
                 ref={this.storeHueScope}
@@ -816,7 +834,10 @@ export class ColorPicker
                   class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                   onKeyDown={this.handleOpacityScopeKeyDown}
                   role="slider"
-                  style={{ top: `${opacityTop}px`, left: `${opacityLeft}px` }}
+                  style={{
+                    top: `${adjustedOpacityScopeTop}px`,
+                    left: `${adjustedOpacityScopeLeft}px`,
+                  }}
                   tabindex="0"
                   // eslint-disable-next-line react/jsx-sort-props
                   ref={this.storeOpacityScope}
@@ -1569,16 +1590,18 @@ export class ColorPicker
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
     const arrowKeyToXOffset = {
-      ArrowUp: 1,
-      ArrowRight: 1,
-      ArrowDown: -1,
-      ArrowLeft: -1,
+      ArrowUp: 0.01,
+      ArrowRight: 0.01,
+      ArrowDown: -0.01,
+      ArrowLeft: -0.01,
     };
 
     if (arrowKeyToXOffset[key]) {
       event.preventDefault();
-      const delta = opacityToAlpha(arrowKeyToXOffset[key] * modifier);
-      this.captureHueSliderColor(this.opacityScopeLeft + delta);
+      const delta = arrowKeyToXOffset[key] * modifier;
+      const alpha = this.baseColorFieldColor.alpha();
+      const color = this.baseColorFieldColor.alpha(alpha + delta);
+      this.internalColorSet(color, false);
     }
   };
 
@@ -1605,5 +1628,9 @@ export class ColorPicker
     }
 
     return channels as Channels;
+  }
+
+  private getAdjustedScopePosition(left: number, top: number): [number, number] {
+    return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
 }
