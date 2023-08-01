@@ -10,10 +10,13 @@
   @extend %component-host;
 
   @apply flex
-  flex-col
   p-0;
 
   --calcite-action-group-columns: 3;
+}
+
+.container {
+  @apply flex flex-col;
 }
 
 :host([columns="1"]) {
@@ -39,11 +42,11 @@
   @apply pt-0;
 }
 
-:host([layout="horizontal"]) {
+:host([layout="horizontal"]) .container {
   @apply flex-row;
 }
 
-:host([layout="grid"]) {
+:host([layout="grid"]) .container {
   @apply bg-background
   grid
   place-content-stretch
@@ -51,10 +54,6 @@
   p-px;
 
   grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
-}
-
-.container {
-  @apply flex;
 }
 
 @include base-component();
