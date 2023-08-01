@@ -28,12 +28,6 @@ export class Meter implements LocalizedComponent {
   //  Properties
   //
   //--------------------------------------------------------------------------
-
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
-
   /**  Accessible name for the component. */
   @Prop() label!: string;
 
@@ -44,19 +38,19 @@ export class Meter implements LocalizedComponent {
   @Prop() value: number;
 
   /** Specifies the miniumum possible value of the component. */
-  @Prop() min = 0;
+  @Prop({ reflect: true }) min = 0;
 
   /** Specifies the maximum possible value of the component. */
-  @Prop() max = 100;
+  @Prop({ reflect: true }) max = 100;
 
-  /** Optionally provide a low value - above this, when `fillType` is 'range', the component display the appropriate color  */
-  @Prop() low: number;
+  /** Optionally provide a low value and visual line indicator - above this, when `fillType` is 'range', the component display the appropriate color. When `rangeLabels` is true - display the value.  */
+  @Prop({ reflect: true }) low: number;
 
-  /** Optionally provide a high value - above this, when `fillType` is 'range', the component display the appropriate color  */
-  @Prop() high: number;
+  /** Optionally provide a high value and visual line indicator - above this, when `fillType` is 'range', the component display the appropriate color. When `rangeLabels` is true - display the value.  */
+  @Prop({ reflect: true }) high: number;
 
   /** Does the fill appear as a single "brand" color or does it display indications of low / high / "success", "danger", or "warning" based on low, high if provided, or value compared to max */
-  @Prop() fillType: "single" | "range" = "range";
+  @Prop({ reflect: true }) fillType: "single" | "range" = "range";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @Prop() numberingSystem: NumberingSystem;
@@ -65,20 +59,19 @@ export class Meter implements LocalizedComponent {
   @Prop({ reflect: true }) groupSeparator = false;
 
   /** The type of appearance of the meter */
-  @Prop() appearanceType: Extract<"outline" | "outline-fill" | "solid", Appearance> =
-    "outline-fill";
+  @Prop() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "outline-fill";
 
   /** Determine if the meter should be displayed with a percent based fill, or based on discreet numbers. This will affect displayed labels */
-  @Prop() labelType: "percent" | "units" = "percent";
+  @Prop({ reflect: true }) labelType: "percent" | "units" = "percent";
 
   /** A string optionally display beside the value and range values when not in `percent` `fillType` */
   @Prop() unitLabel: "";
 
   /** When true, displays the values of `high`, `low`, `min`, and `max` */
-  @Prop() displayRangeLabels: boolean;
+  @Prop() rangeLabels: boolean;
 
   /** When true, displays the current value */
-  @Prop() displayValue: boolean;
+  @Prop() valueLabel: boolean;
 
   @Watch("min")
   @Watch("max")
@@ -211,7 +204,7 @@ export class Meter implements LocalizedComponent {
             style={style}
           />
         )}
-        {(this.displayRangeLabels || isValue) && (
+        {(this.rangeLabels || isValue) && (
           <div class={{ [CSS.meterLabel]: true, [labelClass]: true }} style={style}>
             {value}
             {label && this.unitLabel && this.labelType !== "percent" && (
@@ -225,10 +218,10 @@ export class Meter implements LocalizedComponent {
 
   render(): VNode {
     const {
-      appearanceType,
+      appearance,
       currentPercent,
-      displayRangeLabels,
-      displayValue,
+      rangeLabels,
+      valueLabel,
       fillType,
       high,
       highPercent,
@@ -265,9 +258,9 @@ export class Meter implements LocalizedComponent {
           aria-valuetext={isPercent ? "percent" : unitLabel || undefined}
           class={{
             [CSS.meter]: true,
-            [CSS.meterStepsVisible]: displayRangeLabels,
-            [CSS.meterValueVisible]: displayValue,
-            [appearanceType]: appearanceType !== "outline-fill",
+            [CSS.meterStepsVisible]: rangeLabels,
+            [CSS.meterValueVisible]: valueLabel,
+            [appearance]: appearance !== "outline-fill",
           }}
           role="meter"
         >
@@ -275,8 +268,8 @@ export class Meter implements LocalizedComponent {
             class={{ [CSS.meterFill]: true, [kind]: fillType !== "single" }}
             style={{ width: `${currentPercent}%` }}
           />
-          {displayValue && this.renderRange(valuePosition, labelValue, false, unitLabel, true)}
-          {displayRangeLabels && (
+          {valueLabel && this.renderRange(valuePosition, labelValue, false, unitLabel, true)}
+          {rangeLabels && (
             <Fragment>
               {this.renderRange(minPercent, labelMin, false, unitLabel)}
               {displayLow && this.renderRange(lowPercent, labelLow, true)}
