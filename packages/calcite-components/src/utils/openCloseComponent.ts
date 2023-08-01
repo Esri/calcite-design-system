@@ -66,6 +66,15 @@ function transitionEnd(event: TransitionEvent): void {
   }
 }
 
+function emitImmediately(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
+  (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+    ? component.onBeforeOpen()
+    : component.onBeforeClose();
+  (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+    ? component.onOpen()
+    : component.onClose();
+}
+
 /**
  * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the @Watch("open").
  * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
@@ -94,37 +103,47 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
       const openTransitionPropIndex = allTransitionPropsArray.findIndex(
         (item) => item === component.openTransitionProp
       );
-      const transitionDuration = Number(allTransitionPropsArray[openTransitionPropIndex + 1].replace(/^\D+/g, ""));
-      if (transitionDuration > 0) {
+
+      const transitionDuration = allTransitionPropsArray[openTransitionPropIndex + 1];
+
+      if (transitionDuration === "0s") {
+        emitImmediately(component, nonOpenCloseComponent);
+      } else {
+        const timeoutId = setTimeout(
+          function startChecker() {
+            emitImmediately(component, nonOpenCloseComponent);
+          },
+          // need to play with this value, as long as it's > transition duration we should be good
+          parseFloat(transitionDuration) + 100
+        );
+
         component.transitionEl.addEventListener(
           "transitionstart",
           () => {
+            clearTimeout(timeoutId);
             (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
               ? component.onBeforeOpen()
               : component.onBeforeClose();
           },
           { once: true }
         );
-        component.transitionEl.addEventListener(
-          "transitionend",
-          () => {
-            (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
-              ? component.onOpen()
-              : component.onClose();
-          },
-          { once: true }
-        );
-      } else {
-        (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
-          ? component.onBeforeOpen()
-          : component.onBeforeClose();
-        (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
-          ? component.onOpen()
-          : component.onClose();
+
+        function onEndOrCancel(): void {
+          (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+            ? component.onOpen()
+            : component.onClose();
+
+          component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
+          component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
+        }
+
+        component.transitionEl.addEventListener("transitionend", onEndOrCancel, { once: true });
+        component.transitionEl.addEventListener("transitioncancel", onEndOrCancel, { once: true });
       }
     }
   });
 }
+
 /**
  * Helper to keep track of transition listeners on setTransitionEl and connectedCallback on OpenCloseComponent components.
  *
