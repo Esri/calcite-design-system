@@ -13,7 +13,7 @@ export default {
 export const simple = (): string => html`<calcite-meter />`;
 
 export const meterComplexPercent_TestOnly = (): string => html`<calcite-meter
-  display-steps
+  display-step-lines
   display-value
   display-step-values
   min="0"
@@ -25,7 +25,7 @@ export const meterComplexPercent_TestOnly = (): string => html`<calcite-meter
 
 export const meterComplexUnit_TestOnly = (): string => html`<calcite-meter
   unit-label="GB"
-  display-steps
+  display-step-lines
   display-value
   display-step-values
   label-type="units"
@@ -41,7 +41,7 @@ export const meterDarkModeRTL_TestOnly = (): string => html`<calcite-menu-item d
 export const meterComplexPercentRTL_TestOnly = (): string =>
   html`<calcite-meter
     dir="rtl"
-    display-steps
+    display-step-lines
     display-value
     display-step-values
     min="0"
@@ -55,7 +55,7 @@ export const meterComplexUnitRTL_TestOnly = (): string =>
   html`<calcite-meter
     dir="rtl"
     unit-label="GB"
-    display-steps
+    display-step-lines
     display-value
     display-step-values
     label-type="units"
