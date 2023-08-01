@@ -49,7 +49,7 @@
 }
 
 :host([layout="grid"]) {
-  @apply flex;
+  @apply grid;
 }
 
 :host([layout="grid"]) .container {
