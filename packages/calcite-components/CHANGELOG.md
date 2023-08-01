@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.29...@esri/calcite-components@1.5.0-next.30) (2023-08-01)
+
+### Features
+
+- **color-picker:** replaces thumb focus outline to rounded ([#7378](https://github.com/Esri/calcite-design-system/issues/7378)) ([d803980](https://github.com/Esri/calcite-design-system/commit/d803980395bb16da3c1349de9318b838f1a09383)), closes [#4633](https://github.com/Esri/calcite-design-system/issues/4633)
+
+### Bug Fixes
+
+- **color-picker:** fix opacity slider keyboard nudging ([#7400](https://github.com/Esri/calcite-design-system/issues/7400)) ([2b4f7c3](https://github.com/Esri/calcite-design-system/commit/2b4f7c3051ef25691e5b24b00a6ffc8de6e69bfc)), closes [#7394](https://github.com/Esri/calcite-design-system/issues/7394)
+
 ## [1.5.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.28...@esri/calcite-components@1.5.0-next.29) (2023-07-31)
 
 ### Features
