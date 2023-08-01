@@ -49,14 +49,14 @@ export class Meter implements LocalizedComponent {
   /** Specifies the maximum possible value of the component. */
   @Prop() max = 100;
 
-  /** Optionally provide a low value - above this, when `fillType` is 'step', the component display the appropriate color  */
+  /** Optionally provide a low value - above this, when `fillType` is 'range', the component display the appropriate color  */
   @Prop() low: number;
 
-  /** Optionally provide a high value - above this, when `fillType` is 'step', the component display the appropriate color  */
+  /** Optionally provide a high value - above this, when `fillType` is 'range', the component display the appropriate color  */
   @Prop() high: number;
 
   /** Does the fill appear as a single "brand" color or does it display indications of low / high / "success", "danger", or "warning" based on low, high if provided, or value compared to max */
-  @Prop() fillType: "single" | "step" = "step";
+  @Prop() fillType: "single" | "range" = "range";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @Prop() numberingSystem: NumberingSystem;
@@ -71,14 +71,11 @@ export class Meter implements LocalizedComponent {
   /** Determine if the meter should be displayed with a percent based fill, or based on discreet numbers. This will affect displayed labels */
   @Prop() labelType: "percent" | "units" = "percent";
 
-  /** A string optionally display beside the value and step values when not in `percent` `fillType` */
+  /** A string optionally display beside the value and range values when not in `percent` `fillType` */
   @Prop() unitLabel: "";
 
-  /** When true, and `low` or `high` properties are populated, display visual indicators of these values.*/
-  @Prop() displayStepLines: boolean;
-
   /** When true, displays the values of `high`, `low`, `min`, and `max` */
-  @Prop() displayStepValues: boolean;
+  @Prop() displayRangeLabels: boolean;
 
   /** When true, displays the current value */
   @Prop() displayValue: boolean;
@@ -88,7 +85,7 @@ export class Meter implements LocalizedComponent {
   @Watch("low")
   @Watch("high")
   @Watch("value")
-  handleStepChange(): void {
+  handleRangeChange(): void {
     this.calculateValues();
   }
 
@@ -189,24 +186,24 @@ export class Meter implements LocalizedComponent {
    * @returns
    */
 
-  private renderStep(
+  private renderRange(
     position: number,
     value: string,
     line?: boolean,
     label?: string,
     isValue?: boolean
   ): VNode {
-    const labelClass = isValue ? CSS.meterLabelValue : CSS.meterLabelStep;
+    const labelClass = isValue ? CSS.meterLabelValue : CSS.meterLabelRange;
     const style = { insetInlineStart: `${position}%` };
     return (
       <Fragment>
-        {line && this.displayStepLines && (
+        {line && (
           <div
             class={{ [CSS.meterStepLine]: true, [CSS.meterLabelContainer]: true }}
             style={style}
           />
         )}
-        {(this.displayStepValues || isValue) && (
+        {(this.displayRangeLabels || isValue) && (
           <div class={{ [CSS.meterLabel]: true, [labelClass]: true }} style={style}>
             {value}
             {label && this.unitLabel && this.labelType !== "percent" && (
@@ -222,8 +219,7 @@ export class Meter implements LocalizedComponent {
     const {
       appearanceType,
       currentPercent,
-      displayStepLines,
-      displayStepValues,
+      displayRangeLabels,
       displayValue,
       fillType,
       high,
@@ -243,12 +239,12 @@ export class Meter implements LocalizedComponent {
     const isPercent = labelType === "percent";
     const labelMin = this.formatLabel(isPercent ? minPercent : min);
     const labelMax = this.formatLabel(isPercent ? maxPercent / 100 : max);
-    const labelLow = this.formatLabel(isPercent ? lowPercent / 100 : low);
-    const labelHigh = this.formatLabel(isPercent ? highPercent / 100 : high);
+    const labelLow = low ? this.formatLabel(isPercent ? lowPercent / 100 : low) : undefined;
+    const labelHigh = high ? this.formatLabel(isPercent ? highPercent / 100 : high) : undefined;
     const labelValue = this.formatLabel(isPercent ? currentPercent / 100 : value || 0);
     const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
-    const displayLow = low < high && low > min && kind === "success";
-    const displayHigh = high > low && high < max && kind !== "danger";
+    const displayLow = !!low && low > value && low > min && (!high || low < high);
+    const displayHigh = !!high && high > value && high < max && (!low || high > low);
 
     return (
       <Host>
@@ -261,7 +257,7 @@ export class Meter implements LocalizedComponent {
           aria-valuetext={isPercent ? "percent" : unitLabel || undefined}
           class={{
             [CSS.meter]: true,
-            [CSS.meterStepsVisible]: displayStepValues,
+            [CSS.meterStepsVisible]: displayRangeLabels,
             [CSS.meterValueVisible]: displayValue,
             [appearanceType]: appearanceType !== "outline-fill",
           }}
@@ -271,13 +267,13 @@ export class Meter implements LocalizedComponent {
             class={{ [CSS.meterFill]: true, [kind]: fillType !== "single" }}
             style={{ width: `${currentPercent}%` }}
           />
-          {displayValue && this.renderStep(valuePosition, labelValue, false, unitLabel, true)}
-          {(displayStepValues || displayStepLines) && (
+          {displayValue && this.renderRange(valuePosition, labelValue, false, unitLabel, true)}
+          {displayRangeLabels && (
             <Fragment>
-              {this.renderStep(minPercent, labelMin, false, unitLabel)}
-              {displayLow && this.renderStep(lowPercent, labelLow, true)}
-              {displayHigh && this.renderStep(highPercent, labelHigh, true)}
-              {this.renderStep(maxPercent, labelMax, false)}
+              {this.renderRange(minPercent, labelMin, false, unitLabel)}
+              {displayLow && this.renderRange(lowPercent, labelLow, true)}
+              {displayHigh && this.renderRange(highPercent, labelHigh, true)}
+              {this.renderRange(maxPercent, labelMax, false)}
             </Fragment>
           )}
         </div>

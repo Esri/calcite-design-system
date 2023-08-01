@@ -4,7 +4,7 @@ export const CSS = {
   meterStepLine: "meter-step-line",
   meterLabel: "meter-label",
   meterLabelContainer: "meter-label-container",
-  meterLabelStep: "meter-label-step",
+  meterLabelRange: "meter-label-range",
   meterLabelValue: "meter-label-value",
   meterUnitLabel: "meter-unit-label",
   meterStepsVisible: "meter-steps-visible",
