@@ -10,6 +10,7 @@
   @extend %component-host;
 
   @apply flex
+  flex-col
   p-0;
 
   --calcite-action-group-columns: 3;
@@ -42,8 +43,13 @@
   @apply pt-0;
 }
 
+:host([layout="horizontal"]),
 :host([layout="horizontal"]) .container {
   @apply flex-row;
+}
+
+:host([layout="grid"]) {
+  @apply flex;
 }
 
 :host([layout="grid"]) .container {
