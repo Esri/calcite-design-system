@@ -125,5 +125,5 @@ export const Focus_TestOnly = (): string => html`<calcite-color-picker value="#9
   </script>`;
 
 Focus_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: 2000 },
 };
