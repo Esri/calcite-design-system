@@ -91,7 +91,7 @@ export class TimePicker
 
   @Watch("step")
   stepChange(): void {
-    this.updateShowSecond();
+    this.toggleSecond();
   }
 
   /**
@@ -319,11 +319,6 @@ export class TimePicker
   //
   // --------------------------------------------------------------------------
 
-  private updateShowSecond(): void {
-    this.showSecond = this.step >= 0 && this.step < 60;
-    this.showFractionalSecond = this.step >= 0.001 && this.step < 1;
-  }
-
   private async focusPart(target: TimePart): Promise<void> {
     await componentFocusable(this);
 
@@ -465,17 +460,10 @@ export class TimePicker
   };
 
   private incrementFractionalSecond = (): void => {
-    // TODO: increment fractionalSecond
     if (isValidNumber(this.fractionalSecond)) {
-      // TODO: extract this perhaps into a utility function
-      const fractionalSecondAsDecimalString = `0.${this.fractionalSecond}`;
-      const fractionalSecondAsFloat = parseFloat(fractionalSecondAsDecimalString);
-      const secondPlusStep = fractionalSecondAsFloat + this.step;
-      const precision = decimalPlaces(this.step);
-      const trimmed = secondPlusStep.toFixed(precision);
-      const trimmedAsFloat = parseFloat(trimmed);
-
-      this.fractionalSecond = formatTimePart(trimmedAsFloat);
+      const sum = parseFloat(`0.${this.fractionalSecond}`) + this.step;
+      const roundedSum = parseFloat(sum.toFixed(decimalPlaces(this.step)));
+      this.fractionalSecond = formatTimePart(roundedSum);
       this.localizedFractionalSecond = this.fractionalSecond;
 
       // TODO: localize the result
@@ -754,6 +742,11 @@ export class TimePicker
     }
   };
 
+  private toggleSecond(): void {
+    this.showSecond = this.step >= 0 && this.step < 60;
+    this.showFractionalSecond = this.step >= 0.001 && this.step < 1;
+  }
+
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
     const locale = this.effectiveLocale;
     const isRTLKind = locale === "ar" || locale === "he";
@@ -782,7 +775,7 @@ export class TimePicker
     connectLocalized(this);
     this.updateLocale();
     connectMessages(this);
-    this.updateShowSecond();
+    this.toggleSecond();
     this.meridiemOrder = this.getMeridiemOrder(
       getTimeParts({
         value: "0:00:00",
