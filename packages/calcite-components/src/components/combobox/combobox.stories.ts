@@ -416,7 +416,7 @@ export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnl
   </div>
 `;
 
-export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
+export const mediumIconForLargeComboboxItem_TestOnly = (): string => html`
   <calcite-combobox open scale="l">
     <calcite-combobox-item
       icon="altitude"
