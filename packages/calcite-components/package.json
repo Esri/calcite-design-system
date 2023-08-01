@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "1.4.5",
-    "@stencil/core": "2.22.3",
+    "@stencil/core": "4.0.3",
     "@types/color": "3.0.3",
     "color": "4.2.3",
     "composed-offset-position": "0.0.4",
