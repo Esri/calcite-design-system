@@ -215,7 +215,7 @@ export class Meter implements LocalizedComponent {
           <div class={{ [CSS.meterLabel]: true, [labelClass]: true }} style={style}>
             {value}
             {label && this.unitLabel && this.labelType !== "percent" && (
-              <span class={CSS.meterUnitLabel}>{label}</span>
+              <span class={CSS.meterUnitLabel}>&nbsp;{label}</span>
             )}
           </div>
         )}
