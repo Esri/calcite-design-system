@@ -52,6 +52,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { decimalPlaces } from "../../utils/math";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -156,6 +157,9 @@ export class TimePicker
   effectiveLocaleWatcher(): void {
     this.updateLocale();
   }
+
+  // TODO: update fractional second
+  @State() fractionalSecond: string;
 
   @State() hour: string;
 
@@ -462,6 +466,29 @@ export class TimePicker
 
   private incrementFractionalSecond = (): void => {
     // TODO: increment fractionalSecond
+    if (isValidNumber(this.fractionalSecond)) {
+      // TODO: extract this perhaps into a utility function
+      const fractionalSecondAsDecimalString = `0.${this.fractionalSecond}`;
+      const fractionalSecondAsFloat = parseFloat(fractionalSecondAsDecimalString);
+      const secondPlusStep = fractionalSecondAsFloat + this.step;
+      const precision = decimalPlaces(this.step);
+      const trimmed = secondPlusStep.toFixed(precision);
+      const trimmedAsFloat = parseFloat(trimmed);
+
+      this.fractionalSecond = formatTimePart(trimmedAsFloat);
+      this.localizedFractionalSecond = this.fractionalSecond;
+
+      // TODO: localize the result
+      // this.localizedFractionalSecond = localizeTimePart({
+      //   value: this.fractionalSecond,
+      //   part: "fractionalSecond",
+      //   locale: this.effectiveLocale,
+      //   numberingSystem: this.numberingSystem,
+      // });
+      console.log(this.step, this.fractionalSecond);
+    } else {
+      this.fractionalSecond = this.step.toString();
+    }
   };
 
   private incrementSecond = (): void => {
@@ -618,7 +645,7 @@ export class TimePicker
 
   private setValue = (value: string, emit = true): void => {
     if (isValidTime(value)) {
-      const { hour, minute, second } = parseTimeString(value);
+      const { hour, minute, second, fractionalSecond } = parseTimeString(value);
       const { effectiveLocale: locale, numberingSystem } = this;
       const {
         localizedHour,
@@ -642,6 +669,7 @@ export class TimePicker
       this.hour = hour;
       this.minute = minute;
       this.second = second;
+      this.fractionalSecond = fractionalSecond;
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
@@ -650,6 +678,7 @@ export class TimePicker
       }
     } else {
       this.hour = null;
+      this.fractionalSecond = null;
       this.localizedHour = null;
       this.localizedHourSuffix = null;
       this.localizedMeridiem = null;
@@ -670,7 +699,7 @@ export class TimePicker
   };
 
   private setValuePart = (
-    key: "hour" | "minute" | "second" | "meridiem",
+    key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
     value: number | string | Meridiem,
     emit = true
   ): void => {

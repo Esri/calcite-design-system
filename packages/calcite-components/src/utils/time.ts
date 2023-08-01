@@ -58,9 +58,16 @@ function createLocaleDateTimeFormatter(
 }
 
 export function formatTimePart(number: number): string {
-  // TODO: support decimals
   const numberAsString = number.toString();
-  return number >= 0 && number <= 9 ? numberAsString.padStart(2, "0") : numberAsString;
+  if (number < 1 && decimalPlaces(number) > 0) {
+    return numberAsString.replace("0.", "");
+  }
+  if (number >= 0 && number < 10) {
+    return numberAsString.padStart(2, "0");
+  }
+  if (number > 10) {
+    return numberAsString;
+  }
 }
 
 export function formatTimeString(value: string): string {
