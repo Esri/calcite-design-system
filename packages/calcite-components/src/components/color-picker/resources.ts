@@ -94,3 +94,5 @@ export const DIMENSIONS = {
     },
   },
 };
+
+export const SCOPE_SIZE = 1;
