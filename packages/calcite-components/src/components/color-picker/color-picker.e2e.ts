@@ -2287,7 +2287,7 @@ describe("calcite-color-picker", () => {
 
       it("should update value when opacity scope is moved", async () => {
         const page = await newE2EPage();
-        await page.setContent(`<calcite-color-picker alpha-channel></calcite-color-picker> <p>BROKEN</p>`);
+        await page.setContent(`<calcite-color-picker alpha-channel></calcite-color-picker>`);
         const [opacityScopeX, opacityScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.opacityScope}`);
         const colorPicker = await page.find("calcite-color-picker");
         const value = await colorPicker.getProperty("value");
