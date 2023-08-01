@@ -483,6 +483,20 @@ export class TimePicker
     this.incrementMinuteOrSecond("second");
   };
 
+  private initializeValue = (): void => {
+    if (
+      this.showFractionalSecond &&
+      this.fractionalSecond &&
+      decimalPlaces(this.step) !== this.fractionalSecond.length
+    ) {
+      this.fractionalSecond = parseFloat(`0.${this.fractionalSecond}`)
+        .toFixed(decimalPlaces(this.step))
+        .replace("0.", "");
+      // TODO: properly localize fractional second here
+      this.localizedFractionalSecond = this.fractionalSecond;
+    }
+  };
+
   private meridiemDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.decrementMeridiem();
@@ -776,6 +790,7 @@ export class TimePicker
     this.updateLocale();
     connectMessages(this);
     this.toggleSecond();
+    this.initializeValue();
     this.meridiemOrder = this.getMeridiemOrder(
       getTimeParts({
         value: "0:00:00",
