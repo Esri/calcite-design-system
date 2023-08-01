@@ -128,12 +128,20 @@ export class Meter implements LocalizedComponent {
   //--------------------------------------------------------------------------
 
   private getMeterKind(): Kind {
-    if (this.value >= this.high || this.value >= this.max) {
-      return "danger";
-    } else if (this.value >= this.low && this.value < this.high) {
-      return "warning";
-    } else {
+    const { low, high, min, max, value } = this;
+    const lowest = low ? low : min;
+    const highest = high ? high : max;
+    const aboveLowest = value >= lowest;
+    const belowLowest = value < lowest;
+    const aboveHighest = value >= highest;
+    const belowHighest = value < highest;
+
+    if (!value || (!low && belowHighest) || belowLowest) {
       return "success";
+    } else if (aboveLowest && belowHighest) {
+      return "warning";
+    } else if (aboveHighest) {
+      return "danger";
     }
   }
 
