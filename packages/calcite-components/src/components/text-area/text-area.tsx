@@ -46,6 +46,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { CharacterLengthObj } from "./interfaces";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding text.
@@ -260,6 +261,7 @@ export class TextArea
     return (
       <Host>
         <textarea
+          aria-describedby={this.guid}
           aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
@@ -318,7 +320,7 @@ export class TextArea
         </footer>
         <HiddenFormInputSlot component={this} />
         {this.isCharacterLimitExceeded() && (
-          <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
+          <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
             {this.replacePlaceHoldersInMessages()}
           </span>
         )}
@@ -375,6 +377,8 @@ export class TextArea
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
+
+  private guid = guid();
 
   //--------------------------------------------------------------------------
   //
