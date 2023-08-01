@@ -50,7 +50,6 @@
   display: block;
   inline-size: var(--calcite-meter-space-internal);
   background-color: var(--calcite-ui-border-2);
-  z-index: 100;
   position: absolute;
   inset-block: 0;
 }
@@ -62,7 +61,7 @@
 
 .meter-label-value {
   inset-block-end: calc(100% + 0.5em);
-  font-weight: 600;
+  font-weight: var(--calcite-font-weight-bold);
   color: var(--calcite-ui-text-1);
 }
 
@@ -72,7 +71,7 @@
 }
 
 .meter-unit-label {
-  font-weight: 500;
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-ui-text-3);
 }
 
@@ -83,7 +82,6 @@
 .meter-fill {
   display: block;
   position: absolute;
-  z-index: 200;
   background-color: var(--calcite-ui-brand);
   inset-inline-start: var(--calcite-meter-space-internal);
   inset-block: var(--calcite-meter-space-internal);

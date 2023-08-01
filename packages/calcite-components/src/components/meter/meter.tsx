@@ -58,7 +58,7 @@ export class Meter implements LocalizedComponent {
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @Prop({ reflect: true }) groupSeparator = false;
 
-  /** The type of appearance of the meter */
+  /** Specifies the appearance style of the component. */
   @Prop() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "outline-fill";
 
   /** Determine if the meter should be displayed with a percent based fill, or based on discreet numbers. This will affect displayed labels */
