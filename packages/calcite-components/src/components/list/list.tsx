@@ -247,7 +247,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   }
 
   @Listen("calciteHandleNudge")
-  calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
+  handleCalciteHandleNudge(event: CustomEvent<HandleNudge>): void {
     if (!!this.parentListEl) {
       return;
     }
@@ -742,11 +742,15 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM"
     ) as HTMLCalciteListItemElement;
 
-    const { enabledListItems, el } = this;
+    const parentEl = sortItem?.parentElement;
 
-    const sameParentItems = enabledListItems.filter(
-      (item) => item.parentElement === sortItem.parentElement
-    );
+    if (!parentEl) {
+      return;
+    }
+
+    const { enabledListItems } = this;
+
+    const sameParentItems = enabledListItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
     const startingIndex = sameParentItems.indexOf(sortItem);
@@ -772,9 +776,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.disconnectObserver();
 
     if (appendInstead) {
-      sortItem.parentElement.appendChild(sortItem);
+      parentEl.appendChild(sortItem);
     } else {
-      sortItem.parentElement.insertBefore(sortItem, sameParentItems[buddyIndex]);
+      parentEl.insertBefore(sortItem, sameParentItems[buddyIndex]);
     }
 
     this.updateListItems();
@@ -782,8 +786,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
     this.calciteListOrderChange.emit({
       dragEl: sortItem,
-      fromEl: el,
-      toEl: el,
+      fromEl: null,
+      toEl: null,
     });
 
     handle.setFocus().then(() => {

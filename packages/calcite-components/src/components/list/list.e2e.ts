@@ -469,7 +469,7 @@ describe("calcite-list", () => {
       return page;
     }
 
-    it.skip("works using a keyboard", async () => {
+    it("works using a keyboard", async () => {
       const page = await createSimpleList();
 
       const handle = await page.find(`calcite-list-item[value="one"] >>> calcite-handle`);
