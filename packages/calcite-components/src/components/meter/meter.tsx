@@ -246,7 +246,10 @@ export class Meter implements LocalizedComponent {
     const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
     const displayLow = !!low && low > value && low > min && (!high || low < high);
     const displayHigh = !!high && high > value && high < max && (!low || high > low);
-
+    const textPercentLabel = `${currentPercent} percent`;
+    const textUnitLabel = `${value} ${unitLabel}`;
+    const valueText = isPercent ? textPercentLabel : unitLabel ? textUnitLabel : undefined;
+    console.log(minPercent);
     return (
       <Host>
         <div
@@ -255,7 +258,7 @@ export class Meter implements LocalizedComponent {
           aria-valuemin={isPercent ? minPercent : min}
           aria-valuenow={isPercent ? currentPercent : value}
           // todo translate "percent"
-          aria-valuetext={isPercent ? "percent" : unitLabel || undefined}
+          aria-valuetext={valueText}
           class={{
             [CSS.meter]: true,
             [CSS.meterStepsVisible]: rangeLabels,
