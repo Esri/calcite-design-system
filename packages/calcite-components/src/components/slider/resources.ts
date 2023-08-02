@@ -5,3 +5,5 @@ export const CSS = {
   tickMin: "tick__label--min",
   tickMax: "tick__label--max",
 };
+
+export const maxTickElementThreshold = 250;

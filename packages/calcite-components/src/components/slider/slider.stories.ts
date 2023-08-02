@@ -393,3 +393,18 @@ export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
     </div>
   </body>
 </html>`;
+
+export const maxTickRendering_TestOnly = (): string => html`
+  <calcite-slider min="-100" max="100" ticks="1"></calcite-slider>
+  <calcite-slider min="-100" max="100" ticks="5"></calcite-slider>
+  <calcite-slider min="-100" max="100" ticks="10"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="1"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="5"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="10"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="1"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="5"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="10"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="1"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="5"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="10"></calcite-slider>
+`;

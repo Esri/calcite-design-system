@@ -29,7 +29,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
@@ -46,7 +46,7 @@ import {
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale } from "../interfaces";
-import { CSS } from "./resources";
+import { CSS, maxTickElementThreshold } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
@@ -1031,13 +1031,22 @@ export class Slider
     );
   }
 
+  private getTickRatio(): number {
+    const totalTicks = (this.max - this.min) / this.ticks;
+    return totalTicks / maxTickElementThreshold;
+  }
+
   private generateTickValues(): number[] {
     const ticks = [];
-    let current = this.min;
-    while (this.ticks && current < this.max + this.ticks) {
+    const ratio = this.getTickRatio();
+    const effectiveRatio = ratio < 1 ? 1 : ratio;
+    let current = this.min * effectiveRatio;
+
+    while (this.ticks > 0 && current < this.max + this.ticks) {
       ticks.push(Math.min(current, this.max));
-      current = current + this.ticks;
+      current += this.ticks * effectiveRatio;
     }
+
     return ticks;
   }
 
