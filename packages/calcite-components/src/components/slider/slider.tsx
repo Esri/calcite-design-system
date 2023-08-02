@@ -1031,9 +1031,10 @@ export class Slider
     );
   }
 
-  private getTickRatio(): number {
-    const totalTicks = (this.max - this.min) / this.ticks;
-    return totalTicks / maxTickElementThreshold;
+  private getTickDensity(): number {
+    const density = (this.max - this.min) / this.ticks / maxTickElementThreshold;
+
+    return density < 1 ? 1 : density;
   }
 
   private generateTickValues(): number[] {
@@ -1044,10 +1045,9 @@ export class Slider
     }
 
     const ticks: number[] = [this.min];
-    const ratio = this.getTickRatio();
-    const effectiveRatio = ratio < 1 ? 1 : ratio;
+    const density = this.getTickDensity();
+    const tickOffset = tickInterval * density;
     let current = this.min;
-    const tickOffset = tickInterval * effectiveRatio;
 
     while (current < this.max) {
       current += tickOffset;
