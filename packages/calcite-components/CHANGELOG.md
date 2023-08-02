@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.31...@esri/calcite-components@1.5.0-next.32) (2023-08-02)
+
+### Features
+
+- **text-area:** provide additional context for AT users when character limit exceeds ([#7412](https://github.com/Esri/calcite-design-system/issues/7412)) ([c1af3c7](https://github.com/Esri/calcite-design-system/commit/c1af3c7a713b6877a3f0cf54cd21fac922ec5907)), closes [#6630](https://github.com/Esri/calcite-design-system/issues/6630)
+
+### Bug Fixes
+
+- **scrim:** update loader scale on resize of component. ([#7419](https://github.com/Esri/calcite-design-system/issues/7419)) ([24e7f70](https://github.com/Esri/calcite-design-system/commit/24e7f70f0b777759e873f5a32c00fb7de4c19586)), closes [#7420](https://github.com/Esri/calcite-design-system/issues/7420)
+
 ## [1.5.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.30...@esri/calcite-components@1.5.0-next.31) (2023-08-02)
 
 ### Bug Fixes
