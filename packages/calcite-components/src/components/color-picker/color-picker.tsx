@@ -23,6 +23,7 @@ import {
   DEFAULT_STORAGE_KEY_PREFIX,
   DIMENSIONS,
   HSV_LIMITS,
+  HUE_LIMIT_CONSTRAINED,
   OPACITY_LIMITS,
   RGB_LIMITS,
   SCOPE_SIZE,
@@ -1095,7 +1096,7 @@ export class ColorPicker
         slider: { width },
       },
     } = this;
-    const hue = ((HSV_LIMITS.h - 1) / width) * x;
+    const hue = (HUE_LIMIT_CONSTRAINED / width) * x;
 
     this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
   }
@@ -1416,7 +1417,7 @@ export class ColorPicker
       },
     } = this;
 
-    const x = hsvColor.hue() / ((HSV_LIMITS.h - 1) / width);
+    const x = hsvColor.hue() / (HUE_LIMIT_CONSTRAINED / width);
     const y = radius - height / 2 + height / 2;
     const sliderBoundX = remap(x, 0, width, radius, width - radius);
 
