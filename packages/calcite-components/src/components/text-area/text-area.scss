@@ -177,6 +177,10 @@ textarea.block-size--full {
   @apply justify-end;
 }
 
+.assistive-text {
+  @apply sr-only;
+}
+
 @include hidden-form-input();
 @include disabled();
 @include base-component();
