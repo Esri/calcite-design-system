@@ -265,4 +265,16 @@ export const scrollingContainerSetup_TestOnly = (): string => html`<style>
     <div class="scroll-container">
       <p></p>
     </div>
-  </calcite-block>`;
+  </calcite-block>
+  <script>
+    (async () => {
+      const block = document.querySelector("calcite-block");
+      await customElements.whenDefined("calcite-block");
+      await block.componentOnReady();
+
+      const scrollContainer = document.querySelector(".scroll-container");
+      scrollContainer.scrollTo(0, 500);
+    })();
+  </script>`;
+
+scrollingContainerSetup_TestOnly.parameters = { chromatic: { delay: 500 } };
