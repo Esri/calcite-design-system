@@ -1037,14 +1037,25 @@ export class Slider
   }
 
   private generateTickValues(): number[] {
-    const ticks = [];
+    const tickInterval = this.ticks ?? 0;
+
+    if (tickInterval <= 0) {
+      return [];
+    }
+
+    const ticks: number[] = [this.min];
     const ratio = this.getTickRatio();
     const effectiveRatio = ratio < 1 ? 1 : ratio;
-    let current = this.min * effectiveRatio;
+    let current = this.min;
+    const tickOffset = tickInterval * effectiveRatio;
 
-    while (this.ticks > 0 && current < this.max + this.ticks) {
+    while (current < this.max) {
+      current += tickOffset;
       ticks.push(Math.min(current, this.max));
-      current += this.ticks * effectiveRatio;
+    }
+
+    if (!ticks.includes(this.max)) {
+      ticks.push(this.max);
     }
 
     return ticks;
