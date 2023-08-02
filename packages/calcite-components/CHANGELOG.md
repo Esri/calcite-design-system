@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.30...@esri/calcite-components@1.5.0-next.31) (2023-08-02)
+
+### Bug Fixes
+
+- **chip:** disconnect mutation observer when component is disconnected from the DOM ([#7418](https://github.com/Esri/calcite-design-system/issues/7418)) ([412e5fb](https://github.com/Esri/calcite-design-system/commit/412e5fb5565f377bba74af1b79516833550a2202)), closes [#7417](https://github.com/Esri/calcite-design-system/issues/7417)
+- **switch:** Fix for focus outline style in certain cases ([#7414](https://github.com/Esri/calcite-design-system/issues/7414)) ([217324f](https://github.com/Esri/calcite-design-system/commit/217324f3cd6ae4a36a04fd1ddac977a5385b950d)), closes [#7402](https://github.com/Esri/calcite-design-system/issues/7402)
+
 ## [1.5.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.29...@esri/calcite-components@1.5.0-next.30) (2023-08-01)
 
 ### Features
