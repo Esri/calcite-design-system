@@ -261,7 +261,7 @@ export const scrollingContainerSetup_TestOnly = (): string => html`<style>
       margin: 0;
     }
   </style>
-  <calcite-block heading="Observed scrolling behavior" open>
+  <calcite-block heading="Should scroll to the gradient at the bottom" open>
     <div class="scroll-container">
       <p></p>
     </div>
