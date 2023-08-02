@@ -2,7 +2,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ```html
 <calcite-action-bar>
-  <calcite-action-group label="Manage Item">
+  <calcite-action-group label="Manage item">
     <calcite-action text="Add" icon="plus"></calcite-action>
     <calcite-action text="Save" icon="save"></calcite-action>
   </calcite-action-group>

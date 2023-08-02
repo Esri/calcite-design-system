@@ -61,7 +61,7 @@ export class ActionGroup
   /**
    * Specifies the label of the component.
    */
-  @Prop() label: string;
+  @Prop() label!: string;
 
   /**
    * Indicates the layout of the component.
