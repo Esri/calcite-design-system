@@ -212,7 +212,7 @@ export class ActionGroup
 
   render(): VNode {
     return (
-      <div aria-label={this.label} class={CSS.container}>
+      <div aria-label={this.label} class={CSS.container} role="group">
         <slot />
         {this.renderMenu()}
       </div>
