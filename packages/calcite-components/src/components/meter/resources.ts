@@ -9,4 +9,7 @@ export const CSS = {
   meterUnitLabel: "meter-unit-label",
   meterStepsVisible: "meter-steps-visible",
   meterValueVisible: "meter-value-visible",
+  success: "success",
+  warning: "warning",
+  danger: "danger",
 };

@@ -1,5 +1,5 @@
 import { Component, Element, Fragment, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
-import { Appearance, Kind, Scale } from "../interfaces";
+import { Appearance, Scale } from "../interfaces";
 import { CSS } from "./resources";
 
 import {
@@ -43,13 +43,13 @@ export class Meter implements LocalizedComponent {
   /** Specifies the highest allowed value of the component. */
   @Prop({ reflect: true }) max = 100;
 
-  /** Optionally provide a low value and visual line indicator - above this, when `fillType` is 'range', the component display the appropriate color. When `rangeLabels` is true - display the value.  */
+  /** Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.  */
   @Prop({ reflect: true }) low: number;
 
-  /** Optionally provide a high value and visual line indicator - above this, when `fillType` is 'range', the component display the appropriate color. When `rangeLabels` is true - display the value.  */
+  /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.  */
   @Prop({ reflect: true }) high: number;
 
-  /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors which can specify `low`, `high`, `min` or `max` values. */
+  /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values. */
   @Prop({ reflect: true }) fillType: "single" | "range" = "range";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -61,7 +61,7 @@ export class Meter implements LocalizedComponent {
   /** Specifies the appearance style of the component. */
   @Prop() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "outline-fill";
 
-  /** Determine if the meter should be displayed with a percent based fill, or based on discreet numbers. This will affect displayed labels */
+  /** When either `valueLabel` and/or `rangeLabels` are `true`, specifies the format of displayed labels. */
   @Prop({ reflect: true }) labelType: "percent" | "units" = "percent";
 
   /** When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
@@ -120,7 +120,7 @@ export class Meter implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  private getMeterKind(): Kind {
+  private getMeterKind(): string {
     const { low, high, min, max, value } = this;
     const lowest = low ? low : min;
     const highest = high ? high : max;
@@ -130,11 +130,11 @@ export class Meter implements LocalizedComponent {
     const belowHighest = value < highest;
 
     if (!value || (!low && belowHighest) || belowLowest) {
-      return "success";
+      return CSS.success;
     } else if (aboveLowest && belowHighest) {
-      return "warning";
+      return CSS.warning;
     } else if (aboveHighest) {
-      return "danger";
+      return CSS.danger;
     }
   }
 
