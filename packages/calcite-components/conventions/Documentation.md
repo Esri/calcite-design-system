@@ -51,7 +51,7 @@ import notes from "./readme.md";
 export default {
   title: "Components/My Component",
   parameters: { notes },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`<my-component demo-prop="${boolean("demo-prop", true)}"></my-component>`;
@@ -83,7 +83,7 @@ export default {
 
 - Story names should be camelCased
 - All stories need to import the `storyFilters` util and include it in the default export so stories can be properly filtered
-- Update the [main custom theme](https://github.com/Esri/calcite-components/blob/master/src/05-custom-theme.stories.mdx) story instead of adding a specific story showing how to use a custom CSS prop
+- Update the [main custom theme](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/05-custom-theme.stories.mdx) story instead of adding a specific story showing how to use a custom CSS prop
 - Should only have HTML for the component or use case itself (e.g., no need to wrap in calcite-label)
 - Update the `simple` story with a corresponding knob instead of adding a story specific to a new prop
 - Don't add or update a story if it is covered by an existing one

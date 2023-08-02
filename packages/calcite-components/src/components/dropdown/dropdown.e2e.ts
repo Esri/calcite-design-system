@@ -17,7 +17,7 @@ const simpleDropdownHTML = html`<calcite-dropdown>
 describe("calcite-dropdown", () => {
   describe("focusable", () => {
     focusable(simpleDropdownHTML, {
-      focusTargetSelector: '[slot="trigger"]'
+      focusTargetSelector: '[slot="trigger"]',
     });
   });
 
@@ -33,12 +33,12 @@ describe("calcite-dropdown", () => {
     defaults("calcite-dropdown", [
       {
         propertyName: "overlayPositioning",
-        defaultValue: "absolute"
+        defaultValue: "absolute",
       },
       {
         propertyName: "flipPlacements",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -46,8 +46,8 @@ describe("calcite-dropdown", () => {
     disabled(simpleDropdownHTML, {
       focusTarget: {
         tab: "calcite-button",
-        click: "calcite-dropdown-item"
-      }
+        click: "calcite-dropdown-item",
+      },
     });
   });
 
@@ -249,21 +249,21 @@ describe("calcite-dropdown", () => {
     await item1.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-2"]
+      expectedItemIds: ["item-1", "item-2"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1"]
+      expectedItemIds: ["item-1"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3"]
+      expectedItemIds: ["item-1", "item-3"],
     });
 
     expect(item1).toHaveAttribute("selected");
@@ -298,14 +298,14 @@ describe("calcite-dropdown", () => {
     await item1.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1"]
+      expectedItemIds: ["item-1"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-3"]
+      expectedItemIds: ["item-3"],
     });
 
     expect(item1).not.toHaveAttribute("selected");
@@ -401,49 +401,49 @@ describe("calcite-dropdown", () => {
     await item1.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-2", "item-5"]
+      expectedItemIds: ["item-1", "item-2", "item-5"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-5"]
+      expectedItemIds: ["item-1", "item-5"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-5"]
+      expectedItemIds: ["item-1", "item-3", "item-5"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item4.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-4"]
+      expectedItemIds: ["item-1", "item-3", "item-4"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item6.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"]
+      expectedItemIds: ["item-1", "item-3", "item-6"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item7.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"]
+      expectedItemIds: ["item-1", "item-3", "item-6"],
     });
     await trigger.click();
     await page.waitForChanges();
     await item9.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"]
+      expectedItemIds: ["item-1", "item-3", "item-6"],
     });
 
     expect(item1).toHaveAttribute("selected");
@@ -487,7 +487,7 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`
+      </calcite-dropdown>`,
     });
 
     const element = await page.find("calcite-dropdown");
@@ -507,7 +507,7 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-3" selected>3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`
+      </calcite-dropdown>`,
     });
 
     const element = await page.find("calcite-dropdown");
@@ -528,7 +528,7 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4" selected>4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`
+      </calcite-dropdown>`,
     });
 
     const element = await page.find("calcite-dropdown");
@@ -621,7 +621,7 @@ describe("calcite-dropdown", () => {
             <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
             <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
           </calcite-dropdown-group>
-        </calcite-dropdown>`
+        </calcite-dropdown>`,
       });
 
       const element = await page.find("calcite-dropdown");
@@ -754,6 +754,7 @@ describe("calcite-dropdown", () => {
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(false);
@@ -799,6 +800,7 @@ describe("calcite-dropdown", () => {
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(false);
@@ -973,7 +975,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage({
       // load page with the dropdown template,
       // so they're available in the browser-evaluated fn below
-      html: wrappedDropdownTemplateHTML
+      html: wrappedDropdownTemplateHTML,
     });
     await page.waitForChanges();
 
@@ -1028,7 +1030,7 @@ describe("calcite-dropdown", () => {
             </calcite-dropdown-group>
           </calcite-dropdown>
         </calcite-tab>
-      </calcite-tabs>`
+      </calcite-tabs>`,
     });
     await page.waitForChanges();
 
@@ -1060,7 +1062,7 @@ describe("calcite-dropdown", () => {
           <calcite-pick-list-item label="calcite" description="calcite!"> </calcite-pick-list-item>
           <calcite-pick-list-item label="calcite" description="calcite"> </calcite-pick-list-item>
         </calcite-pick-list>
-      </calcite-panel>`
+      </calcite-panel>`,
     });
     await page.waitForChanges();
 
@@ -1091,7 +1093,7 @@ describe("calcite-dropdown", () => {
       `,
       "open",
       {
-        shadowSelector: ".calcite-dropdown-wrapper"
+        shadowSelector: ".calcite-dropdown-wrapper",
       }
     );
   });

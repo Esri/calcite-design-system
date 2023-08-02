@@ -8,7 +8,7 @@ import {
   Method,
   Prop,
   State,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { guid } from "../../utils/guid";
@@ -16,14 +16,14 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -31,7 +31,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { RatingMessages } from "./assets/rating/t9n";
@@ -42,7 +42,7 @@ import { Star } from "./interfaces";
   tag: "calcite-rating",
   styleUrl: "rating.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Rating
   implements
@@ -225,7 +225,7 @@ export class Rating
         idx: i,
         partial,
         selected,
-        value
+        value,
       };
     });
   }
@@ -269,7 +269,7 @@ export class Rating
                 idx,
                 partial,
                 selected,
-                value
+                value,
               }) => {
                 return (
                   <label
@@ -279,7 +279,7 @@ export class Rating
                       selected,
                       hovered,
                       average,
-                      partial
+                      partial,
                     }}
                     htmlFor={id}
                     onPointerDown={this.handleLabelPointerDown}
@@ -311,7 +311,7 @@ export class Rating
                       </div>
                     )}
                     <span class="visually-hidden">
-                      {this.messages.stars.replace("${num}", `${value}`)}
+                      {this.messages.stars.replace("{num}", `${value}`)}
                     </span>
                   </label>
                 );
@@ -445,7 +445,7 @@ export class Rating
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.inputFocusRef?.focus();
   }

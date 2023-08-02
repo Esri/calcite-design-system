@@ -1,4 +1,4 @@
 {
   "rating": "Ocena",
-  "stars": "Zvezde: ${num}"
+  "stars": "Zvezde: {num}"
 }

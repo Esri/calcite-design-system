@@ -7,9 +7,9 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Tiles/Tile",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

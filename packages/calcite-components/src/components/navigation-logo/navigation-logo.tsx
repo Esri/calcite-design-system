@@ -2,17 +2,17 @@ import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core"
 import { CSS } from "./resources";
 import {
   LoadableComponent,
-  componentLoaded,
+  componentFocusable,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-navigation-logo",
   styleUrl: "navigation-logo.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class CalciteNavigationLogo implements LoadableComponent {
   //--------------------------------------------------------------------------
@@ -69,7 +69,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     if (this.href) {
       this.el.focus();
     }
@@ -108,7 +108,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
                   aria-label={this.heading}
                   class={{
                     [CSS.heading]: true,
-                    [CSS.standalone]: !this.description
+                    [CSS.standalone]: !this.description,
                   }}
                   key={CSS.heading}
                 >

@@ -33,28 +33,28 @@ describe("calcite-tree-item", () => {
     defaults("calcite-tree-item", [
       {
         propertyName: "selected",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "expanded",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "parentExpanded",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "depth",
-        defaultValue: 0
+        defaultValue: 0,
       },
       {
         propertyName: "hasChildren",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "indeterminate",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -374,7 +374,7 @@ describe("calcite-tree-item", () => {
             </calcite-tree>
           </calcite-tree-item>
         </calcite-tree>
-    `
+    `,
     });
 
     await page.keyboard.press("Tab");
@@ -405,7 +405,7 @@ describe("calcite-tree-item", () => {
             </calcite-tree>
           </calcite-tree-item>
         </calcite-tree>
-    `
+    `,
     });
 
     await page.keyboard.press("Tab");

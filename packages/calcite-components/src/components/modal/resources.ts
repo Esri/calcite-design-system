@@ -8,7 +8,6 @@ export const CSS = {
   close: "close",
   secondary: "secondary",
   primary: "primary",
-  overflowHidden: "overflow-hidden",
   container: "container",
   containerOpen: "container--open",
   content: "content",
@@ -22,18 +21,18 @@ export const CSS = {
   openingIdle: "modal--opening-idle",
   openingActive: "modal--opening-active",
   closingIdle: "modal--closing-idle",
-  closingActive: "modal--closing-active"
+  closingActive: "modal--closing-active",
 };
 
 export const DURATIONS = {
   slow: 14000,
   medium: 10000,
   fast: 6000,
-  test: 300 / 1000
+  test: 300 / 1000,
 };
 
 export const ICONS = {
-  close: "x"
+  close: "x",
 };
 
 export const SLOTS = {
@@ -43,5 +42,5 @@ export const SLOTS = {
   header: "header",
   back: "back",
   secondary: "secondary",
-  primary: "primary"
+  primary: "primary",
 };

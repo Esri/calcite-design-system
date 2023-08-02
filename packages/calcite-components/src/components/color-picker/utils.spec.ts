@@ -6,7 +6,7 @@ import {
   isValidHex,
   normalizeHex,
   parseMode,
-  rgbToHex
+  rgbToHex,
 } from "./utils";
 import Color from "color";
 
@@ -52,7 +52,7 @@ describe("utils", () => {
       rgbToHex({
         r: 0,
         g: 255,
-        b: 0
+        b: 0,
       })
     ).toBe("#00ff00");
 
@@ -61,7 +61,7 @@ describe("utils", () => {
         r: 0,
         g: 255,
         b: 0,
-        a: 1
+        a: 1,
       })
     ).toBe("#00ff00ff");
   });

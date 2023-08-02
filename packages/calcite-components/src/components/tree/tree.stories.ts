@@ -159,10 +159,10 @@ export default {
   parameters: {
     notes: [readme, treeItemReadme],
     chromatic: {
-      delay: 1000
-    }
+      delay: 1000,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const selectionModes = ["single", "children", "multichildren", "ancestors", "none", "multiple"];
@@ -296,8 +296,8 @@ export const OverflowingSubtree = (): string =>
     <script>
       window.addEventListener("load", () => {
         setTimeout(() => {
-          const dorpdownTriggerEl = document.querySelector("calcite-button#trigger");
-          dorpdownTriggerEl.click();
+          const dropdownTriggerEl = document.querySelector("calcite-button#trigger");
+          dropdownTriggerEl.click();
         }, 1000);
       });
     </script>`;

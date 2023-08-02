@@ -12,46 +12,20 @@ import {
   shift,
   Side,
   Strategy,
-  VirtualElement
+  VirtualElement,
 } from "@floating-ui/dom";
 import { Build } from "@stencil/core";
 import { debounce, DebouncedFunc } from "lodash-es";
-import { config } from "./config";
 import { getElementDir } from "./dom";
 import { Layout } from "../components/interfaces";
-import { getUserAgentData, getUserAgentString } from "./browser";
+import { offsetParent } from "composed-offset-position";
 
-const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
-
-function isChrome109OrAbove(): boolean {
-  const uaData = getUserAgentData();
-
-  if (uaData?.brands) {
-    return !!uaData.brands.find(
-      ({ brand, version }) => (brand === "Google Chrome" || brand === "Chromium") && Number(version) >= 109
-    );
-  }
-
-  return !!navigator.userAgent.split(" ").find((ua) => {
-    const [browser, version] = ua.split("/");
-
-    return browser === "Chrome" && parseInt(version) >= 109;
-  });
-}
-
-async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
-  if (
-    Build.isBrowser &&
-    config.floatingUINonChromiumPositioningFix &&
-    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
-    (/firefox|safari/i.test(getUserAgentString()) || isChrome109OrAbove())
-  ) {
-    const { offsetParent } = await import("composed-offset-position");
-
+(function setUpFloatingUiForShadowDomPositioning(): void {
+  if (Build.isBrowser) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
-}
+})();
 
 /**
  * Positions the floating element relative to the reference element.
@@ -105,7 +79,7 @@ export const positionFloatingUI =
       offsetDistance,
       offsetSkidding,
       arrowEl,
-      type
+      type,
     }: {
       referenceEl: ReferenceElement;
       floatingEl: HTMLElement;
@@ -123,14 +97,12 @@ export const positionFloatingUI =
       return null;
     }
 
-    await floatingUIBrowserCheck;
-
     const {
       x,
       y,
       placement: effectivePlacement,
       strategy: position,
-      middlewareData
+      middlewareData,
     } = await computePosition(referenceEl, floatingEl, {
       strategy: overlayPositioning,
       placement:
@@ -144,8 +116,8 @@ export const positionFloatingUI =
         offsetDistance,
         offsetSkidding,
         arrowEl,
-        type
-      })
+        type,
+      }),
     });
 
     if (arrowEl && middlewareData.arrow) {
@@ -163,7 +135,7 @@ export const positionFloatingUI =
         ...reset,
         [alignment]: `${alignment == "left" ? x : y}px`,
         [side]: "100%",
-        transform
+        transform,
       });
     }
 
@@ -181,7 +153,7 @@ export const positionFloatingUI =
       position,
       top: "0",
       left: "0",
-      transform
+      transform,
     });
   };
 
@@ -236,7 +208,7 @@ export const placements = [
   "leading-end",
   "trailing-end",
   "trailing",
-  "trailing-start"
+  "trailing-start",
 ] as const;
 
 export type LogicalPlacement = (typeof placements)[number];
@@ -253,7 +225,7 @@ export const effectivePlacements: EffectivePlacement[] = [
   "right-start",
   "right-end",
   "left-start",
-  "left-end"
+  "left-end",
 ];
 
 export const menuPlacements: MenuPlacement[] = ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"];
@@ -264,7 +236,7 @@ export const menuEffectivePlacements: EffectivePlacement[] = [
   "top-end",
   "bottom-start",
   "bottom",
-  "bottom-end"
+  "bottom-end",
 ];
 
 export const flipPlacements: EffectivePlacement[] = [
@@ -279,7 +251,7 @@ export const flipPlacements: EffectivePlacement[] = [
   "right-start",
   "right-end",
   "left-start",
-  "left-end"
+  "left-end",
 ];
 
 export type MenuPlacement = Extract<
@@ -326,7 +298,7 @@ export interface FloatingUIComponent {
    *
    * Possible values: "vertical" or "horizontal".
    *
-   * See [FloatingArrow](https://github.com/Esri/calcite-components/blob/master/src/components/functional/FloatingArrow.tsx)
+   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/main/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
 }
@@ -335,7 +307,7 @@ export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
-  animationActive: "calcite-floating-ui-anim--active"
+  animationActive: "calcite-floating-ui-anim--active",
 };
 
 function getMiddleware({
@@ -345,7 +317,7 @@ function getMiddleware({
   offsetDistance,
   offsetSkidding,
   arrowEl,
-  type
+  type,
 }: {
   placement: LogicalPlacement;
   flipDisabled?: boolean;
@@ -361,8 +333,8 @@ function getMiddleware({
     return [
       ...defaultMiddleware,
       flip({
-        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
-      })
+        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"],
+      }),
     ];
   }
 
@@ -371,8 +343,8 @@ function getMiddleware({
       ...defaultMiddleware,
       offset({
         mainAxis: typeof offsetDistance === "number" ? offsetDistance : 0,
-        crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0
-      })
+        crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0,
+      }),
     ];
 
     if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
@@ -386,7 +358,7 @@ function getMiddleware({
     if (arrowEl) {
       middleware.push(
         arrow({
-          element: arrowEl
+          element: arrowEl,
         })
       );
     }
@@ -467,7 +439,7 @@ function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<t
 
   debounced = debounce(positionFloatingUI, repositionDebounceTimeout, {
     leading: true,
-    maxWait: repositionDebounceTimeout
+    maxWait: repositionDebounceTimeout,
   });
 
   componentToDebouncedRepositionMap.set(component, debounced);
@@ -479,7 +451,7 @@ const ARROW_CSS_TRANSFORM = {
   top: "",
   left: "rotate(-90deg)",
   bottom: "rotate(180deg)",
-  right: "rotate(90deg)"
+  right: "rotate(90deg)",
 };
 
 /**
@@ -516,7 +488,7 @@ export function connectFloatingUI(
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
     position: component.overlayPositioning,
     top: "0",
-    left: "0"
+    left: "0",
   });
 
   const runAutoUpdate = Build.isBrowser

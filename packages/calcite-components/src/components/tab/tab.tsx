@@ -9,7 +9,7 @@ import {
   Method,
   Prop,
   State,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
@@ -22,7 +22,7 @@ import { TabChangeEventDetail } from "./interfaces";
 @Component({
   tag: "calcite-tab",
   styleUrl: "tab.scss",
-  shadow: true
+  shadow: true,
 })
 export class Tab {
   //--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ export class Tab {
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabUnregister", {
-        detail: this.el
+        detail: this.el,
       })
     );
   }

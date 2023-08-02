@@ -9,25 +9,25 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
@@ -35,7 +35,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ICON_TYPES } from "../pick-list/resources";
 import { PickListItemMessages } from "./assets/pick-list-item/t9n";
@@ -50,7 +50,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class PickListItem
   implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent, T9nComponent
@@ -89,7 +89,7 @@ export class PickListItem
   /**
    * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
    *
-   * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
+   * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
 
@@ -152,7 +152,7 @@ export class PickListItem
       item: this.el,
       value: this.value,
       selected: this.selected,
-      shiftPressed: this.shiftPressed
+      shiftPressed: this.shiftPressed,
     });
 
     this.shiftPressed = false;
@@ -280,7 +280,7 @@ export class PickListItem
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.focusEl?.focus();
   }
@@ -331,7 +331,7 @@ export class PickListItem
       <span
         class={{
           [CSS.icon]: true,
-          [CSS.iconDot]: icon === ICON_TYPES.circle
+          [CSS.iconDot]: icon === ICON_TYPES.circle,
         }}
         onClick={this.pickListClickHandler}
       >

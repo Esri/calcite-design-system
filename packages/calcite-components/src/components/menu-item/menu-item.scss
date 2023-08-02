@@ -1,7 +1,7 @@
 :host {
   @apply flex
-  items-center 
-  relative 
+  items-center
+  relative
   box-border;
   flex-shrink: 0;
   & .container,
@@ -29,14 +29,14 @@
   items-center
   relative
   justify-center
-  cursor-pointer 
+  cursor-pointer
   outline-none
   text-0
-  text-color-2 
-  box-border 
+  text-color-2
+  box-border
   bg-foreground-1
-  px-4 
-  h-full 
+  px-4
+  h-full
   w-full;
   text-decoration: none;
   border-block-end: theme("spacing[0.5]") solid transparent;
@@ -68,6 +68,9 @@
     --calcite-ui-icon-color: var(--calcite-ui-brand);
   }
 }
+:host([layout="vertical"]) .content {
+  @apply px-3;
+}
 
 .icon--start {
   @apply me-3;
@@ -77,18 +80,45 @@
   @apply ms-3;
 }
 
+:host([layout="vertical"]) .icon--end {
+  @apply ms-auto ps-3;
+}
+
 .icon--dropdown {
   @apply ms-auto me-0 ps-2 relative;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
 }
 
-:host([layout="vertical"]) .icon--dropdown {
-  inset-inline-start: theme("spacing.1");
+:host([layout="vertical"]) .icon--end ~ .icon--dropdown {
+  @apply ms-3;
+}
+
+:host([layout="vertical"]) .hover-href-icon {
+  @apply ps-2;
+}
+:host([layout="vertical"]) .hover-href-icon ~ .icon--end {
+  @apply ms-2;
+}
+
+:host([layout="vertical"]) .hover-href-icon ~ .icon--breadcrumb {
+  @apply ms-3;
 }
 
 .icon--breadcrumb {
   @apply ps-2 me-0;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
+}
+
+:host([layout="vertical"]) .icon--breadcrumb {
+  @apply ms-auto;
+}
+
+:host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
+  @apply ms-2;
+}
+
+:host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
+  @apply ms-2;
 }
 
 :host([breadcrumb]) .content {
@@ -150,8 +180,12 @@ calcite-action {
   }
 }
 
+:host([layout="vertical"]:last-of-type) .dropdown-menu-items {
+  border-block-end: 0;
+}
+
 :host([slot="submenu-item"]) .parent--vertical {
-  padding-inline-start: theme("spacing.7");
+  @apply ps-6;
 }
 
 .dropdown-menu-items.nested.calcite--rtl {
@@ -163,7 +197,7 @@ calcite-action {
 }
 
 .hover-href-icon {
-  @apply ps-8 ms-auto relative end-1 opacity-0;
+  @apply ms-auto relative end-1 opacity-0;
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
 }
 
@@ -171,3 +205,5 @@ calcite-action {
 .content:hover .hover-href-icon {
   @apply opacity-100 -end-1;
 }
+
+@include base-component();

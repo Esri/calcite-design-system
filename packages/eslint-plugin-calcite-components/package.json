@@ -1,13 +1,13 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "0.2.2",
+  "version": "0.2.3-next.1",
   "description": "ESLint rules for @esri/calcite-components",
   "main": "dist/index.js",
   "files": [
     "dist/index.js"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
     "test": "jest"
   },
   "dependencies": {

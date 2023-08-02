@@ -10,8 +10,8 @@
     <script>
       const dojoConfig = {
         has: {
-          "esri-layerlist-new-ui": 1
-        }
+          "esri-layerlist-new-ui": 1,
+        },
       };
     </script>
     <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
@@ -44,19 +44,19 @@
       ) {
         const webmap = new WebMap({
           portalItem: {
-            id: "cc316ca9e0824970ad29ac558161d42d"
-          }
+            id: "cc316ca9e0824970ad29ac558161d42d",
+          },
         });
 
         const view = new MapView({
           container: "viewDiv",
-          map: webmap
+          map: webmap,
         });
         view.when(function () {
           const layerList = new LayerList({
             view: view,
             selectionEnabled: true,
-            container: "layerlist-container"
+            container: "layerlist-container",
           });
 
           view.ui.move("zoom", "bottom-right");

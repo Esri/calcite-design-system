@@ -9,7 +9,7 @@ import {
   Method,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { ItemKeyboardEvent } from "./interfaces";
 
@@ -17,7 +17,7 @@ import {
   focusElement,
   focusElementInGroup,
   isPrimaryPointerButton,
-  toAriaBoolean
+  toAriaBoolean,
 } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -29,28 +29,24 @@ import {
   FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  reposition
+  reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
@@ -63,8 +59,8 @@ import { SLOTS } from "./resources";
   tag: "calcite-dropdown",
   styleUrl: "dropdown.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class Dropdown
   implements InteractiveComponent, LoadableComponent, OpenCloseComponent, FloatingUIComponent
@@ -94,6 +90,7 @@ export class Dropdown
       if (value) {
         this.reposition(true);
       }
+      onToggleOpenCloseComponent(this);
       return;
     }
 
@@ -200,7 +197,7 @@ export class Dropdown
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 
@@ -216,9 +213,9 @@ export class Dropdown
     this.reposition(true);
     if (this.open) {
       this.openHandler(this.open);
+      onToggleOpenCloseComponent(this);
     }
     connectInteractive(this);
-    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
@@ -239,7 +236,6 @@ export class Dropdown
     this.resizeObserver?.disconnect();
     disconnectInteractive(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {
@@ -273,7 +269,7 @@ export class Dropdown
             class={{
               ["calcite-dropdown-content"]: true,
               [FloatingCSS.animation]: true,
-              [FloatingCSS.animationActive]: open
+              [FloatingCSS.animationActive]: open,
             }}
             id={`${guid}-menu`}
             role="menu"
@@ -310,7 +306,7 @@ export class Dropdown
         overlayPositioning,
         placement,
         flipPlacements: filteredFlipPlacements,
-        type: "menu"
+        type: "menu",
       },
       delayed
     );
@@ -469,7 +465,7 @@ export class Dropdown
 
   slotChangeHandler = (event: Event): void => {
     this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     });
 
     this.updateItems();
@@ -485,7 +481,7 @@ export class Dropdown
 
   updateTriggers = (event: Event): void => {
     this.triggers = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
+      flatten: true,
     }) as HTMLElement[];
 
     this.reposition(true);
@@ -550,7 +546,6 @@ export class Dropdown
     this.scrollerEl = el;
 
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   onBeforeOpen(): void {

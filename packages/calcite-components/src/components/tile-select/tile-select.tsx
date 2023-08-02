@@ -9,20 +9,20 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
@@ -34,7 +34,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-tile-select",
   styleUrl: "tile-select.scss",
-  shadow: true
+  shadow: true,
 })
 export class TileSelect implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
@@ -147,9 +147,9 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
-    this.input?.setFocus();
+    return this.input?.setFocus();
   }
 
   //--------------------------------------------------------------------------
@@ -312,7 +312,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
       inputAlignment,
       inputEnabled,
       width,
-      iconFlipRtl
+      iconFlipRtl,
     } = this;
     return (
       <div
@@ -332,7 +332,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
           [CSS.inputEnabled]: inputEnabled,
           [CSS.largeVisual]: heading && icon && !description,
           [CSS.widthAuto]: width === "auto",
-          [CSS.widthFull]: width === "full"
+          [CSS.widthFull]: width === "full",
         }}
       >
         <calcite-tile

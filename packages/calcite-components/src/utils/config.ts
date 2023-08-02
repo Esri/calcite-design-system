@@ -1,21 +1,20 @@
 /**
- * This module helps users provide custom configuration for component internals.
- *
- * @internal
+ * This module allows custom configuration for components.
  */
 
-const configOverrides = globalThis["calciteComponentsConfig"];
+import { FocusTrap } from "./focusTrapComponent";
 
-const config = {
+export interface CalciteConfig {
   /**
-   * We apply a custom fix to improve positioning for non-Chromium browsers.
-   * The fix comes at a performance cost, so provides users a way to opt-out if necessary.
+   * Defines the global trap stack to use for focus-trapping components.
    *
-   * @internal
+   * This is useful if your application uses its own instance of `focus-trap` and both need to be aware of each other.
+   *
+   * @see https://github.com/focus-trap/focus-trap#createoptions
    */
-  floatingUINonChromiumPositioningFix: true,
+  focusTrapStack: FocusTrap[];
+}
 
-  ...configOverrides
-};
+const customConfig: CalciteConfig = globalThis["calciteConfig"];
 
-export { config };
+export const focusTrapStack: FocusTrap[] = customConfig?.focusTrapStack || [];

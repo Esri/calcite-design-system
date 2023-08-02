@@ -1,10 +1,10 @@
 export const CSS = {
   container: "container",
-  handle: "handle"
+  handle: "handle",
 };
 export enum ICON_TYPES {
-  grip = "grip"
+  grip = "grip",
 }
 export const TEXT = {
-  filterResults: "Filter results"
+  filterResults: "Filter results",
 };

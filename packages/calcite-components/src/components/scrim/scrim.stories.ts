@@ -6,9 +6,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Scrim",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

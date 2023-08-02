@@ -8,12 +8,12 @@ import {
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
@@ -21,13 +21,13 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { ICON_TYPES } from "../pick-list/resources";
@@ -42,7 +42,7 @@ import { ICONS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "value-list-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class ValueListItem
   implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
@@ -81,7 +81,7 @@ export class ValueListItem
   /**
    * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
    *
-   * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
+   * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
@@ -175,9 +175,9 @@ export class ValueListItem
   /** Set focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
-    this.pickListItem?.setFocus();
+    return this.pickListItem?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -268,7 +268,7 @@ export class ValueListItem
         <span
           class={{
             [CSS.handle]: true,
-            [CSS.handleActivated]: this.handleActivated
+            [CSS.handleActivated]: this.handleActivated,
           }}
           data-js-handle
           onBlur={this.handleBlur}

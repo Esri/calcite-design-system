@@ -42,7 +42,7 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
   const componentTag = getTag(componentTagOrHTML);
   const page = await newE2EPage({
     html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
-    failOnConsoleError: true
+    failOnConsoleError: true,
   });
   await page.waitForChanges();
 
@@ -84,10 +84,8 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
- * @param {string} employee.visible - is the component visible
- * @param {string} employee.display - is the component's display "inline"
- * @param options.visible
- * @param options.display
+ * @param {string} options.visible - is the component visible
+ * @param {string} options.display - is the component's display "inline"
  */
 export async function renders(
   componentTagOrHTML: TagOrHTML,
@@ -129,7 +127,7 @@ export async function renders(
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
- * @param {any} propsToTest.value - the property value
+ * @param {any} propsToTest.value - the property value (if boolean, needs to be `true` to ensure reflection)
  */
 export function reflects(
   componentTagOrHTML: TagOrHTML,
@@ -293,7 +291,7 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
     }
 
     // wait for next frame before checking focus
-    await page.waitForTimeout(0);
+    await page.waitForChanges();
 
     expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
       true
@@ -378,7 +376,7 @@ async function assertLabelable({
   componentTag,
   propertyToToggle,
   focusTargetSelector = componentTag,
-  shadowFocusTargetSelector
+  shadowFocusTargetSelector,
 }: {
   page: E2EPage;
   componentTag: string;
@@ -472,7 +470,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -489,7 +487,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -510,7 +508,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -532,7 +530,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -551,7 +549,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -573,7 +571,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 }
@@ -595,9 +593,14 @@ interface FormAssociatedOptions {
   inputType?: HTMLInputElement["type"];
 
   /**
-   * Specifies if the component supports submitting the form on Enter key press
+   * Specifies if the component supports submitting the form on Enter key press.
    */
   submitsOnEnter?: boolean;
+
+  /**
+   * Specifies if the component supports clearing its value (i.e., setting to null).
+   */
+  clearable?: boolean;
 }
 
 /**
@@ -627,7 +630,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
           this should cover button and calcite-button submit cases
           -->
         <input id="submitter" type="submit" />
-      </form>`
+      </form>`,
     });
     await page.waitForChanges();
     const component = await page.find(componentTag);
@@ -655,7 +658,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
         keeping things simple by using submit-type input
         this should cover button and calcite-button submit cases
         -->
-        <input id="submitter" form="test-form" type="submit" />`
+        <input id="submitter" form="test-form" type="submit" />`,
     });
     await page.waitForChanges();
     const component = await page.find(componentTag);
@@ -761,21 +764,23 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
       await page.waitForChanges();
       expect(await submitAndGetValue()).toBe(null);
     } else {
-      component.setProperty("required", true);
-      component.setProperty("value", null);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toBe(
-        options.inputType === "color"
-          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
-            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
-            "#000000"
-          : undefined
-      );
+      if (options.clearable) {
+        component.setProperty("required", true);
+        component.setProperty("value", null);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(
+          options.inputType === "color"
+            ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+              // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+              "#000"
+            : undefined
+        );
 
-      component.setProperty("required", false);
-      component.setProperty("value", options.testValue);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+        component.setProperty("required", false);
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+      }
 
       component.setProperty("disabled", true);
       await page.waitForChanges();
@@ -886,7 +891,14 @@ interface DisabledOptions {
   /**
    *  Use this to specify whether the test should cover focusing.
    */
-  focusTarget: FocusTarget | TabAndClickTargets;
+  focusTarget?: FocusTarget | TabAndClickTargets;
+
+  /**
+   *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
+   *
+   *  Note: this should only be used for components that wrap a single component that implements disabled behavior.
+   */
+  shadowAriaAttributeTargetSelector?: string;
 }
 
 type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
@@ -918,12 +930,11 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
- * @param {DisabledOptions} [options={ focusTarget: "host" }] - Disabled options.
+ * @param {DisabledOptions} [options] - Disabled options.
  */
-export function disabled(
-  componentTestSetup: ComponentTestSetup,
-  options: DisabledOptions = { focusTarget: "host" }
-): void {
+export function disabled(componentTestSetup: ComponentTestSetup, options?: DisabledOptions): void {
+  options = { focusTarget: "host", ...options };
+
   const addRedirectPrevention = async (page: E2EPage, tag: string): Promise<void> => {
     await page.$eval(tag, (el) => {
       el.addEventListener(
@@ -999,12 +1010,15 @@ export function disabled(
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
+    const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
+      ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
+      : component;
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
-    expect(component.getAttribute("aria-disabled")).toBeNull();
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBeNull();
 
     if (options.focusTarget === "none") {
       await page.click(tag);
@@ -1016,7 +1030,7 @@ export function disabled(
       component.setProperty("disabled", true);
       await page.waitForChanges();
 
-      expect(component.getAttribute("aria-disabled")).toBe("true");
+      expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
       await page.click(tag);
       await page.waitForChanges();
@@ -1074,7 +1088,7 @@ export function disabled(
     component.setProperty("disabled", true);
     await page.waitForChanges();
 
-    expect(component.getAttribute("aria-disabled")).toBe("true");
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await resetFocusOrder();
     await page.keyboard.press("Tab");
@@ -1098,6 +1112,10 @@ export function disabled(
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
+    const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
+      ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
+      : component;
+
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
@@ -1106,7 +1124,7 @@ export function disabled(
     component.setProperty("disabled", true);
     await page.waitForChanges();
 
-    expect(component.getAttribute("aria-disabled")).toBe("true");
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
     await page.waitForChanges();
@@ -1155,10 +1173,10 @@ export function disabled(
  *  )
  * });
  *
- * @param componentTagOrHTML - The component tag or HTML markup to test against.
- * @param togglePropName - The component property that toggles the floating-ui.
- * @param options - The floating-ui owner test configuration.
- * @param options.shadowSelector
+ * @param {TagOrHTML} componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param {string} togglePropName - The component property that toggles the floating-ui.
+ * @param [options] - additional options for asserting focus
+ * @param {string} [options.shadowSelector] - The selector in the shadow DOM for the floating-ui element.
  */
 export function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
@@ -1178,7 +1196,7 @@ export function floatingUIOwner(
       content: `body {
       height: ${scrollablePageSizeInPx}px;
       width: ${scrollablePageSizeInPx}px;
-    }`
+    }`,
     });
     await page.waitForChanges();
 
@@ -1281,7 +1299,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
     expect(await getCurrentMessages()).toEqual({
       ...messages,
-      ...messageOverride
+      ...messageOverride,
     });
 
     // reset test changes
@@ -1300,7 +1318,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
             const fakeEsMessages = {
               ...enMessages, // reuse real message bundle in case component rendering depends on strings
 
-              [fakeBundleIdentifier]: true // we inject a fake identifier for assertion-purposes
+              [fakeBundleIdentifier]: true, // we inject a fake identifier for assertion-purposes
             };
             window.fetch = orig;
             return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));

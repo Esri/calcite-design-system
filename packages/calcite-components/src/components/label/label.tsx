@@ -9,7 +9,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-label",
   styleUrl: "label.scss",
-  shadow: true
+  shadow: true,
 })
 export class Label {
   //--------------------------------------------------------------------------
@@ -59,7 +59,7 @@ export class Label {
 
   labelClickHandler = (event: MouseEvent): void => {
     this.calciteInternalLabelClick.emit({
-      sourceEvent: event
+      sourceEvent: event,
     });
   };
 

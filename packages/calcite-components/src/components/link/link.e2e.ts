@@ -14,8 +14,8 @@ describe("calcite-link", () => {
     defaults("calcite-link", [
       {
         propertyName: "download",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -211,7 +211,7 @@ describe("calcite-link", () => {
 
     beforeEach(async () => {
       page = await newE2EPage({
-        html: `<calcite-link href="/${targetPage}">link</calcite-link>`
+        html: `<calcite-link href="/${targetPage}">link</calcite-link>`,
       });
 
       pageUrl = page.url();
@@ -221,6 +221,7 @@ describe("calcite-link", () => {
     it("keyboard", async () => {
       const element = await page.find("calcite-link");
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
@@ -288,7 +289,7 @@ describe("calcite-link", () => {
     describe("when mode attribute is dark", () => {
       it("should render link background with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<article class="calcite-mode-dark">${linkHtml}</article>`
+          html: `<article class="calcite-mode-dark">${linkHtml}</article>`,
         });
         link = await page.find("calcite-link >>> a");
         linkStyles = await link.getComputedStyle();
@@ -309,7 +310,7 @@ describe("calcite-link", () => {
           }
         </style>
         ${linkHtml}
-        `
+        `,
       });
       link = await page.find("calcite-link >>> a");
       linkStyles = await link.getComputedStyle();

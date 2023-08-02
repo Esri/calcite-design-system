@@ -10,7 +10,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   connectFloatingUI,
@@ -24,7 +24,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition
+  reposition,
 } from "../../utils/floating-ui";
 import {
   activateFocusTrap,
@@ -32,17 +32,13 @@ import {
   deactivateFocusTrap,
   FocusTrap,
   FocusTrapComponent,
-  updateFocusTrapElements
+  updateFocusTrapElements,
 } from "../../utils/focusTrapComponent";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
 
 import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 
@@ -52,16 +48,16 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { PopoverMessages } from "./assets/popover/t9n";
 import PopoverManager from "./PopoverManager";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
@@ -75,7 +71,7 @@ const manager = new PopoverManager();
   tag: "calcite-popover",
   styleUrl: "popover.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Popover
   implements
@@ -111,7 +107,7 @@ export class Popover
   @Prop({ reflect: true }) focusTrapDisabled = false;
 
   @Watch("focusTrapDisabled")
-  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
+  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
     }
@@ -196,6 +192,8 @@ export class Popover
 
   @Watch("open")
   openHandler(value: boolean): void {
+    onToggleOpenCloseComponent(this);
+
     if (value) {
       this.reposition(true);
     }
@@ -300,9 +298,11 @@ export class Popover
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    connectOpenCloseComponent(this);
     this.setUpReferenceElement(this.hasLoaded);
     connectFocusTrap(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -324,7 +324,6 @@ export class Popover
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
-    disconnectOpenCloseComponent(this);
     deactivateFocusTrap(this);
   }
 
@@ -368,7 +367,7 @@ export class Popover
       filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
-      arrowEl
+      arrowEl,
     } = this;
     return reposition(
       this,
@@ -382,7 +381,7 @@ export class Popover
         offsetDistance,
         offsetSkidding,
         arrowEl,
-        type: "popover"
+        type: "popover",
       },
       delayed
     );
@@ -393,7 +392,7 @@ export class Popover
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     forceUpdate(this.el);
     focusFirstTabbable(this.el);
   }
@@ -414,7 +413,6 @@ export class Popover
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   setFilteredPlacements = (): void => {
@@ -433,7 +431,7 @@ export class Popover
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el
+        el,
       });
     }
 
@@ -592,7 +590,7 @@ export class Popover
         <div
           class={{
             [FloatingCSS.animation]: true,
-            [FloatingCSS.animationActive]: displayed
+            [FloatingCSS.animationActive]: displayed,
           }}
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
@@ -601,7 +599,7 @@ export class Popover
           <div
             class={{
               [CSS.hasHeader]: !!heading,
-              [CSS.container]: true
+              [CSS.container]: true,
             }}
           >
             {this.renderHeader()}

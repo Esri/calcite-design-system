@@ -7,24 +7,18 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import {
-  closestElementCrossShadowBoundary,
-  getElementDir,
-  getElementProp,
-  getSlotted,
-  toAriaBoolean
-} from "../../utils/dom";
+import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
-import { FlipContext, Position, Scale } from "../interfaces";
-import { RegistryEntry, RequestedItem } from "./interfaces";
+import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
+import { RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -34,7 +28,7 @@ import { RegistryEntry, RequestedItem } from "./interfaces";
 @Component({
   tag: "calcite-accordion-item",
   styleUrl: "accordion-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
@@ -69,6 +63,40 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
+  /**
+   * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop() iconPosition: Position;
+
+  /** Specifies the type of the icon in the header inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop() iconType: "chevron" | "caret" | "plus-minus";
+
+  /**
+   * The containing `accordion` element.
+   *
+   * @internal
+   */
+  @Prop() accordionParent: HTMLCalciteAccordionElement;
+
+  /**
+   * Specifies the `selectionMode` of the component inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop() selectionMode: Extract<"single" | "single-persist" | "multiple", SelectionMode>;
+
+  /**
+   * Specifies the size of the component inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop() scale: Scale;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -85,11 +113,6 @@ export class AccordionItem implements ConditionalSlotComponent {
    */
   @Event({ cancelable: false }) calciteInternalAccordionItemClose: EventEmitter<void>;
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -97,20 +120,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
-    this.iconType = getElementProp(this.el, "icon-type", "chevron");
-    this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
-    this.scale = getElementProp(this.el, "scale", this.scale);
-
     connectConditionalSlotComponent(this);
-  }
-
-  componentDidLoad(): void {
-    this.itemPosition = this.getItemPosition();
-    this.calciteInternalAccordionItemRegister.emit({
-      parent: this.parent,
-      position: this.itemPosition
-    });
   }
 
   disconnectedCallback(): void {
@@ -168,7 +178,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         <div
           class={{
             [`icon-position--${this.iconPosition}`]: true,
-            [`icon-type--${this.iconType}`]: true
+            [`icon-type--${this.iconType}`]: true,
           }}
         >
           <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
@@ -248,29 +258,11 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** the containing accordion element */
-  private parent: HTMLCalciteAccordionElement;
-
-  /** position within parent */
-  private itemPosition: number;
-
   /** the latest requested item */
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
 
-  /** what selection mode is the parent accordion in */
-  private selectionMode: string;
-
-  /** what icon position does the parent accordion specify */
-  private iconPosition: Position = "end";
-
-  /** what icon type does the parent accordion specify */
-  private iconType: string;
-
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
-
-  /** Specifies the scale of the `accordion-item` controlled by the parent, defaults to m */
-  scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -279,7 +271,6 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   private determineActiveItem(): void {
-    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     switch (this.selectionMode) {
       case "multiple":
         if (this.el === this.requestedAccordionItem) {
@@ -299,17 +290,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   private emitRequestedItem(): void {
     this.calciteInternalAccordionItemSelect.emit({
-      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
+      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement,
     });
-  }
-
-  private getItemPosition(): number {
-    const { el } = this;
-
-    const items = closestElementCrossShadowBoundary(el, "calcite-accordion")?.querySelectorAll(
-      "calcite-accordion-item"
-    );
-
-    return items ? Array.from(items).indexOf(el) : -1;
   }
 }

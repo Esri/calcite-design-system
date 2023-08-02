@@ -8,7 +8,7 @@
 
     const nextChangelogSectionPattern = /##\s\[?\d+\.\d+\.\d+-next\.\d+(.*?)\n(?=##\s)/gs;
 
-    const changedFiles = (await exec("git diff --name-only origin/master")).stdout.trim();
+    const changedFiles = (await exec("git diff --name-only origin/main")).stdout.trim();
     const changelogs = changedFiles.split("\n").filter((file: string) => file.match("CHANGELOG.md"));
 
     changelogs.forEach(async (changelog: string) => {

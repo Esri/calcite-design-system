@@ -5,7 +5,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ScrimMessages } from "./assets/scrim/t9n";
 import { CSS, BREAKPOINTS } from "./resources";
@@ -19,7 +19,7 @@ import { Scale } from "../interfaces";
   tag: "calcite-scrim",
   styleUrl: "scrim.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
@@ -84,6 +84,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    this.resizeObserver?.observe(this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -93,6 +94,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------

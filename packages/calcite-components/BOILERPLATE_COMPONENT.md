@@ -14,7 +14,7 @@ import { CSS, TEXT } from "./resources";
 @Component({
   tag: "calcite-example",
   styleUrl: "example.scss",
-  shadow: true
+  shadow: true,
 })
 export class Example {
   // --------------------------------------------------------------------------
@@ -130,11 +130,11 @@ Resources defined in `/src/my-component/resources.ts`.
 
 ```ts
 export const TEXT = {
-  myString: "i18n string prop start with 'text'"
+  myString: "i18n string prop start with 'text'",
 };
 
 export const CSS = {
-  foo: "foo"
+  foo: "foo",
 };
 ```
 

@@ -5,7 +5,7 @@ import { Scale } from "../interfaces";
 @Component({
   tag: "calcite-loader",
   styleUrl: "loader.scss",
-  shadow: true
+  shadow: true,
 })
 export class Loader {
   //--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ export class Loader {
       "aria-valuenow": valueNow,
       "aria-valuemin": 0,
       "aria-valuemax": 100,
-      complete: valueNow === 100
+      complete: valueNow === 100,
     };
     const svgAttributes = { r: radius, cx: size / 2, cy: size / 2 };
     const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
@@ -117,7 +117,7 @@ export class Loader {
     return {
       s: 32,
       m: 56,
-      l: 80
+      l: 80,
     }[scale];
   }
 
@@ -125,7 +125,7 @@ export class Loader {
     return {
       s: 12,
       m: 16,
-      l: 20
+      l: 20,
     }[scale];
   }
 }

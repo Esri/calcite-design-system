@@ -11,9 +11,9 @@ import readme1 from "./readme.md";
 export default {
   title: "Components/Tabs",
   parameters: {
-    notes: [readme1, readme2, readme3, readme4]
+    notes: [readme1, readme2, readme3, readme4],
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simpleDarkModeRTL_TestOnly = (): string => html`
@@ -149,7 +149,7 @@ export const setWidth = (): string => html`
     <calcite-tab><p>Tab 2 Content</p>
     <img src="${placeholderImage({
       width: 1000,
-      height: 200
+      height: 200,
     })}"></img>
     </calcite-tab>
     <calcite-tab><p>Tab 3 Content</p></calcite-tab>
@@ -274,5 +274,5 @@ export const TabChildrenWithPercentageHeights = (): string => html`
   </calcite-tabs>
 `;
 TabChildrenWithPercentageHeights.parameters = {
-  chromatic: { delay: 1000 }
+  chromatic: { delay: 1000 },
 };

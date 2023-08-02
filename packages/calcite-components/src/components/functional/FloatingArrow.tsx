@@ -8,13 +8,13 @@ interface FloatingArrowProps extends JSXAttributes {
 
 const CSS = {
   arrow: "calcite-floating-ui-arrow",
-  arrowStroke: "calcite-floating-ui-arrow__stroke"
+  arrowStroke: "calcite-floating-ui-arrow__stroke",
 };
 
 const DEFAULTS = {
   width: 12,
   height: 6,
-  strokeWidth: 1
+  strokeWidth: 1,
 };
 
 /**
@@ -25,14 +25,14 @@ const DEFAULTS = {
  * @param floatingLayout.floatingLayout
  * @param floatingLayout – The effective floating layout to render the arrow vertically or horizontally. Possible values: `vertical` or `horizontal`.
  *
- * See [floating-ui](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts)
+ * See [floating-ui](https://github.com/Esri/calcite-design-system/blob/main/src/utils/floating-ui.ts)
  * @param floatingLayout.key
  * @param floatingLayout.ref
  */
 export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
   floatingLayout,
   key,
-  ref
+  ref,
 }) => {
   const { width, height, strokeWidth } = DEFAULTS;
   const svgX = width / 2;

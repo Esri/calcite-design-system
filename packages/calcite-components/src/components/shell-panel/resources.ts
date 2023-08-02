@@ -5,10 +5,10 @@ export const CSS = {
   contentBody: "content__body",
   contentFloat: "content--float",
   contentOverlay: "content--overlay",
-  separator: "separator"
+  separator: "separator",
 };
 
 export const SLOTS = {
   actionBar: "action-bar",
-  header: "header"
+  header: "header",
 };

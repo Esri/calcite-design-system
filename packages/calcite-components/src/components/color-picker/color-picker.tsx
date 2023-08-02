@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 
 import Color from "color";
@@ -24,7 +24,8 @@ import {
   DIMENSIONS,
   HSV_LIMITS,
   OPACITY_LIMITS,
-  RGB_LIMITS
+  RGB_LIMITS,
+  SCOPE_SIZE,
 } from "./resources";
 import {
   alphaCompatible,
@@ -40,27 +41,27 @@ import {
   parseMode,
   SupportedMode,
   toAlphaMode,
-  toNonAlphaMode
+  toNonAlphaMode,
 } from "./utils";
 
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  NumberingSystem
+  NumberingSystem,
 } from "../../utils/locale";
 import { clamp } from "../../utils/math";
 import {
@@ -68,7 +69,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ColorPickerMessages } from "./assets/color-picker/t9n";
 
@@ -78,9 +79,9 @@ const throttleFor60FpsInMs = 16;
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ColorPicker
   implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -219,7 +220,7 @@ export class ColorPicker
    *
    * @default "#007ac2"
    * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-   * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel)
@@ -382,7 +383,7 @@ export class ColorPicker
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
       ArrowDown: { x: 0, y: 10 },
-      ArrowLeft: { x: -10, y: 0 }
+      ArrowLeft: { x: -10, y: 0 },
     };
 
     if (arrowKeyToXYOffset[key]) {
@@ -403,7 +404,7 @@ export class ColorPicker
       ArrowUp: 1,
       ArrowRight: 1,
       ArrowDown: -1,
-      ArrowLeft: -1
+      ArrowLeft: -1,
     };
 
     if (arrowKeyToXOffset[key]) {
@@ -439,7 +440,7 @@ export class ColorPicker
   };
 
   private handleChannelInput = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputElement;
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const isAlphaChannel = channelIndex === 3;
 
@@ -462,10 +463,6 @@ export class ColorPicker
     }
 
     input.value = inputValue;
-
-    // TODO: refactor calcite-input so we don't need to sync the internals
-    // https://github.com/Esri/calcite-components/issues/6100
-    input.internalSyncChildElValue();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -503,7 +500,7 @@ export class ColorPicker
   }
 
   private handleChannelChange = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputElement;
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
@@ -541,7 +538,7 @@ export class ColorPicker
 
     this.activeCanvasInfo = {
       context: this.colorFieldRenderingContext,
-      bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect()
+      bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect(),
     };
     this.captureColorFieldColor(offsetX, offsetY);
     this.colorFieldScopeNode.focus();
@@ -559,7 +556,7 @@ export class ColorPicker
 
     this.activeCanvasInfo = {
       context: this.hueSliderRenderingContext,
-      bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect()
+      bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect(),
     };
     this.captureHueSliderColor(offsetX);
     this.hueScopeNode.focus();
@@ -577,7 +574,7 @@ export class ColorPicker
 
     this.activeCanvasInfo = {
       context: this.opacitySliderRenderingContext,
-      bounds: this.opacitySliderRenderingContext.canvas.getBoundingClientRect()
+      bounds: this.opacitySliderRenderingContext.canvas.getBoundingClientRect(),
     };
     this.captureOpacitySliderValue(offsetX);
     this.opacityScopeNode.focus();
@@ -652,7 +649,7 @@ export class ColorPicker
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 
@@ -727,9 +724,8 @@ export class ColorPicker
       colorFieldScopeLeft,
       colorFieldScopeTop,
       dimensions: {
-        colorField: { width: colorFieldWidth },
         slider: { width: sliderWidth },
-        thumb: { radius: thumbRadius }
+        thumb: { radius: thumbRadius },
       },
       hexDisabled,
       hideChannels,
@@ -742,7 +738,7 @@ export class ColorPicker
       savedColors,
       savedDisabled,
       scale,
-      scopeOrientation
+      scopeOrientation,
     } = this;
     const selectedColorInHex = color ? hexify(color, alphaChannel) : null;
     const hueTop = thumbRadius;
@@ -750,12 +746,24 @@ export class ColorPicker
     const opacityTop = thumbRadius;
     const opacityLeft =
       opacityScopeLeft ??
-      (colorFieldWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
+      (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
     const noHex = hexDisabled || hideHex;
     const noChannels = channelsDisabled || hideChannels;
     const noSaved = savedDisabled || hideSaved;
+    const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
+      colorFieldScopeLeft,
+      colorFieldScopeTop
+    );
+    const [adjustedHueScopeLeft, adjustedHueScopeTop] = this.getAdjustedScopePosition(
+      hueLeft,
+      hueTop
+    );
+    const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = this.getAdjustedScopePosition(
+      opacityLeft,
+      opacityTop
+    );
 
     return (
       <div class={CSS.container}>
@@ -774,7 +782,10 @@ export class ColorPicker
             class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
-            style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
+            style={{
+              top: `${adjustedColorFieldScopeTop || 0}px`,
+              left: `${adjustedColorFieldScopeLeft || 0}px`,
+            }}
             tabindex="0"
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.storeColorFieldScope}
@@ -798,7 +809,10 @@ export class ColorPicker
                 class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                 onKeyDown={this.handleHueScopeKeyDown}
                 role="slider"
-                style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
+                style={{
+                  top: `${adjustedHueScopeTop}px`,
+                  left: `${adjustedHueScopeLeft}px`,
+                }}
                 tabindex="0"
                 // eslint-disable-next-line react/jsx-sort-props
                 ref={this.storeHueScope}
@@ -820,7 +834,10 @@ export class ColorPicker
                   class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                   onKeyDown={this.handleOpacityScopeKeyDown}
                   role="slider"
-                  style={{ top: `${opacityTop}px`, left: `${opacityLeft}px` }}
+                  style={{
+                    top: `${adjustedOpacityScopeTop}px`,
+                    left: `${adjustedOpacityScopeLeft}px`,
+                  }}
                   tabindex="0"
                   // eslint-disable-next-line react/jsx-sort-props
                   ref={this.storeOpacityScope}
@@ -833,7 +850,7 @@ export class ColorPicker
           <div
             class={{
               [CSS.controlSection]: true,
-              [CSS.section]: true
+              [CSS.section]: true,
             }}
           >
             <div class={CSS.hexAndChannelsGroup}>
@@ -855,7 +872,7 @@ export class ColorPicker
                 <calcite-tabs
                   class={{
                     [CSS.colorModeContainer]: true,
-                    [CSS.splitSection]: true
+                    [CSS.splitSection]: true,
                   }}
                   scale={scale === "l" ? "m" : "s"}
                 >
@@ -912,7 +929,7 @@ export class ColorPicker
                       scale={scale}
                       tabIndex={0}
                     />
-                  ))
+                  )),
                 ]}
               </div>
             ) : null}
@@ -992,7 +1009,7 @@ export class ColorPicker
     suffix?: string
   ): VNode => {
     return (
-      <calcite-input
+      <calcite-input-number
         class={CSS.channel}
         data-channel-index={index}
         dir={direction}
@@ -1001,8 +1018,8 @@ export class ColorPicker
         lang={this.effectiveLocale}
         numberButtonType="none"
         numberingSystem={this.numberingSystem}
-        onCalciteInputChange={this.handleChannelChange}
-        onCalciteInputInput={this.handleChannelInput}
+        onCalciteInputNumberChange={this.handleChannelChange}
+        onCalciteInputNumberInput={this.handleChannelInput}
         onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
         // workaround to ensure input borders overlap as desired
@@ -1010,10 +1027,9 @@ export class ColorPicker
         // logical-prop, which is undesired as channels are always ltr
         style={{
           marginLeft:
-            index > 0 && !(this.scale === "s" && this.alphaChannel && index === 3) ? "-1px" : ""
+            index > 0 && !(this.scale === "s" && this.alphaChannel && index === 3) ? "-1px" : "",
         }}
         suffixText={suffix}
-        type="number"
         value={value?.toString()}
       />
     );
@@ -1076,8 +1092,8 @@ export class ColorPicker
   private captureHueSliderColor(x: number): void {
     const {
       dimensions: {
-        slider: { width }
-      }
+        slider: { width },
+      },
     } = this;
     const hue = (360 / width) * x;
 
@@ -1087,8 +1103,8 @@ export class ColorPicker
   private captureOpacitySliderValue(x: number): void {
     const {
       dimensions: {
-        slider: { width }
-      }
+        slider: { width },
+      },
     } = this;
     const alpha = opacityToAlpha((OPACITY_LIMITS.max / width) * x);
 
@@ -1152,8 +1168,8 @@ export class ColorPicker
     const {
       dimensions: {
         slider: { height },
-        thumb: { radius }
-      }
+        thumb: { radius },
+      },
     } = this;
 
     return radius * 2 - height;
@@ -1226,8 +1242,8 @@ export class ColorPicker
     const context = this.colorFieldRenderingContext;
     const {
       dimensions: {
-        colorField: { height, width }
-      }
+        colorField: { height, width },
+      },
     } = this;
 
     context.fillStyle = this.baseColorFieldColor
@@ -1275,8 +1291,8 @@ export class ColorPicker
   private captureColorFieldColor = (x: number, y: number, skipEqual = true): void => {
     const {
       dimensions: {
-        colorField: { height, width }
-      }
+        colorField: { height, width },
+      },
     } = this;
     const saturation = Math.round((HSV_LIMITS.s / width) * x);
     const value = Math.round((HSV_LIMITS.v / height) * (height - y));
@@ -1317,7 +1333,7 @@ export class ColorPicker
     const adjustedSliderDimensions = {
       width: dimensions.slider.width,
       height:
-        dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
+        dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2,
     };
 
     if (context === "all" || context === "hue-slider") {
@@ -1344,8 +1360,8 @@ export class ColorPicker
     const {
       dimensions: {
         colorField: { height, width },
-        thumb: { radius }
-      }
+        thumb: { radius },
+      },
     } = this;
 
     const x = hsvColor.saturationv() / (HSV_LIMITS.s / width);
@@ -1397,8 +1413,8 @@ export class ColorPicker
     const {
       dimensions: {
         slider: { height, width },
-        thumb: { radius }
-      }
+        thumb: { radius },
+      },
     } = this;
 
     const x = hsvColor.hue() / (360 / width);
@@ -1416,8 +1432,8 @@ export class ColorPicker
     const {
       dimensions: {
         slider: { height, width },
-        thumb: { radius: thumbRadius }
-      }
+        thumb: { radius: thumbRadius },
+      },
     } = this;
 
     const x = 0;
@@ -1455,8 +1471,8 @@ export class ColorPicker
       baseColorFieldColor: previousColor,
       dimensions: {
         slider: { height, width },
-        thumb: { radius: thumbRadius }
-      }
+        thumb: { radius: thumbRadius },
+      },
     } = this;
 
     const x = 0;
@@ -1543,8 +1559,8 @@ export class ColorPicker
     const {
       dimensions: {
         slider: { width },
-        thumb: { radius }
-      }
+        thumb: { radius },
+      },
     } = this;
 
     const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
@@ -1565,16 +1581,18 @@ export class ColorPicker
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
     const arrowKeyToXOffset = {
-      ArrowUp: 1,
-      ArrowRight: 1,
-      ArrowDown: -1,
-      ArrowLeft: -1
+      ArrowUp: 0.01,
+      ArrowRight: 0.01,
+      ArrowDown: -0.01,
+      ArrowLeft: -0.01,
     };
 
     if (arrowKeyToXOffset[key]) {
       event.preventDefault();
-      const delta = opacityToAlpha(arrowKeyToXOffset[key] * modifier);
-      this.captureHueSliderColor(this.opacityScopeLeft + delta);
+      const delta = arrowKeyToXOffset[key] * modifier;
+      const alpha = this.baseColorFieldColor.alpha();
+      const color = this.baseColorFieldColor.alpha(alpha + delta);
+      this.internalColorSet(color, false);
     }
   };
 
@@ -1601,5 +1619,9 @@ export class ColorPicker
     }
 
     return channels as Channels;
+  }
+
+  private getAdjustedScopePosition(left: number, top: number): [number, number] {
+    return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
 }

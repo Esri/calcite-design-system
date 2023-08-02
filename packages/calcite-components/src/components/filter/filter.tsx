@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
@@ -17,13 +17,13 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -31,7 +31,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { FilterMessages } from "./assets/filter/t9n";
@@ -41,9 +41,9 @@ import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
   tag: "calcite-filter",
   styleUrl: "filter.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Filter
   implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -208,7 +208,7 @@ export class Filter
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.el?.focus();
   }

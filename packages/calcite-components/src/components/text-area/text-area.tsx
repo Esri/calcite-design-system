@@ -9,7 +9,7 @@ import {
   Watch,
   Method,
   Host,
-  State
+  State,
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -20,21 +20,22 @@ import {
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import {
+  componentFocusable,
   componentLoaded,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { TextAreaMessages } from "./assets/text-area/t9n";
 import { throttle } from "lodash-es";
@@ -42,8 +43,10 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
+import { CharacterLengthObj } from "./interfaces";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding text.
@@ -55,7 +58,7 @@ import {
   tag: "calcite-text-area",
   styleUrl: "text-area.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class TextArea
   implements
@@ -258,15 +261,16 @@ export class TextArea
     return (
       <Host>
         <textarea
-          aria-invalid={toAriaBoolean(this.value?.length > this.maxLength)}
+          aria-describedby={this.guid}
+          aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
             [CSS.readOnly]: this.readOnly,
-            [CSS.textAreaInvalid]: this.value?.length > this.maxLength,
+            [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.blockSizeFull]: !hasFooter,
-            [CSS.borderColor]: !hasFooter
+            [CSS.borderColor]: !hasFooter,
           }}
           cols={this.columns}
           disabled={this.disabled}
@@ -289,14 +293,14 @@ export class TextArea
           class={{
             [CSS.footer]: true,
             [CSS.readOnly]: this.readOnly,
-            [CSS.hide]: !hasFooter
+            [CSS.hide]: !hasFooter,
           }}
           ref={(el) => (this.footerEl = el as HTMLElement)}
         >
           <div
             class={{
               [CSS.container]: true,
-              [CSS.footerEndSlotOnly]: !this.startSlotHasElements && this.endSlotHasElements
+              [CSS.footerEndSlotOnly]: !this.startSlotHasElements && this.endSlotHasElements,
             }}
           >
             <slot
@@ -315,6 +319,11 @@ export class TextArea
           {this.renderCharacterLimit()}
         </footer>
         <HiddenFormInputSlot component={this} />
+        {this.isCharacterLimitExceeded() && (
+          <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
+            {this.replacePlaceHoldersInMessages()}
+          </span>
+        )}
       </Host>
     );
   }
@@ -328,7 +337,7 @@ export class TextArea
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.textAreaEl.focus();
   }
 
@@ -362,10 +371,14 @@ export class TextArea
 
   @State() effectiveLocale = "";
 
+  @State() localizedCharacterLengthObj: CharacterLengthObj;
+
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
+
+  private guid = guid();
 
   //--------------------------------------------------------------------------
   //
@@ -401,26 +414,39 @@ export class TextArea
     }
   };
 
-  renderCharacterLimit = (): VNode => {
-    return this.maxLength ? (
-      <span class={CSS.characterLimit}>
-        <span class={{ [CSS.characterOverLimit]: this.value?.length > this.maxLength }}>
-          {this.getLocalizedCharacterLength()}
+  renderCharacterLimit = (): VNode | null => {
+    if (this.maxLength) {
+      this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
+      return (
+        <span class={CSS.characterLimit}>
+          <span class={{ [CSS.characterOverLimit]: this.isCharacterLimitExceeded() }}>
+            {this.localizedCharacterLengthObj.currentLength}
+          </span>
+          {"/"}
+          {this.localizedCharacterLengthObj.maxLength}
         </span>
-        {"/"}
-        {numberStringFormatter.localize(this.maxLength.toString())}
-      </span>
-    ) : null;
+      );
+    }
+    return null;
   };
 
-  getLocalizedCharacterLength(): string {
+  getLocalizedCharacterLength(): CharacterLengthObj {
+    const currentLength = this.value ? this.value.length.toString() : "0";
+    const maxLength = this.maxLength.toString();
+    if (this.numberingSystem === "latn") {
+      return { currentLength, maxLength };
+    }
+
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       signDisplay: "never",
-      useGrouping: this.groupSeparator
+      useGrouping: this.groupSeparator,
     };
-    return numberStringFormatter.localize(this.value ? this.value.length.toString() : "0");
+    return {
+      currentLength: numberStringFormatter.localize(currentLength),
+      maxLength: numberStringFormatter.localize(maxLength),
+    };
   }
 
   resizeObserver = createObserver("resize", async () => {
@@ -437,25 +463,10 @@ export class TextArea
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
-    if (this.value?.length > this.maxLength) {
-      input.setCustomValidity(this.messages.tooLong);
+    if (this.isCharacterLimitExceeded()) {
+      input.setCustomValidity(this.replacePlaceHoldersInMessages());
     }
   }
-
-  // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
-  // throttle is used to avoid flashing of textarea when user resizes.
-  private setHeightAndWidthToAuto = throttle(
-    (): void => {
-      if (this.resize === "vertical" || this.resize === "both") {
-        this.el.style.height = "auto";
-      }
-      if (this.resize === "horizontal" || this.resize === "both") {
-        this.el.style.width = "auto";
-      }
-    },
-    RESIZE_TIMEOUT,
-    { leading: false }
-  );
 
   setTextAreaEl = (el: HTMLTextAreaElement): void => {
     this.textAreaEl = el;
@@ -488,7 +499,32 @@ export class TextArea
       elHeight,
       elWidth,
       footerHeight,
-      footerWidth
+      footerWidth,
     };
+  }
+
+  private replacePlaceHoldersInMessages(): string {
+    return this.messages.tooLong
+      .replace("{maxLength}", this.localizedCharacterLengthObj.maxLength)
+      .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength);
+  }
+
+  // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
+  // throttle is used to avoid flashing of textarea when user resizes.
+  private setHeightAndWidthToAuto = throttle(
+    (): void => {
+      if (this.resize === "vertical" || this.resize === "both") {
+        this.el.style.height = "auto";
+      }
+      if (this.resize === "horizontal" || this.resize === "both") {
+        this.el.style.width = "auto";
+      }
+    },
+    RESIZE_TIMEOUT,
+    { leading: false }
+  );
+
+  private isCharacterLimitExceeded(): boolean {
+    return this.value?.length > this.maxLength;
   }
 }

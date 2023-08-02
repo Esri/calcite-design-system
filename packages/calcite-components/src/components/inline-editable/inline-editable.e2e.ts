@@ -53,7 +53,7 @@ describe("calcite-inline-editable", () => {
       const page = await newE2EPage({
         html: html`<calcite-inline-editable controls editing-enabled>
           <calcite-input />
-        </calcite-inline-editable>`
+        </calcite-inline-editable>`,
       });
 
       const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
@@ -243,7 +243,7 @@ describe("calcite-inline-editable", () => {
       await cancelEvent;
       expect(cancelEvent).toHaveReceivedEventTimes(1);
 
-      // should not emit on hover after editing is cancelled, refers to: https://github.com/Esri/calcite-components/issues/4350
+      // should not emit on hover after editing is cancelled, refers to: https://github.com/Esri/calcite-design-system/issues/4350
       await element.hover();
       input.triggerEvent("calciteInternalInputBlur");
       await page.waitForChanges();
@@ -369,7 +369,7 @@ describe("calcite-inline-editable", () => {
             <calcite-input value="John Doe"></calcite-input>
           </calcite-inline-editable>`,
           {
-            focusTargetSelector: "calcite-input"
+            focusTargetSelector: "calcite-input",
           }
         );
       });

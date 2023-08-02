@@ -11,7 +11,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS, ICONS } from "./resources";
@@ -19,13 +19,13 @@ import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 import {
@@ -33,13 +33,13 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -54,7 +54,7 @@ import { ChipMessages } from "./assets/chip/t9n";
   tag: "calcite-chip",
   styleUrl: "chip.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Chip
   implements
@@ -204,7 +204,7 @@ export class Chip
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-    this.setupTextContentObserver();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidLoad(): void {
@@ -220,6 +220,7 @@ export class Chip
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.mutationObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -271,7 +272,7 @@ export class Chip
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     if (!this.disabled && this.interactive) {
       this.containerEl?.focus();
     } else if (!this.disabled && this.closable) {
@@ -300,10 +301,6 @@ export class Chip
 
   private updateHasText() {
     this.hasText = this.el.textContent.trim().length > 0;
-  }
-
-  private setupTextContentObserver() {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   private handleSlotImageChange = (event: Event): void => {
@@ -344,7 +341,7 @@ export class Chip
       <div
         class={{
           [CSS.selectIcon]: true,
-          [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected
+          [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected,
         }}
       >
         <calcite-icon icon={icon} scale={this.scale === "l" ? "m" : "s"} />
@@ -412,7 +409,7 @@ export class Chip
               !this.hasText &&
               (!this.icon || !this.hasImage) &&
               (this.selectionMode === "none" ||
-                (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected))
+                (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected)),
           }}
           onClick={this.handleEmittingEvent}
           role={role}

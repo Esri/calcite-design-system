@@ -234,7 +234,7 @@ function stringContainsNumbers(string: string): boolean {
  *
  * @param {string} localizedValue - localized number string value
  * @param {string} value - current value in the input field
- * @param {NumberStringFormat} numberStringFormatter - numberStringFormatter instance to localize the number value
+ * @param {NumberStringFormat} formatter - numberStringFormatter instance to localize the number value
  * @returns {string} localized number string value
  */
 export function addLocalizedTrailingDecimalZeros(

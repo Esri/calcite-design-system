@@ -6,7 +6,7 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import centerRowReadme from "../shell-center-row/readme.md";
@@ -16,9 +16,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Shell",
   parameters: {
-    notes: [readme, panelReadme, centerRowReadme]
+    notes: [readme, panelReadme, centerRowReadme],
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -34,15 +34,15 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
   return [
     {
       name: "slot",
-      value: group === "Leading Panel" ? "panel-start" : "panel-end"
+      value: group === "Leading Panel" ? "panel-start" : "panel-end",
     },
     {
       name: "collapsed",
-      value: boolean("collapsed", false, group)
+      value: boolean("collapsed", false, group),
     },
     {
       name: "displayMode",
-      value: select("displayMode", ["dock", "float", "overlay"], "dock")
+      value: select("displayMode", ["dock", "float", "overlay"], "dock"),
     },
     {
       name: "position",
@@ -51,12 +51,12 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
         position.values,
         group === "Leading Panel" ? position.values[0] : position.values[1],
         group
-      )
+      ),
     },
     {
       name: "resizable",
-      value: boolean("resizable", resizable, group)
-    }
+      value: boolean("resizable", resizable, group),
+    },
   ];
 };
 
@@ -66,20 +66,20 @@ const createShellCenterRowAttributes: (group: string) => Attributes = (group) =>
   return [
     {
       name: "detached",
-      value: boolean("detached", false, group)
+      value: boolean("detached", false, group),
     },
     {
       name: "height-scale",
-      value: select("heightScale", scale.values, scale.values[0], group)
+      value: select("heightScale", scale.values, scale.values[0], group),
     },
     {
       name: "position",
-      value: select("position", position.values, position.values[1], group)
+      value: select("position", position.values, position.values[1], group),
     },
     {
       name: "slot",
-      value: "center-row"
-    }
+      value: "center-row",
+    },
   ];
 };
 
@@ -771,7 +771,7 @@ position:relative;
 </calcite-shell>`;
 
 shellPanelZIndex_TestOnly.parameters = {
-  chromatic: { delay: 800 }
+  chromatic: { delay: 800 },
 };
 
 export const resizableShellPanels = (): string => html`<calcite-shell
@@ -907,7 +907,6 @@ export const overlayDisplayMode_TestOnly = (): string => html`<calcite-shell
 width:800px;
 height:600px;
 position:relative;
---calcite-duration-factor: 0;
 "
 >
   <calcite-shell-panel display-mode="overlay" resizable id="primary-panel" slot="panel-start" position="start">

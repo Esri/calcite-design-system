@@ -81,3 +81,5 @@
 .status-icon.invalid {
   color: theme("colors.danger");
 }
+
+@include base-component();

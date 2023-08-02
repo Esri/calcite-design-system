@@ -1,4 +1,4 @@
 {
   "rating": "评级",
-  "stars": "星：${num}"
+  "stars": "星：{num}"
 }

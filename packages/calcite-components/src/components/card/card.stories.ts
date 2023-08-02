@@ -7,7 +7,7 @@ import {
   Attributes,
   filterComponentAttributes,
   modesDarkDefault,
-  createComponentHTML as create
+  createComponentHTML as create,
 } from "../../../.storybook/utils";
 import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -15,9 +15,9 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 export default {
   title: "Components/Card",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -30,7 +30,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("loading", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "selected",
@@ -38,7 +38,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("selected", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "selectable",
@@ -46,7 +46,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("selectable", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "thumbnail-position",
@@ -54,8 +54,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("thumbnail-position", logicalFlowPosition.values, logicalFlowPosition.defaultValue);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -82,7 +82,7 @@ const thumbnailHtml = html`<img
   slot="thumbnail"
   src="${placeholderImage({
     width: 380,
-    height: 180
+    height: 180,
   })}"
   style="width: 380px;"
 /> `;
@@ -120,7 +120,7 @@ export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
   ${tooltipHtml}
 `;
 simpleWithFooterTextButtonTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const thumbnail = (): string => html`

@@ -11,15 +11,15 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { FlipContext } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { CSS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
@@ -29,7 +29,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { MenuItemMessages } from "./assets/menu-item/t9n";
 import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
@@ -43,7 +43,7 @@ type Layout = "horizontal" | "vertical";
   tag: "calcite-menu-item",
   styleUrl: "menu-item.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class CalciteMenuItem implements LoadableComponent, T9nComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
@@ -169,7 +169,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.anchorEl.focus();
   }
 
@@ -303,14 +303,14 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
       this.calciteInternalMenuItemKeyEvent.emit({
         event,
         children: this.submenuItems,
-        isSubmenuOpen: this.open && this.hasSubmenu
+        isSubmenuOpen: this.open && this.hasSubmenu,
       });
     } else if (event.key === "ArrowLeft") {
       event.preventDefault();
       this.calciteInternalMenuItemKeyEvent.emit({
         event,
         children: this.submenuItems,
-        isSubmenuOpen: true
+        isSubmenuOpen: true,
       });
     } else if (event.key === "ArrowRight") {
       event.preventDefault();
@@ -326,7 +326,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
       this.calciteInternalMenuItemKeyEvent.emit({
         event,
         children: this.submenuItems,
-        isSubmenuOpen: this.open && this.hasSubmenu
+        isSubmenuOpen: this.open && this.hasSubmenu,
       });
     }
   };
@@ -426,7 +426,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
           [CSS.open]: this.open,
           [CSS.nested]: !this.isTopLevelItem,
           [CSS_UTILITY.rtl]: dir === "rtl",
-          [CSS.dropdownVertical]: this.topLevelMenuLayout === "vertical"
+          [CSS.dropdownVertical]: this.topLevelMenuLayout === "vertical",
         }}
         label={this.messages.submenu}
         layout="vertical"
@@ -437,13 +437,26 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     );
   }
 
+  renderHrefIcon(dir: Direction): VNode {
+    return (
+      <calcite-icon
+        class={CSS.hoverHrefIcon}
+        icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
+        key={CSS.hoverHrefIcon}
+        scale="s"
+      />
+    );
+  }
+
   renderItemContent(dir: Direction): VNode {
+    const hasHref = this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem);
     return (
       <Fragment>
         {this.iconStart && this.renderIconStart()}
         <div class={CSS.textContainer}>
           <span>{this.text}</span>
         </div>
+        {hasHref && this.renderHrefIcon(dir)}
         {this.iconEnd && this.renderIconEnd()}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
@@ -458,7 +471,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         <li
           class={{
             [CSS.container]: true,
-            [CSS.isParentVertical]: this.topLevelMenuLayout === "vertical"
+            [CSS.isParentVertical]: this.topLevelMenuLayout === "vertical",
           }}
           role="none"
         >
@@ -480,13 +493,6 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
               ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}
-              {this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem) ? (
-                <calcite-icon
-                  class={CSS.hoverHrefIcon}
-                  icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
-                  scale="s"
-                />
-              ) : null}
             </a>
             {this.href && this.hasSubmenu ? this.renderDropdownAction(dir) : null}
           </div>

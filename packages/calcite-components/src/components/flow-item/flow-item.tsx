@@ -9,20 +9,20 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -30,7 +30,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
@@ -52,7 +52,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
   tag: "calcite-flow-item",
   styleUrl: "flow-item.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class FlowItem
   implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -213,16 +213,15 @@ export class FlowItem
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     const { backButtonEl, containerEl } = this;
 
     if (backButtonEl) {
-      backButtonEl.setFocus();
-      return;
+      return backButtonEl.setFocus();
+    } else if (containerEl) {
+      return containerEl.setFocus();
     }
-
-    containerEl?.setFocus();
   }
 
   /**
@@ -310,7 +309,7 @@ export class FlowItem
       loading,
       menuOpen,
       messages,
-      backButtonEl
+      backButtonEl,
     } = this;
     const label = messages.back;
     return (

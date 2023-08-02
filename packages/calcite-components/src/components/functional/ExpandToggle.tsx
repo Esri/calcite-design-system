@@ -6,8 +6,8 @@ import { Position, Scale } from "../interfaces";
 
 interface ExpandToggleProps {
   expanded: boolean;
-  intlExpand: string;
-  intlCollapse: string;
+  expandText: string;
+  collapseText: string;
   el: HTMLElement;
   position: Position;
   tooltip?: HTMLCalciteTooltipElement;
@@ -18,7 +18,7 @@ interface ExpandToggleProps {
 
 const ICONS = {
   chevronsLeft: "chevrons-left",
-  chevronsRight: "chevrons-right"
+  chevronsRight: "chevrons-right",
 };
 
 function getCalcitePosition(position: Position, el: HTMLElement): Position {
@@ -27,7 +27,7 @@ function getCalcitePosition(position: Position, el: HTMLElement): Position {
 
 export function toggleChildActionText({
   el,
-  expanded
+  expanded,
 }: {
   el: HTMLElement;
   expanded: boolean;
@@ -44,7 +44,7 @@ const setTooltipReference = ({
   tooltip,
   referenceElement,
   expanded,
-  ref
+  ref,
 }: {
   tooltip: HTMLCalciteTooltipElement;
   referenceElement: HTMLCalciteActionElement;
@@ -64,18 +64,18 @@ const setTooltipReference = ({
 
 export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   expanded,
-  intlExpand,
-  intlCollapse,
+  expandText,
+  collapseText,
   toggle,
   el,
   position,
   tooltip,
   ref,
-  scale
+  scale,
 }) => {
   const rtl = getElementDir(el) === "rtl";
 
-  const expandText = expanded ? intlCollapse : intlExpand;
+  const text = expanded ? collapseText : expandText;
   const icons = [ICONS.chevronsLeft, ICONS.chevronsRight];
 
   if (rtl) {
@@ -91,7 +91,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
       icon={expanded ? expandIcon : collapseIcon}
       onClick={toggle}
       scale={scale}
-      text={expandText}
+      text={text}
       textEnabled={expanded}
       // eslint-disable-next-line react/jsx-sort-props
       ref={(referenceElement): HTMLCalciteActionElement =>

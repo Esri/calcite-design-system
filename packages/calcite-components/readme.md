@@ -2,7 +2,7 @@
 [![npm package](https://img.shields.io/npm/v/@esri/calcite-components?style=flat-square&color=007AC2)](https://www.npmjs.com/package/@esri/calcite-components)
 [![minified size](https://img.shields.io/bundlephobia/min/@esri/calcite-components?style=flat-square&color=D83020)](https://bundlephobia.com/package/@esri/calcite-components)
 [![downloads per month](https://img.shields.io/npm/dm/@esri/calcite-components?style=flat-square&color=35AC46)](https://www.npmjs.com/package/@esri/calcite-components)
-[![commits per month](https://img.shields.io/github/commit-activity/m/esri/calcite-components?style=flat-square&color=EDD317)](https://github.com/Esri/calcite-components/graphs/contributors)
+[![commits per month](https://img.shields.io/github/commit-activity/m/esri/calcite-components?style=flat-square&color=EDD317)](https://github.com/Esri/calcite-design-system/graphs/contributors)
 
 # Calcite Components
 
@@ -71,7 +71,7 @@ When using the [Distribution](https://stenciljs.com/docs/distribution) build, yo
 import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 // CDN hosted assets
 defineCustomElements(window, {
-  resourcesUrl: "https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets"
+  resourcesUrl: "https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets",
 });
 
 // Local assets
@@ -164,4 +164,4 @@ See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
 For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
-email: contracts@esri.com
+email: <contracts@esri.com>

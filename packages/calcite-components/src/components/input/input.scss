@@ -570,3 +570,4 @@ input[type="time"]::-webkit-clear-button {
 }
 
 @include hidden-form-input();
+@include base-component();
