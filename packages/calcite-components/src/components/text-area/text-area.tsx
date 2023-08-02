@@ -46,6 +46,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { CharacterLengthObj } from "./interfaces";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding text.
@@ -260,12 +261,13 @@ export class TextArea
     return (
       <Host>
         <textarea
-          aria-invalid={toAriaBoolean(this.value?.length > this.maxLength)}
+          aria-describedby={this.guid}
+          aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
             [CSS.readOnly]: this.readOnly,
-            [CSS.textAreaInvalid]: this.value?.length > this.maxLength,
+            [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.blockSizeFull]: !hasFooter,
             [CSS.borderColor]: !hasFooter,
@@ -317,6 +319,11 @@ export class TextArea
           {this.renderCharacterLimit()}
         </footer>
         <HiddenFormInputSlot component={this} />
+        {this.isCharacterLimitExceeded() && (
+          <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
+            {this.replacePlaceHoldersInMessages()}
+          </span>
+        )}
       </Host>
     );
   }
@@ -371,6 +378,8 @@ export class TextArea
     updateMessages(this, this.effectiveLocale);
   }
 
+  private guid = guid();
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -410,7 +419,7 @@ export class TextArea
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
         <span class={CSS.characterLimit}>
-          <span class={{ [CSS.characterOverLimit]: this.value?.length > this.maxLength }}>
+          <span class={{ [CSS.characterOverLimit]: this.isCharacterLimitExceeded() }}>
             {this.localizedCharacterLengthObj.currentLength}
           </span>
           {"/"}
@@ -454,31 +463,10 @@ export class TextArea
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
-    if (this.value?.length > this.maxLength) {
+    if (this.isCharacterLimitExceeded()) {
       input.setCustomValidity(this.replacePlaceHoldersInMessages());
     }
   }
-
-  private replacePlaceHoldersInMessages(): string {
-    return this.messages.tooLong
-      .replace("{maxLength}", this.localizedCharacterLengthObj.maxLength)
-      .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength);
-  }
-
-  // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
-  // throttle is used to avoid flashing of textarea when user resizes.
-  private setHeightAndWidthToAuto = throttle(
-    (): void => {
-      if (this.resize === "vertical" || this.resize === "both") {
-        this.el.style.height = "auto";
-      }
-      if (this.resize === "horizontal" || this.resize === "both") {
-        this.el.style.width = "auto";
-      }
-    },
-    RESIZE_TIMEOUT,
-    { leading: false }
-  );
 
   setTextAreaEl = (el: HTMLTextAreaElement): void => {
     this.textAreaEl = el;
@@ -513,5 +501,30 @@ export class TextArea
       footerHeight,
       footerWidth,
     };
+  }
+
+  private replacePlaceHoldersInMessages(): string {
+    return this.messages.tooLong
+      .replace("{maxLength}", this.localizedCharacterLengthObj.maxLength)
+      .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength);
+  }
+
+  // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
+  // throttle is used to avoid flashing of textarea when user resizes.
+  private setHeightAndWidthToAuto = throttle(
+    (): void => {
+      if (this.resize === "vertical" || this.resize === "both") {
+        this.el.style.height = "auto";
+      }
+      if (this.resize === "horizontal" || this.resize === "both") {
+        this.el.style.width = "auto";
+      }
+    },
+    RESIZE_TIMEOUT,
+    { leading: false }
+  );
+
+  private isCharacterLimitExceeded(): boolean {
+    return this.value?.length > this.maxLength;
   }
 }
