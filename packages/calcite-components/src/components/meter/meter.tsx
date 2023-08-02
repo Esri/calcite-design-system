@@ -37,10 +37,10 @@ export class Meter implements LocalizedComponent {
   /** Specifies the current value of the component. */
   @Prop() value: number;
 
-  /** Specifies the miniumum possible value of the component. */
+  /** Specifies the lowest allowed value of the component. */
   @Prop({ reflect: true }) min = 0;
 
-  /** Specifies the maximum possible value of the component. */
+  /** Specifies the highest allowed value of the component. */
   @Prop({ reflect: true }) max = 100;
 
   /** Optionally provide a low value and visual line indicator - above this, when `fillType` is 'range', the component display the appropriate color. When `rangeLabels` is true - display the value.  */
@@ -49,7 +49,7 @@ export class Meter implements LocalizedComponent {
   /** Optionally provide a high value and visual line indicator - above this, when `fillType` is 'range', the component display the appropriate color. When `rangeLabels` is true - display the value.  */
   @Prop({ reflect: true }) high: number;
 
-  /** Does the fill appear as a single "brand" color or does it display indications of low / high / "success", "danger", or "warning" based on low, high if provided, or value compared to max */
+  /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors which can specify `low`, `high`, `min` or `max` values. */
   @Prop({ reflect: true }) fillType: "single" | "range" = "range";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -64,13 +64,13 @@ export class Meter implements LocalizedComponent {
   /** Determine if the meter should be displayed with a percent based fill, or based on discreet numbers. This will affect displayed labels */
   @Prop({ reflect: true }) labelType: "percent" | "units" = "percent";
 
-  /** A string optionally display beside the value and range values when not in `percent` `fillType` */
+  /** Specify a unit to display when `labelType` is `units` and either `valueLabel` and/or `rangeLabels` are true. */
   @Prop() unitLabel: "";
 
-  /** When true, displays the values of `high`, `low`, `min`, and `max` */
+  /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
   @Prop() rangeLabels: boolean;
 
-  /** When true, displays the current value */
+  /** When `true`, displays the current value. */
   @Prop() valueLabel: boolean;
 
   @Watch("min")
