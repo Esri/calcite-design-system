@@ -395,6 +395,12 @@ export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
 </html>`;
 
 export const maxTickRendering_TestOnly = (): string => html`
+  <style>
+    calcite-slider {
+      width: 60vw;
+    }
+  </style>
+
   <calcite-slider min="-100" max="100" ticks="1"></calcite-slider>
   <calcite-slider min="-100" max="100" ticks="5"></calcite-slider>
   <calcite-slider min="-100" max="100" ticks="10"></calcite-slider>
