@@ -208,6 +208,7 @@ export default class TooltipManager {
   }
 
   private openHoveredTooltip = (tooltip: HTMLCalciteTooltipElement): void => {
+    this.clearHoverOpenTimeout();
     this.hoverOpenTimeout = window.setTimeout(
       () => {
         if (this.hoverOpenTimeout === null) {
@@ -215,6 +216,11 @@ export default class TooltipManager {
         }
 
         this.clearHoverCloseTimeout();
+
+        if (this.activeTooltip === this.hoveredTooltip) {
+          return;
+        }
+
         this.closeActiveTooltip();
 
         if (tooltip !== this.hoveredTooltip) {
@@ -228,6 +234,7 @@ export default class TooltipManager {
   };
 
   private closeHoveredTooltip = (): void => {
+    this.clearHoverCloseTimeout();
     this.hoverCloseTimeout = window.setTimeout(() => {
       if (this.hoverCloseTimeout === null) {
         return;
