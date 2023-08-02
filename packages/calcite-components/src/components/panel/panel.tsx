@@ -364,7 +364,7 @@ export class Panel
   renderActionBar(): VNode {
     return (
       <div
-        class={{ [CSS.actionBarContainer]: true, [CSS.borderBlockEnd]: this.hasDefaultContent }}
+        class={{ [CSS.actionBarContainer]: true, [CSS.bottomSeparator]: this.hasDefaultContent }}
         hidden={!this.hasActionBar}
       >
         <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
@@ -483,7 +483,7 @@ export class Panel
 
     return (
       <header
-        class={{ [CSS.header]: true, [CSS.borderBlockEnd]: hasDefaultContent || hasActionBar }}
+        class={{ [CSS.header]: true, [CSS.bottomSeparator]: hasDefaultContent || hasActionBar }}
         hidden={!showHeader}
       >
         {this.renderHeaderStartActions()}

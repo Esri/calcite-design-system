@@ -3,7 +3,7 @@ export const CSS = {
   backButton: "back-button",
   container: "container",
   header: "header",
-  borderBlockEnd: "border-block-end",
+  bottomSeparator: "bottom-separator",
   heading: "heading",
   summary: "summary",
   description: "description",
