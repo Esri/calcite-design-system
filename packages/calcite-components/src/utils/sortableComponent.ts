@@ -44,14 +44,14 @@ export interface SortableComponent {
   sortable: Sortable;
 
   /**
-   * Whether the element can  move from the list.
+   * Whether the element can move from the list.
    */
-  dragCanPull: (event: DragEvent) => boolean;
+  canPull: (event: DragEvent) => boolean;
 
   /**
    * Whether the element can be added from another list.
    */
-  dragCanPut: (event: DragEvent) => boolean;
+  canPut: (event: DragEvent) => boolean;
 
   /**
    * Called by any change to the list (add / update / remove).
@@ -91,13 +91,13 @@ export function connectSortableComponent(component: SortableComponent): void {
     ...(!!group && {
       group: {
         name: group,
-        ...(!!component.dragCanPull && {
-          pull: (to, from, dragEl) => component.dragCanPull({ toEl: to.el, fromEl: from.el, dragEl })
+        ...(!!component.canPull && {
+          pull: (to, from, dragEl) => component.canPull({ toEl: to.el, fromEl: from.el, dragEl }),
         }),
-        ...(!!component.dragCanPut && {
-          put: (to, from, dragEl) => component.dragCanPut({ toEl: to.el, fromEl: from.el, dragEl })
-        })
-      }
+        ...(!!component.canPut && {
+          put: (to, from, dragEl) => component.canPut({ toEl: to.el, fromEl: from.el, dragEl }),
+        }),
+      },
     }),
     handle,
     onStart: (event) => {
@@ -110,7 +110,7 @@ export function connectSortableComponent(component: SortableComponent): void {
     },
     onSort: (event) => {
       component.onDragSort(event);
-    }
+    },
   });
 }
 

@@ -63,13 +63,17 @@ describe("calcite-list-item", () => {
     await page.setContent(`<calcite-list-item></calcite-list-item>`);
     await page.waitForChanges();
 
+    let handleNode = await page.find("calcite-list-item >>> calcite-handle");
+
+    expect(handleNode).toBeNull();
+
     const item = await page.find("calcite-list-item");
     item.setProperty("dragHandle", true);
     await page.waitForChanges();
 
-    const contentNode = await page.find("calcite-list-item >>> calcite-handle");
+    handleNode = await page.find("calcite-list-item >>> calcite-handle");
 
-    expect(contentNode).not.toBeNull();
+    expect(handleNode).not.toBeNull();
   });
 
   it("renders content node when label is provided", async () => {

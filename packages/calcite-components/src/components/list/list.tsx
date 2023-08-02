@@ -73,12 +73,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() dragCanPull: (event: DragEvent) => boolean;
+  @Prop() canPull: (event: DragEvent) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() dragCanPut: (event: DragEvent) => boolean;
+  @Prop() canPut: (event: DragEvent) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -329,27 +329,27 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @State() assistiveText: string;
 
-  sortable: Sortable;
-
-  handleSelector = "calcite-handle";
+  @State() dataForFilter: ItemData = [];
 
   dragSelector = "calcite-list-item";
 
-  listItems: HTMLCalciteListItemElement[] = [];
-
   enabledListItems: HTMLCalciteListItemElement[] = [];
-
-  mutationObserver = createObserver("mutation", () => this.updateListItems());
-
-  @State() dataForFilter: ItemData = [];
-
-  @State() hasFilterActionsStart = false;
-
-  @State() hasFilterActionsEnd = false;
 
   filterEl: HTMLCalciteFilterElement;
 
+  handleSelector = "calcite-handle";
+
+  @State() hasFilterActionsEnd = false;
+
+  @State() hasFilterActionsStart = false;
+
+  listItems: HTMLCalciteListItemElement[] = [];
+
+  mutationObserver = createObserver("mutation", () => this.updateListItems());
+
   parentListEl: HTMLCalciteListElement;
+
+  sortable: Sortable;
 
   // --------------------------------------------------------------------------
   //

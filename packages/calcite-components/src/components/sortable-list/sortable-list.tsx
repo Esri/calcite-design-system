@@ -36,12 +36,12 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() dragCanPull: (event: DragEvent) => boolean;
+  @Prop() canPull: (event: DragEvent) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() dragCanPut: (event: DragEvent) => boolean;
+  @Prop() canPut: (event: DragEvent) => boolean;
 
   /**
    * Specifies which items inside the element should be draggable.

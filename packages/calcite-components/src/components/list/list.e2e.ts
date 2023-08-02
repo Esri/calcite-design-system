@@ -488,10 +488,10 @@ describe("calcite-list", () => {
         arrowKey: "ArrowDown" | "ArrowUp",
         expectedValueOrder: string[]
       ): Promise<void> {
-        const event = page.waitForEvent("calciteListOrderChange");
+        const calciteListOrderChangeEvent = page.waitForEvent("calciteListOrderChange");
         await page.waitForChanges();
         await page.keyboard.press(arrowKey);
-        await event;
+        await calciteListOrderChangeEvent;
         const itemsAfter = await page.findAll("calcite-list-item");
         expect(itemsAfter.length).toBe(3);
 
@@ -534,10 +534,33 @@ describe("calcite-list", () => {
       const handleAriaLabel = await getAriaLabel();
       const itemLabel = await item.getProperty("label");
 
+      /* eslint-disable import/no-dynamic-require -- allowing dynamic asset path for maintainability */
+      const langTranslations = await import(`../handle/assets/handle/t9n/messages.json`);
+      /* eslint-enable import/no-dynamic-require */
+
+      function messageSubstitute({
+        text,
+        setPosition,
+        label,
+        setSize,
+      }: {
+        text: string;
+        setPosition: number;
+        label: string;
+        setSize: number;
+      }): string {
+        const replacePosition = text.replace("{position}", setPosition.toString());
+        const replaceLabel = replacePosition.replace("{itemLabel}", label);
+        return replaceLabel.replace("{total}", setSize.toString());
+      }
+
       expect(handleAriaLabel).toBe(
-        `${itemLabel}, press space and use arrow keys to reorder content. Current position ${startIndex + 1} of ${
-          items.length
-        }.`
+        messageSubstitute({
+          text: langTranslations.dragHandleIdle,
+          setPosition: startIndex + 1,
+          label: itemLabel,
+          setSize: items.length,
+        })
       );
 
       await page.keyboard.press("Space");
@@ -545,7 +568,12 @@ describe("calcite-list", () => {
       await page.waitForChanges();
 
       expect(assistiveTextElement.textContent).toBe(
-        `Reordering ${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
+        messageSubstitute({
+          text: langTranslations.dragHandleActive,
+          setPosition: startIndex + 1,
+          label: itemLabel,
+          setSize: items.length,
+        })
       );
 
       await page.keyboard.press("ArrowDown");
@@ -557,13 +585,23 @@ describe("calcite-list", () => {
       const changeHandleLabel = await getAriaLabel();
 
       expect(changeHandleLabel).toBe(
-        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
+        messageSubstitute({
+          text: langTranslations.dragHandleChange,
+          setPosition: startIndex + 1,
+          label: itemLabel,
+          setSize: items.length,
+        })
       );
       await page.keyboard.press("Space");
       await page.waitForChanges();
 
       expect(assistiveTextElement.textContent).toBe(
-        `${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
+        messageSubstitute({
+          text: langTranslations.dragHandleCommit,
+          setPosition: startIndex + 1,
+          label: itemLabel,
+          setSize: items.length,
+        })
       );
 
       await page.keyboard.press("Space");
