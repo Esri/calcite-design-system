@@ -64,7 +64,7 @@ export class Meter implements LocalizedComponent {
   /** Determine if the meter should be displayed with a percent based fill, or based on discreet numbers. This will affect displayed labels */
   @Prop({ reflect: true }) labelType: "percent" | "units" = "percent";
 
-  /** Specify a unit to display when `labelType` is `units` and either `valueLabel` and/or `rangeLabels` are true. */
+  /** When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
   @Prop() unitLabel: "";
 
   /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */

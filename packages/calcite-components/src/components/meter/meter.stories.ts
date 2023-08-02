@@ -10,10 +10,10 @@ export default {
   ...storyFilters(),
 };
 
-export const simple = (): string => html`<calcite-meter min="0" max="100" low="25" high="75" />`;
+export const simple = (): string => html`<calcite-meter min="0" max="100" low="25" high="75"></calcite-meter>`;
 
 export const labels = (): string =>
-  html`<calcite-meter min="0" max="100" low="25" high="75" value-label range-labels />`;
+  html`<calcite-meter min="0" max="100" low="25" high="75" value-label range-labels></calcite-meter>`;
 
 export const meterComplexPercent_TestOnly = (): string => html`<calcite-meter
   value-label
@@ -47,7 +47,7 @@ export const meterDarkModeRTL_TestOnly = (): string =>
     high="75"
     value-label
     range-labels
-  />`;
+  ></calcite-meter>`;
 
 export const meterComplexPercentRTL_TestOnly = (): string =>
   html`<calcite-meter
