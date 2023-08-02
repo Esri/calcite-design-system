@@ -243,3 +243,26 @@ export const loadingWithStatusIcon_TestOnly = (): string =>
 
     <calcite-block heading="Invalid status" description="summary" status="invalid"> </calcite-block>
   `;
+
+export const scrollingContainerSetup_TestOnly = (): string => html`<style>
+    calcite-block {
+      height: 250px;
+      overflow: hidden;
+    }
+
+    .scroll-container {
+      height: 100%;
+      overflow-y: scroll;
+    }
+
+    p {
+      background: linear-gradient(to bottom, red, transparent);
+      height: 500px;
+      margin: 0;
+    }
+  </style>
+  <calcite-block heading="Observed scrolling behavior" open>
+    <div class="scroll-container">
+      <p></p>
+    </div>
+  </calcite-block>`;
