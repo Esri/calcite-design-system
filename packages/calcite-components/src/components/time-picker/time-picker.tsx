@@ -461,11 +461,15 @@ export class TimePicker
 
   private incrementFractionalSecond = (): void => {
     if (isValidNumber(this.fractionalSecond)) {
+      const stepPrecision = decimalPlaces(this.step);
       const sum = parseFloat(`0.${this.fractionalSecond}`) + this.step;
-      const roundedSum = parseFloat(sum.toFixed(decimalPlaces(this.step)));
-      this.fractionalSecond = formatTimePart(roundedSum);
-      this.localizedFractionalSecond = this.fractionalSecond;
+      const roundedSum = parseFloat(sum.toFixed(stepPrecision));
+      this.fractionalSecond =
+        roundedSum < 1 && decimalPlaces(roundedSum) > 0
+          ? formatTimePart(roundedSum, stepPrecision)
+          : "".padStart(stepPrecision, "0");
 
+      this.localizedFractionalSecond = this.fractionalSecond;
       // TODO: localize the result
       // this.localizedFractionalSecond = localizeTimePart({
       //   value: this.fractionalSecond,
@@ -473,7 +477,6 @@ export class TimePicker
       //   locale: this.effectiveLocale,
       //   numberingSystem: this.numberingSystem,
       // });
-      console.log(this.step, this.fractionalSecond);
     } else {
       this.fractionalSecond = this.step.toString();
     }

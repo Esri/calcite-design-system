@@ -57,10 +57,18 @@ function createLocaleDateTimeFormatter(
   return getDateTimeFormat(locale, options);
 }
 
-export function formatTimePart(number: number): string {
+export function formatTimePart(number: number, minLength?: number): string {
   const numberAsString = number.toString();
-  if (number < 1 && decimalPlaces(number) > 0) {
-    return numberAsString.replace("0.", "");
+  const numberDecimalPlaces = decimalPlaces(number);
+  if (number < 1 && numberDecimalPlaces > 0 && numberDecimalPlaces < 4) {
+    const fractionalDigits = numberAsString.replace("0.", "");
+    if (!minLength || fractionalDigits.length === minLength) {
+      return fractionalDigits;
+    }
+    if (fractionalDigits.length < minLength) {
+      return fractionalDigits.padEnd(minLength, "0");
+    }
+    return fractionalDigits;
   }
   if (number >= 0 && number < 10) {
     return numberAsString.padStart(2, "0");
@@ -148,6 +156,7 @@ export function isValidTime(value: string): boolean {
 }
 
 function isValidTimePart(value: string, part: TimePart): boolean {
+  // TODO: add fractional seconds support here
   if (part === "meridiem") {
     return value === "AM" || value === "PM";
   }
@@ -166,6 +175,7 @@ interface LocalizeTimePartParameters {
 }
 
 export function localizeTimePart({ value, part, locale, numberingSystem }: LocalizeTimePartParameters): string {
+  // TODO: add fractional seconds support here
   if (!isValidTimePart(value, part)) {
     return;
   }
