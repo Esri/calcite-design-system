@@ -19,3 +19,15 @@ export const decimalPlaces = (value: number): number => {
 export function remap(value: number, fromMin: number, fromMax: number, toMin: number, toMax: number): number {
   return ((value - fromMin) * (toMax - toMin)) / (fromMax - fromMin) + toMin;
 }
+
+/**
+ * Helper to determine if a value is close to the edge of a range within a threshold.
+ *
+ * @param value
+ * @param range
+ * @param threshold
+ * @returns -1 if close to lower edge, 1 if close to upper edge, 0 otherwise.
+ */
+export function closeToRangeEdge(value: number, range: number, threshold: number): number {
+  return value < threshold ? -1 : value > range - threshold ? 1 : 0;
+}

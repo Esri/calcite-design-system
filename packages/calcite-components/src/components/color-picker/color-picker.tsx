@@ -64,7 +64,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
 } from "../../utils/locale";
-import { clamp, remap } from "../../utils/math";
+import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import {
   connectMessages,
   disconnectMessages,
@@ -1412,14 +1412,14 @@ export class ColorPicker
 
     const {
       dimensions: {
-        slider: { height, width },
+        slider: { width },
         thumb: { radius },
       },
     } = this;
 
     const x = hsvColor.hue() / (HUE_LIMIT_CONSTRAINED / width);
-    const y = radius - height / 2 + height / 2;
-    const sliderBoundX = remap(x, 0, width, radius, width - radius);
+    const y = radius;
+    const sliderBoundX = this.getSliderBoundX(x, width, radius);
 
     requestAnimationFrame(() => {
       this.hueScopeLeft = sliderBoundX;
@@ -1574,13 +1574,23 @@ export class ColorPicker
 
     const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
     const y = radius;
-    const sliderBoundX = remap(x, 0, width, radius, width - radius);
+    const sliderBoundX = this.getSliderBoundX(x, width, radius);
 
     requestAnimationFrame(() => {
       this.opacityScopeLeft = sliderBoundX;
     });
 
     this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+  }
+
+  private getSliderBoundX(x: number, width: number, radius: number): number {
+    const closeToEdge = closeToRangeEdge(x, width, radius);
+
+    return closeToEdge === 0
+      ? x
+      : closeToEdge === -1
+      ? remap(x, 0, width, radius, radius * 2)
+      : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
   private storeOpacityScope = (node: HTMLDivElement): void => {
