@@ -182,6 +182,11 @@ export class Slider
   /** Displays tick marks on the number line at a specified interval. */
   @Prop({ reflect: true }) ticks: number;
 
+  @Watch("ticks")
+  ticksWatcher(): void {
+    this.tickValues = this.generateTickValues();
+  }
+
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
 
@@ -226,17 +231,12 @@ export class Slider
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
-    this.tickValues = this.generateTickValues();
     if (!isRange(this.value)) {
-      this.value = this.clamp(this.value);
+      this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
     }
+    this.ticksWatcher();
+    this.histogramWatcher(this.histogram);
     afterConnectDefaultValueSet(this, this.value);
-    if (this.snap && !isRange(this.value)) {
-      this.value = this.getClosestStep(this.value);
-    }
-    if (this.histogram) {
-      this.hasHistogram = true;
-    }
   }
 
   componentDidLoad(): void {
