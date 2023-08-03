@@ -59,7 +59,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   *
+   * Specifies the accessible label for the last action-group.
    */
   @Prop() actionsGroupEndLabel = "";
 
