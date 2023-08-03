@@ -99,36 +99,38 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
   readTask((): void => {
     if (component.transitionEl) {
       const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
-
       const openTransitionPropIndex = allTransitionPropsArray.findIndex(
         (item) => item === component.openTransitionProp
       );
-
       const transitionDuration = allTransitionPropsArray[openTransitionPropIndex + 1];
 
       if (transitionDuration === "0s") {
         emitImmediately(component, nonOpenCloseComponent);
-      } else {
-        const timeoutId = setTimeout(
-          function startChecker() {
-            emitImmediately(component, nonOpenCloseComponent);
-          },
-          // need to play with this value, as long as it's > transition duration we should be good
-          parseFloat(transitionDuration) + 100
-        );
+        return;
+      }
 
-        component.transitionEl.addEventListener(
-          "transitionstart",
-          () => {
-            clearTimeout(timeoutId);
-            (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
-              ? component.onBeforeOpen()
-              : component.onBeforeClose();
-          },
-          { once: true }
-        );
+      const fallbackTimeoutId = setTimeout((): void => {
+        component.transitionEl.removeEventListener("transitionstart", onStart);
+        component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
+        component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
+        emitImmediately(component, nonOpenCloseComponent);
+      }, parseFloat(transitionDuration) * 1000);
 
-        function onEndOrCancel(): void {
+      component.transitionEl.addEventListener("transitionstart", onStart, { once: true });
+      component.transitionEl.addEventListener("transitionend", onEndOrCancel, { once: true });
+      component.transitionEl.addEventListener("transitioncancel", onEndOrCancel, { once: true });
+
+      function onStart(event: TransitionEvent): void {
+        if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
+          clearTimeout(fallbackTimeoutId);
+          (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+            ? component.onBeforeOpen()
+            : component.onBeforeClose();
+        }
+      }
+
+      function onEndOrCancel(event: TransitionEvent): void {
+        if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
           (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
             ? component.onOpen()
             : component.onClose();
@@ -136,9 +138,6 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
           component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
           component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
         }
-
-        component.transitionEl.addEventListener("transitionend", onEndOrCancel, { once: true });
-        component.transitionEl.addEventListener("transitioncancel", onEndOrCancel, { once: true });
       }
     }
   });

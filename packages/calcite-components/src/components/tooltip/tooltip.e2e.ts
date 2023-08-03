@@ -784,15 +784,10 @@ describe("calcite-tooltip", () => {
       expect(closeEvent).toHaveReceivedEventTimes(1);
     }
 
-    it("should emit close and beforeClose events when inside a container with display: none", async () => {
+    it("when open, it emits close events if no longer rendered", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <style>
-          * {
-            margin: 0;
-            padding: 0;
-          }
-
           .container {
             height: 100px;
             width: 100px;
@@ -813,7 +808,7 @@ describe("calcite-tooltip", () => {
             <calcite-tooltip reference-element="ref">content</calcite-tooltip>
           </div>
         </div>
-        <button class="hoverOutsideContainer">hoverOutsideContainer referenceElement</button>
+        <button class="hoverOutsideContainer">some other content</button>
       `);
 
       const beforeCloseEvent = await page.spyOnEvent("calciteTooltipBeforeClose");
@@ -822,8 +817,8 @@ describe("calcite-tooltip", () => {
       const openEvent = await page.spyOnEvent("calciteTooltipOpen");
 
       const container = await page.find(".container");
-
       const tooltip = await page.find(`calcite-tooltip`);
+
       expect(await tooltip.isVisible()).toBe(false);
 
       await container.hover();
@@ -833,19 +828,25 @@ describe("calcite-tooltip", () => {
       await ref.hover();
 
       await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+      await page.waitForChanges();
 
       expect(await tooltip.isVisible()).toBe(true);
 
       expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
       expect(openEvent).toHaveReceivedEventTimes(1);
+      expect(beforeCloseEvent).toHaveReceivedEventTimes(0);
+      expect(closeEvent).toHaveReceivedEventTimes(0);
 
       const hoverOutsideContainer = await page.find(".hoverOutsideContainer");
       await hoverOutsideContainer.hover();
 
       await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+      await page.waitForChanges();
 
       expect(await tooltip.isVisible()).not.toBe(true);
 
+      expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
+      expect(openEvent).toHaveReceivedEventTimes(1);
       expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
       expect(closeEvent).toHaveReceivedEventTimes(1);
     });
