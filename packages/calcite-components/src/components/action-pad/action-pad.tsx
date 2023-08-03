@@ -61,7 +61,7 @@ export class ActionPad
   /**
    *
    */
-  @Prop() endActionGroupLabel = "";
+  @Prop() actionsGroupEndLabel = "";
 
   /**
    * When `true`, the expand-toggling behavior is disabled.
@@ -254,7 +254,7 @@ export class ActionPad
       toggleExpand,
       scale,
       layout,
-      endActionGroupLabel,
+      actionsGroupEndLabel,
     } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
@@ -277,7 +277,7 @@ export class ActionPad
     return expandToggleNode ? (
       <calcite-action-group
         class={CSS.actionGroupBottom}
-        label={endActionGroupLabel}
+        label={actionsGroupEndLabel}
         layout={layout}
         scale={scale}
       >
