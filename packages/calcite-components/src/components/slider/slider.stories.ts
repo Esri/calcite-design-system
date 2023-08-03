@@ -431,8 +431,6 @@ export const rendersWhenTrackRelatedPropChanges_TestOnly = (): string =>
       (async () => {
         await customElements.whenDefined("calcite-slider");
         const slider = await document.querySelector("calcite-slider").componentOnReady();
-
-        // wait for the next frame
         await new Promise((resolve) => requestAnimationFrame(resolve));
 
         slider.max = 64;
