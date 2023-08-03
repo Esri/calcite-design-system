@@ -303,7 +303,7 @@ describe("calcite-modal accessibility checks", () => {
     modal.setProperty("open", true);
     await page.waitForChanges();
     await opened;
-    await page.waitForChanges();
+    await page.waitForTimeout(5000);
 
     expect(await isElementFocused(page, `.${CSS.close}`, { shadowed: true })).toBe(true);
     await page.keyboard.press("Tab");
