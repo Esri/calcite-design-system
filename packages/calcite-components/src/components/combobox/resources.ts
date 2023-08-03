@@ -4,5 +4,4 @@ export const ComboboxChildSelector = `${ComboboxItem}, ${ComboboxItemGroup}`;
 
 export const CSS = {
   listContainer: "list-container",
-  groupThatFollowsChildlessGroup: "group-that-follows-childless-group",
 };

@@ -972,7 +972,7 @@ export class Combobox
       if (groupItem.children.length === 0) {
         if (index + 1 < array.length) {
           const nextGroupItem = array[index + 1];
-          nextGroupItem.classList.add(CSS.groupThatFollowsChildlessGroup);
+          nextGroupItem.afterEmptyGroup = true;
         }
       }
     });
