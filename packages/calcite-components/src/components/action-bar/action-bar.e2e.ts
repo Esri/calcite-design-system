@@ -104,7 +104,7 @@ describe("calcite-action-bar", () => {
 
       const bar = await page.find("calcite-action-bar");
 
-      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
       const button = await buttonGroup.find("calcite-action");
 
@@ -152,7 +152,7 @@ describe("calcite-action-bar", () => {
 
       await page.setContent("<calcite-action-bar expanded></calcite-action-bar>");
 
-      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
       const button = await buttonGroup.find("calcite-action");
 
@@ -166,7 +166,7 @@ describe("calcite-action-bar", () => {
 
       await page.setContent(html`<calcite-action-bar expand-disabled></calcite-action-bar>`);
 
-      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
       expect(buttonGroup).toBeNull();
     });
@@ -315,7 +315,7 @@ describe("calcite-action-bar", () => {
   it("should honor scale of expand icon", async () => {
     const page = await newE2EPage({ html: html`<calcite-action-bar scale="l"></calcite-action-bar>` });
 
-    const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+    const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
     const button = await buttonGroup.find("calcite-action");
 
