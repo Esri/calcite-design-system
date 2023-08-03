@@ -2200,16 +2200,16 @@ describe("calcite-color-picker", () => {
         expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.thumb.radius - 0.5, 0);
 
         await nudgeAQuarterOfSlider();
-        expect(await getScopeLeftOffset()).toBeCloseTo(71, 0);
+        expect(await getScopeLeftOffset()).toBeCloseTo(67.5, 0);
 
         await nudgeAQuarterOfSlider();
-        expect(await getScopeLeftOffset()).toBeCloseTo(133, 0);
+        expect(await getScopeLeftOffset()).toBeCloseTo(135.5, 0);
 
         await nudgeAQuarterOfSlider();
         // hue wraps around, so we nudge it back to assert position at the edge
         await scope.press("ArrowLeft");
-        expect(await getScopeLeftOffset()).toBeLessThanOrEqual(194);
-        expect(await getScopeLeftOffset()).toBeGreaterThan(193);
+        expect(await getScopeLeftOffset()).toBeLessThanOrEqual(193.5);
+        expect(await getScopeLeftOffset()).toBeGreaterThan(189.5);
 
         // nudge it to wrap around
         await scope.press("ArrowRight");
