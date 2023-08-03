@@ -169,7 +169,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   }
 
   async componentWillLoad(): Promise<void> {
-    // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
