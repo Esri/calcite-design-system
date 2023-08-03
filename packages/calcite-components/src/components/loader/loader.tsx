@@ -73,10 +73,8 @@ export class Loader {
     const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
     return (
       <Host>
-        <calcite-label for={id} class="screen-reader--only">
-          {label}
-        </calcite-label>
         <div
+          aria-label={label}
           class="loader__svgs"
           id={id}
           role="progressbar"
