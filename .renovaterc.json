@@ -28,19 +28,8 @@
     {
       "matchPackagePatterns": ["*"],
       "semanticCommitType": "build",
+      "semantiicCommitScope": "deps",
       "addLabels": ["chore"]
-    },
-    {
-      "matchPackageNames": ["@stencil/core"],
-      "semanticCommitType": "feat",
-      "semanticCommitScope": "stencil",
-      "addLabels": ["enhancement"]
-    },
-    {
-      "matchPackageNames": ["@floating-ui/dom"],
-      "semanticCommitType": "feat",
-      "semanticCommitScope": "floating-ui",
-      "addLabels": ["enhancement"]
     }
   ]
 }
