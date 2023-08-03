@@ -297,7 +297,6 @@ describe("calcite-modal accessibility checks", () => {
         </div>
       </calcite-modal>`
     );
-    await skipAnimations(page);
     const modal = await page.find("calcite-modal");
     const opened = page.waitForEvent("calciteModalOpen");
     modal.setProperty("open", true);
