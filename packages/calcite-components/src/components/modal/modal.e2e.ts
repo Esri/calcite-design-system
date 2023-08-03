@@ -134,7 +134,7 @@ describe("calcite-modal properties", () => {
 describe("opening and closing behavior", () => {
   it("opens and closes", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-modal></calcite-modal>`);
+    await page.setContent(html`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
 
     type ModalEventOrderWindow = GlobalTestProps<{ events: string[] }>;
@@ -303,6 +303,7 @@ describe("calcite-modal accessibility checks", () => {
     modal.setProperty("open", true);
     await page.waitForChanges();
     await opened;
+    await page.waitForChanges();
 
     expect(await isElementFocused(page, `.${CSS.close}`, { shadowed: true })).toBe(true);
     await page.keyboard.press("Tab");
