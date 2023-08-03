@@ -19,9 +19,9 @@ Renders `calcite-action`s that stick to the top of the bar.
 </calcite-action-bar>
 ```
 
-### Bottom-actions
+### Actions-end
 
-The bottom-actions slot renders `calcite-action`s that stick to the bottom of the bar above the expand/collapse icon.
+The actions-end slot renders `calcite-action`s that stick to the end of the bar prior to the expand/collapse icon.
 
 ```html
 <calcite-action-bar>
