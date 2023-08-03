@@ -29,7 +29,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
@@ -46,7 +46,7 @@ import {
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale } from "../interfaces";
-import { CSS } from "./resources";
+import { CSS, maxTickElementThreshold } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
@@ -1031,13 +1031,33 @@ export class Slider
     );
   }
 
+  private getTickDensity(): number {
+    const density = (this.max - this.min) / this.ticks / maxTickElementThreshold;
+
+    return density < 1 ? 1 : density;
+  }
+
   private generateTickValues(): number[] {
-    const ticks = [];
-    let current = this.min;
-    while (this.ticks && current < this.max + this.ticks) {
-      ticks.push(Math.min(current, this.max));
-      current = current + this.ticks;
+    const tickInterval = this.ticks ?? 0;
+
+    if (tickInterval <= 0) {
+      return [];
     }
+
+    const ticks: number[] = [this.min];
+    const density = this.getTickDensity();
+    const tickOffset = tickInterval * density;
+    let current = this.min;
+
+    while (current < this.max) {
+      current += tickOffset;
+      ticks.push(Math.min(current, this.max));
+    }
+
+    if (!ticks.includes(this.max)) {
+      ticks.push(this.max);
+    }
+
     return ticks;
   }
 
