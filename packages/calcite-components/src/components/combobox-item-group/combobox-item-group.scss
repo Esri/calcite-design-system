@@ -50,10 +50,6 @@
   margin-inline-start: var(--calcite-combobox-item-indent-value);
 }
 
-:host(:not(:first-child)) {
+::slotted(calcite-combobox-item-group:not(.group-that-follows-childless-group)) {
   padding-block-start: var(--calcite-combobox-item-spacing-unit-l);
-
-  .childless + calcite-combobox-item-group {
-    padding-block-start: 0;
-  }
 }
