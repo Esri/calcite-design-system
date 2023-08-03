@@ -27,7 +27,7 @@ export const initialOffsetSelected_TestOnly = (): string => html`
 `;
 
 export const displayingTimeZoneOffsets_TestOnly = (): string => html`
-  <calcite-input-time-zone open></calcite-input-time-zone>
+  <calcite-input-time-zone open overlay-positioning="fixed"></calcite-input-time-zone>
 `;
 displayingTimeZoneOffsets_TestOnly.parameters = {
   chromatic: { delay: 1500 },
