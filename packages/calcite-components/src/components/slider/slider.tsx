@@ -772,28 +772,14 @@ export class Slider
         {displayedTickValue}
       </span>
     );
-    if (
-      this.labelTicks &&
-      !this.hasHistogram &&
-      (!valueIsRange || (!this.precise && !this.labelHandles))
-    ) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      !this.hasHistogram &&
-      valueIsRange &&
-      (isMinTickLabel || isMaxTickLabel)
-    ) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      this.hasHistogram &&
-      (!this.precise || this.labelHandles) &&
-      (isMinTickLabel || isMaxTickLabel)
-    ) {
-      return tickLabel;
+
+    if (this.labelTicks && !this.hasHistogram) {
+      if (!valueIsRange || (!this.precise && !this.labelHandles)) {
+        return tickLabel;
+      }
+      if (isMinTickLabel || isMaxTickLabel) {
+        return tickLabel;
+      }
     }
 
     return null;
@@ -1375,12 +1361,8 @@ export class Slider
     const valueIsRange = isRange(this.value);
 
     if (
-      (!this.hasHistogram && !valueIsRange && !this.labelHandles && !this.precise) ||
-      (!this.hasHistogram && !valueIsRange && this.labelHandles && !this.precise) ||
-      (!this.hasHistogram && !valueIsRange && !this.labelHandles && this.precise) ||
-      (!this.hasHistogram && !valueIsRange && this.labelHandles && this.precise) ||
-      (!this.hasHistogram && valueIsRange && !this.precise) ||
-      (this.hasHistogram && !this.precise && !this.labelHandles)
+      (!this.hasHistogram && !valueIsRange) ||
+      (!this.precise && (!this.labelHandles || valueIsRange))
     ) {
       return;
     }
