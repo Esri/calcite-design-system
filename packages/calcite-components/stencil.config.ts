@@ -136,7 +136,6 @@ export const create: () => Config = () => ({
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
-    testRegex: "(/__tests__/.*|(\\.|/)modal.e2e)\\.[jt]sx?$",
   },
   hydratedFlag: {
     selector: "attribute",
