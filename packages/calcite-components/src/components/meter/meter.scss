@@ -18,14 +18,10 @@
 }
 
 .meter {
-  display: flex;
-  align-items: center;
-  inline-size: 100%;
+  @apply flex relative items-center w-full m-0;
   block-size: var(--calcite-meter-height-internal);
-  margin: 0;
   background-color: var(--calcite-ui-foreground-2);
   border: 1px solid var(--calcite-ui-border-3);
-  position: relative;
   border-radius: var(--calcite-meter-height-internal);
 }
 
@@ -35,7 +31,7 @@
 }
 
 .meter.outline {
-  background-color: transparent;
+  @apply bg-transparent;
 }
 
 .meter-value-visible {
@@ -47,15 +43,13 @@
 }
 
 .meter-step-line {
-  display: block;
+  @apply block absolute inset-y-0;
   inline-size: var(--calcite-meter-space-internal);
   background-color: var(--calcite-ui-border-2);
-  position: absolute;
-  inset-block: 0;
 }
 
 .meter-label {
-  position: absolute;
+  @apply absolute;
   font-size: var(--calcite-meter-font-size-internal);
 }
 
@@ -80,8 +74,7 @@
 }
 
 .meter-fill {
-  display: block;
-  position: absolute;
+  @apply block absolute;
   background-color: var(--calcite-ui-brand);
   inset-inline-start: var(--calcite-meter-space-internal);
   inset-block: var(--calcite-meter-space-internal);

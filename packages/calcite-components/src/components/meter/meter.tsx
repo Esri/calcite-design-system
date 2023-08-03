@@ -304,7 +304,6 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     const textPercentLabel = `${currentPercent} ${messages.percent}`;
     const textUnitLabel = `${value} ${unitLabel}`;
     const valueText = isPercent ? textPercentLabel : unitLabel ? textUnitLabel : undefined;
-    console.log(minPercent);
     return (
       <Host>
         <div
@@ -312,7 +311,6 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
           aria-valuemax={isPercent ? maxPercent : max}
           aria-valuemin={isPercent ? minPercent : min}
           aria-valuenow={isPercent ? currentPercent : value}
-          // todo translate "percent"
           aria-valuetext={valueText}
           class={{
             [CSS.meter]: true,
