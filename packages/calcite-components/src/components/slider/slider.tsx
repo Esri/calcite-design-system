@@ -772,15 +772,10 @@ export class Slider
         {displayedTickValue}
       </span>
     );
-    if (this.labelTicks && !this.hasHistogram && !valueIsRange) {
-      return tickLabel;
-    }
     if (
       this.labelTicks &&
       !this.hasHistogram &&
-      valueIsRange &&
-      !this.precise &&
-      !this.labelHandles
+      (!valueIsRange || (!this.precise && !this.labelHandles))
     ) {
       return tickLabel;
     }
@@ -788,28 +783,6 @@ export class Slider
       this.labelTicks &&
       !this.hasHistogram &&
       valueIsRange &&
-      !this.precise &&
-      this.labelHandles
-    ) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      !this.hasHistogram &&
-      valueIsRange &&
-      this.precise &&
-      (isMinTickLabel || isMaxTickLabel)
-    ) {
-      return tickLabel;
-    }
-    if (this.labelTicks && this.hasHistogram && !this.precise && !this.labelHandles) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      this.hasHistogram &&
-      this.precise &&
-      !this.labelHandles &&
       (isMinTickLabel || isMaxTickLabel)
     ) {
       return tickLabel;
@@ -817,21 +790,12 @@ export class Slider
     if (
       this.labelTicks &&
       this.hasHistogram &&
-      !this.precise &&
-      this.labelHandles &&
+      (!this.precise || this.labelHandles) &&
       (isMinTickLabel || isMaxTickLabel)
     ) {
       return tickLabel;
     }
-    if (
-      this.labelTicks &&
-      this.hasHistogram &&
-      this.precise &&
-      this.labelHandles &&
-      (isMinTickLabel || isMaxTickLabel)
-    ) {
-      return tickLabel;
-    }
+
     return null;
   }
 
@@ -1409,22 +1373,15 @@ export class Slider
    */
   private hideObscuredBoundingTickLabels(): void {
     const valueIsRange = isRange(this.value);
-    if (!this.hasHistogram && !valueIsRange && !this.labelHandles && !this.precise) {
-      return;
-    }
-    if (!this.hasHistogram && !valueIsRange && this.labelHandles && !this.precise) {
-      return;
-    }
-    if (!this.hasHistogram && !valueIsRange && !this.labelHandles && this.precise) {
-      return;
-    }
-    if (!this.hasHistogram && !valueIsRange && this.labelHandles && this.precise) {
-      return;
-    }
-    if (!this.hasHistogram && valueIsRange && !this.precise) {
-      return;
-    }
-    if (this.hasHistogram && !this.precise && !this.labelHandles) {
+
+    if (
+      (!this.hasHistogram && !valueIsRange && !this.labelHandles && !this.precise) ||
+      (!this.hasHistogram && !valueIsRange && this.labelHandles && !this.precise) ||
+      (!this.hasHistogram && !valueIsRange && !this.labelHandles && this.precise) ||
+      (!this.hasHistogram && !valueIsRange && this.labelHandles && this.precise) ||
+      (!this.hasHistogram && valueIsRange && !this.precise) ||
+      (this.hasHistogram && !this.precise && !this.labelHandles)
+    ) {
       return;
     }
 
