@@ -449,7 +449,7 @@ export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
   </calcite-combobox>
 `;
 
-export const nestedGroups = (): string => html`
+export const nestedGroups_TestOnly = (): string => html`
   <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m" open>
     <calcite-combobox-item-group label="First item group">
       <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
