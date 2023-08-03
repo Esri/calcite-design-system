@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.32...@esri/calcite-components@1.5.0-next.33) (2023-08-02)
+
+### Features
+
+- **list:** Add support for dragging items. ([#7109](https://github.com/Esri/calcite-design-system/issues/7109)) ([7324f70](https://github.com/Esri/calcite-design-system/commit/7324f7069e94a6d181a46ec271ba7cdc24517372)), closes [#6554](https://github.com/Esri/calcite-design-system/issues/6554)
+
+### Bug Fixes
+
+- **panel:** Remove double border styling when content isn't provided ([#7368](https://github.com/Esri/calcite-design-system/issues/7368)) ([91a0610](https://github.com/Esri/calcite-design-system/commit/91a0610b889a1531bce6746718ab15883e2d3b80)), closes [#7423](https://github.com/Esri/calcite-design-system/issues/7423)
+
+## [1.5.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.31...@esri/calcite-components@1.5.0-next.32) (2023-08-02)
+
+### Features
+
+- **text-area:** provide additional context for AT users when character limit exceeds ([#7412](https://github.com/Esri/calcite-design-system/issues/7412)) ([c1af3c7](https://github.com/Esri/calcite-design-system/commit/c1af3c7a713b6877a3f0cf54cd21fac922ec5907)), closes [#6630](https://github.com/Esri/calcite-design-system/issues/6630)
+
+### Bug Fixes
+
+- **scrim:** update loader scale on resize of component. ([#7419](https://github.com/Esri/calcite-design-system/issues/7419)) ([24e7f70](https://github.com/Esri/calcite-design-system/commit/24e7f70f0b777759e873f5a32c00fb7de4c19586)), closes [#7420](https://github.com/Esri/calcite-design-system/issues/7420)
+
+## [1.5.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.30...@esri/calcite-components@1.5.0-next.31) (2023-08-02)
+
+### Bug Fixes
+
+- **chip:** disconnect mutation observer when component is disconnected from the DOM ([#7418](https://github.com/Esri/calcite-design-system/issues/7418)) ([412e5fb](https://github.com/Esri/calcite-design-system/commit/412e5fb5565f377bba74af1b79516833550a2202)), closes [#7417](https://github.com/Esri/calcite-design-system/issues/7417)
+- **switch:** Fix for focus outline style in certain cases ([#7414](https://github.com/Esri/calcite-design-system/issues/7414)) ([217324f](https://github.com/Esri/calcite-design-system/commit/217324f3cd6ae4a36a04fd1ddac977a5385b950d)), closes [#7402](https://github.com/Esri/calcite-design-system/issues/7402)
+
+## [1.5.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.29...@esri/calcite-components@1.5.0-next.30) (2023-08-01)
+
+### Features
+
+- **color-picker:** replaces thumb focus outline to rounded ([#7378](https://github.com/Esri/calcite-design-system/issues/7378)) ([d803980](https://github.com/Esri/calcite-design-system/commit/d803980395bb16da3c1349de9318b838f1a09383)), closes [#4633](https://github.com/Esri/calcite-design-system/issues/4633)
+
+### Bug Fixes
+
+- **color-picker:** fix opacity slider keyboard nudging ([#7400](https://github.com/Esri/calcite-design-system/issues/7400)) ([2b4f7c3](https://github.com/Esri/calcite-design-system/commit/2b4f7c3051ef25691e5b24b00a6ffc8de6e69bfc)), closes [#7394](https://github.com/Esri/calcite-design-system/issues/7394)
+
 ## [1.5.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.28...@esri/calcite-components@1.5.0-next.29) (2023-07-31)
 
 ### Features

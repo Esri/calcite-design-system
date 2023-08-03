@@ -84,6 +84,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    this.resizeObserver?.observe(this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -93,6 +94,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
