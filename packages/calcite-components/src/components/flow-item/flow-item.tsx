@@ -345,7 +345,7 @@ export class FlowItem
             closeOnClick={true}
             label={label}
             overlayPositioning="fixed"
-            placement="top"
+            placement="bottom"
             referenceElement={backButtonEl}
           >
             {label}
