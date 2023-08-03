@@ -261,7 +261,7 @@ export const actionBarZIndex_TestOnly = (): string => html`<calcite-panel
 export const footerAndActionBarWithoutContent_TestOnly = (): string => html`<calcite-panel
   height-scale="s"
   heading="Header!"
-  style="width: 300px; height:auto;"
+  style="width: 300px;"
 >
   <calcite-action-bar slot="action-bar">
     <calcite-action-group>
@@ -270,5 +270,6 @@ export const footerAndActionBarWithoutContent_TestOnly = (): string => html`<cal
       <calcite-action text="Layers" icon="layers"> </calcite-action>
     </calcite-action-group>
   </calcite-action-bar>
+  <p>Some content</p>
   <p slot="footer">Footer content!</p>
 </calcite-panel>`;
