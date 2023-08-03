@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.37...@esri/calcite-components@1.5.0-next.38) (2023-08-03)
+
+### Bug Fixes
+
+- **combobox:** add space after grouped items ([#7302](https://github.com/Esri/calcite-design-system/issues/7302)) ([b1580c7](https://github.com/Esri/calcite-design-system/commit/b1580c77fb24c2a3aa55e7b50f1d50b1b1357434)), closes [#6412](https://github.com/Esri/calcite-design-system/issues/6412)
+
+## [1.5.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.37...@esri/calcite-components@1.5.0-next.37) (2023-08-03)
+
+### Bug Fixes
+
+- **combobox:** add space after grouped items ([#7302](https://github.com/Esri/calcite-design-system/issues/7302)) ([b1580c7](https://github.com/Esri/calcite-design-system/commit/b1580c77fb24c2a3aa55e7b50f1d50b1b1357434)), closes [#6412](https://github.com/Esri/calcite-design-system/issues/6412)
+
 ## [1.5.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.35...@esri/calcite-components@1.5.0-next.36) (2023-08-03)
 
 ### Features
