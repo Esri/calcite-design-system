@@ -116,13 +116,14 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
         emitImmediately(component, nonOpenCloseComponent);
       }, parseFloat(transitionDuration) * 1000);
 
-      component.transitionEl.addEventListener("transitionstart", onStart, { once: true });
-      component.transitionEl.addEventListener("transitionend", onEndOrCancel, { once: true });
-      component.transitionEl.addEventListener("transitioncancel", onEndOrCancel, { once: true });
+      component.transitionEl.addEventListener("transitionstart", onStart);
+      component.transitionEl.addEventListener("transitionend", onEndOrCancel);
+      component.transitionEl.addEventListener("transitioncancel", onEndOrCancel);
 
       function onStart(event: TransitionEvent): void {
         if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
           clearTimeout(fallbackTimeoutId);
+          component.transitionEl.removeEventListener("transitionstart", onStart);
           (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
             ? component.onBeforeOpen()
             : component.onBeforeClose();
