@@ -22,8 +22,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **menu-item:** Update spacing and icon layout ([#7381](https://github.com/Esri/calcite-design-system/issues/7381)) ([5659671](https://github.com/Esri/calcite-design-system/commit/5659671061dd169fa365581f71676d052b192475))
 - **navigation-logo:** Increase font-size of heading with no description ([#7081](https://github.com/Esri/calcite-design-system/issues/7081)) ([355e101](https://github.com/Esri/calcite-design-system/commit/355e101fae4d9aadadebaa169973639735578a2e))
 - **switch:** Updates focus outline to be rounded ([#7390](https://github.com/Esri/calcite-design-system/issues/7390)) ([2616b82](https://github.com/Esri/calcite-design-system/commit/2616b822fac369166f0c5292e112a47e93725789))
-- **text-area:** Provide additional context for AT users when character limit exceeds ([#7299](https://github.com/Esri/calcite-design-system/issues/7299)) ([c5678eb](https://github.com/Esri/calcite-design-system/commit/c5678eb09e8d0e26b2956f52401d77305a6bee34))
-- **text-area:** Provide additional context for AT users when character limit exceeds ([#7412](https://github.com/Esri/calcite-design-system/issues/7412)) ([c1af3c7](https://github.com/Esri/calcite-design-system/commit/c1af3c7a713b6877a3f0cf54cd21fac922ec5907))
+- **text-area:** Provide additional context for AT users when character limit exceeds on form submission ([#7299](https://github.com/Esri/calcite-design-system/issues/7299)) ([c5678eb](https://github.com/Esri/calcite-design-system/commit/c5678eb09e8d0e26b2956f52401d77305a6bee34))
+- **text-area:** Provide additional context for AT users when character limit exceeds on form submission ([#7412](https://github.com/Esri/calcite-design-system/issues/7412)) ([c1af3c7](https://github.com/Esri/calcite-design-system/commit/c1af3c7a713b6877a3f0cf54cd21fac922ec5907))
 
 ### Bug Fixes
 
