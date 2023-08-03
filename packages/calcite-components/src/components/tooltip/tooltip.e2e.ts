@@ -783,6 +783,73 @@ describe("calcite-tooltip", () => {
       expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
       expect(closeEvent).toHaveReceivedEventTimes(1);
     }
+
+    it("when open, it emits close events if no longer rendered", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <style>
+          .container {
+            height: 100px;
+            width: 100px;
+            border: 1px solid red;
+          }
+
+          .container:hover .template {
+            display: initial;
+          }
+
+          .template {
+            display: none;
+          }
+        </style>
+        <div class="container">
+          <div class="template">
+            <button id="ref">referenceElement</button>
+            <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+          </div>
+        </div>
+        <button class="hoverOutsideContainer">some other content</button>
+      `);
+
+      const beforeCloseEvent = await page.spyOnEvent("calciteTooltipBeforeClose");
+      const closeEvent = await page.spyOnEvent("calciteTooltipClose");
+      const beforeOpenEvent = await page.spyOnEvent("calciteTooltipBeforeOpen");
+      const openEvent = await page.spyOnEvent("calciteTooltipOpen");
+
+      const container = await page.find(".container");
+      const tooltip = await page.find(`calcite-tooltip`);
+
+      expect(await tooltip.isVisible()).toBe(false);
+
+      await container.hover();
+      await page.waitForChanges();
+
+      const ref = await page.find("#ref");
+      await ref.hover();
+
+      await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+      await page.waitForChanges();
+
+      expect(await tooltip.isVisible()).toBe(true);
+
+      expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
+      expect(openEvent).toHaveReceivedEventTimes(1);
+      expect(beforeCloseEvent).toHaveReceivedEventTimes(0);
+      expect(closeEvent).toHaveReceivedEventTimes(0);
+
+      const hoverOutsideContainer = await page.find(".hoverOutsideContainer");
+      await hoverOutsideContainer.hover();
+
+      await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+      await page.waitForChanges();
+
+      expect(await tooltip.isVisible()).not.toBe(true);
+
+      expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
+      expect(openEvent).toHaveReceivedEventTimes(1);
+      expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
+      expect(closeEvent).toHaveReceivedEventTimes(1);
+    });
   });
 
   it.skip("should open hovered tooltip while pointer is moving", async () => {
@@ -905,6 +972,7 @@ describe("calcite-tooltip", () => {
   describe("within shadowRoot", () => {
     async function defineTestComponents(page: E2EPage): Promise<void> {
       await page.setContent("<calcite-tooltip></calcite-tooltip>");
+
       await page.evaluate((): void => {
         const customComponents: { name: string; html: string }[] = [
           {

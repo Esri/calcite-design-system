@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.35...@esri/calcite-components@1.5.0-next.36) (2023-08-03)
+
+### Features
+
+- **block:** improve block's content layout to allow scrolling ([#7367](https://github.com/Esri/calcite-design-system/issues/7367)) ([ecbf17b](https://github.com/Esri/calcite-design-system/commit/ecbf17b3dac6cd79d21f44811d0b5e8f52ab7237)), closes [#5686](https://github.com/Esri/calcite-design-system/issues/5686) [/github.com/Esri/calcite-design-system/issues/5686#issuecomment-1310423881](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/5686/issues/issuecomment-1310423881)
+
+## [1.5.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.34...@esri/calcite-components@1.5.0-next.35) (2023-08-03)
+
+### Bug Fixes
+
+- **color-picker:** draw slider thumbs within bounds ([#7398](https://github.com/Esri/calcite-design-system/issues/7398)) ([2f37854](https://github.com/Esri/calcite-design-system/commit/2f378548dda9e91719b726a77ab6893e562a20ce)), closes [#7005](https://github.com/Esri/calcite-design-system/issues/7005)
+
 ## [1.5.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.33...@esri/calcite-components@1.5.0-next.34) (2023-08-03)
 
 ### Bug Fixes
