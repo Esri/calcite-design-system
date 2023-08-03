@@ -1,4 +1,4 @@
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, renders, hidden, t9n } from "../../tests/commonTests";
 
 describe("calcite-meter", () => {
   describe("renders", () => {
@@ -11,5 +11,9 @@ describe("calcite-meter", () => {
 
   describe("accessible", () => {
     accessible(`<calcite-meter label="A great meter"></calcite-meter>`);
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-meter");
   });
 });

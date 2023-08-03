@@ -1,6 +1,21 @@
 import { Component, Element, Fragment, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { Appearance, Scale } from "../interfaces";
 import { CSS } from "./resources";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+
+import { MeterMessages } from "./assets/meter/t9n";
+
+import {
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
 
 import {
   connectLocalized,
@@ -14,8 +29,9 @@ import {
   tag: "calcite-meter",
   styleUrl: "meter.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class Meter implements LocalizedComponent {
+export class Meter implements LoadableComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -73,6 +89,25 @@ export class Meter implements LocalizedComponent {
   /** When `true`, displays the current value. */
   @Prop() valueLabel: boolean;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: MeterMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<MeterMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("min")
   @Watch("max")
   @Watch("low")
@@ -87,13 +122,25 @@ export class Meter implements LocalizedComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
     this.calculateValues();
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   //--------------------------------------------------------------------------
@@ -112,7 +159,14 @@ export class Meter implements LocalizedComponent {
 
   @State() currentPercent: number;
 
-  @State() effectiveLocale = "";
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: MeterMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -231,6 +285,7 @@ export class Meter implements LocalizedComponent {
       lowPercent,
       max,
       maxPercent,
+      messages,
       min,
       minPercent,
       unitLabel,
@@ -246,7 +301,7 @@ export class Meter implements LocalizedComponent {
     const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
     const displayLow = !!low && low > value && low > min && (!high || low < high);
     const displayHigh = !!high && high > value && high < max && (!low || high > low);
-    const textPercentLabel = `${currentPercent} percent`;
+    const textPercentLabel = `${currentPercent} ${messages.percent}`;
     const textUnitLabel = `${value} ${unitLabel}`;
     const valueText = isPercent ? textPercentLabel : unitLabel ? textUnitLabel : undefined;
     console.log(minPercent);

@@ -24,6 +24,7 @@ packages\calcite-components\src\components\input-time-zone\assets\input-time-zon
 packages\calcite-components\src\components\list-item\assets\list-item\t9n
 packages\calcite-components\src\components\menu\assets\menu\t9n
 packages\calcite-components\src\components\menu-item\assets\menu-item\t9n
+packages\calcite-components\src\components\meter\assets\meter\t9n
 packages\calcite-components\src\components\modal\assets\modal\t9n
 packages\calcite-components\src\components\notice\assets\notice\t9n
 packages\calcite-components\src\components\pagination\assets\pagination\t9n
