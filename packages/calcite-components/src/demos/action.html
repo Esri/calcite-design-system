@@ -443,7 +443,7 @@
           <calcite-action-bar>
             <calcite-action text="Add" icon="plus"> </calcite-action>
             <calcite-action text="Save" icon="save"> </calcite-action>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
 
@@ -460,7 +460,7 @@
               <calcite-action text="Save" active icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
 
@@ -489,7 +489,7 @@
             const slotTestNode2 = document.getElementById("slot-test2");
             setTimeout(function () {
               const action = document.createElement("calcite-action");
-              action.setAttribute("slot", "bottom-actions");
+              action.setAttribute("slot", "actions-end");
               action.setAttribute("text", "Hello world");
               action.setAttribute("icon", "layers");
               slotTestNode2.appendChild(action);
@@ -509,7 +509,7 @@
             const expandedTestNode = document.getElementById("slot-test-expanded");
             setTimeout(function () {
               const action = document.createElement("calcite-action");
-              action.setAttribute("slot", "bottom-actions");
+              action.setAttribute("slot", "actions-end");
               action.setAttribute("text", "Hello world");
               action.setAttribute("icon", "layers");
               expandedTestNode.appendChild(action);
@@ -546,7 +546,7 @@
           <calcite-action-bar layout="horizontal">
             <calcite-action text="Add" icon="plus"> </calcite-action>
             <calcite-action text="Save" icon="save"> </calcite-action>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
 
@@ -563,7 +563,7 @@
               <calcite-action text="Save" active icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
 
@@ -590,7 +590,7 @@
               <calcite-action text="Save" active icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
       </div>

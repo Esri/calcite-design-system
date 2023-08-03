@@ -47,7 +47,8 @@ import {
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
- * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button.
+ * @slot bottom-actions - [Deprecated] Use the `"actions-end"` slot instead. A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button.
+ * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 @Component({
@@ -371,7 +372,8 @@ export class ActionBar
     ) : null;
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
+      <calcite-action-group class={CSS.actionGroupEnd} layout={layout} scale={scale}>
+        <slot name={SLOTS.actionsEnd} />
         <slot name={SLOTS.bottomActions} />
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
