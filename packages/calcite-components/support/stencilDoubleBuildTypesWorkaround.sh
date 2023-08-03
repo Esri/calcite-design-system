@@ -12,6 +12,6 @@
 # Refs:
 # https://github.com/lerna/lerna/blob/main/libs/commands/publish/README.md#lifecycle-scripts
 # https://docs.npmjs.com/cli/v8/using-npm/scripts#life-cycle-scripts
-# https://github.com/Esri/calcite-components/pull/4303
+# https://github.com/Esri/calcite-design-system/pull/4303
 npm run build
 npm run util:test-types
