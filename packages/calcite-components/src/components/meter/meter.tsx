@@ -157,6 +157,10 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
 
   @State() highPercent: number;
 
+  @State() lowRangeActive: boolean;
+
+  @State() highRangeActive: boolean;
+
   @State() currentPercent: number;
 
   @State() effectiveLocale: string;
@@ -224,6 +228,8 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     this.lowPercent = Math.round(lowPercent);
     this.highPercent = Math.round(highPercent);
     this.currentPercent = value ? Math.round(currentPercent) : 0;
+    this.lowRangeActive = !!low && low > value && low > min && (!high || low < high);
+    this.highRangeActive = !!high && high > value && high < max && (!low || high > low);
   }
   //--------------------------------------------------------------------------
   //
@@ -231,42 +237,87 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
+  renderMeterFill(): VNode {
+    const { currentPercent, fillType } = this;
+    const kind = this.getMeterKind();
+    return (
+      <div
+        class={{ [CSS.meterFill]: true, [kind]: fillType !== "single" }}
+        style={{ width: `${currentPercent}%` }}
+      />
+    );
+  }
+
+  renderValueLabel(): VNode {
+    const { currentPercent, labelType, unitLabel, value } = this;
+    const isPercent = labelType === "percent";
+    const labelValue = this.formatLabel(isPercent ? currentPercent / 100 : value || 0);
+    const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
+    return <Fragment>{this.renderRangeLabel(valuePosition, labelValue, unitLabel, true)}</Fragment>;
+  }
+
+  renderRangeLabels(): VNode {
+    const {
+      high,
+      highPercent,
+      labelType,
+      low,
+      lowPercent,
+      max,
+      maxPercent,
+      min,
+      minPercent,
+      unitLabel,
+      lowRangeActive,
+      highRangeActive,
+    } = this;
+    const isPercent = labelType === "percent";
+    const labelMin = this.formatLabel(isPercent ? minPercent : min);
+    const labelMax = this.formatLabel(isPercent ? maxPercent / 100 : max);
+    const labelLow = low ? this.formatLabel(isPercent ? lowPercent / 100 : low) : undefined;
+    const labelHigh = high ? this.formatLabel(isPercent ? highPercent / 100 : high) : undefined;
+    return (
+      <Fragment>
+        {this.renderRangeLabel(minPercent, labelMin, unitLabel)}
+        {lowRangeActive && this.renderRangeLabel(lowPercent, labelLow)}
+        {highRangeActive && this.renderRangeLabel(highPercent, labelHigh)}
+        {this.renderRangeLabel(maxPercent, labelMax)}
+      </Fragment>
+    );
+  }
+
   /**
    *
    * @param position
    * @param value
-   * @param line
    * @param label
    * @param isValue
    * @returns
    */
 
-  private renderRange(
-    position: number,
-    value: string,
-    line?: boolean,
-    label?: string,
-    isValue?: boolean
-  ): VNode {
+  renderRangeLabel(position: number, value: string, label?: string, isValue?: boolean): VNode {
     const labelClass = isValue ? CSS.meterLabelValue : CSS.meterLabelRange;
     const style = { insetInlineStart: `${position}%` };
     return (
-      <Fragment>
-        {line && (
-          <div
-            class={{ [CSS.meterStepLine]: true, [CSS.meterLabelContainer]: true }}
-            style={style}
-          />
+      <div class={{ [CSS.meterLabel]: true, [labelClass]: true }} style={style}>
+        {value}
+        {label && this.unitLabel && this.labelType !== "percent" && (
+          <span class={CSS.meterUnitLabel}>&nbsp;{label}</span>
         )}
-        {(this.rangeLabels || isValue) && (
-          <div class={{ [CSS.meterLabel]: true, [labelClass]: true }} style={style}>
-            {value}
-            {label && this.unitLabel && this.labelType !== "percent" && (
-              <span class={CSS.meterUnitLabel}>&nbsp;{label}</span>
-            )}
-          </div>
-        )}
-      </Fragment>
+      </div>
+    );
+  }
+
+  /**
+   *
+   * @param position
+   * @returns
+   */
+
+  renderRangeLine(position: number): VNode {
+    const style = { insetInlineStart: `${position}%` };
+    return (
+      <div class={{ [CSS.meterStepLine]: true, [CSS.meterLabelContainer]: true }} style={style} />
     );
   }
 
@@ -276,12 +327,9 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
       currentPercent,
       rangeLabels,
       valueLabel,
-      fillType,
-      high,
       highPercent,
       label,
       labelType,
-      low,
       lowPercent,
       max,
       maxPercent,
@@ -290,17 +338,10 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
       minPercent,
       unitLabel,
       value,
+      lowRangeActive,
+      highRangeActive,
     } = this;
-    const kind = this.getMeterKind();
     const isPercent = labelType === "percent";
-    const labelMin = this.formatLabel(isPercent ? minPercent : min);
-    const labelMax = this.formatLabel(isPercent ? maxPercent / 100 : max);
-    const labelLow = low ? this.formatLabel(isPercent ? lowPercent / 100 : low) : undefined;
-    const labelHigh = high ? this.formatLabel(isPercent ? highPercent / 100 : high) : undefined;
-    const labelValue = this.formatLabel(isPercent ? currentPercent / 100 : value || 0);
-    const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
-    const displayLow = !!low && low > value && low > min && (!high || low < high);
-    const displayHigh = !!high && high > value && high < max && (!low || high > low);
     const textPercentLabel = `${currentPercent} ${messages.percent}`;
     const textUnitLabel = `${value} ${unitLabel}`;
     const valueText = isPercent ? textPercentLabel : unitLabel ? textUnitLabel : undefined;
@@ -320,19 +361,11 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
           }}
           role="meter"
         >
-          <div
-            class={{ [CSS.meterFill]: true, [kind]: fillType !== "single" }}
-            style={{ width: `${currentPercent}%` }}
-          />
-          {valueLabel && this.renderRange(valuePosition, labelValue, false, unitLabel, true)}
-          {rangeLabels && (
-            <Fragment>
-              {this.renderRange(minPercent, labelMin, false, unitLabel)}
-              {displayLow && this.renderRange(lowPercent, labelLow, true)}
-              {displayHigh && this.renderRange(highPercent, labelHigh, true)}
-              {this.renderRange(maxPercent, labelMax, false)}
-            </Fragment>
-          )}
+          {this.renderMeterFill()}
+          {valueLabel && this.renderValueLabel()}
+          {lowRangeActive && this.renderRangeLine(lowPercent)}
+          {highRangeActive && this.renderRangeLine(highPercent)}
+          {rangeLabels && this.renderRangeLabels()}
         </div>
       </Host>
     );
