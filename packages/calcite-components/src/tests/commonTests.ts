@@ -146,8 +146,6 @@ export function reflects(
     const attrName = propToAttr(propertyName);
     const componentAttributeSelector = `${componentTag}[${attrName}]`;
 
-    console.log(componentAttributeSelector);
-
     element.setProperty(propertyName, value);
     await page.waitForChanges();
 
