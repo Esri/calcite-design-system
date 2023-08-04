@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.0...@esri/calcite-components@1.5.1-next.1) (2023-08-04)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** Add native tooltip to expand action ([#7452](https://github.com/Esri/calcite-design-system/issues/7452)) ([9673ef7](https://github.com/Esri/calcite-design-system/commit/9673ef729007099a6c4a5121a6873fdb5885a271)), closes [#7451](https://github.com/Esri/calcite-design-system/issues/7451)
+
 ## [1.5.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0...@esri/calcite-components@1.5.1-next.0) (2023-08-04)
 
 ### Bug Fixes
