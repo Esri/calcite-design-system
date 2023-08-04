@@ -61,7 +61,7 @@ export class ActionPad
   /**
    * Specifies the accessible label for the last action-group.
    */
-  @Prop() actionsGroupEndLabel = "";
+  @Prop() actionsGroupEndLabel: string;
 
   /**
    * When `true`, the expand-toggling behavior is disabled.
