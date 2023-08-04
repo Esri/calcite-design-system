@@ -11,6 +11,7 @@ export interface Star {
   partial: boolean;
   selected: boolean;
   value: number;
+  tabIndex: number;
 }
 
 export interface StarIconProps {

@@ -214,7 +214,7 @@ export class Rating
         fraction > 0 &&
         fraction < 1;
       const selected = this.value >= value;
-
+      const tabIndex = this.assignTabIndex(value);
       return {
         average,
         checked,
@@ -226,6 +226,7 @@ export class Rating
         partial,
         selected,
         value,
+        tabIndex,
       };
     });
   }
@@ -249,8 +250,6 @@ export class Rating
   render() {
     return (
       <Host
-        onBlur={this.handleRatingFocusLeave}
-        onFocus={this.handleRatingFocusIn}
         onKeyDown={this.handleHostKeyDown}
         onPointerOut={this.handleRatingPointerOut}
         onPointerOver={this.handleRatingPointerOver}
@@ -262,7 +261,6 @@ export class Rating
               ({
                 average,
                 checked,
-                focused,
                 fraction,
                 hovered,
                 id,
@@ -270,12 +268,12 @@ export class Rating
                 partial,
                 selected,
                 value,
+                tabIndex,
               }) => {
                 return (
                   <label
                     class={{
                       star: true,
-                      focused,
                       selected,
                       hovered,
                       average,
@@ -283,8 +281,12 @@ export class Rating
                     }}
                     htmlFor={id}
                     key={id}
+                    onKeyDown={this.handleInputKeyDown}
                     onPointerDown={this.handleLabelPointerDown}
                     onPointerOver={this.handleLabelPointerOver}
+                    tabIndex={tabIndex}
+                    // eslint-disable-next-line react/jsx-sort-props
+                    ref={this.setRatingEl}
                   >
                     <input
                       checked={checked}
@@ -293,7 +295,6 @@ export class Rating
                       id={id}
                       name={this.guid}
                       onChange={this.handleInputChange}
-                      onKeyDown={this.handleInputKeyDown}
                       type="radio"
                       value={value}
                       // eslint-disable-next-line react/jsx-sort-props
@@ -351,34 +352,15 @@ export class Rating
     this.hoverValue = null;
   };
 
-  private handleRatingFocusIn = (): void => {
-    const isValueZero = this.value === 0;
-    const selectedInput = this.value > 0 ? this.value - 1 : 0;
-    const focusInput = this.inputRefs[selectedInput];
-    const focusValue = Number(focusInput.value);
-
-    focusInput.select();
-    this.focusValue = isValueZero && !this.isKeyboardInteraction ? null : focusValue;
-    this.hoverValue = isValueZero && !this.isKeyboardInteraction ? null : focusValue;
-    this.hasFocus = !!this.focusValue;
-  };
-
-  private handleRatingFocusLeave = (): void => {
-    this.focusValue = null;
-    this.hoverValue = null;
-    this.hasFocus = false;
-  };
-
   private handleHostKeyDown = () => {
     this.isKeyboardInteraction = true;
   };
 
   private handleInputKeyDown = (event: KeyboardEvent) => {
-    const target = event.currentTarget as HTMLInputElement;
-    const inputVal = Number(target.value);
+    const target = event.currentTarget as HTMLLabelElement;
+    const inputVal = Number(target.firstChild["value"]);
     const key = event.key;
     const numberKey = key == " " ? undefined : Number(key);
-
     this.emit = true;
     if (isNaN(numberKey)) {
       switch (key) {
@@ -387,10 +369,14 @@ export class Rating
           this.value = !this.required && this.value === inputVal ? 0 : inputVal;
           break;
         case "ArrowLeft":
-          this.value = inputVal - 1;
+          this.value = this.getPreviousRatingValue(inputVal);
+          this.updatefocus();
+          event.preventDefault();
           break;
         case "ArrowRight":
-          this.value = inputVal + 1;
+          this.value = this.getNextRatingValue(inputVal);
+          this.updatefocus();
+          event.preventDefault();
           break;
         case "Tab":
           if (this.hasFocus) {
@@ -407,6 +393,7 @@ export class Rating
       } else if (this.required && numberKey > 0 && numberKey <= this.max) {
         this.value = numberKey;
       }
+      this.updatefocus();
     }
   };
 
@@ -432,7 +419,35 @@ export class Rating
     this.hoverValue = inputVal || null;
     this.emit = true;
     this.value = !this.required && this.value === inputVal ? 0 : inputVal;
+    this.hasFocus = this.value !== 0;
   };
+
+  private updatefocus(): void {
+    this.focusValue = this.value;
+    this.hoverValue = this.value;
+    this.hasFocus = true;
+    this.ratings[this.value - 1].focus();
+  }
+
+  private assignTabIndex(currentTabIndex: number): number {
+    if (!!this.focusValue) {
+      return this.focusValue === currentTabIndex ? 0 : -1;
+    } else {
+      return currentTabIndex === 1 ? 0 : -1;
+    }
+  }
+
+  setRatingEl = (el: HTMLLabelElement): void => {
+    this.ratings.push(el);
+  };
+
+  getNextRatingValue(currentValue: number): number {
+    return currentValue === 5 ? 1 : currentValue + 1;
+  }
+
+  getPreviousRatingValue(currentValue: number): number {
+    return currentValue === 1 ? 5 : currentValue - 1;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -473,4 +488,6 @@ export class Rating
   private max = 5;
 
   private starsMap: Star[];
+
+  private ratings: HTMLLabelElement[] = [];
 }
