@@ -241,6 +241,25 @@ export const actionBarWithoutContent_TestOnly = (): string => html`<calcite-pane
   </calcite-action-bar>
 </calcite-panel>`;
 
+export const actionBarZIndex_TestOnly = (): string => html`<calcite-panel
+  style="width: 400px;"
+  height-scale="s"
+  menu-open
+>
+  <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+  <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+  <calcite-action-bar slot="action-bar">
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"> </calcite-action>
+      <calcite-action text="Save" icon="save">
+        <calcite-tooltip open overlay-positioning="fixed" placement="top" slot="tooltip">test</calcite-tooltip>
+      </calcite-action>
+      <calcite-action text="Layers" icon="layers"> </calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+  <p>Some content</p></calcite-panel
+>`;
+
 export const footerAndActionBarWithoutContent_TestOnly = (): string => html`<calcite-panel
   height-scale="s"
   heading="Header!"
