@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.1...@esri/calcite-components@1.5.1-next.2) (2023-08-04)
+
+### Bug Fixes
+
+- fix SSR build error caused by browser-sniffing util ([#7461](https://github.com/Esri/calcite-design-system/issues/7461)) ([e5381fa](https://github.com/Esri/calcite-design-system/commit/e5381fa8306674b77531a758cb0e2b11a00c7e22)), closes [#7459](https://github.com/Esri/calcite-design-system/issues/7459)
+- **list:** Add missing drag handle locale strings ([#7462](https://github.com/Esri/calcite-design-system/issues/7462)) ([2b5463e](https://github.com/Esri/calcite-design-system/commit/2b5463e40b408b8c2b430d880bb1482db32fde7d)), closes [#7460](https://github.com/Esri/calcite-design-system/issues/7460)
+- **panel:** Allow panel content to take full height. ([#7454](https://github.com/Esri/calcite-design-system/issues/7454)) ([b6bf54f](https://github.com/Esri/calcite-design-system/commit/b6bf54f44d2f17b7fb2fc700101ba17c956c51e2)), closes [#7453](https://github.com/Esri/calcite-design-system/issues/7453)
+
 ## [1.5.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.0...@esri/calcite-components@1.5.1-next.1) (2023-08-04)
 
 ### Bug Fixes
