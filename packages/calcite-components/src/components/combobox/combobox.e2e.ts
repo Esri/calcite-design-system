@@ -8,13 +8,13 @@ import {
   floatingUIOwner,
   formAssociated,
   disabled,
+  openClose,
   t9n,
   reflects,
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
-import { CSS } from "./resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import { skipAnimations } from "../../tests/utils";
 
@@ -133,6 +133,19 @@ describe("calcite-combobox", () => {
 
   describe("disabled", () => {
     disabled("calcite-combobox");
+  });
+
+  const openCloseContent = html`
+    <calcite-combobox id="myCombobox">
+      <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+      <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+      <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+      <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+    </calcite-combobox>
+  `;
+
+  describe("openClose", () => {
+    openClose(`${openCloseContent}`, "open", false);
   });
 
   it("filtering does not match property with value of undefined", async () => {
@@ -1466,56 +1479,6 @@ describe("calcite-combobox", () => {
       "open",
       { shadowSelector: ".floating-ui-container" }
     );
-  });
-
-  it("should emit component status for transition-chained events: 'calciteComboboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-combobox id="myCombobox">
-        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
-      </calcite-combobox>
-    `);
-    const element = await page.find("calcite-combobox");
-    const container = await page.find(`calcite-combobox >>> .${CSS.listContainer}`);
-
-    expect(await container.isVisible()).toBe(false);
-
-    const calciteComboboxBeforeOpenEvent = page.waitForEvent("calciteComboboxBeforeOpen");
-    const calciteComboboxOpenEvent = page.waitForEvent("calciteComboboxOpen");
-
-    const calciteComboboxBeforeOpenSpy = await element.spyOnEvent("calciteComboboxBeforeOpen");
-    const calciteComboboxOpenSpy = await element.spyOnEvent("calciteComboboxOpen");
-
-    await element.setProperty("open", true);
-    await page.waitForChanges();
-
-    await calciteComboboxBeforeOpenEvent;
-    await calciteComboboxOpenEvent;
-
-    expect(calciteComboboxBeforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(calciteComboboxOpenSpy).toHaveReceivedEventTimes(1);
-
-    expect(await container.isVisible()).toBe(true);
-
-    const calciteComboboxBeforeCloseEvent = page.waitForEvent("calciteComboboxBeforeClose");
-    const calciteComboboxCloseEvent = page.waitForEvent("calciteComboboxClose");
-
-    const calciteComboboxBeforeCloseSpy = await element.spyOnEvent("calciteComboboxBeforeClose");
-    const calciteComboboxClose = await element.spyOnEvent("calciteComboboxClose");
-
-    await element.setProperty("open", false);
-    await page.waitForChanges();
-
-    await calciteComboboxBeforeCloseEvent;
-    await calciteComboboxCloseEvent;
-
-    expect(calciteComboboxBeforeCloseSpy).toHaveReceivedEventTimes(1);
-    expect(calciteComboboxClose).toHaveReceivedEventTimes(1);
-
-    expect(await container.isVisible()).toBe(false);
   });
 
   it("should have input--icon class when placeholder-icon is parsed", async () => {

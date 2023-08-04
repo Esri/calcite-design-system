@@ -12,7 +12,6 @@ import {
   renders,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
-import { CSS } from "./resources";
 
 const simpleDropdownHTML = html`
   <calcite-dropdown>
@@ -63,7 +62,7 @@ describe("calcite-dropdown", () => {
   });
 
   describe("emitsOpenCloseEvents", () => {
-    openClose(simpleDropdownHTML, "open", `${CSS.calciteDropdownGroup} >>> .${CSS.container}`, false);
+    openClose(simpleDropdownHTML, "open", false);
   });
 
   interface SelectedItemsAssertionOptions {

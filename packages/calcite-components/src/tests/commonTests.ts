@@ -1347,22 +1347,17 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 /*
  * @param {ComponentTestSetup} ComponentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
- * @param {string} containerSelector - Container element selector.
+ * @param {boolean} toggleValue - Indicates the initial value of the toggle property.
  *
  * @example
- * import { emitsOpenCloseTransitionChainedEvents } from "../../tests/commonTests";
+ * import { openClose } from "../../tests/commonTests";
  *
- * describe("emitsOpenCloseTransitionChainedEvents", () => {
- *   emitsOpenCloseTransitionChainedEvents("calcite-dropdown", "open", ".container");
+ * describe("openClose", () => {
+ *   openClose("calcite-dropdown", "open", ".container");
  * });
  *
  */
-export function openClose(
-  componentTestSetup: ComponentTestSetup,
-  toggleProp: string,
-  containerSelector: string,
-  toggleValue: boolean
-): void {
+export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: string, toggleValue: boolean): void {
   const testOpenCloseEvents = async (page: E2EPage, tag: string) => {
     const element = await page.find(tag);
 
