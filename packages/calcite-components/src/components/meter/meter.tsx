@@ -149,6 +149,8 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
+  private swapThreshold = 0.85;
+
   private minPercent = 0;
 
   private maxPercent = 100;
@@ -249,37 +251,44 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   }
 
   renderValueLabel(): VNode {
-    const { currentPercent, labelType, unitLabel, value } = this;
+    const { currentPercent, labelType, unitLabel, value, swapThreshold } = this;
     const isPercent = labelType === "percent";
     const labelValue = this.formatLabel(isPercent ? currentPercent / 100 : value || 0);
     const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
-    return <Fragment>{this.renderRangeLabel(valuePosition, labelValue, unitLabel, true)}</Fragment>;
+    const swapValue = currentPercent / 100 >= swapThreshold;
+
+    return (
+      <Fragment>
+        {this.renderRangeLabel(valuePosition, labelValue, unitLabel, true, swapValue)}
+      </Fragment>
+    );
   }
 
   renderRangeLabels(): VNode {
     const {
       high,
+      highActive,
       highPercent,
       labelType,
       low,
+      lowActive,
       lowPercent,
       max,
       maxPercent,
       min,
       minPercent,
+      swapThreshold,
       unitLabel,
-      lowActive,
-      highActive,
     } = this;
     const isPercent = labelType === "percent";
     const labelMin = this.formatLabel(isPercent ? minPercent : min);
     const labelMax = this.formatLabel(isPercent ? maxPercent / 100 : max);
     const labelLow = low ? this.formatLabel(isPercent ? lowPercent / 100 : low) : undefined;
     const labelHigh = high ? this.formatLabel(isPercent ? highPercent / 100 : high) : undefined;
-    const swapThreshold = 0.85;
     const proximityThreshold = 0.15;
     const swapLow = (highPercent - lowPercent) / 100 < proximityThreshold;
     const swapHigh = highPercent / 100 >= swapThreshold;
+
     return (
       <Fragment>
         {this.renderRangeLabel(minPercent, labelMin, unitLabel)}
@@ -338,21 +347,21 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     const {
       appearance,
       currentPercent,
-      rangeLabels,
-      valueLabel,
+      highActive,
       highPercent,
       label,
       labelType,
+      lowActive,
       lowPercent,
       max,
       maxPercent,
       messages,
       min,
       minPercent,
+      rangeLabels,
       unitLabel,
       value,
-      lowActive,
-      highActive,
+      valueLabel,
     } = this;
     const isPercent = labelType === "percent";
     const textPercentLabel = `${currentPercent} ${messages.percent}`;
