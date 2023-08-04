@@ -140,6 +140,7 @@ export function reflects(
 
   it.each(cases)("%p", async (propertyName, value) => {
     const page = await simplePageSetup(componentTagOrHTML);
+    await skipAnimations(page);
     const componentTag = getTag(componentTagOrHTML);
     const element = await page.find(componentTag);
 
