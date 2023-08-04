@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.1...@esri/calcite-components@1.5.1-next.2) (2023-08-04)
+
+### Bug Fixes
+
+- fix SSR build error caused by browser-sniffing util ([#7461](https://github.com/Esri/calcite-design-system/issues/7461)) ([e5381fa](https://github.com/Esri/calcite-design-system/commit/e5381fa8306674b77531a758cb0e2b11a00c7e22)), closes [#7459](https://github.com/Esri/calcite-design-system/issues/7459)
+- **list:** Add missing drag handle locale strings ([#7462](https://github.com/Esri/calcite-design-system/issues/7462)) ([2b5463e](https://github.com/Esri/calcite-design-system/commit/2b5463e40b408b8c2b430d880bb1482db32fde7d)), closes [#7460](https://github.com/Esri/calcite-design-system/issues/7460)
+- **panel:** Allow panel content to take full height. ([#7454](https://github.com/Esri/calcite-design-system/issues/7454)) ([b6bf54f](https://github.com/Esri/calcite-design-system/commit/b6bf54f44d2f17b7fb2fc700101ba17c956c51e2)), closes [#7453](https://github.com/Esri/calcite-design-system/issues/7453)
+
+## [1.5.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.0...@esri/calcite-components@1.5.1-next.1) (2023-08-04)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** Add native tooltip to expand action ([#7452](https://github.com/Esri/calcite-design-system/issues/7452)) ([9673ef7](https://github.com/Esri/calcite-design-system/commit/9673ef729007099a6c4a5121a6873fdb5885a271)), closes [#7451](https://github.com/Esri/calcite-design-system/issues/7451)
+
+## [1.5.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0...@esri/calcite-components@1.5.1-next.0) (2023-08-04)
+
+### Bug Fixes
+
+- **flow-item:** Use a native tooltip for the back button ([#7442](https://github.com/Esri/calcite-design-system/issues/7442)) ([f38167b](https://github.com/Esri/calcite-design-system/commit/f38167bfeaf92557f4f0f9a437b6d4b35b72fc9c)), closes [#7436](https://github.com/Esri/calcite-design-system/issues/7436) [#7433](https://github.com/Esri/calcite-design-system/issues/7433) [#7436](https://github.com/Esri/calcite-design-system/issues/7436)
+- **panel:** Add native tooltip to close button. ([#7434](https://github.com/Esri/calcite-design-system/issues/7434)) ([70b45cf](https://github.com/Esri/calcite-design-system/commit/70b45cf0b8509cd01e6639f9ea30ec7b008046c2))
+- **panel:** Correct header and action-bar z-indexing display issues ([#7440](https://github.com/Esri/calcite-design-system/issues/7440)) ([db7eac7](https://github.com/Esri/calcite-design-system/commit/db7eac7488d08af69525058bd4d0f16acb44c99f)), closes [#7437](https://github.com/Esri/calcite-design-system/issues/7437)
+
 ## [1.5.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.4.3...@esri/calcite-components@1.5.0) (2023-08-03)
 
 ### Features

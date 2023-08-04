@@ -136,35 +136,34 @@ export function reflects(
     value: any;
   }[]
 ): void {
-  it(`reflects`, async () => {
+  const cases = propsToTest.map(({ propertyName, value }) => [propertyName, value]);
+
+  it.each(cases)("%p", async (propertyName, value) => {
     const page = await simplePageSetup(componentTagOrHTML);
     const componentTag = getTag(componentTagOrHTML);
     const element = await page.find(componentTag);
 
-    for (const propAndValue of propsToTest) {
-      const { propertyName, value } = propAndValue;
-      const attrName = propToAttr(propertyName);
-      const componentAttributeSelector = `${componentTag}[${attrName}]`;
+    const attrName = propToAttr(propertyName);
+    const componentAttributeSelector = `${componentTag}[${attrName}]`;
+
+    element.setProperty(propertyName, value);
+    await page.waitForChanges();
+
+    expect(await page.find(componentAttributeSelector)).toBeTruthy();
+
+    if (typeof value === "boolean") {
+      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
+      const negated = !value;
+
+      element.setProperty(propertyName, negated);
+      await page.waitForChanges();
+
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
       element.setProperty(propertyName, value);
       await page.waitForChanges();
 
-      expect(await page.find(componentAttributeSelector)).toBeTruthy();
-
-      if (typeof value === "boolean") {
-        const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
-        const negated = !value;
-
-        element.setProperty(propertyName, negated);
-        await page.waitForChanges();
-
-        expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
-
-        element.setProperty(propertyName, value);
-        await page.waitForChanges();
-
-        expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
-      }
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
     }
   });
 }
@@ -204,16 +203,15 @@ export function defaults(
     defaultValue: any;
   }[]
 ): void {
-  it("has property defaults", async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    const element = await page.find(getTag(componentTagOrHTML));
-
-    for (const propAndValue of propsToTest) {
-      const { propertyName, defaultValue } = propAndValue;
+  it.each(propsToTest.map(({ propertyName, defaultValue }) => [propertyName, defaultValue]))(
+    "%p",
+    async (propertyName, defaultValue) => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      const element = await page.find(getTag(componentTagOrHTML));
       const prop = await element.getProperty(propertyName);
       expect(prop).toEqual(defaultValue);
     }
-  });
+  );
 }
 
 /**
