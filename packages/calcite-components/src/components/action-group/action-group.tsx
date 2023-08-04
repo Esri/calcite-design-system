@@ -24,6 +24,7 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Columns, Layout, Scale } from "../interfaces";
 import { ActionGroupMessages } from "./assets/action-group/t9n";
 import { ICONS, SLOTS } from "./resources";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -73,6 +74,15 @@ export class ActionGroup
    * When `true`, the `calcite-action-menu` is open.
    */
   @Prop({ reflect: true, mutable: true }) menuOpen = false;
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies the size of the `calcite-action-menu`.
@@ -167,7 +177,7 @@ export class ActionGroup
   }
 
   renderMenu(): VNode {
-    const { el, expanded, menuOpen, scale, layout, messages } = this;
+    const { el, expanded, menuOpen, scale, layout, messages, overlayPositioning } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.menuActions);
 
@@ -178,6 +188,7 @@ export class ActionGroup
         label={messages.more}
         onCalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
+        overlayPositioning={overlayPositioning}
         placement={layout === "horizontal" ? "bottom-start" : "leading-start"}
         scale={scale}
       >

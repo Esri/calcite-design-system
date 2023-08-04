@@ -11,7 +11,7 @@ export default {
   ...storyFilters(),
 };
 
-export const simple = (): string => html` <calcite-menu>
+export const simple = (): string => html`<calcite-menu>
   <calcite-menu-item
     text="${text("text", "Menu item")}"
     src="${text("src", "")}"
@@ -24,7 +24,7 @@ export const simple = (): string => html` <calcite-menu>
   />
 </calcite-menu>`;
 
-export const iconStart = (): string => html` <calcite-menu>
+export const iconStart = (): string => html`<calcite-menu>
   <calcite-menu-item
     text="${text("text", "Menu item")}"
     src="${text("src", "")}"
@@ -38,7 +38,7 @@ export const iconStart = (): string => html` <calcite-menu>
   />
 </calcite-menu>`;
 
-export const iconEnd = (): string => html` <calcite-menu>
+export const iconEnd = (): string => html`<calcite-menu>
   <calcite-menu-item
     text="${text("text", "Menu item")}"
     src="${text("src", "")}"
@@ -52,7 +52,7 @@ export const iconEnd = (): string => html` <calcite-menu>
   />
 </calcite-menu>`;
 
-export const iconsBoth = (): string => html` <calcite-menu>
+export const iconsBoth = (): string => html`<calcite-menu>
   <calcite-menu-item
     text="${text("text", "Menu item")}"
     src="${text("src", "")}"
@@ -67,11 +67,11 @@ export const iconsBoth = (): string => html` <calcite-menu>
   />
 </calcite-menu>`;
 
-export const allIconsAndSubMenu_TestOnly = (): string => html` <calcite-menu>
+export const allIconsAndSubMenu_TestOnly = (): string => html`<calcite-menu>
   <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
   <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
   <calcite-menu-item text="Example item 3" text-enabled icon-start="layer" icon-end="layer" breadcrumb>
-    <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled> </calcite-menu-item>
+    <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled>
       <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
     </calcite-menu-item>
@@ -83,7 +83,7 @@ export const allIconsAndSubMenuVertical_TestOnly = (): string => html`<calcite-m
   <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
   <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
   <calcite-menu-item text="Example item 3" text-enabled icon-start="layer" icon-end="layer" breadcrumb>
-    <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled> </calcite-menu-item>
+    <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled>
       <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
     </calcite-menu-item>
@@ -97,6 +97,6 @@ export const darkModeRTL_TestOnly = (): string =>
     active
     dir="rtl"
     class="calcite-mode-dark"
-    icon-start="Layers"
-    icon-end="Layers"
+    icon-start="layer"
+    icon-end="layer"
   />`;

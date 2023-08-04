@@ -184,11 +184,6 @@ export const itemsAsLinks = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-dropdown
     dir="rtl"
     open
@@ -259,11 +254,6 @@ export const itemsAsLinksDarkMode = (): string => html`
 itemsAsLinksDarkMode.parameters = { modes: modesDarkDefault };
 
 export const scrollingAfterCertainItems_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-dropdown
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
@@ -297,11 +287,6 @@ scrollingAfterCertainItems_TestOnly.parameters = {
 };
 
 export const scrollingWithoutMaxItems_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-dropdown open>
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
@@ -330,11 +315,6 @@ export const scrollingWithoutMaxItems_TestOnly = (): string => html`
 `;
 
 export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string => html` <calcite-dropdown max-items="3" open>
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-button slot="trigger">Activate Dropdown</calcite-button>
   <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
     <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -343,35 +323,25 @@ export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string => html` <
   </calcite-dropdown-group>
 </calcite-dropdown>`;
 
-export const disabled_TestOnly = (): string => html` <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
-  <calcite-dropdown disabled>
-    <calcite-button slot="trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group group-title="First group">
-      <calcite-dropdown-item>1</calcite-dropdown-item>
-      <calcite-dropdown-item>2</calcite-dropdown-item>
-      <calcite-dropdown-item>3</calcite-dropdown-item>
-      <calcite-dropdown-item>4</calcite-dropdown-item>
-      <calcite-dropdown-item>5</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Second group">
-      <calcite-dropdown-item>6</calcite-dropdown-item>
-      <calcite-dropdown-item>7</calcite-dropdown-item>
-      <calcite-dropdown-item>8</calcite-dropdown-item>
-      <calcite-dropdown-item>9</calcite-dropdown-item>
-      <calcite-dropdown-item>10</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>`;
+export const disabled_TestOnly = (): string => html` <calcite-dropdown disabled>
+  <calcite-button slot="trigger">Open Dropdown</calcite-button>
+  <calcite-dropdown-group group-title="First group">
+    <calcite-dropdown-item>1</calcite-dropdown-item>
+    <calcite-dropdown-item>2</calcite-dropdown-item>
+    <calcite-dropdown-item>3</calcite-dropdown-item>
+    <calcite-dropdown-item>4</calcite-dropdown-item>
+    <calcite-dropdown-item>5</calcite-dropdown-item>
+  </calcite-dropdown-group>
+  <calcite-dropdown-group group-title="Second group">
+    <calcite-dropdown-item>6</calcite-dropdown-item>
+    <calcite-dropdown-item>7</calcite-dropdown-item>
+    <calcite-dropdown-item>8</calcite-dropdown-item>
+    <calcite-dropdown-item>9</calcite-dropdown-item>
+    <calcite-dropdown-item>10</calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-dropdown>`;
 
 export const flipPositioning_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="margin:10px;">
     <calcite-dropdown width="m" placement="${select("placement", menuPlacements, "top")}" open>
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -390,11 +360,6 @@ flipPositioning_TestOnly.parameters = {
 };
 
 export const alignedCenter_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="text-align:center">
     <calcite-dropdown
       open
@@ -419,11 +384,6 @@ export const alignedCenter_TestOnly = (): string => html`
 `;
 
 export const alignedCenterRTL_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div dir="rtl" style="text-align:center">
     <calcite-dropdown
       open
@@ -449,9 +409,6 @@ export const alignedCenterRTL_TestOnly = (): string => html`
 
 export const flipPlacements_TestOnly = (): string => html`
   <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
     .my-dropdown {
       margin-top: 50px;
     }

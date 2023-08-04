@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+@include base-component();
+@include disabled();
+@include hidden-form-input();

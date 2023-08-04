@@ -226,3 +226,5 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
     transform: rotate(360deg);
   }
 }
+
+@include base-component();

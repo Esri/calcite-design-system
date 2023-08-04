@@ -288,7 +288,7 @@ describe("calcite-rating", () => {
   });
 
   describe("set props", () => {
-    it("should render the expected UI when the value is updated programatically without emitting an event", async () => {
+    it("should render the expected UI when the value is updated programmatically without emitting an event", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
@@ -313,7 +313,7 @@ describe("calcite-rating", () => {
       expect(changeEvent).toHaveReceivedEventTimes(0);
     });
 
-    it("should render the expected UI when the value is updated programatically after an average is already set", async () => {
+    it("should render the expected UI when the value is updated programmatically after an average is already set", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=4.25></calcite-rating>");
       const element = await page.find("calcite-rating");
