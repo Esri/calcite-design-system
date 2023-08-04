@@ -1357,14 +1357,8 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  * });
  *
  */
-export function emitsOpenCloseEvents(
-  componentTestSetup: ComponentTestSetup,
-  toggleProp: string,
-  containerSelector: string
-): void {
-  it(`should emit (before)open/close events`, async () => {
-    const { page, tag } = await getTagAndPage(componentTestSetup);
-    await page.setContent(`${componentTestSetup}`);
+export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: string, containerSelector: string): void {
+  const testOpenCloseEvents = async (page: E2EPage, tag: string) => {
     const element = await page.find(tag);
 
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
@@ -1407,5 +1401,31 @@ export function emitsOpenCloseEvents(
 
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
+  };
+
+  let page: E2EPage;
+  let tag: string;
+
+  beforeEach(async () => {
+    const { page: newPage, tag: newTag } = await getTagAndPage(componentTestSetup);
+    page = newPage;
+    tag = newTag;
+    await page.setContent(`${componentTestSetup}`);
+  });
+
+  it(`should emit (before)open/close event with animations enabled`, async () => {
+    await skipAnimations(page);
+    await testOpenCloseEvents(page, tag);
+  });
+
+  it(`should emit (before)open/close event with animations disabled`, async () => {
+    await page.addStyleTag({
+      content: `
+        :root {
+          --calcite-animation-duration: 0s;
+        }
+      `,
+    });
+    await testOpenCloseEvents(page, tag);
   });
 }

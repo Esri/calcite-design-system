@@ -8,8 +8,8 @@ import {
   disabled,
   floatingUIOwner,
   hidden,
+  openClose,
   renders,
-  emitsOpenCloseEvents,
 } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { CSS } from "./resources";
@@ -63,7 +63,7 @@ describe("calcite-dropdown", () => {
   });
 
   describe("emitsOpenCloseEvents", () => {
-    emitsOpenCloseEvents(simpleDropdownHTML, "open", `${CSS.calciteDropdownGroup} >>> .${CSS.container}`);
+    openClose(simpleDropdownHTML, "open", `${CSS.calciteDropdownGroup} >>> .${CSS.container}`);
   });
 
   interface SelectedItemsAssertionOptions {
