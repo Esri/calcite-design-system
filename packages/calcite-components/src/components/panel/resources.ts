@@ -3,6 +3,7 @@ export const CSS = {
   backButton: "back-button",
   container: "container",
   header: "header",
+  bottomSeparator: "bottom-separator",
   heading: "heading",
   summary: "summary",
   description: "description",
@@ -12,7 +13,6 @@ export const CSS = {
   headerActionsStart: "header-actions--start",
   contentWrapper: "content-wrapper",
   contentContainer: "content-container",
-  contentHeight: "content-height",
   fabContainer: "fab-container",
   footer: "footer",
 };

@@ -17,6 +17,7 @@ export const CSS = {
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
   openContainer: "open-container",
+  dragContainer: "drag-container",
 };
 
 export const SLOTS = {
@@ -27,7 +28,8 @@ export const SLOTS = {
   actionsEnd: "actions-end",
 };
 
-export const MAX_COLUMNS = 5;
+// Set to zero to extend until the end of the table section.
+export const MAX_COLUMNS = 0;
 
 export const ICONS = {
   selectedMultiple: "check-circle-f",

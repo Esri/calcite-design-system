@@ -870,7 +870,7 @@ export class Combobox
         }
       });
 
-      this.filteredItems = this.getfilteredItems();
+      this.filteredItems = this.getFilteredItems();
       this.calciteComboboxFilterChange.emit();
     }, 100);
   })();
@@ -929,7 +929,7 @@ export class Combobox
     }
   }
 
-  getfilteredItems(): HTMLCalciteComboboxItemElement[] {
+  getFilteredItems(): HTMLCalciteComboboxItemElement[] {
     return this.items.filter((item) => !item.hidden);
   }
 
@@ -962,11 +962,23 @@ export class Combobox
     this.groupItems = this.getGroupItems();
     this.data = this.getData();
     this.selectedItems = this.getSelectedItems();
-    this.filteredItems = this.getfilteredItems();
+    this.filteredItems = this.getFilteredItems();
     this.needsIcon = this.getNeedsIcon();
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
     }
+
+    this.groupItems.forEach((groupItem, index, items) => {
+      if (index === 0) {
+        groupItem.afterEmptyGroup = false;
+      }
+
+      const nextGroupItem = items[index + 1];
+
+      if (nextGroupItem) {
+        nextGroupItem.afterEmptyGroup = groupItem.children.length === 0;
+      }
+    });
   };
 
   getData(): ItemData[] {
