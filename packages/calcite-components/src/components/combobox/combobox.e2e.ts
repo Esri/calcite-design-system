@@ -135,7 +135,7 @@ describe("calcite-combobox", () => {
     disabled("calcite-combobox");
   });
 
-  const openCloseContent = html`
+  const simpleComboboxHTML = html`
     <calcite-combobox id="myCombobox">
       <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
       <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
@@ -145,7 +145,7 @@ describe("calcite-combobox", () => {
   `;
 
   describe("openClose", () => {
-    openClose(`${openCloseContent}`, "open", false);
+    openClose(`${simpleComboboxHTML}`, "open", false);
   });
 
   it("filtering does not match property with value of undefined", async () => {
