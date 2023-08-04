@@ -413,6 +413,7 @@ export class Panel
         icon={ICONS.close}
         onClick={close}
         text={text}
+        title={text}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setCloseRef}
       />
