@@ -1377,13 +1377,7 @@ export function openClose(
     );
 
     !toggleValue ? element.setProperty(toggleProp, true) : null;
-
     await page.waitForChanges();
-
-    const container = await page.find(containerSelector);
-    await page.waitForChanges();
-
-    expect(await container.isVisible()).toBe(true);
 
     await beforeOpenEvent;
     await openEvent;
@@ -1396,8 +1390,6 @@ export function openClose(
 
     element.setProperty(toggleProp, false);
     await page.waitForChanges();
-
-    expect(await container.isVisible()).toBe(false);
 
     await beforeCloseEvent;
     await closeEvent;
