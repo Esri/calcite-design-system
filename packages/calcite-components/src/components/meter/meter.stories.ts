@@ -41,8 +41,8 @@ export const meterSwapRangePlacementWhenCloseToLowCloseToHigh_TestOnly = (): str
   range-labels
   min="0"
   max="100"
-  low="10"
-  high="15"
+  low="20"
+  high="25"
   value="5"
 ></calcite-meter>`;
 
@@ -52,9 +52,30 @@ export const meterSwapRangePlacementWhenCloseToLowCloseToHighRTL_TestOnly = (): 
   range-labels
   min="0"
   max="100"
-  low="10"
-  high="15"
+  low="20"
+  high="25"
   value="5"
+></calcite-meter>`;
+
+export const meterHideOverlappingLabel_TestOnly = (): string => html`<calcite-meter
+  label-type="units"
+  unit-label="credits"
+  low="2"
+  high="98"
+  value="0"
+  min="0"
+  max="100"
+></calcite-meter>`;
+
+export const meterHideOverlappingLabelRTL_TestOnly = (): string => html`<calcite-meter
+  dir="rtl"
+  label-type="units"
+  unit-label="credits"
+  low="2"
+  high="98"
+  value="0"
+  min="0"
+  max="100"
 ></calcite-meter>`;
 
 export const meterComplexPercent_TestOnly = (): string => html`<calcite-meter

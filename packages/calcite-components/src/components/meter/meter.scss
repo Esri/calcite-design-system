@@ -82,6 +82,7 @@
   max-inline-size: calc(100% - (var(--calcite-meter-space-internal) * 2));
   min-inline-size: calc(var(--calcite-meter-height-internal) - (var(--calcite-meter-space-internal) * 2));
   transition: inline-size 0.25s ease-in-out, background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  z-index: var(--calcite-app-z-index-sticky);
 }
 
 .meter.solid .meter-fill {
