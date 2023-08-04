@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
+import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
-import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import { isElementFocused, skipAnimations } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
   describe("renders", () => {
@@ -11,6 +11,14 @@ describe("calcite-modal properties", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-modal");
+  });
+
+  describe("openClose", () => {
+    openClose("<calcite-modal></calcite-modal>", "open", false);
+  });
+
+  describe("openClose when open on initial render", () => {
+    openClose("<calcite-modal open></calcite-modal>", "open", true);
   });
 
   describe("slots", () => {
@@ -107,180 +115,6 @@ describe("calcite-modal properties", () => {
     });
     expect(styleW).toEqual("800px");
     expect(styleH).toEqual("800px");
-  });
-
-  it("calls the beforeClose method prior to closing", async () => {
-    const page = await newE2EPage();
-    const mockCallBack = jest.fn();
-    await page.exposeFunction("beforeClose", mockCallBack);
-    await page.setContent(`
-      <calcite-modal open></calcite-modal>
-    `);
-    const modal = await page.find("calcite-modal");
-    await page.$eval(
-      "calcite-modal",
-      (elm: HTMLCalciteModalElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
-    );
-    await page.waitForChanges();
-    await modal.setProperty("open", true);
-    await page.waitForChanges();
-    await modal.setProperty("open", false);
-    await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalled();
-  });
-});
-
-describe("opening and closing behavior", () => {
-  it("opens and closes", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-modal></calcite-modal>`);
-    const modal = await page.find("calcite-modal");
-
-    type ModalEventOrderWindow = GlobalTestProps<{ events: string[] }>;
-
-    await page.$eval("calcite-modal", (modal: HTMLCalciteModalElement) => {
-      const receivedEvents: string[] = [];
-      (window as ModalEventOrderWindow).events = receivedEvents;
-
-      ["calciteModalBeforeOpen", "calciteModalOpen", "calciteModalBeforeClose", "calciteModalClose"].forEach(
-        (eventType) => {
-          modal.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-        }
-      );
-    });
-
-    const beforeOpenSpy = await modal.spyOnEvent("calciteModalBeforeOpen");
-    const openSpy = await modal.spyOnEvent("calciteModalOpen");
-    const beforeCloseSpy = await modal.spyOnEvent("calciteModalBeforeClose");
-    const closeSpy = await modal.spyOnEvent("calciteModalClose");
-
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(0);
-    expect(openSpy).toHaveReceivedEventTimes(0);
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
-    expect(closeSpy).toHaveReceivedEventTimes(0);
-
-    expect(await modal.isVisible()).toBe(false);
-
-    const modalBeforeOpen = page.waitForEvent("calciteModalBeforeOpen");
-    const modalOpen = page.waitForEvent("calciteModalOpen");
-    await modal.setProperty("open", true);
-    await page.waitForChanges();
-
-    await modalBeforeOpen;
-    await modalOpen;
-
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(openSpy).toHaveReceivedEventTimes(1);
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
-    expect(closeSpy).toHaveReceivedEventTimes(0);
-
-    expect(await modal.isVisible()).toBe(true);
-
-    const modalBeforeClose = page.waitForEvent("calciteModalBeforeClose");
-    const modalClose = page.waitForEvent("calciteModalClose");
-    await modal.setProperty("open", false);
-    await page.waitForChanges();
-
-    await modalBeforeClose;
-    await modalClose;
-
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(openSpy).toHaveReceivedEventTimes(1);
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
-    expect(closeSpy).toHaveReceivedEventTimes(1);
-
-    expect(await modal.isVisible()).toBe(false);
-
-    expect(await page.evaluate(() => (window as ModalEventOrderWindow).events)).toEqual([
-      "calciteModalBeforeOpen",
-      "calciteModalOpen",
-      "calciteModalBeforeClose",
-      "calciteModalClose",
-    ]);
-  });
-
-  it("emits when set to open on initial render", async () => {
-    const page = await newProgrammaticE2EPage();
-
-    const beforeOpenSpy = await page.spyOnEvent("calciteModalBeforeOpen");
-    const openSpy = await page.spyOnEvent("calciteModalOpen");
-
-    const waitForBeforeOpenEvent = page.waitForEvent("calciteModalBeforeOpen");
-    const waitForOpenEvent = page.waitForEvent("calciteModalOpen");
-
-    await page.evaluate((): void => {
-      const modal = document.createElement("calcite-modal");
-      modal.open = true;
-      document.body.append(modal);
-    });
-
-    await page.waitForChanges();
-    await waitForBeforeOpenEvent;
-    await waitForOpenEvent;
-
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(openSpy).toHaveReceivedEventTimes(1);
-  });
-
-  it("emits when set to open on initial render and duration is 0", async () => {
-    const page = await newProgrammaticE2EPage();
-    await skipAnimations(page);
-
-    const beforeOpenSpy = await page.spyOnEvent("calciteModalBeforeOpen");
-    const openSpy = await page.spyOnEvent("calciteModalOpen");
-
-    const waitForOpenEvent = page.waitForEvent("calciteModalOpen");
-    const waitForBeforeOpenEvent = page.waitForEvent("calciteModalBeforeOpen");
-
-    await page.evaluate((): void => {
-      const modal = document.createElement("calcite-modal");
-      modal.open = true;
-      document.body.append(modal);
-    });
-
-    await page.waitForChanges();
-    await waitForBeforeOpenEvent;
-    await waitForOpenEvent;
-
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(openSpy).toHaveReceivedEventTimes(1);
-  });
-
-  it("emits when duration is set to 0", async () => {
-    const page = await newProgrammaticE2EPage();
-    await skipAnimations(page);
-
-    const beforeOpenSpy = await page.spyOnEvent("calciteModalBeforeOpen");
-    const openSpy = await page.spyOnEvent("calciteModalOpen");
-
-    const beforeCloseSpy = await page.spyOnEvent("calciteModalBeforeClose");
-    const closeSpy = await page.spyOnEvent("calciteModalClose");
-
-    await page.evaluate((): void => {
-      const modal = document.createElement("calcite-modal");
-      modal.open = true;
-      document.body.append(modal);
-    });
-
-    await page.waitForChanges();
-    await beforeOpenSpy;
-    await openSpy;
-
-    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(openSpy).toHaveReceivedEventTimes(1);
-
-    await page.evaluate(() => {
-      const modal = document.querySelector("calcite-modal");
-      modal.open = false;
-    });
-
-    await page.waitForChanges();
-    await beforeCloseSpy;
-    await closeSpy;
-
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
-    expect(closeSpy).toHaveReceivedEventTimes(1);
   });
 });
 

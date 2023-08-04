@@ -61,7 +61,7 @@ describe("calcite-dropdown", () => {
     });
   });
 
-  describe("emitsOpenCloseEvents", () => {
+  describe("openClose", () => {
     openClose(simpleDropdownHTML, "open", false);
   });
 

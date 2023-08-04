@@ -1355,7 +1355,6 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  * describe("openClose", () => {
  *   openClose("calcite-dropdown", "open", false);
  * });
- *
  */
 export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: string, toggleValue: boolean): void {
   const testOpenCloseEvents = async (page: E2EPage, tag: string) => {
@@ -1363,15 +1362,32 @@ export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: st
 
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
     const events = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
+    const componentSpecificEventSequence = events.map((event) => `${camelCaseTag}${event}`);
+
+    type eventOrderWindow = GlobalTestProps<{ events: string[] }>;
+
+    await page.$eval(
+      tag,
+      (element: HTMLElement, componentSpecificEvents: string[]) => {
+        const receivedEvents: string[] = [];
+        (window as eventOrderWindow).events = receivedEvents;
+
+        componentSpecificEvents.forEach((eventType) => {
+          element.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+        });
+      },
+      componentSpecificEventSequence
+    );
 
     const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = events.map((event) =>
       page.waitForEvent(`${camelCaseTag}${event}`)
     );
+
     const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
       events.map(async (event) => await element.spyOnEvent(`${camelCaseTag}${event}`))
     );
 
-    !toggleValue ? element.setProperty(toggleProp, true) : null;
+    toggleValue === false ? element.setProperty(toggleProp, true) : toggleValue;
     await page.waitForChanges();
 
     await beforeOpenEvent;
@@ -1379,7 +1395,6 @@ export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: st
 
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
-
     expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
     expect(closeSpy).toHaveReceivedEventTimes(0);
 
@@ -1391,9 +1406,10 @@ export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: st
 
     expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
     expect(closeSpy).toHaveReceivedEventTimes(1);
-
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
+
+    expect(await page.evaluate(() => (window as eventOrderWindow).events)).toEqual(componentSpecificEventSequence);
   };
 
   let page: E2EPage, tag: string;
