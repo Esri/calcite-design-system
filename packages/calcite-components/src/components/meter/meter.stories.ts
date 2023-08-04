@@ -73,7 +73,7 @@ export const meterValueDoesNotPositionBelowMinRTL_TestOnly = (): string => html`
   range-labels
   low="25"
   high="75"
-  value="200"
+  value="-100"
   min="0"
   max="100"
 ></calcite-meter>`;
@@ -83,7 +83,7 @@ export const meterValueDoesNotPositionAboveMax_TestOnly = (): string => html`<ca
   range-labels
   low="25"
   high="75"
-  value="-100"
+  value="200"
   min="0"
   max="100"
 ></calcite-meter>`;
