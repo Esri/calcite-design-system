@@ -274,3 +274,32 @@ export const footerAndActionBarWithoutContent_TestOnly = (): string => html`<cal
   </calcite-action-bar>
   <p slot="footer">Footer content!</p>
 </calcite-panel>`;
+
+export const flexContent_TestOnly = (): string => html`<calcite-panel style="height: 300px" heading="content"
+  ><div
+    style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
+    circle,
+    white 1px,
+    transparent 1px
+  );"
+  ></div
+></calcite-panel>`;
+
+export const flexContentWithFAB_TestOnly = (): string => html`<calcite-panel style="height: 300px" heading="content"
+  ><div style="display: flex; flex-direction: column; height: 100%; width: 100%; background-color: red"></div>
+  <calcite-fab slot="fab"></calcite-fab
+></calcite-panel>`;
+
+export const overflowContentWithFab_TestOnly = (): string => html` <calcite-panel
+  style="max-height: 300px; height: 300px"
+  heading="content"
+  ><div style="min-height: 500px">test</div>
+  <calcite-fab slot="fab"></calcite-fab
+></calcite-panel>`;
+
+export const noOverflowContentWithFab_TestOnly = (): string => html` <calcite-panel
+  style="max-height: 300px; height: 300px"
+  heading="content"
+>
+  <calcite-fab slot="fab"></calcite-fab
+></calcite-panel>`;
