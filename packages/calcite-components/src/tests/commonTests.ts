@@ -1353,7 +1353,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  * import { openClose } from "../../tests/commonTests";
  *
  * describe("openClose", () => {
- *   openClose("calcite-dropdown", "open", ".container");
+ *   openClose("calcite-dropdown", "open", false);
  * });
  *
  */
