@@ -1357,7 +1357,12 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  * });
  *
  */
-export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: string, containerSelector: string): void {
+export function openClose(
+  componentTestSetup: ComponentTestSetup,
+  toggleProp: string,
+  containerSelector: string,
+  toggleValue: boolean
+): void {
   const testOpenCloseEvents = async (page: E2EPage, tag: string) => {
     const element = await page.find(tag);
 
@@ -1371,7 +1376,8 @@ export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: st
       events.map(async (event) => await element.spyOnEvent(`${camelCaseTag}${event}`))
     );
 
-    element.setProperty(toggleProp, true);
+    !toggleValue ? element.setProperty(toggleProp, true) : null;
+
     await page.waitForChanges();
 
     const container = await page.find(containerSelector);
@@ -1403,8 +1409,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: st
     expect(openSpy).toHaveReceivedEventTimes(1);
   };
 
-  let page: E2EPage;
-  let tag: string;
+  let page: E2EPage, tag: string;
 
   beforeEach(async () => {
     const { page: newPage, tag: newTag } = await getTagAndPage(componentTestSetup);

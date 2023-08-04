@@ -63,7 +63,7 @@ describe("calcite-dropdown", () => {
   });
 
   describe("emitsOpenCloseEvents", () => {
-    openClose(simpleDropdownHTML, "open", `${CSS.calciteDropdownGroup} >>> .${CSS.container}`);
+    openClose(simpleDropdownHTML, "open", `${CSS.calciteDropdownGroup} >>> .${CSS.container}`, false);
   });
 
   interface SelectedItemsAssertionOptions {
