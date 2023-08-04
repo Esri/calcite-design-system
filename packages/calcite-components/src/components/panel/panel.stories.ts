@@ -277,7 +277,7 @@ export const footerAndActionBarWithoutContent_TestOnly = (): string => html`<cal
 
 export const flexContent_TestOnly = (): string => html`<calcite-panel
   style="height: 300px; width: 500px"
-  heading="content"
+  heading="My Panel"
   ><div
     style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
     circle,
@@ -289,7 +289,7 @@ export const flexContent_TestOnly = (): string => html`<calcite-panel
 
 export const flexContentWithFAB_TestOnly = (): string => html`<calcite-panel
   style="height: 300px; width: 500px"
-  heading="content"
+  heading="My Panel"
   ><div
     style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
   circle,
@@ -302,14 +302,14 @@ export const flexContentWithFAB_TestOnly = (): string => html`<calcite-panel
 
 export const overflowContentWithFab_TestOnly = (): string => html` <calcite-panel
   style="max-height: 300px; height: 300px; width: 500px"
-  heading="content"
-  ><div style="min-height: 500px">test</div>
+  heading="My Panel"
+  ><div style="min-height: 500px">My Content</div>
   <calcite-fab slot="fab"></calcite-fab
 ></calcite-panel>`;
 
 export const noOverflowContentWithFab_TestOnly = (): string => html` <calcite-panel
   style="max-height: 300px; height: 300px; width: 500px"
-  heading="content"
->
+  heading="My Panel"
+  ><div>My Content</div>
   <calcite-fab slot="fab"></calcite-fab
 ></calcite-panel>`;
