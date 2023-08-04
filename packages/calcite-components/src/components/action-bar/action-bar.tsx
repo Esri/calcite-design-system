@@ -297,7 +297,7 @@ export class ActionBar
     this.setGroupLayout(actionGroups);
 
     const groupCount =
-      getSlotted(el, SLOTS.bottomActions) || !expandDisabled
+      getSlotted(el, SLOTS.actionsEnd) || getSlotted(el, SLOTS.bottomActions) || !expandDisabled
         ? actionGroups.length + 1
         : actionGroups.length;
 
@@ -371,7 +371,9 @@ export class ActionBar
       />
     ) : null;
 
-    return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
+    return getSlotted(el, SLOTS.actionsEnd) ||
+      getSlotted(el, SLOTS.bottomActions) ||
+      expandToggleNode ? (
       <calcite-action-group class={CSS.actionGroupEnd} layout={layout} scale={scale}>
         <slot name={SLOTS.actionsEnd} />
         <slot name={SLOTS.bottomActions} />
