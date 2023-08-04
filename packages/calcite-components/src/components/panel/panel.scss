@@ -103,7 +103,10 @@
   flex-auto
   flex-col
   flex-nowrap
-  items-stretch bg-background overflow-auto h-full;
+  items-stretch
+  bg-background
+  overflow-auto
+  h-full;
 }
 
 .footer {
