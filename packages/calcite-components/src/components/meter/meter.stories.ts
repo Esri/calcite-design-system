@@ -15,6 +15,48 @@ export const simple = (): string => html`<calcite-meter min="0" max="100" low="2
 export const labels = (): string =>
   html`<calcite-meter min="0" max="100" low="25" high="75" value-label range-labels></calcite-meter>`;
 
+export const meterSwapRangePlacementWhenCloseToMax_TestOnly = (): string => html`<calcite-meter
+  value-label
+  range-labels
+  min="0"
+  max="100"
+  low="30"
+  high="90"
+  value="10"
+></calcite-meter>`;
+
+export const meterSwapRangePlacementWhenCloseToMaxRTL_TestOnly = (): string => html`<calcite-meter
+  dir="rtl"
+  value-label
+  range-labels
+  min="0"
+  max="100"
+  low="30"
+  high="90"
+  value="10"
+></calcite-meter>`;
+
+export const meterSwapRangePlacementWhenCloseToLowCloseToHigh_TestOnly = (): string => html`<calcite-meter
+  value-label
+  range-labels
+  min="0"
+  max="100"
+  low="10"
+  high="15"
+  value="5"
+></calcite-meter>`;
+
+export const meterSwapRangePlacementWhenCloseToLowCloseToHighRTL_TestOnly = (): string => html`<calcite-meter
+  dir="rtl"
+  value-label
+  range-labels
+  min="0"
+  max="100"
+  low="10"
+  high="15"
+  value="5"
+></calcite-meter>`;
+
 export const meterComplexPercent_TestOnly = (): string => html`<calcite-meter
   value-label
   range-labels

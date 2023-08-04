@@ -157,9 +157,9 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
 
   @State() highPercent: number;
 
-  @State() lowRangeActive: boolean;
+  @State() lowActive: boolean;
 
-  @State() highRangeActive: boolean;
+  @State() highActive: boolean;
 
   @State() currentPercent: number;
 
@@ -228,8 +228,8 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     this.lowPercent = Math.round(lowPercent);
     this.highPercent = Math.round(highPercent);
     this.currentPercent = value ? Math.round(currentPercent) : 0;
-    this.lowRangeActive = !!low && low > value && low > min && (!high || low < high);
-    this.highRangeActive = !!high && high > value && high < max && (!low || high > low);
+    this.lowActive = !!low && low > value && low > min && (!high || low < high);
+    this.highActive = !!high && high > value && high < max && (!low || high > low);
   }
   //--------------------------------------------------------------------------
   //
@@ -268,20 +268,24 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
       min,
       minPercent,
       unitLabel,
-      lowRangeActive,
-      highRangeActive,
+      lowActive,
+      highActive,
     } = this;
     const isPercent = labelType === "percent";
     const labelMin = this.formatLabel(isPercent ? minPercent : min);
     const labelMax = this.formatLabel(isPercent ? maxPercent / 100 : max);
     const labelLow = low ? this.formatLabel(isPercent ? lowPercent / 100 : low) : undefined;
     const labelHigh = high ? this.formatLabel(isPercent ? highPercent / 100 : high) : undefined;
+    const swapThreshold = 0.85;
+    const proximityThreshold = 0.15;
+    const swapLow = (highPercent - lowPercent) / 100 < proximityThreshold;
+    const swapHigh = highPercent / 100 >= swapThreshold;
     return (
       <Fragment>
         {this.renderRangeLabel(minPercent, labelMin, unitLabel)}
-        {lowRangeActive && this.renderRangeLabel(lowPercent, labelLow)}
-        {highRangeActive && this.renderRangeLabel(highPercent, labelHigh)}
-        {this.renderRangeLabel(maxPercent, labelMax)}
+        {lowActive && this.renderRangeLabel(lowPercent, labelLow, undefined, false, swapLow)}
+        {highActive && this.renderRangeLabel(highPercent, labelHigh, undefined, false, swapHigh)}
+        {this.renderRangeLabel(maxPercent, labelMax, undefined, false, true)}
       </Fragment>
     );
   }
@@ -292,12 +296,21 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
    * @param value
    * @param label
    * @param isValue
+   * @param flip
    * @returns
    */
 
-  renderRangeLabel(position: number, value: string, label?: string, isValue?: boolean): VNode {
+  renderRangeLabel(
+    position: number,
+    value: string,
+    label?: string,
+    isValue?: boolean,
+    flip?: boolean
+  ): VNode {
     const labelClass = isValue ? CSS.meterLabelValue : CSS.meterLabelRange;
-    const style = { insetInlineStart: `${position}%` };
+    const styleDefault = { insetInlineStart: `${position}%` };
+    const styleFlipped = { insetInlineEnd: `${100 - position}%` };
+    const style = flip ? styleFlipped : styleDefault;
     return (
       <div class={{ [CSS.meterLabel]: true, [labelClass]: true }} style={style}>
         {value}
@@ -338,8 +351,8 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
       minPercent,
       unitLabel,
       value,
-      lowRangeActive,
-      highRangeActive,
+      lowActive,
+      highActive,
     } = this;
     const isPercent = labelType === "percent";
     const textPercentLabel = `${currentPercent} ${messages.percent}`;
@@ -363,8 +376,8 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
         >
           {this.renderMeterFill()}
           {valueLabel && this.renderValueLabel()}
-          {lowRangeActive && this.renderRangeLine(lowPercent)}
-          {highRangeActive && this.renderRangeLine(highPercent)}
+          {lowActive && this.renderRangeLine(lowPercent)}
+          {highActive && this.renderRangeLine(highPercent)}
           {rangeLabels && this.renderRangeLabels()}
         </div>
       </Host>
