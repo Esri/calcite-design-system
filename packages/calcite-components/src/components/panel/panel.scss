@@ -98,17 +98,21 @@
   margin-inline-start: theme("margin.auto");
 }
 
-.content-wrapper {
-  @apply flex overflow-auto h-full;
-}
-
+.content-wrapper,
 .content-container {
-  @apply bg-background
-  flex
+  @apply flex
   flex-auto
   flex-col
   flex-nowrap
   items-stretch;
+}
+
+.content-wrapper {
+  @apply overflow-auto h-full;
+}
+
+.content-container {
+  @apply bg-background;
 }
 
 .footer {
