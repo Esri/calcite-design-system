@@ -99,7 +99,7 @@
 }
 
 .content-wrapper {
-  @apply overflow-auto h-full;
+  @apply flex overflow-auto h-full;
 }
 
 .content-container {
