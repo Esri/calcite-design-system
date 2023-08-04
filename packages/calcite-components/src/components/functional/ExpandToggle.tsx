@@ -93,6 +93,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
       scale={scale}
       text={text}
       textEnabled={expanded}
+      title={!expanded && !tooltip ? text : null}
       // eslint-disable-next-line react/jsx-sort-props
       ref={(referenceElement): HTMLCalciteActionElement =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
