@@ -1,6 +1,7 @@
 import { storyFilters } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
+import { modesDarkDefault } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Meter",
@@ -15,7 +16,7 @@ export const simple = (): string => html`<calcite-meter min="0" max="100" low="2
 export const labels = (): string =>
   html`<calcite-meter min="0" max="100" low="25" high="75" value-label range-labels></calcite-meter>`;
 
-export const meterSwapRangePlacementWhenCloseToMax_TestOnly = (): string => html`<calcite-meter
+export const meterSwapLabelPlacementWhenCloseToMax_TestOnly = (): string => html`<calcite-meter
   value-label
   range-labels
   min="0"
@@ -25,7 +26,7 @@ export const meterSwapRangePlacementWhenCloseToMax_TestOnly = (): string => html
   value="10"
 ></calcite-meter>`;
 
-export const meterSwapRangePlacementWhenCloseToMaxRTL_TestOnly = (): string => html`<calcite-meter
+export const meterSwapLabelPlacementWhenCloseToMaxRTL_TestOnly = (): string => html`<calcite-meter
   dir="rtl"
   value-label
   range-labels
@@ -36,7 +37,7 @@ export const meterSwapRangePlacementWhenCloseToMaxRTL_TestOnly = (): string => h
   value="10"
 ></calcite-meter>`;
 
-export const meterSwapRangePlacementWhenCloseToLowCloseToHigh_TestOnly = (): string => html`<calcite-meter
+export const meterSwapLabelPlacementWhenLowCloseToHigh_TestOnly = (): string => html`<calcite-meter
   value-label
   range-labels
   min="0"
@@ -46,7 +47,7 @@ export const meterSwapRangePlacementWhenCloseToLowCloseToHigh_TestOnly = (): str
   value="5"
 ></calcite-meter>`;
 
-export const meterSwapRangePlacementWhenCloseToLowCloseToHighRTL_TestOnly = (): string => html`<calcite-meter
+export const meterSwapLabelPlacementWhenLowCloseToHighRTL_TestOnly = (): string => html`<calcite-meter
   dir="rtl"
   value-label
   range-labels
@@ -178,6 +179,8 @@ export const meterDarkModeRTL_TestOnly = (): string =>
     value-label
     range-labels
   ></calcite-meter>`;
+
+meterDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const meterComplexPercentRTL_TestOnly = (): string =>
   html`<calcite-meter
