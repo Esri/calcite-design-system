@@ -29,17 +29,23 @@
 }
 
 .header {
-  @apply bg-foreground-1
-    w-full
-    items-stretch
-    justify-start
+  @apply bg-foreground-1 flex flex-col
     z-header;
+}
+
+.header-container {
+  @apply flex flex-row w-full
+  items-stretch
+  justify-start;
   flex: 0 0 auto;
 }
 
 .action-bar-container {
-  @apply w-full
-  z-header;
+  @apply w-full;
+}
+
+.top-separator {
+  border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 
 .bottom-separator {
@@ -93,16 +99,14 @@
 }
 
 .content-wrapper {
-  @apply overflow-auto h-full;
-}
-
-.content-container {
-  @apply bg-background
-  flex
+  @apply flex
   flex-auto
   flex-col
   flex-nowrap
-  items-stretch;
+  items-stretch
+  bg-background
+  overflow-auto
+  h-full;
 }
 
 .footer {
