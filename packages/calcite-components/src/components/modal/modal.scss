@@ -407,3 +407,5 @@ slot[name="primary"] {
     position: absolute;
   }
 }
+
+@include base-component();

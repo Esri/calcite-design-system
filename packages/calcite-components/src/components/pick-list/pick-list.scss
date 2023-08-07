@@ -36,3 +36,5 @@ calcite-filter {
 :host([loading][disabled]) {
   min-block-size: 2rem;
 }
+
+@include base-component();

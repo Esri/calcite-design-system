@@ -17,3 +17,5 @@
 :host([layout="vertical"]) {
   @apply flex-col;
 }
+
+@include base-component();

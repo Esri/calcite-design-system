@@ -827,7 +827,7 @@ describe("calcite-combobox", () => {
       expect(visible).toBe(false);
     });
 
-    it("tab moves to next input, but doesn’t open the item group", async () => {
+    it("tab moves to next input, but doesn't open the item group", async () => {
       await page.keyboard.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
@@ -1468,7 +1468,7 @@ describe("calcite-combobox", () => {
     );
   });
 
-  it("should emit component status for transition-chained events: 'calciteComoboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
+  it("should emit component status for transition-chained events: 'calciteComboboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-combobox id="myCombobox">

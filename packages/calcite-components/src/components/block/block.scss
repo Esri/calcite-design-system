@@ -139,7 +139,7 @@ calcite-handle {
 }
 
 .content {
-  @apply animate-in flex-1 relative;
+  @apply animate-in flex-1 relative min-h-0;
   padding-block: var(--calcite-block-padding, theme("spacing.2"));
   padding-inline: var(--calcite-block-padding, theme("spacing[2.5]"));
 }
@@ -160,3 +160,5 @@ calcite-action-menu {
     @apply text-color-1;
   }
 }
+
+@include base-component();

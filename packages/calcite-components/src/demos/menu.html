@@ -331,10 +331,17 @@
         <calcite-panel heading="Extreme nested vertical menu">
           <calcite-menu layout="vertical">
             <calcite-menu-item icon-start="layer" icon-end="layer" text="Home"> </calcite-menu-item>
-            <calcite-menu-item icon-start="layer" icon-end="layer" href="#" text="Example nested" icon-start="layer">
+            <calcite-menu-item
+              icon-start="layer"
+              icon-end="layer"
+              href="#"
+              text="Example nested"
+              icon-start="layer"
+              breadcrumb
+            >
               <calcite-menu-item icon-end="layer" icon-start="layer" slot="submenu-item" text="Capabilities">
               </calcite-menu-item>
-              <calcite-menu-item icon-start="layer" slot="submenu-item" title text="ArcGIS Online">
+              <calcite-menu-item icon-start="layer" slot="submenu-item" title text="ArcGIS Online" breadcrumb open>
                 <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities">
                   <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"> </calcite-menu-item>
                   <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"> </calcite-menu-item>
@@ -342,18 +349,19 @@
                 </calcite-menu-item>
               </calcite-menu-item>
             </calcite-menu-item>
-            <calcite-menu-item text="Example nested" icon-start="layer" icon-end="layer">
-              <calcite-menu-item slot="submenu-item" title text="ArcGIS Online">
-                <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
-                <calcite-menu-item slot="submenu-item" text="Capabilities">
-                  <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
-                  <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+            <calcite-menu-item text="Example nested" icon-start="layer" icon-end="layer" breadcrumb open>
+              <calcite-menu-item slot="submenu-item" title text="ArcGIS Online" breadcrumb open>
+                <calcite-menu-item icon-start="layer" slot="submenu-item" text="Great examples" breadcrumb>
+                </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="Capabilities" open>
+                  <calcite-menu-item slot="submenu-item" text="Capabilities" icon-end="layer"> </calcite-menu-item>
+                  <calcite-menu-item slot="submenu-item" text="Great examples" icon-end="layer"> </calcite-menu-item>
                 </calcite-menu-item>
                 <calcite-menu-item slot="submenu-item" text="Something else"> </calcite-menu-item>
                 <calcite-menu-item slot="submenu-item" text="Another thing">
                   <calcite-menu-item slot="submenu-item" text="Great examples">
-                    <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
-                    <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                    <calcite-menu-item slot="submenu-item" text="Great examples" breadcrumb> </calcite-menu-item>
+                    <calcite-menu-item slot="submenu-item" text="Great examples" icon-end="layer"> </calcite-menu-item>
                     <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
                   </calcite-menu-item>
                 </calcite-menu-item>
@@ -393,38 +401,38 @@
             >
               <calcite-menu-item text="Home"> </calcite-menu-item>
               <calcite-menu-item text="Reference">
-                <calcite-menu-item href="#" slot="submenu-item" text="an item"> </calcite-menu-item>
-                <calcite-menu-item href="#" slot="submenu-item" text="an item"> </calcite-menu-item>
-                <calcite-menu-item href="#" slot="submenu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item breadcrumb slot="submenu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item breadcrumb slot="submenu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item breadcrumb slot="submenu-item" text="an item"> </calcite-menu-item>
               </calcite-menu-item>
-              <calcite-menu-item href="#" text="Items of reference"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Reference item" active> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Longer item"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Items of reference"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Reference item"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Reference item" active> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Reference item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Longer item"> </calcite-menu-item>
             </calcite-menu>
           </calcite-flow-item>
           <calcite-flow-item heading="Whatever user clicked on">
             <calcite-menu layout="vertical">
-              <calcite-menu-item href="#" text="Home"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Items of reference"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Reference item" active> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Longer item"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Items of reference"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Reference item"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Home"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Reference item" active> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Reference item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Longer item"> </calcite-menu-item>
             </calcite-menu>
           </calcite-flow-item>
           <calcite-flow-item heading="three levels" description="maybe another parent if that far deep">
             <calcite-menu layout="vertical">
-              <calcite-menu-item href="#" text="Home"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Items of reference"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Reference item" active> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Longer item"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Items of reference"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Reference item"> </calcite-menu-item>
-              <calcite-menu-item href="#" text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item text="Home"> </calcite-menu-item>
+              <calcite-menu-item text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item text="Reference item" active> </calcite-menu-item>
+              <calcite-menu-item text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item text="Reference item"> </calcite-menu-item>
+              <calcite-menu-item text="Longer item"> </calcite-menu-item>
             </calcite-menu>
           </calcite-flow-item>
         </calcite-flow>

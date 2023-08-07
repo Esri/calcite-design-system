@@ -299,3 +299,4 @@ input[type="text"]::-ms-reveal {
 }
 
 @include hidden-form-input();
+@include base-component();

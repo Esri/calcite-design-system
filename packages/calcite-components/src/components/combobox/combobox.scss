@@ -208,3 +208,8 @@
 }
 
 @include hidden-form-input();
+@include base-component();
+
+::slotted(calcite-combobox-item-group:not(:first-child)) {
+  padding-block-start: var(--calcite-combobox-item-spacing-unit-l);
+}
