@@ -256,9 +256,12 @@ export class AccordionItem implements ConditionalSlotComponent {
   }
 
   @Listen("calciteInternalAccordionItemsSync", { target: "document" })
-  updateAccordionChildSync(event: CustomEvent): void {
+  accordionItemSyncHandler(event: CustomEvent): void {
     const [accordion] = event.composedPath();
     const accordionItem = this.el;
+
+    // we sync with our accordion parent via event only if the item is wrapped within another component's shadow DOM,
+    // otherwise, the accordion parent will sync the item directly
 
     const willBeSyncedByDirectParent = accordionItem.parentElement === accordion;
     if (willBeSyncedByDirectParent) {
