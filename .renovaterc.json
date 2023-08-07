@@ -12,7 +12,6 @@
     "@types/react",
     "@types/react-dom",
     "@whitespace/storybook-addon-html",
-    "chalk",
     "cheerio",
     "jest",
     "jest-cli",
