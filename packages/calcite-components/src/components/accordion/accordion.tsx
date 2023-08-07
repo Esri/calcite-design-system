@@ -133,6 +133,13 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   private updateAccordionItems(): void {
+    this.el.querySelectorAll("calcite-accordion-item").forEach((item) => {
+      item.iconPosition = this.iconPosition;
+      item.iconType = this.iconType;
+      item.scale = this.scale;
+    });
+
+    // sync props on items across shadow DOM
     document.dispatchEvent(new CustomEvent("calciteInternalAccordionItemsSync"));
   }
 }

@@ -119,15 +119,10 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    document.addEventListener("calciteInternalAccordionItemsSync", this.updateAccordionChildSync);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    document.removeEventListener(
-      "calciteInternalAccordionItemsSync",
-      this.updateAccordionChildSync
-    );
   }
 
   // --------------------------------------------------------------------------
@@ -260,10 +255,18 @@ export class AccordionItem implements ConditionalSlotComponent {
     event.stopPropagation();
   }
 
-  private updateAccordionChildSync = (event: CustomEvent): void => {
+  @Listen("calciteInternalAccordionItemsSync", { target: "document" })
+  updateAccordionChildSync(event: CustomEvent): void {
     const [accordion] = event.composedPath();
+    const accordionItem = this.el;
+
+    const willBeSyncedByDirectParent = accordionItem.parentElement === accordion;
+    if (willBeSyncedByDirectParent) {
+      return;
+    }
+
     const closestAccordionParent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
-      this.el,
+      accordionItem,
       "calcite-accordion"
     );
 
@@ -271,11 +274,11 @@ export class AccordionItem implements ConditionalSlotComponent {
       return;
     }
 
-    this.el.iconPosition = closestAccordionParent.iconPosition;
-    this.el.iconType = closestAccordionParent.iconType;
-    this.el.scale = closestAccordionParent.scale;
+    accordionItem.iconPosition = closestAccordionParent.iconPosition;
+    accordionItem.iconType = closestAccordionParent.iconType;
+    accordionItem.scale = closestAccordionParent.scale;
     event.stopPropagation();
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
