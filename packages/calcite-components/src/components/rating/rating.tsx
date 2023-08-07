@@ -204,7 +204,7 @@ export class Rating
       const checked = value === this.value;
       const focused = this.hasFocus && this.focusValue === value;
       const fraction = this.average && this.average + 1 - value;
-      const hovered = value <= this.hoverValue;
+      const hovered = value <= this.value;
       const id = `${this.guid}-${value}`;
       const partial =
         !this.focusValue &&
@@ -282,7 +282,7 @@ export class Rating
                     htmlFor={id}
                     key={id}
                     onClick={this.handleLabelClick}
-                    onKeyDown={this.handleInputKeyDown}
+                    onKeyDown={this.handleLabelKeyDown}
                     onPointerDown={this.handleLabelPointerDown}
                     onPointerOver={this.handleLabelPointerOver}
                     tabIndex={tabIndex}
@@ -357,11 +357,15 @@ export class Rating
     this.isKeyboardInteraction = true;
   };
 
-  private handleInputKeyDown = (event: KeyboardEvent) => {
+  private handleLabelKeyDown = (event: KeyboardEvent) => {
+    if (this.readOnly) {
+      return;
+    }
     const target = event.currentTarget as HTMLLabelElement;
     const inputVal = Number(target.firstChild["value"]);
     const key = event.key;
     const numberKey = key == " " ? undefined : Number(key);
+
     this.emit = true;
     if (isNaN(numberKey)) {
       switch (key) {
@@ -435,11 +439,14 @@ export class Rating
     this.ratings[this.value - 1].focus();
   }
 
-  private assignTabIndex(currentTabIndex: number): number {
-    if (!!this.focusValue) {
-      return this.focusValue === currentTabIndex ? 0 : -1;
+  private assignTabIndex(value: number): number {
+    if (this.readOnly) {
+      return -1;
+    }
+    if (!!this.focusValue || this.value) {
+      return this.focusValue === value || this.value === value ? 0 : -1;
     } else {
-      return currentTabIndex === 1 ? 0 : -1;
+      return value === 1 ? 0 : -1;
     }
   }
 

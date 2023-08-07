@@ -9,6 +9,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
+import { getFocusedElementProp, isElementFocused } from "../../tests/utils";
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
@@ -362,14 +363,14 @@ describe("calcite-rating", () => {
       await labels[2].click();
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
+      const focusedElId = labels[2].getAttribute("for");
 
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
       expect(hoveredEl.length).toBe(3);
-      expect(focusedEl.length).toBe(1);
+      expect(await isElementFocused(page, `[for=${focusedElId}]`, { shadowed: true })).toBe(true);
       expect(selectedEl.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
       expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -549,14 +550,14 @@ describe("calcite-rating", () => {
       await labels[2].click();
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
+      const focusedElId = labels[2].getAttribute("for");
 
       expect(await element.getProperty("value")).toBe(3);
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(hoveredEl.length).toBe(3);
-      expect(focusedEl.length).toBe(1);
+      expect(await isElementFocused(page, `[for=${focusedElId}]`, { shadowed: true })).toBe(true);
       expect(selectedEl.length).toBe(3);
     });
 
@@ -589,12 +590,11 @@ describe("calcite-rating", () => {
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
       expect(hoveredEl.length).toBe(3);
-      expect(focusedEl.length).toBe(1);
+      expect(await getFocusedElementProp(page, `tagName`, { shadow: true })).toBe("LABEL");
       expect(selectedEl.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
     });
@@ -629,12 +629,11 @@ describe("calcite-rating", () => {
       await page.keyboard.up("Shift");
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
       expect(hoveredEl.length).toBe(3);
-      expect(focusedEl.length).toBe(1);
+      expect(await getFocusedElementProp(page, `tagName`, { shadow: true })).toBe("LABEL");
       expect(selectedEl.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
     });
@@ -694,11 +693,11 @@ describe("calcite-rating", () => {
       expect(labels[2]).not.toHaveClass("selected");
       expect(labels[3]).not.toHaveClass("selected");
       expect(labels[4]).not.toHaveClass("selected");
-      expect(labels[0]).not.toHaveClass("focused");
-      expect(labels[1]).toHaveClass("focused");
-      expect(labels[2]).not.toHaveClass("focused");
-      expect(labels[3]).not.toHaveClass("focused");
-      expect(labels[4]).not.toHaveClass("focused");
+      expect(await isElementFocused(page, `[for=${labels[0].getAttribute("for")}]`, { shadowed: true })).toBe(false);
+      expect(await isElementFocused(page, `[for=${labels[1].getAttribute("for")}]`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `[for=${labels[2].getAttribute("for")}]`, { shadowed: true })).toBe(false);
+      expect(await isElementFocused(page, `[for=${labels[3].getAttribute("for")}]`, { shadowed: true })).toBe(false);
+      expect(await isElementFocused(page, `[for=${labels[4].getAttribute("for")}]`, { shadowed: true })).toBe(false);
       expect(element).toEqualAttribute("value", "2");
       expect(changeEvent).toHaveReceivedEventTimes(3);
     });
