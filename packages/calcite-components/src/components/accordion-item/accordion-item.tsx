@@ -119,10 +119,15 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    document.addEventListener("calciteInternalAccordionItemsSync", this.updateAccordionChildSync);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    document.removeEventListener(
+      "calciteInternalAccordionItemsSync",
+      this.updateAccordionChildSync
+    );
   }
 
   // --------------------------------------------------------------------------
@@ -255,8 +260,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalAccordionItemsSync", { target: "document" })
-  updateAccordionChildSync(event: CustomEvent): void {
+  private updateAccordionChildSync = (event: CustomEvent): void => {
     const [accordion] = event.composedPath();
     const closestAccordionParent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
       this.el,
@@ -271,7 +275,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.el.iconType = closestAccordionParent.iconType;
     this.el.scale = closestAccordionParent.scale;
     event.stopPropagation();
-  }
+  };
 
   //--------------------------------------------------------------------------
   //
