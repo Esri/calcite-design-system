@@ -140,7 +140,9 @@ describe("BigDecimal", () => {
 
       const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
       const groupPart = parts.find((part) => part.type === "group").value;
-      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(numberStringFormatter.group);
+      expect(groupPart.trim().length === 0 || groupPart === " " ? "&nbsp;" : groupPart).toBe(
+        numberStringFormatter.group
+      );
       expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
       expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
     });
