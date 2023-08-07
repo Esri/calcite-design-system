@@ -281,6 +281,7 @@ export class Rating
                     }}
                     htmlFor={id}
                     key={id}
+                    onClick={this.handleLabelClick}
                     onKeyDown={this.handleInputKeyDown}
                     onPointerDown={this.handleLabelPointerDown}
                     onPointerOver={this.handleLabelPointerOver}
@@ -420,6 +421,11 @@ export class Rating
     this.emit = true;
     this.value = !this.required && this.value === inputVal ? 0 : inputVal;
     this.hasFocus = this.value !== 0;
+    target.focus();
+  };
+
+  private handleLabelClick = (event: Event) => {
+    event.preventDefault();
   };
 
   private updatefocus(): void {
