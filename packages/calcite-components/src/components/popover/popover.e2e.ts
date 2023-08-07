@@ -103,12 +103,12 @@ describe("calcite-popover", () => {
   });
 
   const simplePopoverHtml = html`
-    <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
+    <calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
     <div id="ref">referenceElement</div>
   `;
 
   describe("openClose", () => {
-    openClose(simplePopoverHtml, "open", true);
+    openClose(simplePopoverHtml, "open", false);
   });
 
   it("popover positions when referenceElement is set", async () => {
