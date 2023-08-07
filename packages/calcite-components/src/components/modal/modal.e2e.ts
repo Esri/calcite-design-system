@@ -109,7 +109,7 @@ describe("calcite-modal properties", () => {
     expect(styleH).toEqual("800px");
   });
 
-  it("calls the beforeClose method prior to closing", async () => {
+  it("calls the beforeClose method prior to closing via click", async () => {
     const page = await newE2EPage();
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
@@ -123,12 +123,38 @@ describe("calcite-modal properties", () => {
         (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
     );
     await page.waitForChanges();
-    await modal.setProperty("open", true);
+    modal.setProperty("open", true);
     await page.waitForChanges();
-    await modal.setProperty("open", false);
+    expect(modal.getAttribute("opened")).toBe("");
+    const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
+    await closeButton.click();
     await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalled();
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(modal.getAttribute("opened")).toBe(null);
   });
+});
+
+it("calls the beforeClose method prior to closing via attribute", async () => {
+  const page = await newE2EPage();
+  const mockCallBack = jest.fn();
+  await page.exposeFunction("beforeClose", mockCallBack);
+  await page.setContent(`
+    <calcite-modal open></calcite-modal>
+  `);
+  const modal = await page.find("calcite-modal");
+  await page.$eval(
+    "calcite-modal",
+    (elm: HTMLCalciteModalElement) =>
+      (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+  );
+  await page.waitForChanges();
+  modal.setProperty("open", true);
+  await page.waitForChanges();
+  expect(modal.getAttribute("opened")).toBe("");
+  modal.removeAttribute("open");
+  await page.waitForChanges();
+  expect(mockCallBack).toHaveBeenCalledTimes(1);
+  expect(modal.getAttribute("opened")).toBe(null);
 });
 
 describe("opening and closing behavior", () => {
