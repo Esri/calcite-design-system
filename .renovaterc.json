@@ -28,7 +28,7 @@
     {
       "matchPackagePatterns": ["*"],
       "semanticCommitType": "build",
-      "semantiicCommitScope": "deps",
+      "semanticCommitScope": "deps",
       "addLabels": ["chore"]
     }
   ]
