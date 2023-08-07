@@ -94,8 +94,7 @@ export class Modal
   @Prop({ mutable: true, reflect: true }) open = false;
 
   /** Passes a function to run before the component closes. */
-  @Prop()
-  beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  @Prop() beforeClose: (el: HTMLCalciteModalElement) => Promise<void>;
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeButtonDisabled = false;
@@ -215,7 +214,7 @@ export class Modal
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: this.isOpen,
+            [CSS.containerOpen]: this.opened,
             [CSS.slottedInShell]: this.slottedInShell,
           }}
         >
@@ -291,7 +290,7 @@ export class Modal
         aria-label={this.messages.close}
         class={CSS.close}
         key="button"
-        onClick={this.close}
+        onClick={this.closeModal}
         title={this.messages.close}
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.closeButtonEl = el)}
@@ -350,6 +349,15 @@ export class Modal
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
+   *
+   * @internal.
+   */
+  @Prop({ mutable: true, reflect: true }) opened = false;
+
+  ignoreOpenChange = false;
+
   modalContent: HTMLDivElement;
 
   initialOverflowCSS: string;
@@ -384,13 +392,6 @@ export class Modal
 
   @State() hasContentBottom = false;
 
-  /**
-   * We use internal variable to make sure initially open modal can transition from closed state when rendered
-   *
-   * @private
-   */
-  @State() isOpen = false;
-
   @State() effectiveLocale: string;
 
   @Watch("effectiveLocale")
@@ -409,7 +410,7 @@ export class Modal
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
     if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.close();
+      this.closeModal();
       event.preventDefault();
     }
   }
@@ -513,7 +514,7 @@ export class Modal
       this.openModal();
     } else {
       this.transitionEl?.classList.add(CSS.closingIdle);
-      this.close();
+      this.closeModal();
     }
   }
 
@@ -524,9 +525,14 @@ export class Modal
 
   /** Open the modal */
   private openModal() {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
+    this.ignoreOpenChange = true;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
-    this.isOpen = true;
+    this.opened = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
 
@@ -538,23 +544,32 @@ export class Modal
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
+    this.ignoreOpenChange = false;
   }
 
-  handleOutsideClose = (): void => {
+  private handleOutsideClose = (): void => {
     if (this.outsideCloseDisabled) {
       return;
     }
 
-    this.close();
+    this.closeModal();
   };
 
   /** Close the modal, first running the `beforeClose` method */
-  close = (): Promise<void> => {
-    return this.beforeClose(this.el).then(() => {
-      this.open = false;
-      this.isOpen = false;
-      this.removeOverflowHiddenClass();
-    });
+  closeModal = async (): Promise<void> => {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
+    if (this.beforeClose) {
+      await this.beforeClose(this.el);
+    }
+
+    this.ignoreOpenChange = true;
+    this.open = false;
+    this.opened = false;
+    this.removeOverflowHiddenClass();
+    this.ignoreOpenChange = false;
   };
 
   private removeOverflowHiddenClass(): void {
