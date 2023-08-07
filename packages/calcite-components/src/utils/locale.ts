@@ -409,8 +409,8 @@ export class NumberStringFormat {
     } as Intl.NumberFormatOptions).formatToParts(-12345678.9);
 
     this._actualGroup = parts.find((d) => d.type === "group").value;
-    // change whitespace group characters that don't render correctly
-    this._group = this._actualGroup.trim().length === 0 ? " " : this._actualGroup;
+    // change whitespace group characters that don't render correctly to a unicode no-break space
+    this._group = this._actualGroup.trim().length === 0 || this._actualGroup == "\u0020" ? "\u00A0" : this._actualGroup;
     this._decimal = parts.find((d) => d.type === "decimal").value;
     this._minusSign = parts.find((d) => d.type === "minusSign").value;
     this._getDigitIndex = (d: string) => index.get(d);
