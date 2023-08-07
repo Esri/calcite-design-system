@@ -27,10 +27,12 @@ export const initialOffsetSelected_TestOnly = (): string => html`
 `;
 
 export const displayingTimeZoneOffsets_TestOnly = (): string => html`
-  <calcite-input-time-zone open overlay-positioning="fixed"></calcite-input-time-zone>
+  <div style="width: 450px; height: 500px;">
+    <calcite-input-time-zone open></calcite-input-time-zone>
+  </div>
 `;
 displayingTimeZoneOffsets_TestOnly.parameters = {
-  chromatic: { delay: 1500 },
+  chromatic: { delay: 500 },
 };
 
 export const disabled_TestOnly = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
