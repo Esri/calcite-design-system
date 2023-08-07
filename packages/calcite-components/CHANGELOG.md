@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.2...@esri/calcite-components@1.5.1-next.3) (2023-08-07)
+
+### Bug Fixes
+
+- **accordion:** restore accordion-items working with accordion across shadow DOM ([#7466](https://github.com/Esri/calcite-design-system/issues/7466)) ([bedb5db](https://github.com/Esri/calcite-design-system/commit/bedb5db8fa2fa9dc790e82923c9d79853579a089)), closes [#7448](https://github.com/Esri/calcite-design-system/issues/7448)
+
 ## [1.5.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.1...@esri/calcite-components@1.5.1-next.2) (2023-08-04)
 
 ### Bug Fixes
