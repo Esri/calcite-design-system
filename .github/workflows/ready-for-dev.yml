@@ -1,4 +1,4 @@
-# When the "ready-for-dev" label is added to an issue:
+# When the "ready for dev" label is added to an issue:
 # 1. Modifies the labels,
 # 2. Updates the assignees and milestone, and
 # 3. Generates a notification to the Calcite project manager(s)
@@ -14,7 +14,7 @@ on:
 
 jobs:
   ready-for-dev:
-    if: github.event.label.name == 'ready-for-dev'
+    if: github.event.label.name == 'ready for dev'
     permissions:
       issues: write
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
             const { managers } = process.env;
             const { label } = context.payload;
 
-            if (label && label.name === "ready-for-dev") {
+            if (label && label.name === "ready for dev") {
 
               // Add a "@" character to notify the user
               const calcite_managers = managers.split(",").map(v => " @" + v.trim());

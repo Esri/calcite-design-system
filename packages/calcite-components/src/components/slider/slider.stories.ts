@@ -414,3 +414,16 @@ export const maxTickRendering_TestOnly = (): string => html`
   <calcite-slider min="-1000" max="1000" ticks="5"></calcite-slider>
   <calcite-slider min="-1000" max="1000" ticks="10"></calcite-slider>
 `;
+
+export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
+  <calcite-slider
+    lang="ru"
+    value="1000"
+    label-handles
+    label-ticks
+    group-separator
+    max-value="100000"
+    max="10000"
+    ticks="2000"
+  ></calcite-slider>
+`;

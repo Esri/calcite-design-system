@@ -14,7 +14,6 @@ export const CSS = {
   headerActionsEnd: "header-actions--end",
   headerActionsStart: "header-actions--start",
   contentWrapper: "content-wrapper",
-  contentContainer: "content-container",
   fabContainer: "fab-container",
   footer: "footer",
 };
