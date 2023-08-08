@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.3...@esri/calcite-components@1.5.1-next.4) (2023-08-08)
+
+### Bug Fixes
+
+- **input:** fix clearable from throwing an error when value is undefined ([#7476](https://github.com/Esri/calcite-design-system/issues/7476)) ([633c2cd](https://github.com/Esri/calcite-design-system/commit/633c2cd635cdcea73923af2aa68f50683114c6ea)), closes [#7475](https://github.com/Esri/calcite-design-system/issues/7475)
+- **slider:** numbers remain on one line for locales with space group separators ([#7472](https://github.com/Esri/calcite-design-system/issues/7472)) ([2747b22](https://github.com/Esri/calcite-design-system/commit/2747b2289614b5fc365e09bef027c75ad42fe8a6)), closes [#7151](https://github.com/Esri/calcite-design-system/issues/7151)
+
 ## [1.5.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1-next.2...@esri/calcite-components@1.5.1-next.3) (2023-08-07)
 
 ### Bug Fixes
