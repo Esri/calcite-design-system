@@ -314,6 +314,5 @@ export const noOverflowContentWithFab_TestOnly = (): string => html` <calcite-pa
   <calcite-fab slot="fab"></calcite-fab
 ></calcite-panel>`;
 
-export const withTextContentOnly = (): string => html`<calcite-panel height-scale="s" heading="Header!">
-  <div>Slotted content!</div>
-</calcite-panel>`;
+export const withTextContentOnly = (): string =>
+  html`<calcite-panel height-scale="s" heading="My Panel">Slotted content!</calcite-panel>`;
