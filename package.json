@@ -38,7 +38,7 @@
     "@storybook/testing-library": "0.0.13",
     "@types/dedent": "0.7.0",
     "@types/eslint": "8.40.2",
-    "@types/estree": "1.0.0",
+    "@types/estree": "1.0.1",
     "@types/jest": "27.0.3",
     "@types/jest-axe": "3.5.5",
     "@types/lodash-es": "4.17.8",
