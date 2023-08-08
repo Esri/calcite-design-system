@@ -170,8 +170,6 @@ export class Rating
 
   @State() focusValue: number;
 
-  @State() hasFocus: boolean;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -202,7 +200,6 @@ export class Rating
         !this.value &&
         value <= this.average;
       const checked = value === this.value;
-      const focused = this.hasFocus && this.focusValue === value;
       const fraction = this.average && this.average + 1 - value;
       const hovered = value <= this.hoverValue;
       const id = `${this.guid}-${value}`;
@@ -218,7 +215,6 @@ export class Rating
       return {
         average,
         checked,
-        focused,
         fraction,
         hovered,
         id,
@@ -360,11 +356,7 @@ export class Rating
   };
 
   private handleLabelKeyDown = (event: KeyboardEvent) => {
-    if (this.readOnly) {
-      return;
-    }
-    const target = event.currentTarget as HTMLLabelElement;
-    const inputVal = Number(target.firstChild["value"]);
+    const inputValue = this.getValueFromLabelEvent(event);
     const key = event.key;
     const numberKey = key == " " ? undefined : Number(key);
 
@@ -373,24 +365,21 @@ export class Rating
       switch (key) {
         case "Enter":
         case " ":
-          this.value = !this.required && this.value === inputVal ? 0 : inputVal;
+          this.value = !this.required && this.value === inputValue ? 0 : inputValue;
           break;
         case "ArrowLeft":
-          this.value = this.getPreviousRatingValue(inputVal);
+          this.value = this.getPreviousRatingValue(inputValue);
           this.updatefocus();
           event.preventDefault();
           break;
         case "ArrowRight":
-          this.value = this.getNextRatingValue(inputVal);
+          this.value = this.getNextRatingValue(inputValue);
           this.updatefocus();
           event.preventDefault();
           break;
         case "Tab":
-          if (this.hasFocus) {
-            this.hasFocus = false;
-            this.focusValue = null;
-            this.hoverValue = null;
-          }
+          this.focusValue = null;
+          this.hoverValue = null;
         default:
           break;
       }
@@ -414,19 +403,16 @@ export class Rating
   };
 
   private handleLabelPointerOver = (event: PointerEvent) => {
-    const target = event.currentTarget as HTMLLabelElement;
-    const newPointerValue = Number(target.firstChild["value"] || 0);
-    this.hoverValue = newPointerValue;
+    this.hoverValue = this.getValueFromLabelEvent(event);
   };
 
   private handleLabelPointerDown = (event: PointerEvent) => {
     const target = event.currentTarget as HTMLLabelElement;
-    const inputVal = Number(target.firstChild["value"]);
-    this.focusValue = inputVal || null;
-    this.hoverValue = inputVal || null;
+    const inputValue = Number(target.firstChild["value"]);
+    this.focusValue = inputValue || null;
+    this.hoverValue = inputValue || null;
     this.emit = true;
-    this.value = !this.required && this.value === inputVal ? 0 : inputVal;
-    this.hasFocus = this.value !== 0;
+    this.value = !this.required && this.value === inputValue ? 0 : inputValue;
     target.focus();
   };
 
@@ -435,23 +421,19 @@ export class Rating
   };
 
   private handleLabelFocus = (event: FocusEvent) => {
-    const target = event.target as HTMLLabelElement;
-    const inputValue = Number(target.firstChild["value"]);
+    const inputValue = this.getValueFromLabelEvent(event);
     this.focusValue = inputValue;
     this.hoverValue = inputValue;
-    this.hasFocus = true;
   };
 
   private handleHostBlur = () => {
     this.hoverValue = null;
-    this.hasFocus = null;
     this.focusValue = null;
   };
 
   private updatefocus(): void {
     this.focusValue = this.value;
     this.hoverValue = this.value;
-    this.hasFocus = true;
     this.ratings[this.value - 1].focus();
   }
 
@@ -476,6 +458,11 @@ export class Rating
 
   getPreviousRatingValue(currentValue: number): number {
     return currentValue === 1 ? 5 : currentValue - 1;
+  }
+
+  getValueFromLabelEvent(event: FocusEvent | PointerEvent | KeyboardEvent): number {
+    const target = event.currentTarget as HTMLLabelElement;
+    return Number(target.firstChild["value"]) || 0;
   }
 
   //--------------------------------------------------------------------------

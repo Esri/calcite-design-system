@@ -3,7 +3,6 @@ import { Scale } from "../interfaces";
 export interface Star {
   average: boolean;
   checked: boolean;
-  focused: boolean;
   fraction: number;
   hovered: boolean;
   id: string;
