@@ -184,7 +184,6 @@ export class Rating
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
     setUpLoadableComponent(this);
-    this.inputRefs = Array(this.max);
   }
 
   componentWillRender(): void {
@@ -241,18 +240,7 @@ export class Rating
           <fieldset class="fieldset" disabled={this.disabled}>
             <legend class="visually-hidden">{this.messages.rating}</legend>
             {this.starsMap.map(
-              ({
-                average,
-                checked,
-                fraction,
-                hovered,
-                id,
-                idx,
-                partial,
-                selected,
-                value,
-                tabIndex,
-              }) => {
+              ({ average, checked, fraction, hovered, id, partial, selected, value, tabIndex }) => {
                 return (
                   <label
                     class={{
@@ -281,14 +269,6 @@ export class Rating
                       onChange={this.handleInputChange}
                       type="radio"
                       value={value}
-                      // eslint-disable-next-line react/jsx-sort-props
-                      ref={(el) => {
-                        this.inputRefs[idx] = el;
-                        return (
-                          (value === 1 || value === this.value) &&
-                          (this.inputFocusRef = el as HTMLInputElement)
-                        );
-                      }}
                     />
                     <StarIcon full={selected || average} scale={this.scale} />
                     {partial && (
@@ -413,7 +393,7 @@ export class Rating
 
   private updatefocus(): void {
     this.hoverValue = this.value;
-    this.ratings[this.value - 1].focus();
+    this.labelElements[this.value - 1].focus();
   }
 
   private assignTabIndex(value: number): number {
@@ -428,7 +408,7 @@ export class Rating
   }
 
   setRatingEl = (el: HTMLLabelElement): void => {
-    this.ratings.push(el);
+    this.labelElements.push(el);
   };
 
   getNextRatingValue(currentValue: number): number {
@@ -454,7 +434,7 @@ export class Rating
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    const focusableEl = this.ratings.find((rating) => rating.tabIndex === 0);
+    const focusableEl = this.labelElements.find((rating) => rating.tabIndex === 0);
     focusableEl.focus();
   }
 
@@ -474,15 +454,11 @@ export class Rating
 
   private guid = `calcite-ratings-${guid()}`;
 
-  private inputRefs: HTMLInputElement[];
-
-  private inputFocusRef: HTMLInputElement;
-
   private isKeyboardInteraction = true;
 
   private max = 5;
 
   private starsMap: Star[];
 
-  private ratings: HTMLLabelElement[] = [];
+  private labelElements: HTMLLabelElement[] = [];
 }
