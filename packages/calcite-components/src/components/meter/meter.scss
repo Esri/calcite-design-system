@@ -75,15 +75,13 @@
 }
 
 .meter-fill {
-  @apply block absolute;
-  background-color: var(--calcite-ui-brand);
+  @apply block absolute duration-150 ease-in-out bg-brand z-sticky;
   inset-inline-start: var(--calcite-meter-space-internal);
   inset-block: var(--calcite-meter-space-internal);
   border-radius: var(--calcite-meter-height-internal);
   max-inline-size: calc(100% - (var(--calcite-meter-space-internal) * 2));
   min-inline-size: calc(var(--calcite-meter-height-internal) - (var(--calcite-meter-space-internal) * 2));
-  transition: inline-size 0.25s ease-in-out, background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
-  z-index: var(--calcite-app-z-index-sticky);
+  transition-property: inline-size, background-color, box-shadow;
 }
 
 .meter.solid .meter-fill {
