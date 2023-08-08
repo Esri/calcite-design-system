@@ -11,7 +11,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusFirstTabbable, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
+import {
+  focusFirstTabbable,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -168,6 +173,8 @@ export class Panel
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
+  @State() hasDefaultContent = false;
+
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -187,6 +194,8 @@ export class Panel
   @State() defaultMessages: PanelMessages;
 
   @State() effectiveLocale = "";
+
+  @State() showHeaderContent = false;
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
@@ -257,28 +266,20 @@ export class Panel
     this.calcitePanelScroll.emit();
   };
 
-  handleHeaderActionsStartSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
+  handleDefaultSlotChange = (event: Event): void => {
+    this.hasDefaultContent = slotChangeHasAssignedElement(event);
+  };
 
-    this.hasStartActions = !!elements.length;
+  handleHeaderActionsStartSlotChange = (event: Event): void => {
+    this.hasStartActions = slotChangeHasAssignedElement(event);
   };
 
   handleHeaderActionsEndSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasEndActions = !!elements.length;
+    this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 
   handleHeaderMenuActionsSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasMenuItems = !!elements.length;
+    this.hasMenuItems = slotChangeHasAssignedElement(event);
   };
 
   handleActionBarSlotChange = (event: Event): void => {
@@ -292,35 +293,19 @@ export class Panel
   };
 
   handleHeaderContentSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasHeaderContent = !!elements.length;
+    this.hasHeaderContent = slotChangeHasAssignedElement(event);
   };
 
   handleFooterSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasFooterContent = !!elements.length;
+    this.hasFooterContent = slotChangeHasAssignedElement(event);
   };
 
   handleFooterActionsSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasFooterActions = !!elements.length;
+    this.hasFooterActions = slotChangeHasAssignedElement(event);
   };
 
   handleFabSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
-
-    this.hasFab = !!elements.length;
+    this.hasFab = slotChangeHasAssignedElement(event);
   };
 
   // --------------------------------------------------------------------------
@@ -380,7 +365,10 @@ export class Panel
 
   renderActionBar(): VNode {
     return (
-      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
+      <div
+        class={{ [CSS.actionBarContainer]: true, [CSS.topSeparator]: this.showHeaderContent }}
+        hidden={!this.hasActionBar}
+      >
         <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
       </div>
     );
@@ -425,6 +413,7 @@ export class Panel
         icon={ICONS.close}
         onClick={close}
         text={text}
+        title={text}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setCloseRef}
       />
@@ -475,24 +464,40 @@ export class Panel
   }
 
   renderHeaderNode(): VNode {
-    const { hasHeaderContent, hasStartActions, hasEndActions, closable, hasMenuItems } = this;
+    const {
+      hasHeaderContent,
+      hasStartActions,
+      hasEndActions,
+      closable,
+      hasMenuItems,
+      hasDefaultContent,
+      hasActionBar,
+    } = this;
 
     const headerContentNode = this.renderHeaderContent();
 
-    const showHeader =
+    const showHeaderContent =
       hasHeaderContent ||
-      headerContentNode ||
+      !!headerContentNode ||
       hasStartActions ||
       hasEndActions ||
       closable ||
       hasMenuItems;
 
+    this.showHeaderContent = showHeaderContent;
+
     return (
-      <header class={CSS.header} hidden={!showHeader}>
-        {this.renderHeaderStartActions()}
-        {this.renderHeaderSlottedContent()}
-        {headerContentNode}
-        {this.renderHeaderActionsEnd()}
+      <header
+        class={{ [CSS.header]: true, [CSS.bottomSeparator]: hasDefaultContent }}
+        hidden={!(showHeaderContent || hasActionBar)}
+      >
+        <div class={CSS.headerContainer} hidden={!showHeaderContent}>
+          {this.renderHeaderStartActions()}
+          {this.renderHeaderSlottedContent()}
+          {headerContentNode}
+          {this.renderHeaderActionsEnd()}
+        </div>
+        {this.renderActionBar()}
       </header>
     );
   }
@@ -525,27 +530,14 @@ export class Panel
   };
 
   renderContent(): VNode {
-    const { hasFab } = this;
-
-    const defaultSlotNode: VNode = <slot key="default-slot" />;
-    const containerNode = hasFab ? (
-      <section class={CSS.contentContainer}>{defaultSlotNode}</section>
-    ) : (
-      defaultSlotNode
-    );
-
     return (
       <div
-        class={{
-          [CSS.contentWrapper]: true,
-          [CSS.contentContainer]: !hasFab,
-          [CSS.contentHeight]: hasFab,
-        }}
+        class={CSS.contentWrapper}
         onScroll={this.panelScrollHandler}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
-        {containerNode}
+        <slot onSlotchange={this.handleDefaultSlotChange} />
         {this.renderFab()}
       </div>
     );
@@ -573,7 +565,6 @@ export class Panel
         ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}
-        {this.renderActionBar()}
         {this.renderContent()}
         {this.renderFooterNode()}
       </article>

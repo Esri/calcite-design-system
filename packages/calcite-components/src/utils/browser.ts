@@ -1,3 +1,5 @@
+import { Build } from "@stencil/core";
+
 interface NavigatorUAData {
   brands: Array<{ brand: string; version: string }>;
   mobile: boolean;
@@ -9,6 +11,10 @@ function getUserAgentData(): NavigatorUAData | undefined {
 }
 
 export function getUserAgentString(): string {
+  if (!Build.isBrowser) {
+    return "";
+  }
+
   const uaData = getUserAgentData();
 
   return uaData?.brands
