@@ -276,7 +276,7 @@ export class ActionPad
 
     return expandToggleNode ? (
       <calcite-action-group
-        class={CSS.actionGroupBottom}
+        class={CSS.actionGroupEnd}
         label={actionsEndGroupLabel}
         layout={layout}
         scale={scale}
