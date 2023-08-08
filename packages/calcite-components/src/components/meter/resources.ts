@@ -3,7 +3,6 @@ export const CSS = {
   meterFill: "meter-fill",
   meterStepLine: "meter-step-line",
   meterLabel: "meter-label",
-  meterLabelContainer: "meter-label-container",
   meterLabelRange: "meter-label-range",
   meterLabelValue: "meter-label-value",
   meterUnitLabel: "meter-unit-label",

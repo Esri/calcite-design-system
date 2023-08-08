@@ -51,7 +51,7 @@
               max="12400"
               low="4600"
               high="7600"
-              value="2200"
+              value="-2200"
             ></calcite-meter>
           </calcite-label>
           <calcite-label>
@@ -61,12 +61,13 @@
               unit-label="GB"
               value-label
               range-labels
-              label-type="units"
+              range-label-type="units"
+              value-label-type="units"
               min="0"
               max="12400"
               low="4600"
               high="7600"
-              value="2200"
+              value="244200"
             ></calcite-meter>
           </calcite-label>
         </div>
@@ -120,8 +121,15 @@
               </calcite-segmented-control>
             </calcite-label>
             <calcite-label
-              >labelType
-              <calcite-segmented-control id="control-strategy">
+              >valueLabelType
+              <calcite-segmented-control id="control-value-label-type">
+                <calcite-segmented-control-item value="percent" checked>Percent</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="units"> Units</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >rangeLabelType
+              <calcite-segmented-control id="control-range-label-type">
                 <calcite-segmented-control-item value="percent" checked>Percent</calcite-segmented-control-item>
                 <calcite-segmented-control-item value="units"> Units</calcite-segmented-control-item>
               </calcite-segmented-control>
@@ -224,7 +232,7 @@
           <calcite-label
             >value=0
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -236,7 +244,7 @@
           <calcite-label
             >low=10, high=90, value=5
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -249,7 +257,7 @@
           <calcite-label
             >low=65, high=80, value=60
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -262,7 +270,7 @@
           <calcite-label
             >low=15, high=40, value=60
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -275,7 +283,7 @@
           <calcite-label
             >low=10, high=90, value=95
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -288,7 +296,7 @@
           <calcite-label
             >low=25, high=75, value=200
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -389,7 +397,7 @@
           <calcite-label
             >value=0
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -401,7 +409,7 @@
           <calcite-label
             >low=10, high=90, value=5
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -415,7 +423,7 @@
           <calcite-label
             >low=65, high=80, value=60
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -429,7 +437,7 @@
           <calcite-label
             >low=15, high=40, value=60
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -443,7 +451,7 @@
           <calcite-label
             >low=10, high=90, value=95
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -457,7 +465,7 @@
           <calcite-label
             >low=25, high=75, value=200
             <calcite-meter
-              label-type="units"
+              value-label-type="units"
               range-labels
               unit-label="credits"
               value-label
@@ -652,7 +660,8 @@
 
         const controlType = document.getElementById("control-type");
         const controlScale = document.getElementById("control-scale");
-        const controlStrategy = document.getElementById("control-strategy");
+        const controlValueLabelType = document.getElementById("control-value-label-type");
+        const controlValueRangeType = document.getElementById("control-range-label-type");
 
         const controlAppearance = document.getElementById("control-appearance");
 
@@ -700,8 +709,12 @@
           meter.scale = event.target.value;
         });
 
-        controlStrategy.addEventListener("calciteSegmentedControlChange", function () {
-          meter.labelType = event.target.value;
+        controlValueLabelType.addEventListener("calciteSegmentedControlChange", function () {
+          meter.valueLabelType = event.target.value;
+        });
+
+        controlValueRangeType.addEventListener("calciteSegmentedControlChange", function () {
+          meter.rangeLabelType = event.target.value;
         });
 
         controlAppearance.addEventListener("calciteSegmentedControlChange", function () {

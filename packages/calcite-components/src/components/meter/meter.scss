@@ -61,7 +61,7 @@
 
 .meter-label-range {
   inset-block-start: calc(100% + 0.5em);
-  color: var(--calcite-ui-text-2);
+  color: var(--calcite-ui-text-3);
 }
 
 .meter-unit-label {
@@ -71,6 +71,7 @@
 
 .meter-label-value .meter-unit-label {
   color: var(--calcite-ui-text-2);
+  font-weight: var(--calcite-font-weight-bold);
 }
 
 .meter-fill {

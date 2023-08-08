@@ -124,7 +124,7 @@ export const meterHideOverlappingLabelRTL_TestOnly = (): string => html`<calcite
 export const meterHideOverlappingLabelUnits_TestOnly = (): string => html`<calcite-meter
   value-label
   range-labels
-  label-type="units"
+  value-label-type="units"
   unit-label="credits"
   low="2"
   high="98"
@@ -137,7 +137,7 @@ export const meterHideOverlappingLabelUnitsRTL_TestOnly = (): string => html`<ca
   dir="rtl"
   value-label
   range-labels
-  label-type="units"
+  value-label-type="units"
   unit-label="credits"
   low="2"
   high="98"
@@ -160,7 +160,7 @@ export const meterComplexUnit_TestOnly = (): string => html`<calcite-meter
   unit-label="GB"
   value-label
   range-labels
-  label-type="units"
+  value-label-type="units"
   min="0"
   max="12400"
   low="4600"
@@ -200,7 +200,7 @@ export const meterComplexUnitRTL_TestOnly = (): string =>
     unit-label="GB"
     value-label
     range-labels
-    label-type="units"
+    value-label-type="units"
     min="0"
     max="12400"
     low="4600"

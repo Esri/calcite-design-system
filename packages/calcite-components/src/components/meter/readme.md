@@ -12,7 +12,7 @@ A complex meter component.
 <calcite-meter
   group-separator="en"
   unit-label="GB"
-  label-type="units"
+  value-label-type="units"
   value-label
   range-labels
   min="0"
