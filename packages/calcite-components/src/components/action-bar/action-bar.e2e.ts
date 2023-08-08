@@ -165,10 +165,12 @@ describe("calcite-action-bar", () => {
       const page = await newE2EPage();
 
       await page.setContent(html`<calcite-action-bar expand-disabled></calcite-action-bar>`);
+      await page.waitForChanges();
 
       const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
-      expect(buttonGroup).toBeNull();
+      expect(buttonGroup.getAttribute("hidden")).toBe("");
+      expect(await buttonGroup.isVisible()).toBe(false);
     });
 
     it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
