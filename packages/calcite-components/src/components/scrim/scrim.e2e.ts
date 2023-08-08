@@ -100,9 +100,9 @@ describe("calcite-scrim", () => {
     scrim.innerHTML = "<p>Content added after initialization</p>";
     await page.waitForChanges();
 
-    const p = await page.find("p");
-    expect(p).toBeTruthy();
-    expect(await p.isVisible()).toBe(true);
+    const content = await page.find("p");
+    expect(content).toBeTruthy();
+    expect(await content.isVisible()).toBe(true);
     expect(contentNode).not.toHaveAttribute("hidden");
   });
 
