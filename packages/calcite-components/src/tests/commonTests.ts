@@ -30,9 +30,13 @@ function isHTML(tagOrHTML: string): boolean {
 
 function getTag(tagOrHTML: string): ComponentTag {
   if (isHTML(tagOrHTML)) {
-    const regex = /[>\s]/;
+    const regex = /<calcite-[a-z0-9-]+/i;
     const trimmedTag = tagOrHTML.trim();
-    return trimmedTag.substring(1, trimmedTag.search(regex)) as ComponentTag;
+    const match = trimmedTag.match(regex);
+    if (match) {
+      return match[0].substring(1) as ComponentTag;
+    }
+    throw new Error(`Could not extract tag from HTML: ${trimmedTag}`);
   }
 
   return tagOrHTML as ComponentTag;
@@ -1342,22 +1346,45 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   }
 }
 
-/*
- * @param {ComponentTestSetup} ComponentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
- * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
- * @param {boolean} toggleValue - Indicates the initial value of the toggle property.
+/**
+ * Helper to test openClose component setup.
+ *
+ * Note that this helper should be used within a `describe` block.
  *
  * @example
  * import { openClose } from "../../tests/commonTests";
  *
- * describe("openClose", () => {
- *   openClose("calcite-dropdown", "open", false);
+ * openClose("calcite-tooltip", "open", false, {
+ *   openTooltip: async (page) => {
+ *     await page.keyboard.press("Tab");
+ *     await page.waitForChanges();
+ *   },
+ *   closeTooltip: async (page) => {
+ *     await page.keyboard.press("Tab");
+ *     await page.waitForChanges();
+ *   },
  * });
+ *
+ * @param {ComponentTestSetup} ComponentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
+ * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
+ * @param {boolean} toggleValue - Indicates the initial value of the toggle property.
+ * @param {{
+ *  openTooltip: (page: E2EPage) => Promise<void>;
+ *  closeTooltip: (page: E2EPage) => Promise<void>;
+ * }} userInputDevice - Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
  */
-export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: string, toggleValue: boolean): void {
+
+export function openClose(
+  componentTestSetup: ComponentTestSetup,
+  toggleProp: string,
+  toggleValue: boolean,
+  userInputDevice?: {
+    openTooltip: (page: E2EPage) => Promise<void>;
+    closeTooltip: (page: E2EPage) => Promise<void>;
+  }
+): void {
   const testOpenCloseEvents = async (page: E2EPage, tag: string) => {
     const element = await page.find(tag);
-
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
     const events = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
     const componentSpecificEventSequence = events.map((event) => `${camelCaseTag}${event}`);
@@ -1385,7 +1412,10 @@ export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: st
       events.map(async (event) => await element.spyOnEvent(`${camelCaseTag}${event}`))
     );
 
-    toggleValue === false ? element.setProperty(toggleProp, true) : toggleValue;
+    toggleValue === false
+      ? (userInputDevice ? await userInputDevice.openTooltip(page) : element.setProperty(toggleProp, false),
+        element.setProperty(toggleProp, true))
+      : toggleValue;
     await page.waitForChanges();
 
     await beforeOpenEvent;
@@ -1396,7 +1426,7 @@ export function openClose(componentTestSetup: ComponentTestSetup, toggleProp: st
     expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
     expect(closeSpy).toHaveReceivedEventTimes(0);
 
-    element.setProperty(toggleProp, false);
+    userInputDevice ? await userInputDevice.closeTooltip(page) : element.setProperty(toggleProp, false);
     await page.waitForChanges();
 
     await beforeCloseEvent;
