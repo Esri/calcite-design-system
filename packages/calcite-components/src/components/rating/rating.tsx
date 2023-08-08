@@ -263,7 +263,6 @@ export class Rating
                       partial,
                     }}
                     htmlFor={id}
-                    key={id}
                     onClick={this.handleLabelClick}
                     onFocus={this.handleLabelFocus}
                     onKeyDown={this.handleLabelKeyDown}
@@ -455,8 +454,8 @@ export class Rating
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-
-    this.inputFocusRef?.focus();
+    const focusableEl = this.ratings.find((rating) => rating.tabIndex === 0);
+    focusableEl.focus();
   }
 
   // --------------------------------------------------------------------------
