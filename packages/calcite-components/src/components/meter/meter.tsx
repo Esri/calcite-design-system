@@ -68,6 +68,10 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.  */
   @Prop({ reflect: true }) high: number;
 
+  @Watch("min")
+  @Watch("max")
+  @Watch("low")
+  @Watch("high")
   @Watch("value")
   handleRangeChange(): void {
     this.calculateValues();
@@ -227,11 +231,11 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     const lowPercent = (100 * (low - min)) / (max - min);
     const highPercent = (100 * (high - min)) / (max - min);
     const currentPercent = (100 * (value - min)) / (max - min);
-    this.lowPercent = Math.round(lowPercent);
-    this.highPercent = Math.round(highPercent);
-    this.currentPercent = value ? Math.round(currentPercent) : 0;
-    this.lowActive = !!low && low > value && low > min && (!high || low < high);
-    this.highActive = !!high && high > value && high < max && (!low || high > low);
+    this.lowPercent = lowPercent;
+    this.highPercent = highPercent;
+    this.currentPercent = value ? currentPercent : 0;
+    this.lowActive = !!low && low > min && (!value || low > value) && (!high || low < high);
+    this.highActive = !!high && high < max && (!value || high > value) && (!low || high > low);
   }
 
   /**
