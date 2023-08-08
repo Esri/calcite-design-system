@@ -15,6 +15,7 @@ import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
+  slotChangeHasTextContent,
   toAriaBoolean,
 } from "../../utils/dom";
 import {
@@ -267,7 +268,7 @@ export class Panel
   };
 
   handleDefaultSlotChange = (event: Event): void => {
-    this.hasDefaultContent = slotChangeHasAssignedElement(event);
+    this.hasDefaultContent = slotChangeHasAssignedElement(event) || slotChangeHasTextContent(event);
   };
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {

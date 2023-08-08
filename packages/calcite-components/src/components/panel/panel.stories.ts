@@ -313,3 +313,7 @@ export const noOverflowContentWithFab_TestOnly = (): string => html` <calcite-pa
   ><div>My Content</div>
   <calcite-fab slot="fab"></calcite-fab
 ></calcite-panel>`;
+
+export const withTextContentOnly = (): string => html`<calcite-panel height-scale="s" heading="Header!">
+  <div>Slotted content!</div>
+</calcite-panel>`;
