@@ -419,7 +419,7 @@ export class Input
   private childNumberEl?: HTMLInputElement;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
   }
 
   get isTextarea(): boolean {

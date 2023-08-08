@@ -678,9 +678,9 @@ describe("calcite-input", () => {
       await page.setContent(html`<calcite-input type="number" value="1"></calcite-input>`);
       const element = await page.find("calcite-input");
       await element.click();
-      await page.waitForChanges;
+      await page.waitForChanges();
       await element.callMethod("blur");
-      await page.waitForChanges;
+      await page.waitForChanges();
       element.setProperty("value", "2");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("2");
