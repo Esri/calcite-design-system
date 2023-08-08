@@ -1413,8 +1413,9 @@ export function openClose(
     );
 
     toggleValue === false
-      ? (userInputDevice ? await userInputDevice.openTooltip(page) : element.setProperty(toggleProp, false),
-        element.setProperty(toggleProp, true))
+      ? userInputDevice
+        ? await userInputDevice.openTooltip(page)
+        : element.setProperty(toggleProp, true)
       : toggleValue;
     await page.waitForChanges();
 

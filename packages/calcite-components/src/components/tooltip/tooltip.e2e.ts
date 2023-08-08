@@ -97,8 +97,8 @@ describe("calcite-tooltip", () => {
   const tooltipDisplayNoneHtml = html`
     <div class="container">
       <div class="template">
-        <button id="ref">referenceElement</button>
-        <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+        <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
+        ><button id="ref">referenceElement</button>
       </div>
     </div>
     <button class="hoverOutsideContainer">some other content</button>
@@ -151,7 +151,25 @@ describe("calcite-tooltip", () => {
   });
 
   describe("when open, it emits events if no longer rendered", () => {
-    openClose(tooltipDisplayNoneHtml, "open", true);
+    const mouseMoveOptions = { steps: 10 };
+    const mouseTotalDelayFromMoveSteps = TOOLTIP_OPEN_DELAY_MS * mouseMoveOptions.steps;
+
+    openClose(tooltipDisplayNoneHtml, "open", false, {
+      openTooltip: async (page: E2EPage) => {
+        await page.mouse.move(10, 10, mouseMoveOptions);
+        await page.waitForChanges();
+
+        await page.waitForTimeout(mouseTotalDelayFromMoveSteps);
+      },
+      closeTooltip: async (page: E2EPage) => {
+        const [refElementX, refElementY] = await getElementXY(page, ".hoverOutsideContainer");
+
+        await page.mouse.move(refElementX, refElementY, mouseMoveOptions);
+        await page.waitForChanges();
+
+        await page.waitForTimeout(mouseTotalDelayFromMoveSteps);
+      },
+    });
   });
 
   it("should have zIndex of 901", async () => {
