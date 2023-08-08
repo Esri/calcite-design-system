@@ -256,8 +256,10 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
       };
       return numberStringFormatter.localize(value.toString());
     } else if (typeof value === "number" && labelType === "percent") {
-      // todo use number string formatter helper when updated
-      return Intl.NumberFormat(this.effectiveLocale, { style: "percent" }).format(value);
+      return Intl.NumberFormat(this.effectiveLocale, {
+        useGrouping: this.groupSeparator,
+        style: "percent",
+      }).format(value);
     }
   };
 
