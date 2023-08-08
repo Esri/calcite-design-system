@@ -315,24 +315,15 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   private determineValueLabelPosition() {
     const { valueLabelEl, meterContainerEl, currentPercent } = this;
     const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
-    const valueLabelEdgeRight = valueLabelEl.getBoundingClientRect().right;
-    const valueLabelEdgeLeft = valueLabelEl.getBoundingClientRect().left;
     const valueLabelWidth = valueLabelEl.getBoundingClientRect().width;
     const containerWidth = meterContainerEl.getBoundingClientRect().width;
-    const containerEdgeRight = meterContainerEl.getBoundingClientRect().right;
-    const containerEdgeLeft = meterContainerEl.getBoundingClientRect().left;
-    const rightOverlapping = valueLabelEdgeRight >= containerEdgeRight;
-    const leftOverlapping = valueLabelEdgeLeft <= containerEdgeLeft;
     const labelWidthPercent = (100 * (valueLabelWidth - 0)) / (containerWidth - 0);
 
-    if (leftOverlapping || currentPercent <= 2) {
-      valueLabelEl.style.insetInlineStart = "0%";
-      valueLabelEl.style.removeProperty("inset-inline-end");
-    } else if (rightOverlapping || currentPercent >= 100) {
-      valueLabelEl.style.removeProperty("inset-inline-start");
+    if (valuePosition + labelWidthPercent >= 100) {
       valueLabelEl.style.insetInlineEnd = "0%";
-    } else if (!leftOverlapping && !rightOverlapping) {
-      valueLabelEl.style.insetInlineStart = `${valuePosition - labelWidthPercent}% `;
+      valueLabelEl.style.removeProperty("inset-inline-start");
+    } else {
+      valueLabelEl.style.insetInlineStart = `${valuePosition}% `;
       valueLabelEl.style.removeProperty("inset-inline-end");
     }
   }
