@@ -76,7 +76,7 @@ export class ActionBar
   /**
    * Specifies the accessible label for the last action-group.
    */
-  @Prop() actionsGroupEndLabel: string;
+  @Prop() actionsEndGroupLabel: string;
 
   /**
    * When `true`, the expand-toggling behavior is disabled.
@@ -365,7 +365,7 @@ export class ActionBar
       scale,
       layout,
       messages,
-      actionsGroupEndLabel,
+      actionsEndGroupLabel,
     } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
@@ -388,7 +388,7 @@ export class ActionBar
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
       <calcite-action-group
         class={CSS.actionGroupBottom}
-        label={actionsGroupEndLabel}
+        label={actionsEndGroupLabel}
         layout={layout}
         scale={scale}
       >
