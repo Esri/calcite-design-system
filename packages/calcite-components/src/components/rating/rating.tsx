@@ -132,7 +132,6 @@ export class Rating
   @Watch("value")
   handleValueUpdate(newValue: number): void {
     this.hoverValue = newValue;
-    this.focusValue = newValue;
     if (this.emit) {
       this.calciteRatingChange.emit();
     }
@@ -168,8 +167,6 @@ export class Rating
 
   @State() hoverValue: number;
 
-  @State() focusValue: number;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -193,23 +190,12 @@ export class Rating
   componentWillRender(): void {
     this.starsMap = Array.from({ length: this.max }, (_, i) => {
       const value = i + 1;
-      const average =
-        !this.focusValue &&
-        !this.hoverValue &&
-        this.average &&
-        !this.value &&
-        value <= this.average;
+      const average = !this.hoverValue && this.average && !this.value && value <= this.average;
       const checked = value === this.value;
       const fraction = this.average && this.average + 1 - value;
       const hovered = value <= this.hoverValue;
       const id = `${this.guid}-${value}`;
-      const partial =
-        !this.focusValue &&
-        !this.hoverValue &&
-        !this.value &&
-        !hovered &&
-        fraction > 0 &&
-        fraction < 1;
+      const partial = !this.hoverValue && !this.value && !hovered && fraction > 0 && fraction < 1;
       const selected = this.value >= value;
       const tabIndex = this.assignTabIndex(value);
       return {
@@ -378,7 +364,6 @@ export class Rating
           event.preventDefault();
           break;
         case "Tab":
-          this.focusValue = null;
           this.hoverValue = null;
         default:
           break;
@@ -396,7 +381,6 @@ export class Rating
   private handleInputChange = (event: InputEvent) => {
     if (this.isKeyboardInteraction === true) {
       const inputVal = Number(event.target["value"]);
-      this.focusValue = inputVal;
       this.hoverValue = inputVal;
       this.value = inputVal;
     }
@@ -409,7 +393,6 @@ export class Rating
   private handleLabelPointerDown = (event: PointerEvent) => {
     const target = event.currentTarget as HTMLLabelElement;
     const inputValue = Number(target.firstChild["value"]);
-    this.focusValue = inputValue || null;
     this.hoverValue = inputValue || null;
     this.emit = true;
     this.value = !this.required && this.value === inputValue ? 0 : inputValue;
@@ -422,17 +405,14 @@ export class Rating
 
   private handleLabelFocus = (event: FocusEvent) => {
     const inputValue = this.getValueFromLabelEvent(event);
-    this.focusValue = inputValue;
     this.hoverValue = inputValue;
   };
 
   private handleHostBlur = () => {
     this.hoverValue = null;
-    this.focusValue = null;
   };
 
   private updatefocus(): void {
-    this.focusValue = this.value;
     this.hoverValue = this.value;
     this.ratings[this.value - 1].focus();
   }
@@ -441,8 +421,8 @@ export class Rating
     if (this.readOnly) {
       return -1;
     }
-    if (!!this.focusValue || this.value) {
-      return this.focusValue === value || this.value === value ? 0 : -1;
+    if (this.value) {
+      return this.value === value ? 0 : -1;
     } else {
       return value === 1 ? 0 : -1;
     }
