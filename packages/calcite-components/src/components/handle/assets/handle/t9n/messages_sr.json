@@ -1,7 +1,7 @@
 {
   "dragHandle": "Regulator prevlačenja",
-  "dragHandleActive": "Promena redosleda {itemLabel}, trenutna pozicija {position} od {total}.",
-  "dragHandleChange": "{itemLabel}, nova pozicija {position} od {total}. Pritisnite razmak da potvrdite.",
-  "dragHandleCommit": "{itemLabel}, trenutna pozicija {position} od {total}.",
-  "dragHandleIdle": "{itemLabel}, pritisnite razmak i koristite tastere sa strelicama kako bi reorganizovali sadržaj. Trenutna pozicija {position} od {total}."
+  "dragHandleActive": "Reordering {itemLabel}, current position {position} of {total}.",
+  "dragHandleChange": "{itemLabel}, new position {position} of {total}. Press space to confirm.",
+  "dragHandleCommit": "{itemLabel}, current position {position} of {total}.",
+  "dragHandleIdle": "{itemLabel}, press space and use arrow keys to reorder content. Current position {position} of {total}."
 }

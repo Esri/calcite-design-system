@@ -1,4 +1,4 @@
 {
   "invalid": "Nevalid",
-  "tooLong": "Lungimea maximă a caracterelor curentă este {currentLength}, ceea ce depășește lungimea maximă a caracterelor de maximum {maxLength}."
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
 }
