@@ -66,7 +66,6 @@ describe("calcite-rating", () => {
       await page.setContent("<calcite-rating></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
       const element = await page.find("calcite-rating");
@@ -75,7 +74,7 @@ describe("calcite-rating", () => {
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
       expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(selectedEl.length).toBe(0);
       expect(element).toEqualAttribute("value", "0");
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -106,7 +105,7 @@ describe("calcite-rating", () => {
       expect(labels[3]).not.toHaveClass("partial");
       expect(labels[4]).not.toHaveClass("partial");
       expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(selectedEl.length).toBe(0);
     });
 
@@ -115,7 +114,6 @@ describe("calcite-rating", () => {
       await page.setContent("<calcite-rating average=3.4></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
       const element = await page.find("calcite-rating");
@@ -124,7 +122,7 @@ describe("calcite-rating", () => {
       expect(await page.find("calcite-rating >>> .fraction")).not.toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).not.toBeNull();
       expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(selectedEl.length).toBe(0);
       expect(element).toEqualAttribute("value", "0");
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -163,7 +161,6 @@ describe("calcite-rating", () => {
       await page.setContent("<calcite-rating value=4></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
       const element = await page.find("calcite-rating");
@@ -172,7 +169,7 @@ describe("calcite-rating", () => {
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
       expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(selectedEl.length).toBe(4);
       expect(element).toEqualAttribute("value", "4");
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -210,7 +207,6 @@ describe("calcite-rating", () => {
       await page.setContent("<calcite-rating value=3 average=4.2></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
       const element = await page.find("calcite-rating");
@@ -219,7 +215,7 @@ describe("calcite-rating", () => {
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
       expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(selectedEl.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -414,14 +410,13 @@ describe("calcite-rating", () => {
       await labels[2].hover();
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
       expect(hoveredEl.length).toBe(3);
-      expect(focusedEl.length).toBe(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(selectedEl.length).toBe(0);
       expect(element).toEqualAttribute("value", "0");
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -463,11 +458,10 @@ describe("calcite-rating", () => {
       await labels[3].hover();
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
-      expect(focusedEl.length).toEqual(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(hoveredEl.length).toEqual(4);
       expect(selectedEl.length).toEqual(3);
       expect(icons[0]).toEqualAttribute("icon", "star-f");
@@ -507,14 +501,13 @@ describe("calcite-rating", () => {
       await ratingItem1.click();
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
       expect(element).toEqualAttribute("value", "4");
       expect(changeEvent).toHaveReceivedEventTimes(0);
       expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(selectedEl.length).toBe(4);
     });
 
@@ -528,14 +521,14 @@ describe("calcite-rating", () => {
       await labels[2].click();
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
+      const focusedElId = labels[2].getAttribute("for");
 
       expect(await element.getProperty("value")).toBe(0);
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(hoveredEl.length).toBe(3);
+      expect(await isElementFocused(page, `[for=${focusedElId}]`, { shadowed: true })).toBe(true);
       expect(selectedEl.length).toBe(0);
     });
 
@@ -570,13 +563,12 @@ describe("calcite-rating", () => {
       await ratingItem1.click();
       await page.waitForChanges();
 
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
       expect(element).toEqualAttribute("value", "4");
       expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(await isElementFocused(page, "calcite-rating")).toBe(false);
       expect(selectedEl.length).toBe(4);
     });
   });
@@ -607,12 +599,11 @@ describe("calcite-rating", () => {
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.waitForTimeout(200);
-      const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
       expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).not.toBe("LABEL");
       expect(selectedEl.length).toBe(0);
       expect(element).toEqualAttribute("value", "0");
     });

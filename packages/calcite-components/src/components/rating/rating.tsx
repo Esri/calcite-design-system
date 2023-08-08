@@ -204,7 +204,7 @@ export class Rating
       const checked = value === this.value;
       const focused = this.hasFocus && this.focusValue === value;
       const fraction = this.average && this.average + 1 - value;
-      const hovered = value <= this.value;
+      const hovered = value <= this.hoverValue;
       const id = `${this.guid}-${value}`;
       const partial =
         !this.focusValue &&
@@ -250,6 +250,7 @@ export class Rating
   render() {
     return (
       <Host
+        onBlur={this.handleHostBlur}
         onKeyDown={this.handleHostKeyDown}
         onPointerOut={this.handleRatingPointerOut}
         onPointerOver={this.handleRatingPointerOver}
@@ -282,6 +283,7 @@ export class Rating
                     htmlFor={id}
                     key={id}
                     onClick={this.handleLabelClick}
+                    onFocus={this.handleLabelFocus}
                     onKeyDown={this.handleLabelKeyDown}
                     onPointerDown={this.handleLabelPointerDown}
                     onPointerOver={this.handleLabelPointerOver}
@@ -430,6 +432,20 @@ export class Rating
 
   private handleLabelClick = (event: Event) => {
     event.preventDefault();
+  };
+
+  private handleLabelFocus = (event: FocusEvent) => {
+    const target = event.target as HTMLLabelElement;
+    const inputValue = Number(target.firstChild["value"]);
+    this.focusValue = inputValue;
+    this.hoverValue = inputValue;
+    this.hasFocus = true;
+  };
+
+  private handleHostBlur = () => {
+    this.hoverValue = null;
+    this.hasFocus = null;
+    this.focusValue = null;
   };
 
   private updatefocus(): void {
