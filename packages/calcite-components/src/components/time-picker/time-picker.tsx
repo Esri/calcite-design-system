@@ -345,10 +345,6 @@ export class TimePicker
     this.setValuePart("meridiem", newMeridiem);
   };
 
-  private decrementFractionalSecond = (): void => {
-    // TODO: decrementFractionalSecond
-  };
-
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
     let newValue;
     if (isValidNumber(this[key])) {
@@ -459,34 +455,12 @@ export class TimePicker
     this.incrementMinuteOrSecond("minute");
   };
 
-  private incrementFractionalSecond = (): void => {
-    if (isValidNumber(this.fractionalSecond)) {
-      const stepPrecision = decimalPlaces(this.step);
-      const sum = parseFloat(`0.${this.fractionalSecond}`) + this.step;
-      const roundedSum = parseFloat(sum.toFixed(stepPrecision));
-      this.fractionalSecond =
-        roundedSum < 1 && decimalPlaces(roundedSum) > 0
-          ? formatTimePart(roundedSum, stepPrecision)
-          : "".padStart(stepPrecision, "0");
-
-      this.localizedFractionalSecond = this.fractionalSecond;
-      // TODO: localize the result
-      // this.localizedFractionalSecond = localizeTimePart({
-      //   value: this.fractionalSecond,
-      //   part: "fractionalSecond",
-      //   locale: this.effectiveLocale,
-      //   numberingSystem: this.numberingSystem,
-      // });
-    } else {
-      this.fractionalSecond = this.step.toString();
-    }
-  };
-
   private incrementSecond = (): void => {
     this.incrementMinuteOrSecond("second");
   };
 
   private initializeValue = (): void => {
+    // TODO: move this logic into this.setValue()
     if (
       this.showFractionalSecond &&
       this.fractionalSecond &&
@@ -540,7 +514,7 @@ export class TimePicker
 
   private fractionalSecondUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
-      this.incrementFractionalSecond();
+      this.nudgeFractionalSecond("up");
     }
   };
 
@@ -589,6 +563,34 @@ export class TimePicker
   private minuteUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.incrementMinute();
+    }
+  };
+
+  private nudgeFractionalSecond = (direction: "up" | "down"): void => {
+    if (isValidNumber(this.fractionalSecond)) {
+      const stepPrecision = decimalPlaces(this.step);
+      const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
+      const nudgedValue =
+        direction === "up"
+          ? fractionalSecondAsFloat + this.step
+          : fractionalSecondAsFloat - this.step;
+      const nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      // TODO: set value to opposite end of range when min or max is nudged
+      this.fractionalSecond =
+        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRounded) > 0
+          ? formatTimePart(nudgedValueRounded, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+
+      this.localizedFractionalSecond = this.fractionalSecond;
+      // TODO: localize the result
+      // this.localizedFractionalSecond = localizeTimePart({
+      //   value: this.fractionalSecond,
+      //   part: "fractionalSecond",
+      //   locale: this.effectiveLocale,
+      //   numberingSystem: this.numberingSystem,
+      // });
+    } else {
+      this.fractionalSecond = this.step.toString();
     }
   };
 
@@ -793,6 +795,7 @@ export class TimePicker
     this.updateLocale();
     connectMessages(this);
     this.toggleSecond();
+    // TODO: remove this call in favor of this.setValue() which is called above by this.updateLocale();
     this.initializeValue();
     this.meridiemOrder = this.getMeridiemOrder(
       getTimeParts({
@@ -992,7 +995,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondUp]: true,
               }}
-              onClick={this.incrementFractionalSecond}
+              onClick={this.nudgeFractionalSecond.bind(this, "up")}
               onKeyDown={this.fractionalSecondUpButtonKeyDownHandler}
               role="button"
             >
@@ -1030,7 +1033,7 @@ export class TimePicker
                 [CSS.buttonFractionalSecondDown]: true,
               }}
               // TODO: onclick
-              onClick={this.decrementFractionalSecond}
+              onClick={this.nudgeFractionalSecond.bind(this, "down")}
               // TODO: onKeyDown
               // onKeyDown={this.fractionalSecondDownButtonKeyDownHandler}
               role="button"
