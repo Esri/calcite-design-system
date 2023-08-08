@@ -322,7 +322,7 @@ export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
 export class NumberStringFormat {
   /**
    * The actual group separator for the specified locale.
-   * Some white space group separators don't render correctly in the browser,
+   * White-space group separators are changed to the non-breaking space (nbsp) unicode character.
    * so we replace them with a normal <SPACE>.
    */
   private _actualGroup: string;
@@ -409,8 +409,8 @@ export class NumberStringFormat {
     } as Intl.NumberFormatOptions).formatToParts(-12345678.9);
 
     this._actualGroup = parts.find((d) => d.type === "group").value;
-    // change whitespace group characters that don't render correctly to a unicode no-break space
-    this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "&nbsp;" : this._actualGroup;
+    // change whitespace group separators to the unicode non-breaking space (nbsp)
+    this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
     this._decimal = parts.find((d) => d.type === "decimal").value;
     this._minusSign = parts.find((d) => d.type === "minusSign").value;
     this._getDigitIndex = (d: string) => index.get(d);
