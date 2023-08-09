@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.1...@esri/calcite-components@1.6.0-next.2) (2023-08-08)
+
+### Bug Fixes
+
+- **chip-group:** Add existence checks ([#7487](https://github.com/Esri/calcite-design-system/issues/7487)) ([33225a7](https://github.com/Esri/calcite-design-system/commit/33225a7425778d9ce0b415d0177d906448bef0ec))
+
 ## [1.6.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.0...@esri/calcite-components@1.6.0-next.1) (2023-08-08)
 
 ### Bug Fixes
