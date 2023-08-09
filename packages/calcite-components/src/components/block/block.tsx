@@ -42,6 +42,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
  * @slot - A slot for adding custom content.
@@ -61,11 +62,12 @@ export class Block
     InteractiveComponent,
     LocalizedComponent,
     T9nComponent,
-    LoadableComponent
+    LoadableComponent,
+    OpenCloseComponent
 {
   // --------------------------------------------------------------------------
   //
-  //  Properties
+  //  Public Properties
   //
   // --------------------------------------------------------------------------
 
@@ -103,6 +105,19 @@ export class Block
    * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    if (!this.disabled) {
+      if (value) {
+        this.open = true;
+      }
+      onToggleOpenCloseComponent(this);
+      return;
+    }
+
+    this.open = false;
+  }
 
   /**
    * Displays a status-related indicator icon.
@@ -149,6 +164,26 @@ export class Block
     focusFirstTabbable(this.el);
   }
 
+  onBeforeOpen(): void {
+    this.calciteBlockBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteBlockOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteBlockBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteBlockClose.emit();
+  }
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -168,6 +203,9 @@ export class Block
 
   @State() defaultMessages: BlockMessages;
 
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -179,6 +217,10 @@ export class Block
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
+    if (this.open) {
+      this.openHandler(this.open);
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   disconnectedCallback(): void {
@@ -207,11 +249,17 @@ export class Block
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * Emits when the component's header is clicked.
-   */
-  @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteBlockBeforeClose: EventEmitter<void>;
 
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteBlockClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteBlockBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteBlockOpen: EventEmitter<void>;
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -220,7 +268,6 @@ export class Block
 
   onHeaderClick = (): void => {
     this.open = !this.open;
-    this.calciteBlockToggle.emit();
   };
 
   // --------------------------------------------------------------------------
@@ -350,6 +397,7 @@ export class Block
             class={CSS.content}
             hidden={!open}
             id={regionId}
+            ref={this.setTransitionEl}
           >
             {this.renderScrim()}
           </section>

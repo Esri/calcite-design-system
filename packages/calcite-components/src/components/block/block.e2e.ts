@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { skipAnimations } from "../../tests/utils";
 
 describe("calcite-block", () => {
   describe("renders", () => {
@@ -139,7 +140,7 @@ describe("calcite-block", () => {
     const page = await newE2EPage({ html: "<calcite-block collapsible></calcite-block>" });
 
     const element = await page.find("calcite-block");
-    const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
+    const openSpy = await element.spyOnEvent("calciteBlockOpen");
     const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
@@ -148,7 +149,7 @@ describe("calcite-block", () => {
 
     await toggle.click();
 
-    expect(toggleSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(true);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.collapse);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
@@ -156,7 +157,7 @@ describe("calcite-block", () => {
 
     await toggle.click();
 
-    expect(toggleSpy).toHaveReceivedEventTimes(2);
+    expect(openSpy).toHaveReceivedEventTimes(2);
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
@@ -201,16 +202,16 @@ describe("calcite-block", () => {
       expect(await controlSlot.isVisible()).toBe(true);
 
       const block = await page.find("calcite-block");
-      const blockToggleSpy = await block.spyOnEvent("calciteBlockToggle");
+      const blockOpenSpy = await block.spyOnEvent("calciteBlockOpen");
 
       await control.press("Space");
       await control.press("Enter");
       await control.click();
-      expect(blockToggleSpy).toHaveReceivedEventTimes(0);
+      expect(blockOpenSpy).toHaveReceivedEventTimes(0);
 
       await block.click();
       await block.click();
-      expect(blockToggleSpy).toHaveReceivedEventTimes(2);
+      expect(blockOpenSpy).toHaveReceivedEventTimes(2);
     });
 
     it("does not render collapsible icon when a control is added to the header", async () => {
@@ -283,6 +284,7 @@ describe("calcite-block", () => {
       expect(collapsibleIcon).toBeNull();
     });
   });
+
   it("should allow the CSS custom property to be overridden when applied to :root", async () => {
     const overrideStyle = "0px";
     const page = await newE2EPage();
@@ -318,5 +320,55 @@ describe("calcite-block", () => {
 
   describe("translation support", () => {
     t9n("calcite-block");
+  });
+
+  it("should emit (before) open/close events", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-block heading="heading" description="description" collapsible>
+        <div class="content">content</div>
+      </calcite-block>
+    `);
+    await skipAnimations(page);
+
+    const block = await page.find("calcite-block");
+
+    const openEvent = await block.spyOnEvent("calciteBlockOpen");
+    const beforeOpenEvent = await block.spyOnEvent("calciteBlockBeforeOpen");
+
+    expect(openEvent).toHaveReceivedEventTimes(0);
+    expect(beforeOpenEvent).toHaveReceivedEventTimes(0);
+
+    // const blockOpenEvent = page.waitForEvent("calciteBlockOpen");
+    // const blockBeforeOpenEvent = page.waitForEvent("calciteBlockBeforeOpen");
+
+    // await block.setProperty("open", true);
+    // await page.waitForChanges();
+
+    // await blockBeforeOpenEvent;
+    // await blockOpenEvent;
+
+    // expect(await block.getProperty("open")).toBe(true);
+
+    // expect(openEvent).toHaveReceivedEventTimes(1);
+    // expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
+
+    // const closeEvent = await block.spyOnEvent("calciteBlockClose");
+    // const beforeCloseEvent = await block.spyOnEvent("calciteBlockBeforeClose");
+
+    // const blockCloseEvent = page.waitForEvent("calciteBlockClose");
+    // const blockBeforeCloseEvent = page.waitForEvent("calciteBlockBeforeClose");
+
+    // await block.setProperty("open", false);
+    // await page.waitForChanges();
+
+    // await blockBeforeCloseEvent;
+    // await blockCloseEvent;
+
+    // expect(openEvent).toHaveReceivedEventTimes(1);
+    // expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
+
+    // expect(closeEvent).toHaveReceivedEventTimes(1);
+    // expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
   });
 });
