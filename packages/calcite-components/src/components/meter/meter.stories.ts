@@ -17,9 +17,9 @@ export const simple = (): string =>
     label="Meter example"
     min="${number("min", 0)}"
     max="${number("max", 100)}"
-    low="${number("low", 0)} 
-    high=${number("high", 0)}"
-    value=${number("value", 0)}"
+    low="${number("low", 0)}"
+    high="${number("high", 0)}"
+    value="${number("value", 0)}"
     fill-type="${select("fill-type", ["single", "range"], "range")}"
     appearance="${select("appearance", ["solid", "outline", "outline-fill"], "outline-fill")}"
     range-label-type="${select("range-label-type", ["percent", "units"], "percent")}"
@@ -32,11 +32,11 @@ export const simple = (): string =>
 
 export const complex = (): string =>
   html`<calcite-meter
-      min="${number("min", 500)}"
+    min="${number("min", 500)}"
     max="${number("max", 10000)}"
-    low="${number("low", 2500)} 
-    high=${number("high", 7500)}"
-    value=${number("value", 1750)}"
+    low="${number("low", 2500)}"
+    high="${number("high", 7500)}"
+    value="${number("value", 1750)}"
     fill-type="${select("fill-type", ["single", "range"], "range")}"
     appearance="${select("appearance", ["solid", "outline", "outline-fill"], "single")}"
     range-label-type="${select("range-label-type", ["percent", "units"], "units")}"
