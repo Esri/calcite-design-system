@@ -196,7 +196,7 @@ export class Rating
       const id = `${this.guid}-${value}`;
       const partial = !this.hoverValue && !this.value && !hovered && fraction > 0 && fraction < 1;
       const selected = this.value >= value;
-      const tabIndex = this.assignTabIndex(value);
+      const tabIndex = this.getTabIndex(value);
       return {
         average,
         checked,
@@ -258,7 +258,7 @@ export class Rating
                     onPointerOver={this.handleLabelPointerOver}
                     tabIndex={tabIndex}
                     // eslint-disable-next-line react/jsx-sort-props
-                    ref={this.setRatingEl}
+                    ref={this.setLabelEl}
                   >
                     <input
                       checked={checked}
@@ -372,7 +372,7 @@ export class Rating
   private handleLabelPointerDown = (event: PointerEvent) => {
     const target = event.currentTarget as HTMLLabelElement;
     const inputValue = Number(target.firstChild["value"]);
-    this.hoverValue = inputValue || null;
+    this.hoverValue = inputValue;
     this.emit = true;
     this.value = !this.required && this.value === inputValue ? 0 : inputValue;
     target.focus();
@@ -396,7 +396,7 @@ export class Rating
     this.labelElements[this.value - 1].focus();
   }
 
-  private assignTabIndex(value: number): number {
+  private getTabIndex(value: number): number {
     if (this.readOnly) {
       return -1;
     }
@@ -407,9 +407,14 @@ export class Rating
     }
   }
 
-  setRatingEl = (el: HTMLLabelElement): void => {
+  private setLabelEl = (el: HTMLLabelElement): void => {
     this.labelElements.push(el);
   };
+
+  private getValueFromLabelEvent(event: FocusEvent | PointerEvent | KeyboardEvent): number {
+    const target = event.currentTarget as HTMLLabelElement;
+    return Number(target.firstChild["value"]) || 0;
+  }
 
   getNextRatingValue(currentValue: number): number {
     return currentValue === 5 ? 1 : currentValue + 1;
@@ -417,11 +422,6 @@ export class Rating
 
   getPreviousRatingValue(currentValue: number): number {
     return currentValue === 1 ? 5 : currentValue - 1;
-  }
-
-  getValueFromLabelEvent(event: FocusEvent | PointerEvent | KeyboardEvent): number {
-    const target = event.currentTarget as HTMLLabelElement;
-    return Number(target.firstChild["value"]) || 0;
   }
 
   //--------------------------------------------------------------------------
