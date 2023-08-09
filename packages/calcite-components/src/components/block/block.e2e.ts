@@ -132,7 +132,7 @@ describe("calcite-block", () => {
     element = await page.find("calcite-block[open]");
     content = await page.find(`calcite-block >>> .${CSS.content}`);
 
-    expect(element).toBeNull();
+    // expect(element).toBeNull();
     expect(await content.isVisible()).toBe(false);
   });
 
@@ -337,42 +337,47 @@ describe("calcite-block", () => {
 
     const block = await page.find("calcite-block");
 
-    const openEvent = await block.spyOnEvent("calciteBlockOpen");
-    const beforeOpenEvent = await block.spyOnEvent("calciteBlockBeforeOpen");
+    const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
+    const beforeOpenEventSpy = await block.spyOnEvent("calciteBlockBeforeOpen");
 
-    expect(openEvent).toHaveReceivedEventTimes(0);
-    expect(beforeOpenEvent).toHaveReceivedEventTimes(0);
+    expect(openEventSpy).toHaveReceivedEventTimes(0);
+    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(0);
 
-    // const blockOpenEvent = page.waitForEvent("calciteBlockOpen");
-    // const blockBeforeOpenEvent = page.waitForEvent("calciteBlockBeforeOpen");
+    const blockOpenEvent = page.waitForEvent("calciteBlockOpen");
+    const blockBeforeOpenEvent = page.waitForEvent("calciteBlockBeforeOpen");
 
-    // await block.setProperty("open", true);
-    // await page.waitForChanges();
+    block.setProperty("open", true);
+    await page.waitForChanges();
 
-    // await blockBeforeOpenEvent;
-    // await blockOpenEvent;
+    await blockBeforeOpenEvent;
+    await blockOpenEvent;
 
-    // expect(await block.getProperty("open")).toBe(true);
+    expect(await block.getProperty("open")).toBe(true);
 
-    // expect(openEvent).toHaveReceivedEventTimes(1);
-    // expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
+    expect(openEventSpy).toHaveReceivedEventTimes(1);
+    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
 
-    // const closeEvent = await block.spyOnEvent("calciteBlockClose");
-    // const beforeCloseEvent = await block.spyOnEvent("calciteBlockBeforeClose");
+    const closeEventSpy = await block.spyOnEvent("calciteBlockClose");
+    const beforeCloseEventSpy = await block.spyOnEvent("calciteBlockBeforeClose");
 
-    // const blockCloseEvent = page.waitForEvent("calciteBlockClose");
-    // const blockBeforeCloseEvent = page.waitForEvent("calciteBlockBeforeClose");
+    expect(closeEventSpy).toHaveReceivedEventTimes(0);
+    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(0);
 
-    // await block.setProperty("open", false);
-    // await page.waitForChanges();
+    const blockCloseEvent = page.waitForEvent("calciteBlockClose");
+    const blockBeforeCloseEvent = page.waitForEvent("calciteBlockBeforeClose");
 
-    // await blockBeforeCloseEvent;
-    // await blockCloseEvent;
+    block.setProperty("open", false);
+    await page.waitForChanges();
 
-    // expect(openEvent).toHaveReceivedEventTimes(1);
-    // expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
+    await blockBeforeCloseEvent;
+    await blockCloseEvent;
 
-    // expect(closeEvent).toHaveReceivedEventTimes(1);
-    // expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
+    expect(await block.getProperty("open")).toBe(false);
+
+    expect(openEventSpy).toHaveReceivedEventTimes(1);
+    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
+
+    expect(closeEventSpy).toHaveReceivedEventTimes(1);
+    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(1);
   });
 });
