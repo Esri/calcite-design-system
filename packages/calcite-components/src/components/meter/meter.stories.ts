@@ -2,6 +2,7 @@ import { storyFilters } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, number, select, text } from "@storybook/addon-knobs";
 
 export default {
   title: "Components/Meter",
@@ -11,10 +12,40 @@ export default {
   ...storyFilters(),
 };
 
-export const simple = (): string => html`<calcite-meter min="0" max="100" low="25" high="75"></calcite-meter>`;
+export const simple = (): string =>
+  html`<calcite-meter
+    label="Meter example"
+    min="${number("min", 0)}"
+    max="${number("max", 100)}"
+    low="${number("low", 0)} 
+    high=${number("high", 0)}"
+    value=${number("value", 0)}"
+    fill-type="${select("fill-type", ["single", "range"], "range")}"
+    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "outline-fill")}"
+    range-label-type="${select("range-label-type", ["percent", "units"], "percent")}"
+    value-label-type="${select("value-label-type", ["percent", "units"], "percent")}"
+    unit-label="${text("unit-label", "")}"
+    ${boolean("group-separator", false)}
+    ${boolean("range-labels", false)}
+    ${boolean("value-label", false)}
+  ></calcite-meter>`;
 
-export const labels = (): string =>
-  html`<calcite-meter min="0" max="100" low="25" high="75" value-label range-labels></calcite-meter>`;
+export const complex = (): string =>
+  html`<calcite-meter
+      min="${number("min", 500)}"
+    max="${number("max", 10000)}"
+    low="${number("low", 2500)} 
+    high=${number("high", 7500)}"
+    value=${number("value", 1750)}"
+    fill-type="${select("fill-type", ["single", "range"], "range")}"
+    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "single")}"
+    range-label-type="${select("range-label-type", ["percent", "units"], "units")}"
+    value-label-type="${select("value-label-type", ["percent", "units"], "percent")}"
+    unit-label="${text("unit-label", "credits")}"
+    ${boolean("group-separator", true)}
+    ${boolean("range-labels", true)}
+    ${boolean("value-label", true)}
+  ></calcite-meter>`;
 
 export const meterSwapLabelPlacementWhenCloseToMax_TestOnly = (): string => html`<calcite-meter
   value-label
