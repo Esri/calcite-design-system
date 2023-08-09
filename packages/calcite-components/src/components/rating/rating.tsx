@@ -203,7 +203,6 @@ export class Rating
         fraction,
         hovered,
         id,
-        idx: i,
         partial,
         selected,
         value,
@@ -250,6 +249,7 @@ export class Rating
                       average,
                       partial,
                     }}
+                    data-value={value}
                     htmlFor={id}
                     onClick={this.handleLabelClick}
                     onFocus={this.handleLabelFocus}

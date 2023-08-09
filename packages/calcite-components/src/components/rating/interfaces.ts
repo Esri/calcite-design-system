@@ -6,7 +6,6 @@ export interface Star {
   fraction: number;
   hovered: boolean;
   id: string;
-  idx: number;
   partial: boolean;
   selected: boolean;
   value: number;
