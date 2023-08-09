@@ -427,6 +427,20 @@ export function toAriaBoolean(value: boolean): string {
 }
 
 /**
+ * This helper returns `true` if the target `slot` element from the `onSlotchange` event has any content (text or elements).
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotHasContent = slotChangeHasContent(event)} />}
+ * ```
+ *
+ * @param {Event} event The event.
+ * @returns {boolean} Whether the slot has any content.
+ */
+export function slotChangeHasContent(event: Event): boolean {
+  return slotChangeHasAssignedElement(event) || slotChangeHasTextContent(event);
+}
+
+/**
  * This helper returns a string of textContent if the target `slot` element from the `onSlotchange` event has any text content.
  *
  * ```

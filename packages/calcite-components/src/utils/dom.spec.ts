@@ -16,6 +16,7 @@ import {
   slotChangeGetAssignedNodes,
   slotChangeHasAssignedNode,
   slotChangeHasTextContent,
+  slotChangeHasContent,
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -479,6 +480,35 @@ describe("dom", () => {
       const event = new Event("onSlotchange");
       target.dispatchEvent(event);
       expect(slotChangeGetTextContent(event)).toEqual("");
+    });
+  });
+
+  describe("slotChangeHasContent()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello")];
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(true);
+    });
+
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      target.assignedElements = () => [document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(true);
+    });
+
+    it("handles no slotted nodes or elements", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(false);
     });
   });
 
