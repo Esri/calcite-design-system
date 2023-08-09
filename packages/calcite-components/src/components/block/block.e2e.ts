@@ -141,6 +141,8 @@ describe("calcite-block", () => {
 
     const element = await page.find("calcite-block");
     const openSpy = await element.spyOnEvent("calciteBlockOpen");
+    const closeSpy = await element.spyOnEvent("calciteBlockClose");
+
     const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
@@ -157,7 +159,7 @@ describe("calcite-block", () => {
 
     await toggle.click();
 
-    expect(openSpy).toHaveReceivedEventTimes(2);
+    expect(closeSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
@@ -203,6 +205,7 @@ describe("calcite-block", () => {
 
       const block = await page.find("calcite-block");
       const blockOpenSpy = await block.spyOnEvent("calciteBlockOpen");
+      const blockCloseSpy = await block.spyOnEvent("calciteBlockClose");
 
       await control.press("Space");
       await control.press("Enter");
@@ -211,7 +214,8 @@ describe("calcite-block", () => {
 
       await block.click();
       await block.click();
-      expect(blockOpenSpy).toHaveReceivedEventTimes(2);
+      expect(blockOpenSpy).toHaveReceivedEventTimes(1);
+      expect(blockCloseSpy).toHaveReceivedEventTimes(1);
     });
 
     it("does not render collapsible icon when a control is added to the header", async () => {
