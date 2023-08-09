@@ -37,6 +37,7 @@ import { Scale } from "../interfaces";
 import { RatingMessages } from "./assets/rating/t9n";
 import { StarIcon } from "./function/star";
 import { Star } from "./interfaces";
+import { focusFirstTabbable } from "../../utils/dom";
 
 @Component({
   tag: "calcite-rating",
@@ -230,7 +231,6 @@ export class Rating
   render() {
     return (
       <Host
-        onBlur={this.handleHostBlur}
         onKeyDown={this.handleHostKeyDown}
         onPointerOut={this.handleRatingPointerOut}
         onPointerOver={this.handleRatingPointerOver}
@@ -371,7 +371,7 @@ export class Rating
 
   private handleLabelPointerDown = (event: PointerEvent) => {
     const target = event.currentTarget as HTMLLabelElement;
-    const inputValue = Number(target.firstChild["value"]);
+    const inputValue = Number(target.getAttribute("data-value"));
     this.hoverValue = inputValue;
     this.emit = true;
     this.value = !this.required && this.value === inputValue ? 0 : inputValue;
@@ -385,10 +385,6 @@ export class Rating
   private handleLabelFocus = (event: FocusEvent) => {
     const inputValue = this.getValueFromLabelEvent(event);
     this.hoverValue = inputValue;
-  };
-
-  private handleHostBlur = () => {
-    this.hoverValue = null;
   };
 
   private updatefocus(): void {
@@ -413,7 +409,7 @@ export class Rating
 
   private getValueFromLabelEvent(event: FocusEvent | PointerEvent | KeyboardEvent): number {
     const target = event.currentTarget as HTMLLabelElement;
-    return Number(target.firstChild["value"]) || 0;
+    return Number(target.getAttribute("data-value"));
   }
 
   getNextRatingValue(currentValue: number): number {
@@ -434,8 +430,7 @@ export class Rating
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    const focusableEl = this.labelElements.find((rating) => rating.tabIndex === 0);
-    focusableEl.focus();
+    focusFirstTabbable(this.el);
   }
 
   // --------------------------------------------------------------------------

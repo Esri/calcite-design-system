@@ -619,7 +619,6 @@ describe("calcite-rating", () => {
       await page.keyboard.press("Tab");
       await page.keyboard.up("Shift");
       await page.waitForChanges();
-
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
 
