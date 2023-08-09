@@ -459,21 +459,6 @@ export class TimePicker
     this.incrementMinuteOrSecond("second");
   };
 
-  private initializeValue = (): void => {
-    // TODO: move this logic into this.setValue()
-    if (
-      this.showFractionalSecond &&
-      this.fractionalSecond &&
-      decimalPlaces(this.step) !== this.fractionalSecond.length
-    ) {
-      this.fractionalSecond = parseFloat(`0.${this.fractionalSecond}`)
-        .toFixed(decimalPlaces(this.step))
-        .replace("0.", "");
-      // TODO: properly localize fractional second here
-      this.localizedFractionalSecond = this.fractionalSecond;
-    }
-  };
-
   private meridiemDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.decrementMeridiem();
@@ -665,6 +650,13 @@ export class TimePicker
         localizedSecondSuffix,
         localizedMeridiem,
       } = localizeTimeStringToParts({ value, locale, numberingSystem });
+      this.hour = hour;
+      this.minute = minute;
+      this.second = second;
+      this.fractionalSecond =
+        fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
+          ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
+          : fractionalSecond;
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -673,10 +665,6 @@ export class TimePicker
       this.localizedDecimalSeparator = localizedDecimalSeparator;
       this.localizedFractionalSecond = localizedFractionalSecond;
       this.localizedSecondSuffix = localizedSecondSuffix;
-      this.hour = hour;
-      this.minute = minute;
-      this.second = second;
-      this.fractionalSecond = fractionalSecond;
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
@@ -795,8 +783,6 @@ export class TimePicker
     this.updateLocale();
     connectMessages(this);
     this.toggleSecond();
-    // TODO: remove this call in favor of this.setValue() which is called above by this.updateLocale();
-    this.initializeValue();
     this.meridiemOrder = this.getMeridiemOrder(
       getTimeParts({
         value: "0:00:00",
