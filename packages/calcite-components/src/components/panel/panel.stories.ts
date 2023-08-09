@@ -222,7 +222,7 @@ export const actionBarBackgroundColor_TestOnly = (): string => html`<calcite-pan
 export const footerWithoutContent_TestOnly = (): string => html`<calcite-panel
   height-scale="s"
   heading="Header!"
-  style="width: 300px; height:auto;"
+  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
 >
   <p slot="footer">Footer content!</p>
 </calcite-panel>`;
@@ -230,7 +230,7 @@ export const footerWithoutContent_TestOnly = (): string => html`<calcite-panel
 export const actionBarWithoutContent_TestOnly = (): string => html`<calcite-panel
   height-scale="s"
   heading="Header!"
-  style="width: 300px; height:auto;"
+  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
 >
   <calcite-action-bar slot="action-bar">
     <calcite-action-group>
@@ -263,7 +263,7 @@ export const actionBarZIndex_TestOnly = (): string => html`<calcite-panel
 export const footerAndActionBarWithoutContent_TestOnly = (): string => html`<calcite-panel
   height-scale="s"
   heading="Header!"
-  style="width: 300px; height:auto;"
+  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
 >
   <calcite-action-bar slot="action-bar">
     <calcite-action-group>
