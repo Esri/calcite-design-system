@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.2...@esri/calcite-components@1.6.0-next.3) (2023-08-09)
+
+### Bug Fixes
+
+- **panel:** Fix heading border when only text content is slotted ([#7491](https://github.com/Esri/calcite-design-system/issues/7491)) ([7704400](https://github.com/Esri/calcite-design-system/commit/77044004a3a38890a99509c1cc14925f10f52fee)), closes [#7489](https://github.com/Esri/calcite-design-system/issues/7489)
+
 ## [1.6.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.1...@esri/calcite-components@1.6.0-next.2) (2023-08-08)
 
 ### Bug Fixes
