@@ -97,13 +97,13 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
 
   /** When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
-  @Prop() unitLabel: "";
+  @Prop({ reflect: true }) unitLabel: "";
 
   /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
-  @Prop() rangeLabels: boolean;
+  @Prop({ reflect: true }) rangeLabels: false;
 
   /** When `true`, displays the current value. */
-  @Prop() valueLabel: boolean;
+  @Prop({ reflect: true }) valueLabel: false;
 
   @Watch("rangeLabelType")
   @Watch("valueLabelType")
