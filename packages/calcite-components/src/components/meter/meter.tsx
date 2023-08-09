@@ -88,7 +88,8 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   @Prop({ reflect: true }) groupSeparator = false;
 
   /** Specifies the appearance style of the component. */
-  @Prop() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "outline-fill";
+  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
+    "outline-fill";
 
   /** When either `rangeLabels` is `true`, specifies the format of displayed labels. */
   @Prop({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
@@ -97,7 +98,7 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
 
   /** When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
-  @Prop({ reflect: true }) unitLabel: "";
+  @Prop() unitLabel: "";
 
   /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
   @Prop({ reflect: true }) rangeLabels: false;
