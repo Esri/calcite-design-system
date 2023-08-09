@@ -15,7 +15,6 @@ import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  slotChangeHasTextContent,
   toAriaBoolean,
 } from "../../utils/dom";
 import {
@@ -174,8 +173,6 @@ export class Panel
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
-  @State() hasDefaultContent = false;
-
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -265,10 +262,6 @@ export class Panel
 
   panelScrollHandler = (): void => {
     this.calcitePanelScroll.emit();
-  };
-
-  handleDefaultSlotChange = (event: Event): void => {
-    this.hasDefaultContent = slotChangeHasAssignedElement(event) || slotChangeHasTextContent(event);
   };
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {
@@ -366,10 +359,7 @@ export class Panel
 
   renderActionBar(): VNode {
     return (
-      <div
-        class={{ [CSS.actionBarContainer]: true, [CSS.topSeparator]: this.showHeaderContent }}
-        hidden={!this.hasActionBar}
-      >
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
         <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
       </div>
     );
@@ -471,7 +461,6 @@ export class Panel
       hasEndActions,
       closable,
       hasMenuItems,
-      hasDefaultContent,
       hasActionBar,
     } = this;
 
@@ -488,11 +477,11 @@ export class Panel
     this.showHeaderContent = showHeaderContent;
 
     return (
-      <header
-        class={{ [CSS.header]: true, [CSS.bottomSeparator]: hasDefaultContent }}
-        hidden={!(showHeaderContent || hasActionBar)}
-      >
-        <div class={CSS.headerContainer} hidden={!showHeaderContent}>
+      <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar)}>
+        <div
+          class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
+          hidden={!showHeaderContent}
+        >
           {this.renderHeaderStartActions()}
           {this.renderHeaderSlottedContent()}
           {headerContentNode}
@@ -538,7 +527,7 @@ export class Panel
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
-        <slot onSlotchange={this.handleDefaultSlotChange} />
+        <slot />
         {this.renderFab()}
       </div>
     );

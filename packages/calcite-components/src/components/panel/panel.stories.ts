@@ -316,3 +316,8 @@ export const noOverflowContentWithFab_TestOnly = (): string => html` <calcite-pa
 
 export const withTextContentOnly = (): string =>
   html`<calcite-panel height-scale="s" heading="My Panel">Slotted content!</calcite-panel>`;
+
+export const withNoHeaderBorderBlockEnd = (): string =>
+  html`<calcite-panel style="--calcite-internal-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
+    >Slotted content!</calcite-panel
+  >`;

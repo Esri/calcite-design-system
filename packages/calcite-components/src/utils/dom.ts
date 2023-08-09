@@ -427,68 +427,6 @@ export function toAriaBoolean(value: boolean): string {
 }
 
 /**
- * This helper returns a string of textContent if the target `slot` element from the `onSlotchange` event has any text content.
- *
- * ```
- * <slot onSlotchange={(event) => this.mySlotText = slotChangeGetTextContent(event)} />}
- * ```
- *
- * @param {Event} event The event.
- * @returns {string} The slots text.
- */
-export function slotChangeGetTextContent(event: Event): string {
-  return slotChangeGetAssignedNodes(event)
-    .filter((node) => node.nodeType === Node.TEXT_NODE)
-    .map((node) => node.textContent)
-    .join("")
-    .trim();
-}
-
-/**
- * This helper returns `true` if the target `slot` element from the `onSlotchange` event has any text content.
- *
- * ```
- * <slot onSlotchange={(event) => this.mySlotHasTextContent = slotChangeHasTextContent(event)} />}
- * ```
- *
- * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any text content.
- */
-export function slotChangeHasTextContent(event: Event): boolean {
-  return !!slotChangeGetTextContent(event);
-}
-
-/**
- * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned node.
- *
- * ```
- * <slot onSlotchange={(event) => this.mySlotHasNode = slotChangeHasAssignedNode(event)} />}
- * ```
- *
- * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any assigned nodes.
- */
-export function slotChangeHasAssignedNode(event: Event): boolean {
-  return !!slotChangeGetAssignedNodes(event).length;
-}
-
-/**
- * This helper returns the assigned nodes on a `slot` element from the `onSlotchange` event.
- *
- * ```
- * <slot onSlotchange={(event) => this.mySlotNodes = slotChangeGetAssignedNodes(event)} />}
- * ```
- *
- * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any assigned nodes.
- */
-export function slotChangeGetAssignedNodes(event: Event): Node[] {
-  return (event.target as HTMLSlotElement).assignedNodes({
-    flatten: true,
-  });
-}
-
-/**
  * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned element.
  *
  * ```
