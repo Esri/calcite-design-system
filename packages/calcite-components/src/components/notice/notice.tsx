@@ -75,10 +75,8 @@ export class Notice
 
   @Watch("open")
   openHandler(value: boolean): void {
-    if (value) {
-      this.open = true;
-    }
     onToggleOpenCloseComponent(this);
+    value ? this.open : !this.open;
   }
 
   /** Specifies the kind of the component (will apply to top border and icon). */
@@ -139,9 +137,9 @@ export class Notice
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
-    if (this.open) {
-      this.openHandler(this.open);
-    }
+    const { open } = this;
+    open && this.openHandler(open);
+    onToggleOpenCloseComponent(this);
   }
 
   disconnectedCallback(): void {
@@ -177,7 +175,7 @@ export class Notice
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
-      <div class={CSS.container} ref={this.setTransitionEl}>
+      <div class={CSS.container} hidden={!open} ref={this.setTransitionEl}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
             <calcite-icon
@@ -269,8 +267,8 @@ export class Notice
   //
   //--------------------------------------------------------------------------
   private close = (): void => {
-    this.open = false;
     onToggleOpenCloseComponent(this);
+    this.open = false;
   };
 
   //--------------------------------------------------------------------------

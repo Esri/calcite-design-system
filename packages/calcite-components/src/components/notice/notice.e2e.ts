@@ -86,11 +86,7 @@ describe("calcite-notice", () => {
 
   it("successfully closes a closable notice", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-notice id="notice-1" open closable>
-    ${noticeContent}
-    </calcite-notice>
-    `);
+    await page.setContent(html`<calcite-notice id="notice-1" open closable> ${noticeContent} </calcite-notice>`);
 
     const notice1 = await page.find("#notice-1 >>> .container");
     const noticeclose1 = await page.find(`#notice-1 >>> .${CSS.close}`);
@@ -129,7 +125,7 @@ describe("calcite-notice", () => {
 
   it("should emit (before) open/close events", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-notice open>${noticeContent}</calcite-notice>`);
+    await page.setContent(html`<calcite-notice>${noticeContent}</calcite-notice>`);
     await skipAnimations(page);
 
     const notice = await page.find("calcite-notice");
