@@ -605,8 +605,10 @@ export class Combobox
       case " ":
         if (!this.textInput.value) {
           event.preventDefault();
-          this.open = true;
-          this.shiftActiveItemIndex(1);
+          if (!this.open) {
+            this.open = true;
+            this.shiftActiveItemIndex(1);
+          }
         }
         break;
       case "Home":
