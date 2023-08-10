@@ -603,13 +603,11 @@ export class Combobox
         }
         break;
       case " ":
-        if (!this.textInput.value) {
-          event.preventDefault();
-          if (!this.open) {
-            this.open = true;
-            this.shiftActiveItemIndex(1);
-          }
+        if (!this.open) {
+          this.open = true;
+          this.shiftActiveItemIndex(1);
         }
+        event.preventDefault();
         break;
       case "Home":
         if (!this.open) {
@@ -644,6 +642,7 @@ export class Combobox
       case "Enter":
         if (this.activeItemIndex > -1) {
           this.toggleSelection(this.filteredItems[this.activeItemIndex]);
+          console.log("after enter", this.filteredItems[this.activeItemIndex]);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -903,6 +902,7 @@ export class Combobox
       this.emitComboboxChange();
       if (this.textInput) {
         this.textInput.value = item.textLabel;
+        console.log("toggle selection", item.textLabel);
       }
       this.open = false;
       this.updateActiveItemIndex(-1);
