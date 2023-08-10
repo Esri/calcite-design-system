@@ -79,7 +79,6 @@ export class Notice
       this.open = true;
     }
     onToggleOpenCloseComponent(this);
-    return;
   }
 
   /** Specifies the kind of the component (will apply to top border and icon). */
@@ -142,7 +141,6 @@ export class Notice
     connectMessages(this);
     if (this.open) {
       this.openHandler(this.open);
-      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -272,7 +270,7 @@ export class Notice
   //--------------------------------------------------------------------------
   private close = (): void => {
     this.open = false;
-    this.calciteNoticeClose.emit();
+    onToggleOpenCloseComponent(this);
   };
 
   //--------------------------------------------------------------------------
