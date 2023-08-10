@@ -132,7 +132,7 @@ describe("calcite-block", () => {
     element = await page.find("calcite-block[open]");
     content = await page.find(`calcite-block >>> .${CSS.content}`);
 
-    // expect(element).toBeNull();
+    expect(element).toBeNull();
     expect(await content.isVisible()).toBe(false);
   });
 

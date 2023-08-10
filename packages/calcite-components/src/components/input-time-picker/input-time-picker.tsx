@@ -68,6 +68,7 @@ import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { getSupportedLocale } from "../../utils/locale";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayJsLocaleToLocaleConfigImport = new Map([
@@ -146,19 +147,12 @@ export class InputTimePicker
     LabelableComponent,
     LoadableComponent,
     LocalizedComponent,
+    OpenCloseComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputTimePickerElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
+  //  Public Properties
   //
   //--------------------------------------------------------------------------
 
@@ -172,8 +166,9 @@ export class InputTimePicker
       this.open = false;
       return;
     }
-
     if (value) {
+      onToggleOpenCloseComponent(this);
+      this.open = true;
       this.reposition(true);
     }
   }
@@ -311,6 +306,8 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteInputTimePickerElement;
+
   defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
@@ -333,6 +330,10 @@ export class InputTimePicker
   private userChangedValue = false;
 
   private referenceElementId = `input-time-picker-${guid()}`;
+
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -367,6 +368,18 @@ export class InputTimePicker
    * Fires when the time value is changed as a result of user input.
    */
   @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<void>;
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteInputTimePickerBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteInputTimePickerClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteInputTimePickerBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteInputTimePickerOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -472,6 +485,22 @@ export class InputTimePicker
     this.popoverEl?.reposition(delayed);
   }
 
+  onBeforeOpen(): void {
+    this.calciteInputTimePickerBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteInputTimePickerOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteInputTimePickerBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteInputTimePickerClose.emit();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -499,12 +528,14 @@ export class InputTimePicker
   }
 
   private popoverCloseHandler = () => {
+    onToggleOpenCloseComponent(this);
     deactivateFocusTrap(this, {
       onDeactivate: () => {
         this.calciteInputEl.setFocus();
         this.focusOnOpen = false;
       },
     });
+    this.open = false;
   };
 
   private popoverOpenHandler = () => {
@@ -666,6 +697,10 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
+  };
+
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
   };
@@ -769,6 +804,10 @@ export class InputTimePicker
     connectLabel(this);
     connectForm(this);
     connectMessages(this);
+
+    if (this.open) {
+      this.openHandler(this.open);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -829,7 +868,10 @@ export class InputTimePicker
             scale={this.scale}
             step={this.step}
             // eslint-disable-next-line react/jsx-sort-props
-            ref={this.setCalciteInputEl}
+            ref={(el: HTMLDivElement & HTMLCalciteInputElement) => {
+              this.setCalciteInputEl(el);
+              this.setTransitionEl(el);
+            }}
           />
           {this.renderToggleIcon(this.open)}
         </div>
