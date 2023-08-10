@@ -901,7 +901,6 @@ export class Combobox
       this.emitComboboxChange();
       if (this.textInput) {
         this.textInput.value = item.textLabel;
-        console.log("toggle selection", item.textLabel);
       }
       this.open = false;
       this.updateActiveItemIndex(-1);
