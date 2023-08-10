@@ -642,7 +642,6 @@ export class Combobox
       case "Enter":
         if (this.activeItemIndex > -1) {
           this.toggleSelection(this.filteredItems[this.activeItemIndex]);
-          console.log("after enter", this.filteredItems[this.activeItemIndex]);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
