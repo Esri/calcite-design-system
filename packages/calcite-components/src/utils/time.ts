@@ -234,20 +234,15 @@ export function localizeTimeStringToParts({
   if (!isValidTime(value)) {
     return null;
   }
-
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
-    let localizedFractionalSecond = null;
-    if (fractionalSecond) {
-      numberStringFormatter.numberFormatOptions = {
-        locale,
-        numberingSystem,
-      };
-      localizedFractionalSecond = numberStringFormatter.localize(fractionalSecond);
-    }
+    numberStringFormatter.numberFormatOptions = {
+      locale,
+      numberingSystem,
+    };
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
@@ -255,7 +250,7 @@ export function localizeTimeStringToParts({
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
       localizedDecimalSeparator: numberStringFormatter.localize("1.1").split("")[1],
-      localizedFractionalSecond,
+      localizedFractionalSecond: fractionalSecond && numberStringFormatter.localize(fractionalSecond),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem: getLocalizedTimePart("meridiem", parts),
     };
