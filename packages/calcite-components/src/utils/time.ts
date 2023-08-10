@@ -243,6 +243,13 @@ export function localizeTimeStringToParts({
       locale,
       numberingSystem,
     };
+    const localizedDecimalSeparator = numberStringFormatter.localize("1.1").split("")[1];
+    let localizedFractionalSecond = null;
+    if (fractionalSecond) {
+      localizedFractionalSecond = numberStringFormatter
+        .localize(`0.${fractionalSecond}`)
+        .replace(`${numberStringFormatter.localize("0")}${localizedDecimalSeparator}`, "");
+    }
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
@@ -250,7 +257,7 @@ export function localizeTimeStringToParts({
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
       localizedDecimalSeparator: numberStringFormatter.localize("1.1").split("")[1],
-      localizedFractionalSecond: fractionalSecond && numberStringFormatter.localize(fractionalSecond),
+      localizedFractionalSecond,
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem: getLocalizedTimePart("meridiem", parts),
     };
