@@ -240,14 +240,12 @@ export function localizeTimeStringToParts({
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
-    let localizedFractionalSecond = null,
-      localizedDecimalSeparator = null;
+    let localizedFractionalSecond = null;
     if (fractionalSecond) {
       numberStringFormatter.numberFormatOptions = {
         locale,
         numberingSystem,
       };
-      localizedDecimalSeparator = numberStringFormatter.localize("1.1").split("")[1];
       localizedFractionalSecond = numberStringFormatter.localize(fractionalSecond);
     }
     return {
@@ -256,7 +254,7 @@ export function localizeTimeStringToParts({
       localizedMinute: getLocalizedTimePart("minute", parts),
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
-      localizedDecimalSeparator,
+      localizedDecimalSeparator: numberStringFormatter.localize("1.1").split("")[1],
       localizedFractionalSecond,
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem: getLocalizedTimePart("meridiem", parts),
