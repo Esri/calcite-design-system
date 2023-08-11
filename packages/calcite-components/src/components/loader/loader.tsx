@@ -74,7 +74,6 @@ export class Loader {
     return (
       <Host
         aria-label={label}
-        aria-live="polite"
         id={id}
         role="progressbar"
         {...(isDeterminate ? hostAttributes : {})}
