@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.2...@esri/calcite-components@1.6.0-next.3) (2023-08-09)
+
+### Bug Fixes
+
+- **panel:** Fix heading border when only text content is slotted ([#7491](https://github.com/Esri/calcite-design-system/issues/7491)) ([7704400](https://github.com/Esri/calcite-design-system/commit/77044004a3a38890a99509c1cc14925f10f52fee)), closes [#7489](https://github.com/Esri/calcite-design-system/issues/7489)
+
+## [1.6.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.1...@esri/calcite-components@1.6.0-next.2) (2023-08-08)
+
+### Bug Fixes
+
+- **chip-group:** Add existence checks ([#7487](https://github.com/Esri/calcite-design-system/issues/7487)) ([33225a7](https://github.com/Esri/calcite-design-system/commit/33225a7425778d9ce0b415d0177d906448bef0ec))
+
+## [1.6.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.0...@esri/calcite-components@1.6.0-next.1) (2023-08-08)
+
+### Bug Fixes
+
+- **scrim:** handle slotted children correctly ([#7477](https://github.com/Esri/calcite-design-system/issues/7477)) ([c5ce008](https://github.com/Esri/calcite-design-system/commit/c5ce0083b2015e6659f22d4d969bf4709c02ddbb)), closes [#7032](https://github.com/Esri/calcite-design-system/issues/7032)
+
+## [1.6.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1...@esri/calcite-components@1.6.0-next.0) (2023-08-08)
+
+### Features
+
+- **action-bar:** add "actions-end" slot (deprecates "bottom-actions") ([#7435](https://github.com/Esri/calcite-design-system/issues/7435)) ([1bf14ff](https://github.com/Esri/calcite-design-system/commit/1bf14ffe243587ed97d0356973e2702a14888be2)), closes [#6517](https://github.com/Esri/calcite-design-system/issues/6517)
+
 ## [1.5.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0...@esri/calcite-components@1.5.1) (2023-08-08)
 
 ### Bug Fixes
