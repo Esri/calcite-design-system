@@ -107,17 +107,13 @@ export class Block
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean): void {
+  openHandler(): void {
+    onToggleOpenCloseComponent(this);
+
     if (this.disabled) {
-      if (open) {
-        this.open = false;
-      }
+      this.open = false;
       return;
     }
-    if (open) {
-      this.open = true;
-    }
-    onToggleOpenCloseComponent(this);
   }
 
   /**
@@ -219,7 +215,7 @@ export class Block
     connectLocalized(this);
     connectMessages(this);
     if (this.open) {
-      this.openHandler(this.open);
+      this.openHandler();
       onToggleOpenCloseComponent(this);
     }
   }
