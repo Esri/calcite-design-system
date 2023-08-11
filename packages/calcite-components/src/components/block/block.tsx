@@ -107,16 +107,16 @@ export class Block
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
-    if (!this.disabled) {
-      if (value) {
-        this.open = true;
-      }
-      onToggleOpenCloseComponent(this);
+  openHandler(open: boolean): void {
+    if (this.disabled) {
+      this.open = false;
       return;
     }
 
-    this.open = false;
+    if (open) {
+      this.open = true;
+    }
+    onToggleOpenCloseComponent(this);
   }
 
   /**
@@ -249,6 +249,13 @@ export class Block
   //
   // --------------------------------------------------------------------------
 
+  /**
+   * Emits when the component's header is clicked.
+   *
+   * @deprecated use `openClose` events instead.
+   */
+  @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
+
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event({ cancelable: false }) calciteBlockBeforeClose: EventEmitter<void>;
 
@@ -268,6 +275,7 @@ export class Block
 
   onHeaderClick = (): void => {
     this.open = !this.open;
+    this.calciteBlockToggle.emit();
   };
 
   // --------------------------------------------------------------------------

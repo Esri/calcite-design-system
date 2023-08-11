@@ -74,9 +74,9 @@ export class Notice
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(open: boolean): void {
     onToggleOpenCloseComponent(this);
-    value ? this.open : !this.open;
+    open ? this.open : !this.open;
   }
 
   /** Specifies the kind of the component (will apply to top border and icon). */

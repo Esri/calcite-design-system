@@ -27,7 +27,7 @@ export interface OpenCloseComponent {
   /**
    * Specifies element that the transition is allowed to emit on.
    */
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLDivElement | HTMLCalciteInputElement;
 
   /**
    * Defines method for `beforeOpen` event handler.
@@ -159,7 +159,7 @@ export function connectOpenCloseComponent(component: OpenCloseComponent): void {
     const boundOnTransitionEnd: (event: TransitionEvent) => void = transitionEnd.bind(component);
 
     componentToTransitionListeners.set(component, [
-      component.transitionEl,
+      component.transitionEl as HTMLDivElement,
       boundOnTransitionStart,
       boundOnTransitionEnd,
     ]);

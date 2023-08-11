@@ -161,12 +161,12 @@ export class InputTimePicker
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(open: boolean): void {
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
     }
-    if (value) {
+    if (open) {
       onToggleOpenCloseComponent(this);
       this.open = true;
       this.reposition(true);
@@ -206,8 +206,8 @@ export class InputTimePicker
 
   @Watch("disabled")
   @Watch("readOnly")
-  handleDisabledAndReadOnlyChange(value: boolean): void {
-    if (!value) {
+  handleDisabledAndReadOnlyChange(open: boolean): void {
+    if (!open) {
       this.open = false;
     }
   }
@@ -333,7 +333,7 @@ export class InputTimePicker
 
   openTransitionProp = "opacity";
 
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLCalciteInputElement;
 
   //--------------------------------------------------------------------------
   //
@@ -697,12 +697,9 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
-  private setTransitionEl = (el: HTMLDivElement): void => {
-    this.transitionEl = el;
-  };
-
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
+    this.transitionEl = el;
   };
 
   private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
@@ -864,14 +861,10 @@ export class InputTimePicker
             onCalciteInputInput={this.calciteInternalInputInputHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
             readOnly={readOnly}
+            ref={this.setCalciteInputEl}
             role="combobox"
             scale={this.scale}
             step={this.step}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={(el: HTMLDivElement & HTMLCalciteInputElement) => {
-              this.setCalciteInputEl(el);
-              this.setTransitionEl(el);
-            }}
           />
           {this.renderToggleIcon(this.open)}
         </div>
