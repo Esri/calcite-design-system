@@ -33,6 +33,11 @@
   animation: looping-progress-bar-ani scaleDuration(--calcite-internal-animation-timing-medium, 11) linear infinite;
 }
 
+.indeterminate--rtl {
+  @apply w-1/5;
+  animation: looping-progress-bar-ani-rtl scaleDuration(--calcite-internal-animation-timing-medium, 11) linear infinite;
+}
+
 .reversed {
   animation-direction: reverse;
 }
@@ -51,6 +56,18 @@
   }
   100% {
     transform: translate3d(600%, 0, 0);
+  }
+}
+
+@keyframes looping-progress-bar-ani-rtl {
+  0% {
+    transform: translate3d(100%, 0, 0);
+  }
+  50% {
+    inline-size: 40%;
+  }
+  100% {
+    transform: translate3d(-600%, 0, 0);
   }
 }
 
