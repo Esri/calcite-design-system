@@ -72,3 +72,13 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const textContent_TestOnly = (): string =>
+  html` <div tabindex="0" style="position: relative; width: 400px; height: 400px">
+    <calcite-scrim>This is a test.</calcite-scrim>
+  </div>`;
+
+export const noContent_TestOnly = (): string =>
+  html` <div tabindex="0" style="position: relative; width: 400px; height: 400px">
+    <calcite-scrim></calcite-scrim>
+  </div>`;
