@@ -32,7 +32,7 @@ export class Progress {
   render(): VNode {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
-    const isRTL = getElementDir(this.el) === "rtl";
+    const dir = getElementDir(this.el);
     return (
       <div
         aria-label={this.label || this.text}
@@ -46,7 +46,7 @@ export class Progress {
             class={{
               bar: true,
               indeterminate: this.type === "indeterminate",
-              [CSS_UTILITY.rtl]: isRTL,
+              [CSS_UTILITY.rtl]: dir === "rtl",
               reversed: this.reversed,
             }}
             style={barStyles}
