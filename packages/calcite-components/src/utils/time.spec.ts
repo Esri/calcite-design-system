@@ -1,4 +1,30 @@
-import { isValidTime, localizeTimeStringToParts, parseTimeString, toISOTimeString } from "./time";
+import { formatTimePart, isValidTime, localizeTimeStringToParts, parseTimeString, toISOTimeString } from "./time";
+
+describe("formatTimePart", () => {
+  it("returns decimals less than 1 with leading and trailing zeros to match the provided length", () => {
+    expect(formatTimePart(0.3)).toEqual("3");
+    expect(formatTimePart(0.3, 1)).toEqual("3");
+    expect(formatTimePart(0.3, 2)).toEqual("30");
+    expect(formatTimePart(0.3, 3)).toEqual("300");
+    expect(formatTimePart(0.03)).toEqual("03");
+    expect(formatTimePart(0.03, 2)).toEqual("03");
+    expect(formatTimePart(0.03, 3)).toEqual("030");
+    expect(formatTimePart(0.003)).toEqual("003");
+    expect(formatTimePart(0.003, 3)).toEqual("003");
+  });
+  it("returns hour, minute and second values between 0 and 10 with leading zeros", () => {
+    expect(formatTimePart(0)).toEqual("00");
+    expect(formatTimePart(1)).toEqual("01");
+    expect(formatTimePart(2)).toEqual("02");
+    expect(formatTimePart(3)).toEqual("03");
+    expect(formatTimePart(4)).toEqual("04");
+    expect(formatTimePart(5)).toEqual("05");
+    expect(formatTimePart(6)).toEqual("06");
+    expect(formatTimePart(7)).toEqual("07");
+    expect(formatTimePart(8)).toEqual("08");
+    expect(formatTimePart(9)).toEqual("09");
+  });
+});
 
 describe("isValidTime", () => {
   it("returns true when time string contains fractional seconds", () => {
