@@ -31,11 +31,9 @@
 .indeterminate {
   @apply w-1/5;
   animation: looping-progress-bar-ani scaleDuration(--calcite-internal-animation-timing-medium, 11) linear infinite;
-}
-
-.indeterminate--rtl {
-  @apply w-1/5;
-  animation: looping-progress-bar-ani-rtl scaleDuration(--calcite-internal-animation-timing-medium, 11) linear infinite;
+  &.calcite--rtl {
+    animation-name: looping-progress-bar-ani-rtl;
+  }
 }
 
 .reversed {

@@ -1,5 +1,6 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 @Component({
   tag: "calcite-progress",
   styleUrl: "progress.scss",
@@ -44,8 +45,8 @@ export class Progress {
           <div
             class={{
               bar: true,
-              indeterminate: this.type === "indeterminate" && !isRTL,
-              "indeterminate--rtl": isRTL,
+              indeterminate: this.type === "indeterminate",
+              [CSS_UTILITY.rtl]: isRTL,
               reversed: this.reversed,
             }}
             style={barStyles}
