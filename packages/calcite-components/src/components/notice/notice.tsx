@@ -75,10 +75,6 @@ export class Notice
 
   @Watch("open")
   openHandler(): void {
-    if (open) {
-      this.open = false;
-    }
-
     onToggleOpenCloseComponent(this);
   }
 
@@ -141,8 +137,10 @@ export class Notice
     connectLocalized(this);
     connectMessages(this);
 
-    this.open && this.openHandler();
-    onToggleOpenCloseComponent(this);
+    if (this.open) {
+      this.openHandler();
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   disconnectedCallback(): void {
