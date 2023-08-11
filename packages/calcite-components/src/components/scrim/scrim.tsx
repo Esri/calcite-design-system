@@ -11,7 +11,7 @@ import { ScrimMessages } from "./assets/scrim/t9n";
 import { CSS, BREAKPOINTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasContent } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.
@@ -132,7 +132,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   private handleDefaultSlotChange = (event: Event): void => {
-    this.hasContent = slotChangeHasAssignedElement(event);
+    this.hasContent = slotChangeHasContent(event);
   };
 
   private storeLoaderEl = (el: HTMLCalciteLoaderElement): void => {
