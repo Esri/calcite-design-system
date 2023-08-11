@@ -74,9 +74,8 @@ export class Notice
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
-    open ? this.open : !this.open;
   }
 
   /** Specifies the kind of the component (will apply to top border and icon). */
@@ -137,8 +136,7 @@ export class Notice
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
-    const { open } = this;
-    open && this.openHandler(open);
+    this.open && this.openHandler();
     onToggleOpenCloseComponent(this);
   }
 
