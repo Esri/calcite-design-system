@@ -127,7 +127,6 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   render(): VNode {
     const thumbnailInline = this.thumbnailPosition.startsWith("inline");
     const thumbnailStart = this.thumbnailPosition.endsWith("start");
-
     return (
       <div class={{ "calcite-card-container": true, inline: thumbnailInline }}>
         {this.loading ? (
