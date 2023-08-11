@@ -23,6 +23,7 @@ import {
   DEFAULT_STORAGE_KEY_PREFIX,
   DIMENSIONS,
   HSV_LIMITS,
+  HUE_LIMIT_CONSTRAINED,
   OPACITY_LIMITS,
   RGB_LIMITS,
   SCOPE_SIZE,
@@ -63,7 +64,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
 } from "../../utils/locale";
-import { clamp } from "../../utils/math";
+import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import {
   connectMessages,
   disconnectMessages,
@@ -619,7 +620,7 @@ export class ColorPicker
       } else if (clientX < bounds.x) {
         samplingX = 0;
       } else {
-        samplingX = bounds.width - 1;
+        samplingX = bounds.width;
       }
 
       if (clientY < bounds.y + bounds.height && clientY > bounds.y) {
@@ -1095,7 +1096,7 @@ export class ColorPicker
         slider: { width },
       },
     } = this;
-    const hue = (360 / width) * x;
+    const hue = (HUE_LIMIT_CONSTRAINED / width) * x;
 
     this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
   }
@@ -1385,7 +1386,6 @@ export class ColorPicker
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
     const outlineWidth = 1;
-    radius = radius - outlineWidth;
 
     context.beginPath();
     context.arc(x, y, radius, startAngle, endAngle);
@@ -1412,19 +1412,20 @@ export class ColorPicker
 
     const {
       dimensions: {
-        slider: { height, width },
+        slider: { width },
         thumb: { radius },
       },
     } = this;
 
-    const x = hsvColor.hue() / (360 / width);
-    const y = radius - height / 2 + height / 2;
+    const x = hsvColor.hue() / (HUE_LIMIT_CONSTRAINED / width);
+    const y = radius;
+    const sliderBoundX = this.getSliderBoundX(x, width, radius);
 
     requestAnimationFrame(() => {
-      this.hueScopeLeft = x;
+      this.hueScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.hueSliderRenderingContext, radius, x, y, hsvColor);
+    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor);
   }
 
   private drawHueSlider(): void {
@@ -1441,7 +1442,15 @@ export class ColorPicker
 
     const gradient = context.createLinearGradient(0, 0, width, 0);
 
-    const hueSliderColorStopKeywords = ["red", "yellow", "lime", "cyan", "blue", "magenta", "red"];
+    const hueSliderColorStopKeywords = [
+      "red",
+      "yellow",
+      "lime",
+      "cyan",
+      "blue",
+      "magenta",
+      "#ff0004" /* 1 unit less than #ff0 to avoid duplicate values within range */,
+    ];
 
     const offset = 1 / (hueSliderColorStopKeywords.length - 1);
     let currentOffset = 0;
@@ -1565,12 +1574,23 @@ export class ColorPicker
 
     const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
     const y = radius;
+    const sliderBoundX = this.getSliderBoundX(x, width, radius);
 
     requestAnimationFrame(() => {
-      this.opacityScopeLeft = x;
+      this.opacityScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.opacitySliderRenderingContext, radius, x, y, hsvColor);
+    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+  }
+
+  private getSliderBoundX(x: number, width: number, radius: number): number {
+    const closeToEdge = closeToRangeEdge(x, width, radius);
+
+    return closeToEdge === 0
+      ? x
+      : closeToEdge === -1
+      ? remap(x, 0, width, radius, radius * 2)
+      : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
   private storeOpacityScope = (node: HTMLDivElement): void => {

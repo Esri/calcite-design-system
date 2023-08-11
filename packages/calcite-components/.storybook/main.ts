@@ -37,7 +37,7 @@ module.exports = {
     }
   `,
   managerHead: (head: string): string => {
-    if (process.env.STORYBOOK_SCREENSHOT_TEST_BUILD) {
+    if (process.env.STORYBOOK_SCREENSHOT_TEST_BUILD || process.env.STORYBOOK_SCREENSHOT_LOCAL_BUILD) {
       return head;
     }
 

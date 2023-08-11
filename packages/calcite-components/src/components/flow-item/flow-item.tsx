@@ -190,7 +190,6 @@ export class FlowItem
 
   containerEl: HTMLCalcitePanelElement;
 
-  @State()
   backButtonEl: HTMLCalciteActionElement;
 
   @State() defaultMessages: FlowItemMessages;
@@ -292,6 +291,7 @@ export class FlowItem
         scale="s"
         slot="header-actions-start"
         text={label}
+        title={label}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setBackRef}
       />
@@ -309,9 +309,7 @@ export class FlowItem
       loading,
       menuOpen,
       messages,
-      backButtonEl,
     } = this;
-    const label = messages.back;
     return (
       <Host>
         <calcite-panel
@@ -340,17 +338,6 @@ export class FlowItem
           <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot />
         </calcite-panel>
-        {backButtonEl ? (
-          <calcite-tooltip
-            closeOnClick={true}
-            label={label}
-            overlayPositioning="fixed"
-            placement="top"
-            referenceElement={backButtonEl}
-          >
-            {label}
-          </calcite-tooltip>
-        ) : null}
       </Host>
     );
   }

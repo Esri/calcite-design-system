@@ -967,6 +967,18 @@ export class Combobox
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
     }
+
+    this.groupItems.forEach((groupItem, index, items) => {
+      if (index === 0) {
+        groupItem.afterEmptyGroup = false;
+      }
+
+      const nextGroupItem = items[index + 1];
+
+      if (nextGroupItem) {
+        nextGroupItem.afterEmptyGroup = groupItem.children.length === 0;
+      }
+    });
   };
 
   getData(): ItemData[] {
