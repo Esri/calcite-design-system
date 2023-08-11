@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.3...@esri/calcite-components@1.6.0-next.4) (2023-08-11)
+
+### Bug Fixes
+
+- **scrim:** render text content inside scrim ([#7509](https://github.com/Esri/calcite-design-system/issues/7509)) ([643ce5d](https://github.com/Esri/calcite-design-system/commit/643ce5d7a05cb24d8f730a703ade66d71192a958)), closes [#7032](https://github.com/Esri/calcite-design-system/issues/7032)
+
 ## [1.6.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.2...@esri/calcite-components@1.6.0-next.3) (2023-08-09)
 
 ### Bug Fixes
