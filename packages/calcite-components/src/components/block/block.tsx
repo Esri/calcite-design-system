@@ -109,10 +109,11 @@ export class Block
   @Watch("open")
   openHandler(open: boolean): void {
     if (this.disabled) {
-      this.open = false;
+      if (open) {
+        this.open = false;
+      }
       return;
     }
-
     if (open) {
       this.open = true;
     }

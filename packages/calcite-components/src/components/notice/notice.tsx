@@ -75,6 +75,10 @@ export class Notice
 
   @Watch("open")
   openHandler(): void {
+    if (open) {
+      this.open = false;
+    }
+
     onToggleOpenCloseComponent(this);
   }
 
@@ -136,6 +140,7 @@ export class Notice
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+
     this.open && this.openHandler();
     onToggleOpenCloseComponent(this);
   }
