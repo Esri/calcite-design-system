@@ -552,8 +552,8 @@ export class TimePicker
   };
 
   private nudgeFractionalSecond = (direction: "up" | "down"): void => {
+    const stepPrecision = decimalPlaces(this.step);
     if (isValidNumber(this.fractionalSecond)) {
-      const stepPrecision = decimalPlaces(this.step);
       const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
       const nudgedValue =
         direction === "up"
@@ -567,16 +567,19 @@ export class TimePicker
           : "".padStart(stepPrecision, "0");
 
       this.localizedFractionalSecond = this.fractionalSecond;
-      // TODO: localize the result
-      // this.localizedFractionalSecond = localizeTimePart({
-      //   value: this.fractionalSecond,
-      //   part: "fractionalSecond",
-      //   locale: this.effectiveLocale,
-      //   numberingSystem: this.numberingSystem,
-      // });
     } else {
-      this.fractionalSecond = this.step.toString();
+      if (direction === "up") {
+        this.fractionalSecond = "".padEnd(stepPrecision, "0");
+      }
+      if (direction === "down") {
+        this.fractionalSecond = formatTimePart(
+          parseInt("".padEnd(stepPrecision, "9")),
+          stepPrecision
+        );
+      }
     }
+    // TODO: localize the result
+    this.localizedFractionalSecond = this.fractionalSecond;
   };
 
   private secondDownButtonKeyDownHandler = (event: KeyboardEvent): void => {

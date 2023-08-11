@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
+import { getElementXY } from "../../tests/utils";
 
 const letterKeys = [
   "a",
@@ -1090,5 +1091,49 @@ describe("calcite-time-picker", () => {
     await page.waitForChanges();
 
     expect(await page.find(`calcite-time-picker >>> .${CSS.second}`)).toBeNull();
+  });
+
+  describe("fractional second support", () => {
+    it("upward nudge of empty fractional second sets to 0 for step=0.1", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="0.1"></calcite-time-picker>`);
+      const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
+        page,
+        "calcite-time-picker",
+        ".button--fractionalSecond-up"
+      );
+      await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
+      await page.waitForChanges();
+      const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
+      expect(fractionalSecondEl.innerHTML).toEqual("0");
+    });
+
+    it("upward nudge of empty fractional second sets to 00 for step=0.01", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="0.01"></calcite-time-picker>`);
+      const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
+        page,
+        "calcite-time-picker",
+        ".button--fractionalSecond-up"
+      );
+      await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
+      await page.waitForChanges();
+      const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
+      expect(fractionalSecondEl.innerHTML).toEqual("00");
+    });
+
+    it("upward nudge of empty fractional second sets to 000 for step=0.001", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="0.001"></calcite-time-picker>`);
+      const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
+        page,
+        "calcite-time-picker",
+        ".button--fractionalSecond-up"
+      );
+      await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
+      await page.waitForChanges();
+      const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
+      expect(fractionalSecondEl.innerHTML).toEqual("000");
+    });
   });
 });
