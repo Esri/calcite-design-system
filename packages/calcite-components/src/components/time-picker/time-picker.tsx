@@ -380,6 +380,42 @@ export class TimePicker
     this.activeEl = event.currentTarget as HTMLSpanElement;
   };
 
+  private fractionalSecondKeyDownHandler = (event: KeyboardEvent): void => {
+    const { key } = event;
+    if (numberKeys.includes(key)) {
+      const keyAsNumber = parseInt(key);
+      let newFractionalSecond;
+      if (isValidNumber(this.fractionalSecond) && this.fractionalSecond.startsWith("0")) {
+        const secondAsNumber = parseInt(this.fractionalSecond);
+        newFractionalSecond =
+          secondAsNumber > maxTenthForMinuteAndSecond
+            ? keyAsNumber
+            : `${secondAsNumber}${keyAsNumber}`;
+      } else {
+        newFractionalSecond = keyAsNumber;
+      }
+      this.setValuePart("fractionalSecond", newFractionalSecond);
+    } else {
+      switch (key) {
+        case "Backspace":
+        case "Delete":
+          this.setValuePart("fractionalSecond", null);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          this.nudgeFractionalSecond("down");
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.nudgeFractionalSecond("up");
+          break;
+        case " ":
+          event.preventDefault();
+          break;
+      }
+    }
+  };
+
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
     if (numberKeys.includes(key)) {
@@ -971,8 +1007,7 @@ export class TimePicker
               }}
               onFocus={this.focusHandler}
               // TODO: fractionalSecondKeyDownHandler
-              // onKeyDown={this.fractionalSecondKeyDownHandler}
-
+              onKeyDown={this.fractionalSecondKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
               // eslint-disable-next-line react/jsx-sort-props
@@ -986,10 +1021,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondDown]: true,
               }}
-              // TODO: onclick
               onClick={this.nudgeFractionalSecond.bind(this, "down")}
-              // TODO: onKeyDown
-              // onKeyDown={this.fractionalSecondDownButtonKeyDownHandler}
               role="button"
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
