@@ -336,7 +336,6 @@ export class Tree {
     );
     const childItemsWithNoChildren = childItems.filter((child) => !child.hasChildren);
     const childItemsWithChildren = childItems.filter((child) => child.hasChildren);
-
     const futureSelected = item.hasChildren
       ? !(item.selected || item.indeterminate)
       : !item.selected;
@@ -357,7 +356,7 @@ export class Tree {
       item.indeterminate = selected.length > 0 && unselected.length > 0;
     }
 
-    childItemsWithChildren.forEach((el) => {
+    childItemsWithChildren.reverse().forEach((el) => {
       const directChildItems = Array.from(
         el.querySelectorAll<HTMLCalciteTreeItemElement>(":scope > calcite-tree > calcite-tree-item")
       );
