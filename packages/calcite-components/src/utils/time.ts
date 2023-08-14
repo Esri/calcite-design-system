@@ -113,7 +113,6 @@ export function getLocalizedTimePartSuffix(
 ): string {
   const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
-  console.log(parts);
   return getLocalizedTimePart(`${part}Suffix` as TimePart, parts);
 }
 
