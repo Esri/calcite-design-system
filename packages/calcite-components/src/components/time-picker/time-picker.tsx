@@ -553,29 +553,29 @@ export class TimePicker
 
   private nudgeFractionalSecond = (direction: "up" | "down"): void => {
     const stepPrecision = decimalPlaces(this.step);
-    if (isValidNumber(this.fractionalSecond)) {
-      const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
-      const nudgedValue =
-        direction === "up"
-          ? fractionalSecondAsFloat + this.step
-          : fractionalSecondAsFloat - this.step;
-      const nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      // TODO: set value to opposite end of range when min or max is nudged
+    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
+    let nudgedValue, nudgedValueRounded;
+    if (direction === "up") {
+      nudgedValue = fractionalSecondAsFloat + this.step;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
       this.fractionalSecond =
         nudgedValueRounded < 1 && decimalPlaces(nudgedValueRounded) > 0
           ? formatTimePart(nudgedValueRounded, stepPrecision)
           : "".padStart(stepPrecision, "0");
-
-      this.localizedFractionalSecond = this.fractionalSecond;
-    } else {
-      if (direction === "up") {
-        this.fractionalSecond = "".padEnd(stepPrecision, "0");
-      }
-      if (direction === "down") {
-        this.fractionalSecond = formatTimePart(
-          parseInt("".padEnd(stepPrecision, "9")),
-          stepPrecision
-        );
+    }
+    if (direction === "down") {
+      nudgedValue = fractionalSecondAsFloat - this.step;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      if (fractionalSecondAsFloat === 0) {
+        this.fractionalSecond = "".padStart(stepPrecision, "9");
+      } else if (
+        nudgedValueRounded < 1 &&
+        decimalPlaces(nudgedValueRounded) > 0 &&
+        Math.sign(nudgedValueRounded) === 1
+      ) {
+        this.fractionalSecond = formatTimePart(nudgedValueRounded, stepPrecision);
+      } else {
+        this.fractionalSecond = "".padStart(stepPrecision, "0");
       }
     }
     // TODO: localize the result
