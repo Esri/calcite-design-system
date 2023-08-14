@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.5...@esri/calcite-components@1.6.0-next.6) (2023-08-14)
+
+### Bug Fixes
+
+- **progress:** completes animation for `dir='rtl'` ([#7511](https://github.com/Esri/calcite-design-system/issues/7511)) ([c5d6ada](https://github.com/Esri/calcite-design-system/commit/c5d6adacadf85ab12bfff5351fc0d448c153dae5)), closes [#6569](https://github.com/Esri/calcite-design-system/issues/6569)
+
 ## [1.6.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.4...@esri/calcite-components@1.6.0-next.5) (2023-08-11)
 
 ### Bug Fixes
