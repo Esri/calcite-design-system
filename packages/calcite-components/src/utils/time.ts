@@ -98,6 +98,25 @@ export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSys
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
+export function getLocalizedDecimalSeparator(locale: string, numberingSystem: NumberingSystem): string {
+  numberStringFormatter.numberFormatOptions = {
+    locale,
+    numberingSystem,
+  };
+  return numberStringFormatter.localize("1.1").split("")[1];
+}
+
+export function getLocalizedTimePartSuffix(
+  part: "hour" | "minute" | "second",
+  locale: string,
+  numberingSystem: NumberingSystem = "latn"
+): string {
+  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
+  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
+  console.log(parts);
+  return getLocalizedTimePart(`${part}Suffix` as TimePart, parts);
+}
+
 function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[]): string {
   if (!part || !parts) {
     return null;
@@ -239,11 +258,7 @@ export function localizeTimeStringToParts({
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
-    numberStringFormatter.numberFormatOptions = {
-      locale,
-      numberingSystem,
-    };
-    const localizedDecimalSeparator = numberStringFormatter.localize("1.1").split("")[1];
+    const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
     let localizedFractionalSecond = null;
     if (fractionalSecond) {
       localizedFractionalSecond = numberStringFormatter
@@ -256,7 +271,7 @@ export function localizeTimeStringToParts({
       localizedMinute: getLocalizedTimePart("minute", parts),
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
-      localizedDecimalSeparator: numberStringFormatter.localize("1.1").split("")[1],
+      localizedDecimalSeparator,
       localizedFractionalSecond,
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem: getLocalizedTimePart("meridiem", parts),

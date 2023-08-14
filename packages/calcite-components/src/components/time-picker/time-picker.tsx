@@ -31,6 +31,8 @@ import {
 import {
   formatTimePart,
   getLocaleHourCycle,
+  getLocalizedDecimalSeparator,
+  getLocalizedTimePartSuffix,
   getMeridiem,
   getTimeParts,
   HourCycle,
@@ -678,14 +680,29 @@ export class TimePicker
       this.hour = null;
       this.fractionalSecond = null;
       this.localizedHour = null;
-      this.localizedHourSuffix = null;
+      this.localizedHourSuffix = getLocalizedTimePartSuffix(
+        "hour",
+        this.effectiveLocale,
+        this.numberingSystem
+      );
       this.localizedMeridiem = null;
       this.localizedMinute = null;
-      this.localizedMinuteSuffix = null;
+      this.localizedMinuteSuffix = getLocalizedTimePartSuffix(
+        "minute",
+        this.effectiveLocale,
+        this.numberingSystem
+      );
       this.localizedSecond = null;
-      this.localizedDecimalSeparator = null;
+      this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
+        this.effectiveLocale,
+        this.numberingSystem
+      );
       this.localizedFractionalSecond = null;
-      this.localizedSecondSuffix = null;
+      this.localizedSecondSuffix = getLocalizedTimePartSuffix(
+        "second",
+        this.effectiveLocale,
+        this.numberingSystem
+      );
       this.meridiem = null;
       this.minute = null;
       this.second = null;
