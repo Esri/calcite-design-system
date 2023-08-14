@@ -145,6 +145,8 @@ export class TimePicker
 
   private secondEl: HTMLSpanElement;
 
+  private fractionalSecondEl: HTMLSpanElement;
+
   private meridiemOrder: number;
 
   // --------------------------------------------------------------------------
@@ -276,6 +278,22 @@ export class TimePicker
             event.preventDefault();
             break;
           case "ArrowRight":
+            if (this.showFractionalSecond) {
+              this.focusPart("fractionalSecond");
+            } else if (this.hourCycle === "12") {
+              this.focusPart("meridiem");
+              event.preventDefault();
+            }
+            break;
+        }
+        break;
+      case this.fractionalSecondEl:
+        switch (key) {
+          case "ArrowLeft":
+            this.focusPart("second");
+            event.preventDefault();
+            break;
+          case "ArrowRight":
             if (this.hourCycle === "12") {
               this.focusPart("meridiem");
               event.preventDefault();
@@ -286,7 +304,9 @@ export class TimePicker
       case this.meridiemEl:
         switch (key) {
           case "ArrowLeft":
-            if (this.step !== 60) {
+            if (this.showFractionalSecond) {
+              this.focusPart("fractionalSecond");
+            } else if (this.step !== 60) {
               this.focusPart("second");
               event.preventDefault();
             } else {
@@ -639,6 +659,8 @@ export class TimePicker
   private setMinuteEl = (el: HTMLSpanElement) => (this.minuteEl = el);
 
   private setSecondEl = (el: HTMLSpanElement) => (this.secondEl = el);
+
+  private setFractionalSecondEl = (el: HTMLSpanElement) => (this.fractionalSecondEl = el);
 
   private setValue = (value: string, emit = true): void => {
     if (isValidTime(value)) {
@@ -1026,9 +1048,7 @@ export class TimePicker
               role="spinbutton"
               tabIndex={0}
               // eslint-disable-next-line react/jsx-sort-props
-
-              // TODO: setFractionalSecondEl
-              // ref={this.setFractionalSecondEl}
+              ref={this.setFractionalSecondEl}
             >
               {this.localizedFractionalSecond || "--"}
             </span>
