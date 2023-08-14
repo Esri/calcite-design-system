@@ -336,6 +336,7 @@ export class Tree {
     );
     const childItemsWithNoChildren = childItems.filter((child) => !child.hasChildren);
     const childItemsWithChildren = childItems.filter((child) => child.hasChildren);
+
     const futureSelected = item.hasChildren
       ? !(item.selected || item.indeterminate)
       : !item.selected;
