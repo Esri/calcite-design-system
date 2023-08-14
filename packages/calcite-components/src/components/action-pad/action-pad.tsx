@@ -260,7 +260,7 @@ export class ActionPad
     ) : null;
 
     return expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
+      <calcite-action-group class={CSS.actionGroupEnd} layout={layout} scale={scale}>
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
       </calcite-action-group>

@@ -393,3 +393,37 @@ export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
     </div>
   </body>
 </html>`;
+
+export const maxTickRendering_TestOnly = (): string => html`
+  <style>
+    calcite-slider {
+      width: 60vw;
+    }
+  </style>
+
+  <calcite-slider min="-100" max="100" ticks="1"></calcite-slider>
+  <calcite-slider min="-100" max="100" ticks="5"></calcite-slider>
+  <calcite-slider min="-100" max="100" ticks="10"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="1"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="5"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="10"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="1"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="5"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="10"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="1"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="5"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="10"></calcite-slider>
+`;
+
+export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
+  <calcite-slider
+    lang="ru"
+    value="1000"
+    label-handles
+    label-ticks
+    group-separator
+    max-value="100000"
+    max="10000"
+    ticks="2000"
+  ></calcite-slider>
+`;

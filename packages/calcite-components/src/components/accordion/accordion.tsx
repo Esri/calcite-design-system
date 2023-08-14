@@ -35,9 +35,6 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  /** Specifies the parent of the component. */
-  @Prop({ reflect: true }) accordionParent: HTMLCalciteAccordionElement;
-
   /** Specifies the appearance of the component. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
@@ -76,7 +73,7 @@ export class Accordion {
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalAccordionChange: EventEmitter<RequestedItem>;
+  @Event({ cancelable: false }) private calciteInternalAccordionChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //
@@ -115,9 +112,8 @@ export class Accordion {
 
   @Listen("calciteInternalAccordionItemSelect")
   updateActiveItemOnChange(event: CustomEvent): void {
-    this.requestedAccordionItem = event.detail.requestedAccordionItem;
     this.calciteInternalAccordionChange.emit({
-      requestedAccordionItem: this.requestedAccordionItem,
+      requestedAccordionItem: event.detail.requestedAccordionItem,
     });
     event.stopPropagation();
   }
@@ -130,9 +126,6 @@ export class Accordion {
 
   mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
 
-  /** keep track of the requested item for multi mode */
-  private requestedAccordionItem: HTMLCalciteAccordionItemElement;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -143,9 +136,10 @@ export class Accordion {
     this.el.querySelectorAll("calcite-accordion-item").forEach((item) => {
       item.iconPosition = this.iconPosition;
       item.iconType = this.iconType;
-      item.selectionMode = this.selectionMode;
       item.scale = this.scale;
-      item.accordionParent = this.el;
     });
+
+    // sync props on items across shadow DOM
+    document.dispatchEvent(new CustomEvent("calciteInternalAccordionItemsSync"));
   }
 }

@@ -897,7 +897,7 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
 
-    it(`Space opens dropdown and puts focus on first item`, async () => {
+    it(`Space opens dropdown and puts focus on first item and subsequent Space do not change the focus`, async () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
@@ -910,6 +910,12 @@ describe("calcite-combobox", () => {
 
       const visible = await firstFocusedGroupItem.isVisible();
       expect(visible).toBe(true);
+
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(firstFocusedGroupItem).toBeTruthy();
     });
 
     it("when the combobox is focused & closed, Page up/down (fn arrow up/down) scrolls up and down the page", async () => {

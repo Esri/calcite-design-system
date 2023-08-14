@@ -141,7 +141,7 @@ const centerRowWithActionBarHTML = html`
       <calcite-action text="Share" icon="share"></calcite-action>
       <calcite-action text="Print" icon="print"></calcite-action>
     </calcite-action-group>
-    <calcite-action-group slot="bottom-actions">
+    <calcite-action-group slot="actions-end">
       <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
       <calcite-action text="What's next" icon="mega-phone"></calcite-action>
     </calcite-action-group>
@@ -799,7 +799,7 @@ position:relative;
         <calcite-action text="Share" icon="share"></calcite-action>
         <calcite-action text="Print" icon="print"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group slot="bottom-actions">
+      <calcite-action-group slot="actions-end">
         <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
         <calcite-action text="What's next" icon="mega-phone"></calcite-action>
       </calcite-action-group>
@@ -826,7 +826,7 @@ position:relative;
         <calcite-action text-enabled icon="pencil-square" text="Edit" disabled slot="menu-actions"> </calcite-action>
         <calcite-action text-enabled icon="clock" text="Time" disabled slot="menu-actions"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group slot="bottom-actions">
+      <calcite-action-group slot="actions-end">
         <calcite-action text="Tips" id="tip-manager-button">
           <calcite-icon icon="lightbulb" scale="s"></calcite-icon>
         </calcite-action>
@@ -869,7 +869,7 @@ position:relative;
         <calcite-action text="Share" icon="share"></calcite-action>
         <calcite-action text="Print" icon="print"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group slot="bottom-actions">
+      <calcite-action-group slot="actions-end">
         <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
         <calcite-action text="What's next" icon="mega-phone"></calcite-action>
       </calcite-action-group>
@@ -893,7 +893,7 @@ position:relative;
         <calcite-action text="Share" icon="share"></calcite-action>
         <calcite-action text="Print" icon="print"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group slot="bottom-actions">
+      <calcite-action-group slot="actions-end">
         <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
         <calcite-action text="What's next" icon="mega-phone"></calcite-action>
       </calcite-action-group>
@@ -926,7 +926,7 @@ position:relative;
         <calcite-action text="Share" icon="share"></calcite-action>
         <calcite-action text="Print" icon="print"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group slot="bottom-actions">
+      <calcite-action-group slot="actions-end">
         <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
         <calcite-action text="What's next" icon="mega-phone"></calcite-action>
       </calcite-action-group>
@@ -956,7 +956,7 @@ position:relative;
         <calcite-action text-enabled icon="pencil-square" text="Edit" disabled slot="menu-actions"> </calcite-action>
         <calcite-action text-enabled icon="clock" text="Time" disabled slot="menu-actions"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group slot="bottom-actions">
+      <calcite-action-group slot="actions-end">
         <calcite-action text="Tips" id="tip-manager-button">
           <calcite-icon icon="lightbulb" scale="s"></calcite-icon>
         </calcite-action>
@@ -1091,7 +1091,7 @@ position:relative;
         <calcite-action text="Share" icon="share"></calcite-action>
         <calcite-action text="Print" icon="print"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group slot="bottom-actions">
+      <calcite-action-group slot="actions-end">
         <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
         <calcite-action text="What's next" icon="mega-phone"></calcite-action>
       </calcite-action-group>
@@ -1122,7 +1122,7 @@ position:relative;
         <calcite-action text="Share" icon="share"></calcite-action>
         <calcite-action text="Print" icon="print"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group slot="bottom-actions">
+      <calcite-action-group slot="actions-end">
         <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
         <calcite-action text="What's next" icon="mega-phone"></calcite-action>
       </calcite-action-group>
