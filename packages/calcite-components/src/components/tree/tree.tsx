@@ -357,7 +357,7 @@ export class Tree {
       item.indeterminate = selected.length > 0 && unselected.length > 0;
     }
 
-    childItemsWithChildren.forEach((el) => {
+    childItemsWithChildren.reverse().forEach((el) => {
       const directChildItems = Array.from(
         el.querySelectorAll<HTMLCalciteTreeItemElement>(":scope > calcite-tree > calcite-tree-item")
       );
