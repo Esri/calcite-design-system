@@ -387,9 +387,10 @@ export class Dropdown
 
     switch (keyboardEvent.key) {
       case "Tab":
-        if (this.items.indexOf(target) === this.items.length - 1 && !keyboardEvent.shiftKey) {
-          this.closeCalciteDropdown();
-        } else if (this.items.indexOf(target) === 0 && keyboardEvent.shiftKey) {
+        if (
+          (this.items.indexOf(target) === 0 && keyboardEvent.shiftKey) ||
+          !keyboardEvent.shiftKey
+        ) {
           this.closeCalciteDropdown();
         }
         break;
