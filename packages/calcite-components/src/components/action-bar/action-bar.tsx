@@ -345,7 +345,7 @@ export class ActionBar
 
   handleDefaultSlotChange = (event: Event): void => {
     const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-group")
+      el.matches("calcite-action-group")
     ) as HTMLCalciteActionGroupElement[];
 
     this.setGroupLayout(groups);

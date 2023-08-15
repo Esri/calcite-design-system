@@ -169,7 +169,7 @@ describe("calcite-action-bar", () => {
 
       const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
-      expect(buttonGroup.getAttribute("hidden")).toBe("");
+      expect(await buttonGroup.getProperty("hidden")).toBe(true);
       expect(await buttonGroup.isVisible()).toBe(false);
     });
 
