@@ -387,11 +387,9 @@ export class Dropdown
 
     switch (keyboardEvent.key) {
       case "Tab":
-        if (
-          (this.items.indexOf(target) === 0 && keyboardEvent.shiftKey) ||
-          !keyboardEvent.shiftKey
-        ) {
-          this.closeCalciteDropdown();
+        if (this.items.indexOf(target) > -1) {
+          this.open = false;
+          this.updateTabIndexOfItems(event);
         }
         break;
       case "ArrowDown":
@@ -676,4 +674,12 @@ export class Dropdown
       this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
     }
   };
+
+  private updateTabIndexOfItems(event: CustomEvent<ItemKeyboardEvent>): void {
+    this.items.forEach((item: HTMLCalciteDropdownItemElement) => {
+      if (event.target !== item) {
+        item.tabIndex = -1;
+      }
+    });
+  }
 }
