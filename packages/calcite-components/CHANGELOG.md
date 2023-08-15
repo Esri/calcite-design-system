@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.6...@esri/calcite-components@1.6.0-next.7) (2023-08-14)
+
+### Bug Fixes
+
+- **tree:** selects all child items when selection-mode is set to ancestors ([#7518](https://github.com/Esri/calcite-design-system/issues/7518)) ([f1eef84](https://github.com/Esri/calcite-design-system/commit/f1eef8400d0312237bde6a3dda20ff085c87df2e)), closes [#7104](https://github.com/Esri/calcite-design-system/issues/7104)
+
 ## [1.6.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0-next.5...@esri/calcite-components@1.6.0-next.6) (2023-08-14)
 
 ### Bug Fixes
