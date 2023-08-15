@@ -89,14 +89,21 @@ describe("calcite-scrim", () => {
     expect(clickSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("does not render content if the default slot if it is empty", async () => {
+  it("does not display content if the default slot if it is empty", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-scrim></calcite-scrim>`);
-
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
+    expect(contentNode).toHaveAttribute("hidden");
 
-    expect(contentNode).toBeNull();
+    const scrim = await page.find("calcite-scrim");
+    scrim.innerHTML = "<p>Content added after initialization</p>";
+    await page.waitForChanges();
+
+    const content = await page.find("p");
+    expect(content).toBeTruthy();
+    expect(await content.isVisible()).toBe(true);
+    expect(contentNode).not.toHaveAttribute("hidden");
   });
 
   it("renders content in the default slot has content", async () => {
@@ -107,6 +114,8 @@ describe("calcite-scrim", () => {
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
 
     expect(contentNode).not.toBeNull();
+    expect(await contentNode.isVisible()).toBe(true);
+    expect(contentNode).not.toHaveAttribute("hidden");
   });
 
   describe("Responsive loading spinner", () => {
