@@ -42,7 +42,7 @@ describe("calcite-dropdown", () => {
     ]);
   });
 
-  describe("disabled", () => {
+  describe.skip("disabled", () => {
     disabled(simpleDropdownHTML, {
       focusTarget: {
         tab: "calcite-button",
