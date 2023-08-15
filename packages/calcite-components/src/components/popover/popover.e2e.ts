@@ -108,7 +108,7 @@ describe("calcite-popover", () => {
   `;
 
   describe("openClose", () => {
-    openClose(simplePopoverHtml, "open", false);
+    openClose(simplePopoverHtml, "open");
   });
 
   it("popover positions when referenceElement is set", async () => {

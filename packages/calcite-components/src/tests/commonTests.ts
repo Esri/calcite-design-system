@@ -30,11 +30,11 @@ function isHTML(tagOrHTML: string): boolean {
 
 function getTag(tagOrHTML: string): ComponentTag {
   if (isHTML(tagOrHTML)) {
-    const regex = /<calcite-[a-z0-9-]+/i;
+    const calciteTagRegex = /<calcite-[a-z0-9-]+/i;
     const trimmedTag = tagOrHTML.trim();
-    const match = trimmedTag.match(regex);
-    if (match) {
-      return match[0].substring(1) as ComponentTag;
+    const calciteTagMatchResult = trimmedTag.match(calciteTagRegex);
+    if (calciteTagMatchResult) {
+      return calciteTagMatchResult[0].substring(1) as ComponentTag;
     }
     throw new Error(`Could not extract tag from HTML: ${trimmedTag}`);
   }
@@ -1366,7 +1366,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  *   },
  * });
  *
- * @param {ComponentTestSetup} ComponentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
+ * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
  * @param {userInputDevice} userInputDevice - Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
  */
@@ -1376,39 +1376,37 @@ type userInputDevice = {
   close: (page: E2EPage) => Promise<void>;
 };
 
-export function openClose(
-  componentTestSetup: ComponentTestSetup,
-  toggleProp = "open",
-  userInputDevice?: userInputDevice
-): void {
-  async function testOpenCloseEvents(page: E2EPage, tag: string) {
+export function openClose(componentTagOrHTML: TagOrHTML, toggleProp = "open", userInputDevice?: userInputDevice): void {
+  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML) {
+    const tag = getTag(componentTagOrHTML);
     const element = await page.find(tag);
+
     const initialToggleValue: boolean = await element.getProperty(toggleProp);
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
     const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
-    const eventSequence = eventSuffixes.map((event) => `${camelCaseTag}${event}`);
 
+    const eventSequence = eventSuffixes.map((event) => `${camelCaseTag}${event}`);
     type eventOrderWindow = GlobalTestProps<{ events: string[] }>;
 
     await page.$eval(
       tag,
-      (element: HTMLElement, componentSpecificEvents: string[]) => {
+      (element: HTMLElement, eventSequence: string[]) => {
         const receivedEvents: string[] = [];
         (window as eventOrderWindow).events = receivedEvents;
 
-        componentSpecificEvents.forEach((eventType) => {
+        eventSequence.forEach((eventType) => {
           element.addEventListener(eventType, (event) => receivedEvents.push(event.type));
         });
       },
       eventSequence
     );
 
-    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSuffixes.map((event) =>
-      page.waitForEvent(`${camelCaseTag}${event}`)
+    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) =>
+      page.waitForEvent(event)
     );
 
     const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
-      eventSuffixes.map(async (event) => await element.spyOnEvent(`${camelCaseTag}${event}`))
+      eventSequence.map(async (event) => await element.spyOnEvent(event))
     );
 
     if (!initialToggleValue) {
@@ -1443,18 +1441,14 @@ export function openClose(
   }
 
   let page: E2EPage;
-  let tag: string;
 
   beforeEach(async () => {
-    const { page: newPage, tag: newTag } = await getTagAndPage(componentTestSetup);
-    page = newPage;
-    tag = newTag;
-    await page.setContent(`${componentTestSetup}`);
+    page = await simplePageSetup(componentTagOrHTML);
   });
 
   it(`should emit (before)open/close event with animations enabled`, async () => {
     await skipAnimations(page);
-    await testOpenCloseEvents(page, tag);
+    await testOpenCloseEvents(componentTagOrHTML);
   });
 
   it(`should emit (before)open/close event with animations disabled`, async () => {
@@ -1465,6 +1459,6 @@ export function openClose(
         }
       `,
     });
-    await testOpenCloseEvents(page, tag);
+    await testOpenCloseEvents(componentTagOrHTML);
   });
 }
