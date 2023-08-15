@@ -383,18 +383,22 @@ export class TimePicker
   private fractionalSecondKeyDownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
     if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
-      let newFractionalSecond;
-      if (isValidNumber(this.fractionalSecond) && this.fractionalSecond.startsWith("0")) {
-        const secondAsNumber = parseInt(this.fractionalSecond);
-        newFractionalSecond =
-          secondAsNumber > maxTenthForMinuteAndSecond
-            ? keyAsNumber
-            : `${secondAsNumber}${keyAsNumber}`;
-      } else {
-        newFractionalSecond = keyAsNumber;
+      const stepPrecision = decimalPlaces(this.step);
+      const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+      const fractionalSecondAsIntegerLength = fractionalSecondAsInteger.toString().length;
+
+      let newFractionalSecondAsIntegerString;
+
+      if (fractionalSecondAsIntegerLength >= stepPrecision) {
+        newFractionalSecondAsIntegerString = key.padStart(stepPrecision, "0");
+      } else if (fractionalSecondAsIntegerLength < stepPrecision) {
+        newFractionalSecondAsIntegerString = `${fractionalSecondAsInteger}${key}`.padStart(
+          stepPrecision,
+          "0"
+        );
       }
-      this.setValuePart("fractionalSecond", newFractionalSecond);
+
+      this.setValuePart("fractionalSecond", parseFloat(`0.${newFractionalSecondAsIntegerString}`));
     } else {
       switch (key) {
         case "Backspace":
@@ -736,6 +740,11 @@ export class TimePicker
           numberingSystem,
         });
       }
+    } else if (key === "fractionalSecond") {
+      this.fractionalSecond =
+        typeof value === "number" ? formatTimePart(value, decimalPlaces(this.step)) : value;
+      // TODO: localize fractional second
+      this.localizedFractionalSecond = this.fractionalSecond;
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
       this[`localized${capitalize(key)}`] = localizeTimePart({
@@ -749,6 +758,9 @@ export class TimePicker
       let newValue = `${this.hour}:${this.minute}`;
       if (this.showSecond) {
         newValue = `${newValue}:${this.second ?? "00"}`;
+      }
+      if (this.showFractionalSecond && this.fractionalSecond) {
+        newValue = `${newValue}.${this.fractionalSecond}`;
       }
       this.value = newValue;
     } else {
