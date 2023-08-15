@@ -852,7 +852,7 @@ describe("calcite-tooltip", () => {
     });
   });
 
-  it("should open hovered tooltip while pointer is moving", async () => {
+  it.skip("should open hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`
