@@ -162,7 +162,6 @@ export class TimePicker
     this.updateLocale();
   }
 
-  // TODO: update fractional second
   @State() fractionalSecond: string;
 
   @State() hour: string;
@@ -178,7 +177,6 @@ export class TimePicker
 
   @State() localizedMeridiem: string;
 
-  // TODO: set localizedFractionalSecond on mount and whenever fractionalSecond value changes
   @State() localizedFractionalSecond: string;
 
   @State() localizedMinute: string;
@@ -564,11 +562,11 @@ export class TimePicker
   private nudgeFractionalSecond = (direction: "up" | "down"): void => {
     const stepPrecision = decimalPlaces(this.step);
     const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
-    let nudgedValue, nudgedValueRounded;
+    let nudgedValue, nudgedValueRounded, newFractionalSecond;
     if (direction === "up") {
       nudgedValue = fractionalSecondAsFloat + this.step;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      this.fractionalSecond =
+      newFractionalSecond =
         nudgedValueRounded < 1 && decimalPlaces(nudgedValueRounded) > 0
           ? formatTimePart(nudgedValueRounded, stepPrecision)
           : "".padStart(stepPrecision, "0");
@@ -577,19 +575,18 @@ export class TimePicker
       nudgedValue = fractionalSecondAsFloat - this.step;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
       if (fractionalSecondAsFloat === 0) {
-        this.fractionalSecond = "".padStart(stepPrecision, "9");
+        newFractionalSecond = "".padStart(stepPrecision, "9");
       } else if (
         nudgedValueRounded < 1 &&
         decimalPlaces(nudgedValueRounded) > 0 &&
         Math.sign(nudgedValueRounded) === 1
       ) {
-        this.fractionalSecond = formatTimePart(nudgedValueRounded, stepPrecision);
+        newFractionalSecond = formatTimePart(nudgedValueRounded, stepPrecision);
       } else {
-        this.fractionalSecond = "".padStart(stepPrecision, "0");
+        newFractionalSecond = "".padStart(stepPrecision, "0");
       }
     }
-    // TODO: localize the result
-    this.localizedFractionalSecond = this.fractionalSecond;
+    this.setValuePart("fractionalSecond", newFractionalSecond);
   };
 
   private sanitizeFractionalSecond = (fractionalSecond: string): string =>
@@ -750,8 +747,12 @@ export class TimePicker
       } else {
         this.fractionalSecond = value;
       }
-      // TODO: localize fractional second
-      this.localizedFractionalSecond = this.fractionalSecond;
+      this.localizedFractionalSecond = localizeTimePart({
+        value: this.fractionalSecond,
+        part: "fractionalSecond",
+        locale,
+        numberingSystem,
+      });
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
       this[`localized${capitalize(key)}`] = localizeTimePart({
@@ -765,9 +766,9 @@ export class TimePicker
       let newValue = `${this.hour}:${this.minute}`;
       if (this.showSecond) {
         newValue = `${newValue}:${this.second ?? "00"}`;
-      }
-      if (this.showFractionalSecond && this.fractionalSecond) {
-        newValue = `${newValue}.${this.fractionalSecond}`;
+        if (this.showFractionalSecond && this.fractionalSecond) {
+          newValue = `${newValue}.${this.fractionalSecond}`;
+        }
       }
       this.value = newValue;
     } else {

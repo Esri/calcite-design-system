@@ -174,7 +174,6 @@ export function isValidTime(value: string): boolean {
 }
 
 function isValidTimePart(value: string, part: TimePart): boolean {
-  // TODO: add fractional seconds support here
   if (part === "meridiem") {
     return value === "AM" || value === "PM";
   }
@@ -193,7 +192,26 @@ interface LocalizeTimePartParameters {
 }
 
 export function localizeTimePart({ value, part, locale, numberingSystem }: LocalizeTimePartParameters): string {
-  // TODO: add fractional seconds support here
+  if (part === "fractionalSecond") {
+    const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
+    let localizedFractionalSecond = null;
+    if (value) {
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem,
+      };
+      const localizedZero = numberStringFormatter.localize("0");
+      if (parseInt(value) === 0) {
+        localizedFractionalSecond = "".padStart(value.length, localizedZero);
+      } else {
+        localizedFractionalSecond = numberStringFormatter
+          .localize(`0.${value}`)
+          .replace(`${localizedZero}${localizedDecimalSeparator}`, "");
+      }
+    }
+    return localizedFractionalSecond;
+  }
+
   if (!isValidTimePart(value, part)) {
     return;
   }
@@ -257,30 +275,19 @@ export function localizeTimeStringToParts({
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
-    const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
-    let localizedFractionalSecond = null;
-    if (fractionalSecond) {
-      numberStringFormatter.numberFormatOptions = {
-        locale,
-        numberingSystem,
-      };
-      const localizedZero = numberStringFormatter.localize("0");
-      if (parseInt(fractionalSecond) === 0) {
-        localizedFractionalSecond = "".padStart(fractionalSecond.length, localizedZero);
-      } else {
-        localizedFractionalSecond = numberStringFormatter
-          .localize(`0.${fractionalSecond}`)
-          .replace(`${localizedZero}${localizedDecimalSeparator}`, "");
-      }
-    }
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
       localizedMinute: getLocalizedTimePart("minute", parts),
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
-      localizedDecimalSeparator,
-      localizedFractionalSecond,
+      localizedDecimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
+      localizedFractionalSecond: localizeTimePart({
+        value: fractionalSecond,
+        part: "fractionalSecond",
+        locale,
+        numberingSystem,
+      }),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
       localizedMeridiem: getLocalizedTimePart("meridiem", parts),
     };
