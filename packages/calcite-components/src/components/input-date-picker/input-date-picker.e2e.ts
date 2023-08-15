@@ -56,12 +56,12 @@ describe("calcite-input-date-picker", () => {
     disabled("calcite-input-date-picker");
   });
 
-  const simpleInputDatePickerHtml = html`
-    <calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>
-  `;
-
   describe("openClose", () => {
-    openClose(simpleInputDatePickerHtml, "open", false);
+    openClose(
+      `<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`,
+      "open",
+      false
+    );
   });
 
   it.skip("supports t9n", () => t9n("calcite-input-date-picker"));

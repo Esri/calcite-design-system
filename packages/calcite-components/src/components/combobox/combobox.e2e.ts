@@ -145,7 +145,7 @@ describe("calcite-combobox", () => {
   `;
 
   describe("openClose", () => {
-    openClose(`${simpleComboboxHTML}`, "open", false);
+    openClose(simpleComboboxHTML, "open", false);
   });
 
   it("filtering does not match property with value of undefined", async () => {

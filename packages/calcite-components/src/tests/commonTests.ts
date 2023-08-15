@@ -1356,11 +1356,11 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  * import { openClose } from "../../tests/commonTests";
  *
  * openClose("calcite-tooltip", "open", false, {
- *   openTooltip: async (page) => {
+ *   open: async (page) => {
  *     await page.keyboard.press("Tab");
  *     await page.waitForChanges();
  *   },
- *   closeTooltip: async (page) => {
+ *   close: async (page) => {
  *     await page.keyboard.press("Tab");
  *     await page.waitForChanges();
  *   },
@@ -1368,27 +1368,25 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  *
  * @param {ComponentTestSetup} ComponentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
- * @param {boolean} toggleValue - Indicates the initial value of the toggle property.
- * @param {{
- *  openTooltip: (page: E2EPage) => Promise<void>;
- *  closeTooltip: (page: E2EPage) => Promise<void>;
- * }} userInputDevice - Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
+ * @param {userInputDevice} userInputDevice - Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
  */
+
+type userInputDevice = {
+  open: (page: E2EPage) => Promise<void>;
+  close: (page: E2EPage) => Promise<void>;
+};
 
 export function openClose(
   componentTestSetup: ComponentTestSetup,
-  toggleProp: string,
-  toggleValue: boolean,
-  userInputDevice?: {
-    openTooltip: (page: E2EPage) => Promise<void>;
-    closeTooltip: (page: E2EPage) => Promise<void>;
-  }
+  toggleProp = "open",
+  userInputDevice?: userInputDevice
 ): void {
-  const testOpenCloseEvents = async (page: E2EPage, tag: string) => {
+  async function testOpenCloseEvents(page: E2EPage, tag: string) {
     const element = await page.find(tag);
+    const initialToggleValue: boolean = await element.getProperty(toggleProp);
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
-    const events = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
-    const componentSpecificEventSequence = events.map((event) => `${camelCaseTag}${event}`);
+    const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
+    const eventSequence = eventSuffixes.map((event) => `${camelCaseTag}${event}`);
 
     type eventOrderWindow = GlobalTestProps<{ events: string[] }>;
 
@@ -1402,22 +1400,24 @@ export function openClose(
           element.addEventListener(eventType, (event) => receivedEvents.push(event.type));
         });
       },
-      componentSpecificEventSequence
+      eventSequence
     );
 
-    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = events.map((event) =>
+    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSuffixes.map((event) =>
       page.waitForEvent(`${camelCaseTag}${event}`)
     );
 
     const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
-      events.map(async (event) => await element.spyOnEvent(`${camelCaseTag}${event}`))
+      eventSuffixes.map(async (event) => await element.spyOnEvent(`${camelCaseTag}${event}`))
     );
 
-    toggleValue === false
-      ? userInputDevice
-        ? await userInputDevice.openTooltip(page)
-        : element.setProperty(toggleProp, true)
-      : toggleValue;
+    if (!initialToggleValue) {
+      if (userInputDevice) {
+        await userInputDevice.open(page);
+      } else {
+        element.setProperty(toggleProp, true);
+      }
+    }
     await page.waitForChanges();
 
     await beforeOpenEvent;
@@ -1428,7 +1428,7 @@ export function openClose(
     expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
     expect(closeSpy).toHaveReceivedEventTimes(0);
 
-    userInputDevice ? await userInputDevice.closeTooltip(page) : element.setProperty(toggleProp, false);
+    userInputDevice ? await userInputDevice.close(page) : element.setProperty(toggleProp, false);
     await page.waitForChanges();
 
     await beforeCloseEvent;
@@ -1439,10 +1439,11 @@ export function openClose(
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
 
-    expect(await page.evaluate(() => (window as eventOrderWindow).events)).toEqual(componentSpecificEventSequence);
-  };
+    expect(await page.evaluate(() => (window as eventOrderWindow).events)).toEqual(eventSequence);
+  }
 
-  let page: E2EPage, tag: string;
+  let page: E2EPage;
+  let tag: string;
 
   beforeEach(async () => {
     const { page: newPage, tag: newTag } = await getTagAndPage(componentTestSetup);
