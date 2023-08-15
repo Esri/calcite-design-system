@@ -4,7 +4,7 @@ const isBrowser = (): boolean =>
   window.location === location &&
   window.document === document;
 
-export function autoDefine(component: string) {
+export function autoDefine(component: string): () => Promise<void> | undefined {
   if (isBrowser()) {
     return async () => (await import(`@esri/calcite-components/dist/components/${component}.js`)).defineCustomElement();
   }
