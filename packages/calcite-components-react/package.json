@@ -2,7 +2,6 @@
   "name": "@esri/calcite-components-react",
   "sideEffects": false,
   "version": "1.6.0-next.7",
-  "type": "module",
   "description": "A set of React components that wrap calcite components",
   "license": "SEE LICENSE.md",
   "scripts": {
@@ -10,7 +9,7 @@
     "prebuild": "npm run patch:ssr",
     "clean": "rimraf dist node_modules .turbo",
     "compile": "npm run tsc",
-    "patch:ssr": "ts-node --esm support/patchSSR.ts",
+    "patch:ssr": "ts-node support/patchSSR.ts",
     "tsc": "tsc"
   },
   "main": "./dist/index.js",

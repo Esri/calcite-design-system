@@ -2,16 +2,14 @@
 // when using the includeImportCustomElements option
 // https://stenciljs.com/docs/react#includeimportcustomelements
 // https://github.com/Esri/calcite-design-system/issues/7486
-(async function () {
-  const {
-    promises: { readFile, writeFile },
-  } = await import("fs");
-  const { dirname, resolve } = await import("path");
-  const { fileURLToPath } = await import("url");
 
+const {
+  promises: { readFile, writeFile },
+} = require("fs");
+const { dirname, resolve } = require("path");
+
+(async () => {
   try {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
     const filePath = resolve(`${__dirname}/../src/components.ts`);
     const contents = await readFile(filePath, { encoding: "utf8" });
 
