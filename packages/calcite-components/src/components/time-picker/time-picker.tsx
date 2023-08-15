@@ -850,6 +850,7 @@ export class TimePicker
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
+    const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
     const showMeridiem = this.hourCycle === "12";
     return (
       <div
@@ -1016,16 +1017,13 @@ export class TimePicker
               aria-label={this.messages.fractionalSecond}
               aria-valuemax="999"
               aria-valuemin="1"
-              // TODO: aria-valuenow
-              // aria-valuenow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
-
+              aria-valuenow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
               aria-valuetext={this.localizedFractionalSecond}
               class={{
                 [CSS.input]: true,
                 [CSS.fractionalSecond]: true,
               }}
               onFocus={this.focusHandler}
-              // TODO: fractionalSecondKeyDownHandler
               onKeyDown={this.fractionalSecondKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
