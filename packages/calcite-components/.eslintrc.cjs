@@ -88,6 +88,7 @@ module.exports = {
     ],
     "no-new-func": "error",
     "no-unneeded-ternary": "error",
+    "one-var": ["error", "never"],
     "react/forbid-component-props": [
       "warn",
       {
