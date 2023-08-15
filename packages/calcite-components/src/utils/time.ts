@@ -260,6 +260,10 @@ export function localizeTimeStringToParts({
     const localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
     let localizedFractionalSecond = null;
     if (fractionalSecond) {
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem,
+      };
       localizedFractionalSecond = numberStringFormatter
         .localize(`0.${fractionalSecond}`)
         .replace(`${numberStringFormatter.localize("0")}${localizedDecimalSeparator}`, "");
@@ -300,18 +304,10 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
 
 export function parseTimeString(value: string): Time {
   if (isValidTime(value)) {
-    const [hour, minute, secondDecimal] = value.split(":");
-    const secondDecimalPlaces = decimalPlaces(secondDecimal);
-    let second,
+    let [hour, minute, second] = value.split(":"),
       fractionalSecond = null;
-    if (secondDecimalPlaces > 0) {
-      [second, fractionalSecond] = parseFloat(secondDecimal)
-        .toFixed(secondDecimalPlaces > 3 ? 3 : secondDecimalPlaces)
-        .toString()
-        .split(".");
-      fractionalSecond = fractionalSecond && parseInt(fractionalSecond) !== 0 ? fractionalSecond : null;
-    } else {
-      second = secondDecimal ? formatTimePart(parseInt(secondDecimal)) : "00";
+    if (second?.includes(".")) {
+      [second, fractionalSecond] = second.split(".");
     }
     return {
       fractionalSecond,

@@ -52,7 +52,7 @@ describe("localizeTimeStringToParts", () => {
       localizedMinuteSuffix: ":",
       localizedSecond: "30",
       localizedDecimalSeparator: ",",
-      localizedFractionalSecond: "121",
+      localizedFractionalSecond: "12123",
       localizedSecondSuffix: null,
       localizedMeridiem: null,
     });
@@ -76,7 +76,7 @@ describe("localizeTimeStringToParts", () => {
       localizedMinuteSuffix: ".",
       localizedSecond: "30",
       localizedDecimalSeparator: ",",
-      localizedFractionalSecond: "121",
+      localizedFractionalSecond: "12123",
       localizedSecondSuffix: null,
       localizedMeridiem: null,
     });
@@ -120,12 +120,12 @@ describe("localizeTimeStringToParts", () => {
 });
 
 describe("parseTimeString", () => {
-  it("returns real fractional second, rounded to the nearest millisecond", () => {
+  it("returns literal hour, minute, second and fractional second values from given string", () => {
     expect(parseTimeString("12:30:45.0")).toEqual({
       hour: "12",
       minute: "30",
       second: "45",
-      fractionalSecond: null,
+      fractionalSecond: "0",
     });
     expect(parseTimeString("12:30:45.01")).toEqual({
       hour: "12",
@@ -143,13 +143,13 @@ describe("parseTimeString", () => {
       hour: "12",
       minute: "30",
       second: "45",
-      fractionalSecond: null,
+      fractionalSecond: "0001",
     });
     expect(parseTimeString("12:30:45.0049")).toEqual({
       hour: "12",
       minute: "30",
       second: "45",
-      fractionalSecond: "005",
+      fractionalSecond: "0049",
     });
     expect(parseTimeString("12:30:45.1")).toEqual({
       hour: "12",
@@ -173,13 +173,19 @@ describe("parseTimeString", () => {
       hour: "12",
       minute: "30",
       second: "45",
-      fractionalSecond: "123",
+      fractionalSecond: "1234",
     });
     expect(parseTimeString("12:30:45.12345")).toEqual({
       hour: "12",
       minute: "30",
       second: "45",
-      fractionalSecond: "123",
+      fractionalSecond: "12345",
+    });
+    expect(parseTimeString("12:30:45.12345.34")).toEqual({
+      hour: null,
+      minute: null,
+      second: null,
+      fractionalSecond: null,
     });
   });
 
