@@ -168,7 +168,6 @@ export class TimePicker
 
   @State() hourCycle: HourCycle;
 
-  // TODO: set this per locale
   @State() localizedDecimalSeparator = ".";
 
   @State() localizedHour: string;
@@ -193,7 +192,6 @@ export class TimePicker
 
   @State() second: string;
 
-  // TODO: calculate this on mount and whenever step changes
   @State() showFractionalSecond: boolean;
 
   @State() showSecond: boolean;
@@ -589,6 +587,15 @@ export class TimePicker
     this.setValuePart("fractionalSecond", newFractionalSecond);
   };
 
+  private sanitizeValue = (value: string): string => {
+    const { hour, minute, second, fractionalSecond } = parseTimeString(value);
+    if (fractionalSecond) {
+      const sanitizedFractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
+      return `${hour}:${minute}:${second}.${sanitizedFractionalSecond}`;
+    }
+    return isValidTime(value) && value;
+  };
+
   private sanitizeFractionalSecond = (fractionalSecond: string): string =>
     fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
       ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
@@ -803,7 +810,11 @@ export class TimePicker
   private updateLocale() {
     updateMessages(this, this.effectiveLocale);
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
-    this.setValue(this.value, false);
+    this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
+      this.effectiveLocale,
+      this.numberingSystem
+    );
+    this.setValue(this.sanitizeValue(this.value), false);
   }
 
   // --------------------------------------------------------------------------
