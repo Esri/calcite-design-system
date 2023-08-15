@@ -264,9 +264,14 @@ export function localizeTimeStringToParts({
         locale,
         numberingSystem,
       };
-      localizedFractionalSecond = numberStringFormatter
-        .localize(`0.${fractionalSecond}`)
-        .replace(`${numberStringFormatter.localize("0")}${localizedDecimalSeparator}`, "");
+      const localizedZero = numberStringFormatter.localize("0");
+      if (parseInt(fractionalSecond) === 0) {
+        localizedFractionalSecond = "".padStart(fractionalSecond.length, localizedZero);
+      } else {
+        localizedFractionalSecond = numberStringFormatter
+          .localize(`0.${fractionalSecond}`)
+          .replace(`${localizedZero}${localizedDecimalSeparator}`, "");
+      }
     }
     return {
       localizedHour: getLocalizedTimePart("hour", parts),

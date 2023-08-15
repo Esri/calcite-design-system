@@ -592,6 +592,11 @@ export class TimePicker
     this.localizedFractionalSecond = this.fractionalSecond;
   };
 
+  private sanitizeFractionalSecond = (fractionalSecond: string): string =>
+    fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
+      ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
+      : fractionalSecond;
+
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
     if (numberKeys.includes(key)) {
@@ -656,10 +661,7 @@ export class TimePicker
       this.hour = hour;
       this.minute = minute;
       this.second = second;
-      this.fractionalSecond =
-        fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
-          ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
-          : fractionalSecond;
+      this.fractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -741,8 +743,13 @@ export class TimePicker
         });
       }
     } else if (key === "fractionalSecond") {
-      this.fractionalSecond =
-        typeof value === "number" ? formatTimePart(value, decimalPlaces(this.step)) : value;
+      const stepPrecision = decimalPlaces(this.step);
+      if (typeof value === "number") {
+        this.fractionalSecond =
+          value === 0 ? "".padStart(stepPrecision, "0") : formatTimePart(value, stepPrecision);
+      } else {
+        this.fractionalSecond = value;
+      }
       // TODO: localize fractional second
       this.localizedFractionalSecond = this.fractionalSecond;
     } else {
