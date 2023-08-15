@@ -257,7 +257,8 @@ export class Button
 
     return (
       <Tag
-        aria-label={getLabelText(this)}
+        aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
+        aria-live="polite"
         class={{
           [CSS.buttonPadding]: noStartEndIcons,
           [CSS.buttonPaddingShrunk]: !noStartEndIcons,

@@ -12,6 +12,11 @@ import {
   slotChangeHasAssignedElement,
   toAriaBoolean,
   getShadowRootNode,
+  slotChangeGetTextContent,
+  slotChangeGetAssignedNodes,
+  slotChangeHasAssignedNode,
+  slotChangeHasTextContent,
+  slotChangeHasContent,
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -211,7 +216,11 @@ describe("dom", () => {
         expect(getSlotted(getTestComponent(), testSlotName, { all: true })).toHaveLength(2));
 
       it("returns elements with matching slot names", () =>
-        expect(getSlotted(getTestComponent(), [testSlotName, testSlotName2], { all: true })).toHaveLength(3));
+        expect(
+          getSlotted(getTestComponent(), [testSlotName, testSlotName2], {
+            all: true,
+          })
+        ).toHaveLength(3));
 
       it("returns empty list when no results", () =>
         expect(getSlotted(getTestComponent(), "non-existent-slot", { all: true })).toHaveLength(0));
@@ -417,6 +426,107 @@ describe("dom", () => {
       const event = new Event("onSlotchange");
       target.dispatchEvent(event);
       expect(slotChangeHasAssignedElement(event)).toBe(false);
+    });
+  });
+
+  describe("slotChangeHasAssignedNode()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedNode(event)).toBe(true);
+    });
+
+    it("handles no slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedNode(event)).toBe(false);
+    });
+  });
+
+  describe("slotChangeGetAssignedNodes()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedNodes(event)).toHaveLength(2);
+    });
+
+    it("handles no slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedNodes(event)).toHaveLength(0);
+    });
+  });
+
+  describe("slotChangeGetTextContent()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetTextContent(event)).toEqual("helloworld");
+    });
+
+    it("handles no slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetTextContent(event)).toEqual("");
+    });
+  });
+
+  describe("slotChangeHasContent()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello")];
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(true);
+    });
+
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      target.assignedElements = () => [document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(true);
+    });
+
+    it("handles no slotted nodes or elements", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(false);
+    });
+  });
+
+  describe("slotChangeHasTextContent()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasTextContent(event)).toEqual(true);
+    });
+
+    it("handles no slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasTextContent(event)).toEqual(false);
     });
   });
 

@@ -393,3 +393,68 @@ export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
     </div>
   </body>
 </html>`;
+
+export const maxTickRendering_TestOnly = (): string => html`
+  <style>
+    calcite-slider {
+      width: 60vw;
+    }
+  </style>
+
+  <calcite-slider min="-100" max="100" ticks="1"></calcite-slider>
+  <calcite-slider min="-100" max="100" ticks="5"></calcite-slider>
+  <calcite-slider min="-100" max="100" ticks="10"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="1"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="5"></calcite-slider>
+  <calcite-slider min="-250" max="250" ticks="10"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="1"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="5"></calcite-slider>
+  <calcite-slider min="-500" max="500" ticks="10"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="1"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="5"></calcite-slider>
+  <calcite-slider min="-1000" max="1000" ticks="10"></calcite-slider>
+`;
+
+export const rendersWhenTrackRelatedPropChanges_TestOnly = (): string =>
+  html`
+    <calcite-slider
+      id="example-slider"
+      label-ticks
+      max="32"
+      value="24"
+      min="16"
+      snap
+      step="8"
+      ticks="8"
+    ></calcite-slider>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-slider");
+        const slider = await document.querySelector("calcite-slider").componentOnReady();
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+
+        slider.max = 64;
+        slider.min = 48;
+        slider.step = 16;
+        slider.ticks = 16;
+        slider.value = 64;
+      })();
+    </script>
+  `;
+
+rendersWhenTrackRelatedPropChanges_TestOnly.parameters = {
+  chromatic: { delay: 500 },
+};
+
+export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
+  <calcite-slider
+    lang="ru"
+    value="1000"
+    label-handles
+    label-ticks
+    group-separator
+    max-value="100000"
+    max="10000"
+    ticks="2000"
+  ></calcite-slider>
+`;

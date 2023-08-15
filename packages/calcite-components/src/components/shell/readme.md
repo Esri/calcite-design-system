@@ -52,7 +52,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
           <calcite-action text="Save" disabled icon="save"></calcite-action>
           <calcite-action text="Layers" icon="layers"></calcite-action>
         </calcite-action-group>
-        <calcite-action slot="bottom-actions" text="Tips" icon="lightbulb"></calcite-action>
+        <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
       </calcite-action-bar>
       <calcite-flow>
         <calcite-flow-item heading="Layer settings">

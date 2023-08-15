@@ -173,8 +173,6 @@ export class Panel
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
-  @State() hasDefaultContent = false;
-
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -194,6 +192,8 @@ export class Panel
   @State() defaultMessages: PanelMessages;
 
   @State() effectiveLocale = "";
+
+  @State() showHeaderContent = false;
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
@@ -262,10 +262,6 @@ export class Panel
 
   panelScrollHandler = (): void => {
     this.calcitePanelScroll.emit();
-  };
-
-  handleDefaultSlotChange = (event: Event): void => {
-    this.hasDefaultContent = slotChangeHasAssignedElement(event);
   };
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {
@@ -363,10 +359,7 @@ export class Panel
 
   renderActionBar(): VNode {
     return (
-      <div
-        class={{ [CSS.actionBarContainer]: true, [CSS.bottomSeparator]: this.hasDefaultContent }}
-        hidden={!this.hasActionBar}
-      >
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
         <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
       </div>
     );
@@ -411,6 +404,7 @@ export class Panel
         icon={ICONS.close}
         onClick={close}
         text={text}
+        title={text}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setCloseRef}
       />
@@ -467,29 +461,33 @@ export class Panel
       hasEndActions,
       closable,
       hasMenuItems,
-      hasDefaultContent,
       hasActionBar,
     } = this;
 
     const headerContentNode = this.renderHeaderContent();
 
-    const showHeader =
+    const showHeaderContent =
       hasHeaderContent ||
-      headerContentNode ||
+      !!headerContentNode ||
       hasStartActions ||
       hasEndActions ||
       closable ||
       hasMenuItems;
 
+    this.showHeaderContent = showHeaderContent;
+
     return (
-      <header
-        class={{ [CSS.header]: true, [CSS.bottomSeparator]: hasDefaultContent || hasActionBar }}
-        hidden={!showHeader}
-      >
-        {this.renderHeaderStartActions()}
-        {this.renderHeaderSlottedContent()}
-        {headerContentNode}
-        {this.renderHeaderActionsEnd()}
+      <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar)}>
+        <div
+          class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
+          hidden={!showHeaderContent}
+        >
+          {this.renderHeaderStartActions()}
+          {this.renderHeaderSlottedContent()}
+          {headerContentNode}
+          {this.renderHeaderActionsEnd()}
+        </div>
+        {this.renderActionBar()}
       </header>
     );
   }
@@ -529,9 +527,7 @@ export class Panel
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
-        <section class={CSS.contentContainer}>
-          <slot onSlotchange={this.handleDefaultSlotChange} />
-        </section>
+        <slot />
         {this.renderFab()}
       </div>
     );
@@ -559,7 +555,6 @@ export class Panel
         ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}
-        {this.renderActionBar()}
         {this.renderContent()}
         {this.renderFooterNode()}
       </article>
