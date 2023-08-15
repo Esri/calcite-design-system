@@ -12,6 +12,7 @@
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-footer-padding: theme("spacing.2");
+  --calcite-internal-panel-header-border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
 @include disabled();
@@ -31,6 +32,7 @@
 .header {
   @apply bg-foreground-1 flex flex-col
     z-header;
+  border-block-end: var(--calcite-internal-panel-header-border-block-end);
 }
 
 .header-container {
@@ -40,16 +42,12 @@
   flex: 0 0 auto;
 }
 
+.header-container--border-end {
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+}
+
 .action-bar-container {
   @apply w-full;
-}
-
-.top-separator {
-  border-block-start: 1px solid var(--calcite-ui-border-3);
-}
-
-.bottom-separator {
-  border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
 .action-bar-container ::slotted(calcite-action-bar) {
@@ -99,16 +97,14 @@
 }
 
 .content-wrapper {
-  @apply overflow-auto h-full;
-}
-
-.content-container {
-  @apply bg-background
-  flex
+  @apply flex
   flex-auto
   flex-col
   flex-nowrap
-  items-stretch;
+  items-stretch
+  bg-background
+  overflow-auto
+  h-full;
 }
 
 .footer {

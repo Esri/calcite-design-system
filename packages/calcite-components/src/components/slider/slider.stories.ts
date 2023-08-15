@@ -445,3 +445,16 @@ export const rendersWhenTrackRelatedPropChanges_TestOnly = (): string =>
 rendersWhenTrackRelatedPropChanges_TestOnly.parameters = {
   chromatic: { delay: 500 },
 };
+
+export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
+  <calcite-slider
+    lang="ru"
+    value="1000"
+    label-handles
+    label-ticks
+    group-separator
+    max-value="100000"
+    max="10000"
+    ticks="2000"
+  ></calcite-slider>
+`;

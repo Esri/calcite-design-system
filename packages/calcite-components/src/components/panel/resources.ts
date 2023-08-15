@@ -4,8 +4,7 @@ export const CSS = {
   container: "container",
   header: "header",
   headerContainer: "header-container",
-  bottomSeparator: "bottom-separator",
-  topSeparator: "top-separator",
+  headerContainerBorderEnd: "header-container--border-end",
   heading: "heading",
   summary: "summary",
   description: "description",
@@ -14,7 +13,6 @@ export const CSS = {
   headerActionsEnd: "header-actions--end",
   headerActionsStart: "header-actions--start",
   contentWrapper: "content-wrapper",
-  contentContainer: "content-container",
   fabContainer: "fab-container",
   footer: "footer",
 };
