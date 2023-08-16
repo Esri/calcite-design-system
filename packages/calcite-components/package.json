@@ -58,7 +58,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Esri/calcite-design-system.git"
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/calcite-components"
   },
   "dependencies": {
     "@floating-ui/dom": "1.5.1",
