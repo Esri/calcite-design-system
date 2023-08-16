@@ -23,12 +23,17 @@ jobs:
                 ? [...assignees.map((a) => a.login).filter(a => a !== author), author]
                 : [author];
 
-            await github.rest.issues.addAssignees({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: number,
-              assignees: updatedAssignees,
-            });
+            try {
+              await github.rest.issues.addAssignees({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: number,
+                assignees: updatedAssignees,
+              });
+            } catch (e) {
+              console.error("Unable to assign the PR author, they likely do not have write permissions");
+              console.error(e);
+            }
   label-type:
     if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
