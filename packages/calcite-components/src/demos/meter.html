@@ -643,6 +643,167 @@
           </calcite-label>
         </div>
       </div>
+      <calcite-shell style="position: relative">
+        <calcite-shell-panel
+          slot="panel-start"
+          position="start"
+          id="shell-panel-start"
+          resizable
+          style="--calcite-shell-panel-min-width: 100px"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action text="Save" icon="save" indicator></calcite-action>
+            <calcite-action active icon="map" text="Map"></calcite-action>
+            <calcite-action icon="layer" text="Layer"></calcite-action>
+          </calcite-action-bar>
+          <calcite-panel heading="Map" id="panel-start">
+            <calcite-block heading="Block 1" collapsible open>
+              <calcite-label
+                >value=0
+                <calcite-meter range-labels fill-type="single" value="0" label="Example label"></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=10, high=90, value=5
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="10"
+                  high="90"
+                  value="5"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=65, high=80, value=60
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="65"
+                  high="80"
+                  value="60"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=15, high=40, value=60
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="40"
+                  high="80"
+                  value="60"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=10, high=90, value=95
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="10"
+                  high="90"
+                  value="95"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=25, high=75, value=200
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="25"
+                  high="75"
+                  value="200"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <h5>valueLabel</h5>
+              <calcite-label
+                >value=0
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  value="0"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=10, high=90, value=5
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="10"
+                  high="90"
+                  value="5"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=65, high=80, value=60
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="65"
+                  high="80"
+                  value="80"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=15, high=40, value=60
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="40"
+                  high="80"
+                  value="60"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=10, high=90, value=95
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="10"
+                  high="90"
+                  value="95"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=25, high=75, value=200
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="25"
+                  high="75"
+                  value="200"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+            </calcite-block>
+          </calcite-panel>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="panel-end" position="end" id="shell-panel-end" collapsed>
+          <calcite-action-bar slot="action-bar">
+            <calcite-action text="Layer" icon="sliders-horizontal"></calcite-action>
+            <calcite-action text="Styles" icon="shapes"></calcite-action>
+            <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+            <calcite-action text="Configure" icon="popup"></calcite-action>
+          </calcite-action-bar>
+          <calcite-panel heading id="panel-end" closable closed>
+            <calcite-block heading="Block 1" collapsible></calcite-block>
+          </calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel heading="Content"></calcite-panel>
+      </calcite-shell>
       <script>
         const meter = document.getElementById("example-meter");
 
