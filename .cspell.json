@@ -17,7 +17,7 @@
   "dictionaryDefinitions": [
     {
       "name": "calcite-dev",
-      "path": "./support/dictionaries/dict-calcite-dev.txt"
+      "path": "./support/dictionaries/dict-calcite-design-system.txt"
     }
   ]
 }
