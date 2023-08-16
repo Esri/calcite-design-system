@@ -118,7 +118,7 @@ describe("calcite-tooltip", () => {
   `;
 
   describe("openClose", () => {
-    openClose(simpleTooltipHtml, "open");
+    openClose(simpleTooltipHtml, "open", false);
   });
 
   describe("openClose via mouse", () => {
@@ -126,7 +126,7 @@ describe("calcite-tooltip", () => {
     const mouseTotalDelayFromMoveSteps = TOOLTIP_OPEN_DELAY_MS * mouseMoveOptions.steps;
     const mouseXMoveOffset = 25;
 
-    openClose(simpleTooltipHtml, "open", {
+    openClose(simpleTooltipHtml, "open", false, {
       open: async (page: E2EPage) => {
         const [refElementX, refElementY] = await getElementXY(page, "#ref");
 
@@ -154,7 +154,7 @@ describe("calcite-tooltip", () => {
     const mouseMoveOptions = { steps: 10 };
     const mouseTotalDelayFromMoveSteps = TOOLTIP_OPEN_DELAY_MS * mouseMoveOptions.steps;
 
-    openClose(tooltipDisplayNoneHtml, "open", {
+    openClose(tooltipDisplayNoneHtml, "open", false, {
       open: async (page: E2EPage) => {
         await page.mouse.move(10, 10, mouseMoveOptions);
         await page.waitForChanges();

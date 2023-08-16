@@ -40,7 +40,7 @@ describe("calcite-alert", () => {
   });
 
   describe("openClose", () => {
-    openClose(html`<calcite-alert>${alertContent}</calcite-alert>`, "open");
+    openClose(html`<calcite-alert>${alertContent}</calcite-alert>`, "open", false);
   });
 
   it("renders default props when none are provided", async () => {

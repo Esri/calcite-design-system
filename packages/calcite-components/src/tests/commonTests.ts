@@ -8,7 +8,7 @@ import { html } from "../../support/formatting";
 import { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
-import { GlobalTestProps, skipAnimations } from "./utils";
+import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "./utils";
 import { InteractiveHTMLElement } from "../utils/interactive";
 
 expect.extend(toHaveNoViolations);
@@ -420,7 +420,7 @@ async function assertLabelable({
     expect(await component.getProperty(propertyToToggle)).toBe(toggledPropertyValue);
 
     // assert that direct clicks on component toggle property correctly
-    await component.setProperty(propertyToToggle, initialPropertyValue); // we reset as not all components toggle when clicked
+    component.setProperty(propertyToToggle, initialPropertyValue); // we reset as not all components toggle when clicked
     await page.waitForChanges();
     await component.click();
     await page.waitForChanges();
@@ -874,7 +874,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
 
     const stringifiedTestValue = stringifyTestValue(options.testValue);
 
-    await component.setProperty("value", stringifiedTestValue);
+    component.setProperty("value", stringifiedTestValue);
     await component.callMethod("setFocus");
     await page.keyboard.press("Enter");
     const called = await page.evaluate(() => (window as TestWindow).called);
@@ -1368,6 +1368,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
+ * @param {boolean} initialToggleValue - Indicates the initial value of the toggle property to determine whether to configure a `simplePageSetup` or `newProgrammaticE2EPage`.
  * @param {userInputDevice} userInputDevice - Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
  */
 
@@ -1376,30 +1377,54 @@ type userInputDevice = {
   close: (page: E2EPage) => Promise<void>;
 };
 
-export function openClose(componentTagOrHTML: TagOrHTML, toggleProp = "open", userInputDevice?: userInputDevice): void {
-  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML) {
-    const tag = getTag(componentTagOrHTML);
-    const element = await page.find(tag);
+export async function openClose(
+  componentTagOrHTML: TagOrHTML,
+  toggleProp = "open",
+  initialToggleValue = false,
+  userInputDevice?: userInputDevice
+): Promise<void> {
+  type eventOrderWindow = GlobalTestProps<{ events: string[] }>;
+  const eventSequence = await setupEventSequence(componentTagOrHTML);
 
-    const initialToggleValue: boolean = await element.getProperty(toggleProp);
+  async function setupEventSequence(componentTagOrHTML: TagOrHTML) {
+    const tag = getTag(componentTagOrHTML);
+
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
     const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
 
-    const eventSequence = eventSuffixes.map((event) => `${camelCaseTag}${event}`);
-    type eventOrderWindow = GlobalTestProps<{ events: string[] }>;
+    const eventSequence = eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
 
-    await page.$eval(
-      tag,
-      (element: HTMLElement, eventSequence: string[]) => {
-        const receivedEvents: string[] = [];
-        (window as eventOrderWindow).events = receivedEvents;
+    return eventSequence;
+  }
 
-        eventSequence.forEach((eventType) => {
-          element.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+  const addEventListeners = async () => {
+    const receivedEvents: string[] = [];
+
+    (window as eventOrderWindow).events = receivedEvents;
+
+    eventSequence.forEach((eventType) => {
+      document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+    });
+  };
+
+  async function setupPage(componentTagOrHTML: TagOrHTML, page: E2EPage) {
+    initialToggleValue
+      ? await page.evaluate(() => {
+          addEventListeners();
+
+          const component = document.createElement(componentTagOrHTML) as any;
+          component["open"] = true;
+
+          document.body.append(component);
+        })
+      : await page.evaluate(() => {
+          addEventListeners();
         });
-      },
-      eventSequence
-    );
+  }
+
+  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage) {
+    const tag = getTag(componentTagOrHTML);
+    const element = await page.find(tag);
 
     const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) =>
       page.waitForEvent(event)
@@ -1409,13 +1434,12 @@ export function openClose(componentTagOrHTML: TagOrHTML, toggleProp = "open", us
       eventSequence.map(async (event) => await element.spyOnEvent(event))
     );
 
-    if (!initialToggleValue) {
-      if (userInputDevice) {
-        await userInputDevice.open(page);
-      } else {
-        element.setProperty(toggleProp, true);
-      }
+    if (userInputDevice) {
+      await userInputDevice.open(page);
+    } else {
+      element.setProperty(toggleProp, true);
     }
+
     await page.waitForChanges();
 
     await beforeOpenEvent;
@@ -1440,18 +1464,19 @@ export function openClose(componentTagOrHTML: TagOrHTML, toggleProp = "open", us
     expect(await page.evaluate(() => (window as eventOrderWindow).events)).toEqual(eventSequence);
   }
 
-  let page: E2EPage;
-
-  beforeEach(async () => {
-    page = await simplePageSetup(componentTagOrHTML);
-  });
-
-  it(`should emit (before)open/close event with animations enabled`, async () => {
+  /**
+   * skipAnimations unititly sets the animation duration to 0.01. This is a workaround for an issue with the animation utility.
+   * Because this still leaves a very small duration, we can still test the animation events, but faster.
+   */
+  it(`emits with animations enabled`, async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
     await skipAnimations(page);
-    await testOpenCloseEvents(componentTagOrHTML);
+    setupPage(componentTagOrHTML, page);
+    await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
-  it(`should emit (before)open/close event with animations disabled`, async () => {
+  it(`emits with animations disabled`, async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
     await page.addStyleTag({
       content: `
         :root {
@@ -1459,6 +1484,27 @@ export function openClose(componentTagOrHTML: TagOrHTML, toggleProp = "open", us
         }
       `,
     });
-    await testOpenCloseEvents(componentTagOrHTML);
+    setupPage(componentTagOrHTML, page);
+    await testOpenCloseEvents(componentTagOrHTML, page);
+  });
+
+  it("emits on initialization with animations enabled", async () => {
+    const page = await newProgrammaticE2EPage();
+    await skipAnimations(page);
+    setupPage(componentTagOrHTML, page);
+    await testOpenCloseEvents(componentTagOrHTML, page);
+  });
+
+  it("emits on initialization with animations disabled", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.addStyleTag({
+      content: `
+        :root {
+          --calcite-animation-duration: 0s;
+        }
+      `,
+    });
+    setupPage(componentTagOrHTML, page);
+    await testOpenCloseEvents(componentTagOrHTML, page);
   });
 }
