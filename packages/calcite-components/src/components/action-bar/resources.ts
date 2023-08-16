@@ -4,6 +4,6 @@ export const CSS = {
 
 export const SLOTS = {
   actionsEnd: "actions-end",
-  bottomActions: "actions-end",
+  bottomActions: "bottom-actions",
   expandTooltip: "expand-tooltip",
 };
