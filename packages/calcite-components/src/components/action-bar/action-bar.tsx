@@ -17,7 +17,11 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { focusFirstTabbable, getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  focusFirstTabbable,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -176,6 +180,12 @@ export class ActionBar
 
   @State() effectiveLocale: string;
 
+  @State() hasActionsEnd = false;
+
+  @State() hasBottomActions = false;
+
+  @State() expandTooltip: HTMLCalciteTooltipElement;
+
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -297,7 +307,7 @@ export class ActionBar
     this.setGroupLayout(actionGroups);
 
     const groupCount =
-      getSlotted(el, SLOTS.actionsEnd) || getSlotted(el, SLOTS.bottomActions) || !expandDisabled
+      this.hasActionsEnd || this.hasBottomActions || !expandDisabled
         ? actionGroups.length + 1
         : actionGroups.length;
 
@@ -339,10 +349,26 @@ export class ActionBar
 
   handleDefaultSlotChange = (event: Event): void => {
     const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-group")
+      el.matches("calcite-action-group")
     ) as HTMLCalciteActionGroupElement[];
 
     this.setGroupLayout(groups);
+  };
+
+  handleActionsEndSlotChange = (event: Event): void => {
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
+  };
+
+  handleBottomActionsSlotChange = (event: Event): void => {
+    this.hasBottomActions = slotChangeHasAssignedElement(event);
+  };
+
+  handleTooltipSlotChange = (event: Event): void => {
+    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-tooltip")
+    ) as HTMLCalciteTooltipElement[];
+
+    this.expandTooltip = tooltips[0];
   };
 
   // --------------------------------------------------------------------------
@@ -354,8 +380,6 @@ export class ActionBar
   renderBottomActionGroup(): VNode {
     const { expanded, expandDisabled, el, position, toggleExpand, scale, layout, messages } = this;
 
-    const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
-
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         collapseText={messages.collapse}
@@ -365,22 +389,25 @@ export class ActionBar
         position={position}
         scale={scale}
         toggle={toggleExpand}
-        tooltip={tooltip}
+        tooltip={this.expandTooltip}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setExpandToggleRef}
       />
     ) : null;
 
-    return getSlotted(el, SLOTS.actionsEnd) ||
-      getSlotted(el, SLOTS.bottomActions) ||
-      expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupEnd} layout={layout} scale={scale}>
-        <slot name={SLOTS.actionsEnd} />
-        <slot name={SLOTS.bottomActions} />
-        <slot name={SLOTS.expandTooltip} />
+    return (
+      <calcite-action-group
+        class={CSS.actionGroupEnd}
+        hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
+        layout={layout}
+        scale={scale}
+      >
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
+        <slot name={SLOTS.bottomActions} onSlotchange={this.handleBottomActionsSlotChange} />
+        <slot name={SLOTS.expandTooltip} onSlotchange={this.handleTooltipSlotChange} />
         {expandToggleNode}
       </calcite-action-group>
-    ) : null;
+    );
   }
 
   render(): VNode {
