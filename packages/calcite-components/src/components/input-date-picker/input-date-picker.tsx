@@ -100,13 +100,6 @@ export class InputDatePicker
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteInputDatePickerElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -671,6 +664,8 @@ export class InputDatePicker
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInputDatePickerElement;
 
   private datePickerEl: HTMLCalciteDatePickerElement;
 

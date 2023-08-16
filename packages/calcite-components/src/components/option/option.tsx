@@ -59,8 +59,7 @@ export class Option {
   //
   //--------------------------------------------------------------------------
 
-  @Element()
-  private el: HTMLCalciteOptionElement;
+  @Element() private el: HTMLCalciteOptionElement;
 
   private internallySetLabel: string;
 

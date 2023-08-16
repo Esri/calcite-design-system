@@ -12,14 +12,6 @@ import { hexToHue, stringToHex } from "./utils";
 export class Avatar {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAvatarElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -57,6 +49,8 @@ export class Avatar {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteAvatarElement;
 
   @State() thumbnailFailedToLoad = false;
 

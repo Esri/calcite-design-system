@@ -32,14 +32,6 @@ import {
 export class RadioButtonGroup implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el!: HTMLCalciteRadioButtonGroupElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -94,6 +86,8 @@ export class RadioButtonGroup implements LoadableComponent {
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
+  @Element() el!: HTMLCalciteRadioButtonGroupElement;
 
   mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 

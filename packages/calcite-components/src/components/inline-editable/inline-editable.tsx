@@ -59,14 +59,6 @@ export class InlineEditable
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInlineEditableElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Props
   //
   //--------------------------------------------------------------------------
@@ -269,6 +261,8 @@ export class InlineEditable
   //  Private State
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInlineEditableElement;
 
   private inputElement: HTMLCalciteInputElement;
 

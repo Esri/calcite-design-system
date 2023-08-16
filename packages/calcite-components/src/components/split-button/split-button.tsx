@@ -37,6 +37,12 @@ import { CSS } from "./resources";
   },
 })
 export class SplitButton implements InteractiveComponent, LoadableComponent {
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el: HTMLCalciteSplitButtonElement;
 
   /** Specifies the appearance style of the component. */

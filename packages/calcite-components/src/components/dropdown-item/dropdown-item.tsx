@@ -33,14 +33,6 @@ import {
 export class DropdownItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDropdownItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -269,6 +261,8 @@ export class DropdownItem implements LoadableComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteDropdownItemElement;
 
   /** id of containing group */
   private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;

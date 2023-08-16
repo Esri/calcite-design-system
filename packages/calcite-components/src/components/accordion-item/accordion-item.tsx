@@ -38,14 +38,6 @@ import { RequestedItem } from "./interfaces";
 export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAccordionItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -288,6 +280,8 @@ export class AccordionItem implements ConditionalSlotComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteAccordionItemElement;
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
