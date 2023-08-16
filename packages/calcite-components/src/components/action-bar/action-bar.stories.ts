@@ -82,6 +82,8 @@ export const horizontal = (): string => html`
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
       <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
+      <!-- The "bottom-actions" slot is deprecated -->
+      <calcite-action slot="bottom-actions" text="hello world 2" icon="information"> </calcite-action>
     </calcite-action-bar>
   </div>
 `;
@@ -100,6 +102,8 @@ export const horizontalSmall = (): string => html`
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
       <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
+      <!-- The "bottom-actions" slot is deprecated -->
+      <calcite-action slot="bottom-actions" text="hello world 2" icon="information"> </calcite-action>
     </calcite-action-bar>
   </div>
 `;
