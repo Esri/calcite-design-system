@@ -1,4 +1,4 @@
 {
   "invalid": "ไม่ถูกต้อง",
-  "tooLong": "ความยาวจำนวนอักขระในปัจจุบันคือ {currentLength} ซึ่งเกินความยาวจำนวนอักขระสูงสุดที่ {maxLength}"
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
 }

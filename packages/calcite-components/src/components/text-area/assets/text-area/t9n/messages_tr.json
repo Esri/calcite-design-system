@@ -1,4 +1,4 @@
 {
   "invalid": "Geçersiz",
-  "tooLong": "Mevcut karakter uzunluğu {currentLength} ve maksimum karakter uzunluğu {maxLength}'i aşıyor."
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
 }

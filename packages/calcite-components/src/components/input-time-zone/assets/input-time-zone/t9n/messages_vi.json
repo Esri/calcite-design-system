@@ -1,5 +1,5 @@
 {
-  "chooseTimeZone": "Choose time zone.",
+  "chooseTimeZone": "Chọn múi giờ.",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",
@@ -305,7 +305,7 @@
   "Atlantic/Faeroe": "Faeroe",
   "Atlantic/Madeira": "Madeira",
   "Atlantic/Reykjavik": "Reykjavik",
-  "Atlantic/South_Georgia": "South Georgia",
+  "Atlantic/South_Georgia": "Nam Georgia",
   "Atlantic/St_Helena": "St Helena",
   "Atlantic/Stanley": "Stanley",
   "Australia/Adelaide": "Adelaide",

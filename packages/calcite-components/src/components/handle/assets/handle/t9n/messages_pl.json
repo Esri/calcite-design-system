@@ -1,7 +1,7 @@
 {
   "dragHandle": "Uchwyt przeciągania",
-  "dragHandleActive": "Reorganizowanie {itemLabel}, bieżąca pozycja {position} z {total}.",
-  "dragHandleChange": "{itemLabel}, nowa pozycja {position} z {total}. Naciśnij spację, aby potwierdzić.",
-  "dragHandleCommit": "{itemLabel}, bieżąca pozycja {position} z {total}.",
-  "dragHandleIdle": "{itemLabel}, naciśnij klawisz spacji i użyj klawiszy strzałek, aby zmienić kolejność zasobów. Bieżąca pozycja {position} z {total}."
+  "dragHandleActive": "Reordering {itemLabel}, current position {position} of {total}.",
+  "dragHandleChange": "{itemLabel}, new position {position} of {total}. Press space to confirm.",
+  "dragHandleCommit": "{itemLabel}, current position {position} of {total}.",
+  "dragHandleIdle": "{itemLabel}, press space and use arrow keys to reorder content. Current position {position} of {total}."
 }

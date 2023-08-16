@@ -1,7 +1,7 @@
 {
   "dragHandle": "Rukoväť na ťahanie",
-  "dragHandleActive": "Zmena poradia {itemLabel}, aktuálna pozícia {position} z {total}.",
-  "dragHandleChange": "{itemLabel}, nová pozícia {position} z {total}. Stlačte medzerník na potvrdenie.",
-  "dragHandleCommit": "{itemLabel}, aktuálna pozícia {position} z {total}.",
-  "dragHandleIdle": "{itemLabel}, stlačte medzerník a pomocou klávesov so šípkami zmeňte poradie obsahu. Aktuálna pozícia: {position} z {total}."
+  "dragHandleActive": "Reordering {itemLabel}, current position {position} of {total}.",
+  "dragHandleChange": "{itemLabel}, new position {position} of {total}. Press space to confirm.",
+  "dragHandleCommit": "{itemLabel}, current position {position} of {total}.",
+  "dragHandleIdle": "{itemLabel}, press space and use arrow keys to reorder content. Current position {position} of {total}."
 }
