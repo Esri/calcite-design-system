@@ -1,4 +1,4 @@
 {
   "invalid": "Ogiltig",
-  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "tooLong": "Den aktuella teckenlängden är {currentLength}, vilket överskrider den maximala teckenlängden på {maxLength}."
 }

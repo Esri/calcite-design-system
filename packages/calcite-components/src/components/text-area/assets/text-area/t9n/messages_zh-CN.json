@@ -1,4 +1,4 @@
 {
   "invalid": "无效",
-  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "tooLong": "当前字符长度为 {currentLength}，超过了最大字符长度 {maxLength}。"
 }

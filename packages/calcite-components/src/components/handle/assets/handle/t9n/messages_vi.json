@@ -1,7 +1,7 @@
 {
   "dragHandle": "Kéo thông tin",
-  "dragHandleActive": "Reordering {itemLabel}, current position {position} of {total}.",
-  "dragHandleChange": "{itemLabel}, new position {position} of {total}. Press space to confirm.",
-  "dragHandleCommit": "{itemLabel}, current position {position} of {total}.",
-  "dragHandleIdle": "{itemLabel}, press space and use arrow keys to reorder content. Current position {position} of {total}."
+  "dragHandleActive": "Sắp xếp lại {itemLabel}, vị trí hiện tại {position} trên {total}.",
+  "dragHandleChange": "{itemLabel}, vị trí mới {position} trên {total}. Nhấn dấu cách để xác nhận.",
+  "dragHandleCommit": "{itemLabel}, vị trí hiện tại {position} trên {total}.",
+  "dragHandleIdle": "{itemLabel}, nhấn dấu cách và sử dụng các phím mũi tên để sắp xếp lại nội dung. Vị trí hiện tại {position} trên {total}."
 }

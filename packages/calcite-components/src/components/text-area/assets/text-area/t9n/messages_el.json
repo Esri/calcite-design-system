@@ -1,4 +1,4 @@
 {
   "invalid": "Μη έγκυρο",
-  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "tooLong": "Το τρέχον μήκος χαρακτήρων είναι {currentLength}, το οποίο υπερβαίνει το μέγιστο μήκος χαρακτήρων του {maxLength}."
 }

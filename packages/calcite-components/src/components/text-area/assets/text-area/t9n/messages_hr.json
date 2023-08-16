@@ -1,4 +1,4 @@
 {
   "invalid": "Nevažeće",
-  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "tooLong": "Trenutni broj znakova je {currentLength}, što premašuje maksimalni broj znakova od {maxLength}."
 }

@@ -1,7 +1,7 @@
 {
   "dragHandle": "Lohistamispide",
-  "dragHandleActive": "Reordering {itemLabel}, current position {position} of {total}.",
-  "dragHandleChange": "{itemLabel}, new position {position} of {total}. Press space to confirm.",
-  "dragHandleCommit": "{itemLabel}, current position {position} of {total}.",
-  "dragHandleIdle": "{itemLabel}, press space and use arrow keys to reorder content. Current position {position} of {total}."
+  "dragHandleActive": "Üksuse {itemLabel} ümberjärjestamine, praegune asukoht {position}/{total}.",
+  "dragHandleChange": "{itemLabel}, uus asukoht {position}/{total}. Kinnitamiseks vajutage tühikuklahvi.",
+  "dragHandleCommit": "{itemLabel}, praegune asukoht {position}/{total}.",
+  "dragHandleIdle": "{itemLabel}, sisu ümberjärjestamiseks vajutage tühikuklahvi ja kasutage nooleklahve. Praegune asukoht {position}/{total}."
 }

@@ -1,4 +1,4 @@
 {
   "invalid": "Недопустимый",
-  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "tooLong": "Текущая длина символов - {currentLength}, что превышает максимальную длину символов {maxLength}."
 }
