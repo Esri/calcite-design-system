@@ -44,7 +44,7 @@ darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes
 
 export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
   dir="rtl"
-  page-sizebering-system="arab"
+  numbering-system="arab"
   start-item="1"
   lang="fr"
   total-items="123456789"

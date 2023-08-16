@@ -34,7 +34,7 @@ export const simple = (): string => html`
     <calcite-list-item
       selected
       label="Cras iaculis ultricies nulla."
-      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     ></calcite-list-item>
     <calcite-list-item
       label="Ut aliquam sollicitudin leo."
@@ -69,53 +69,53 @@ export const nestedItems = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item
       label="Level 1 item 1"
-      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     ></calcite-list-item>
-    <calcite-list-item label="Level 1 item 2" description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit.">
-      <calcite-list-item label="Level 2 item 1" description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit.">
+    <calcite-list-item label="Level 1 item 2" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+      <calcite-list-item label="Level 2 item 1" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
         <calcite-list-item
           label="Level 3 item 1"
-          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         ></calcite-list-item>
         <calcite-list-item
           label="Level 3 item 2"
-          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         >
           <calcite-list-item
             label="Level 4 item 1"
-            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           >
             <calcite-list-item
               label="Level 5 item 1"
-              description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
             ></calcite-list-item>
           </calcite-list-item>
           <calcite-list-item
             label="Level 4 item 2"
-            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           ></calcite-list-item>
           <calcite-list-item
             label="Level 4 item 3"
-            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           ></calcite-list-item>
         </calcite-list-item>
         <calcite-list-item
           label="Level 3 item 3"
-          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         ></calcite-list-item>
       </calcite-list-item>
       <calcite-list-item
         label="Level 2 item 2"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
       <calcite-list-item
         label="Level 2 item 3"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
     </calcite-list-item>
     <calcite-list-item
       label="Level 1 item 3"
-      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     ></calcite-list-item>
   </calcite-list>
 `;
@@ -130,7 +130,7 @@ export const groupedItems = (): string => html`
       <calcite-list-item
         expanded
         label="Cras iaculis ultricies nulla."
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       >
         <calcite-list-item
           expanded
@@ -146,7 +146,7 @@ export const groupedItems = (): string => html`
     <calcite-list-item-group heading="Digits">
       <calcite-list-item
         label="One"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
       <calcite-list-item label="Two" description="Aliquam tincidunt mauris eu risus."></calcite-list-item>
       <calcite-list-item label="Three" description="Vestibulum auctor dapibus neque."></calcite-list-item>
@@ -154,12 +154,12 @@ export const groupedItems = (): string => html`
     <calcite-list-item-group heading="Letters">
       <calcite-list-item
         label="A"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
       <calcite-list-item label="B" description="Aliquam tincidunt mauris eu risus."></calcite-list-item>
       <calcite-list-item
         label="C"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
     </calcite-list-item-group>
   </calcite-list>
@@ -303,7 +303,7 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 export const disabled_TestOnly = (): string => html`<calcite-list disabled>
   <calcite-list-item
     label="Cras iaculis ultricies nulla."
-    description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   ></calcite-list-item>
   <calcite-list-item
     disabled
@@ -322,19 +322,19 @@ export const customContent_TestOnly = (): string => html`<calcite-list disabled>
   <calcite-list-item>
     <div slot="content">
       <strong>Cras iaculis ultricies nulla.</strong>
-      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
     </div></calcite-list-item
   >
   <calcite-list-item disabled>
     <div slot="content">
       <strong>Cras iaculis ultricies nulla.</strong>
-      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
     </div></calcite-list-item
   >
   <calcite-list-item
     ><div slot="content">
       <strong>Cras iaculis ultricies nulla.</strong>
-      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
     </div></calcite-list-item
   >
 </calcite-list>`;
