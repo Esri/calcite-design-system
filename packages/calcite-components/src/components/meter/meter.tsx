@@ -123,7 +123,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   @Prop() numberingSystem: NumberingSystem;
 
   /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
-  @Prop({ reflect: true }) rangeLabels: false;
+  @Prop({ reflect: true }) rangeLabels = false;
 
   /** When either `rangeLabels` is `true`, specifies the format of displayed labels. */
   @Prop({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
@@ -138,7 +138,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   @Prop() value: number;
 
   /** When `true`, displays the current value. */
-  @Prop({ reflect: true }) valueLabel: false;
+  @Prop({ reflect: true }) valueLabel = false;
 
   /** When either `valueLabel` is `true`, specifies the format of displayed label. */
   @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
@@ -271,14 +271,11 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   }
 
   /**
-   * Returns a string representing the localized label.
    *
    * @param value
-   * @param type
-   * @param percent
+   * @param labelType
    * @returns
    */
-
   private formatLabel = (value: number, labelType: MeterLabelType): string => {
     if (typeof value === "number" && labelType !== "percent") {
       numberStringFormatter.numberFormatOptions = {
