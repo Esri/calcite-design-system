@@ -15,7 +15,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/actions/assignPullRequestAuthor.js')
-            await action({github, context})
+            await action({github, context, core})
   label-type:
     if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
@@ -25,4 +25,4 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/actions/labelPullRequestWithCommitType.js')
-            await action({github, context})
+            await action({github, context, core})
