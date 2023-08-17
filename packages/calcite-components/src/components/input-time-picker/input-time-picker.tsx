@@ -696,7 +696,7 @@ export class InputTimePicker
     this.popoverEl = el;
   };
 
-  private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
+  private setInputAndTransitionEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
     this.transitionEl = el;
   };
@@ -859,7 +859,7 @@ export class InputTimePicker
             onCalciteInputInput={this.calciteInternalInputInputHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
             readOnly={readOnly}
-            ref={this.setCalciteInputEl}
+            ref={this.setInputAndTransitionEl}
             role="combobox"
             scale={this.scale}
             step={this.step}
@@ -876,10 +876,9 @@ export class InputTimePicker
           open={this.open}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
+          ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}
           triggerDisabled={true}
-          // eslint-disable-next-line react/jsx-sort-props
-          ref={this.setCalcitePopoverEl}
         >
           <calcite-time-picker
             lang={this.effectiveLocale}
