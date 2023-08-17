@@ -283,14 +283,14 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteAccordionItemElement;
 
-  /** handle clicks on item header */
-  private itemHeaderClickHandler = (): void => this.emitRequestedItem();
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  /** handle clicks on item header */
+  private itemHeaderClickHandler = (): void => this.emitRequestedItem();
 
   private determineActiveItem(
     selectionMode: SelectionMode,

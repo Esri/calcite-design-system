@@ -329,8 +329,6 @@ export class Rating
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteRatingElement;
-
   onLabelClick(): void {
     this.setFocus();
   }
@@ -449,6 +447,8 @@ export class Rating
   //  Private State / Properties
   //
   // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteRatingElement;
 
   labelEl: HTMLCalciteLabelElement;
 
