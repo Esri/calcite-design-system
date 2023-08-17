@@ -2,7 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
 import { focusable, accessible, defaults, disabled, floatingUIOwner, hidden, renders } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps, getFocusedElementProp } from "../../tests/utils";
 import { CSS } from "./resources";
 
 const simpleDropdownHTML = html`<calcite-dropdown>
@@ -724,98 +724,169 @@ describe("calcite-dropdown", () => {
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
+  describe("keyboard support", () => {
+    describe("toggles the dropdown with click, enter, or space", () => {
+      it("toggles when trigger is a button", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-dropdown>
+            <calcite-button slot="trigger">Open dropdown</calcite-button>
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        `);
+        const element = await page.find("calcite-dropdown");
+        const trigger = await element.find("calcite-button[slot='trigger']");
+        const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+        const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
+        const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
+        let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
+        const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
 
-  describe("toggles the dropdown with click, enter, or space", () => {
-    it("toggles when trigger is a button", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dropdown>
-          <calcite-button slot="trigger">Open dropdown</calcite-button>
-          <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      `);
-      const element = await page.find("calcite-dropdown");
-      const trigger = await element.find("calcite-button[slot='trigger']");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
-      const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
-      const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
-      let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
-      const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
+        expect(await dropdownWrapper.isVisible()).toBe(false);
+        await trigger.click();
+        await page.waitForChanges();
+        expect(await dropdownWrapper.isVisible()).toBe(true);
+        await waitForCalciteDropdownOpen;
+        expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
-      expect(await dropdownWrapper.isVisible()).toBe(false);
-      await trigger.click();
-      await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
-      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
-      expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
+        await element.callMethod("setFocus");
+        await page.waitForChanges();
+        await page.keyboard.press("Space");
+        await page.waitForChanges();
+        expect(await dropdownWrapper.isVisible()).toBe(false);
+        await waitForCalciteDropdownClose;
+        expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
 
-      await element.callMethod("setFocus");
-      await page.waitForChanges();
-      await page.keyboard.press("Space");
-      await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(false);
-      await waitForCalciteDropdownClose;
-      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
-      expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+        waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
 
-      waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
+        await page.keyboard.press("Enter");
+        await page.waitForChanges();
+        expect(await dropdownWrapper.isVisible()).toBe(true);
+        await waitForCalciteDropdownOpen;
+        expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+      });
 
-      await page.keyboard.press("Enter");
-      await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
-      expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
-      expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+      it("toggle when trigger is an action", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-dropdown>
+            <calcite-action slot="trigger">Open dropdown</calcite-action>
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2" selected> Dropdown Item Content</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        `);
+        const element = await page.find("calcite-dropdown");
+        const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
+        const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+        const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
+        const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
+        let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
+        const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
+
+        expect(await dropdownWrapper.isVisible()).toBe(false);
+        await trigger.click();
+        await page.waitForChanges();
+        expect(await dropdownWrapper.isVisible()).toBe(true);
+        await waitForCalciteDropdownOpen;
+        expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
+
+        await element.callMethod("setFocus");
+        await page.waitForChanges();
+        await page.keyboard.press("Space");
+        await page.waitForChanges();
+        expect(await dropdownWrapper.isVisible()).toBe(false);
+        await waitForCalciteDropdownClose;
+        expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+
+        waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
+
+        await page.keyboard.press("Enter");
+        await page.waitForChanges();
+        expect(await dropdownWrapper.isVisible()).toBe(true);
+        await waitForCalciteDropdownOpen;
+        expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+      });
     });
 
-    it("toggle when trigger is an action", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dropdown>
-          <calcite-action slot="trigger">Open dropdown</calcite-action>
-          <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      `);
-      const element = await page.find("calcite-dropdown");
-      const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
-      const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
-      const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
-      let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
-      const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
+    describe("Focus order with Tab key", () => {
+      it("closes dropdown and focuses the next focusable element on Tab", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-dropdown>
+            <calcite-action slot="trigger" id="trigger">Open dropdown</calcite-action>
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2" selected> Dropdown Item Content</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <calcite-button id="button-1">Click</calcite-button>
+        `);
+        const element = await page.find("calcite-dropdown");
+        const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
+        const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+        const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
+        const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
 
-      expect(await dropdownWrapper.isVisible()).toBe(false);
-      await trigger.click();
-      await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
-      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
-      expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
+        expect(await dropdownWrapper.isVisible()).toBe(false);
+        await trigger.click();
+        await page.waitForChanges();
+        expect(await dropdownWrapper.isVisible()).toBe(true);
+        expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
+        expect(await getFocusedElementProp(page, "id")).toBe("item-2");
 
-      await element.callMethod("setFocus");
-      await page.waitForChanges();
-      await page.keyboard.press("Space");
-      await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(false);
-      await waitForCalciteDropdownClose;
-      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
-      expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+        await element.press("Tab");
+        await page.waitForChanges();
+        expect(await getFocusedElementProp(page, "id")).toBe("button-1");
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+        expect(await dropdownWrapper.isVisible()).toBe(false);
+      });
 
-      waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
+      it("closes dropdown and focuses the trigger on Shift+Tab", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-dropdown>
+            <calcite-action slot="trigger" id="trigger">Open dropdown</calcite-action>
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2" selected> Dropdown Item Content</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <calcite-button id="button-1">Click</calcite-button>
+        `);
+        const element = await page.find("calcite-dropdown");
+        const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
+        const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+        const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
+        const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
 
-      await page.keyboard.press("Enter");
-      await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(true);
-      await waitForCalciteDropdownOpen;
-      expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
-      expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+        expect(await dropdownWrapper.isVisible()).toBe(false);
+        await trigger.click();
+        await page.waitForChanges();
+        expect(await dropdownWrapper.isVisible()).toBe(true);
+        expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
+        expect(await getFocusedElementProp(page, "id")).toBe("item-2");
+
+        await page.keyboard.down("Shift");
+        await element.press("Tab");
+        await page.keyboard.up("Shift");
+        await page.waitForChanges();
+        expect(await getFocusedElementProp(page, "id")).toBe("trigger");
+        expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+        expect(await dropdownWrapper.isVisible()).toBe(false);
+      });
     });
   });
 
