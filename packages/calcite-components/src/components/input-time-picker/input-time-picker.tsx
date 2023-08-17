@@ -152,7 +152,7 @@ export class InputTimePicker
 {
   //--------------------------------------------------------------------------
   //
-  //  Public Properties
+  //  Properties
   //
   //--------------------------------------------------------------------------
 
@@ -162,13 +162,13 @@ export class InputTimePicker
 
   @Watch("open")
   openHandler(open: boolean): void {
+    onToggleOpenCloseComponent(this);
+
     if (this.disabled || this.readOnly) {
-      this.open = false;
       return;
     }
+
     if (open) {
-      onToggleOpenCloseComponent(this);
-      this.open = true;
       this.reposition(true);
     }
   }
@@ -485,6 +485,12 @@ export class InputTimePicker
     this.popoverEl?.reposition(delayed);
   }
 
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
   onBeforeOpen(): void {
     this.calciteInputTimePickerBeforeOpen.emit();
   }
@@ -500,12 +506,6 @@ export class InputTimePicker
   onClose(): void {
     this.calciteInputTimePickerClose.emit();
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
 
   private delocalizeTimeString(value: string): string {
     // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
@@ -528,7 +528,6 @@ export class InputTimePicker
   }
 
   private popoverCloseHandler = () => {
-    onToggleOpenCloseComponent(this);
     deactivateFocusTrap(this, {
       onDeactivate: () => {
         this.calciteInputEl.setFocus();
@@ -792,6 +791,9 @@ export class InputTimePicker
     connectInteractive(this);
     connectLocalized(this);
 
+    const { open } = this;
+    open && this.openHandler(open);
+
     if (isValidTime(this.value)) {
       this.setValueDirectly(this.value);
     } else {
@@ -801,10 +803,6 @@ export class InputTimePicker
     connectLabel(this);
     connectForm(this);
     connectMessages(this);
-
-    if (this.open) {
-      this.openHandler(this.open);
-    }
   }
 
   async componentWillLoad(): Promise<void> {
