@@ -37,7 +37,11 @@ import { CSS } from "./resources";
   },
 })
 export class SplitButton implements InteractiveComponent, LoadableComponent {
-  @Element() el: HTMLCalciteSplitButtonElement;
+  //--------------------------------------------------------------------------
+  //
+  //  Public Properties
+  //
+  //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: Extract<
@@ -139,6 +143,14 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
     await componentFocusable(this);
     this.el.focus();
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteSplitButtonElement;
 
   //--------------------------------------------------------------------------
   //

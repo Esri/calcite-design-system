@@ -26,13 +26,6 @@ import { CSS } from "./resources";
 export class DropdownGroup {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteDropdownGroupElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -126,6 +119,8 @@ export class DropdownGroup {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteDropdownGroupElement;
 
   /** position of group within a dropdown */
   private groupPosition: number;

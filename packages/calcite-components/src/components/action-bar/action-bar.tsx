@@ -64,14 +64,6 @@ import {
 export class ActionBar
   implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteActionBarElement;
-
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -167,6 +159,8 @@ export class ActionBar
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteActionBarElement;
 
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;

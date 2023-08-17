@@ -27,14 +27,6 @@ import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./inter
 export class Stepper {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteStepperElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -252,6 +244,8 @@ export class Stepper {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteStepperElement;
 
   private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
 
