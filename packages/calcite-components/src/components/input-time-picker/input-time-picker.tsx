@@ -876,9 +876,10 @@ export class InputTimePicker
           open={this.open}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
-          ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}
           triggerDisabled={true}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setCalcitePopoverEl}
         >
           <calcite-time-picker
             lang={this.effectiveLocale}

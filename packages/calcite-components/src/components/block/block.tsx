@@ -111,7 +111,6 @@ export class Block
     onToggleOpenCloseComponent(this);
 
     if (this.disabled) {
-      this.open = false;
       return;
     }
   }
@@ -177,10 +176,6 @@ export class Block
     this.calciteBlockClose.emit();
   }
 
-  private setTransitionEl = (el: HTMLDivElement): void => {
-    this.transitionEl = el;
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -203,6 +198,7 @@ export class Block
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -216,7 +212,6 @@ export class Block
     connectMessages(this);
     if (this.open) {
       this.openHandler();
-      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -273,6 +268,10 @@ export class Block
   onHeaderClick = (): void => {
     this.open = !this.open;
     this.calciteBlockToggle.emit();
+  };
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
   };
 
   // --------------------------------------------------------------------------
@@ -402,6 +401,7 @@ export class Block
             class={CSS.content}
             hidden={!open}
             id={regionId}
+            // eslint-disable-next-line react/jsx-sort-props
             ref={this.setTransitionEl}
           >
             {this.renderScrim()}

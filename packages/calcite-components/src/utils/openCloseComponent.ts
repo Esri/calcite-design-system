@@ -27,7 +27,7 @@ export interface OpenCloseComponent {
   /**
    * Specifies element that the transition is allowed to emit on.
    */
-  transitionEl: HTMLDivElement | HTMLCalciteInputElement;
+  transitionEl: HTMLElement;
 
   /**
    * Defines method for `beforeOpen` event handler.

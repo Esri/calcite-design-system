@@ -139,7 +139,6 @@ export class Notice
 
     if (this.open) {
       this.openHandler();
-      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -176,7 +175,11 @@ export class Notice
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
-      <div class={CSS.container} hidden={!open} ref={this.setTransitionEl}>
+      <div
+        class={CSS.container}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setTransitionEl}
+      >
         {this.requestedIcon ? (
           <div class={CSS.icon}>
             <calcite-icon
@@ -268,7 +271,6 @@ export class Notice
   //
   //--------------------------------------------------------------------------
   private close = (): void => {
-    onToggleOpenCloseComponent(this);
     this.open = false;
   };
 
