@@ -340,9 +340,7 @@ describe("calcite-action-bar", () => {
               <calcite-action text="Save" icon="save" disabled></calcite-action>
               <calcite-action icon="layers" text="Layers"></calcite-action>
             </calcite-action-group>
-            <calcite-action-group slot="actions-end">
-              <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-            </calcite-action-group>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
       });
@@ -388,9 +386,7 @@ describe("calcite-action-bar", () => {
               <calcite-action text="Save" icon="save" disabled></calcite-action>
               <calcite-action icon="layers" text="Layers"></calcite-action>
             </calcite-action-group>
-            <calcite-action-group slot="actions-end">
-              <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-            </calcite-action-group>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
       });

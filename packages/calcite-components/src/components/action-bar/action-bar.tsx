@@ -182,6 +182,8 @@ export class ActionBar
 
   @State() hasActionsEnd = false;
 
+  @State() hasBottomActions = false;
+
   @State() expandTooltip: HTMLCalciteTooltipElement;
 
   @Watch("effectiveLocale")
@@ -305,7 +307,9 @@ export class ActionBar
     this.setGroupLayout(actionGroups);
 
     const groupCount =
-      this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
+      this.hasActionsEnd || this.hasBottomActions || !expandDisabled
+        ? actionGroups.length + 1
+        : actionGroups.length;
 
     const { actionHeight, actionWidth } = geActionDimensions(actions);
 
@@ -355,6 +359,10 @@ export class ActionBar
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   };
 
+  handleBottomActionsSlotChange = (event: Event): void => {
+    this.hasBottomActions = slotChangeHasAssignedElement(event);
+  };
+
   handleTooltipSlotChange = (event: Event): void => {
     const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
       el?.matches("calcite-tooltip")
@@ -390,12 +398,12 @@ export class ActionBar
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
-        hidden={this.expandDisabled && !this.hasActionsEnd}
+        hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
         layout={layout}
         scale={scale}
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
-        <slot name={SLOTS.bottomActions} onSlotchange={this.handleActionsEndSlotChange} />
+        <slot name={SLOTS.bottomActions} onSlotchange={this.handleBottomActionsSlotChange} />
         <slot name={SLOTS.expandTooltip} onSlotchange={this.handleTooltipSlotChange} />
         {expandToggleNode}
       </calcite-action-group>
