@@ -18,14 +18,6 @@ import { TileSelectGroupLayout } from "./interfaces";
 export class TileSelectGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTileSelectGroupElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -39,6 +31,14 @@ export class TileSelectGroup implements InteractiveComponent {
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
    */
   @Prop({ reflect: true }) layout: TileSelectGroupLayout = "horizontal";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTileSelectGroupElement;
 
   //--------------------------------------------------------------------------
   //

@@ -35,14 +35,6 @@ import {
 export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteChipGroupElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -79,6 +71,8 @@ export class ChipGroup implements InteractiveComponent {
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteChipGroupElement;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 

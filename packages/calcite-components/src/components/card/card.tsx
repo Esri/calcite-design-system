@@ -50,14 +50,6 @@ import { CSS, SLOTS } from "./resources";
 export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteCardElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -152,6 +144,8 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteCardElement;
 
   @State() effectiveLocale: string;
 

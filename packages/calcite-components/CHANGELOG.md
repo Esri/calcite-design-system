@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.1-next.0...@esri/calcite-components@1.6.1-next.1) (2023-08-16)
+
+### Bug Fixes
+
+- **action-bar:** restore "bottom-actions" slot functionality. ([#7535](https://github.com/Esri/calcite-design-system/issues/7535)) ([3aa9afa](https://github.com/Esri/calcite-design-system/commit/3aa9afaef487bbf016cca40d977be2a274eb9fe3)), closes [#7534](https://github.com/Esri/calcite-design-system/issues/7534)
+
 ## [1.6.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0...@esri/calcite-components@1.6.1-next.0) (2023-08-15)
 
 **Note:** Version bump only for package @esri/calcite-components

@@ -33,14 +33,6 @@ import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 export class TabNav {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTabNavElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -298,6 +290,8 @@ export class TabNav {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTabNavElement;
 
   @State() selectedTabId: TabID;
 
