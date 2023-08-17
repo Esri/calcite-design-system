@@ -18,6 +18,13 @@ import {
 } from "../../utils/loadable";
 
 import {
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+} from "../../utils/form";
+
+import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
@@ -34,39 +41,47 @@ import { MeterLabelType } from "./interfaces";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class Meter implements LoadableComponent, LocalizedComponent, T9nComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteMeterElement;
-
+export class Meter implements FormComponent, LoadableComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /** Specifies the appearance style of the component. */
+  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
+    "outline-fill";
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
+
+  /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values. */
+  @Prop({ reflect: true }) fillType: "single" | "range" = "range";
+
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true }) form: string;
+
+  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  @Prop({ reflect: true }) groupSeparator = false;
+
+  /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.  */
+  @Prop({ reflect: true }) high: number;
+
   /**  Accessible name for the component. */
   @Prop() label!: string;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Specifies the current value of the component. */
-  @Prop() value: number;
-
-  /** Specifies the lowest allowed value of the component. */
-  @Prop({ reflect: true }) min = 0;
-
-  /** Specifies the highest allowed value of the component. */
-  @Prop({ reflect: true }) max = 100;
 
   /** Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.  */
   @Prop({ reflect: true }) low: number;
 
-  /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.  */
-  @Prop({ reflect: true }) high: number;
+  /** Specifies the highest allowed value of the component. */
+  @Prop({ reflect: true }) max = 100;
+
+  /** Specifies the lowest allowed value of the component. */
+  @Prop({ reflect: true }) min = 0;
 
   @Watch("min")
   @Watch("max")
@@ -75,43 +90,6 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   @Watch("value")
   handleRangeChange(): void {
     this.calculateValues();
-    this.updateLabels();
-  }
-
-  /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values. */
-  @Prop({ reflect: true }) fillType: "single" | "range" = "range";
-
-  /** Specifies the Unicode numeral system used by the component for localization. */
-  @Prop() numberingSystem: NumberingSystem;
-
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
-  @Prop({ reflect: true }) groupSeparator = false;
-
-  /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
-    "outline-fill";
-
-  /** When either `rangeLabels` is `true`, specifies the format of displayed labels. */
-  @Prop({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
-
-  /** When either `valueLabel` is `true`, specifies the format of displayed label. */
-  @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
-
-  /** When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
-  @Prop() unitLabel: "";
-
-  /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
-  @Prop({ reflect: true }) rangeLabels: false;
-
-  /** When `true`, displays the current value. */
-  @Prop({ reflect: true }) valueLabel: false;
-
-  @Watch("rangeLabelType")
-  @Watch("valueLabelType")
-  @Watch("unitLabel")
-  @Watch("rangeLabels")
-  @Watch("valueLabel")
-  handleLabelChange(): void {
     this.updateLabels();
   }
 
@@ -134,6 +112,46 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     /* wired up by t9n util */
   }
 
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
+  @Prop({ reflect: true }) name: string;
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop() numberingSystem: NumberingSystem;
+
+  /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
+  @Prop({ reflect: true }) rangeLabels: false;
+
+  /** When either `rangeLabels` is `true`, specifies the format of displayed labels. */
+  @Prop({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
+  @Prop() unitLabel = "";
+
+  /** Specifies the current value of the component. */
+  @Prop() value: number;
+
+  /** When `true`, displays the current value. */
+  @Prop({ reflect: true }) valueLabel: false;
+
+  /** When either `valueLabel` is `true`, specifies the format of displayed label. */
+  @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
+
+  @Watch("rangeLabels")
+  @Watch("rangeLabelType")
+  @Watch("unitLabel")
+  @Watch("valueLabel")
+  @Watch("valueLabelType")
+  handleLabelChange(): void {
+    this.updateLabels();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -144,6 +162,7 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     await setUpMessages(this);
     setUpLoadableComponent(this);
     this.calculateValues();
+    afterConnectDefaultValueSet(this, this.value);
   }
 
   componentDidLoad(): void {
@@ -154,12 +173,14 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    connectForm(this);
     this.resizeObserver?.observe(this.el);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    disconnectForm(this);
     this.resizeObserver?.disconnect();
   }
 
@@ -168,37 +189,40 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  resizeObserver = createObserver("resize", () => this.resizeHandler());
 
-  private meterContainerEl: HTMLDivElement;
+  @Element() el: HTMLCalciteMeterElement;
 
-  private valueLabelEl: HTMLDivElement;
+  defaultValue: Meter["value"];
 
-  private minLabelEl: HTMLDivElement;
+  formEl: HTMLFormElement;
 
-  private lowLabelEl: HTMLDivElement;
+  labelEl: HTMLCalciteLabelElement;
 
   private highLabelEl: HTMLDivElement;
-
-  private maxLabelEl: HTMLDivElement;
 
   private labelFlipMax = 0.8;
 
   private labelFlipProximity = 0.15;
 
-  private minPercent = 0;
+  private lowLabelEl: HTMLDivElement;
+
+  private maxLabelEl: HTMLDivElement;
 
   private maxPercent = 100;
 
-  @State() lowPercent: number;
+  private meterContainerEl: HTMLDivElement;
 
-  @State() highPercent: number;
+  private minLabelEl: HTMLDivElement;
 
-  @State() lowActive: boolean;
+  private minPercent = 0;
 
-  @State() highActive: boolean;
+  private resizeObserver = createObserver("resize", () => this.resizeHandler());
+
+  private valueLabelEl: HTMLDivElement;
 
   @State() currentPercent: number;
+
+  @State() defaultMessages: MeterMessages;
 
   @State() effectiveLocale: string;
 
@@ -207,14 +231,21 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: MeterMessages;
+  @State() highActive: boolean;
+
+  @State() highPercent: number;
+
+  @State() lowActive: boolean;
+
+  @State() lowPercent: number;
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  resizeHandler = (): void => {
+
+  private resizeHandler = (): void => {
     this.updateLabels();
   };
 
@@ -227,7 +258,7 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     }
   };
 
-  private calculateValues() {
+  private calculateValues(): void {
     const { low, high, min, max, value } = this;
     const lowPercent = (100 * (low - min)) / (max - min);
     const highPercent = (100 * (high - min)) / (max - min);
@@ -282,20 +313,20 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     }
   }
 
-  private comparePosition(el1: HTMLDivElement, el2: HTMLDivElement) {
-    if (el1 && el2) {
-      return intersects(el1?.getBoundingClientRect(), el2?.getBoundingClientRect());
-    }
+  private intersects(el1: HTMLDivElement, el2: HTMLDivElement): boolean {
+    return el1 && el2
+      ? intersects(el1?.getBoundingClientRect(), el2?.getBoundingClientRect())
+      : false;
   }
 
-  private determineVisibleLabels() {
+  private determineVisibleLabels(): void {
     const { minLabelEl, lowLabelEl, highLabelEl, maxLabelEl } = this;
-    const minLowOverlap = this.comparePosition(minLabelEl, lowLabelEl);
-    const minHighOverlap = this.comparePosition(minLabelEl, highLabelEl);
-    const minMaxOverlap = this.comparePosition(minLabelEl, maxLabelEl);
-    const lowMaxOverlap = this.comparePosition(lowLabelEl, maxLabelEl);
-    const lowHighOverlap = this.comparePosition(lowLabelEl, highLabelEl);
-    const highMaxOverlap = this.comparePosition(highLabelEl, maxLabelEl);
+    const highMaxOverlap = this.intersects(highLabelEl, maxLabelEl);
+    const lowHighOverlap = this.intersects(lowLabelEl, highLabelEl);
+    const lowMaxOverlap = this.intersects(lowLabelEl, maxLabelEl);
+    const minHighOverlap = this.intersects(minLabelEl, highLabelEl);
+    const minLowOverlap = this.intersects(minLabelEl, lowLabelEl);
+    const minMaxOverlap = this.intersects(minLabelEl, maxLabelEl);
 
     if (lowLabelEl) {
       const hideLowLabel = minLowOverlap || lowMaxOverlap || lowHighOverlap;
@@ -315,7 +346,7 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     }
   }
 
-  private determineValueLabelPosition() {
+  private determineValueLabelPosition(): void {
     const { valueLabelEl, meterContainerEl, currentPercent } = this;
     const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
     const valueLabelWidth = valueLabelEl.getBoundingClientRect().width;
@@ -347,11 +378,6 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
     );
   }
 
-  /**
-   *
-   * @param position
-   * @returns
-   */
   renderRangeLine(position: number): VNode {
     const style = { insetInlineStart: `${position}%` };
     return <div class={CSS.meterStepLine} style={style} />;
@@ -368,7 +394,7 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
         class={{ [CSS.meterLabel]: true, [CSS.meterLabelValue]: true }}
         key="low-label-line"
         // eslint-disable-next-line react/jsx-sort-props
-        ref={(el) => (this.valueLabelEl = el as HTMLDivElement)}
+        ref={(el) => (this.valueLabelEl = el)}
       >
         {label}
         {unitLabel && valueLabelType !== "percent" && (
@@ -391,7 +417,7 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
         key="min-label-line"
         style={style}
         // eslint-disable-next-line react/jsx-sort-props
-        ref={(el) => (this.minLabelEl = el as HTMLDivElement)}
+        ref={(el) => (this.minLabelEl = el)}
       >
         {labelMin}
         {unitLabel && rangeLabelType !== "percent" && (
@@ -416,7 +442,7 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
         key="low-label-line"
         style={style}
         // eslint-disable-next-line react/jsx-sort-props
-        ref={(el) => (this.lowLabelEl = el as HTMLDivElement)}
+        ref={(el) => (this.lowLabelEl = el)}
       >
         {label}
       </div>
@@ -479,11 +505,11 @@ export class Meter implements LoadableComponent, LocalizedComponent, T9nComponen
       min,
       minPercent,
       rangeLabels,
+      rangeLabelType,
       unitLabel,
       value,
       valueLabel,
       valueLabelType,
-      rangeLabelType,
     } = this;
     const textPercentLabel = `${currentPercent} ${messages.percent}`;
     const textUnitLabel = `${value} ${unitLabel}`;
