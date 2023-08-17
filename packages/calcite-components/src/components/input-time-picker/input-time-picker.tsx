@@ -152,6 +152,14 @@ export class InputTimePicker
 {
   //--------------------------------------------------------------------------
   //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInputTimePickerElement;
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -305,8 +313,6 @@ export class InputTimePicker
   //  Private Properties
   //
   //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputTimePickerElement;
 
   defaultValue: InputTimePicker["value"];
 
