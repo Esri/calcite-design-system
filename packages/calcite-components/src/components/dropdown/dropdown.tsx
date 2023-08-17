@@ -677,9 +677,7 @@ export class Dropdown
 
   private updateTabIndexOfItems(event: CustomEvent<ItemKeyboardEvent>): void {
     this.items.forEach((item: HTMLCalciteDropdownItemElement) => {
-      if (event.target !== item) {
-        item.tabIndex = -1;
-      }
+      item.tabIndex = event.target !== item ? -1 : 0;
     });
   }
 }
