@@ -447,7 +447,7 @@ export class TextArea
   resizeObserver = createObserver("resize", async () => {
     await componentLoaded(this);
     const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
-      this.getHeightandWidthOfElements();
+      this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerEl.style.width = `${textAreaWidth}px`;
     }
@@ -469,13 +469,13 @@ export class TextArea
   };
 
   setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight } = this.getHeightandWidthOfElements();
+    const { textAreaHeight, elHeight, footerHeight } = this.getHeightAndWidthOfElements();
     if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
       this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
     }
   }
 
-  getHeightandWidthOfElements(): {
+  getHeightAndWidthOfElements(): {
     textAreaHeight: number;
     textAreaWidth: number;
     elHeight: number;
