@@ -1,15 +1,6 @@
 import { Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { Appearance, Scale } from "../interfaces";
 import { CSS } from "./resources";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
-
-import { MeterMessages } from "./assets/meter/t9n";
 
 import {
   LoadableComponent,
@@ -39,9 +30,8 @@ import { MeterLabelType } from "./interfaces";
   tag: "calcite-meter",
   styleUrl: "meter.scss",
   shadow: true,
-  assetsDirs: ["assets"],
 })
-export class Meter implements FormComponent, LoadableComponent, LocalizedComponent, T9nComponent {
+export class Meter implements FormComponent, LoadableComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -94,25 +84,6 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   }
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: MeterMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<MeterMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
@@ -159,7 +130,6 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   //--------------------------------------------------------------------------
 
   async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
     setUpLoadableComponent(this);
     this.calculateValues();
     afterConnectDefaultValueSet(this, this.value);
@@ -172,14 +142,12 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
 
   connectedCallback(): void {
     connectLocalized(this);
-    connectMessages(this);
     connectForm(this);
     this.resizeObserver?.observe(this.el);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
-    disconnectMessages(this);
     disconnectForm(this);
     this.resizeObserver?.disconnect();
   }
@@ -222,14 +190,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
 
   @State() currentPercent: number;
 
-  @State() defaultMessages: MeterMessages;
-
   @State() effectiveLocale: string;
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
 
   @State() highActive: boolean;
 
@@ -520,7 +481,6 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       lowPercent,
       max,
       maxPercent,
-      messages,
       min,
       minPercent,
       rangeLabels,
@@ -530,10 +490,14 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       valueLabel,
       valueLabelType,
     } = this;
-    const textPercentLabel = `${currentPercent} ${messages.percent}`;
+    const textPercentLabelWithPercent = this.formatLabel(currentPercent / 100, "percent");
     const textUnitLabel = `${value} ${unitLabel}`;
     const valueText =
-      valueLabelType === "percent" ? textPercentLabel : unitLabel ? textUnitLabel : undefined;
+      valueLabelType === "percent"
+        ? textPercentLabelWithPercent
+        : unitLabel
+        ? textUnitLabel
+        : undefined;
     return (
       <Host>
         <div
