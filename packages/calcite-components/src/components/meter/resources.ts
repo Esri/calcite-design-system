@@ -3,6 +3,7 @@ export const CSS = {
   fill: "fill",
   stepLine: "step-line",
   label: "label",
+  labelHidden: "label-hidden",
   labelRange: "label-range",
   labelValue: "label-value",
   unitLabel: "unit-label",

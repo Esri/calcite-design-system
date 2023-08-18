@@ -289,18 +289,18 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
    * @returns
    */
   private formatLabel = (value: number, labelType: MeterLabelType): string => {
-    if (typeof value === "number" && labelType !== "percent") {
+    if (labelType === "percent") {
+      return Intl.NumberFormat(this.effectiveLocale, {
+        useGrouping: this.groupSeparator,
+        style: "percent",
+      }).format(value);
+    } else {
       numberStringFormatter.numberFormatOptions = {
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
         useGrouping: this.groupSeparator,
       };
       return numberStringFormatter.localize(value.toString());
-    } else if (typeof value === "number" && labelType === "percent") {
-      return Intl.NumberFormat(this.effectiveLocale, {
-        useGrouping: this.groupSeparator,
-        style: "percent",
-      }).format(value);
     }
   };
 
@@ -338,22 +338,30 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     const minHighOverlap = this.intersects(minLabelEl, highLabelEl);
     const minLowOverlap = this.intersects(minLabelEl, lowLabelEl);
     const minMaxOverlap = this.intersects(minLabelEl, maxLabelEl);
+    const hiddenClass = CSS.labelHidden;
 
     if (lowLabelEl) {
-      const hideLowLabel = minLowOverlap || lowMaxOverlap || lowHighOverlap;
-      lowLabelEl.style.opacity = hideLowLabel ? "0" : "100";
-      lowLabelEl.style.visibility = hideLowLabel ? "hidden" : "visible";
+      if (minLowOverlap || lowMaxOverlap || lowHighOverlap) {
+        lowLabelEl.classList.add(hiddenClass);
+      } else {
+        lowLabelEl.classList.remove(hiddenClass);
+      }
     }
 
     if (highLabelEl) {
-      const hideHighLabel = minHighOverlap || lowMaxOverlap || highMaxOverlap;
-      highLabelEl.style.opacity = hideHighLabel ? "0" : "100";
-      highLabelEl.style.visibility = hideHighLabel ? "hidden" : "visible";
+      if (minHighOverlap || lowMaxOverlap || highMaxOverlap) {
+        highLabelEl.classList.add(hiddenClass);
+      } else {
+        highLabelEl.classList.remove(hiddenClass);
+      }
     }
 
     if (minLabelEl && maxLabelEl) {
-      maxLabelEl.style.opacity = minMaxOverlap ? "0" : "100";
-      maxLabelEl.style.visibility = minMaxOverlap ? "hidden" : "visible";
+      if (minMaxOverlap) {
+        maxLabelEl.classList.add(hiddenClass);
+      } else {
+        maxLabelEl.classList.remove(hiddenClass);
+      }
     }
   }
 

@@ -54,6 +54,10 @@
   font-size: var(--calcite-meter-font-size-internal);
 }
 
+.label-hidden {
+  @apply invisible opacity-0;
+}
+
 .label-value {
   inset-block-end: calc(100% + 0.5em);
   font-weight: var(--calcite-font-weight-bold);
@@ -74,7 +78,7 @@
 }
 
 .fill {
-  @apply block absolute duration-150 ease-in-out bg-brand z-sticky;
+  @apply block absolute duration-150 ease-in-out bg-brand z-default;
   inset-inline-start: var(--calcite-meter-space-internal);
   inset-block: var(--calcite-meter-space-internal);
   border-radius: var(--calcite-meter-height-internal);
