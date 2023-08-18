@@ -18,7 +18,7 @@
   --calcite-meter-font-size-internal: var(--calcite-font-size-0);
 }
 
-.meter {
+.container {
   @apply flex relative items-center w-full m-0;
   block-size: var(--calcite-meter-height-internal);
   background-color: var(--calcite-ui-foreground-2);
@@ -26,56 +26,54 @@
   border-radius: var(--calcite-meter-height-internal);
 }
 
-.meter.solid {
+.solid {
   border: 1px solid var(--calcite-ui-foreground-3);
   background-color: var(--calcite-ui-foreground-3);
 }
 
-.meter.outline {
+.outline {
   @apply bg-transparent;
 }
 
-.meter-value-visible {
+.value-visible {
   margin-block-start: theme("spacing.6");
 }
 
-.meter-steps-visible {
+.steps-visible {
   margin-block-end: theme("spacing.6");
 }
 
-.meter-step-line {
+.step-line {
   @apply block absolute inset-y-0;
   inline-size: var(--calcite-meter-space-internal);
   background-color: var(--calcite-ui-border-3);
 }
 
-.meter-label {
+.label {
   @apply absolute;
   font-size: var(--calcite-meter-font-size-internal);
 }
 
-.meter-label-value {
+.label-value {
   inset-block-end: calc(100% + 0.5em);
   font-weight: var(--calcite-font-weight-bold);
   color: var(--calcite-ui-text-1);
 }
 
-.meter-label-range {
+.label-range {
+  @apply text-color-3;
   inset-block-start: calc(100% + 0.5em);
-  color: var(--calcite-ui-text-3);
 }
 
-.meter-unit-label {
-  font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-ui-text-3);
+.unit-label {
+  @apply text-color-3 font-medium;
 }
 
-.meter-label-value .meter-unit-label {
-  color: var(--calcite-ui-text-2);
-  font-weight: var(--calcite-font-weight-bold);
+.label-value .unit-label {
+  @apply text-color-2 font-bold;
 }
 
-.meter-fill {
+.fill {
   @apply block absolute duration-150 ease-in-out bg-brand z-sticky;
   inset-inline-start: var(--calcite-meter-space-internal);
   inset-block: var(--calcite-meter-space-internal);
@@ -85,34 +83,34 @@
   transition-property: inline-size, background-color, box-shadow;
 }
 
-.meter.solid .meter-fill {
+.fill-danger {
+  background-color: var(--calcite-ui-danger);
+}
+
+.fill-success {
+  background-color: var(--calcite-ui-success);
+}
+
+.fill-warning {
+  background-color: var(--calcite-ui-warning);
+}
+
+.solid .fill {
   inset-block: 0;
   inset-inline-start: 0;
   max-inline-size: 100%;
   min-inline-size: calc(var(--calcite-meter-height-internal));
   box-shadow: 0 0 0 1px var(--calcite-ui-brand);
-
-  &.danger {
-    box-shadow: 0 0 0 1px var(--calcite-ui-danger);
-  }
-
-  &.success {
-    box-shadow: 0 0 0 1px var(--calcite-ui-success);
-  }
-
-  &.warning {
-    box-shadow: 0 0 0 1px var(--calcite-ui-warning);
-  }
 }
 
-.danger {
-  background-color: var(--calcite-ui-danger);
+.solid .fill-danger {
+  box-shadow: 0 0 0 1px var(--calcite-ui-danger);
 }
 
-.success {
-  background-color: var(--calcite-ui-success);
+.solid .fill-success {
+  box-shadow: 0 0 0 1px var(--calcite-ui-success);
 }
 
-.warning {
-  background-color: var(--calcite-ui-warning);
+.solid .fill-warning {
+  box-shadow: 0 0 0 1px var(--calcite-ui-warning);
 }

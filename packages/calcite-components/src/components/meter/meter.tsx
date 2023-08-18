@@ -304,7 +304,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     }
   };
 
-  private getMeterKind(): string {
+  private getMeterKindCssClass(): string {
     const { low, high, min, max, value } = this;
     const lowest = low ? low : min;
     const highest = high ? high : max;
@@ -319,6 +319,8 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       return CSS.warning;
     } else if (aboveHighest) {
       return CSS.danger;
+    } else {
+      return CSS.success;
     }
   }
 
@@ -378,10 +380,10 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
 
   renderMeterFill(): VNode {
     const { currentPercent, fillType } = this;
-    const kind = this.getMeterKind();
+    const kindClass = this.getMeterKindCssClass();
     return (
       <div
-        class={{ [CSS.meterFill]: true, [kind]: fillType !== "single" }}
+        class={{ [CSS.fill]: true, [kindClass]: fillType !== "single" }}
         style={{ width: `${currentPercent}%` }}
       />
     );
@@ -389,7 +391,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
 
   renderRangeLine(position: number): VNode {
     const style = { insetInlineStart: `${position}%` };
-    return <div class={CSS.meterStepLine} style={style} />;
+    return <div class={CSS.stepLine} style={style} />;
   }
 
   renderValueLabel(): VNode {
@@ -400,14 +402,14 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     );
     return (
       <div
-        class={{ [CSS.meterLabel]: true, [CSS.meterLabelValue]: true }}
+        class={{ [CSS.label]: true, [CSS.labelValue]: true }}
         key="low-label-line"
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.valueLabelEl = el)}
       >
         {label}
         {unitLabel && valueLabelType !== "percent" && (
-          <span class={CSS.meterUnitLabel}>&nbsp;{unitLabel}</span>
+          <span class={CSS.unitLabel}>&nbsp;{unitLabel}</span>
         )}
       </div>
     );
@@ -422,7 +424,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     );
     return (
       <div
-        class={{ [CSS.meterLabel]: true, [CSS.meterLabelRange]: true }}
+        class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="min-label-line"
         style={style}
         // eslint-disable-next-line react/jsx-sort-props
@@ -430,7 +432,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       >
         {labelMin}
         {unitLabel && rangeLabelType !== "percent" && (
-          <span class={CSS.meterUnitLabel}>&nbsp;{unitLabel}</span>
+          <span class={CSS.unitLabel}>&nbsp;{unitLabel}</span>
         )}
       </div>
     );
@@ -447,7 +449,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       (highPercent - lowPercent) / 100 < labelFlipProximity ? styleFlipped : styleDefault;
     return (
       <div
-        class={{ [CSS.meterLabel]: true, [CSS.meterLabelRange]: true }}
+        class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="low-label-line"
         style={style}
         // eslint-disable-next-line react/jsx-sort-props
@@ -468,7 +470,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     const style = highPercent / 100 >= labelFlipMax ? styleFlipped : styleDefault;
     return (
       <div
-        class={{ [CSS.meterLabel]: true, [CSS.meterLabelRange]: true }}
+        class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="high-label-line"
         style={style}
         // eslint-disable-next-line react/jsx-sort-props
@@ -488,7 +490,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     );
     return (
       <div
-        class={{ [CSS.meterLabel]: true, [CSS.meterLabelRange]: true }}
+        class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="max-label-line"
         style={style}
         // eslint-disable-next-line react/jsx-sort-props
@@ -533,9 +535,9 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
           aria-valuenow={valueLabelType === "percent" ? currentPercent : value}
           aria-valuetext={valueText}
           class={{
-            [CSS.meter]: true,
-            [CSS.meterStepsVisible]: rangeLabels,
-            [CSS.meterValueVisible]: valueLabel,
+            [CSS.container]: true,
+            [CSS.stepsVisible]: rangeLabels,
+            [CSS.valueVisible]: valueLabel,
             [appearance]: appearance !== "outline-fill",
           }}
           role="meter"
