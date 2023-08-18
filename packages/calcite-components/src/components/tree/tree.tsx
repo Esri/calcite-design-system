@@ -25,14 +25,6 @@ import { getEnabledSiblingItem } from "./utils";
 export class Tree {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTreeElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -357,7 +349,7 @@ export class Tree {
       item.indeterminate = selected.length > 0 && unselected.length > 0;
     }
 
-    childItemsWithChildren.forEach((el) => {
+    childItemsWithChildren.reverse().forEach((el) => {
       const directChildItems = Array.from(
         el.querySelectorAll<HTMLCalciteTreeItemElement>(":scope > calcite-tree > calcite-tree-item")
       );
@@ -402,6 +394,14 @@ export class Tree {
    * Fires when the user selects/deselects `calcite-tree-items`.
    */
   @Event({ cancelable: false }) calciteTreeSelect: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTreeElement;
 
   // --------------------------------------------------------------------------
   //

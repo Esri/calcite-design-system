@@ -253,13 +253,13 @@ export class Popover
   //
   // --------------------------------------------------------------------------
 
+  @Element() el: HTMLCalcitePopoverElement;
+
   mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.updateFocusTrapElements()
   );
 
   filteredFlipPlacements: EffectivePlacement[];
-
-  @Element() el: HTMLCalcitePopoverElement;
 
   @State() effectiveLocale = "";
 

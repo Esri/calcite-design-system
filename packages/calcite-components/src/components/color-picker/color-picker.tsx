@@ -89,14 +89,6 @@ export class ColorPicker
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteColorPickerElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public properties
   //
   //--------------------------------------------------------------------------
@@ -285,6 +277,8 @@ export class ColorPicker
   //  Internal State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteColorPickerElement;
 
   private activeCanvasInfo: {
     context: CanvasRenderingContext2D;

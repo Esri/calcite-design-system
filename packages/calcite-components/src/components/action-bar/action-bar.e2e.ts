@@ -165,10 +165,12 @@ describe("calcite-action-bar", () => {
       const page = await newE2EPage();
 
       await page.setContent(html`<calcite-action-bar expand-disabled></calcite-action-bar>`);
+      await page.waitForChanges();
 
       const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
-      expect(buttonGroup).toBeNull();
+      expect(await buttonGroup.getProperty("hidden")).toBe(true);
+      expect(await buttonGroup.isVisible()).toBe(false);
     });
 
     it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
@@ -338,9 +340,7 @@ describe("calcite-action-bar", () => {
               <calcite-action text="Save" icon="save" disabled></calcite-action>
               <calcite-action icon="layers" text="Layers"></calcite-action>
             </calcite-action-group>
-            <calcite-action-group slot="actions-end">
-              <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-            </calcite-action-group>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
       });
@@ -386,9 +386,7 @@ describe("calcite-action-bar", () => {
               <calcite-action text="Save" icon="save" disabled></calcite-action>
               <calcite-action icon="layers" text="Layers"></calcite-action>
             </calcite-action-group>
-            <calcite-action-group slot="actions-end">
-              <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-            </calcite-action-group>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
       });
