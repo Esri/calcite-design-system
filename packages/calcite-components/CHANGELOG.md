@@ -3,21 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.6.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.1-next.1...@esri/calcite-components@1.6.1-next.2) (2023-08-18)
+## [1.6.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0...@esri/calcite-components@1.6.1) (2023-08-18)
 
 ### Bug Fixes
 
-- fix open/close event emitting in Safari ([#7551](https://github.com/Esri/calcite-design-system/issues/7551)) ([a68b053](https://github.com/Esri/calcite-design-system/commit/a68b053601840745879820c178a14fe6913220e3)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
-
-## [1.6.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.1-next.0...@esri/calcite-components@1.6.1-next.1) (2023-08-16)
-
-### Bug Fixes
-
-- **action-bar:** restore "bottom-actions" slot functionality. ([#7535](https://github.com/Esri/calcite-design-system/issues/7535)) ([3aa9afa](https://github.com/Esri/calcite-design-system/commit/3aa9afaef487bbf016cca40d977be2a274eb9fe3)), closes [#7534](https://github.com/Esri/calcite-design-system/issues/7534)
-
-## [1.6.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0...@esri/calcite-components@1.6.1-next.0) (2023-08-15)
-
-**Note:** Version bump only for package @esri/calcite-components
+- **action-bar:** Restore "bottom-actions" slot functionality. ([#7535](https://github.com/Esri/calcite-design-system/issues/7535)) ([3aa9afa](https://github.com/Esri/calcite-design-system/commit/3aa9afaef487bbf016cca40d977be2a274eb9fe3))
+- Fix open/close event emitting in Safari ([#7551](https://github.com/Esri/calcite-design-system/issues/7551)) ([a68b053](https://github.com/Esri/calcite-design-system/commit/a68b053601840745879820c178a14fe6913220e3))
 
 ## [1.6.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.1...@esri/calcite-components@1.6.0) (2023-08-15)
 
