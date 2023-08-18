@@ -1,4 +1,4 @@
-A complex meter component.
+A complex meter component, which includes value and custom unit labels.
 
 ```html
 <calcite-meter
