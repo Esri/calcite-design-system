@@ -146,7 +146,7 @@ describe("calcite-pick-list", () => {
         page = await newE2EPage({
           html: `<calcite-pick-list filter-enabled>
           <calcite-pick-list-group>
-            <calcite-pick-list-item slot="parent-item" value="nums" label="Numbers"></calcite-pick-list-item>
+            <calcite-pick-list-item slot="parent-item" value="numbers" label="Numbers"></calcite-pick-list-item>
             <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
             <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
@@ -177,7 +177,7 @@ describe("calcite-pick-list", () => {
       it("should show the children of a group if the parent matches", async () => {
         await page.evaluate(() => {
           const filterInput = (window as any).filterInput;
-          filterInput.value = "nums";
+          filterInput.value = "numbers";
           filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
         });
         await page.waitForTimeout(500);

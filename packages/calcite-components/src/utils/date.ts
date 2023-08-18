@@ -219,7 +219,7 @@ export function parseDateString(
   const { day, month, year } = datePartsFromLocalizedString(string, localeData);
   return {
     day: parseInt(day),
-    month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date contructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
+    month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date constructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
     year: parseInt(year),
   };
 }

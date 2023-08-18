@@ -110,7 +110,7 @@ export class Avatar {
   }
 
   /**
-   * Use fullname or username to generate initials
+   * Use fullName or username to generate initials
    */
   private generateInitials(): string | boolean {
     const { fullName, username } = this;

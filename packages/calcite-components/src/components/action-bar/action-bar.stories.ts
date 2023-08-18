@@ -216,7 +216,7 @@ export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expand
 <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const ukranianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
+export const ukrainianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
 <calcite-action text="Information" icon="information"></calcite-action>
 <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;

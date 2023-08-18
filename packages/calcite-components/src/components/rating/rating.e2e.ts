@@ -726,7 +726,7 @@ describe("calcite-rating", () => {
       expect(element).toEqualAttribute("value", "1");
     });
 
-    it("should not allow keybaord events on the rating when read-only is set true", async () => {
+    it("should not allow keyboard events on the rating when read-only is set true", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=2 read-only></calcite-rating>");
       const element = await page.find("calcite-rating");
