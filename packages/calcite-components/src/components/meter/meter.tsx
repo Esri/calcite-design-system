@@ -18,9 +18,11 @@ import {
 import {
   connectLocalized,
   disconnectLocalized,
+  getSupportedLocale,
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter,
+  SupportedLocale,
 } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
@@ -184,6 +186,11 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
 
   private minPercent = 0;
 
+  private percentFormatting: {
+    formatter: Intl.NumberFormat;
+    locale: SupportedLocale;
+  };
+
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
   private valueLabelEl: HTMLDivElement;
@@ -251,10 +258,15 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
    */
   private formatLabel = (value: number, labelType: MeterLabelType): string => {
     if (labelType === "percent") {
-      return Intl.NumberFormat(this.effectiveLocale, {
-        useGrouping: this.groupSeparator,
-        style: "percent",
-      }).format(value);
+      if (!this.percentFormatting) {
+        const locale = getSupportedLocale(this.effectiveLocale);
+        const formatter = new Intl.NumberFormat(locale, {
+          useGrouping: this.groupSeparator,
+          style: "percent",
+        });
+        this.percentFormatting = { formatter, locale };
+      }
+      return this.percentFormatting.formatter.format(value);
     } else {
       numberStringFormatter.numberFormatOptions = {
         locale: this.effectiveLocale,
