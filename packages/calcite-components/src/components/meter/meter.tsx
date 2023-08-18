@@ -245,18 +245,18 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   //
   //--------------------------------------------------------------------------
 
-  private resizeHandler = (): void => {
+  private resizeHandler(): void {
     this.updateLabels();
-  };
+  }
 
-  private updateLabels = (): void => {
+  private updateLabels(): void {
     if (this.valueLabelEl) {
       this.determineValueLabelPosition();
     }
     if (this.rangeLabels) {
       this.determineVisibleLabels();
     }
-  };
+  }
 
   private calculateValues(): void {
     const { min, max, low, high, value } = this;
