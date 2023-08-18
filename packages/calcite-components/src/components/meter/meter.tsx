@@ -69,13 +69,13 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   @Prop({ reflect: true }) groupSeparator = false;
 
   /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.  */
-  @Prop({ reflect: true }) high: number;
+  @Prop({ reflect: true, mutable: true }) high: number;
 
   /**  Accessible name for the component. */
   @Prop() label!: string;
 
   /** Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.  */
-  @Prop({ reflect: true }) low: number;
+  @Prop({ reflect: true, mutable: true }) low: number;
 
   /** Specifies the highest allowed value of the component. */
   @Prop({ reflect: true }) max = 100;
@@ -135,7 +135,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   @Prop() unitLabel = "";
 
   /** Specifies the current value of the component. */
-  @Prop() value: number;
+  @Prop({ mutable: true }) value: number;
 
   /** When `true`, displays the current value. */
   @Prop({ reflect: true }) valueLabel = false;
@@ -259,10 +259,21 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   };
 
   private calculateValues(): void {
-    const { low, high, min, max, value } = this;
+    const { min, max, low, high, value } = this;
     const lowPercent = (100 * (low - min)) / (max - min);
     const highPercent = (100 * (high - min)) / (max - min);
     const currentPercent = (100 * (value - min)) / (max - min);
+
+    if (!low || low < min || low > high || low > max) {
+      this.low = min;
+    }
+    if (!high || high > max || high < low || high < min) {
+      this.high = max;
+    }
+    if (!value) {
+      this.value = min;
+    }
+
     this.lowPercent = lowPercent;
     this.highPercent = highPercent;
     this.currentPercent = value ? currentPercent : 0;
