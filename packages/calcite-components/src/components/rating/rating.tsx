@@ -267,6 +267,7 @@ export class Rating
                       id={id}
                       name={this.guid}
                       onChange={this.handleInputChange}
+                      tabIndex={-1}
                       type="radio"
                       value={value}
                     />
@@ -334,12 +335,12 @@ export class Rating
           break;
         case "ArrowLeft":
           this.value = this.getPreviousRatingValue(inputValue);
-          this.updatefocus();
+          this.updateFocus();
           event.preventDefault();
           break;
         case "ArrowRight":
           this.value = this.getNextRatingValue(inputValue);
-          this.updatefocus();
+          this.updateFocus();
           event.preventDefault();
           break;
         case "Tab":
@@ -353,7 +354,7 @@ export class Rating
       } else if (this.required && numberKey > 0 && numberKey <= this.max) {
         this.value = numberKey;
       }
-      this.updatefocus();
+      this.updateFocus();
     }
   };
 
@@ -371,7 +372,7 @@ export class Rating
 
   private handleLabelPointerDown = (event: PointerEvent) => {
     const target = event.currentTarget as HTMLLabelElement;
-    const inputValue = Number(target.getAttribute("data-value"));
+    const inputValue = this.getValueFromLabelEvent(event);
     this.hoverValue = inputValue;
     this.emit = true;
     this.value = !this.required && this.value === inputValue ? 0 : inputValue;
@@ -387,20 +388,16 @@ export class Rating
     this.hoverValue = inputValue;
   };
 
-  private updatefocus(): void {
+  private updateFocus(): void {
     this.hoverValue = this.value;
     this.labelElements[this.value - 1].focus();
   }
 
   private getTabIndex(value: number): number {
-    if (this.readOnly) {
+    if (this.readOnly || (this.value !== value && (this.value || value !== 1))) {
       return -1;
     }
-    if (this.value) {
-      return this.value === value ? 0 : -1;
-    } else {
-      return value === 1 ? 0 : -1;
-    }
+    return 0;
   }
 
   private setLabelEl = (el: HTMLLabelElement): void => {
@@ -451,9 +448,9 @@ export class Rating
 
   private isKeyboardInteraction = true;
 
+  private labelElements: HTMLLabelElement[] = [];
+
   private max = 5;
 
   private starsMap: Star[];
-
-  private labelElements: HTMLLabelElement[] = [];
 }
