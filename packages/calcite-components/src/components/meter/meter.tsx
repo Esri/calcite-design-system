@@ -267,7 +267,8 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     this.highPercent = highPercent;
     this.currentPercent = value ? currentPercent : 0;
     this.lowActive = !!low && low > min && (!value || low > value) && (!high || low < high);
-    this.highActive = !!high && high < max && (!value || high > value) && (!low || high > low);
+    this.highActive =
+      !!high && min <= high && high < max && (!value || high > value) && (!low || high > low);
   }
 
   /**
