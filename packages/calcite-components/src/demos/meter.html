@@ -824,59 +824,59 @@
 
         const controlAppearance = document.getElementById("control-appearance");
 
-        inputMin.addEventListener("calciteInputNumberInput", function () {
+        inputMin.addEventListener("calciteInputNumberInput", function (event) {
           meter.min = event.target.value;
         });
 
-        inputMax.addEventListener("calciteInputNumberInput", function () {
+        inputMax.addEventListener("calciteInputNumberInput", function (event) {
           meter.max = event.target.value;
         });
 
-        inputLow.addEventListener("calciteInputNumberInput", function () {
+        inputLow.addEventListener("calciteInputNumberInput", function (event) {
           meter.low = event.target.value;
         });
 
-        inputHigh.addEventListener("calciteInputNumberInput", function () {
+        inputHigh.addEventListener("calciteInputNumberInput", function (event) {
           meter.high = event.target.value;
         });
 
-        inputValue.addEventListener("calciteInputNumberInput", function () {
+        inputValue.addEventListener("calciteInputNumberInput", function (event) {
           meter.value = event.target.value;
         });
 
-        inputUnitLabel.addEventListener("calciteInputInput", function () {
+        inputUnitLabel.addEventListener("calciteInputInput", function (event) {
           meter.unitLabel = event.target.value;
         });
 
-        switchThemed.addEventListener("calciteSwitchChange", function () {
+        switchThemed.addEventListener("calciteSwitchChange", function (event) {
           meter.classList.toggle("themed-example");
         });
 
-        switchvalueLabel.addEventListener("calciteSwitchChange", function () {
+        switchvalueLabel.addEventListener("calciteSwitchChange", function (event) {
           meter.valueLabel = event.target.checked;
         });
 
-        switchStepLabels.addEventListener("calciteSwitchChange", function () {
+        switchStepLabels.addEventListener("calciteSwitchChange", function (event) {
           meter.rangeLabels = event.target.checked;
         });
 
-        controlType.addEventListener("calciteSegmentedControlChange", function () {
+        controlType.addEventListener("calciteSegmentedControlChange", function (event) {
           meter.fillType = event.target.value;
         });
 
-        controlScale.addEventListener("calciteSegmentedControlChange", function () {
+        controlScale.addEventListener("calciteSegmentedControlChange", function (event) {
           meter.scale = event.target.value;
         });
 
-        controlValueLabelType.addEventListener("calciteSegmentedControlChange", function () {
+        controlValueLabelType.addEventListener("calciteSegmentedControlChange", function (event) {
           meter.valueLabelType = event.target.value;
         });
 
-        controlValueRangeType.addEventListener("calciteSegmentedControlChange", function () {
+        controlValueRangeType.addEventListener("calciteSegmentedControlChange", function (event) {
           meter.rangeLabelType = event.target.value;
         });
 
-        controlAppearance.addEventListener("calciteSegmentedControlChange", function () {
+        controlAppearance.addEventListener("calciteSegmentedControlChange", function (event) {
           meter.appearance = event.target.value;
         });
       </script>
