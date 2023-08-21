@@ -99,7 +99,7 @@ export class TimePicker
 
   @Watch("value")
   valueWatcher(newValue: string): void {
-    this.setValue(newValue, false);
+    this.setValue(newValue);
   }
 
   /**
@@ -641,7 +641,7 @@ export class TimePicker
 
   private setFractionalSecondEl = (el: HTMLSpanElement) => (this.fractionalSecondEl = el);
 
-  private setValue = (value: string, emit = true): void => {
+  private setValue = (value: string): void => {
     if (isValidTime(value)) {
       const { hour, minute, second, fractionalSecond } = parseTimeString(value);
       const { effectiveLocale: locale, numberingSystem } = this;
@@ -706,15 +706,11 @@ export class TimePicker
       this.second = null;
       this.value = null;
     }
-    if (emit) {
-      this.calciteInternalTimePickerChange.emit();
-    }
   };
 
   private setValuePart = (
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
-    value: number | string | Meridiem,
-    emit = true
+    value: number | string | Meridiem
   ): void => {
     const { effectiveLocale: locale, numberingSystem } = this;
     if (key === "meridiem") {
@@ -763,18 +759,23 @@ export class TimePicker
         numberingSystem,
       });
     }
+    let emit = false,
+      newValue;
     if (this.hour && this.minute) {
-      let newValue = `${this.hour}:${this.minute}`;
+      newValue = `${this.hour}:${this.minute}`;
       if (this.showSecond) {
         newValue = `${newValue}:${this.second ?? "00"}`;
         if (this.showFractionalSecond && this.fractionalSecond) {
           newValue = `${newValue}.${this.fractionalSecond}`;
         }
       }
-      this.value = newValue;
     } else {
-      this.value = null;
+      newValue = null;
     }
+    if (this.value !== newValue) {
+      emit = true;
+    }
+    this.value = newValue;
     this.localizedMeridiem = this.value
       ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
           ?.localizedMeridiem || null
@@ -808,7 +809,7 @@ export class TimePicker
       this.effectiveLocale,
       this.numberingSystem
     );
-    this.setValue(this.sanitizeValue(this.value), false);
+    this.setValue(this.sanitizeValue(this.value));
   }
 
   // --------------------------------------------------------------------------
