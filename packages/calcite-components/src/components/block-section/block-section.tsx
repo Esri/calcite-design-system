@@ -221,7 +221,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
       toggleDisplay === "switch" ? (
         <div
           aria-controls={regionId}
-          aria-label={toggleLabel}
+          aria-label={text}
           class={{
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true,
@@ -241,13 +241,13 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
       ) : (
         <button
           aria-controls={regionId}
-          aria-label={toggleLabel}
+          aria-expanded={toAriaBoolean(open)}
+          aria-label={text}
           class={{
             [CSS.sectionHeader]: true,
             [CSS.toggle]: true,
           }}
           id={buttonId}
-          name={toggleLabel}
           onClick={this.toggleSection}
         >
           <calcite-icon icon={arrowIcon} scale="s" />
@@ -259,7 +259,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     return (
       <Host>
         {headerNode}
-        <section
+        <article
           aria-expanded={toAriaBoolean(open)}
           aria-labelledby={buttonId}
           class={CSS.content}
@@ -267,7 +267,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
           id={regionId}
         >
           <slot />
-        </section>
+        </article>
       </Host>
     );
   }
