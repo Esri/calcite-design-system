@@ -8,7 +8,7 @@ import { html } from "../../support/formatting";
 import { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
-import { getFocusedElementProp, GlobalTestProps, skipAnimations } from "./utils";
+import { GlobalTestProps, isElementFocused, skipAnimations } from "./utils";
 import { InteractiveHTMLElement } from "../utils/interactive";
 
 expect.extend(toHaveNoViolations);
@@ -427,7 +427,7 @@ async function assertLabelable({
   await component.callMethod("click");
   await page.waitForChanges();
 
-  expect(await getFocusedElementProp(page, "tagName")).toBe(componentTag.toUpperCase());
+  expect(await isElementFocused(page, focusTargetSelector)).toBe(true);
 }
 
 interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" | "shadowFocusTargetSelector"> {
@@ -524,11 +524,12 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     });
 
     it("only sets focus on the first labelable when label is clicked", async () => {
+      const firstLabelableId = `${id}-1`;
       const componentFirstWrappedPage: E2EPage = await newE2EPage();
       await componentFirstWrappedPage.setContent(html`
         <calcite-label>
           <!-- duplicate tags should be fine as assertion uses first match -->
-          ${componentHtml.replace(id, `${id}-1`)} ${componentHtml.replace(id, `${id}-2`)}
+          ${componentHtml.replace(id, firstLabelableId)} ${componentHtml.replace(id, `${id}-2`)}
           ${componentHtml.replace(id, `${id}-3`)}
         </calcite-label>
       `);
@@ -538,7 +539,8 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
         page: componentFirstWrappedPage,
         componentTag,
         propertyToToggle,
-        focusTargetSelector: `#${id}-1`,
+        focusTargetSelector:
+          focusTargetSelector === componentTag ? `#${firstLabelableId}` : `#${firstLabelableId} ${focusTargetSelector}`,
       });
     });
   });

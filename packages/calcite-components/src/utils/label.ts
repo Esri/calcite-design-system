@@ -174,7 +174,7 @@ function onLabelClick(this: HTMLCalciteLabelElement, event: CustomEvent<{ source
   const labelClickTarget = event.detail.sourceEvent.target as HTMLElement;
   const labelables = labelToLabelables.get(this);
   const clickedLabelable = labelables.find((labelable) => labelable.el === labelClickTarget);
-  const labelableChildClicked = clickedLabelable && labelables.indexOf(clickedLabelable) > 0;
+  const labelableChildClicked = labelables.includes(clickedLabelable);
 
   if (labelableChildClicked) {
     // no need to forward click as labelable will receive focus
