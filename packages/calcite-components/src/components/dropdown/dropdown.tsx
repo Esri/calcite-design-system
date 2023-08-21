@@ -387,10 +387,8 @@ export class Dropdown
 
     switch (keyboardEvent.key) {
       case "Tab":
-        if (this.items.indexOf(target) > -1) {
-          this.open = false;
-          this.updateTabIndexOfItems(event);
-        }
+        this.open = false;
+        this.updateTabIndexOfItems(event);
         break;
       case "ArrowDown":
         focusElementInGroup(this.items, target, "next");
