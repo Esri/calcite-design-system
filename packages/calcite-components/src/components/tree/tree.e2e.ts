@@ -126,6 +126,11 @@ describe("calcite-tree", () => {
                 </calcite-tree-item>
                 <calcite-tree-item id="grandchild-two">
                   <span>Grandchild 2</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item id="greatgrandchild">
+                      <span>Great Grandchild</span>
+                    </calcite-tree-item></calcite-tree
+                  >
                 </calcite-tree-item>
               </calcite-tree>
             </calcite-tree-item>
@@ -140,6 +145,7 @@ describe("calcite-tree", () => {
     const childTwo = await page.find("#child-two");
     const grandchildOne = await page.find("#grandchild-one");
     const grandchildTwo = await page.find("#grandchild-two");
+    const greatgrandchild = await page.find("#greatgrandchild");
 
     expect(one).not.toHaveAttribute("indeterminate");
     expect(one).not.toHaveAttribute("selected");
@@ -149,6 +155,7 @@ describe("calcite-tree", () => {
     expect(childOne).not.toHaveAttribute("selected");
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
+    expect(greatgrandchild).not.toHaveAttribute("selected");
 
     // Puppeteer's element click will happen in the center of a component,
     // so we call the method to ensure it happens on the component of interest
@@ -163,6 +170,7 @@ describe("calcite-tree", () => {
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).toHaveAttribute("selected");
     expect(grandchildTwo).toHaveAttribute("selected");
+    expect(greatgrandchild).toHaveAttribute("selected");
 
     await childOne.callMethod("click");
     await page.waitForChanges();
@@ -175,6 +183,7 @@ describe("calcite-tree", () => {
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
+    expect(greatgrandchild).not.toHaveAttribute("selected");
 
     grandchildTwo.setProperty("disabled", true);
     await page.waitForChanges();
@@ -189,6 +198,7 @@ describe("calcite-tree", () => {
     expect(childTwo).not.toHaveAttribute("selected");
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
+    expect(greatgrandchild).not.toHaveAttribute("selected");
 
     grandchildTwo.setProperty("disabled", false);
     await page.waitForChanges();
@@ -202,6 +212,7 @@ describe("calcite-tree", () => {
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).toHaveAttribute("selected");
     expect(grandchildTwo).toHaveAttribute("selected");
+    expect(greatgrandchild).toHaveAttribute("selected");
   });
 
   describe("item selection", () => {
@@ -448,7 +459,7 @@ describe("calcite-tree", () => {
   });
 
   describe("keyboard support", () => {
-    it("should allow spacebar keydown events to propagate outside the root tree", async () => {
+    it("should allow space keydown events to propagate outside the root tree", async () => {
       const page = await newE2EPage({
         html: html`<div id="container">
           <calcite-tree id="root">

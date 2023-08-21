@@ -62,11 +62,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
@@ -102,13 +98,6 @@ export class InputDatePicker
     OpenCloseComponent,
     T9nComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteInputDatePickerElement;
-
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -265,6 +254,8 @@ export class InputDatePicker
 
   @Watch("open")
   openHandler(value: boolean): void {
+    onToggleOpenCloseComponent(this);
+
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
@@ -466,7 +457,6 @@ export class InputDatePicker
 
     connectLabel(this);
     connectForm(this);
-    connectOpenCloseComponent(this);
     connectMessages(this);
 
     this.setFilteredPlacements();
@@ -477,6 +467,10 @@ export class InputDatePicker
       locale: this.effectiveLocale,
       useGrouping: false,
     };
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -498,7 +492,6 @@ export class InputDatePicker
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -672,6 +665,8 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteInputDatePickerElement;
+
   private datePickerEl: HTMLCalciteDatePickerElement;
 
   private dialogId = `date-picker-dialog--${guid()}`;
@@ -761,7 +756,6 @@ export class InputDatePicker
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   onLabelClick(): void {

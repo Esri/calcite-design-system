@@ -40,7 +40,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter,
-  SupportedLocales,
+  SupportedLocale,
 } from "../../utils/locale";
 import {
   activateFocusTrap,
@@ -148,14 +148,6 @@ export class InputTimePicker
     LocalizedComponent,
     T9nComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputTimePickerElement;
-
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -311,6 +303,8 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteInputTimePickerElement;
+
   defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
@@ -345,7 +339,7 @@ export class InputTimePicker
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  async effectiveLocaleWatcher(locale: SupportedLocales): Promise<void> {
+  async effectiveLocaleWatcher(locale: SupportedLocale): Promise<void> {
     await this.loadDateTimeLocaleData();
     this.setInputValue(
       localizeTimeString({

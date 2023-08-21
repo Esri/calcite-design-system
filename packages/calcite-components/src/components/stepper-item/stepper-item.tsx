@@ -50,14 +50,6 @@ import {
 export class StepperItem implements InteractiveComponent, LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteStepperItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -277,6 +269,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteStepperItemElement;
+
   /** position within parent */
   private itemPosition: number;
 

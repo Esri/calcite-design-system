@@ -15,7 +15,7 @@ describe("calcite-pick-list-group", () => {
   // eslint-disable-next-line jest/no-disabled-tests
   describe.skip("accessible", () => {
     accessible("<calcite-pick-list-group></calcite-pick-list-group>");
-    accessible(`<calcite-pick-list-group title="awesome title, bruh"></calcite-pick-list-group>`);
+    accessible(`<calcite-pick-list-group title="awesome title"></calcite-pick-list-group>`);
     accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-group>
@@ -63,7 +63,7 @@ describe("calcite-pick-list-group", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-pick-list filter-enabled>
       <calcite-pick-list-group>
-        <calcite-pick-list-item slot="parent-item" value="nums" label="Numbers"></calcite-pick-list-item>
+        <calcite-pick-list-item slot="parent-item" value="numbers" label="Numbers"></calcite-pick-list-item>
         <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
       </calcite-pick-list-group>
     </calcite-pick-list>`);

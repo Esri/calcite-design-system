@@ -89,17 +89,24 @@ describe("calcite-scrim", () => {
     expect(clickSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("does not render content if the default slot if it is empty", async () => {
+  it("does not display content if the default slot if it is empty", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-scrim></calcite-scrim>`);
-
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
+    expect(contentNode).toHaveAttribute("hidden");
 
-    expect(contentNode).toBeNull();
+    const scrim = await page.find("calcite-scrim");
+    scrim.innerHTML = "<p>Content added after initialization</p>";
+    await page.waitForChanges();
+
+    const content = await page.find("p");
+    expect(content).toBeTruthy();
+    expect(await content.isVisible()).toBe(true);
+    expect(contentNode).not.toHaveAttribute("hidden");
   });
 
-  it("renders conent in the default slot has content", async () => {
+  it("renders content in the default slot has content", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-scrim>This is a test.</calcite-scrim>`);
@@ -107,10 +114,13 @@ describe("calcite-scrim", () => {
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
 
     expect(contentNode).not.toBeNull();
+    expect(await contentNode.isVisible()).toBe(true);
+    expect(contentNode).not.toHaveAttribute("hidden");
   });
 
   describe("Responsive loading spinner", () => {
-    const testValues: { width: number; height: number; scale: Scale }[] = [
+    type ScaleSize = { width: number; height: number; scale: Scale };
+    const testValues: ScaleSize[] = [
       {
         width: BREAKPOINTS.s - 1,
         height: 800,
@@ -165,6 +175,45 @@ describe("calcite-scrim", () => {
         expect(await loader.isVisible()).toBe(true);
         expect(await loader.getProperty("scale")).toBe(scaleSize.scale);
       });
+    });
+
+    it("should responsively scale loading spinner on resize", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<style>
+          .scrim-container {
+            display: flex;
+            flex: 1;
+            position: relative;
+            overflow: auto;
+          }
+        </style>
+        <div class="scrim-container">
+          <calcite-scrim loading><p>I'm a panel that is loading.</p></calcite-scrim>
+        </div>`);
+      await page.waitForChanges();
+
+      for (let i = 0; i < testValues.length; i++) {
+        const { width, height, scale } = testValues[i];
+        const scrimContainer = await page.find(".scrim-container");
+        expect(scrimContainer).toBeDefined();
+        await page.$eval(
+          ".scrim-container",
+          (scrimContainer: HTMLElement, width: number, height: number) => {
+            scrimContainer.style.width = `${width}px`;
+            scrimContainer.style.height = `${height}px`;
+          },
+          width,
+          height
+        );
+        await page.waitForChanges();
+        const style = await scrimContainer.getComputedStyle();
+        expect(style.width).toBe(`${width}px`);
+        expect(style.height).toBe(`${height}px`);
+        const loader = await page.find("calcite-scrim >>> calcite-loader");
+        expect(loader).toBeDefined();
+        expect(await loader.isVisible()).toBe(true);
+        expect(await loader.getProperty("scale")).toBe(scale);
+      }
     });
   });
 

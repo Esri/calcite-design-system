@@ -11,11 +11,10 @@ import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
 import { CSS } from "./resources";
 import {
+  DragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
-  onSortingStart,
   SortableComponent,
-  onSortingEnd,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -33,6 +32,16 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * When provided, the method will be called to determine whether the element can  move from the list.
+   */
+  @Prop() canPull: (event: DragEvent) => boolean;
+
+  /**
+   * When provided, the method will be called to determine whether the element can be added from another list.
+   */
+  @Prop() canPut: (event: DragEvent) => boolean;
 
   /**
    * Specifies which items inside the element should be draggable.
@@ -82,6 +91,8 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   sortable: Sortable;
 
+  dragEnabled = true;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -125,6 +136,19 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  onDragStart(): void {
+    this.endObserving();
+  }
+
+  onDragEnd(): void {
+    this.beginObserving();
+  }
+
+  onDragSort(): void {
+    this.items = Array.from(this.el.children);
+    this.calciteListOrderChange.emit();
+  }
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { direction } = event.detail;
@@ -177,33 +201,8 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   }
 
   setUpSorting(): void {
-    const { dragSelector, group, handleSelector } = this;
-
     this.items = Array.from(this.el.children);
-
-    const sortableOptions: Sortable.Options = {
-      dataIdAttr: "id",
-      group,
-      handle: handleSelector,
-      onStart: () => {
-        this.endObserving();
-        onSortingStart(this);
-      },
-      onEnd: () => {
-        onSortingEnd(this);
-        this.beginObserving();
-      },
-      onUpdate: () => {
-        this.items = Array.from(this.el.children);
-        this.calciteListOrderChange.emit();
-      },
-    };
-
-    if (dragSelector) {
-      sortableOptions.draggable = dragSelector;
-    }
-
-    connectSortableComponent(this, sortableOptions);
+    connectSortableComponent(this);
   }
 
   beginObserving(): void {

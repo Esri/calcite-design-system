@@ -254,7 +254,7 @@ export class Block
             [CSS.invalid]: status == "invalid",
           }}
           icon={ICONS[status]}
-          scale="m"
+          scale="s"
         />
       </div>
     ) : hasSlottedIcon ? (

@@ -32,7 +32,7 @@ describe("parseNumberString", () => {
     expect(parseNumberString(null)).toBe("");
     expect(parseNumberString(undefined)).toBe("");
     expect(parseNumberString("")).toBe("");
-    expect(parseNumberString("only nums")).toBe("");
+    expect(parseNumberString("only numbers")).toBe("");
 
     const lettersAndSymbols = "kjas;lkjwo;aij(*&,asd;flkj-";
     const lettersAndSymbolsWithLeadingNegativeSign = "-ASDF(*^LKJihsdf*&^";
@@ -140,7 +140,9 @@ describe("BigDecimal", () => {
 
       const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
       const groupPart = parts.find((part) => part.type === "group").value;
-      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(numberStringFormatter.group);
+      expect(groupPart.trim().length === 0 || groupPart === " " ? "\u00A0" : groupPart).toBe(
+        numberStringFormatter.group
+      );
       expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
       expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
     });
@@ -174,7 +176,7 @@ describe("expandExponentialNumberString", () => {
 });
 
 describe("addLocalizedTrailingDecimalZeros", () => {
-  function getLocalizedDeimalValue(value: string, trailingZeros: number): string {
+  function getLocalizedDecimalValue(value: string, trailingZeros: number): string {
     const localizedValue = numberStringFormatter.localize(value);
     const localizedZeroValue = numberStringFormatter.localize("0");
     return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
@@ -200,14 +202,14 @@ describe("addLocalizedTrailingDecimalZeros", () => {
           stringWithTrailingZeros,
           numberStringFormatter
         )
-      ).toBe(getLocalizedDeimalValue(stringWithTrailingZeros, 3));
+      ).toBe(getLocalizedDecimalValue(stringWithTrailingZeros, 3));
       expect(
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(bigDecimalWithTrailingZeros),
           bigDecimalWithTrailingZeros,
           numberStringFormatter
         )
-      ).toBe(getLocalizedDeimalValue(bigDecimalWithTrailingZeros, 24));
+      ).toBe(getLocalizedDecimalValue(bigDecimalWithTrailingZeros, 24));
       expect(
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(negativeExponentialString),

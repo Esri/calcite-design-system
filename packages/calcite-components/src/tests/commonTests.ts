@@ -127,7 +127,7 @@ export async function renders(
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
- * @param {any} propsToTest.value - the property value
+ * @param {any} propsToTest.value - the property value (if boolean, needs to be `true` to ensure reflection)
  */
 export function reflects(
   componentTagOrHTML: TagOrHTML,
@@ -136,35 +136,35 @@ export function reflects(
     value: any;
   }[]
 ): void {
-  it(`reflects`, async () => {
+  const cases = propsToTest.map(({ propertyName, value }) => [propertyName, value]);
+
+  it.each(cases)("%p", async (propertyName, value) => {
     const page = await simplePageSetup(componentTagOrHTML);
+    await skipAnimations(page);
     const componentTag = getTag(componentTagOrHTML);
     const element = await page.find(componentTag);
 
-    for (const propAndValue of propsToTest) {
-      const { propertyName, value } = propAndValue;
-      const attrName = propToAttr(propertyName);
-      const componentAttributeSelector = `${componentTag}[${attrName}]`;
+    const attrName = propToAttr(propertyName);
+    const componentAttributeSelector = `${componentTag}[${attrName}]`;
+
+    element.setProperty(propertyName, value);
+    await page.waitForChanges();
+
+    expect(await page.find(componentAttributeSelector)).toBeTruthy();
+
+    if (typeof value === "boolean") {
+      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
+      const negated = !value;
+
+      element.setProperty(propertyName, negated);
+      await page.waitForChanges();
+
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
       element.setProperty(propertyName, value);
       await page.waitForChanges();
 
-      expect(await page.find(componentAttributeSelector)).toBeTruthy();
-
-      if (typeof value === "boolean") {
-        const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
-        const negated = !value;
-
-        element.setProperty(propertyName, negated);
-        await page.waitForChanges();
-
-        expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
-
-        element.setProperty(propertyName, value);
-        await page.waitForChanges();
-
-        expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
-      }
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
     }
   });
 }
@@ -204,16 +204,15 @@ export function defaults(
     defaultValue: any;
   }[]
 ): void {
-  it("has property defaults", async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    const element = await page.find(getTag(componentTagOrHTML));
-
-    for (const propAndValue of propsToTest) {
-      const { propertyName, defaultValue } = propAndValue;
+  it.each(propsToTest.map(({ propertyName, defaultValue }) => [propertyName, defaultValue]))(
+    "%p",
+    async (propertyName, defaultValue) => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      const element = await page.find(getTag(componentTagOrHTML));
       const prop = await element.getProperty(propertyName);
       expect(prop).toEqual(defaultValue);
     }
-  });
+  );
 }
 
 /**
@@ -593,9 +592,14 @@ interface FormAssociatedOptions {
   inputType?: HTMLInputElement["type"];
 
   /**
-   * Specifies if the component supports submitting the form on Enter key press
+   * Specifies if the component supports submitting the form on Enter key press.
    */
   submitsOnEnter?: boolean;
+
+  /**
+   * Specifies if the component supports clearing its value (i.e., setting to null).
+   */
+  clearable?: boolean;
 }
 
 /**
@@ -759,21 +763,23 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
       await page.waitForChanges();
       expect(await submitAndGetValue()).toBe(null);
     } else {
-      component.setProperty("required", true);
-      component.setProperty("value", null);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toBe(
-        options.inputType === "color"
-          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
-            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
-            "#000000"
-          : undefined
-      );
+      if (options.clearable) {
+        component.setProperty("required", true);
+        component.setProperty("value", null);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(
+          options.inputType === "color"
+            ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+              // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+              "#000"
+            : undefined
+        );
 
-      component.setProperty("required", false);
-      component.setProperty("value", options.testValue);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+        component.setProperty("required", false);
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+      }
 
       component.setProperty("disabled", true);
       await page.waitForChanges();
@@ -884,7 +890,14 @@ interface DisabledOptions {
   /**
    *  Use this to specify whether the test should cover focusing.
    */
-  focusTarget: FocusTarget | TabAndClickTargets;
+  focusTarget?: FocusTarget | TabAndClickTargets;
+
+  /**
+   *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
+   *
+   *  Note: this should only be used for components that wrap a single component that implements disabled behavior.
+   */
+  shadowAriaAttributeTargetSelector?: string;
 }
 
 type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
@@ -918,10 +931,9 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {DisabledOptions} [options] - Disabled options.
  */
-export function disabled(
-  componentTestSetup: ComponentTestSetup,
-  options: DisabledOptions = { focusTarget: "host" }
-): void {
+export function disabled(componentTestSetup: ComponentTestSetup, options?: DisabledOptions): void {
+  options = { focusTarget: "host", ...options };
+
   const addRedirectPrevention = async (page: E2EPage, tag: string): Promise<void> => {
     await page.$eval(tag, (el) => {
       el.addEventListener(
@@ -997,12 +1009,15 @@ export function disabled(
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
+    const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
+      ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
+      : component;
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
-    expect(component.getAttribute("aria-disabled")).toBeNull();
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBeNull();
 
     if (options.focusTarget === "none") {
       await page.click(tag);
@@ -1014,7 +1029,7 @@ export function disabled(
       component.setProperty("disabled", true);
       await page.waitForChanges();
 
-      expect(component.getAttribute("aria-disabled")).toBe("true");
+      expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
       await page.click(tag);
       await page.waitForChanges();
@@ -1072,7 +1087,7 @@ export function disabled(
     component.setProperty("disabled", true);
     await page.waitForChanges();
 
-    expect(component.getAttribute("aria-disabled")).toBe("true");
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await resetFocusOrder();
     await page.keyboard.press("Tab");
@@ -1096,6 +1111,10 @@ export function disabled(
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
+    const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
+      ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
+      : component;
+
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
@@ -1104,7 +1123,7 @@ export function disabled(
     component.setProperty("disabled", true);
     await page.waitForChanges();
 
-    expect(component.getAttribute("aria-disabled")).toBe("true");
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
     await page.waitForChanges();

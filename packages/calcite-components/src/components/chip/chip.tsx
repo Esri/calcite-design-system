@@ -66,14 +66,6 @@ export class Chip
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteChipElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -153,6 +145,8 @@ export class Chip
   //
   // --------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteChipElement;
+
   @State() defaultMessages: ChipMessages;
 
   @State() effectiveLocale: string;
@@ -204,7 +198,7 @@ export class Chip
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-    this.setupTextContentObserver();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidLoad(): void {
@@ -220,6 +214,7 @@ export class Chip
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.mutationObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -300,10 +295,6 @@ export class Chip
 
   private updateHasText() {
     this.hasText = this.el.textContent.trim().length > 0;
-  }
-
-  private setupTextContentObserver() {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   private handleSlotImageChange = (event: Event): void => {

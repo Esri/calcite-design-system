@@ -34,7 +34,7 @@ export interface LabelableComponent {
  */
 export const labelClickEvent = "calciteInternalLabelClick";
 export const labelConnectedEvent = "calciteInternalLabelConnected";
-export const labelDisconnectedEvent = "calciteInternaLabelDisconnected";
+export const labelDisconnectedEvent = "calciteInternalLabelDisconnected";
 
 const labelTagName = "calcite-label";
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();

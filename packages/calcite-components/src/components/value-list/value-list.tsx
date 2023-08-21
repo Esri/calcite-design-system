@@ -62,11 +62,10 @@ import { ValueListMessages } from "./assets/value-list/t9n";
 import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 import {
+  DragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
-  onSortingStart,
   SortableComponent,
-  onSortingEnd,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -100,6 +99,16 @@ export class ValueList<
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When provided, the method will be called to determine whether the element can  move from the list.
+   */
+  @Prop() canPull: (event: DragEvent) => boolean;
+
+  /**
+   * When provided, the method will be called to determine whether the element can be added from another list.
+   */
+  @Prop() canPut: (event: DragEvent) => boolean;
 
   /**
    * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
@@ -187,6 +196,8 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteValueListElement;
+
   @State() dataForFilter: ItemData = [];
 
   @State() defaultMessages: ValueListMessages;
@@ -208,8 +219,6 @@ export class ValueList<
 
   sortable: Sortable;
 
-  @Element() el: HTMLCalciteValueListElement;
-
   emitCalciteListChange: () => void;
 
   emitCalciteListFilter: () => void;
@@ -217,6 +226,10 @@ export class ValueList<
   filterEl: HTMLCalciteFilterElement;
 
   assistiveTextEl: HTMLSpanElement;
+
+  handleSelector = `.${CSS.handle}`;
+
+  dragSelector = "calcite-value-list-item";
 
   // --------------------------------------------------------------------------
   //
@@ -311,6 +324,20 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
+  onDragStart(): void {
+    cleanUpObserver.call(this);
+  }
+
+  onDragEnd(): void {
+    initializeObserver.call(this);
+  }
+
+  onDragSort(): void {
+    this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
+    const values = this.items.map((item) => item.value);
+    this.calciteListOrderChange.emit(values);
+  }
+
   getItems(): ItemElement[] {
     return Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
   }
@@ -335,31 +362,13 @@ export class ValueList<
   };
 
   setUpSorting(): void {
-    const { dragEnabled, group } = this;
+    const { dragEnabled } = this;
 
     if (!dragEnabled) {
       return;
     }
 
-    connectSortableComponent(this, {
-      dataIdAttr: "id",
-      group,
-      handle: `.${CSS.handle}`,
-      draggable: "calcite-value-list-item",
-      onStart: () => {
-        cleanUpObserver.call(this);
-        onSortingStart(this);
-      },
-      onEnd: () => {
-        onSortingEnd(this);
-        initializeObserver.call(this);
-      },
-      onUpdate: () => {
-        this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
-        const values = this.items.map((item) => item.value);
-        this.calciteListOrderChange.emit(values);
-      },
-    });
+    connectSortableComponent(this);
   }
 
   deselectRemovedItems = deselectRemovedItems.bind(this);

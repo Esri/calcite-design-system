@@ -27,3 +27,5 @@
 .container--indented {
   margin-inline-start: theme("margin.6");
 }
+
+@include base-component();

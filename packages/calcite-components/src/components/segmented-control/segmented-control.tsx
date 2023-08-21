@@ -49,14 +49,6 @@ export class SegmentedControl
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteSegmentedControlElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -286,6 +278,8 @@ export class SegmentedControl
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteSegmentedControlElement;
 
   labelEl: HTMLCalciteLabelElement;
 
