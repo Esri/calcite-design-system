@@ -1,15 +1,15 @@
 import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
 import {
-  renders,
-  hidden,
   accessible,
   defaults,
-  labelable,
+  disabled,
   floatingUIOwner,
   formAssociated,
-  disabled,
-  t9n,
+  hidden,
+  labelable,
   reflects,
+  renders,
+  t9n,
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
@@ -30,12 +30,20 @@ describe("calcite-combobox", () => {
         defaultValue: false,
       },
       {
+        propertyName: "flipPlacements",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "isSingleSelect",
+        defaultValue: false,
+      },
+      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
       {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ]);
   });
@@ -1697,6 +1705,23 @@ describe("calcite-combobox", () => {
           </calcite-combobox>`,
           "item3"
         ));
+    });
+  });
+
+  it("inheritable props: `isSingleSelect` and `scale` modified on the parent get passed to items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox label="Trees" value="Trees" scale="l" selection-mode="single">
+        <calcite-combobox-item-group label="Conifers">
+          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+    `);
+    const comboboxItems = await page.findAll("calcite-combobox-items");
+
+    comboboxItems.forEach(async (item) => {
+      expect(await item.getProperty("isSingleSelect")).toBe("true");
+      expect(await item.getProperty("scale")).toBe("l");
     });
   });
 });
