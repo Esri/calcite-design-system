@@ -132,7 +132,7 @@ describe("calcite-label", () => {
   it("does not pass id to child label element", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-label id="dont-duplicate-me" layout="inline-space-between">
+    <calcite-label id="do-not-duplicate-me" layout="inline-space-between">
     Label text
     <calcite-input></calcite-input>
     </calcite-label>
@@ -140,7 +140,7 @@ describe("calcite-label", () => {
 
     const element = await page.find("calcite-label");
     const childElement = await page.find("calcite-label >>> .container");
-    expect(element).toEqualAttribute("id", "dont-duplicate-me");
+    expect(element).toEqualAttribute("id", "do-not-duplicate-me");
     expect(childElement).not.toHaveAttribute("id");
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });

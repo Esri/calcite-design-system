@@ -459,7 +459,7 @@ describe("calcite-tree", () => {
   });
 
   describe("keyboard support", () => {
-    it("should allow spacebar keydown events to propagate outside the root tree", async () => {
+    it("should allow space keydown events to propagate outside the root tree", async () => {
       const page = await newE2EPage({
         html: html`<div id="container">
           <calcite-tree id="root">

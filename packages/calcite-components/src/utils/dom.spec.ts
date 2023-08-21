@@ -285,8 +285,8 @@ describe("dom", () => {
 
   describe("setRequestedIcon()", () => {
     it("returns the custom icon name if custom value is passed", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "mycustomvalue", "exampleValue")).toBe(
-        "mycustomvalue"
+      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
+        "myCustomValue"
       ));
 
     it("returns the pre-defined icon name if custom value is not passed", () =>
