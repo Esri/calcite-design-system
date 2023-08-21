@@ -73,7 +73,7 @@ export function formatTimePart(number: number, minLength?: number): string {
   if (number >= 0 && number < 10) {
     return numberAsString.padStart(2, "0");
   }
-  if (number > 10) {
+  if (number >= 10) {
     return numberAsString;
   }
 }
