@@ -17,5 +17,5 @@ jobs:
           managers: ${{secrets.CALCITE_MANAGERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/actions/notifyWhenReadyForDev.js')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenReadyForDev.js')
             await action({github, context, core})

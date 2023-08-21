@@ -13,5 +13,5 @@ jobs:
           CALCITE_DESIGNERS: ${{secrets.CALCITE_DESIGNERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/actions/assignForVerification.js')
+            const action = require('${{ github.workspace }}/.github/scripts/assignForVerification.js')
             await action({github, context, core})

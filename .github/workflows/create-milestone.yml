@@ -11,5 +11,5 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/actions/createMilestone.js')
+            const action = require('${{ github.workspace }}/.github/scripts/createMilestone.js')
             await action({github, context, core})

@@ -12,5 +12,5 @@ jobs:
           designers: ${{secrets.CALCITE_DESIGNERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/actions/notifyAboutNewComponent.js')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutNewComponent.js')
             await action({github, context, core})
