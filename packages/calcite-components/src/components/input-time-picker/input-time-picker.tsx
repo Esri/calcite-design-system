@@ -165,6 +165,7 @@ export class InputTimePicker
     onToggleOpenCloseComponent(this);
 
     if (this.disabled || this.readOnly) {
+      this.open = false;
       return;
     }
 
