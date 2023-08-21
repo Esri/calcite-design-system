@@ -207,6 +207,9 @@ export function localizeTimePart({ value, part, locale, numberingSystem }: Local
         localizedFractionalSecond = numberStringFormatter
           .localize(`0.${value}`)
           .replace(`${localizedZero}${localizedDecimalSeparator}`, "");
+        if (localizedFractionalSecond.length < value.length) {
+          localizedFractionalSecond = localizedFractionalSecond.padEnd(value.length, localizedZero);
+        }
       }
     }
     return localizedFractionalSecond;
