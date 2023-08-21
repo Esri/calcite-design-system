@@ -48,14 +48,6 @@ type Layout = "horizontal" | "vertical";
 export class CalciteMenuItem implements LoadableComponent, T9nComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteMenuItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -140,6 +132,8 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteMenuItemElement;
 
   @State() defaultMessages: MenuItemMessages;
 

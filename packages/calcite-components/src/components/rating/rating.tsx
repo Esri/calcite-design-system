@@ -53,14 +53,6 @@ export class Rating
     LocalizedComponent,
     T9nComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteRatingElement;
-
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -455,6 +447,8 @@ export class Rating
   //  Private State / Properties
   //
   // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteRatingElement;
 
   labelEl: HTMLCalciteLabelElement;
 

@@ -89,12 +89,12 @@ describe("calcite-notice", () => {
     await page.setContent(html`<calcite-notice id="notice-1" open closable> ${noticeContent} </calcite-notice>`);
 
     const notice1 = await page.find("#notice-1 >>> .container");
-    const noticeclose1 = await page.find(`#notice-1 >>> .${CSS.close}`);
+    const noticeClose1 = await page.find(`#notice-1 >>> .${CSS.close}`);
     const animationDurationInMs = 400;
 
     expect(await notice1.isVisible()).toBe(true);
 
-    await noticeclose1.click();
+    await noticeClose1.click();
     await page.waitForTimeout(animationDurationInMs);
     expect(await notice1.isVisible()).not.toBe(true);
   });
