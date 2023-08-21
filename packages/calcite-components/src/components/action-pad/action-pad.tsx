@@ -16,7 +16,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -136,6 +136,8 @@ export class ActionPad
 
   @Element() el: HTMLCalciteActionPadElement;
 
+  @State() expandTooltip: HTMLCalciteTooltipElement;
+
   mutationObserver = createObserver("mutation", () =>
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")))
   );
@@ -238,6 +240,14 @@ export class ActionPad
     this.setGroupLayout(groups);
   };
 
+  handleTooltipSlotChange = (event: Event): void => {
+    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-tooltip")
+    ) as HTMLCalciteTooltipElement[];
+
+    this.expandTooltip = tooltips[0];
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Component Methods
@@ -257,8 +267,6 @@ export class ActionPad
       actionsEndGroupLabel,
     } = this;
 
-    const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
-
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         collapseText={messages.collapse}
@@ -268,7 +276,7 @@ export class ActionPad
         position={position}
         scale={scale}
         toggle={toggleExpand}
-        tooltip={tooltip}
+        tooltip={this.expandTooltip}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.setExpandToggleRef}
       />
@@ -281,7 +289,7 @@ export class ActionPad
         layout={layout}
         scale={scale}
       >
-        <slot name={SLOTS.expandTooltip} />
+        <slot name={SLOTS.expandTooltip} onSlotchange={this.handleTooltipSlotChange} />
         {expandToggleNode}
       </calcite-action-group>
     ) : null;

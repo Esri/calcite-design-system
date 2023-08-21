@@ -48,14 +48,6 @@ export class Button
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteButtonElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -257,7 +249,8 @@ export class Button
 
     return (
       <Tag
-        aria-label={getLabelText(this)}
+        aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
+        aria-live="polite"
         class={{
           [CSS.buttonPadding]: noStartEndIcons,
           [CSS.buttonPaddingShrunk]: !noStartEndIcons,
@@ -303,6 +296,8 @@ export class Button
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteButtonElement;
 
   formEl: HTMLFormElement;
 

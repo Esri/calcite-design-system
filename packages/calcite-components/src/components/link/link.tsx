@@ -28,14 +28,6 @@ import { FlipContext } from "../interfaces";
 export class Link implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteLinkElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -183,6 +175,8 @@ export class Link implements InteractiveComponent, LoadableComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteLinkElement;
 
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;

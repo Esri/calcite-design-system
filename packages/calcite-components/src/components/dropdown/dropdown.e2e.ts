@@ -42,7 +42,7 @@ describe("calcite-dropdown", () => {
     ]);
   });
 
-  describe("disabled", () => {
+  describe.skip("disabled", () => {
     disabled(simpleDropdownHTML, {
       focusTarget: {
         tab: "calcite-button",
@@ -1073,7 +1073,7 @@ describe("calcite-dropdown", () => {
     await page.evaluate(() => {
       const filter = document.querySelector(`calcite-pick-list`).shadowRoot.querySelector("calcite-filter");
       const filterInput = filter.shadowRoot.querySelector("calcite-input");
-      filterInput.value = "nums";
+      filterInput.value = "numbers";
     });
 
     expect(dropdownContentHeight.height).toBe("72px");

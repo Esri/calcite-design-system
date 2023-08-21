@@ -45,14 +45,6 @@ const DEFAULT_COLOR = Color();
 export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteColorPickerHexInputElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -290,6 +282,8 @@ export class ColorPickerHexInput implements LoadableComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteColorPickerHexInputElement;
 
   private hexInputNode: HTMLCalciteInputTextElement;
 

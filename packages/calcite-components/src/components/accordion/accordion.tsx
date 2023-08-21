@@ -23,14 +23,6 @@ import { RequestedItem } from "./interfaces";
 export class Accordion {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAccordionElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -123,6 +115,8 @@ export class Accordion {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteAccordionElement;
 
   mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
 

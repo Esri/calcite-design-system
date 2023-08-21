@@ -9,7 +9,7 @@
   try {
     const __dirname = dirname(fileURLToPath(import.meta.url));
 
-    const outfile = resolve(__dirname, "..", "dist", "extras", "translations-json.json");
+    const outFile = resolve(__dirname, "..", "dist", "extras", "translations-json.json");
     const assetsPaths = resolve(__dirname, "..", "dist", "calcite", "assets");
     const components = await readdir(assetsPaths);
 
@@ -38,7 +38,7 @@
         }
       }
     }
-    await writeFile(outfile, JSON.stringify(data), "utf-8");
+    await writeFile(outFile, JSON.stringify(data), "utf-8");
   } catch (err) {
     console.error(err);
     process.exit(1);

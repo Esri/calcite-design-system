@@ -15,7 +15,7 @@ describe("calcite-handle", () => {
     accessible(`<calcite-handle></calcite-handle>`);
   });
 
-  it("activates when focused and spacebar is pressed", async () => {
+  it("activates when focused and space is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-handle></calcite-handle>");
 

@@ -39,7 +39,7 @@ describe("calcite-input-time-zone", () => {
     labelable("calcite-input-time-zone");
   });
 
-  describe.skip("reflects", () => {
+  describe("reflects", () => {
     reflects("calcite-input-time-zone", [
       { propertyName: "disabled", value: true },
       { propertyName: "open", value: true },

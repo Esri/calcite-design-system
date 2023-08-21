@@ -102,7 +102,10 @@ export function hexToRGB(hex: string, hasAlpha = false): RGB | RGBA {
 
   hex = hex.replace("#", "");
 
-  let r: number, g: number, b: number, a: number;
+  let r: number;
+  let g: number;
+  let b: number;
+  let a: number;
   const isShorthand = hex.length === 3 || hex.length === 4;
 
   if (isShorthand) {

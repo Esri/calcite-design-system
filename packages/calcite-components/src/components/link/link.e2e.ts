@@ -146,7 +146,7 @@ describe("calcite-link", () => {
   it("passes attributes to rendered child link", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-link rel="noopener noreferrer" target="_blank" class="mycustomclass" href="google.com">Continue</calcite-link>`
+      `<calcite-link rel="noopener noreferrer" target="_blank" class="my-custom-class" href="google.com">Continue</calcite-link>`
     );
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
@@ -155,7 +155,7 @@ describe("calcite-link", () => {
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
-    expect(elementAsLink).not.toHaveClass("mycustomclass");
+    expect(elementAsLink).not.toHaveClass("my-custom-class");
     expect(elementAsLink).toEqualAttribute("href", "google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
     expect(elementAsLink).toEqualAttribute("target", "_blank");
