@@ -6,9 +6,9 @@ import {
 } from "../../utils/conditionalSlot";
 import {
   getElementDir,
-  getSlotted,
   isPrimaryPointerButton,
   slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
@@ -214,21 +214,19 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     updateMessages(this, this.effectiveLocale);
   }
 
+  @State() hasHeader = false;
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
   renderHeader(): VNode {
-    const { el } = this;
-
-    const hasHeader = getSlotted(el, SLOTS.header);
-
-    return hasHeader ? (
-      <div class={CSS.contentHeader} key="header">
-        <slot name={SLOTS.header} />
+    return (
+      <div class={CSS.contentHeader} hidden={!this.hasHeader} key="header">
+        <slot name={SLOTS.header} onSlotchange={this.handleHeaderSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
@@ -635,5 +633,9 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);
+  };
+
+  handleHeaderSlotChange = (event: Event): void => {
+    this.hasHeader = slotChangeHasAssignedElement(event);
   };
 }

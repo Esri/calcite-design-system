@@ -88,14 +88,6 @@ export class Input
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -401,6 +393,8 @@ export class Input
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteInputElement;
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -419,7 +413,7 @@ export class Input
   private childNumberEl?: HTMLInputElement;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
   }
 
   get isTextarea(): boolean {

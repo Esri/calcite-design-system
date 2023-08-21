@@ -68,13 +68,13 @@ describe("repositioning", () => {
     };
   });
 
-  function assertPreOpenPositionining(floatingEl: HTMLElement): void {
+  function assertPreOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).toBe("");
     expect(floatingEl.style.top).toBe("");
     expect(floatingEl.style.left).toBe("");
   }
 
-  function assertOpenPositionining(floatingEl: HTMLElement): void {
+  function assertOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.transform).not.toBe("");
     expect(floatingEl.style.top).toBe("0");
     expect(floatingEl.style.left).toBe("0");
@@ -82,12 +82,12 @@ describe("repositioning", () => {
 
   it("repositions only for open components", async () => {
     await reposition(fakeFloatingUiComponent, positionOptions);
-    assertPreOpenPositionining(floatingEl);
+    assertPreOpenPositioning(floatingEl);
 
     fakeFloatingUiComponent.open = true;
 
     await reposition(fakeFloatingUiComponent, positionOptions);
-    assertOpenPositionining(floatingEl);
+    assertOpenPositioning(floatingEl);
   });
 
   it("repositions immediately by default", async () => {
@@ -95,10 +95,10 @@ describe("repositioning", () => {
 
     reposition(fakeFloatingUiComponent, positionOptions);
 
-    assertPreOpenPositionining(floatingEl);
+    assertPreOpenPositioning(floatingEl);
 
     await waitForAnimationFrame();
-    assertOpenPositionining(floatingEl);
+    assertOpenPositioning(floatingEl);
   });
 
   it("can reposition after a delay", async () => {
@@ -106,10 +106,10 @@ describe("repositioning", () => {
 
     reposition(fakeFloatingUiComponent, positionOptions, true);
 
-    assertPreOpenPositionining(floatingEl);
+    assertPreOpenPositioning(floatingEl);
 
     await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
-    assertOpenPositionining(floatingEl);
+    assertOpenPositioning(floatingEl);
   });
 
   describe("connect/disconnect helpers", () => {

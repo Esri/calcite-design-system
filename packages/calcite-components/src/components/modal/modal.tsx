@@ -79,13 +79,6 @@ export class Modal
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteModalElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -357,6 +350,8 @@ export class Modal
   @Prop({ mutable: true, reflect: true }) opened = false;
 
   ignoreOpenChange = false;
+
+  @Element() el: HTMLCalciteModalElement;
 
   modalContent: HTMLDivElement;
 

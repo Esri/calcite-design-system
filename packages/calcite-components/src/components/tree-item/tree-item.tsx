@@ -48,14 +48,6 @@ import { CSS, ICONS, SLOTS } from "./resources";
 export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTreeItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -188,6 +180,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTreeItemElement;
 
   private isSelectionMultiLike: boolean;
 

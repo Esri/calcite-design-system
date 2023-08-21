@@ -39,13 +39,6 @@ import {
 export class CalciteNavigation implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteNavigationElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -65,6 +58,8 @@ export class CalciteNavigation implements LoadableComponent {
   //  Private Properties/ State
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteNavigationElement;
 
   @State() logoSlotHasElements: boolean;
 

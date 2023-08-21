@@ -30,8 +30,8 @@ export const simple = (): string => html`
           Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
         </li>
         <li>
-          Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
-          cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+          Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetur ligula vulputate sem tristique cursus.
+          Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
         </li>
         <li>
           Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
@@ -60,8 +60,8 @@ export const darkModeRTL_TestOnly = (): string => html`
           Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
         </li>
         <li>
-          Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
-          cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+          Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetur ligula vulputate sem tristique cursus.
+          Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
         </li>
         <li>
           Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
@@ -72,3 +72,13 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const textContent_TestOnly = (): string =>
+  html` <div tabindex="0" style="position: relative; width: 400px; height: 400px">
+    <calcite-scrim>This is a test.</calcite-scrim>
+  </div>`;
+
+export const noContent_TestOnly = (): string =>
+  html` <div tabindex="0" style="position: relative; width: 400px; height: 400px">
+    <calcite-scrim></calcite-scrim>
+  </div>`;

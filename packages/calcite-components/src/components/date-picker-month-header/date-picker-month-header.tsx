@@ -36,14 +36,6 @@ import { CSS, ICON } from "./resources";
 export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDatePickerMonthHeaderElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -200,6 +192,8 @@ export class DatePickerMonthHeader {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteDatePickerMonthHeaderElement;
 
   private yearInput: HTMLInputElement;
 

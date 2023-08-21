@@ -57,13 +57,6 @@ import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 export class DatePicker implements LocalizedComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteDatePickerElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -296,6 +289,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteDatePickerElement;
 
   /**
    * Active end date.

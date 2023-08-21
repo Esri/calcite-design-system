@@ -52,14 +52,6 @@ import { TabTitleMessages } from "./assets/tab-title/t9n";
 export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTabTitleElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -462,6 +454,8 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTabTitleElement;
 
   /** watches for changing text content */
   mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
