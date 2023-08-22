@@ -565,9 +565,14 @@ export class InputTimePicker
       supportedLocale = "pt";
     }
 
-    const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
+    let { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
       supportedLocale
     )();
+
+    const ltsFormatString = localeConfig?.formats?.LTS;
+    localeConfig.formats.LTS = !ltsFormatString.includes("ss.SSS")
+      ? ltsFormatString.replace("ss", "ss.SSS")
+      : ltsFormatString;
 
     dayjs.locale(localeConfig, null, true);
     dayjs.updateLocale(supportedLocale, this.getExtendedLocaleConfig(supportedLocale));
