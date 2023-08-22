@@ -82,14 +82,15 @@ export function formatTimeString(value: string): string {
   if (!isValidTime(value)) {
     return null;
   }
-  const [hourString, minuteString, secondString] = value.split(":");
-  const hour = formatTimePart(parseInt(hourString));
-  const minute = formatTimePart(parseInt(minuteString));
-  if (secondString) {
-    const second = formatTimePart(parseInt(secondString));
-    return `${hour}:${minute}:${second}`;
+  let { hour, minute, second, fractionalSecond } = parseTimeString(value);
+  let formattedValue = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
+  if (second) {
+    formattedValue += `:${formatTimePart(parseInt(second))}`;
+    if (fractionalSecond) {
+      formattedValue += `.${fractionalSecond}`;
+    }
   }
-  return `${hour}:${minute}`;
+  return formattedValue;
 }
 
 export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem): HourCycle {
@@ -253,10 +254,19 @@ export function localizeTimeString({
   if (!isValidTime(value)) {
     return null;
   }
-  const { hour, minute, second = "0" } = parseTimeString(value);
+  const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
+
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   const formatter = createLocaleDateTimeFormatter(locale, numberingSystem, includeSeconds);
-  return formatter?.format(dateFromTimeString) || null;
+  const parts = formatter.formatToParts(dateFromTimeString);
+  const localizedTimeString = parts?.reduce((result, part) => {
+    if (part.type === "second" && fractionalSecond) {
+      // TODO: localize fractional second here with number formatter api
+      return result + `${part.value}.${fractionalSecond}`;
+    }
+    return result + part.value;
+  }, "");
+  return localizedTimeString || null;
 }
 
 interface LocalizeTimeStringToPartsParameters {
@@ -343,12 +353,15 @@ export function toISOTimeString(value: string, includeSeconds = true): string {
   if (!isValidTime(value)) {
     return "";
   }
-  const { hour, minute, second } = parseTimeString(value);
+  const { hour, minute, second, fractionalSecond } = parseTimeString(value);
 
   let isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
 
   if (includeSeconds) {
     isoTimeString += `:${formatTimePart(parseInt((includeSeconds && second) || "0"))}`;
+    if (fractionalSecond) {
+      isoTimeString += `.${fractionalSecond}`;
+    }
   }
 
   return isoTimeString;
