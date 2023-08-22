@@ -553,10 +553,11 @@ export class TimePicker
 
   private nudgeFractionalSecond = (direction: "up" | "down"): void => {
     const stepPrecision = decimalPlaces(this.step);
+    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
     const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
     let nudgedValue, nudgedValueRounded, newFractionalSecond;
     if (direction === "up") {
-      nudgedValue = fractionalSecondAsFloat + this.step;
+      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + this.step;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
       newFractionalSecond =
         nudgedValueRounded < 1 && decimalPlaces(nudgedValueRounded) > 0
