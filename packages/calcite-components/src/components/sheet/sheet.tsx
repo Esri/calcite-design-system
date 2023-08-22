@@ -29,7 +29,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS } from "./resources";
-import { SheetDisplayMode, SheetPosition } from "./interfaces";
+import { DisplayMode, Position } from "./interfaces";
 
 @Component({
   tag: "calcite-sheet",
@@ -54,7 +54,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
    * Specifies the display mode - `"float"` (content is separated detached),
    * or `"overlay"` (displays on top of center content).
    */
-  @Prop({ reflect: true }) displayMode: SheetDisplayMode = "overlay";
+  @Prop({ reflect: true }) displayMode: DisplayMode = "overlay";
 
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
@@ -97,7 +97,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) position: SheetPosition = "inline-start";
+  @Prop({ reflect: true }) position: Position = "inline-start";
 
   //--------------------------------------------------------------------------
   //
