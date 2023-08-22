@@ -8,7 +8,6 @@ import {
   Listen,
   Method,
   Prop,
-  State,
   VNode,
   Watch,
 } from "@stencil/core";
@@ -30,16 +29,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS } from "./resources";
-
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
-import { SheetMessages } from "./assets/sheet/t9n";
 import { SheetDisplayMode, SheetPosition } from "./interfaces";
 
 @Component({
@@ -48,29 +37,12 @@ import { SheetDisplayMode, SheetPosition } from "./interfaces";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class Sheet
-  implements
-    OpenCloseComponent,
-    FocusTrapComponent,
-    LoadableComponent,
-    LocalizedComponent,
-    T9nComponent
-{
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteSheetElement;
-
+export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
   //
   //--------------------------------------------------------------------------
-
-  /** When `true`, displays and positions the component.  */
-  @Prop({ mutable: true, reflect: true }) open = false;
 
   /**
    *  Passes a function to run before the component closes.
@@ -84,6 +56,9 @@ export class Sheet
    * or `"overlay"` (displays on top of center content).
    */
   @Prop({ reflect: true }) displayMode: SheetDisplayMode = "overlay";
+
+  /** When `true`, disables the default close on escape behavior. */
+  @Prop({ reflect: true }) escapeDisabled = false;
 
   /**
    * When `true`, prevents focus trapping.
@@ -104,48 +79,26 @@ export class Sheet
    */
   @Prop() label!: string;
 
+  /** When `true`, displays and positions the component.  */
+  @Prop({ mutable: true, reflect: true }) open = false;
+
+  @Watch("open")
+  async toggleSheet(value: boolean): Promise<void> {
+    onToggleOpenCloseComponent(this);
+    if (value) {
+      this.transitionEl?.classList.add(CSS.openingIdle);
+      this.openSheet();
+    } else {
+      this.transitionEl?.classList.add(CSS.closingIdle);
+      this.closeSheet();
+    }
+  }
+
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) position: SheetPosition = "inline-start";
-
-  /** When `true`, disables the default close on escape behavior. */
-  @Prop({ reflect: true }) escapeDisabled = false;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: SheetMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<SheetMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) slottedInShell: boolean;
-
-  /**
-   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
-   *
-   * @internal.
-   */
-  @Prop({ mutable: true, reflect: true }) opened = false;
 
   //--------------------------------------------------------------------------
   //
@@ -154,7 +107,6 @@ export class Sheet
   //--------------------------------------------------------------------------
 
   async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
     setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
@@ -169,8 +121,6 @@ export class Sheet
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectLocalized(this);
-    connectMessages(this);
     connectFocusTrap(this);
   }
 
@@ -178,13 +128,10 @@ export class Sheet
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     deactivateFocusTrap(this);
-    disconnectLocalized(this);
-    disconnectMessages(this);
     this.slottedInShell = false;
   }
 
   render(): VNode {
-    const { outsideCloseDisabled, messages } = this;
     return (
       <Host
         aria-describedby={this.contentId}
@@ -199,12 +146,7 @@ export class Sheet
             [CSS.slottedInShell]: this.slottedInShell,
           }}
         >
-          <calcite-scrim
-            aria-label={outsideCloseDisabled ? null : messages.close}
-            class={CSS.scrim}
-            onClick={this.handleOutsideClose}
-            title={outsideCloseDisabled ? null : messages.close}
-          />
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           <div
             class={{
               [CSS.content]: true,
@@ -225,32 +167,38 @@ export class Sheet
   //
   //--------------------------------------------------------------------------
 
-  sheetContent: HTMLDivElement;
-
-  contentId: string;
-
-  initialOverflowCSS: string;
-
-  ignoreOpenChange = false;
-
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver()
-  );
-
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
 
-  @State() effectiveLocale: string;
+  @Element() el: HTMLCalciteSheetElement;
 
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
+  /**
+   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
+   *
+   * @internal.
+   */
+  @Prop({ mutable: true, reflect: true }) opened = false;
 
-  @State() defaultMessages: SheetMessages;
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop() slottedInShell: boolean;
+
+  private contentId: string;
+
+  private initialOverflowCSS: string;
+
+  private ignoreOpenChange = false;
+
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserver()
+  );
 
   //--------------------------------------------------------------------------
   //
@@ -307,34 +255,11 @@ export class Sheet
     updateFocusTrapElements(this);
   }
 
-  /**
-   * Sets the scroll top of the component's content.
-   *
-   * @param top - position from the top
-   * @param left - position from the left
-   */
-  @Method()
-  async scrollContent(top = 0, left = 0): Promise<void> {
-    if (this.sheetContent) {
-      if (this.sheetContent.scrollTo) {
-        this.sheetContent.scrollTo({ top, left, behavior: "smooth" });
-      } else {
-        this.sheetContent.scrollTop = top;
-        this.sheetContent.scrollLeft = left;
-      }
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private setTransitionEl = (el: HTMLDivElement): void => {
-    this.transitionEl = el;
-    this.contentId = ensureId(el);
-  };
 
   onBeforeOpen(): void {
     this.transitionEl.classList.add(CSS.openingActive);
@@ -358,24 +283,16 @@ export class Sheet
     deactivateFocusTrap(this);
   }
 
-  @Watch("open")
-  async toggleSheet(value: boolean): Promise<void> {
-    onToggleOpenCloseComponent(this);
-    if (value) {
-      this.transitionEl?.classList.add(CSS.openingIdle);
-      this.openSheet();
-    } else {
-      this.transitionEl?.classList.add(CSS.closingIdle);
-      this.closeSheet();
-    }
-  }
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
+    this.contentId = ensureId(el);
+  };
 
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteSheetOpen", this.openEnd);
   };
 
-  /** Open the sheet */
   private openSheet() {
     if (this.ignoreOpenChange) {
       return;
@@ -401,11 +318,6 @@ export class Sheet
     this.closeSheet();
   };
 
-  /**
-   * Close the sheet, first running the `beforeClose` method
-   *
-   * @returns {Promise<void>}
-   */
   private closeSheet = async (): Promise<void> => {
     if (this.ignoreOpenChange) {
       return;

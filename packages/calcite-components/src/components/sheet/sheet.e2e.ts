@@ -1,12 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { focusable, renders, hidden, t9n, defaults, accessible } from "../../tests/commonTests";
+import { focusable, renders, hidden, defaults, accessible } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 
 describe("calcite-sheet properties", () => {
   describe("defaults", () => {
-    defaults("calcite-action", [
+    defaults("calcite-sheet", [
       {
         propertyName: "open",
         defaultValue: false,
@@ -44,10 +44,6 @@ describe("calcite-sheet properties", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-sheet");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-sheet");
   });
 
   describe("accessible", () => {
