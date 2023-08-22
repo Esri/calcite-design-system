@@ -390,17 +390,22 @@ describe("calcite-combobox", () => {
         );
         const combobox = await page.find("calcite-combobox");
         const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+
         await combobox.click();
         await firstOpenEvent;
-
-        const item1 = await combobox.find("calcite-combobox-item[value=one]");
+        let item1 = await combobox.find("calcite-combobox-item[value=one]");
 
         await item1.click();
         expect(await combobox.getProperty("value")).toBe("one");
 
+        const firstCloseEvent = page.waitForEvent("calciteComboboxClose");
+        await combobox.click();
+        await firstCloseEvent;
+
         const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
         await combobox.click();
         await secondOpenEvent;
+        item1 = await combobox.find("calcite-combobox-item[value=one]");
 
         await item1.click();
         expect(await combobox.getProperty("value")).toBe("");
@@ -594,13 +599,10 @@ describe("calcite-combobox", () => {
       await input.click();
       await input.press("K");
       await input.press("Enter");
-      await input.press("Escape");
       await page.waitForChanges();
 
       const item = await page.find("calcite-combobox-item:last-child");
-      const label = await page.find("calcite-combobox >>> .label");
-
-      expect(label.textContent).toBe("K");
+      expect(await item.getProperty("textLabel")).toBe("K");
 
       const combobox = await page.find("calcite-combobox");
 
@@ -630,9 +632,9 @@ describe("calcite-combobox", () => {
 
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item:last-child");
-      const label = await page.find("calcite-combobox >>> .label");
 
-      expect(label.textContent).toBe("K");
+      expect(await item2.getProperty("textLabel")).toBe("K");
+
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(true);
@@ -931,14 +933,14 @@ describe("calcite-combobox", () => {
         // set body to overflow so we can test the scroll functionality;
         // set default margin/padding to 0 to not have to adjust for it in position calculations
         content: `body {
-            height: ${scrollablePageSizeInPx}px;
-            width: ${scrollablePageSizeInPx}px;
-          }
-          html, body {
-            margin: 0;
-            padding: 0;
-          }
-      `,
+              height: ${scrollablePageSizeInPx}px;
+              width: ${scrollablePageSizeInPx}px;
+            }
+            html, body {
+              margin: 0;
+              padding: 0;
+            }
+        `,
       });
       const combobox = await page.find("calcite-combobox");
       await combobox.callMethod(`setFocus`);

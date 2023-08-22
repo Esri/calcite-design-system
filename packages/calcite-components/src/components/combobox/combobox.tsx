@@ -216,7 +216,6 @@ export class Combobox
   @Watch("selectionMode")
   @Watch("scale")
   handlePropsChange(): void {
-    this.isSingleSelect = this.selectionMode === "single";
     this.updateItems();
   }
 
@@ -396,19 +395,22 @@ export class Combobox
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
+    connectLabel(this);
+    connectForm(this);
+
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectLabel(this);
-    connectForm(this);
+
+    this.updateItems();
     this.setFilteredPlacements();
     this.reposition(true);
+
     if (this.open) {
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
-    this.updateItems();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -972,6 +974,7 @@ export class Combobox
     this.selectedItems = this.getSelectedItems();
     this.filteredItems = this.getFilteredItems();
     this.needsIcon = this.getNeedsIcon();
+    this.isSingleSelect = this.selectionMode === "single";
 
     this.items.forEach((item) => {
       item.isSingleSelect = this.isSingleSelect;

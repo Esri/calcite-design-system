@@ -82,7 +82,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) filterDisabled: boolean;
 
   /**
-   * Indicates whether the selection mode of the component is single (only one selection).
+   * Indicates whether the selection mode of the component is `single`.
    *
    * @internal
    */
