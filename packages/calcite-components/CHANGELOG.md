@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.0...@esri/calcite-components@1.7.0-next.1) (2023-08-22)
+
+### Bug Fixes
+
+- **date-picker:** set start of week to monday in zh-CN ([#7578](https://github.com/Esri/calcite-design-system/issues/7578)) ([7e385cb](https://github.com/Esri/calcite-design-system/commit/7e385cba6984bea34de531927b1ba9407f6a5e05)), closes [#7382](https://github.com/Esri/calcite-design-system/issues/7382)
+- **dropdown:** prevents navigating dropdown items with Tab key ([#7527](https://github.com/Esri/calcite-design-system/issues/7527)) ([3ea658d](https://github.com/Esri/calcite-design-system/commit/3ea658dbe0a234b8489215779bbacc2530b01a01)), closes [#6610](https://github.com/Esri/calcite-design-system/issues/6610)
+
+## [1.7.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.2-next.0...@esri/calcite-components@1.7.0-next.0) (2023-08-22)
+
+### Features
+
+- **meter:** Add Meter component ([#7401](https://github.com/Esri/calcite-design-system/issues/7401)) ([47163ed](https://github.com/Esri/calcite-design-system/commit/47163ed4ba9b7a5b318fd184e470c6ffa4d1600b)), closes [#2249](https://github.com/Esri/calcite-design-system/issues/2249)
+
+### Bug Fixes
+
+- **input-date-picker, input-time-picker:** do not show dropdown affordance when read-only ([#7559](https://github.com/Esri/calcite-design-system/issues/7559)) ([5a3f19c](https://github.com/Esri/calcite-design-system/commit/5a3f19c13f404b0d6111e41f3204b6afdca437a2)), closes [#6899](https://github.com/Esri/calcite-design-system/issues/6899)
+
+## [1.6.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.1...@esri/calcite-components@1.6.2-next.0) (2023-08-22)
+
+### Bug Fixes
+
+- **color-picker:** update value when alphaChannel is toggled ([#7563](https://github.com/Esri/calcite-design-system/issues/7563)) ([1f753dd](https://github.com/Esri/calcite-design-system/commit/1f753dd2839ed5f4372b0d7dd2452ae32af4e245)), closes [#7205](https://github.com/Esri/calcite-design-system/issues/7205)
+- ensure label only focuses the first labelable child ([#7553](https://github.com/Esri/calcite-design-system/issues/7553)) ([426159c](https://github.com/Esri/calcite-design-system/commit/426159c7bf34978acd19b52b9a399c6d5eceddbf)), closes [#5070](https://github.com/Esri/calcite-design-system/issues/5070)
+- **list:** fixes dragging nested list items ([#7555](https://github.com/Esri/calcite-design-system/issues/7555)) ([c25f7b3](https://github.com/Esri/calcite-design-system/commit/c25f7b34a6aeb68ba65021c8df33acba142d3eaf)), closes [#7540](https://github.com/Esri/calcite-design-system/issues/7540)
+
 ## [1.6.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.0...@esri/calcite-components@1.6.1) (2023-08-18)
 
 ### Bug Fixes
