@@ -565,11 +565,12 @@ export class TimePicker
           : "".padStart(stepPrecision, "0");
     }
     if (direction === "down") {
-      nudgedValue = fractionalSecondAsFloat - this.step;
+      nudgedValue =
+        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
+          ? 1 - this.step
+          : fractionalSecondAsFloat - this.step;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      if (fractionalSecondAsFloat === 0) {
-        newFractionalSecond = "".padStart(stepPrecision, "9");
-      } else if (
+      if (
         nudgedValueRounded < 1 &&
         decimalPlaces(nudgedValueRounded) > 0 &&
         Math.sign(nudgedValueRounded) === 1
