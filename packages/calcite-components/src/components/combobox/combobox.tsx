@@ -210,9 +210,6 @@ export class Combobox
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Indicates whether the selection mode of the component is single. */
-  @Prop({ reflect: true }) isSingleSelect = false;
-
   @Watch("selectionMode")
   @Watch("scale")
   handlePropsChange(): void {
@@ -974,10 +971,9 @@ export class Combobox
     this.selectedItems = this.getSelectedItems();
     this.filteredItems = this.getFilteredItems();
     this.needsIcon = this.getNeedsIcon();
-    this.isSingleSelect = this.selectionMode === "single";
 
     this.items.forEach((item) => {
-      item.isSingleSelect = this.isSingleSelect;
+      item.selectionMode = this.selectionMode;
       item.scale = this.scale;
     });
 

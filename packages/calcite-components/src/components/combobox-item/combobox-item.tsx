@@ -24,7 +24,7 @@ import {
 } from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
-import { Scale } from "../interfaces";
+import { Scale, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -82,11 +82,17 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) filterDisabled: boolean;
 
   /**
-   * Indicates whether the selection mode of the component is `single`.
+   * Specifies the selection mode:
+   * - `multiple` allows any number of selected items (default),
+   * - `single` allows only one selection,
+   * - `ancestors` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    *
    * @internal
    */
-  @Prop() isSingleSelect = false;
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "single" | "ancestors" | "multiple",
+    SelectionMode
+  > = "multiple";
 
   /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
@@ -216,7 +222,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const { isSingleSelect } = this;
+    const isSingleSelect = this.selectionMode === "single";
 
     const showDot = isSingleSelect && !this.disabled;
     const defaultIcon = isSingleSelect ? "dot" : "check";
