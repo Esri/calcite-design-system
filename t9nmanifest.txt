@@ -32,6 +32,7 @@ packages\calcite-components\src\components\pick-list-item\assets\pick-list-item\
 packages\calcite-components\src\components\popover\assets\popover\t9n
 packages\calcite-components\src\components\rating\assets\rating\t9n
 packages\calcite-components\src\components\scrim\assets\scrim\t9n
+packages\calcite-components\src\components\sheet\assets\sheet\t9n
 packages\calcite-components\src\components\shell-panel\assets\shell-panel\t9n
 packages\calcite-components\src\components\tab-title\assets\tab-title\t9n
 packages\calcite-components\src\components\text-area\assets\text-area\t9n

@@ -92,6 +92,10 @@ export class Sheet
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
+  /** When `true`, disables the closing of the component when clicked outside. */
+  @Prop({ reflect: true }) position: "inline-start" | "inline-end" | "block-start" | "block-end" =
+    "inline-start";
+
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
 
@@ -152,8 +156,8 @@ export class Sheet
   render(): VNode {
     return (
       <Host
-        aria-describedby={this.contentId}
-        aria-labelledby={this.titleId}
+        // aria-describedby={this.contentId} todo
+        // aria-labelledby={this.titleId} todo
         aria-modal="true"
         role="dialog"
       >
@@ -192,17 +196,11 @@ export class Sheet
     this.handleMutationObserver()
   );
 
-  titleId: string;
-
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
-
-  closeButtonEl: HTMLButtonElement;
-
-  contentId: string;
 
   /**
    * We use internal variable to make sure initially open sheet can transition from closed state when rendered
@@ -342,7 +340,7 @@ export class Sheet
     this.el.removeEventListener("calciteSheetOpen", this.openEnd);
   };
 
-  /** Open the modal */
+  /** Open the sheet */
   private openSheet() {
     this.el.addEventListener("calciteSheetOpen", this.openEnd);
     this.open = true;

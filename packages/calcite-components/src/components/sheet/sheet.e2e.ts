@@ -7,30 +7,23 @@ describe("calcite-sheet properties", () => {
   });
 
   describe("honors hidden attribute", () => {
-    hidden("calcite-modal");
+    hidden("calcite-sheet");
   });
 
   describe("translation support", () => {
-    t9n("calcite-modal");
+    t9n("calcite-sheet");
   });
 
   describe("setFocus", () => {
     const createSheetHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-sheet open ${attrs}>${contentHTML}</calcite-sheet>`;
 
-    const closeButtonTargetSelector = ".close";
     const focusableContentTargetClass = "test";
 
     const focusableContentHTML = html`<button class=${focusableContentTargetClass}>test</button>`;
 
-    describe("focuses close button by default", () => {
+    describe("focuses content by default", () => {
       focusable(createSheetHTML(focusableContentHTML), {
-        shadowFocusTargetSelector: closeButtonTargetSelector,
-      });
-    });
-
-    describe("focuses content if there is no close button", () => {
-      focusable(createSheetHTML(focusableContentHTML, "close-button-disabled"), {
         focusTargetSelector: `.${focusableContentTargetClass}`,
       });
     });
