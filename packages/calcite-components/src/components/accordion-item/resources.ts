@@ -18,3 +18,7 @@ export const CSS = {
   iconEnd: "icon--end",
   headerContainer: "header-container",
 };
+
+export const IDS = {
+  slotContainer: "slot-container",
+};
