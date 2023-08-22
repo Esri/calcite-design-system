@@ -57,7 +57,7 @@
   @apply fixed inset-0 flex overflow-y-hidden;
 }
 
-:host([open]) {
+:host([opened]) {
   @apply opacity-100;
   visibility: visible !important;
   transition-delay: 0ms;

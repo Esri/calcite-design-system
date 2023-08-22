@@ -74,7 +74,29 @@ describe("calcite-sheet properties", () => {
     expect(style).toEqual("600px");
   });
 
-  it("calls the beforeClose method prior to closing", async () => {
+  it("calls the beforeClose method prior to closing via click", async () => {
+    const page = await newE2EPage();
+    const mockCallBack = jest.fn();
+    await page.exposeFunction("beforeClose", mockCallBack);
+    await page.setContent(`
+      <calcite-sheet open></calcite-sheet>
+    `);
+    const sheet = await page.find("calcite-sheet");
+    await page.$eval(
+      "calcite-sheet",
+      (elm: HTMLCalciteSheetElement) =>
+        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+    );
+    await page.waitForChanges();
+    expect(await sheet.getProperty("opened")).toBe(true);
+    const scrim = await page.find(`calcite-sheet >>> calcite-scrim`);
+    await scrim.click();
+    await page.waitForChanges();
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(await sheet.getProperty("opened")).toBe(false);
+  });
+
+  it("calls the beforeClose method prior to closing via attribute", async () => {
     const page = await newE2EPage();
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
@@ -90,9 +112,11 @@ describe("calcite-sheet properties", () => {
     await page.waitForChanges();
     sheet.setProperty("open", true);
     await page.waitForChanges();
-    sheet.setProperty("open", false);
+    expect(await sheet.getProperty("opened")).toBe(true);
+    sheet.removeAttribute("open");
     await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalled();
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(await sheet.getProperty("opened")).toBe(false);
   });
 
   it("has correct aria role/attribute", async () => {

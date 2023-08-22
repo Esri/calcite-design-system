@@ -40,7 +40,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { SheetMessages } from "./assets/sheet/t9n";
-import { SheetPosition } from "./interfaces";
+import { DisplayMode, Position } from "./interfaces";
 
 @Component({
   tag: "calcite-sheet",
@@ -77,7 +77,13 @@ export class Sheet
    *
    * @returns {Promise<void>}
    */
-  @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  @Prop() beforeClose: (el: HTMLCalciteSheetElement) => Promise<void>;
+
+  /**
+   * Specifies the display mode - `"float"` (content is separated detached),
+   * or `"overlay"` (displays on top of center content).
+   */
+  @Prop({ reflect: true }) displayMode: DisplayMode = "overlay";
 
   /**
    * When `true`, prevents focus trapping.
@@ -102,7 +108,7 @@ export class Sheet
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) position: SheetPosition = "inline-start";
+  @Prop({ reflect: true }) position: Position = "inline-start";
 
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
@@ -133,6 +139,13 @@ export class Sheet
    * @internal
    */
   @Prop({ mutable: true }) slottedInShell: boolean;
+
+  /**
+   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
+   *
+   * @internal.
+   */
+  @Prop({ mutable: true, reflect: true }) opened = false;
 
   //--------------------------------------------------------------------------
   //
@@ -182,7 +195,7 @@ export class Sheet
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: this.isOpen,
+            [CSS.containerOpen]: this.opened,
             [CSS.slottedInShell]: this.slottedInShell,
           }}
         >
@@ -218,6 +231,8 @@ export class Sheet
 
   initialOverflowCSS: string;
 
+  ignoreOpenChange = false;
+
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver()
   );
@@ -227,13 +242,6 @@ export class Sheet
   transitionEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
-
-  /**
-   * We use internal variable to make sure initially open sheet can transition from closed state when rendered
-   *
-   * @private
-   */
-  @State() isOpen = false;
 
   @State() effectiveLocale: string;
 
@@ -253,7 +261,7 @@ export class Sheet
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
     if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.close();
+      this.closeSheet();
       event.preventDefault();
     }
   }
@@ -358,7 +366,7 @@ export class Sheet
       this.openSheet();
     } else {
       this.transitionEl?.classList.add(CSS.closingIdle);
-      this.close();
+      this.closeSheet();
     }
   }
 
@@ -369,22 +377,28 @@ export class Sheet
 
   /** Open the sheet */
   private openSheet() {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
     this.el.addEventListener("calciteSheetOpen", this.openEnd);
     this.open = true;
-    this.isOpen = true;
+    this.opened = true;
     if (!this.slottedInShell) {
       this.initialOverflowCSS = document.documentElement.style.overflow;
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
+
+    this.ignoreOpenChange = false;
   }
 
-  handleOutsideClose = (): void => {
+  private handleOutsideClose = (): void => {
     if (this.outsideCloseDisabled) {
       return;
     }
 
-    this.close();
+    this.closeSheet();
   };
 
   /**
@@ -392,12 +406,20 @@ export class Sheet
    *
    * @returns {Promise<void>}
    */
-  close = async (): Promise<void> => {
-    return this.beforeClose(this.el).then(() => {
-      this.open = false;
-      this.isOpen = false;
-      this.removeOverflowHiddenClass();
-    });
+  private closeSheet = async (): Promise<void> => {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
+    if (this.beforeClose) {
+      await this.beforeClose(this.el);
+    }
+
+    this.ignoreOpenChange = true;
+    this.open = false;
+    this.opened = false;
+    this.removeOverflowHiddenClass();
+    this.ignoreOpenChange = false;
   };
 
   private removeOverflowHiddenClass(): void {
