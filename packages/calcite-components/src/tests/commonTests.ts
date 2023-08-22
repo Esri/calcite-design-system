@@ -524,7 +524,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     });
 
     it("only sets focus on the first labelable when label is clicked", async () => {
-      const firstLabelableId = `${id}-1`;
+      const firstLabelableId = `${id}`;
       const componentFirstWrappedPage: E2EPage = await newE2EPage();
       await componentFirstWrappedPage.setContent(html`
         <calcite-label>
@@ -535,12 +535,16 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       `);
       await componentFirstWrappedPage.waitForChanges();
 
+      const firstLabelableSelector = `#${firstLabelableId}`;
+
       await assertLabelable({
         page: componentFirstWrappedPage,
         componentTag,
         propertyToToggle,
         focusTargetSelector:
-          focusTargetSelector === componentTag ? `#${firstLabelableId}` : `#${firstLabelableId} ${focusTargetSelector}`,
+          focusTargetSelector === firstLabelableSelector
+            ? firstLabelableSelector
+            : `${firstLabelableSelector} ${focusTargetSelector}`,
       });
     });
   });
