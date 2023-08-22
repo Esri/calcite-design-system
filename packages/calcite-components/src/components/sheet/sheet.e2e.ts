@@ -1,10 +1,43 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { focusable, renders, hidden, t9n } from "../../tests/commonTests";
+import { focusable, renders, hidden, t9n, defaults, accessible } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 
 describe("calcite-sheet properties", () => {
+  describe("defaults", () => {
+    defaults("calcite-action", [
+      {
+        propertyName: "open",
+        defaultValue: false,
+      },
+      {
+        propertyName: "displayMode",
+        defaultValue: "overlay",
+      },
+      {
+        propertyName: "focusTrapDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "outsideCloseDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "position",
+        defaultValue: "inline-start",
+      },
+      {
+        propertyName: "escapeDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "opened",
+        defaultValue: false,
+      },
+    ]);
+  });
+
   describe("renders", () => {
     renders("calcite-sheet", { display: "flex", visible: false });
   });
@@ -15,6 +48,10 @@ describe("calcite-sheet properties", () => {
 
   describe("translation support", () => {
     t9n("calcite-sheet");
+  });
+
+  describe("accessible", () => {
+    accessible(`<calcite-sheet open label="hello world">Hello everyone!</calcite-sheet>`);
   });
 
   describe("setFocus", () => {

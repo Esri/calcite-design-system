@@ -1,3 +1,3 @@
 # calcite-sheet
 
-`calcite-sheet` helps people perform a scoped task that’s closely related to their current context.
+`calcite-sheet` is used for content that is not displayed to a user until it is explicitly invoked.

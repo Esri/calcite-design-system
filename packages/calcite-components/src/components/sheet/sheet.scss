@@ -99,6 +99,10 @@
   }
 }
 
+:host([display-mode="float"]) .container {
+  @apply m-3;
+}
+
 .container--open {
   @apply opacity-100;
   visibility: visible !important;

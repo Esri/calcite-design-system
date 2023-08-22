@@ -40,7 +40,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { SheetMessages } from "./assets/sheet/t9n";
-import { DisplayMode, Position } from "./interfaces";
+import { SheetDisplayMode, SheetPosition } from "./interfaces";
 
 @Component({
   tag: "calcite-sheet",
@@ -83,7 +83,7 @@ export class Sheet
    * Specifies the display mode - `"float"` (content is separated detached),
    * or `"overlay"` (displays on top of center content).
    */
-  @Prop({ reflect: true }) displayMode: DisplayMode = "overlay";
+  @Prop({ reflect: true }) displayMode: SheetDisplayMode = "overlay";
 
   /**
    * When `true`, prevents focus trapping.
@@ -108,7 +108,7 @@ export class Sheet
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) position: Position = "inline-start";
+  @Prop({ reflect: true }) position: SheetPosition = "inline-start";
 
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
