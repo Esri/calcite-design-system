@@ -1285,11 +1285,12 @@ export class Combobox
     const { selectedItems, placeholderIcon, selectionMode, placeholderIconFlipRtl } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = selectionMode === "single";
 
     const iconAtStart =
       !this.open && selectedItem
-        ? !!selectedIcon && selectionMode
-        : !!this.placeholderIcon && (!selectedItem || selectionMode);
+        ? !!selectedIcon && singleSelectionMode
+        : !!this.placeholderIcon && (!selectedItem || singleSelectionMode);
 
     return (
       iconAtStart && (
