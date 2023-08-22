@@ -34,12 +34,12 @@ describe("calcite-combobox", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "isSingleSelect",
-        defaultValue: false,
-      },
-      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined,
       },
       {
         propertyName: "scale",
@@ -390,22 +390,17 @@ describe("calcite-combobox", () => {
         );
         const combobox = await page.find("calcite-combobox");
         const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
-
         await combobox.click();
         await firstOpenEvent;
-        let item1 = await combobox.find("calcite-combobox-item[value=one]");
+
+        const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
         await item1.click();
         expect(await combobox.getProperty("value")).toBe("one");
 
-        const firstCloseEvent = page.waitForEvent("calciteComboboxClose");
-        await combobox.click();
-        await firstCloseEvent;
-
         const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
         await combobox.click();
         await secondOpenEvent;
-        item1 = await combobox.find("calcite-combobox-item[value=one]");
 
         await item1.click();
         expect(await combobox.getProperty("value")).toBe("");

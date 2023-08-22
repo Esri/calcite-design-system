@@ -210,7 +210,7 @@ export class Combobox
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Indicates whether the selection mode of the component is single (only one selection). */
+  /** Indicates whether the selection mode of the component is single. */
   @Prop({ reflect: true }) isSingleSelect = false;
 
   @Watch("selectionMode")
@@ -1007,7 +1007,7 @@ export class Combobox
   }
 
   getNeedsIcon(): boolean {
-    return this.isSingleSelect && this.items.some((item) => item.icon);
+    return this.selectionMode === "single" && this.items.some((item) => item.icon);
   }
 
   resetText(): void {
@@ -1138,7 +1138,7 @@ export class Combobox
   }
 
   isMulti(): boolean {
-    return !this.isSingleSelect;
+    return this.selectionMode !== "single";
   }
 
   comboboxFocusHandler = (): void => {
@@ -1190,16 +1190,17 @@ export class Combobox
   }
 
   renderInput(): VNode {
-    const { guid, disabled, placeholder, selectedItems, open } = this;
+    const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
 
+    const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
-    const showLabel = !open && this.isSingleSelect && !!selectedItem;
+    const showLabel = !open && single && !!selectedItem;
 
     return (
       <span
         class={{
           "input-wrap": true,
-          "input-wrap--single": this.isSingleSelect,
+          "input-wrap--single": single,
         }}
       >
         {showLabel && (
@@ -1285,14 +1286,14 @@ export class Combobox
   }
 
   renderIconStart(): VNode {
-    const { selectedItems, placeholderIcon, placeholderIconFlipRtl } = this;
+    const { selectedItems, placeholderIcon, selectionMode, placeholderIconFlipRtl } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
 
     const iconAtStart =
       !this.open && selectedItem
-        ? !!selectedIcon && this.isSingleSelect
-        : !!this.placeholderIcon && (!selectedItem || this.isSingleSelect);
+        ? !!selectedIcon && selectionMode
+        : !!this.placeholderIcon && (!selectedItem || selectionMode);
 
     return (
       iconAtStart && (
@@ -1319,6 +1320,7 @@ export class Combobox
 
   render(): VNode {
     const { guid, label, open } = this;
+    const single = this.selectionMode === "single";
 
     const isClearable = !this.clearDisabled && this.value?.length > 0;
 
@@ -1334,7 +1336,7 @@ export class Combobox
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             wrapper: true,
-            "wrapper--single": this.isSingleSelect || !this.selectedItems.length,
+            "wrapper--single": single || !this.selectedItems.length,
             "wrapper--active": open,
           }}
           onClick={this.clickHandler}
@@ -1345,7 +1347,7 @@ export class Combobox
         >
           <div class="grid-input">
             {this.renderIconStart()}
-            {!this.isSingleSelect && this.renderChips()}
+            {!single && this.renderChips()}
             <label
               class="screen-readers-only"
               htmlFor={`${inputUidPrefix}${guid}`}
