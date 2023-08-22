@@ -11,11 +11,6 @@ export const CSS = {
   valid: "valid",
 };
 
-export const TEXT = {
-  collapse: "Collapse",
-  expand: "Expand",
-};
-
 export const ICONS = {
   menuOpen: "chevron-down",
   menuClosedLeft: "chevron-left",

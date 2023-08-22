@@ -17,13 +17,6 @@ export const CSS = {
   invalid: "invalid",
 };
 
-export const TEXT = {
-  collapse: "Collapse",
-  expand: "Expand",
-  loading: "Loading",
-  options: "Options",
-};
-
 export const SLOTS = {
   icon: "icon",
   control: "control",
