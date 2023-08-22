@@ -125,12 +125,12 @@ describe("calcite-modal properties", () => {
     await page.waitForChanges();
     modal.setProperty("open", true);
     await page.waitForChanges();
-    expect(modal.getAttribute("opened")).toBe("");
+    expect(await modal.getProperty("opened")).toBe(true);
     const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
     await closeButton.click();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(modal.getAttribute("opened")).toBe(null);
+    expect(await modal.getProperty("opened")).toBe(false);
   });
 });
 
@@ -150,11 +150,11 @@ it("calls the beforeClose method prior to closing via attribute", async () => {
   await page.waitForChanges();
   modal.setProperty("open", true);
   await page.waitForChanges();
-  expect(modal.getAttribute("opened")).toBe("");
+  expect(await modal.getProperty("opened")).toBe(true);
   modal.removeAttribute("open");
   await page.waitForChanges();
   expect(mockCallBack).toHaveBeenCalledTimes(1);
-  expect(modal.getAttribute("opened")).toBe(null);
+  expect(await modal.getProperty("opened")).toBe(false);
 });
 
 describe("opening and closing behavior", () => {
