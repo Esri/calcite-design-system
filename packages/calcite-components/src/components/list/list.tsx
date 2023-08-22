@@ -628,8 +628,6 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       const items = this.queryListItems(true);
 
       items.forEach((item) => {
-        item.selectionAppearance = selectionAppearance;
-        item.selectionMode = selectionMode;
         item.dragHandle = dragEnabled;
       });
 
@@ -641,6 +639,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
+    });
+    const dragItems = this.queryListItems(true);
+    dragItems.forEach((item) => {
       item.dragHandle = dragEnabled;
     });
     this.listItems = items;
