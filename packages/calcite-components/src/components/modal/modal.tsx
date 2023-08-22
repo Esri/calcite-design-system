@@ -198,6 +198,7 @@ export class Modal
   }
 
   render(): VNode {
+    const { outsideCloseDisabled, messages } = this;
     return (
       <Host
         aria-describedby={this.contentId}
@@ -212,7 +213,12 @@ export class Modal
             [CSS.slottedInShell]: this.slottedInShell,
           }}
         >
-          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          <calcite-scrim
+            aria-label={outsideCloseDisabled ? null : messages.close}
+            class={CSS.scrim}
+            onClick={this.handleOutsideClose}
+            title={outsideCloseDisabled ? null : messages.close}
+          />
           {this.renderStyle()}
           <div
             class={{
