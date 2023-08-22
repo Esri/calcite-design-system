@@ -56,7 +56,6 @@ sheet.beforeClose = beforeClose;
 | `escapeDisabled`       | `escape-disabled`        | When `true`, disables the default close on escape behavior.                                                                 | `boolean`                                                        | `false`          |
 | `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                                                       | `boolean`                                                        | `false`          |
 | `label` _(required)_   | `label`                  | Specifies the label of the component.                                                                                       | `string`                                                         | `undefined`      |
-| `messageOverrides`     | --                       | Use this property to override individual strings used by the component.                                                     | `{ close?: string; }`                                            | `undefined`      |
 | `open`                 | `open`                   | When `true`, displays and positions the component.                                                                          | `boolean`                                                        | `false`          |
 | `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                                                    | `boolean`                                                        | `false`          |
 | `position`             | `position`               | When `true`, disables the closing of the component when clicked outside.                                                    | `"block-end" \| "block-start" \| "inline-end" \| "inline-start"` | `"inline-start"` |
@@ -71,14 +70,6 @@ sheet.beforeClose = beforeClose;
 | `calciteSheetOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
 
 ## Methods
-
-### `scrollContent(top?: number, left?: number) => Promise<void>`
-
-Sets the scroll top of the component's content.
-
-#### Returns
-
-Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 

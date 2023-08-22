@@ -35,7 +35,6 @@ import { SheetDisplayMode, SheetPosition } from "./interfaces";
   tag: "calcite-sheet",
   styleUrl: "sheet.scss",
   shadow: true,
-  assetsDirs: ["assets"],
 })
 export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableComponent {
   //--------------------------------------------------------------------------
