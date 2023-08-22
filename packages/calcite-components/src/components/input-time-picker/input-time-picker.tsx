@@ -825,7 +825,7 @@ export class InputTimePicker
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.setCalciteInputEl}
           />
-          {this.renderToggleIcon(this.open)}
+          {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
         <calcite-popover
           focusTrapDisabled={true}
