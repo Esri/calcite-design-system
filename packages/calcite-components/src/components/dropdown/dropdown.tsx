@@ -67,14 +67,6 @@ export class Dropdown
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDropdownElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -387,11 +379,8 @@ export class Dropdown
 
     switch (keyboardEvent.key) {
       case "Tab":
-        if (this.items.indexOf(target) === this.items.length - 1 && !keyboardEvent.shiftKey) {
-          this.closeCalciteDropdown();
-        } else if (this.items.indexOf(target) === 0 && keyboardEvent.shiftKey) {
-          this.closeCalciteDropdown();
-        }
+        this.open = false;
+        this.updateTabIndexOfItems(target);
         break;
       case "ArrowDown":
         focusElementInGroup(this.items, target, "next");
@@ -429,6 +418,8 @@ export class Dropdown
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteDropdownElement;
 
   filteredFlipPlacements: EffectivePlacement[];
 
@@ -675,4 +666,10 @@ export class Dropdown
       this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
     }
   };
+
+  private updateTabIndexOfItems(target: HTMLCalciteDropdownItemElement): void {
+    this.items.forEach((item: HTMLCalciteDropdownItemElement) => {
+      item.tabIndex = target !== item ? -1 : 0;
+    });
+  }
 }

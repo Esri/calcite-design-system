@@ -150,14 +150,6 @@ export class InputTimePicker
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputTimePickerElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -310,6 +302,8 @@ export class InputTimePicker
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInputTimePickerElement;
 
   defaultValue: InputTimePicker["value"];
 
@@ -831,7 +825,7 @@ export class InputTimePicker
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.setCalciteInputEl}
           />
-          {this.renderToggleIcon(this.open)}
+          {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
         <calcite-popover
           focusTrapDisabled={true}

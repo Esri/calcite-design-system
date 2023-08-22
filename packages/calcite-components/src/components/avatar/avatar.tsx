@@ -12,14 +12,6 @@ import { hexToHue, stringToHex } from "./utils";
 export class Avatar {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAvatarElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -57,6 +49,8 @@ export class Avatar {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteAvatarElement;
 
   @State() thumbnailFailedToLoad = false;
 
@@ -116,7 +110,7 @@ export class Avatar {
   }
 
   /**
-   * Use fullname or username to generate initials
+   * Use fullName or username to generate initials
    */
   private generateInitials(): string | boolean {
     const { fullName, username } = this;

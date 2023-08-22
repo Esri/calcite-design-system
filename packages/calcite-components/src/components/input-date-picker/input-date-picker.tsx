@@ -100,13 +100,6 @@ export class InputDatePicker
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteInputDatePickerElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -550,7 +543,7 @@ export class InputDatePicker
                 // eslint-disable-next-line react/jsx-sort-props
                 ref={this.setStartInput}
               />
-              {this.renderToggleIcon(this.open && this.focusedInput === "start")}
+              {!this.readOnly && this.renderToggleIcon(this.open && this.focusedInput === "start")}
               <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
                 Date Format: {this.localeData?.placeholder}
               </span>
@@ -648,7 +641,7 @@ export class InputDatePicker
                   // eslint-disable-next-line react/jsx-sort-props
                   ref={this.setEndInput}
                 />
-                {this.renderToggleIcon(this.open && this.focusedInput === "end")}
+                {!this.readOnly && this.renderToggleIcon(this.open && this.focusedInput === "end")}
               </div>
             )}
           </div>
@@ -671,6 +664,8 @@ export class InputDatePicker
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInputDatePickerElement;
 
   private datePickerEl: HTMLCalciteDatePickerElement;
 

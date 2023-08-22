@@ -126,9 +126,7 @@ describe("calcite-button", () => {
   });
 
   describe("accessible: href and target", () => {
-    accessible(
-      `<calcite-button rel="noopener noreferrer" target="_blank" class="mycustomclass" href="google.com">Continue</calcite-button>`
-    );
+    accessible(`<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`);
   });
 
   describe("accessible: icons and loading", () => {
@@ -141,6 +139,13 @@ describe("calcite-button", () => {
 
   describe("disabled", () => {
     disabled("calcite-button");
+  });
+
+  it("should have aria-live attribute set to polite by default", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button>Continue</calcite-button>`);
+    const button = await page.find("calcite-button >>> button");
+    expect(button.getAttribute("aria-live")).toBe("polite");
   });
 
   it("should update childElType when href changes", async () => {
@@ -236,7 +241,7 @@ describe("calcite-button", () => {
   it("passes attributes to rendered child link", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button rel="noopener noreferrer" target="_blank" class="mycustomclass" href="google.com">Continue</calcite-button>`
+      `<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -257,7 +262,7 @@ describe("calcite-button", () => {
 
   it("passes attributes to rendered child button", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-button type="reset" name="myname" class="mycustomclass">Continue</calcite-button>`);
+    await page.setContent(`<calcite-button type="reset" name="my-name">Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
@@ -268,7 +273,7 @@ describe("calcite-button", () => {
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(elementAsButton).toEqualAttribute("type", "reset");
-    expect(elementAsButton).toEqualAttribute("name", "myname");
+    expect(elementAsButton).toEqualAttribute("name", "my-name");
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
     expect(loader).toBeNull();
@@ -400,28 +405,28 @@ describe("calcite-button", () => {
     expect(loader).toBeNull();
   });
 
-  it("hascontent class is present on rendered child when content (as text) is present", async () => {
+  it("contentSlotted class is present on rendered child when content (as text) is present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementAsButton).toHaveClass(CSS.contentSlotted);
   });
 
-  it("hascontent class is present on rendered child when content (as element) is present", async () => {
+  it("contentSlotted class is present on rendered child when content (as element) is present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button><calcite-icon icon="banana" /></calcite-button>`);
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementAsButton).toHaveClass(CSS.contentSlotted);
   });
 
-  it("hascontent class is present on rendered child when content (as text and element) is present", async () => {
+  it("contentSlotted class is present on rendered child when content (as text and element) is present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Banana <calcite-icon icon="banana" /></calcite-button>`);
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementAsButton).toHaveClass(CSS.contentSlotted);
   });
 
-  it("hascontent class is not present on rendered child when content is not present", async () => {
+  it("contentSlotted class is not present on rendered child when content is not present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button icon-start='plus'></calcite-button>`);
     const elementAsButton = await page.find("calcite-button >>> button");
