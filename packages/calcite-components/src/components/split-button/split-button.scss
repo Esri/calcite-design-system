@@ -66,10 +66,6 @@
     --calcite-split-button-divider: theme("colors.danger");
   }
   &:host([kind="neutral"]) {
-    calcite-button,
-    calcite-dropdown {
-      --calcite-ui-foreground-3: theme("borderColor.color.1");
-    }
     --calcite-split-button-divider: theme("borderColor.color.1");
     --calcite-split-button-background: theme("borderColor.color.1");
   }
