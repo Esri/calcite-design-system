@@ -94,7 +94,7 @@ export class Shell implements ConditionalSlotComponent {
   };
 
   handleSheetsSlotChange = (event: Event): void => {
-    this.hasAlerts = !!slotChangeHasAssignedElement(event);
+    this.hasSheets = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.nodeName === "CALCITE-SHEET") {
         (el as HTMLCalciteSheetElement).slottedInShell = true;
