@@ -388,7 +388,7 @@ export class Dropdown
     switch (keyboardEvent.key) {
       case "Tab":
         this.open = false;
-        this.updateTabIndexOfItems(event);
+        this.updateTabIndexOfItems(target);
         break;
       case "ArrowDown":
         focusElementInGroup(this.items, target, "next");
@@ -673,9 +673,9 @@ export class Dropdown
     }
   };
 
-  private updateTabIndexOfItems(event: CustomEvent<ItemKeyboardEvent>): void {
+  private updateTabIndexOfItems(target: HTMLCalciteDropdownItemElement): void {
     this.items.forEach((item: HTMLCalciteDropdownItemElement) => {
-      item.tabIndex = event.target !== item ? -1 : 0;
+      item.tabIndex = target !== item ? -1 : 0;
     });
   }
 }
