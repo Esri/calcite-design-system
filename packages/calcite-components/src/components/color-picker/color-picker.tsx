@@ -146,9 +146,10 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) format: Format = "auto";
 
+  @Watch("alphaChannel")
   @Watch("format")
-  handleFormatChange(format: Format): void {
-    this.setMode(format);
+  handleFormatOrAlphaChannelChange(): void {
+    this.setMode(this.format);
     this.internalColorSet(this.color, false, "internal");
   }
 
@@ -1311,6 +1312,10 @@ export class ColorPicker
   };
 
   private initOpacitySlider = (canvas: HTMLCanvasElement): void => {
+    if (!canvas) {
+      return;
+    }
+
     this.opacitySliderRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("opacity-slider");
     this.drawOpacitySlider();
