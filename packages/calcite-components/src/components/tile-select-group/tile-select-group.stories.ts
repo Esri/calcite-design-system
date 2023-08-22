@@ -15,7 +15,7 @@ export default {
 const tileSelectsHTML = () => html`
   <calcite-tile-select
     checked
-    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.  Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.  Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     icon="layers"
     name="light"
@@ -27,7 +27,7 @@ const tileSelectsHTML = () => html`
   >
   </calcite-tile-select>
   <calcite-tile-select
-    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     heading="Tile title lorem ipsum"
     icon="layers"
     name="light"
@@ -39,7 +39,7 @@ const tileSelectsHTML = () => html`
   >
   </calcite-tile-select>
   <calcite-tile-select
-    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall. Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall. Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     heading="Tile title lorem ipsum"
     icon="layers"
     name="light"
@@ -51,8 +51,8 @@ const tileSelectsHTML = () => html`
   >
   </calcite-tile-select>
   <calcite-tile-select
-    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.  Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-    heading="TiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsum"
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.  Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+    heading="Tile-title-lorem-ipsum-Tile-title-lorem-ipsum-Tile-title-lorem-ipsum-Tile-title-lorem-ipsum-Tile-title-lorem-ipsum-Tile-title-lorem-ipsum"
     icon="layers"
     name="light"
     ${boolean("input-enabled", true, "Tile Select") && "input-enabled"}

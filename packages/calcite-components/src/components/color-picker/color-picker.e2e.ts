@@ -1855,6 +1855,24 @@ describe("calcite-color-picker", () => {
           });
         });
       });
+
+      it("updates value when alphaChannel is toggled", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          `<calcite-color-picker value="${supportedFormatToSampleValue.hex}"></calcite-color-picker>`
+        );
+        const color = await page.find("calcite-color-picker");
+
+        await color.setProperty("alphaChannel", true);
+        await page.waitForChanges();
+
+        expect(await color.getProperty("value")).toEqual(supportedAlphaFormatToSampleValue.hexa);
+
+        await color.setProperty("alphaChannel", false);
+        await page.waitForChanges();
+
+        expect(await color.getProperty("value")).toEqual(supportedFormatToSampleValue.hex);
+      });
     });
   });
 

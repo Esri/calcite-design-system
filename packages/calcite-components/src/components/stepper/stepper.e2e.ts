@@ -385,7 +385,7 @@ describe("calcite-stepper", () => {
             >Step 2 Content here error</calcite-stepper-item
           >
           <calcite-stepper-item id="item-3" heading="Upload images" description="Subtitle lorem ipsum">
-            Step 3 Content here dolor set amet et geographica</calcite-stepper-item
+            Step 3 Content here dolor sit amet consectetur</calcite-stepper-item
           >
           <calcite-stepper-item id="item-4" heading="Review" description="Disabled example" disabled
             >Step 4 Content here</calcite-stepper-item

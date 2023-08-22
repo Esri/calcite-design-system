@@ -132,17 +132,17 @@ export class Select
 
   //--------------------------------------------------------------------------
   //
-  //  Variables
+  //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteSelectElement;
 
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
 
   defaultValue: Select["value"];
-
-  @Element() el: HTMLCalciteSelectElement;
 
   private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 

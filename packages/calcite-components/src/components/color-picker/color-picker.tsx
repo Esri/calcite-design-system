@@ -89,14 +89,6 @@ export class ColorPicker
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteColorPickerElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public properties
   //
   //--------------------------------------------------------------------------
@@ -154,9 +146,10 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) format: Format = "auto";
 
+  @Watch("alphaChannel")
   @Watch("format")
-  handleFormatChange(format: Format): void {
-    this.setMode(format);
+  handleFormatOrAlphaChannelChange(): void {
+    this.setMode(this.format);
     this.internalColorSet(this.color, false, "internal");
   }
 
@@ -285,6 +278,8 @@ export class ColorPicker
   //  Internal State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteColorPickerElement;
 
   private activeCanvasInfo: {
     context: CanvasRenderingContext2D;
@@ -1317,6 +1312,10 @@ export class ColorPicker
   };
 
   private initOpacitySlider = (canvas: HTMLCanvasElement): void => {
+    if (!canvas) {
+      return;
+    }
+
     this.opacitySliderRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("opacity-slider");
     this.drawOpacitySlider();

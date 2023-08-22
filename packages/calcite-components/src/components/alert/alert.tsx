@@ -66,14 +66,6 @@ import { CSS, DURATIONS, SLOTS } from "./resources";
 export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAlertElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //---------------------------------------------------------------------------
@@ -394,6 +386,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteAlertElement;
 
   @State() effectiveLocale = "";
 

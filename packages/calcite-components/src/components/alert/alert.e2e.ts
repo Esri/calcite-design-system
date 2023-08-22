@@ -124,7 +124,7 @@ describe("calcite-alert", () => {
 
     const alert1 = await page.find("#alert-1");
     const button1 = await page.find("#button-1");
-    const alertclose1 = await page.find("#alert-1 >>> .alert-close");
+    const alertClose1 = await page.find("#alert-1 >>> .alert-close");
 
     expect(await alert1.isVisible()).not.toBe(true);
 
@@ -132,7 +132,7 @@ describe("calcite-alert", () => {
     await page.waitForTimeout(animationDurationInMs);
     expect(await alert1.isVisible()).toBe(true);
 
-    await alertclose1.click();
+    await alertClose1.click();
     await page.waitForTimeout(animationDurationInMs);
     expect(await alert1.isVisible()).not.toBe(true);
   });
@@ -161,16 +161,16 @@ describe("calcite-alert", () => {
     const button1 = await page.find("#button-1");
     const button2 = await page.find("#button-2");
     const button3 = await page.find("#button-3");
-    const alertclose1 = await page.find("#alert-1 >>> .alert-close");
-    const alertclose2 = await page.find("#alert-2 >>> .alert-close");
+    const alertClose1 = await page.find("#alert-1 >>> .alert-close");
+    const alertClose2 = await page.find("#alert-2 >>> .alert-close");
 
     await button1.click();
     await page.waitForTimeout(animationDurationInMs);
-    await alertclose1.click();
+    await alertClose1.click();
 
     await button2.click();
     await page.waitForTimeout(animationDurationInMs);
-    await alertclose2.click();
+    await alertClose2.click();
 
     await button3.click();
     await page.waitForTimeout(animationDurationInMs);

@@ -1,4 +1,4 @@
-import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
+import { closestElementCrossShadowBoundary, isBefore, queryElementRoots } from "./dom";
 
 export interface LabelableComponent {
   /**
@@ -34,13 +34,14 @@ export interface LabelableComponent {
  */
 export const labelClickEvent = "calciteInternalLabelClick";
 export const labelConnectedEvent = "calciteInternalLabelConnected";
-export const labelDisconnectedEvent = "calciteInternaLabelDisconnected";
+export const labelDisconnectedEvent = "calciteInternalLabelDisconnected";
 
 const labelTagName = "calcite-label";
+const labelToLabelables = new WeakMap<HTMLCalciteLabelElement, LabelableComponent[]>();
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
 const onLabelConnectedMap = new WeakMap<LabelableComponent, typeof onLabelConnected>();
 const onLabelDisconnectedMap = new WeakMap<LabelableComponent, typeof onLabelDisconnected>();
-const unlabeledComponents = new Set<LabelableComponent>();
+const unlabeledComponents = new WeakSet<LabelableComponent>();
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const { id } = componentEl;
@@ -95,7 +96,10 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
 export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
 
-  if (onLabelClickMap.has(labelEl) || (!labelEl && unlabeledComponents.has(component))) {
+  if (
+    (onLabelClickMap.has(labelEl) && labelEl === component.labelEl) ||
+    (!labelEl && unlabeledComponents.has(component))
+  ) {
     return;
   }
 
@@ -103,9 +107,16 @@ export function connectLabel(component: LabelableComponent): void {
 
   if (labelEl) {
     component.labelEl = labelEl;
-    const boundOnLabelClick = onLabelClick.bind(component);
-    onLabelClickMap.set(component.labelEl, boundOnLabelClick);
-    component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
+
+    const labelables = labelToLabelables.get(labelEl) || [];
+    labelables.push(component);
+    labelToLabelables.set(labelEl, labelables.sort(sortByDOMOrder));
+
+    if (!onLabelClickMap.has(component.labelEl)) {
+      onLabelClickMap.set(component.labelEl, onLabelClick);
+      component.labelEl.addEventListener(labelClickEvent, onLabelClick);
+    }
+
     unlabeledComponents.delete(component);
     document.removeEventListener(labelConnectedEvent, onLabelConnectedMap.get(component));
     onLabelDisconnectedMap.set(component, boundOnLabelDisconnected);
@@ -131,9 +142,23 @@ export function disconnectLabel(component: LabelableComponent): void {
     return;
   }
 
-  const boundOnLabelClick = onLabelClickMap.get(component.labelEl);
-  component.labelEl.removeEventListener(labelClickEvent, boundOnLabelClick);
-  onLabelClickMap.delete(component.labelEl);
+  const labelables = labelToLabelables.get(component.labelEl);
+
+  if (labelables.length === 1) {
+    component.labelEl.removeEventListener(labelClickEvent, onLabelClickMap.get(component.labelEl));
+    onLabelClickMap.delete(component.labelEl);
+  }
+
+  labelToLabelables.set(
+    component.labelEl,
+    labelables.filter((labelable) => labelable !== component).sort(sortByDOMOrder)
+  );
+
+  component.labelEl = null;
+}
+
+function sortByDOMOrder(a: LabelableComponent, b: LabelableComponent): number {
+  return isBefore(a.el, b.el) ? -1 : 1;
 }
 
 /**
@@ -145,18 +170,24 @@ export function getLabelText(component: LabelableComponent): string {
   return component.label || component.labelEl?.textContent?.trim() || "";
 }
 
-function onLabelClick(this: LabelableComponent, event: CustomEvent<{ sourceEvent: MouseEvent }>): void {
-  if (this.disabled) {
+function onLabelClick(this: HTMLCalciteLabelElement, event: CustomEvent<{ sourceEvent: MouseEvent }>): void {
+  const labelClickTarget = event.detail.sourceEvent.target as HTMLElement;
+  const labelables = labelToLabelables.get(this);
+  const clickedLabelable = labelables.find((labelable) => labelable.el === labelClickTarget);
+  const labelableChildClicked = labelables.includes(clickedLabelable);
+
+  if (labelableChildClicked) {
+    // no need to forward click as labelable will receive focus
     return;
   }
 
-  const containedLabelableChildClicked = this.el.contains(event.detail.sourceEvent.target as HTMLElement);
+  const firstLabelable = labelables[0];
 
-  if (containedLabelableChildClicked) {
+  if (firstLabelable.disabled) {
     return;
   }
 
-  this.onLabelClick(event);
+  firstLabelable.onLabelClick(event);
 }
 
 function onLabelConnected(this: LabelableComponent): void {

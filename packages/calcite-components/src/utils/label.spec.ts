@@ -70,6 +70,8 @@ describe("label", () => {
         expect(labelable.onLabelClick).toHaveBeenCalledTimes(0);
 
         disconnectLabel(labelable);
+
+        expect(labelable.labelEl).toBeNull();
       });
 
       it("supports for attribute", () => {
@@ -96,7 +98,7 @@ describe("label", () => {
 
         disconnectLabel(labelable);
 
-        expect(labelable.labelEl).toBe(labelEl);
+        expect(labelable.labelEl).toBeNull();
 
         labelEl.click();
 
@@ -130,7 +132,7 @@ describe("label", () => {
 
         disconnectLabel(labelable);
 
-        expect(labelable.labelEl).toBe(labelEl);
+        expect(labelable.labelEl).toBeNull();
 
         labelEl.click();
 
@@ -165,7 +167,7 @@ describe("label", () => {
 
         disconnectLabel(labelable);
 
-        expect(labelable.labelEl).toBe(labelEl);
+        expect(labelable.labelEl).toBeNull();
 
         labelEl.click();
 
@@ -202,7 +204,7 @@ describe("label", () => {
 
         disconnectLabel(labelable);
 
-        expect(labelable.labelEl).toBe(labelEl);
+        expect(labelable.labelEl).toBeNull();
 
         labelEl.click();
 
@@ -250,6 +252,67 @@ describe("label", () => {
         labelEl.click();
 
         expect(outerLabelable.onLabelClick).toHaveBeenCalledTimes(1);
+      });
+
+      it("handles the first labelable child only", () => {
+        document.body.innerHTML = `
+        <calcite-label>
+          label
+          <fake-labelable id="first"></fake-labelable>
+          <fake-labelable id="second"></fake-labelable>
+          <fake-labelable id="third"></fake-labelable>
+        </calcite-label>
+      `;
+
+        const labelEl = document.querySelector<HTMLElement>("calcite-label");
+        const fakeLabelableEl1 = document.querySelector<HTMLElement>("#first");
+        const fakeLabelableEl2 = document.querySelector<HTMLElement>("#second");
+        const fakeLabelableEl3 = document.querySelector<HTMLElement>("#third");
+
+        wireUpFakeLabel(labelEl);
+
+        const labelable1 = createFakeLabelable({ el: fakeLabelableEl1 });
+        const labelable2 = createFakeLabelable({ el: fakeLabelableEl2 });
+        const labelable3 = createFakeLabelable({ el: fakeLabelableEl3 });
+
+        // we connect in reverse order to ensure we test last element handles label click first
+        connectLabel(labelable1);
+        connectLabel(labelable2);
+        connectLabel(labelable3);
+
+        expect(labelable1.labelEl).toBe(labelEl);
+        expect(labelable2.labelEl).toBe(labelEl);
+        expect(labelable3.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable1.onLabelClick).toHaveBeenCalledTimes(1); // should be 1
+        expect(labelable2.onLabelClick).toHaveBeenCalledTimes(0);
+        expect(labelable3.onLabelClick).toHaveBeenCalledTimes(0);
+
+        disconnectLabel(labelable1);
+
+        labelEl.click();
+
+        expect(labelable1.onLabelClick).toHaveBeenCalledTimes(1);
+        expect(labelable2.onLabelClick).toHaveBeenCalledTimes(1);
+        expect(labelable3.onLabelClick).toHaveBeenCalledTimes(0);
+
+        disconnectLabel(labelable2);
+
+        labelEl.click();
+
+        expect(labelable1.onLabelClick).toHaveBeenCalledTimes(1);
+        expect(labelable2.onLabelClick).toHaveBeenCalledTimes(1);
+        expect(labelable3.onLabelClick).toHaveBeenCalledTimes(1);
+
+        disconnectLabel(labelable3);
+
+        labelEl.click();
+
+        expect(labelable1.onLabelClick).toHaveBeenCalledTimes(1);
+        expect(labelable2.onLabelClick).toHaveBeenCalledTimes(1);
+        expect(labelable3.onLabelClick).toHaveBeenCalledTimes(1);
       });
     });
   });
