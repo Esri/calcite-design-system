@@ -250,12 +250,6 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       !!high && min <= high && high < max && (!value || high > value) && (!low || high > low);
   }
 
-  /**
-   *
-   * @param value
-   * @param labelType
-   * @returns
-   */
   private formatLabel = (value: number, labelType: MeterLabelType): string => {
     if (labelType === "percent") {
       if (!this.percentFormatting) {
@@ -298,9 +292,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   }
 
   private intersects(el1: HTMLDivElement, el2: HTMLDivElement): boolean {
-    return el1 && el2
-      ? intersects(el1?.getBoundingClientRect(), el2?.getBoundingClientRect())
-      : false;
+    return el1 && el2 && intersects(el1.getBoundingClientRect(), el2.getBoundingClientRect());
   }
 
   private determineVisibleLabels(): void {
