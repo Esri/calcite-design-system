@@ -40,6 +40,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { SheetMessages } from "./assets/sheet/t9n";
+import { SheetPosition } from "./interfaces";
 
 @Component({
   tag: "calcite-sheet",
@@ -71,9 +72,12 @@ export class Sheet
   /** When `true`, displays and positions the component.  */
   @Prop({ mutable: true, reflect: true }) open = false;
 
-  /** Passes a function to run before the component closes. */
-  @Prop()
-  beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  /**
+   *  Passes a function to run before the component closes.
+   *
+   * @returns {Promise<void>}
+   */
+  @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /**
    * When `true`, prevents focus trapping.
@@ -98,8 +102,7 @@ export class Sheet
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) position: "inline-start" | "inline-end" | "block-start" | "block-end" =
-    "inline-start";
+  @Prop({ reflect: true }) position: SheetPosition = "inline-start";
 
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
@@ -299,8 +302,8 @@ export class Sheet
   /**
    * Sets the scroll top of the component's content.
    *
-   * @param top
-   * @param left
+   * @param top - position from the top
+   * @param left - position from the left
    */
   @Method()
   async scrollContent(top = 0, left = 0): Promise<void> {
@@ -384,8 +387,12 @@ export class Sheet
     this.close();
   };
 
-  /** Close the sheet, first running the `beforeClose` method */
-  close = (): Promise<void> => {
+  /**
+   * Close the sheet, first running the `beforeClose` method
+   *
+   * @returns {Promise<void>}
+   */
+  close = async (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
       this.open = false;
       this.isOpen = false;

@@ -39,40 +39,99 @@
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Sheet</h1>
 
-      <!-- Sizes -->
       <div class="parent">
-        <div class="child right-aligned-text"></div>
-        <div class="child">Small</div>
-        <div class="child">Medium</div>
-        <div class="child">Large</div>
-      </div>
-
-      <!--
-      **************************************************
-      * SMALL
-      **************************************************
-    -->
-      <div class="parent">
-        <div class="child right-aligned-text">Width S</div>
-
-        <!-- small width & scale -->
+        <div class="child right-aligned-text">inline-start</div>
         <div class="child">
-          <calcite-sheet class="js-sheet-s-s" width="s" scale="s">
-            <calcite-panel heading="Hello world"
-              >Hello!
-              <calcite-button>Hi!</calcite-button>
+          <calcite-sheet id="inline-start-1" label="libero nunc" position="inline-start">
+            <calcite-panel heading="ultrices neque"
+              ><p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+              </p>
+              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
             </calcite-panel>
           </calcite-sheet>
 
-          <calcite-button onClick="openSheet('.js-sheet-s-s')" appearance="outline" scale="s">
-            Scale Small
+          <calcite-button onClick="openSheet('inline-start-1')" appearance="outline" scale="s">
+            inline-start
           </calcite-button>
         </div>
       </div>
 
+      <div class="parent">
+        <div class="child right-aligned-text">inline-end</div>
+        <div class="child">
+          <calcite-sheet id="inline-end-1" label="libero nunc" position="inline-end">
+            <calcite-panel heading="ultrices neque"
+              ><p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+              </p>
+              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+            </calcite-panel>
+          </calcite-sheet>
+
+          <calcite-button onClick="openSheet('inline-end-1')" appearance="outline" scale="s">
+            inline-end
+          </calcite-button>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">block-start</div>
+        <div class="child">
+          <calcite-sheet id="block-start-1" label="libero nunc" position="block-start">
+            <calcite-panel heading="ultrices neque"
+              ><p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+              </p>
+              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+            </calcite-panel>
+          </calcite-sheet>
+
+          <calcite-button onClick="openSheet('block-start-1')" appearance="outline" scale="s">
+            block-start
+          </calcite-button>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">block-end</div>
+        <div class="child">
+          <calcite-sheet id="block-end-1" label="libero nunc" position="block-end">
+            <calcite-panel heading="ultrices neque"
+              ><p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+              </p>
+              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+            </calcite-panel>
+          </calcite-sheet>
+
+          <calcite-button onClick="openSheet('block-end-1')" appearance="outline" scale="s"> block-end </calcite-button>
+        </div>
+      </div>
+
       <script>
-        function openSheet(selector) {
-          document.querySelector(selector).open = true;
+        function openSheet(id) {
+          document.getElementById(id).open = true;
         }
       </script>
     </demo-dom-swapper>
