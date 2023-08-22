@@ -60,6 +60,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
+  @Watch("expanded")
+  expandedHandler(newValue: boolean): void {
+    this.updateParentIsExpanded(this.el, newValue);
+  }
+
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
@@ -69,9 +74,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
 
-  @Watch("expanded")
-  expandedHandler(newValue: boolean): void {
-    this.updateParentIsExpanded(this.el, newValue);
+  @Watch("selected")
+  handleSelectedChange(): void {
+    if (this.selectionMode === "ancestors") {
+      this.updateAncestorTree();
+    }
   }
 
   /**
@@ -474,7 +481,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   private updateAncestorTree(): void {
     const parentItem = this.parentTreeItem;
-
+    const item = this.el;
     if (this.selectionMode !== "ancestors" || !parentItem) {
       return;
     }
@@ -492,9 +499,47 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       } else if (selectedSiblings.length > 0) {
         parentItem.indeterminate = true;
       }
+
+      const childItems = Array.from(
+        item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
+      );
+
+      childItems.forEach((item) => {
+        item.selected = true;
+        item.indeterminate = false;
+      });
     } else if (this.indeterminate) {
       const parentItem = this.parentTreeItem;
       parentItem.indeterminate = true;
+    } else if (!this.selected) {
+      const ancestors: HTMLCalciteTreeItemElement[] = [];
+      let parent = this.el.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
+      while (parent) {
+        ancestors.push(parent);
+        parent = parent.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
+      }
+
+      const childItems = Array.from(
+        item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
+      );
+
+      childItems.forEach((item) => {
+        item.selected = false;
+        item.indeterminate = false;
+      });
+      ancestors.forEach((ancestor) => {
+        const descendants = nodeListToArray(ancestor.querySelectorAll("calcite-tree-item"));
+        const activeDescendants = descendants.filter((el) => el.selected);
+        if (activeDescendants.length === 0) {
+          ancestor.selected = false;
+          ancestor.indeterminate = false;
+          return;
+        }
+
+        const indeterminate = activeDescendants.length < descendants.length;
+        ancestor.indeterminate = indeterminate;
+        ancestor.selected = !indeterminate;
+      });
     }
   }
 
