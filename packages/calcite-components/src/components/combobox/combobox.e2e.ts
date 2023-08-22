@@ -1705,7 +1705,7 @@ describe("calcite-combobox", () => {
     });
   });
 
-  it("inheritable props: `isSingleSelect` and `scale` modified on the parent get passed to items", async () => {
+  it("inheritable props: `selectionMode` and `scale` modified on the parent get passed to items", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-combobox label="Trees" value="Trees" scale="l" selection-mode="single">
@@ -1717,7 +1717,7 @@ describe("calcite-combobox", () => {
     const comboboxItems = await page.findAll("calcite-combobox-items");
 
     comboboxItems.forEach(async (item) => {
-      expect(await item.getProperty("isSingleSelect")).toBe("true");
+      expect(await item.getProperty("selectionMode")).toBe("single");
       expect(await item.getProperty("scale")).toBe("l");
     });
   });

@@ -1187,7 +1187,6 @@ export class Combobox
 
   renderInput(): VNode {
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
-
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
     const showLabel = !open && single && !!selectedItem;
@@ -1318,7 +1317,6 @@ export class Combobox
   render(): VNode {
     const { guid, label, open } = this;
     const single = this.selectionMode === "single";
-
     const isClearable = !this.clearDisabled && this.value?.length > 0;
 
     return (
