@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusFirstTabbable } from "../../utils/dom";
+import { ensureId, focusFirstTabbable } from "../../utils/dom";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -89,6 +89,11 @@ export class Sheet
     focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
+  /**
+   * Specifies the label of the component.
+   */
+  @Prop() label!: string;
+
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
@@ -117,6 +122,14 @@ export class Sheet
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -151,13 +164,15 @@ export class Sheet
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
+    const { outsideCloseDisabled, messages } = this;
     return (
       <Host
-        // aria-describedby={this.contentId} todo
-        // aria-labelledby={this.titleId} todo
+        aria-describedby={this.contentId}
+        aria-label={this.label}
         aria-modal="true"
         role="dialog"
       >
@@ -165,9 +180,15 @@ export class Sheet
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.isOpen,
+            [CSS.slottedInShell]: this.slottedInShell,
           }}
         >
-          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          <calcite-scrim
+            aria-label={outsideCloseDisabled ? null : messages.close}
+            class={CSS.scrim}
+            onClick={this.handleOutsideClose}
+            title={outsideCloseDisabled ? null : messages.close}
+          />
           <div
             class={{
               [CSS.content]: true,
@@ -189,6 +210,8 @@ export class Sheet
   //--------------------------------------------------------------------------
 
   sheetContent: HTMLDivElement;
+
+  contentId: string;
 
   initialOverflowCSS: string;
 
@@ -299,6 +322,7 @@ export class Sheet
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
+    this.contentId = ensureId(el);
   };
 
   onBeforeOpen(): void {
@@ -345,6 +369,11 @@ export class Sheet
     this.el.addEventListener("calciteSheetOpen", this.openEnd);
     this.open = true;
     this.isOpen = true;
+    if (!this.slottedInShell) {
+      this.initialOverflowCSS = document.documentElement.style.overflow;
+      // use an inline style instead of a utility class to avoid global class declarations.
+      document.documentElement.style.setProperty("overflow", "hidden");
+    }
   }
 
   handleOutsideClose = (): void => {
