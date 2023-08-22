@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.0...@esri/calcite-components@1.7.0-next.1) (2023-08-22)
+
+### Bug Fixes
+
+- **date-picker:** set start of week to monday in zh-CN ([#7578](https://github.com/Esri/calcite-design-system/issues/7578)) ([7e385cb](https://github.com/Esri/calcite-design-system/commit/7e385cba6984bea34de531927b1ba9407f6a5e05)), closes [#7382](https://github.com/Esri/calcite-design-system/issues/7382)
+- **dropdown:** prevents navigating dropdown items with Tab key ([#7527](https://github.com/Esri/calcite-design-system/issues/7527)) ([3ea658d](https://github.com/Esri/calcite-design-system/commit/3ea658dbe0a234b8489215779bbacc2530b01a01)), closes [#6610](https://github.com/Esri/calcite-design-system/issues/6610)
+
 ## [1.7.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.2-next.0...@esri/calcite-components@1.7.0-next.0) (2023-08-22)
 
 ### Features
