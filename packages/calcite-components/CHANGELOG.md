@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.2-next.0...@esri/calcite-components@1.7.0-next.0) (2023-08-22)
+
+### Features
+
+- **meter:** Add Meter component ([#7401](https://github.com/Esri/calcite-design-system/issues/7401)) ([47163ed](https://github.com/Esri/calcite-design-system/commit/47163ed4ba9b7a5b318fd184e470c6ffa4d1600b)), closes [#2249](https://github.com/Esri/calcite-design-system/issues/2249)
+
+### Bug Fixes
+
+- **input-date-picker, input-time-picker:** do not show dropdown affordance when read-only ([#7559](https://github.com/Esri/calcite-design-system/issues/7559)) ([5a3f19c](https://github.com/Esri/calcite-design-system/commit/5a3f19c13f404b0d6111e41f3204b6afdca437a2)), closes [#6899](https://github.com/Esri/calcite-design-system/issues/6899)
+
 ## [1.6.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.1...@esri/calcite-components@1.6.2-next.0) (2023-08-22)
 
 ### Bug Fixes
