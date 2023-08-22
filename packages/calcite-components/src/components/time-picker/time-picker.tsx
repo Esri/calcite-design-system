@@ -786,8 +786,8 @@ export class TimePicker
   };
 
   private toggleSecond(): void {
-    this.showSecond = this.step >= 0 && this.step < 60;
-    this.showFractionalSecond = this.step >= 0.001 && this.step < 1;
+    this.showSecond = this.step < 60;
+    this.showFractionalSecond = decimalPlaces(this.step) > 0;
   }
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
