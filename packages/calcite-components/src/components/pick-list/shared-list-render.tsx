@@ -46,7 +46,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
           <span
             aria-live="assertive"
             class="assistive-text"
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={storeAssistiveEl}
           />
         ) : null}
@@ -59,7 +59,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
               onCalciteFilterChange={handleFilterEvent}
               placeholder={filterPlaceholder}
               value={filterText}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={setFilterEl}
             />
           ) : null}

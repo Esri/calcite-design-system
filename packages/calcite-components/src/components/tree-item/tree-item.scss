@@ -6,7 +6,7 @@
 }
 
 .node-actions-container {
-  @apply flex justify-between;
+  @apply flex;
 }
 
 @include calciteHydratedHidden();
@@ -104,15 +104,23 @@
 
 // focus styles
 :host {
-  @apply focus-base;
+  @apply outline-none;
+
+  .node-container {
+    @apply focus-base;
+  }
   &:focus,
   &:active {
-    @apply focus-inset outline-none;
+    .node-container {
+      @apply focus-inset;
+    }
   }
 }
 
 :host(:focus:not([disabled])) {
-  @apply focus-inset outline-none;
+  .node-container {
+    @apply focus-inset outline-none;
+  }
 }
 
 .actions-end {
@@ -146,7 +154,7 @@
 }
 
 .node-container {
-  @apply relative flex items-center min-w-0;
+  @apply relative flex grow items-center min-w-0;
 
   .checkmark,
   .bullet-point {
