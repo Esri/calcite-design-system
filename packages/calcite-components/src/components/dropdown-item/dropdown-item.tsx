@@ -100,17 +100,17 @@ export class DropdownItem implements LoadableComponent {
   }
 
   /**
-   * Specifies the selection mode:
+   * Specifies the selection mode inherited from `calcite-dropdown-item-group`, defaults to `single`:
    * - `multiple` allows any number of selected items (default),
-   * - `single` allows only one selection,
+   * - `single` allows only one selection (default),
    * - `none` doesn't allow for any selection.
    *
    * @internal
    */
-  @Prop() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "multiple";
+  @Prop() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
   /**
-   * Specifies the size of the item inherited from the parent, defaults to `m`.
+   * Specifies the size of the component inherited from the `calcite-dropdown`, defaults to `m`.
    *
    * @internal
    */

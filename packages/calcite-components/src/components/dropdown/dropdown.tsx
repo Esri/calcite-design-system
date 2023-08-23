@@ -48,7 +48,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 
 /**
@@ -178,16 +178,6 @@ export class Dropdown
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * Specifies the selection mode:
-   * - `multiple` allows any number of selected items (default),
-   * - `single` allows only one selection,
-   * - `none` doesn't allow for any selection.
-   */
-  @Prop({ reflect: true }) selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> =
-    "multiple";
-
-  @Watch("selectionMode")
   @Watch("scale")
   handlePropsChange(): void {
     this.updateItems();
@@ -502,7 +492,6 @@ export class Dropdown
     this.reposition(true);
 
     this.items.forEach((item) => {
-      item.selectionMode = this.selectionMode;
       item.scale = this.scale;
     });
   };

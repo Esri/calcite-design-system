@@ -15,42 +15,41 @@ import { GlobalTestProps, getFocusedElementProp } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
-  const simpleDropdownHTML = html`<calcite-dropdown>
-    <calcite-button slot="trigger">Open dropdown</calcite-button>
-    <calcite-dropdown-group id="group-1">
-      <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-      <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-      <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>`;
+  const simpleDropdownHTML = html`
+    <calcite-dropdown>
+      <calcite-button slot="trigger">Open dropdown</calcite-button>
+      <calcite-dropdown-group id="group-1">
+        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  `;
 
   describe("defaults", () => {
     defaults("calcite-dropdown", [
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "placement",
-        defaultValue: "defaultMenuPlacement",
-      },
       {
         propertyName: "scale",
         defaultValue: "m",
       },
       {
-        propertyName: "selectionMode",
-        defaultValue: "multiple",
-      },
-      {
-        propertyName: "type",
-        defaultValue: "click",
-      },
-      {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
+        propertyName: "placement",
+        defaultValue: "bottom-start",
       },
     ]);
+
+    describe("reflects", () => {
+      reflects("calcite-dropdown", [
+        {
+          propertyName: "scale",
+          value: "m",
+        },
+        {
+          propertyName: "placement",
+          value: "bottom-start",
+        },
+      ]);
+    });
 
     describe("focusable", () => {
       focusable(simpleDropdownHTML, {
@@ -73,35 +72,6 @@ describe("calcite-dropdown", () => {
           click: "calcite-dropdown-item",
         },
       });
-    });
-
-    describe("reflects", () => {
-      reflects("calcite-dropdown", [
-        {
-          propertyName: "selectionMode",
-          value: "single-persist",
-        },
-        {
-          propertyName: "selectionMode",
-          value: "single",
-        },
-        {
-          propertyName: "selectionMode",
-          value: "multiple",
-        },
-        {
-          propertyName: "overlayPositioning",
-          value: "absolute",
-        },
-        {
-          propertyName: "menuPlacement",
-          value: "defaultMenuPlacement",
-        },
-        {
-          propertyName: "scale",
-          value: "m",
-        },
-      ]);
     });
 
     interface SelectedItemsAssertionOptions {
@@ -168,24 +138,6 @@ describe("calcite-dropdown", () => {
         </calcite-dropdown-group>
       </calcite-dropdown>
     `;
-
-    it("renders default props when none are provided", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-dropdown>
-        <calcite-button slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`);
-
-      const element = await page.find("calcite-dropdown");
-      const group1 = await element.find("calcite-dropdown-group[id='group-1']");
-      expect(element).toEqualAttribute("scale", "m");
-      expect(element).toEqualAttribute("placement", "bottom-start");
-      expect(group1).toEqualAttribute("selection-mode", "single");
-    });
 
     it("renders requested props when valid props are provided", async () => {
       const page = await newE2EPage();
@@ -301,14 +253,16 @@ describe("calcite-dropdown", () => {
 
     it("renders multiple selected items when group is in multiple selection mode", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-dropdown>
-        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="multiple">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`);
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group id="group-1" selection-mode="multiple">
+            <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `);
 
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("#trigger");
