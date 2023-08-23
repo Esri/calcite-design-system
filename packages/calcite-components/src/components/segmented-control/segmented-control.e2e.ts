@@ -355,4 +355,8 @@ describe("calcite-segmented-control", () => {
       );
     });
   });
+
+  describe("updates items when children are modified after initialization", () => {
+    // TODO:
+  });
 });
