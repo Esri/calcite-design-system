@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.2...@esri/calcite-components@1.7.0-next.3) (2023-08-23)
+
+### Features
+
+- **action-bar, action-pad, action-group:** Add label properties for group context ([#7415](https://github.com/Esri/calcite-design-system/issues/7415)) ([b34f36d](https://github.com/Esri/calcite-design-system/commit/b34f36d53b80011e7e946cfe30d1d85d3857d12a)), closes [#6904](https://github.com/Esri/calcite-design-system/issues/6904)
+
 ## [1.7.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.1...@esri/calcite-components@1.7.0-next.2) (2023-08-23)
 
 ### Bug Fixes
