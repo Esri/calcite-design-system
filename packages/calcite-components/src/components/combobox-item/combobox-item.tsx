@@ -14,7 +14,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { getElementProp, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -24,7 +24,7 @@ import {
 } from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
-import { Scale } from "../interfaces";
+import { Scale, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -81,6 +81,26 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    */
   @Prop({ reflect: true }) filterDisabled: boolean;
 
+  /**
+   * Specifies the selection mode:
+   * - `multiple` allows any number of selected items (default),
+   * - `single` allows only one selection,
+   * - `ancestors` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "single" | "ancestors" | "multiple",
+    SelectionMode
+  > = "multiple";
+
+  /**
+   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
+   *
+   * @internal
+   */
+  @Prop() scale: Scale = "m";
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -91,9 +111,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   isNested: boolean;
 
-  /** Specifies the scale of the combobox-item controlled by parent, defaults to m */
-  scale: Scale = "m";
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -102,7 +119,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
-    this.scale = getElementProp(this.el, "scale", this.scale);
     connectConditionalSlotComponent(this);
     connectInteractive(this);
   }
@@ -206,7 +222,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const isSingleSelect = getElementProp(this.el, "selection-mode", "multiple") === "single";
+    const isSingleSelect = this.selectionMode === "single";
+
     const showDot = isSingleSelect && !this.disabled;
     const defaultIcon = isSingleSelect ? "dot" : "check";
     const iconPath = this.disabled ? "circle-disallowed" : defaultIcon;
