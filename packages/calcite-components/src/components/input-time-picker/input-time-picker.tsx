@@ -50,6 +50,7 @@ import {
 } from "../../utils/focusTrapComponent";
 import { FocusTrap } from "focus-trap";
 import {
+  formatTimePart,
   formatTimeString,
   isValidTime,
   localizeTimeString,
@@ -68,6 +69,7 @@ import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { getSupportedLocale } from "../../utils/locale";
+import { decimalPlaces } from "../../utils/math";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayJsLocaleToLocaleConfigImport = new Map([
@@ -128,6 +130,13 @@ dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 dayjs.extend(preParsePostFormat);
 dayjs.extend(updateLocale);
+
+interface DayJSTimeParts {
+  hour: number;
+  minute: number;
+  second: number;
+  millisecond: number;
+}
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -323,6 +332,8 @@ export class InputTimePicker
 
   private dialogId = `time-picker-dialog--${guid()}`;
 
+  private localeConfig;
+
   /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
 
@@ -476,20 +487,103 @@ export class InputTimePicker
     // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
     dayjs.locale(this.effectiveLocale.toLowerCase());
 
-    const dayjsParseResult = dayjs(value, ["LTS", "LT"]);
+    let delocalizedTimeString;
+
+    if (this.shouldIncludeFractionalSeconds()) {
+      const stepPrecision = decimalPlaces(this.step);
+
+      if (stepPrecision === 1) {
+        delocalizedTimeString = this.getTimeStringFromParts(
+          this.delocalizeTimeStringToParts(value, "S")
+        );
+      } else {
+        const sParts = this.delocalizeTimeStringToParts(value, "S");
+        const ssParts = this.delocalizeTimeStringToParts(value, "SS");
+
+        if (stepPrecision === 2) {
+          if (ssParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(ssParts);
+          } else if (sParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(sParts);
+          } else {
+            delocalizedTimeString = "";
+          }
+        } else if (stepPrecision === 3) {
+          const sssParts = this.delocalizeTimeStringToParts(value, "SSS");
+
+          if (sssParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(sssParts);
+          } else if (ssParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(ssParts);
+          } else if (sParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(sParts);
+          } else {
+            delocalizedTimeString = "";
+          }
+        }
+      }
+    } else {
+      delocalizedTimeString = this.getTimeStringFromParts(this.delocalizeTimeStringToParts(value));
+    }
+
+    return delocalizedTimeString;
+  }
+
+  private delocalizeTimeStringToParts(
+    localizedTimeString: string,
+    fractionalSecondFormatToken?: "S" | "SS" | "SSS"
+  ): DayJSTimeParts {
+    const ltsFormatString = this.localeConfig?.formats?.LTS;
+    const match = ltsFormatString.match(/ss\.*(S+)/g);
+
+    if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
+      const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
+      this.localeConfig.formats.LTS = match
+        ? ltsFormatString.replace(match[0], secondFormatToken)
+        : ltsFormatString.replace("ss", secondFormatToken);
+    } else if (match) {
+      this.localeConfig.formats.LTS = ltsFormatString.replace(match[0], "ss");
+    }
+
+    dayjs.updateLocale(
+      this.getSupportedDayJSLocale(getSupportedLocale(this.effectiveLocale)),
+      this.localeConfig
+    );
+
+    const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
 
     if (dayjsParseResult.isValid()) {
-      let unformattedTimeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get(
-        "minute"
-      )}`;
-
-      if (this.shouldIncludeSeconds()) {
-        unformattedTimeString += `:${dayjsParseResult.get("seconds") || 0}`;
-      }
-
-      return formatTimeString(unformattedTimeString) || "";
+      return {
+        hour: dayjsParseResult.get("hour"),
+        minute: dayjsParseResult.get("minute"),
+        second: dayjsParseResult.get("second"),
+        millisecond: dayjsParseResult.get("milliseconds"),
+      };
     }
-    return "";
+    return {
+      hour: null,
+      minute: null,
+      second: null,
+      millisecond: null,
+    };
+  }
+
+  private getTimeStringFromParts(parts: DayJSTimeParts): string {
+    let timeString = "";
+    if (!parts) {
+      return timeString;
+    }
+    if (parts.hour && parts.minute) {
+      timeString = `${formatTimePart(parts.hour)}:${formatTimePart(parts.minute)}`;
+    }
+    if (parts.second) {
+      timeString += `:${formatTimePart(parts.second)}`;
+      if (parts.millisecond) {
+        const second = (parts.millisecond * 0.001).toFixed(decimalPlaces(this.step));
+        timeString += `.${second.toString().replace("0.", "")}`;
+      }
+    }
+    return timeString;
   }
 
   private popoverCloseHandler = () => {
@@ -554,27 +648,29 @@ export class InputTimePicker
     }
   };
 
+  private getSupportedDayJSLocale(locale: string) {
+    const dayjsLocale = locale.toLowerCase();
+    if (dayjsLocale === "no") {
+      return "nb";
+    }
+    if (dayjsLocale === "pt-pt") {
+      return "pt";
+    }
+    return dayjsLocale;
+  }
+
   private async loadDateTimeLocaleData(): Promise<void> {
     let supportedLocale = getSupportedLocale(this.effectiveLocale).toLowerCase();
 
-    if (supportedLocale === "no") {
-      supportedLocale = "nb";
-    }
+    supportedLocale = this.getSupportedDayJSLocale(supportedLocale);
 
-    if (supportedLocale === "pt-pt") {
-      supportedLocale = "pt";
-    }
-
-    let { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
+    const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
       supportedLocale
     )();
 
-    const ltsFormatString = localeConfig?.formats?.LTS;
-    localeConfig.formats.LTS = !ltsFormatString.includes("ss.SSS")
-      ? ltsFormatString.replace("ss", "ss.SSS")
-      : ltsFormatString;
+    this.localeConfig = localeConfig;
 
-    dayjs.locale(localeConfig, null, true);
+    dayjs.locale(this.localeConfig, null, true);
     dayjs.updateLocale(supportedLocale, this.getExtendedLocaleConfig(supportedLocale));
   }
 
@@ -659,6 +755,10 @@ export class InputTimePicker
 
   private shouldIncludeSeconds(): boolean {
     return this.step < 60;
+  }
+
+  private shouldIncludeFractionalSeconds(): boolean {
+    return decimalPlaces(this.step) > 0;
   }
 
   private setCalcitePopoverEl = (el: HTMLCalcitePopoverElement): void => {
