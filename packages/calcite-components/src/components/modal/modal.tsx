@@ -218,7 +218,7 @@ export class Modal
             class={{
               [CSS.modal]: true,
             }}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setTransitionEl}
           >
             <div class={CSS.header}>
@@ -233,7 +233,7 @@ export class Modal
                 [CSS.content]: true,
                 [CSS.contentNoFooter]: !this.hasFooter,
               }}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el) => (this.modalContent = el)}
             >
               <slot name={SLOTS.content} />
@@ -286,7 +286,7 @@ export class Modal
         key="button"
         onClick={this.close}
         title={this.messages.close}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon
