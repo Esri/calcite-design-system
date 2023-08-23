@@ -118,12 +118,38 @@ describe("calcite-sheet properties", () => {
     await page.$eval(
       "calcite-sheet",
       (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+        (elm.beforeClose = (
+          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
+        ).beforeClose)
     );
     await page.waitForChanges();
     expect(await sheet.getProperty("opened")).toBe(true);
     const scrim = await page.find(`calcite-sheet >>> calcite-scrim`);
     await scrim.click();
+    await page.waitForChanges();
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(await sheet.getProperty("opened")).toBe(false);
+  });
+
+  it("calls the beforeClose method prior to closing via escape", async () => {
+    const page = await newE2EPage();
+    const mockCallBack = jest.fn();
+    await page.exposeFunction("beforeClose", mockCallBack);
+    await page.setContent(`
+      <calcite-sheet open></calcite-sheet>
+    `);
+    const sheet = await page.find("calcite-sheet");
+    await page.$eval(
+      "calcite-sheet",
+      (elm: HTMLCalciteSheetElement) =>
+        (elm.beforeClose = (
+          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
+        ).beforeClose)
+    );
+    await page.waitForChanges();
+    expect(await sheet.getProperty("opened")).toBe(true);
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
     expect(await sheet.getProperty("opened")).toBe(false);
@@ -140,7 +166,9 @@ describe("calcite-sheet properties", () => {
     await page.$eval(
       "calcite-sheet",
       (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+        (elm.beforeClose = (
+          window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
+        ).beforeClose)
     );
     await page.waitForChanges();
     sheet.setProperty("open", true);
