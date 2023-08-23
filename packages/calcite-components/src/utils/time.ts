@@ -261,8 +261,15 @@ export function localizeTimeString({
   const parts = formatter.formatToParts(dateFromTimeString);
   const localizedTimeString = parts?.reduce((result, part) => {
     if (part.type === "second" && fractionalSecond) {
-      // TODO: localize fractional second here with number formatter api
-      return result + `${part.value}.${fractionalSecond}`;
+      return (
+        result +
+        `${part.value}.${localizeTimePart({
+          value: fractionalSecond,
+          part: "fractionalSecond",
+          locale,
+          numberingSystem,
+        })}`
+      );
     }
     return result + part.value;
   }, "");
