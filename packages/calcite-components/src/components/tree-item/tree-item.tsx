@@ -75,9 +75,16 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ mutable: true, reflect: true }) selected = false;
 
   @Watch("selected")
-  handleSelectedChange(): void {
+  handleSelectedChange(value: boolean): void {
     if (this.selectionMode === "ancestors") {
-      this.updateAncestorTree();
+      if (value) {
+        this.indeterminate = false;
+      }
+      this.calciteInternalTreeItemSelect.emit({
+        modifyCurrentSelection: true,
+        forceToggle: false,
+        updateTarget: false,
+      });
     }
   }
 
@@ -123,6 +130,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     this.isSelectionMultiLike =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
+
+  /**
+   * @internal
+   */
+  @Prop({ reflect: true }) val: string;
 
   //--------------------------------------------------------------------------
   //
@@ -337,6 +349,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
       forceToggle: false,
+      updateTarget: true,
     });
   }
 
@@ -363,6 +376,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false,
+          updateTarget: true,
         });
         event.preventDefault();
         break;
@@ -382,6 +396,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
             forceToggle: false,
+            updateTarget: true,
           });
         }
 
@@ -504,42 +519,13 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
       );
 
-      childItems.forEach((item) => {
+      childItems.forEach((item: HTMLCalciteTreeItemElement) => {
         item.selected = true;
         item.indeterminate = false;
       });
     } else if (this.indeterminate) {
       const parentItem = this.parentTreeItem;
       parentItem.indeterminate = true;
-    } else if (!this.selected) {
-      const ancestors: HTMLCalciteTreeItemElement[] = [];
-      let parent = this.el.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
-      while (parent) {
-        ancestors.push(parent);
-        parent = parent.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
-      }
-
-      const childItems = Array.from(
-        item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
-      );
-
-      childItems.forEach((item) => {
-        item.selected = false;
-        item.indeterminate = false;
-      });
-      ancestors.forEach((ancestor) => {
-        const descendants = nodeListToArray(ancestor.querySelectorAll("calcite-tree-item"));
-        const activeDescendants = descendants.filter((el) => el.selected);
-        if (activeDescendants.length === 0) {
-          ancestor.selected = false;
-          ancestor.indeterminate = false;
-          return;
-        }
-
-        const indeterminate = activeDescendants.length < descendants.length;
-        ancestor.indeterminate = indeterminate;
-        ancestor.selected = !indeterminate;
-      });
     }
   }
 
