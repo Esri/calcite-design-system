@@ -59,9 +59,9 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Specifies the accessible label for the last action-group (actions slotted into actions-end/bottom-actions).
+   * Specifies the accessible label for the last action-group.
    */
-  @Prop() groupLabel: string;
+  @Prop() actionsEndGroupLabel: string;
 
   /**
    * When `true`, the expand-toggling behavior is disabled.
@@ -264,7 +264,7 @@ export class ActionPad
       toggleExpand,
       scale,
       layout,
-      groupLabel,
+      actionsEndGroupLabel,
     } = this;
 
     const expandToggleNode = !expandDisabled ? (
@@ -285,7 +285,7 @@ export class ActionPad
     return expandToggleNode ? (
       <calcite-action-group
         class={CSS.actionGroupEnd}
-        label={groupLabel}
+        label={actionsEndGroupLabel}
         layout={layout}
         scale={scale}
       >

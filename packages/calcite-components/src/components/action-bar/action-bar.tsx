@@ -71,9 +71,9 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   /**
-   * Specifies the accessible label for the last action-group (actions slotted into actions-end/bottom-actions).
+   * Specifies the accessible label for the last action-group.
    */
-  @Prop() groupLabel: string;
+  @Prop() actionsEndGroupLabel: string;
 
   /**
    * When `true`, the expand-toggling behavior is disabled.
@@ -386,7 +386,7 @@ export class ActionBar
       scale,
       layout,
       messages,
-      groupLabel,
+      actionsEndGroupLabel,
     } = this;
 
     const expandToggleNode = !expandDisabled ? (
@@ -407,8 +407,8 @@ export class ActionBar
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
+        label={actionsEndGroupLabel}
         hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
-        label={groupLabel}
         layout={layout}
         scale={scale}
       >
