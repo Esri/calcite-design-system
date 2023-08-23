@@ -23,7 +23,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
-import { getAncestors, getDepth } from "../combobox/utils";
+import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
 
@@ -85,12 +85,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    * Specifies the selection mode:
    * - `multiple` allows any number of selected items (default),
    * - `single` allows only one selection,
+   * - `single-persist` is like single, but does not allow deselecting,
    * - `ancestors` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    *
    * @internal
    */
   @Prop({ reflect: true }) selectionMode: Extract<
-    "single" | "ancestors" | "multiple",
+    "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   > = "multiple";
 
@@ -151,7 +152,9 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   toggleSelected(): Promise<void> {
-    if (this.disabled) {
+    const isSinglePersistSelect = this.selectionMode === "single-persist";
+
+    if (this.disabled || (isSinglePersistSelect && this.selected)) {
       return;
     }
 
@@ -222,8 +225,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const isSingleSelect = this.selectionMode === "single";
-
+    const isSingleSelect = isSingleLike(this.selectionMode);
     const showDot = isSingleSelect && !this.disabled;
     const defaultIcon = isSingleSelect ? "dot" : "check";
     const iconPath = this.disabled ? "circle-disallowed" : defaultIcon;
