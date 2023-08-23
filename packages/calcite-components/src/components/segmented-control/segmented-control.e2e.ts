@@ -175,27 +175,25 @@ describe("calcite-segmented-control", () => {
     async function assertArrowSelection(page: E2EPage): Promise<void> {
       const element = await page.find("calcite-segmented-control");
       const spy = await element.spyOnEvent("calciteSegmentedControlChange");
-      const firstElement = await element.find("calcite-segmented-control-item[checked]");
 
-      // ensure we tab into the component first
-      await firstElement.click();
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("Tab");
-      await page.keyboard.up("Shift");
-      await page.keyboard.press("Tab");
-
+      await tabIntoFirstElement();
       await cycleThroughItemsAndAssertValue("left-right");
       expect(spy).toHaveReceivedEventTimes(6);
 
-      // ensure we tab into the component first
-      await firstElement.click();
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("Tab");
-      await page.keyboard.up("Shift");
-      await page.keyboard.press("Tab");
-
+      await tabIntoFirstElement();
       await cycleThroughItemsAndAssertValue("up-down");
       expect(spy).toHaveReceivedEventTimes(12);
+
+      async function tabIntoFirstElement(): Promise<void> {
+        const firstElement = await element.find("calcite-segmented-control-item[checked]");
+        await firstElement.click();
+
+        await page.keyboard.down("Shift");
+        await page.keyboard.press("Tab");
+        await page.keyboard.up("Shift");
+
+        await page.keyboard.press("Tab");
+      }
 
       async function cycleThroughItemsAndAssertValue(keys: "left-right" | "up-down"): Promise<void> {
         const [moveBeforeArrowKey, moveAfterArrowKey] =
