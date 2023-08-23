@@ -455,6 +455,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   //--------------------------------------------------------------------------
 
+  @State() hasEndActions = false;
+
   /**
    * Used to make sure initially expanded tree-item can properly
    * transition and emit events from closed state when rendered.
@@ -463,15 +465,13 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @State() updateAfterInitialRender = false;
 
+  actionSlotWrapper!: HTMLElement;
+
   childrenSlotWrapper!: HTMLElement;
 
   defaultSlotWrapper!: HTMLElement;
 
-  actionSlotWrapper!: HTMLElement;
-
   private parentTreeItem?: HTMLCalciteTreeItemElement;
-
-  @State() hasEndActions = false;
 
   private userInteracted = false;
 
