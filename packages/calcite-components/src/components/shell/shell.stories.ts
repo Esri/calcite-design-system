@@ -994,6 +994,10 @@ position:relative;
   </calcite-shell-panel>
 </calcite-shell>`;
 
+resizableShellPanels.parameters = {
+  chromatic: { delay: 500 },
+};
+
 export const overlayDisplayMode_TestOnly = (): string => html`<calcite-shell
   style="
 width:800px;
@@ -1222,3 +1226,7 @@ position:relative;
     <calcite-panel heading="Example"> Example </calcite-panel>
   </calcite-shell-panel>
 </calcite-shell>`;
+
+overlayDisplayMode_TestOnly.parameters = {
+  chromatic: { delay: 500 },
+};
