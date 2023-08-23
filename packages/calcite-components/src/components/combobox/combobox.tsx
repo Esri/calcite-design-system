@@ -1229,7 +1229,7 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           type="text"
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
@@ -1264,12 +1264,12 @@ export class Combobox
           "floating-ui-container": true,
           "floating-ui-container--active": open,
         }}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={setFloatingEl}
       >
         <div
           class={classes}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={setContainerEl}
         >
           <ul class={{ list: true, "list--hide": !open }}>
@@ -1337,7 +1337,7 @@ export class Combobox
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}
           role="combobox"
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setReferenceEl}
         >
           <div class="grid-input">

@@ -171,19 +171,19 @@ export class TabNav {
         <div
           class="tab-nav"
           onScroll={this.handleContainerScroll}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
         >
           <slot />
           <div
             class="tab-nav-active-indicator-container"
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.activeIndicatorContainerEl = el)}
           >
             <div
               class="tab-nav-active-indicator"
               style={indicatorStyle}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
