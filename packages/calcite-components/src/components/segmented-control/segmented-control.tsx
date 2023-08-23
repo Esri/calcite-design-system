@@ -282,9 +282,7 @@ export class SegmentedControl
 
   defaultValue: SegmentedControl["value"];
 
-  private mutationObserver = createObserver("mutation", () => {
-    this.setUpItems();
-  });
+  private mutationObserver = createObserver("mutation", () => this.setUpItems());
 
   //--------------------------------------------------------------------------
   //
