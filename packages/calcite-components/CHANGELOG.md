@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.3...@esri/calcite-components@1.7.0-next.4) (2023-08-23)
+
+### Bug Fixes
+
+- **combobox:** update combobox height to follow design spec ([#7558](https://github.com/Esri/calcite-design-system/issues/7558)) ([ec08845](https://github.com/Esri/calcite-design-system/commit/ec088451f2b16f4970c68d552c8d8e7ee441b4be)), closes [#6421](https://github.com/Esri/calcite-design-system/issues/6421)
+- **segmented-control:** refresh items when added dynamically ([#7567](https://github.com/Esri/calcite-design-system/issues/7567)) ([2e36eb3](https://github.com/Esri/calcite-design-system/commit/2e36eb35d12869220a5ad4d3696ee9e72d740632)), closes [#5736](https://github.com/Esri/calcite-design-system/issues/5736)
+- **split-button:** update divider and borders to follow design spec ([#7568](https://github.com/Esri/calcite-design-system/issues/7568)) ([8df59ab](https://github.com/Esri/calcite-design-system/commit/8df59aba00d62a72d50cb0ad3e94ceed63f36ce3)), closes [#6364](https://github.com/Esri/calcite-design-system/issues/6364)
+
 ## [1.7.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.2...@esri/calcite-components@1.7.0-next.3) (2023-08-23)
 
 ### Features
