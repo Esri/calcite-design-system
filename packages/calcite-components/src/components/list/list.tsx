@@ -184,6 +184,16 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   @Event({ cancelable: false }) calciteListChange: EventEmitter<void>;
 
   /**
+   * Emitted when an item is dropped into the list from another list.
+   */
+  @Event({ cancelable: false }) calciteListDragAdd: EventEmitter<DragEvent>;
+
+  /**
+   * Emitted when an item is removed from the list into another list.
+   */
+  @Event({ cancelable: false }) calciteListDragRemove: EventEmitter<DragEvent>;
+
+  /**
    * Emits when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
@@ -462,6 +472,26 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     }
 
     connectSortableComponent(this);
+  }
+
+  onDragAdd(event: SortableEvent): void {
+    const { from, item, to } = event;
+
+    this.calciteListDragAdd.emit({
+      dragEl: item,
+      fromEl: from,
+      toEl: to,
+    });
+  }
+
+  onDragRemove(event: SortableEvent): void {
+    const { from, item, to } = event;
+
+    this.calciteListDragRemove.emit({
+      dragEl: item,
+      fromEl: from,
+      toEl: to,
+    });
   }
 
   onDragStart(): void {

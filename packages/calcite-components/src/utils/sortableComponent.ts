@@ -54,6 +54,16 @@ export interface SortableComponent {
   canPut: (event: DragEvent) => boolean;
 
   /**
+   * Called when an item is dropped into the list from another list.
+   */
+  onDragAdd?: (event: Sortable.SortableEvent) => void;
+
+  /**
+   * Called when an item is removed from the list into another list.
+   */
+  onDragRemove?: (event: Sortable.SortableEvent) => void;
+
+  /**
    * Called by any change to the list (add / update / remove).
    */
   onDragSort: (event: Sortable.SortableEvent) => void;
@@ -100,12 +110,36 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     handle,
+    onAdd: (event) => {
+      if (!component.onDragAdd) {
+        return;
+      }
+
+      component.onDragAdd(event);
+    },
+    onRemove: (event) => {
+      if (!component.onDragRemove) {
+        return;
+      }
+
+      component.onDragRemove(event);
+    },
     onStart: (event) => {
       onSortingStart(component);
+
+      if (!component.onDragStart) {
+        return;
+      }
+
       component.onDragStart(event);
     },
     onEnd: (event) => {
       onSortingEnd(component);
+
+      if (!component.onDragEnd) {
+        return;
+      }
+
       component.onDragEnd(event);
     },
     onSort: (event) => {
