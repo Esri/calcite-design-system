@@ -9,10 +9,9 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
-import { CSS } from "./resources";
+
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.
  */
@@ -34,18 +33,21 @@ export class DropdownGroup {
   @Prop({ reflect: true }) groupTitle: string;
 
   /**
-   * Specifies the component's selection mode, where
-   * `"multiple"` allows any number of (or no) selected `calcite-dropdown-item`s,
-   * `"single"` allows and requires one selected `calcite-dropdown-item`, and
-   * `"none"` does not allow selection on `calcite-dropdown-item`s.
+   * Specifies the size of the group inherited from the parent, defaults to `m`.
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) selectionMode: Extract<"single" | "none" | "multiple", SelectionMode> =
-    "single";
+  @Prop() scale: Scale = "m";
 
   /**
-   * Specifies the size of the component.
+   * Specifies the selection mode:
+   * - `multiple` allows any number of selected items (default),
+   * - `single` allows only one selection,
+   * - `none` doesn't allow for any selection.
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) scale: Scale;
+  @Prop() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "multiple";
 
   //--------------------------------------------------------------------------
   //
@@ -69,7 +71,6 @@ export class DropdownGroup {
   }
 
   render(): VNode {
-    const scale: Scale = this.scale || getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
       <span aria-hidden="true" class="dropdown-title">
         {this.groupTitle}
@@ -83,12 +84,9 @@ export class DropdownGroup {
       <Host aria-label={this.groupTitle} role="group">
         <div
           class={{
-            container: true,
-            [CSS.containerSmall]: scale === "s",
-            [CSS.containerMedium]: scale === "m",
-            [CSS.containerLarge]: scale === "l",
+            ["container"]: true,
+            [`scale--${this.scale}`]: true,
           }}
-          title={this.groupTitle}
         >
           {dropdownSeparator}
           {groupTitle}

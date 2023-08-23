@@ -10,7 +10,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
-import { getElementProp, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
@@ -99,6 +99,23 @@ export class DropdownItem implements LoadableComponent {
     this.el?.focus();
   }
 
+  /**
+   * Specifies the selection mode:
+   * - `multiple` allows any number of selected items (default),
+   * - `single` allows only one selection,
+   * - `none` doesn't allow for any selection.
+   *
+   * @internal
+   */
+  @Prop() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "multiple";
+
+  /**
+   * Specifies the size of the item inherited from the parent, defaults to `m`.
+   *
+   * @internal
+   */
+  @Prop() scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -119,8 +136,8 @@ export class DropdownItem implements LoadableComponent {
   }
 
   render(): VNode {
-    const scale = getElementProp(this.el, "scale", this.scale);
-    const { href, selectionMode, label, iconFlipRtl } = this;
+    const { href, selectionMode, label, iconFlipRtl, scale } = this;
+
     const iconStartEl = (
       <calcite-icon
         class={CSS.iconStart}
@@ -185,12 +202,8 @@ export class DropdownItem implements LoadableComponent {
           class={{
             container: true,
             [CSS.containerLink]: !!href,
-            [CSS.containerSmall]: scale === "s",
-            [CSS.containerMedium]: scale === "m",
-            [CSS.containerLarge]: scale === "l",
-            [CSS.containerMulti]: selectionMode === "multiple",
-            [CSS.containerSingle]: selectionMode === "single",
-            [CSS.containerNone]: selectionMode === "none",
+            [`scale--${this.scale}`]: true,
+            [`containter--${this.selectionMode}-selection`]: true,
           }}
         >
           {selectionMode !== "none" ? (
@@ -273,14 +286,8 @@ export class DropdownItem implements LoadableComponent {
   /** requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
-  /** what selection mode is the parent dropdown group in */
-  private selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
-
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
-
-  /** Specifies the scale of dropdown-item controlled by the parent, defaults to m */
-  scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -289,7 +296,6 @@ export class DropdownItem implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   private initialize(): void {
-    this.selectionMode = getElementProp(this.el, "selection-mode", "single");
     this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
     if (this.selectionMode === "none") {
       this.selected = false;
