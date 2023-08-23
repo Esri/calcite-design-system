@@ -109,8 +109,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   @Element() el: HTMLCalciteComboboxItemElement;
 
-  isNested: boolean;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
