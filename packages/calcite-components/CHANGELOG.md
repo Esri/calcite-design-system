@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.1...@esri/calcite-components@1.7.0-next.2) (2023-08-23)
+
+### Bug Fixes
+
+- **chip-group:** Add existence checks ([#7586](https://github.com/Esri/calcite-design-system/issues/7586)) ([5ca64f1](https://github.com/Esri/calcite-design-system/commit/5ca64f1f920f869053fee24ed2c982f64a0bbb5b)), closes [#7585](https://github.com/Esri/calcite-design-system/issues/7585)
+- **modal:** handle removal of open attribute and prevent multiple beforeClose calls ([#7470](https://github.com/Esri/calcite-design-system/issues/7470)) ([f31588f](https://github.com/Esri/calcite-design-system/commit/f31588fb4119e5582a5bd97eb4cf9bfc6c3b5a74)), closes [#6407](https://github.com/Esri/calcite-design-system/issues/6407) [#6379](https://github.com/Esri/calcite-design-system/issues/6379)
+- **tree-item:** move focus outline to item label area ([#7581](https://github.com/Esri/calcite-design-system/issues/7581)) ([1327cef](https://github.com/Esri/calcite-design-system/commit/1327cef7bdd0bfc24528755cc71084aa5c505d8a)), closes [#6481](https://github.com/Esri/calcite-design-system/issues/6481)
+
 ## [1.7.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.0...@esri/calcite-components@1.7.0-next.1) (2023-08-22)
 
 ### Bug Fixes
