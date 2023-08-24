@@ -193,7 +193,7 @@ describe("calcite-sheet properties", () => {
   it("should handle rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
 
-    const mockCallBack = jest.fn().mockReturnValue(Promise.reject());
+    const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
 
     await page.setContent(`<calcite-sheet open></calcite-sheet>`);
