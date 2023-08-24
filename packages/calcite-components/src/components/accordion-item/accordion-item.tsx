@@ -174,9 +174,10 @@ export class AccordionItem implements ConditionalSlotComponent {
           <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
             {this.renderActionsStart()}
             <div
+              aria-controls={IDS.section}
               aria-expanded={toAriaBoolean(this.expanded)}
-              aria-labelledby={IDS.slotContainer}
               class={CSS.headerContent}
+              id={IDS.sectionToggle}
               onClick={this.itemHeaderClickHandler}
               role="button"
               tabindex="0"
@@ -205,9 +206,9 @@ export class AccordionItem implements ConditionalSlotComponent {
             </div>
             {this.renderActionsEnd()}
           </div>
-          <div aria-live="polite" class={CSS.content} id={IDS.slotContainer} role="region">
+          <section aria-labelledby={IDS.section} class={CSS.content}>
             <slot />
-          </div>
+          </section>
         </div>
       </Host>
     );

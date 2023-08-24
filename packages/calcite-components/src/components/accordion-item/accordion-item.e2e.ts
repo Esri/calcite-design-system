@@ -29,14 +29,14 @@ describe("calcite-accordion-item", () => {
     const headerContent = await page.find(`calcite-accordion-item >>> .${CSS.headerContent}`);
 
     expect(headerContent.getAttribute("aria-expanded")).toBe("false");
-    expect(headerContent.getAttribute("aria-labelledby")).toBe(IDS.slotContainer);
+    expect(headerContent.getAttribute("aria-labelledby")).toBe(IDS.content);
     expect(headerContent.getAttribute("role")).toBe("button");
 
     const content = await page.find(`calcite-accordion-item >>> .${CSS.content}`);
 
     expect(content.getAttribute("aria-live")).toBe("polite");
     expect(content.getAttribute("role")).toBe("region");
-    expect(await content.getProperty("id")).toBe(IDS.slotContainer);
+    expect(await content.getProperty("id")).toBe(IDS.content);
 
     const accordionItem = await page.find(`calcite-accordion-item`);
     accordionItem.setProperty("expanded", true);

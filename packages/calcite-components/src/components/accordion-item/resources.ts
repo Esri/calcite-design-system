@@ -20,5 +20,6 @@ export const CSS = {
 };
 
 export const IDS = {
-  slotContainer: "slot-container",
+  section: "section",
+  sectionToggle: "section-toggle",
 };
