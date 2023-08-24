@@ -153,13 +153,13 @@ describe("calcite-list", () => {
     expect(await list.getProperty("filterText")).toBe("two");
 
     const calciteListFilterEvent3 = list.waitForEvent("calciteListFilter");
-    await page.keyboard.type("blah");
+    await page.keyboard.type(" blah");
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
     await calciteListFilterEvent3;
     expect(await list.getProperty("filteredItems")).toHaveLength(0);
     expect(await list.getProperty("filteredData")).toHaveLength(0);
-    expect(await list.getProperty("filterText")).toBe("twoblah");
+    expect(await list.getProperty("filterText")).toBe("two blah");
   });
 
   it("filters initially", async () => {
@@ -459,11 +459,11 @@ describe("calcite-list", () => {
   describe("drag and drop", () => {
     async function createSimpleList(): Promise<E2EPage> {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-list drag-enabled>
-      <calcite-list-item value="one" label="One"></calcite-list-item>
-      <calcite-list-item value="two" label="Two"></calcite-list-item>
-      <calcite-list-item value="three" label="Three"></calcite-list-item>
-    </calcite-list>`);
+      await page.setContent(html`<calcite-list drag-enabled>
+        <calcite-list-item value="one" label="One"></calcite-list-item>
+        <calcite-list-item value="two" label="Two"></calcite-list-item>
+        <calcite-list-item value="three" label="Three"></calcite-list-item>
+      </calcite-list>`);
       await page.waitForChanges();
       await page.waitForTimeout(listDebounceTimeout);
       return page;
@@ -471,8 +471,6 @@ describe("calcite-list", () => {
 
     it("works using a mouse", async () => {
       const page = await createSimpleList();
-      // const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
-      // const calciteListOrderChange = page.waitForEvent("calciteListOrderChange");
 
       await dragAndDrop(
         page,
@@ -486,16 +484,14 @@ describe("calcite-list", () => {
         }
       );
 
-      // await calciteListOrderChange;
-      // expect(listOrderChangeSpy).toHaveReceivedEventTimes(1);
       const [first, second] = await page.findAll("calcite-list-item");
       expect(await first.getProperty("value")).toBe("two");
       expect(await second.getProperty("value")).toBe("one");
     });
 
     it("supports dragging items between lists", async () => {
-      const page = await newE2EPage({
-        html: `
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-list id="first-letters" drag-enabled group="letters">
           <calcite-list-item value="a" label="A"></calcite-list-item>
           <calcite-list-item value="b" label="B"></calcite-list-item>
@@ -516,8 +512,10 @@ describe("calcite-list", () => {
           <calcite-list-item value="e" label="E"></calcite-list-item>
           <calcite-list-item value="f" label="F"></calcite-list-item>
         </calcite-list>
-        `,
-      });
+      `);
+
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
 
       await dragAndDrop(
         page,
