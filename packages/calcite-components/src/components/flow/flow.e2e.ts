@@ -119,7 +119,7 @@ describe("calcite-flow", () => {
     it("should handle rejected 'beforeBack' promise'", async () => {
       const page = await newE2EPage();
 
-      const mockCallBack = jest.fn().mockReturnValue(Promise.reject());
+      const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
       await page.exposeFunction("beforeBack", mockCallBack);
 
       await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
