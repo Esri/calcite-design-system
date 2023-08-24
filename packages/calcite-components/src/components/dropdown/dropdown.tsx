@@ -159,11 +159,6 @@ export class Dropdown
   }
 
   /**
-   * Specifies the size of the component.
-   */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /**
    * Specifies the component's selected items.
    *
    * @readonly
@@ -179,6 +174,14 @@ export class Dropdown
    * Specifies the width of the component.
    */
   @Prop({ reflect: true }) width: Scale;
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("scale")
+  handlePropsChange(): void {
+    this.updateItems();
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -208,6 +211,7 @@ export class Dropdown
       onToggleOpenCloseComponent(this);
     }
     connectInteractive(this);
+    this.updateItems();
   }
 
   componentWillLoad(): void {
@@ -486,6 +490,8 @@ export class Dropdown
     this.updateSelectedItems();
 
     this.reposition(true);
+
+    this.items.forEach((item) => (item.scale = this.scale));
   };
 
   updateGroups = (event: Event): void => {
