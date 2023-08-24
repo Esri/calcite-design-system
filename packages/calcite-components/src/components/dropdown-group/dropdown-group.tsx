@@ -35,7 +35,7 @@ export class DropdownGroup {
   @Prop({ reflect: true }) groupTitle: string;
 
   /**
-   * Specifies the size of the group inherited from the parent, defaults to `m`.
+   * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
    *
    * @internal
    */
@@ -140,7 +140,6 @@ export class DropdownGroup {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   private updateItems = (): void => {
-    console.log("this.selectionMode", this.selectionMode);
     const items: HTMLCalciteDropdownItemElement[] = Array.from(
       this.el.querySelectorAll("calcite-dropdown-item")
     );
