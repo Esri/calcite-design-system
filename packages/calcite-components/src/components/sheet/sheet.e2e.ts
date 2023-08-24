@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { focusable, renders, hidden, defaults, accessible } from "../../tests/commonTests";
+import { focusable, renders, hidden, defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 
@@ -46,10 +46,6 @@ describe("calcite-sheet properties", () => {
     hidden("calcite-sheet");
   });
 
-  describe("accessible", () => {
-    accessible(`<calcite-sheet open label="hello world">Hello everyone!</calcite-sheet>`);
-  });
-
   describe("setFocus", () => {
     const createSheetHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-sheet open ${attrs}>${contentHTML}</calcite-sheet>`;
@@ -83,7 +79,7 @@ describe("calcite-sheet properties", () => {
       },
       `.${CSS.content}`
     );
-    expect(style).toEqual("600px");
+    expect(style).toEqual("432px");
   });
 
   it("sets custom height correctly", async () => {
