@@ -331,7 +331,11 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     }
 
     if (this.beforeClose) {
-      await this.beforeClose(this.el).catch();
+      try {
+        await this.beforeClose(this.el);
+      } catch (_error) {
+        return;
+      }
     }
 
     this.ignoreOpenChange = true;
