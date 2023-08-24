@@ -172,100 +172,92 @@ describe("calcite-segmented-control", () => {
   });
 
   describe("keyboard navigation", () => {
-    it("selects item with left and arrow keys", async () => {
+    async function assertArrowSelection(page: E2EPage): Promise<void> {
+      const element = await page.find("calcite-segmented-control");
+      const spy = await element.spyOnEvent("calciteSegmentedControlChange");
+
+      await tabIntoFirstElement();
+      await cycleThroughItemsAndAssertValue("left-right");
+      expect(spy).toHaveReceivedEventTimes(6);
+
+      await tabIntoFirstElement();
+      await cycleThroughItemsAndAssertValue("up-down");
+      expect(spy).toHaveReceivedEventTimes(12);
+
+      async function tabIntoFirstElement(): Promise<void> {
+        const firstElement = await element.find("calcite-segmented-control-item[checked]");
+        await firstElement.click();
+
+        await page.keyboard.down("Shift");
+        await page.keyboard.press("Tab");
+        await page.keyboard.up("Shift");
+
+        await page.keyboard.press("Tab");
+      }
+
+      async function cycleThroughItemsAndAssertValue(keys: "left-right" | "up-down"): Promise<void> {
+        const [moveBeforeArrowKey, moveAfterArrowKey] =
+          keys === "left-right" ? ["ArrowLeft", "ArrowRight"] : ["ArrowUp", "ArrowDown"];
+
+        await element.press(moveAfterArrowKey);
+        await page.waitForChanges();
+
+        let selected = await element.find("calcite-segmented-control-item[checked]");
+        let value = await selected.getProperty("value");
+        expect(value).toBe("2");
+
+        await element.press(moveAfterArrowKey);
+        selected = await element.find("calcite-segmented-control-item[checked]");
+        value = await selected.getProperty("value");
+        expect(value).toBe("3");
+
+        await element.press(moveAfterArrowKey);
+        selected = await element.find("calcite-segmented-control-item[checked]");
+        value = await selected.getProperty("value");
+        expect(value).toBe("1");
+
+        await element.press(moveBeforeArrowKey);
+        selected = await element.find("calcite-segmented-control-item[checked]");
+        value = await selected.getProperty("value");
+        expect(value).toBe("3");
+
+        await element.press(moveBeforeArrowKey);
+        selected = await element.find("calcite-segmented-control-item[checked]");
+        value = await selected.getProperty("value");
+        expect(value).toBe("2");
+
+        await element.press(moveBeforeArrowKey);
+        selected = await element.find("calcite-segmented-control-item[checked]");
+        value = await selected.getProperty("value");
+        expect(value).toBe("1");
+      }
+    }
+
+    it("selects item with left-right/up-down arrow keys", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-segmented-control>
+        html`<calcite-segmented-control>
           <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
           <calcite-segmented-control-item value="3">three</calcite-segmented-control-item>
         </calcite-segmented-control>`
       );
-      const element = await page.find("calcite-segmented-control");
-      const spy = await element.spyOnEvent("calciteSegmentedControlChange");
 
-      const firstElement = await element.find("calcite-segmented-control-item[checked]");
-      await firstElement.click();
-      await element.press("ArrowRight");
-      await page.waitForChanges();
-
-      let selected = await element.find("calcite-segmented-control-item[checked]");
-      let value = await selected.getProperty("value");
-      expect(value).toBe("2");
-
-      await element.press("ArrowRight");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("3");
-
-      await element.press("ArrowRight");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("1");
-
-      await element.press("ArrowLeft");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("3");
-
-      await element.press("ArrowLeft");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("2");
-
-      await element.press("ArrowLeft");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("1");
-
-      expect(spy).toHaveReceivedEventTimes(6);
+      await assertArrowSelection(page);
     });
 
-    it("selects item with up and down keys", async () => {
+    it("selects item with left-right/up-down arrow keys after adding items programmatically", async () => {
       const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-segmented-control>
-          <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
+      await page.setContent(html`<calcite-segmented-control></calcite-segmented-control>`);
+
+      await page.$eval("calcite-segmented-control", (segmentedControl: HTMLCalciteSegmentedControlElement) => {
+        segmentedControl.innerHTML = `
+        <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="3">three</calcite-segmented-control-item>
-        </calcite-segmented-control>`
-      );
-      const element = await page.find("calcite-segmented-control");
-      const spy = await element.spyOnEvent("calciteSegmentedControlChange");
+          <calcite-segmented-control-item value="3">three</calcite-segmented-control-item>`;
+      });
 
-      const firstElement = await element.find("calcite-segmented-control-item[checked]");
-      await firstElement.click();
-      await element.press("ArrowDown");
-      let selected = await element.find("calcite-segmented-control-item[checked]");
-      let value = await selected.getProperty("value");
-      expect(value).toBe("2");
-
-      await element.press("ArrowDown");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("3");
-
-      await element.press("ArrowDown");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("1");
-
-      await element.press("ArrowUp");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("3");
-
-      await element.press("ArrowUp");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("2");
-
-      await element.press("ArrowUp");
-      selected = await element.find("calcite-segmented-control-item[checked]");
-      value = await selected.getProperty("value");
-      expect(value).toBe("1");
-
-      expect(spy).toHaveReceivedEventTimes(6);
+      await assertArrowSelection(page);
     });
   });
 
