@@ -557,7 +557,11 @@ export class Modal
     }
 
     if (this.beforeClose) {
-      await this.beforeClose(this.el);
+      try {
+        await this.beforeClose(this.el);
+      } catch (_error) {
+        return;
+      }
     }
 
     this.ignoreOpenChange = true;
