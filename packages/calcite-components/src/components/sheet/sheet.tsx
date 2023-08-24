@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { ensureId, focusFirstTabbable } from "../../utils/dom";
+import { ensureId, focusFirstTabbable, getElementDir } from "../../utils/dom";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -30,6 +30,8 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS } from "./resources";
 import { DisplayMode, Position } from "./interfaces";
+import { Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-sheet",
@@ -60,6 +62,11 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Prop({ reflect: true }) escapeDisabled = false;
 
   /**
+   * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+   */
+  @Prop({ reflect: true }) heightScale: Scale = "m";
+
+  /**
    * When `true`, prevents focus trapping.
    */
   @Prop({ reflect: true }) focusTrapDisabled = false;
@@ -85,19 +92,37 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   async toggleSheet(value: boolean): Promise<void> {
     onToggleOpenCloseComponent(this);
     if (value) {
-      this.transitionEl?.classList.add(CSS.openingIdle);
       this.openSheet();
     } else {
-      this.transitionEl?.classList.add(CSS.closingIdle);
       this.closeSheet();
     }
   }
+
+  /**
+   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
+   *
+   * @internal.
+   */
+  @Prop({ mutable: true, reflect: true }) opened = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) position: Position = "inline-start";
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop() slottedInShell: boolean;
+
+  /**
+   * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+   */
+  @Prop({ reflect: true }) widthScale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -131,6 +156,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
     return (
       <Host
         aria-describedby={this.contentId}
@@ -143,6 +169,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
             [CSS.slottedInShell]: this.slottedInShell,
+            [CSS_UTILITY.rtl]: dir === "rtl",
           }}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -173,21 +200,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   focusTrap: FocusTrap;
 
   @Element() el: HTMLCalciteSheetElement;
-
-  /**
-   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
-   *
-   * @internal.
-   */
-  @Prop({ mutable: true, reflect: true }) opened = false;
-
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop() slottedInShell: boolean;
 
   private contentId: string;
 
@@ -261,23 +273,19 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   onBeforeOpen(): void {
-    this.transitionEl.classList.add(CSS.openingActive);
     this.calciteSheetBeforeOpen.emit();
   }
 
   onOpen(): void {
-    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteSheetOpen.emit();
     activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
-    this.transitionEl.classList.add(CSS.closingActive);
     this.calciteSheetBeforeClose.emit();
   }
 
   onClose(): void {
-    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteSheetClose.emit();
     deactivateFocusTrap(this);
   }
@@ -323,7 +331,11 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     }
 
     if (this.beforeClose) {
-      await this.beforeClose(this.el);
+      try {
+        await this.beforeClose(this.el);
+      } catch (_error) {
+        return;
+      }
     }
 
     this.ignoreOpenChange = true;

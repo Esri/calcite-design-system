@@ -39,177 +39,58 @@
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Sheet</h1>
 
-      <div class="parent">
-        <div class="child right-aligned-text"></div>
-        <div class="child">overlay</div>
-        <div class="child">float</div>
-      </div>
+      <calcite-sheet
+        width-scale="l"
+        id="example-sheet"
+        label="libero nunc"
+        position="inline-start"
+        display-mode="overlay"
+      >
+        <calcite-panel closable heading="Ultrices neque">
+          <calcite-block open heading="Preview Sheet options">
+            <calcite-label
+              >display-mode
+              <calcite-segmented-control id="control-display">
+                <calcite-segmented-control-item value="overlay" checked>overlay</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="float">float</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >position
+              <calcite-segmented-control id="control-position">
+                <calcite-segmented-control-item value="inline-start" checked
+                  >inline-start</calcite-segmented-control-item
+                >
+                <calcite-segmented-control-item value="inline-end">inline-end</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="block-start">block-start</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="block-end">block-end</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >height-scale
+              <calcite-segmented-control id="control-height">
+                <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >width-scale
+              <calcite-segmented-control id="control-width">
+                <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+          </calcite-block>
+          <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+          <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+        </calcite-panel>
+      </calcite-sheet>
 
       <div class="parent">
-        <div class="child right-aligned-text">inline-start</div>
         <div class="child">
-          <calcite-sheet id="inline-start-overlay" label="libero nunc" position="inline-start" display-mode="overlay">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-
-          <calcite-button onClick="openSheet('inline-start-overlay')" appearance="outline" scale="s">
-            inline-start
-          </calcite-button>
-        </div>
-        <div class="child">
-          <calcite-sheet id="inline-start-float" label="libero nunc" position="inline-start" display-mode="float">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-
-          <calcite-button onClick="openSheet('inline-start-float')" appearance="outline" scale="s">
-            inline-start
-          </calcite-button>
-        </div>
-      </div>
-
-      <div class="parent">
-        <div class="child right-aligned-text">inline-end</div>
-        <div class="child">
-          <calcite-sheet id="inline-end-overlay" label="libero nunc" position="inline-end" display-mode="overlay">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-
-          <calcite-button onClick="openSheet('inline-end-overlay')" appearance="outline" scale="s">
-            inline-end
-          </calcite-button>
-        </div>
-        <div class="child">
-          <calcite-sheet id="inline-end-float" label="libero nunc" position="inline-end" display-mode="float">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-
-          <calcite-button onClick="openSheet('inline-end-float')" appearance="outline" scale="s">
-            inline-end
-          </calcite-button>
-        </div>
-      </div>
-
-      <div class="parent">
-        <div class="child right-aligned-text">block-start</div>
-        <div class="child">
-          <calcite-sheet id="block-start-overlay" label="libero nunc" position="block-start" display-mode="overlay">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-
-          <calcite-button onClick="openSheet('block-start-overlay')" appearance="outline" scale="s">
-            block-start
-          </calcite-button>
-        </div>
-        <div class="child">
-          <calcite-sheet id="block-start-float" label="libero nunc" position="block-start" display-mode="float">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-
-          <calcite-button onClick="openSheet('block-start-float')" appearance="outline" scale="s">
-            block-start
-          </calcite-button>
-        </div>
-      </div>
-
-      <div class="parent">
-        <div class="child right-aligned-text">block-end</div>
-        <div class="child">
-          <calcite-sheet id="block-end-overlay" label="libero nunc" position="block-end" display-mode="overlay">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-
-          <calcite-button onClick="openSheet('block-end-overlay')" appearance="outline" scale="s">
-            block-end
-          </calcite-button>
-        </div>
-        <div class="child">
-          <calcite-sheet id="block-end-float" label="libero nunc" position="block-end" display-mode="float">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-
-          <calcite-button onClick="openSheet('block-end-float')" appearance="outline" scale="s">
-            block-end
-          </calcite-button>
+          <calcite-button onClick="openSheet('example-sheet')"> Open example sheet </calcite-button>
         </div>
       </div>
 
@@ -218,8 +99,30 @@
           document.getElementById(id).open = true;
         }
 
+        const exampleSheet = document.getElementById("example-sheet");
+        const controlDisplay = document.getElementById("control-display");
+        const controlPosition = document.getElementById("control-position");
+        const controlHeight = document.getElementById("control-height");
+        const controlWidth = document.getElementById("control-width");
+
+        controlDisplay.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.displayMode = event.target.value;
+        });
+        controlPosition.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.position = event.target.value;
+        });
+
+        controlHeight.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.heightScale = event.target.value;
+        });
+
+        controlWidth.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.widthScale = event.target.value;
+        });
+
         document.addEventListener("calcitePanelClose", () => {
           document.querySelectorAll("calcite-sheet").forEach((sheet) => (sheet.open = false));
+          document.querySelectorAll("calcite-panel").forEach((panel) => (panel.closed = false));
         });
       </script>
     </demo-dom-swapper>
