@@ -140,10 +140,7 @@ export class DropdownGroup {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   private updateItems = (): void => {
-    const items: HTMLCalciteDropdownItemElement[] = Array.from(
-      this.el.querySelectorAll("calcite-dropdown-item")
-    );
-    items.forEach((item) => {
+    Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach((item) => {
       item.selectionMode = this.selectionMode;
     });
   };

@@ -491,9 +491,7 @@ export class Dropdown
 
     this.reposition(true);
 
-    this.items.forEach((item) => {
-      item.scale = this.scale;
-    });
+    this.items.forEach((item) => (item.scale = this.scale));
   };
 
   updateGroups = (event: Event): void => {

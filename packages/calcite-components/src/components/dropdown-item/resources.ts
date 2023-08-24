@@ -1,4 +1,5 @@
 export const CSS = {
+  container: "container",
   containerLink: "container--link",
   containerMulti: "container--multi-selection",
   containerSingle: "container--single-selection",

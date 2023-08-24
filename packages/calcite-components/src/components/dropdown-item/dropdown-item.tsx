@@ -200,9 +200,9 @@ export class DropdownItem implements LoadableComponent {
       <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole} tabindex="0">
         <div
           class={{
-            ["container"]: true,
+            [CSS.container]: true,
             [CSS.containerLink]: !!href,
-            [`container--${scale}`]: true,
+            [`${CSS.container}--${scale}`]: true,
             [CSS.containerMulti]: selectionMode === "multiple",
             [CSS.containerSingle]: selectionMode === "single",
             [CSS.containerNone]: selectionMode === "none",
