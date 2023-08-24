@@ -172,28 +172,20 @@ describe("calcite-block-section", () => {
     const element = await page.find("calcite-block-section");
     const toggleSpy = await element.spyOnEvent("calciteBlockSectionToggle");
     const toggle = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
-    const text = await element.getProperty("text");
 
-    function getExpectedAriaExpandedValue(open: boolean): string | null {
-      return toggle.classList.contains(CSS.toggleSwitch) ? null : open.toString();
-    }
-
-    expect(toggle.getAttribute("aria-expanded")).toBe(getExpectedAriaExpandedValue(false));
-    expect(toggle.getAttribute("aria-label")).toBe(text);
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
 
     await toggle.click();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(true);
-    expect(toggle.getAttribute("aria-label")).toBe(text);
-    expect(toggle.getAttribute("aria-expanded")).toBe(getExpectedAriaExpandedValue(true));
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
 
     await toggle.click();
 
     expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(await element.getProperty("open")).toBe(false);
-    expect(toggle.getAttribute("aria-label")).toBe(text);
-    expect(toggle.getAttribute("aria-expanded")).toBe(getExpectedAriaExpandedValue(false));
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
 
     const keyboardToggleEmitter =
       toggle.tagName === "CALCITE-ACTION"
@@ -214,15 +206,13 @@ describe("calcite-block-section", () => {
 
     expect(toggleSpy).toHaveReceivedEventTimes(3);
     expect(await element.getProperty("open")).toBe(true);
-    expect(toggle.getAttribute("aria-label")).toBe(text);
-    expect(toggle.getAttribute("aria-expanded")).toBe(getExpectedAriaExpandedValue(true));
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
 
     await keyboardToggleEmitter.press("Enter");
     await page.waitForChanges();
 
     expect(toggleSpy).toHaveReceivedEventTimes(4);
     expect(await element.getProperty("open")).toBe(false);
-    expect(toggle.getAttribute("aria-label")).toBe(text);
-    expect(toggle.getAttribute("aria-expanded")).toBe(getExpectedAriaExpandedValue(false));
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }
 });
