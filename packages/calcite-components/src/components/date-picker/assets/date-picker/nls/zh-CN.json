@@ -2,7 +2,7 @@
   "default-calendar": "gregorian",
   "separator": "/",
   "unitOrder": "YYYY/MM/DD",
-  "weekStart": 7,
+  "weekStart": 1,
   "placeholder": "YYYY/MM/DD",
   "days": {
     "abbreviated": ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],

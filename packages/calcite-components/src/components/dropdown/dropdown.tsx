@@ -239,7 +239,7 @@ export class Dropdown
           id={`${guid}-menubutton`}
           onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setReferenceEl}
         >
           <slot
@@ -253,7 +253,7 @@ export class Dropdown
         <div
           aria-hidden={toAriaBoolean(!open)}
           class="calcite-dropdown-wrapper"
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setFloatingEl}
         >
           <div
@@ -265,7 +265,7 @@ export class Dropdown
             }}
             id={`${guid}-menu`}
             role="menu"
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setScrollerAndTransitionEl}
           >
             <slot onSlotchange={this.updateGroups} />
@@ -379,11 +379,8 @@ export class Dropdown
 
     switch (keyboardEvent.key) {
       case "Tab":
-        if (this.items.indexOf(target) === this.items.length - 1 && !keyboardEvent.shiftKey) {
-          this.closeCalciteDropdown();
-        } else if (this.items.indexOf(target) === 0 && keyboardEvent.shiftKey) {
-          this.closeCalciteDropdown();
-        }
+        this.open = false;
+        this.updateTabIndexOfItems(target);
         break;
       case "ArrowDown":
         focusElementInGroup(this.items, target, "next");
@@ -669,4 +666,10 @@ export class Dropdown
       this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
     }
   };
+
+  private updateTabIndexOfItems(target: HTMLCalciteDropdownItemElement): void {
+    this.items.forEach((item: HTMLCalciteDropdownItemElement) => {
+      item.tabIndex = target !== item ? -1 : 0;
+    });
+  }
 }
