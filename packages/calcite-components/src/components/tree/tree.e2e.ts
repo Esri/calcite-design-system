@@ -462,15 +462,15 @@ describe("calcite-tree", () => {
         const page = await newE2EPage();
         await page.setContent(html`
           <calcite-tree selection-mode="ancestors">
-            <calcite-tree-item id="grandparent" expanded>
+            <calcite-tree-item id="grandparent">
               GrandParent
               <calcite-tree slot="children">
-                <calcite-tree-item id="parent1" expanded>
+                <calcite-tree-item id="parent1">
                   Parent1
                   <calcite-tree slot="children">
                     <calcite-tree-item id="child1"
                       >Child1
-                      <calcite-tree slot="children" expanded>
+                      <calcite-tree slot="children">
                         <calcite-tree-item id="grandchild1">grandchild1</calcite-tree-item>
                         <calcite-tree-item id="grandchild2">grandchild2</calcite-tree-item>
                       </calcite-tree>

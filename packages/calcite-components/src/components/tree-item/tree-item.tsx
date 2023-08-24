@@ -502,7 +502,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   private updateAncestorTree(): void {
     const parentItem = this.parentTreeItem;
-    const item = this.el;
     if (this.selectionMode !== "ancestors" || !parentItem) {
       return;
     }
@@ -522,7 +521,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       }
 
       const childItems = Array.from(
-        item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
+        this.el.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
       );
 
       childItems.forEach((item: HTMLCalciteTreeItemElement) => {
