@@ -514,9 +514,6 @@ describe("calcite-list", () => {
         </calcite-list>
       `);
 
-      await page.waitForChanges();
-      await page.waitForTimeout(listDebounceTimeout);
-
       await dragAndDrop(
         page,
         {
