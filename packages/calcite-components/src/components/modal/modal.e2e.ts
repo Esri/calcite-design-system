@@ -187,6 +187,27 @@ it("calls the beforeClose method prior to closing via attribute", async () => {
   expect(await modal.getProperty("opened")).toBe(false);
 });
 
+it("should handle rejected 'beforeClose' promise'", async () => {
+  const page = await newE2EPage();
+
+  const mockCallBack = jest.fn().mockReturnValue(Promise.reject());
+  await page.exposeFunction("beforeClose", mockCallBack);
+
+  await page.setContent(`<calcite-modal open></calcite-modal>`);
+
+  await page.$eval(
+    "calcite-flow-item",
+    (elm: HTMLCalciteModalElement) =>
+      (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+  );
+
+  const modal = await page.find("calcite-modal");
+  modal.setProperty("open", false);
+  await page.waitForChanges();
+
+  expect(mockCallBack).toHaveBeenCalledTimes(1);
+});
+
 describe("opening and closing behavior", () => {
   it("opens and closes", async () => {
     const page = await newE2EPage();
