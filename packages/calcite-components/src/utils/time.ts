@@ -58,6 +58,9 @@ function createLocaleDateTimeFormatter(
 }
 
 export function formatTimePart(number: number, minLength?: number): string {
+  if (number === null || number === undefined) {
+    return;
+  }
   const numberAsString = number.toString();
   const numberDecimalPlaces = decimalPlaces(number);
   if (number < 1 && numberDecimalPlaces > 0 && numberDecimalPlaces < 4) {

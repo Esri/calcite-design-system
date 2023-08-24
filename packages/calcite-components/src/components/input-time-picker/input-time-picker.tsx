@@ -577,14 +577,14 @@ export class InputTimePicker
     if (!parts) {
       return timeString;
     }
-    if (parts.hour && parts.minute) {
+    if (parts.hour !== null && parts.minute !== null) {
       timeString = `${formatTimePart(parts.hour)}:${formatTimePart(parts.minute)}`;
-    }
-    if (parts.second) {
-      timeString += `:${formatTimePart(parts.second)}`;
-      if (parts.millisecond) {
-        const second = (parts.millisecond * 0.001).toFixed(decimalPlaces(this.step));
-        timeString += `.${second.toString().replace("0.", "")}`;
+      if (this.shouldIncludeSeconds() && parts.second !== null) {
+        timeString += `:${formatTimePart(parts.second)}`;
+        if (this.shouldIncludeFractionalSeconds() && parts.millisecond !== null) {
+          const second = (parts.millisecond * 0.001).toFixed(decimalPlaces(this.step));
+          timeString += `.${second.toString().replace("0.", "")}`;
+        }
       }
     }
     return timeString;
@@ -629,17 +629,19 @@ export class InputTimePicker
 
       const newValue = this.delocalizeTimeString(this.calciteInputEl.value);
 
-      this.setValue(newValue);
+      if (isValidTime(newValue)) {
+        this.setValue(newValue);
 
-      const localizedTimeString = localizeTimeString({
-        value: this.value,
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds(),
-      });
+        const localizedTimeString = localizeTimeString({
+          value: this.value,
+          locale: this.effectiveLocale,
+          numberingSystem: this.numberingSystem,
+          includeSeconds: this.shouldIncludeSeconds(),
+        });
 
-      if (newValue && this.calciteInputEl.value !== localizedTimeString) {
-        this.setInputValue(localizedTimeString);
+        if (newValue && this.calciteInputEl.value !== localizedTimeString) {
+          this.setInputValue(localizedTimeString);
+        }
       }
     } else if (key === "ArrowDown") {
       this.open = true;
