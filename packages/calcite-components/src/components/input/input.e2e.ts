@@ -1200,6 +1200,29 @@ describe("calcite-input", () => {
       await page.waitForChanges();
       expect(await input.getProperty("value")).toBe("-123");
     });
+
+    it("prevents typing more decimal places than permitted by places property", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number" value="1.234" places="2"></calcite-input>`);
+      const input = await page.find("calcite-input");
+
+      input.setProperty("value", "");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("1.23");
+
+      input.setProperty("value", "1");
+      input.setProperty("places", "1");
+      await input.callMethod("setFocus");
+      await page.waitForChanges();
+      await typeNumberValue(page, ".567");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("1.5");
+
+      input.setProperty("places", "3");
+      input.setProperty("value", "0.8901234");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("0.980");
+    });
   });
 
   describe("number locale support", () => {

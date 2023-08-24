@@ -85,32 +85,21 @@ export const withSlottedAction = (): string => html`
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label
-      class="calcite-mode-dark"
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      for="input-dark-mode"
-    >
-      ${text("label text", "My great label")}
+    <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
+      My great label
       <calcite-input-number
         id="input-dark-mode"
-        status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-        alignment="${select("alignment", ["start", "end"], "start")}"
-        number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-        min="${number("min", 0)}"
-        max="${number("max", 100)}"
-        step="${number("step", 1)}"
-        prefix-text="${text("prefix-text", "")}"
-        suffix-text="${text("suffix-text", "")}"
-        ${boolean("loading", false)}
-        ${boolean("clearable", false)}
-        ${boolean("disabled", false)}
-        value="${text("value", "")}"
-        placeholder="${text("placeholder", "Placeholder text")}"
+        status="idle"
+        alignment="start"
+        number-button-type="horizontal"
+        min="0"
+        max="100"
+        places="1"
+        value="12.34"
+        placeholder="Placeholder text"
       >
       </calcite-input-number>
-      <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-        >${text("input message text", "My great input message")}</calcite-input-message
-      >
+      <calcite-input-message status="idle">My great input message</calcite-input-message>
     </calcite-label>
   </div>
 `;

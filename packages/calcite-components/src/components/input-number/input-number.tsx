@@ -244,6 +244,9 @@ export class InputNumber
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true }) status: Status = "idle";
 
+  /** Specifies the maximum number of decimal places. No maximum by default. */
+  @Prop() places: number;
+
   /**
    * Specifies the granularity that the component's value must adhere to.
    *
@@ -384,7 +387,8 @@ export class InputNumber
     numberStringFormatter.numberFormatOptions = {
       locale,
       numberingSystem: this.numberingSystem,
-      useGrouping: false,
+      useGrouping: this.groupSeparator,
+      maximumFractionDigits: this.places,
     };
   }
 
@@ -613,6 +617,7 @@ export class InputNumber
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
+      maximumFractionDigits: this.places,
     };
     const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
@@ -673,6 +678,7 @@ export class InputNumber
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
+      maximumFractionDigits: this.places,
     };
 
     if (event.key === numberStringFormatter.decimal) {
@@ -832,6 +838,7 @@ export class InputNumber
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
+      maximumFractionDigits: this.places,
     };
 
     const isValueDeleted =
