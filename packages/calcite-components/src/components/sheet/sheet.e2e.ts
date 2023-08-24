@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { focusable, renders, hidden, defaults } from "../../tests/commonTests";
+import { focusable, renders, hidden, defaults, accessible } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 
@@ -44,6 +44,12 @@ describe("calcite-sheet properties", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-sheet");
+  });
+
+  describe("accessible", () => {
+    accessible(
+      `<calcite-sheet style="--calcite-sheet-scrim-background: #ffffff" open label="hello world">Hello everyone!</calcite-sheet>`
+    );
   });
 
   describe("setFocus", () => {
