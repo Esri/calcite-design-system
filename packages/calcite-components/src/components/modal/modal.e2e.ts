@@ -190,7 +190,7 @@ it("calls the beforeClose method prior to closing via attribute", async () => {
 it("should handle rejected 'beforeClose' promise'", async () => {
   const page = await newE2EPage();
 
-  const mockCallBack = jest.fn().mockReturnValue(Promise.reject());
+  const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
   await page.exposeFunction("beforeClose", mockCallBack);
 
   await page.setContent(`<calcite-modal open></calcite-modal>`);
