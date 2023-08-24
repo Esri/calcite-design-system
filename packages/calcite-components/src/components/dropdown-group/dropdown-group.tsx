@@ -141,9 +141,9 @@ export class DropdownGroup {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   private updateItems = (): void => {
-    Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach((item) => {
-      item.selectionMode = this.selectionMode;
-    });
+    Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach(
+      (item) => (item.selectionMode = this.selectionMode)
+    );
   };
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
