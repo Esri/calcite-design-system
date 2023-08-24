@@ -131,11 +131,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
 
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true }) val: string;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle

@@ -386,7 +386,7 @@ export class Tree {
       nodeListToArray(this.el.querySelectorAll("calcite-tree-item")) as HTMLCalciteTreeItemElement[]
     ).filter((i) => i.selected);
 
-    if (event.detail.updateTarget === true) {
+    if (event.detail.updateTarget) {
       this.calciteTreeSelect.emit();
     }
   }
