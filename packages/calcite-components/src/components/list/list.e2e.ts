@@ -5,7 +5,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
-import { isElementFocused } from "../../tests/utils";
+import { dragAndDrop, isElementFocused } from "../../tests/utils";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -468,6 +468,112 @@ describe("calcite-list", () => {
       await page.waitForTimeout(listDebounceTimeout);
       return page;
     }
+
+    it("works using a mouse", async () => {
+      const page = await createSimpleList();
+      // const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
+      // const calciteListOrderChange = page.waitForEvent("calciteListOrderChange");
+
+      await dragAndDrop(
+        page,
+        {
+          element: `calcite-list-item[value="one"]`,
+          shadow: "calcite-handle",
+        },
+        {
+          element: `calcite-list-item[value="two"]`,
+          shadow: "calcite-handle",
+        }
+      );
+
+      // await calciteListOrderChange;
+      // expect(listOrderChangeSpy).toHaveReceivedEventTimes(1);
+      const [first, second] = await page.findAll("calcite-list-item");
+      expect(await first.getProperty("value")).toBe("two");
+      expect(await second.getProperty("value")).toBe("one");
+    });
+
+    it("supports dragging items between lists", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-list id="first-letters" drag-enabled group="letters">
+          <calcite-list-item value="a" label="A"></calcite-list-item>
+          <calcite-list-item value="b" label="B"></calcite-list-item>
+        </calcite-list>
+
+        <calcite-list id="numbers" drag-enabled group="numbers">
+          <calcite-list-item value="1" label="One"></calcite-list-item>
+          <calcite-list-item value="2" label="Two"></calcite-list-item>
+        </calcite-list>
+
+        <calcite-list id="no-group" drag-enabled>
+          <calcite-list-item value="no-group" label="No group"></calcite-list-item>
+        </calcite-list>
+
+        <calcite-list id="second-letters" drag-enabled group="letters">
+          <calcite-list-item value="c" label="C"></calcite-list-item>
+          <calcite-list-item value="d" label="D"></calcite-list-item>
+          <calcite-list-item value="e" label="E"></calcite-list-item>
+          <calcite-list-item value="f" label="F"></calcite-list-item>
+        </calcite-list>
+        `,
+      });
+
+      await dragAndDrop(
+        page,
+        {
+          element: `calcite-list-item[value="d"]`,
+          shadow: "calcite-handle",
+        },
+        {
+          element: `#first-letters`,
+          pointerPosition: {
+            vertical: "bottom",
+          },
+        }
+      );
+
+      await dragAndDrop(
+        page,
+        {
+          element: `calcite-list-item[value="e"]`,
+          shadow: "calcite-handle",
+        },
+        {
+          element: `#numbers`,
+          pointerPosition: {
+            vertical: "bottom",
+          },
+        }
+      );
+
+      await dragAndDrop(
+        page,
+        {
+          element: `calcite-list-item[value="e"]`,
+          shadow: "calcite-handle",
+        },
+        {
+          element: `#no-group`,
+          pointerPosition: {
+            vertical: "bottom",
+          },
+        }
+      );
+
+      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await page.findAll(
+        "calcite-list-item"
+      );
+      expect(await first.getProperty("value")).toBe("a");
+      expect(await second.getProperty("value")).toBe("b");
+      expect(await third.getProperty("value")).toBe("d");
+      expect(await fourth.getProperty("value")).toBe("1");
+      expect(await fifth.getProperty("value")).toBe("2");
+      expect(await sixth.getProperty("value")).toBe("no-group");
+      expect(await seventh.getProperty("value")).toBe("c");
+      expect(await eight.getProperty("value")).toBe("e");
+      expect(await ninth.getProperty("value")).toBe("f");
+    });
 
     it("works using a keyboard", async () => {
       const page = await createSimpleList();
