@@ -13,6 +13,7 @@ import {
 import { Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
 import { createObserver } from "../../utils/observers";
+import { CSS } from "../dropdown-item/resources";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.
@@ -94,8 +95,8 @@ export class DropdownGroup {
       <Host aria-label={this.groupTitle} role="group">
         <div
           class={{
-            ["container"]: true,
-            [`container--${this.scale}`]: true,
+            [CSS.container]: true,
+            [`${CSS.container}--${this.scale}`]: true,
           }}
         >
           {dropdownSeparator}
