@@ -311,8 +311,6 @@ export class Tree {
 
   updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
     const item = event.target as HTMLCalciteTreeItemElement;
-    const previousSelectedValue = item.selected;
-
     if (item.disabled || (item.indeterminate && !event.detail.updateTarget)) {
       return;
     }
@@ -388,7 +386,7 @@ export class Tree {
       nodeListToArray(this.el.querySelectorAll("calcite-tree-item")) as HTMLCalciteTreeItemElement[]
     ).filter((i) => i.selected);
 
-    if (previousSelectedValue !== item.selected) {
+    if (event.detail.updateTarget === true) {
       this.calciteTreeSelect.emit();
     }
   }

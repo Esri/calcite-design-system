@@ -456,6 +456,81 @@ describe("calcite-tree", () => {
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
       });
     });
+
+    describe("selection changes programmatically", () => {
+      it("should update selection of ancestors and descendants in ancestors selection-mode", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-tree selection-mode="ancestors">
+            <calcite-tree-item id="grandparent" expanded>
+              GrandParent
+              <calcite-tree slot="children">
+                <calcite-tree-item id="parent1" expanded>
+                  Parent1
+                  <calcite-tree slot="children">
+                    <calcite-tree-item id="child1"
+                      >Child1
+                      <calcite-tree slot="children" expanded>
+                        <calcite-tree-item id="grandchild1">grandchild1</calcite-tree-item>
+                        <calcite-tree-item id="grandchild2">grandchild2</calcite-tree-item>
+                      </calcite-tree>
+                    </calcite-tree-item>
+                    <calcite-tree-item id="child2">Child2</calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item id="parent2">Parent2</calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        `);
+
+        const tree = await page.find("calcite-tree");
+        const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+        const child1 = await page.find("calcite-tree-item[id='child1']");
+        const child2 = await page.find("calcite-tree-item[id='child2']");
+        const parent1 = await page.find("calcite-tree-item[id='parent1']");
+        const parent2 = await page.find("calcite-tree-item[id='parent2']");
+        const grandparent = await page.find("calcite-tree-item[id='grandparent']");
+        const grandchild1 = await page.find("calcite-tree-item[id='grandchild1']");
+        const grandchild2 = await page.find("calcite-tree-item[id='grandchild2']");
+
+        child1.setProperty("selected", true);
+        await page.waitForChanges();
+        expect(selectEventSpy).toHaveReceivedEventTimes(0);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(3);
+        expect(parent1).toHaveAttribute("indeterminate");
+        expect(grandparent).toHaveAttribute("indeterminate");
+
+        child2.setProperty("selected", true);
+        await page.waitForChanges();
+        expect(selectEventSpy).toHaveReceivedEventTimes(0);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(5);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(5);
+        expect(parent1).not.toHaveAttribute("indeterminate");
+        expect(parent1).toHaveAttribute("selected");
+        expect(grandparent).toHaveAttribute("indeterminate");
+
+        parent2.setProperty("selected", true);
+        await page.waitForChanges();
+        expect(selectEventSpy).toHaveReceivedEventTimes(0);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(7);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(7);
+        expect(grandparent).not.toHaveAttribute("indeterminate");
+        expect(grandparent).toHaveAttribute("selected");
+
+        grandchild2.setProperty("selected", false);
+        await page.waitForChanges();
+        expect(selectEventSpy).toHaveReceivedEventTimes(0);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(3);
+        expect(grandparent).toHaveAttribute("indeterminate");
+        expect(grandparent).not.toHaveAttribute("selected");
+        expect(parent1).toHaveAttribute("indeterminate");
+        expect(grandchild1).toHaveAttribute("selected");
+        expect(grandchild2).not.toHaveAttribute("selected");
+      });
+    });
   });
 
   describe("keyboard support", () => {
