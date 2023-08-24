@@ -71,6 +71,11 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   /**
+   * Specifies the accessible label for the last action-group.
+   */
+  @Prop() actionsEndGroupLabel: string;
+
+  /**
    * When `true`, the expand-toggling behavior is disabled.
    */
   @Prop({ reflect: true }) expandDisabled = false;
@@ -372,7 +377,17 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const { expanded, expandDisabled, el, position, toggleExpand, scale, layout, messages } = this;
+    const {
+      expanded,
+      expandDisabled,
+      el,
+      position,
+      toggleExpand,
+      scale,
+      layout,
+      messages,
+      actionsEndGroupLabel,
+    } = this;
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
@@ -384,7 +399,7 @@ export class ActionBar
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setExpandToggleRef}
       />
     ) : null;
@@ -392,6 +407,7 @@ export class ActionBar
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
+        label={actionsEndGroupLabel}
         hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
         layout={layout}
         scale={scale}

@@ -1,4 +1,4 @@
 {
   "invalid": "Non valide",
-  "tooLong": "La longueur actuelle de caractères est de {currentLength}, ce qui dépasse la longueur maximale de {maxLength} caractères."
+  "tooLong": "Le nombre actuel de caractères est de {currentLength}, ce qui dépasse la longueur maximale de {maxLength} caractères."
 }
