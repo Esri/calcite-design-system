@@ -419,7 +419,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
                       onCalciteFilterChange={this.handleFilterChange}
                       placeholder={filterPlaceholder}
                       value={filterText}
-                      // eslint-disable-next-line react/jsx-sort-props
+                      // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                       ref={this.setFilterEl}
                     />
                     <slot
@@ -628,8 +628,6 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       const items = this.queryListItems(true);
 
       items.forEach((item) => {
-        item.selectionAppearance = selectionAppearance;
-        item.selectionMode = selectionMode;
         item.dragHandle = dragEnabled;
       });
 
@@ -641,6 +639,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
+    });
+    const dragItems = this.queryListItems(true);
+    dragItems.forEach((item) => {
       item.dragHandle = dragEnabled;
     });
     this.listItems = items;
