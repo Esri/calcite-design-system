@@ -196,7 +196,7 @@ it("should handle rejected 'beforeClose' promise'", async () => {
   await page.setContent(`<calcite-modal open></calcite-modal>`);
 
   await page.$eval(
-    "calcite-flow-item",
+    "calcite-modal",
     (elm: HTMLCalciteModalElement) =>
       (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
   );
