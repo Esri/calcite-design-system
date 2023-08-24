@@ -487,43 +487,47 @@ export class InputTimePicker
     // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
     dayjs.locale(this.effectiveLocale.toLowerCase());
 
+    const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
+
     let delocalizedTimeString;
 
     if (this.shouldIncludeFractionalSeconds()) {
       const stepPrecision = decimalPlaces(this.step);
+      const centisecondParts = this.delocalizeTimeStringToParts(value, "S");
 
       if (stepPrecision === 1) {
-        delocalizedTimeString = this.getTimeStringFromParts(
-          this.delocalizeTimeStringToParts(value, "S")
-        );
+        if (centisecondParts.millisecond !== 0) {
+          delocalizedTimeString = this.getTimeStringFromParts(centisecondParts);
+        } else {
+          delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
+        }
       } else {
-        const sParts = this.delocalizeTimeStringToParts(value, "S");
-        const ssParts = this.delocalizeTimeStringToParts(value, "SS");
+        const decisecondParts = this.delocalizeTimeStringToParts(value, "SS");
 
         if (stepPrecision === 2) {
-          if (ssParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(ssParts);
-          } else if (sParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(sParts);
+          if (decisecondParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(decisecondParts);
+          } else if (centisecondParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(centisecondParts);
           } else {
-            delocalizedTimeString = "";
+            delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
           }
-        } else if (stepPrecision === 3) {
-          const sssParts = this.delocalizeTimeStringToParts(value, "SSS");
+        } else if (stepPrecision >= 3) {
+          const millisecondParts = this.delocalizeTimeStringToParts(value, "SSS");
 
-          if (sssParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(sssParts);
-          } else if (ssParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(ssParts);
-          } else if (sParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(sParts);
+          if (millisecondParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(millisecondParts);
+          } else if (decisecondParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(decisecondParts);
+          } else if (centisecondParts.millisecond !== 0) {
+            delocalizedTimeString = this.getTimeStringFromParts(centisecondParts);
           } else {
-            delocalizedTimeString = "";
+            delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
           }
         }
       }
     } else {
-      delocalizedTimeString = this.getTimeStringFromParts(this.delocalizeTimeStringToParts(value));
+      delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
     }
 
     return delocalizedTimeString;
@@ -534,15 +538,15 @@ export class InputTimePicker
     fractionalSecondFormatToken?: "S" | "SS" | "SSS"
   ): DayJSTimeParts {
     const ltsFormatString = this.localeConfig?.formats?.LTS;
-    const match = ltsFormatString.match(/ss\.*(S+)/g);
+    const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
 
     if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
       const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
-      this.localeConfig.formats.LTS = match
-        ? ltsFormatString.replace(match[0], secondFormatToken)
+      this.localeConfig.formats.LTS = fractionalSecondTokenMatch
+        ? ltsFormatString.replace(fractionalSecondTokenMatch[0], secondFormatToken)
         : ltsFormatString.replace("ss", secondFormatToken);
-    } else if (match) {
-      this.localeConfig.formats.LTS = ltsFormatString.replace(match[0], "ss");
+    } else if (fractionalSecondTokenMatch) {
+      this.localeConfig.formats.LTS = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
     }
 
     dayjs.updateLocale(
@@ -557,7 +561,7 @@ export class InputTimePicker
         hour: dayjsParseResult.get("hour"),
         minute: dayjsParseResult.get("minute"),
         second: dayjsParseResult.get("second"),
-        millisecond: dayjsParseResult.get("milliseconds"),
+        millisecond: dayjsParseResult.get("millisecond"),
       };
     }
     return {
