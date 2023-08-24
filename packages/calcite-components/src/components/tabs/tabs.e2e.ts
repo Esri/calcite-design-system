@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-tabs", () => {
@@ -31,6 +31,14 @@ describe("calcite-tabs", () => {
       { propertyName: "layout", defaultValue: "inline" },
       { propertyName: "position", defaultValue: "top" },
       { propertyName: "scale", defaultValue: "m" },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-tabs", [
+      { propertyName: "layout", value: "inline" },
+      { propertyName: "position", value: "top" },
+      { propertyName: "scale", value: "m" },
     ]);
   });
 
@@ -345,5 +353,16 @@ describe("calcite-tabs", () => {
     const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
 
     expect(selectedTitleOnEmit).toBe("boats");
+  });
+
+  it("inheritable props `position` and `scale` get passed to `tab-nav` and `tab-titles`", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-tabs position="bottom" scale="l"></calcite-tabs> `);
+    const tabTitles = await page.findAll("calcite-tab-titles");
+
+    tabTitles.forEach(async (item) => {
+      expect(await item.getProperty("position")).toBe("bottom");
+      expect(await item.getProperty("scale")).toBe("l");
+    });
   });
 });

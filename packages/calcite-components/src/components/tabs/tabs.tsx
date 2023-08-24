@@ -1,7 +1,8 @@
-import { Component, Element, Fragment, h, Listen, Prop, State, VNode } from "@stencil/core";
+import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tab`s.
@@ -25,14 +26,20 @@ export class Tabs {
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Specifies the position of the component in relation to the `calcite-tab`s.
+   * Specifies the position of the `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
    */
   @Prop({ reflect: true }) position: TabPosition = "top";
 
   /**
-   * Specifies the size of the component.
+   * Specifies the size of the component, defaults to `scale`.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("position")
+  @Watch("scale")
+  handlePropsChange(): void {
+    this.updateItems();
+  }
 
   /**
    * When `true`, the component will display with a folder style menu.
@@ -44,6 +51,10 @@ export class Tabs {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true });
+  }
 
   render(): VNode {
     return (
@@ -132,6 +143,15 @@ export class Tabs {
    * Stores an array of ids of `<calcite-tab>`s to match up ARIA attributes.
    */
   @State() tabs: HTMLCalciteTabElement[] = [];
+
+  private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  private updateItems = (): void => {
+    this.titles.forEach((title) => {
+      title.position = this.position;
+      title.scale = this.scale;
+    });
+  };
 
   //--------------------------------------------------------------------------
   //
