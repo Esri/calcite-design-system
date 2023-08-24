@@ -98,11 +98,26 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     }
   }
 
+  /**
+   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
+   *
+   * @internal.
+   */
+  @Prop({ mutable: true, reflect: true }) opened = false;
+
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) position: Position = "inline-start";
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop() slottedInShell: boolean;
 
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
@@ -185,21 +200,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   focusTrap: FocusTrap;
 
   @Element() el: HTMLCalciteSheetElement;
-
-  /**
-   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
-   *
-   * @internal.
-   */
-  @Prop({ mutable: true, reflect: true }) opened = false;
-
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop() slottedInShell: boolean;
 
   private contentId: string;
 
@@ -331,7 +331,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     }
 
     if (this.beforeClose) {
-      await this.beforeClose(this.el);
+      await this.beforeClose(this.el).catch();
     }
 
     this.ignoreOpenChange = true;
