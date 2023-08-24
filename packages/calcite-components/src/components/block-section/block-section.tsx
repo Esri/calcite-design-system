@@ -221,7 +221,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
       toggleDisplay === "switch" ? (
         <div
           aria-controls={regionId}
-          aria-label={text}
+          aria-expanded={toAriaBoolean(open)}
           class={{
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true,
@@ -229,20 +229,20 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
           id={buttonId}
           onClick={this.toggleSection}
           onKeyDown={this.handleHeaderKeyDown}
+          role="button"
           tabIndex={0}
           title={toggleLabel}
         >
           <div class={CSS.toggleSwitchContent}>
             <span class={CSS.toggleSwitchText}>{text}</span>
           </div>
-          <calcite-switch checked={open} label={toggleLabel} scale="s" tabIndex={-1} />
+          <calcite-switch aria-hidden="true" checked={open} scale="s" tabIndex={-1} />
           {this.renderStatusIcon()}
         </div>
       ) : (
         <button
           aria-controls={regionId}
           aria-expanded={toAriaBoolean(open)}
-          aria-label={text}
           class={{
             [CSS.sectionHeader]: true,
             [CSS.toggle]: true,
@@ -259,15 +259,9 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     return (
       <Host>
         {headerNode}
-        <article
-          aria-expanded={toAriaBoolean(open)}
-          aria-labelledby={buttonId}
-          class={CSS.content}
-          hidden={!open}
-          id={regionId}
-        >
+        <section aria-labelledby={buttonId} class={CSS.content} hidden={!open} id={regionId}>
           <slot />
-        </article>
+        </section>
       </Host>
     );
   }

@@ -292,7 +292,7 @@ export class Block
     const hasMenuActions = !!getSlotted(el, SLOTS.headerMenuActions);
     const collapseIcon = open ? ICONS.opened : ICONS.closed;
 
-    const { guid, heading } = this;
+    const { guid } = this;
     const regionId = `${guid}-region`;
     const buttonId = `${guid}-button`;
 
@@ -303,7 +303,6 @@ export class Block
           <button
             aria-controls={regionId}
             aria-expanded={collapsible ? toAriaBoolean(open) : null}
-            aria-label={heading}
             class={CSS.toggle}
             id={buttonId}
             onClick={this.onHeaderClick}
@@ -344,15 +343,9 @@ export class Block
           }}
         >
           {headerNode}
-          <article
-            aria-expanded={toAriaBoolean(open)}
-            aria-labelledby={buttonId}
-            class={CSS.content}
-            hidden={!open}
-            id={regionId}
-          >
+          <section aria-labelledby={buttonId} class={CSS.content} hidden={!open} id={regionId}>
             {this.renderScrim()}
-          </article>
+          </section>
         </article>
       </Host>
     );
