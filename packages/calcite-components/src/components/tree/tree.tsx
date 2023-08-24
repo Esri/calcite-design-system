@@ -311,7 +311,9 @@ export class Tree {
 
   updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
     const item = event.target as HTMLCalciteTreeItemElement;
-    if (item.disabled || (item.indeterminate && !event.detail.updateTarget)) {
+    const updateItem = event.detail.updateItem;
+
+    if (item.disabled || (item.indeterminate && !updateItem)) {
       return;
     }
 
@@ -329,7 +331,7 @@ export class Tree {
     const childItemsWithChildren = childItems.filter((child) => child.hasChildren);
 
     let futureSelected;
-    if (event.detail.updateTarget) {
+    if (updateItem) {
       futureSelected = item.hasChildren ? !(item.selected || item.indeterminate) : !item.selected;
     } else {
       futureSelected = item.selected;
@@ -359,7 +361,7 @@ export class Tree {
       updateItemState(directChildItems, el);
     });
 
-    if (event.detail.updateTarget) {
+    if (updateItem) {
       if (item.hasChildren) {
         updateItemState(childItems, item);
       } else {
@@ -386,7 +388,7 @@ export class Tree {
       nodeListToArray(this.el.querySelectorAll("calcite-tree-item")) as HTMLCalciteTreeItemElement[]
     ).filter((i) => i.selected);
 
-    if (event.detail.updateTarget) {
+    if (updateItem) {
       this.calciteTreeSelect.emit();
     }
   }

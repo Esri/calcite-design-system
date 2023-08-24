@@ -76,14 +76,14 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @Watch("selected")
   handleSelectedChange(value: boolean): void {
-    if (this.selectionMode === "ancestors" && !this.userInteracted) {
+    if (this.selectionMode === "ancestors" && !this.userChangedValue) {
       if (value) {
         this.indeterminate = false;
       }
       this.calciteInternalTreeItemSelect.emit({
         modifyCurrentSelection: true,
         forceToggle: false,
-        updateTarget: false,
+        updateItem: false,
       });
     }
   }
@@ -344,9 +344,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
       forceToggle: false,
-      updateTarget: true,
+      updateItem: true,
     });
-    this.userInteracted = true;
+    this.userChangedValue = true;
   }
 
   iconClickHandler = (event: MouseEvent): void => {
@@ -369,11 +369,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         if (this.selectionMode === "none") {
           return;
         }
-        this.userInteracted = true;
+        this.userChangedValue = true;
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false,
-          updateTarget: true,
+          updateItem: true,
         });
         event.preventDefault();
         break;
@@ -386,7 +386,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           el.matches("a")
         ) as HTMLAnchorElement;
 
-        this.userInteracted = true;
+        this.userChangedValue = true;
 
         if (link) {
           link.click();
@@ -395,7 +395,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
             forceToggle: false,
-            updateTarget: true,
+            updateItem: true,
           });
         }
 
@@ -468,7 +468,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 
-  private userInteracted = false;
+  private userChangedValue = false;
 
   //--------------------------------------------------------------------------
   //

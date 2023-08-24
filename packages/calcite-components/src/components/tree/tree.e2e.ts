@@ -479,6 +479,7 @@ describe("calcite-tree", () => {
           </calcite-tree>
         </calcite-tree-item>
       </calcite-tree>`;
+
       it("should update selection of ancestors and descendants", async () => {
         const page = await newE2EPage();
         await page.setContent(pageContent);

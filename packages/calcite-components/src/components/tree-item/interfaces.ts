@@ -11,5 +11,5 @@ export interface TreeItemSelectDetail {
    * Indicates if an item selected & indeterminate properties should be updated.
    * This will be set to true for user interaction changes and false for programmatic changes.
    */
-  updateTarget?: boolean;
+  updateItem?: boolean;
 }
