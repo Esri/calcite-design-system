@@ -9,7 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementProp, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
 import { CSS, SLOTS } from "./resources";
 
@@ -50,15 +50,29 @@ export class SegmentedControlItem {
   @Prop({ mutable: true })
   value: any | null;
 
+  /**
+   * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `solid`.
+   *
+   * @internal
+   */
+  @Prop() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
+
+  /**
+   * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
+   *
+   * @internal
+   */
+  @Prop() layout: Layout = "horizontal";
+
+  /**
+   * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
+   *
+   * @internal
+   */
+  @Prop() scale: Scale = "m";
+
   render(): VNode {
-    const { checked, value } = this;
-    const scale: Scale = getElementProp(this.el, "scale", "m");
-    const appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = getElementProp(
-      this.el,
-      "appearance",
-      "solid"
-    );
-    const layout: Layout = getElementProp(this.el, "layout", "horizontal");
+    const { appearance, checked, layout, scale, value } = this;
 
     const iconStartEl = this.iconStart ? (
       <calcite-icon
@@ -84,12 +98,9 @@ export class SegmentedControlItem {
       <Host aria-checked={toAriaBoolean(checked)} aria-label={value} role="radio">
         <label
           class={{
-            "label--scale-s": scale === "s",
-            "label--scale-m": scale === "m",
-            "label--scale-l": scale === "l",
-            "label--horizontal": layout === "horizontal",
-            "label--outline": appearance === "outline",
-            "label--outline-fill": appearance === "outline-fill",
+            [`label--scale-${scale}`]: true,
+            [`label--${layout}`]: true,
+            [`label--${appearance}`]: true,
           }}
         >
           {this.iconStart ? iconStartEl : null}
