@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { ensureId, focusFirstTabbable } from "../../utils/dom";
+import { ensureId, focusFirstTabbable, getElementDir } from "../../utils/dom";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -31,6 +31,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { CSS } from "./resources";
 import { DisplayMode, Position } from "./interfaces";
 import { Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-sheet",
@@ -140,6 +141,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
     return (
       <Host
         aria-describedby={this.contentId}
@@ -152,6 +154,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
             [CSS.slottedInShell]: this.slottedInShell,
+            [CSS_UTILITY.rtl]: dir === "rtl",
           }}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
