@@ -1,10 +1,10 @@
-name: Limit Pull Requests For Maintenance Releases
+name: Maintenance Release Merge Blocker
 on:
   pull_request:
     branches: [main]
-    types: [labeled, synchronize]
+    types: [labeled, unlabeled, synchronize]
 jobs:
-  move:
+  check-milestone:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
