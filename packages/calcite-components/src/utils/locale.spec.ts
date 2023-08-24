@@ -113,6 +113,20 @@ describe("NumberStringFormat", () => {
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
         expect(delocalizedNumberString).toBe(numberString);
       });
+
+      it(`set maximumFractionDigits localize and delocalize in "${locale}"`, () => {
+        const numberString = "12345678.0123456789";
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          // the group separator is different in arabic depending on the numberingSystem
+          numberingSystem: locale === "ar" ? "arab" : "latn",
+          useGrouping: true,
+          maximumFractionDigits: 2,
+        };
+        const localizedNumberString = numberStringFormatter.localize(numberString);
+        const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
+        expect(delocalizedNumberString).toBe(numberString);
+      });
     });
   });
 
