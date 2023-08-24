@@ -93,7 +93,7 @@ export class SegmentedControl
   @Watch("layout")
   @Watch("scale")
   handlePropsChange(): void {
-    this.updateItems();
+    this.updateItemProps();
   }
 
   /** The component's `selectedItem` value. */
@@ -156,7 +156,7 @@ export class SegmentedControl
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
 
-    this.updateItems();
+    this.updateItemProps();
   }
 
   disconnectedCallback(): void {
@@ -293,7 +293,7 @@ export class SegmentedControl
 
   private mutationObserver = createObserver("mutation", () => this.setUpItems());
 
-  private updateItems = (): void => {
+  private updateItemProps = (): void => {
     const items = this.getItems();
 
     items.forEach((item) => {
@@ -358,5 +358,7 @@ export class SegmentedControl
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
+
+    this.updateItemProps();
   }
 }
