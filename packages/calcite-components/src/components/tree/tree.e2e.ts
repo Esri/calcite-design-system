@@ -457,32 +457,31 @@ describe("calcite-tree", () => {
       });
     });
 
-    describe("selection changes programmatically", () => {
-      it("should update selection of ancestors and descendants in ancestors selection-mode", async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`
-          <calcite-tree selection-mode="ancestors">
-            <calcite-tree-item id="grandparent">
-              GrandParent
+    describe("selection changes programmatically in ancestors selection-mode", () => {
+      const pageContent = html`<calcite-tree selection-mode="ancestors">
+        <calcite-tree-item id="grandparent">
+          Grandparent
+          <calcite-tree slot="children">
+            <calcite-tree-item id="parent1">
+              Parent1
               <calcite-tree slot="children">
-                <calcite-tree-item id="parent1">
-                  Parent1
+                <calcite-tree-item id="child1"
+                  >Child1
                   <calcite-tree slot="children">
-                    <calcite-tree-item id="child1"
-                      >Child1
-                      <calcite-tree slot="children">
-                        <calcite-tree-item id="grandchild1">grandchild1</calcite-tree-item>
-                        <calcite-tree-item id="grandchild2">grandchild2</calcite-tree-item>
-                      </calcite-tree>
-                    </calcite-tree-item>
-                    <calcite-tree-item id="child2">Child2</calcite-tree-item>
+                    <calcite-tree-item id="grandchild1">GrandChild1</calcite-tree-item>
+                    <calcite-tree-item id="grandchild2">GrandChild2</calcite-tree-item>
                   </calcite-tree>
                 </calcite-tree-item>
-                <calcite-tree-item id="parent2">Parent2</calcite-tree-item>
+                <calcite-tree-item id="child2">Child2</calcite-tree-item>
               </calcite-tree>
             </calcite-tree-item>
+            <calcite-tree-item id="parent2">Parent2</calcite-tree-item>
           </calcite-tree>
-        `);
+        </calcite-tree-item>
+      </calcite-tree>`;
+      it("should update selection of ancestors and descendants", async () => {
+        const page = await newE2EPage();
+        await page.setContent(pageContent);
 
         const tree = await page.find("calcite-tree");
         const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
@@ -529,6 +528,21 @@ describe("calcite-tree", () => {
         expect(parent1).toHaveAttribute("indeterminate");
         expect(grandchild1).toHaveAttribute("selected");
         expect(grandchild2).not.toHaveAttribute("selected");
+      });
+
+      it("should select all descendants when root level element is selected", async () => {
+        const page = await newE2EPage();
+        await page.setContent(pageContent);
+        const tree = await page.find("calcite-tree");
+        const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+        const grandparent = await page.find("calcite-tree-item[id='grandparent']");
+        grandparent.setProperty("selected", true);
+        await page.waitForChanges();
+        expect(selectEventSpy).toHaveReceivedEventTimes(0);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(7);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(7);
+        expect(grandparent).not.toHaveAttribute("indeterminate");
+        expect(grandparent).toHaveAttribute("selected");
       });
     });
   });
