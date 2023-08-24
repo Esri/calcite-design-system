@@ -139,8 +139,12 @@ export class DropdownGroup {
   /** the requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
-  updateItems = (): void => {
-    this.el.querySelectorAll("calcite-dropdown-item").forEach((item) => {
+  private updateItems = (): void => {
+    console.log("this.selectionMode", this.selectionMode);
+    const items: HTMLCalciteDropdownItemElement[] = Array.from(
+      this.el.querySelectorAll("calcite-dropdown-item")
+    );
+    items.forEach((item) => {
       item.selectionMode = this.selectionMode;
     });
   };

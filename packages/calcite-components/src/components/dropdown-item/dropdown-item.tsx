@@ -202,8 +202,8 @@ export class DropdownItem implements LoadableComponent {
           class={{
             container: true,
             [CSS.containerLink]: !!href,
-            [`scale--${this.scale}`]: true,
-            [`containter--${this.selectionMode}-selection`]: true,
+            [`container--${this.scale}`]: true,
+            [`container--${selectionMode}`]: true,
           }}
         >
           {selectionMode !== "none" ? (
