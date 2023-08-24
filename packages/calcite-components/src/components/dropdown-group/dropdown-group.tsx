@@ -95,7 +95,7 @@ export class DropdownGroup {
         <div
           class={{
             ["container"]: true,
-            [`scale--${this.scale}`]: true,
+            [`container--${this.scale}`]: true,
           }}
         >
           {dropdownSeparator}
