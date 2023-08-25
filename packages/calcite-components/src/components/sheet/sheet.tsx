@@ -29,8 +29,8 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS } from "./resources";
-import { DisplayMode, Position } from "./interfaces";
-import { Scale } from "../interfaces";
+import { DisplayMode } from "./interfaces";
+import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
@@ -112,8 +112,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) position: Position = "inline-start";
+  /** Determines where the component will be positioned. */
+  @Prop({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
   /**
    * This internal property, managed by a containing calcite-shell, is used
