@@ -1188,7 +1188,7 @@ export class Combobox
 
   renderInput(): VNode {
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
-    const single = selectionMode === "single" || selectionMode === "single-persist";
+    const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
     const showLabel = !open && single && !!selectedItem;
 
@@ -1285,7 +1285,7 @@ export class Combobox
     const { selectedItems, placeholderIcon, selectionMode, placeholderIconFlipRtl } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = selectionMode === "single" || selectionMode === "single-persist";
+    const singleSelectionMode = isSingleLike(selectionMode);
 
     const iconAtStart =
       !this.open && selectedItem
