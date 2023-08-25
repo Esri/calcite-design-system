@@ -5,4 +5,5 @@ export const CSS = {
   heading: "heading",
   description: "description",
   multipleSelectionCell: "multiple-selection-cell",
+  assistiveText: "assistive-text",
 };

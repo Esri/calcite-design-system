@@ -58,29 +58,31 @@ thead {
   }
 }
 
+.selection-actions {
+  @apply flex flex-row;
+  margin-inline-start: auto;
+}
+
 .selection-area {
   @apply flex flex-row items-center py-1;
   border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 
 .selection-area calcite-chip:last-of-type {
-  margin-inline-end: 0.5rem;
+  @apply me-2;
 }
+
 .selection-area calcite-chip:last-of-type:not(:first-of-type) {
-  margin-inline-start: 0.5rem;
+  @apply ms-2;
 }
+
+.selection-area calcite-button {
+  @apply me-4;
+}
+
 .pagination-area {
   @apply flex flex-row py-2 w-full justify-center;
   border-block-end: 1px solid var(--calcite-ui-border-3);
-}
-
-.selection-actions {
-  @apply flex flex-row;
-  margin-inline-start: auto;
-}
-
-.selection-area calcite-chip-group {
-  margin-inline-end: 1rem;
 }
 
 @include base-component();

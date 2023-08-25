@@ -192,6 +192,11 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           {this.selectionCell && this.selectionMode === "multiple" && (
             <calcite-icon icon="check-square-f" scale="s" />
           )}
+          {(this.selectionCell || this.numberCell) && (
+            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
+              {describedBy}
+            </span>
+          )}
         </th>
       </Host>
     );

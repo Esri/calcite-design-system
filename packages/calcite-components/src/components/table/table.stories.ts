@@ -671,7 +671,7 @@ export const localized_TestOnly = (): string => html`<calcite-table
 </calcite-table>`;
 
 export const darkModeRTL_TestOnly = (): string =>
-  html`<calcite-table appearance="simple-zebra" caption="Simple-zebra table">
+  html`<calcite-table appearance="simple-zebra" caption="Simple-zebra table" dir="rtl">
     <calcite-table-row slot="table-head">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>

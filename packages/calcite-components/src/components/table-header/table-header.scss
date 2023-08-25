@@ -41,9 +41,7 @@ th.is-in-body {
 }
 
 .multiple-selection-cell {
-  cursor: pointer;
-  vertical-align: middle;
-  color: var(--calcite-ui-text-3);
+  @apply cursor-pointer align-middle text-color-3;
 }
 
 .number-cell,
@@ -54,8 +52,7 @@ th.is-in-body {
 
 .number-cell calcite-icon,
 .selection-cell calcite-icon {
-  margin-inline: auto;
-  vertical-align: middle;
+  @apply ms-auto me-auto align-middle;
 }
 
 .heading {
