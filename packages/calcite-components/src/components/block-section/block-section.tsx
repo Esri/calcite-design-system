@@ -25,13 +25,14 @@ import {
 import { Status } from "../interfaces";
 import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { BlockSectionToggleDisplay } from "./interfaces";
-import { CSS, ICONS, IDS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding custom content.
@@ -115,6 +116,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteBlockSectionElement;
+
+  private guid = guid();
 
   @State() effectiveLocale: string;
 
@@ -210,24 +213,29 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
+    const { guid } = this;
+    const contentId = `${guid}-content`;
+    const toggleId = `${guid}-toggle`;
+    const headerId = `${guid}-header`;
+
     const headerNode =
       toggleDisplay === "switch" ? (
         <div
-          aria-controls={IDS.content}
+          aria-controls={contentId}
           aria-expanded={toAriaBoolean(open)}
-          aria-labelledby={IDS.header}
+          aria-labelledby={headerId}
           class={{
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true,
           }}
-          id={IDS.toggle}
+          id={toggleId}
           onClick={this.toggleSection}
           onKeyDown={this.handleHeaderKeyDown}
           role="button"
           tabIndex={0}
           title={toggleLabel}
         >
-          <div class={CSS.toggleSwitchContent} id={IDS.header}>
+          <div class={CSS.toggleSwitchContent} id={headerId}>
             <span class={CSS.toggleSwitchText}>{text}</span>
           </div>
           <calcite-switch aria-hidden="true" checked={open} scale="s" tabIndex={-1} />
@@ -235,17 +243,17 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
         </div>
       ) : (
         <button
-          aria-controls={IDS.content}
+          aria-controls={contentId}
           aria-expanded={toAriaBoolean(open)}
           class={{
             [CSS.sectionHeader]: true,
             [CSS.toggle]: true,
           }}
-          id={IDS.toggle}
+          id={toggleId}
           onClick={this.toggleSection}
         >
           <calcite-icon icon={arrowIcon} scale="s" />
-          <span class={CSS.sectionHeaderText} id={IDS.header}>
+          <span class={CSS.sectionHeaderText} id={headerId}>
             {text}
           </span>
           {this.renderStatusIcon()}
@@ -256,11 +264,11 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
       <Host>
         {headerNode}
         <section
-          aria-labelledby={IDS.toggle}
+          aria-labelledby={toggleId}
           aria-live="polite"
           class={CSS.content}
           hidden={!open}
-          id={IDS.content}
+          id={contentId}
         >
           <slot />
         </section>

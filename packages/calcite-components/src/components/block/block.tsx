@@ -34,13 +34,14 @@ import {
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import { BlockMessages } from "./assets/block/t9n";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding custom content.
@@ -155,6 +156,8 @@ export class Block
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteBlockElement;
+
+  private guid = guid();
 
   @State() effectiveLocale: string;
 
@@ -278,8 +281,13 @@ export class Block
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
+    const { guid } = this;
+    const contentId = `${guid}-content`;
+    const toggleId = `${guid}-toggle`;
+    const headerId = `${guid}-header`;
+
     const headerContent = (
-      <header class={CSS.header} id={IDS.header}>
+      <header class={CSS.header} id={headerId}>
         {this.renderIcon()}
         {this.renderTitle()}
       </header>
@@ -294,11 +302,11 @@ export class Block
         {this.dragHandle ? <calcite-handle /> : null}
         {collapsible ? (
           <button
-            aria-controls={IDS.content}
+            aria-controls={contentId}
             aria-expanded={collapsible ? toAriaBoolean(open) : null}
-            aria-labelledby={IDS.header}
+            aria-labelledby={headerId}
             class={CSS.toggle}
-            id={IDS.toggle}
+            id={toggleId}
             onClick={this.onHeaderClick}
             title={toggleLabel}
           >
@@ -338,11 +346,11 @@ export class Block
         >
           {headerNode}
           <section
-            aria-labelledby={IDS.toggle}
+            aria-labelledby={toggleId}
             aria-live="polite"
             class={CSS.content}
             hidden={!open}
-            id={IDS.content}
+            id={contentId}
           >
             {this.renderScrim()}
           </section>
