@@ -503,6 +503,10 @@ export class Modal
 
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
     onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
@@ -557,7 +561,17 @@ export class Modal
     }
 
     if (this.beforeClose) {
-      await this.beforeClose(this.el);
+      try {
+        await this.beforeClose(this.el);
+      } catch (_error) {
+        // close prevented
+        requestAnimationFrame(() => {
+          this.ignoreOpenChange = true;
+          this.open = true;
+          this.ignoreOpenChange = false;
+        });
+        return;
+      }
     }
 
     this.ignoreOpenChange = true;
