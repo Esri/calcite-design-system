@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.5...@esri/calcite-components@1.7.0-next.6) (2023-08-25)
+
+### Bug Fixes
+
+- **flow:** catch error when beforeBack promise is rejected ([#7601](https://github.com/Esri/calcite-design-system/issues/7601)) ([cb70671](https://github.com/Esri/calcite-design-system/commit/cb706711684a91d7f93322ed185d0999387a71d8))
+- **modal:** catch error when beforeClose promise is rejected ([#7600](https://github.com/Esri/calcite-design-system/issues/7600)) ([70405d0](https://github.com/Esri/calcite-design-system/commit/70405d042f11b91abe6add27221986a469a220e8)), closes [#6381](https://github.com/Esri/calcite-design-system/issues/6381)
+
 ## [1.7.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.4...@esri/calcite-components@1.7.0-next.5) (2023-08-24)
 
 ### Bug Fixes
