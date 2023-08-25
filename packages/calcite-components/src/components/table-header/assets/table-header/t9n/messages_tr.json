@@ -1,0 +1,9 @@
+{
+  "selected": "Column is selected",
+  "selectAll": "Select all",
+  "selectNone": "Deselect all",
+  "sortAscending": "Column is sorted ascending",
+  "sortDescending": "Column is sorted descending",
+  "sortNone": "Column is not sorted",
+  "rowNumber": "Row number"
+}
