@@ -48,14 +48,6 @@ import { CSS, ICONS, SLOTS } from "./resources";
 export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTreeItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -189,6 +181,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteTreeItemElement;
+
   private isSelectionMultiLike: boolean;
 
   render(): VNode {
@@ -281,7 +275,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
                 [CSS_UTILITY.rtl]: rtl,
               }}
               data-selection-mode={this.selectionMode}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
             >
               {chevron}

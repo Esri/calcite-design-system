@@ -82,6 +82,8 @@ export const horizontal = (): string => html`
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
       <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
+      <!-- The "bottom-actions" slot is deprecated -->
+      <calcite-action slot="bottom-actions" text="hello world 2" icon="information"> </calcite-action>
     </calcite-action-bar>
   </div>
 `;
@@ -100,6 +102,8 @@ export const horizontalSmall = (): string => html`
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
       <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
+      <!-- The "bottom-actions" slot is deprecated -->
+      <calcite-action slot="bottom-actions" text="hello world 2" icon="information"> </calcite-action>
     </calcite-action-bar>
   </div>
 `;
@@ -212,7 +216,7 @@ export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expand
 <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const ukranianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
+export const ukrainianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
 <calcite-action text="Information" icon="information"></calcite-action>
 <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;

@@ -50,14 +50,6 @@ import {
 export class StepperItem implements InteractiveComponent, LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteStepperItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -223,7 +215,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
               /* additional tab index logic needed because of display: contents */
               this.layout === "horizontal" && !this.disabled ? 0 : null
             }
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.headerEl = el)}
           >
             {this.icon ? this.renderIcon() : null}
@@ -277,6 +269,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteStepperItemElement;
+
   /** position within parent */
   private itemPosition: number;
 

@@ -39,13 +39,6 @@ import {
 export class CalciteNavigation implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteNavigationElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -65,6 +58,8 @@ export class CalciteNavigation implements LoadableComponent {
   //  Private Properties/ State
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteNavigationElement;
 
   @State() logoSlotHasElements: boolean;
 
@@ -203,7 +198,7 @@ export class CalciteNavigation implements LoadableComponent {
             icon={ICONS.hamburger}
             onClick={this.actionClickHandler}
             text={this.label}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el: HTMLCalciteActionElement) => (this.navigationActionEl = el)}
           />
         )}

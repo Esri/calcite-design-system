@@ -102,13 +102,6 @@ export class Combobox
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteComboboxElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -204,10 +197,10 @@ export class Combobox
   @Prop({ reflect: true }) required = false;
 
   /**
-   * specify the selection mode
-   * - multiple: allow any number of selected items (default)
-   * - single: only one selection)
-   * - ancestors: like multiple, but show ancestors of selected items as selected, only deepest children shown in chips
+   * Specifies the selection mode:
+   * - `multiple` allows any number of selected items (default),
+   * - `single` allows only one selection,
+   * - `ancestors` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "single" | "ancestors" | "multiple",
@@ -216,6 +209,12 @@ export class Combobox
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("selectionMode")
+  @Watch("scale")
+  handlePropsChange(): void {
+    this.updateItems();
+  }
 
   /** The component's value(s) from the selected `calcite-combobox-item`(s). */
   @Prop({ mutable: true }) value: string | string[] = null;
@@ -393,14 +392,18 @@ export class Combobox
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
+    connectLabel(this);
+    connectForm(this);
+
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    connectLabel(this);
-    connectForm(this);
+
+    this.updateItems();
     this.setFilteredPlacements();
     this.reposition(true);
+
     if (this.open) {
       this.openHandler();
       onToggleOpenCloseComponent(this);
@@ -444,6 +447,8 @@ export class Combobox
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteComboboxElement;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -604,9 +609,11 @@ export class Combobox
         break;
       case " ":
         if (!this.textInput.value) {
+          if (!this.open) {
+            this.open = true;
+            this.shiftActiveItemIndex(1);
+          }
           event.preventDefault();
-          this.open = true;
-          this.shiftActiveItemIndex(1);
         }
         break;
       case "Home":
@@ -957,13 +964,19 @@ export class Combobox
     );
   }
 
-  updateItems = (): void => {
+  private updateItems = (): void => {
     this.items = this.getItems();
     this.groupItems = this.getGroupItems();
     this.data = this.getData();
     this.selectedItems = this.getSelectedItems();
     this.filteredItems = this.getFilteredItems();
     this.needsIcon = this.getNeedsIcon();
+
+    this.items.forEach((item) => {
+      item.selectionMode = this.selectionMode;
+      item.scale = this.scale;
+    });
+
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
     }
@@ -1216,7 +1229,7 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           type="text"
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
@@ -1251,12 +1264,12 @@ export class Combobox
           "floating-ui-container": true,
           "floating-ui-container--active": open,
         }}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={setFloatingEl}
       >
         <div
           class={classes}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={setContainerEl}
         >
           <ul class={{ list: true, "list--hide": !open }}>
@@ -1324,7 +1337,7 @@ export class Combobox
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}
           role="combobox"
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setReferenceEl}
         >
           <div class="grid-input">

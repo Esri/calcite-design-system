@@ -359,7 +359,10 @@ describe("calcite-inline-editable", () => {
         labelable(
           `<calcite-inline-editable controls>
               <calcite-input value="John Doe"></calcite-input>
-            </calcite-inline-editable>`
+            </calcite-inline-editable>`,
+          {
+            focusTargetSelector: "calcite-input",
+          }
         );
       });
 

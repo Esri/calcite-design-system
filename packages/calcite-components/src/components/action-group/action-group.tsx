@@ -1,11 +1,10 @@
-import { Component, Element, Fragment, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import { Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { CalciteActionMenuCustomEvent } from "../../components";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -23,8 +22,9 @@ import {
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Columns, Layout, Scale } from "../interfaces";
 import { ActionGroupMessages } from "./assets/action-group/t9n";
-import { ICONS, SLOTS } from "./resources";
+import { ICONS, SLOTS, CSS } from "./resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -57,6 +57,11 @@ export class ActionGroup
   expandedHandler(): void {
     this.menuOpen = false;
   }
+
+  /**
+   * Specifies the label of the component. Required for accessibility.
+   */
+  @Prop() label: string;
 
   /**
    * Indicates the layout of the component.
@@ -124,6 +129,8 @@ export class ActionGroup
 
   @State() defaultMessages: ActionGroupMessages;
 
+  @State() hasMenuActions = false;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -169,22 +176,15 @@ export class ActionGroup
   //
   // --------------------------------------------------------------------------
 
-  renderTooltip(): VNode {
-    const { el } = this;
-    const hasTooltip = getSlotted(el, SLOTS.menuTooltip);
-
-    return hasTooltip ? <slot name={SLOTS.menuTooltip} slot={ACTION_MENU_SLOTS.tooltip} /> : null;
-  }
-
   renderMenu(): VNode {
-    const { el, expanded, menuOpen, scale, layout, messages, overlayPositioning } = this;
+    const { expanded, menuOpen, scale, layout, messages, overlayPositioning, hasMenuActions } =
+      this;
 
-    const hasMenuItems = getSlotted(el, SLOTS.menuActions);
-
-    return hasMenuItems ? (
+    return (
       <calcite-action-menu
         expanded={expanded}
         flipPlacements={["left", "right"]}
+        hidden={!hasMenuActions}
         label={messages.more}
         onCalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
@@ -199,18 +199,18 @@ export class ActionGroup
           text={messages.more}
           textEnabled={expanded}
         />
-        <slot name={SLOTS.menuActions} />
-        {this.renderTooltip()}
+        <slot name={SLOTS.menuActions} onSlotchange={this.handleMenuActionsSlotChange} />
+        <slot name={SLOTS.menuTooltip} slot={ACTION_MENU_SLOTS.tooltip} />
       </calcite-action-menu>
-    ) : null;
+    );
   }
 
   render(): VNode {
     return (
-      <Fragment>
+      <div aria-label={this.label} class={CSS.container} role="group">
         <slot />
         {this.renderMenu()}
-      </Fragment>
+      </div>
     );
   }
 
@@ -222,5 +222,9 @@ export class ActionGroup
 
   setMenuOpen = (event: CalciteActionMenuCustomEvent<void>): void => {
     this.menuOpen = !!(event.target as HTMLCalciteActionMenuElement).open;
+  };
+
+  handleMenuActionsSlotChange = (event: Event): void => {
+    this.hasMenuActions = slotChangeHasAssignedElement(event);
   };
 }

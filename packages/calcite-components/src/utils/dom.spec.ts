@@ -12,6 +12,12 @@ import {
   slotChangeHasAssignedElement,
   toAriaBoolean,
   getShadowRootNode,
+  slotChangeGetTextContent,
+  slotChangeGetAssignedNodes,
+  slotChangeHasAssignedNode,
+  slotChangeHasTextContent,
+  slotChangeHasContent,
+  isBefore,
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -211,7 +217,11 @@ describe("dom", () => {
         expect(getSlotted(getTestComponent(), testSlotName, { all: true })).toHaveLength(2));
 
       it("returns elements with matching slot names", () =>
-        expect(getSlotted(getTestComponent(), [testSlotName, testSlotName2], { all: true })).toHaveLength(3));
+        expect(
+          getSlotted(getTestComponent(), [testSlotName, testSlotName2], {
+            all: true,
+          })
+        ).toHaveLength(3));
 
       it("returns empty list when no results", () =>
         expect(getSlotted(getTestComponent(), "non-existent-slot", { all: true })).toHaveLength(0));
@@ -276,8 +286,8 @@ describe("dom", () => {
 
   describe("setRequestedIcon()", () => {
     it("returns the custom icon name if custom value is passed", () =>
-      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "mycustomvalue", "exampleValue")).toBe(
-        "mycustomvalue"
+      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
+        "myCustomValue"
       ));
 
     it("returns the pre-defined icon name if custom value is not passed", () =>
@@ -420,6 +430,107 @@ describe("dom", () => {
     });
   });
 
+  describe("slotChangeHasAssignedNode()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedNode(event)).toBe(true);
+    });
+
+    it("handles no slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedNode(event)).toBe(false);
+    });
+  });
+
+  describe("slotChangeGetAssignedNodes()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedNodes(event)).toHaveLength(2);
+    });
+
+    it("handles no slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedNodes(event)).toHaveLength(0);
+    });
+  });
+
+  describe("slotChangeGetTextContent()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetTextContent(event)).toEqual("helloworld");
+    });
+
+    it("handles no slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetTextContent(event)).toEqual("");
+    });
+  });
+
+  describe("slotChangeHasContent()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello")];
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(true);
+    });
+
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      target.assignedElements = () => [document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(true);
+    });
+
+    it("handles no slotted nodes or elements", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasContent(event)).toEqual(false);
+    });
+  });
+
+  describe("slotChangeHasTextContent()", () => {
+    it("handles slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [document.createTextNode("hello"), document.createTextNode("world")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasTextContent(event)).toEqual(true);
+    });
+
+    it("handles no slotted nodes", () => {
+      const target = document.createElement("slot");
+      target.assignedNodes = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasTextContent(event)).toEqual(false);
+    });
+  });
+
   describe("focusElementInGroup()", () => {
     it("should cycle through the array by default", () => {
       const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
@@ -461,6 +572,26 @@ describe("dom", () => {
     it("should return null for non shadowed element", () => {
       document.body.innerHTML = html` <div></div> `;
       expect(getShadowRootNode(document.body.querySelector("div"))).toBe(null);
+    });
+  });
+
+  describe("isBefore", () => {
+    let div1: HTMLDivElement;
+    let div2: HTMLDivElement;
+
+    beforeEach(() => {
+      div1 = document.createElement("div");
+      div2 = document.createElement("div");
+    });
+
+    it("should return true if element A is before element B", () => {
+      document.body.append(div1, div2);
+      expect(isBefore(div1, div2)).toBe(true);
+    });
+
+    it("should return false if element A is after element B", () => {
+      document.body.append(div2, div1);
+      expect(isBefore(div1, div2)).toBe(false);
     });
   });
 });

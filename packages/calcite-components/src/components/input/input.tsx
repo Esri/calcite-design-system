@@ -88,14 +88,6 @@ export class Input
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -400,6 +392,8 @@ export class Input
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInputElement;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -1143,7 +1137,7 @@ export class Input
           readOnly={this.readOnly}
           type="text"
           value={this.localizedValue}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setChildNumberElRef}
         />
       ) : null;
@@ -1186,7 +1180,7 @@ export class Input
               }
               type={this.type}
               value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setChildElRef}
             />,
             this.isTextarea ? (

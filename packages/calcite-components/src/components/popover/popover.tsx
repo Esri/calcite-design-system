@@ -253,13 +253,13 @@ export class Popover
   //
   // --------------------------------------------------------------------------
 
+  @Element() el: HTMLCalcitePopoverElement;
+
   mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.updateFocusTrapElements()
   );
 
   filteredFlipPlacements: EffectivePlacement[];
-
-  @Element() el: HTMLCalcitePopoverElement;
 
   @State() effectiveLocale = "";
 
@@ -539,7 +539,7 @@ export class Popover
           onClick={this.hide}
           scale={this.scale}
           text={messages.close}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         >
           <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
@@ -573,7 +573,7 @@ export class Popover
       <FloatingArrow
         floatingLayout={floatingLayout}
         key="floating-arrow"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.storeArrowEl}
       />
     ) : null;
@@ -592,7 +592,7 @@ export class Popover
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           {arrowNode}

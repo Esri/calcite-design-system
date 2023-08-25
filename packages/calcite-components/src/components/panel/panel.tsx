@@ -173,8 +173,6 @@ export class Panel
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
-  @State() hasDefaultContent = false;
-
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -264,10 +262,6 @@ export class Panel
 
   panelScrollHandler = (): void => {
     this.calcitePanelScroll.emit();
-  };
-
-  handleDefaultSlotChange = (event: Event): void => {
-    this.hasDefaultContent = slotChangeHasAssignedElement(event);
   };
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {
@@ -365,10 +359,7 @@ export class Panel
 
   renderActionBar(): VNode {
     return (
-      <div
-        class={{ [CSS.actionBarContainer]: true, [CSS.topSeparator]: this.showHeaderContent }}
-        hidden={!this.hasActionBar}
-      >
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
         <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
       </div>
     );
@@ -414,7 +405,7 @@ export class Panel
         onClick={close}
         text={text}
         title={text}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setCloseRef}
       />
     ) : null;
@@ -470,7 +461,6 @@ export class Panel
       hasEndActions,
       closable,
       hasMenuItems,
-      hasDefaultContent,
       hasActionBar,
     } = this;
 
@@ -487,11 +477,11 @@ export class Panel
     this.showHeaderContent = showHeaderContent;
 
     return (
-      <header
-        class={{ [CSS.header]: true, [CSS.bottomSeparator]: hasDefaultContent }}
-        hidden={!(showHeaderContent || hasActionBar)}
-      >
-        <div class={CSS.headerContainer} hidden={!showHeaderContent}>
+      <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar)}>
+        <div
+          class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
+          hidden={!showHeaderContent}
+        >
           {this.renderHeaderStartActions()}
           {this.renderHeaderSlottedContent()}
           {headerContentNode}
@@ -534,10 +524,10 @@ export class Panel
       <div
         class={CSS.contentWrapper}
         onScroll={this.panelScrollHandler}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setPanelScrollEl}
       >
-        <slot onSlotchange={this.handleDefaultSlotChange} />
+        <slot />
         {this.renderFab()}
       </div>
     );
@@ -561,7 +551,7 @@ export class Panel
         hidden={closed}
         onKeyDown={panelKeyDownHandler}
         tabIndex={closable ? 0 : -1}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}

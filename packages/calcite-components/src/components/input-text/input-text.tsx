@@ -67,14 +67,6 @@ export class InputText
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputTextElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -270,6 +262,8 @@ export class InputText
   //  Private State/Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInputTextElement;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -659,7 +653,7 @@ export class InputText
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setChildElRef}
       />
     );

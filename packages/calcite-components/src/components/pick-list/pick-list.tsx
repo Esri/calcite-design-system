@@ -134,6 +134,8 @@ export class PickList<
   //
   // --------------------------------------------------------------------------
 
+  @Element() el: HTMLCalcitePickListElement;
+
   @State() selectedValues: Map<string, ItemElement> = new Map();
 
   @State() dataForFilter: ItemData = [];
@@ -143,8 +145,6 @@ export class PickList<
   lastSelectedItem: ItemElement = null;
 
   mutationObserver = createObserver("mutation", mutationObserverCallback.bind(this));
-
-  @Element() el: HTMLCalcitePickListElement;
 
   emitCalciteListChange: () => void;
 

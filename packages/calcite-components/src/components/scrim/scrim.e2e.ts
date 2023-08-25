@@ -114,6 +114,8 @@ describe("calcite-scrim", () => {
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
 
     expect(contentNode).not.toBeNull();
+    expect(await contentNode.isVisible()).toBe(true);
+    expect(contentNode).not.toHaveAttribute("hidden");
   });
 
   describe("Responsive loading spinner", () => {

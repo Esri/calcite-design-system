@@ -6,9 +6,9 @@ import {
 } from "../../utils/conditionalSlot";
 import {
   getElementDir,
-  getSlotted,
   isPrimaryPointerButton,
   slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
@@ -214,21 +214,19 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     updateMessages(this, this.effectiveLocale);
   }
 
+  @State() hasHeader = false;
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
   renderHeader(): VNode {
-    const { el } = this;
-
-    const hasHeader = getSlotted(el, SLOTS.header);
-
-    return hasHeader ? (
-      <div class={CSS.contentHeader} key="header">
-        <slot name={SLOTS.header} />
+    return (
+      <div class={CSS.contentHeader} hidden={!this.hasHeader} key="header">
+        <slot name={SLOTS.header} onSlotchange={this.handleHeaderSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
@@ -280,7 +278,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           role="separator"
           tabIndex={0}
           touch-action="none"
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.connectSeparator}
         />
       ) : null;
@@ -310,7 +308,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         hidden={collapsed}
         key="content"
         style={style}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.storeContentEl}
       >
         {this.renderHeader()}
@@ -635,5 +633,9 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);
+  };
+
+  handleHeaderSlotChange = (event: Event): void => {
+    this.hasHeader = slotChangeHasAssignedElement(event);
   };
 }
