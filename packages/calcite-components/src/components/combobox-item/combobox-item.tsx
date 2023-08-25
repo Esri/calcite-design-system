@@ -83,10 +83,10 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   /**
    * Specifies the selection mode:
-   * - `multiple` allows any number of selected items (default),
-   * - `single` allows only one selection,
-   * - `single-persist` is like single, but does not allow deselecting,
-   * - `ancestors` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   * - "multiple" allows any number of selected items (default),
+   * - "single" allows only one selection,
+   * - "single-persist" allow and require one open item,
+   * - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    *
    * @internal
    */
