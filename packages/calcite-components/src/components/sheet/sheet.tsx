@@ -90,6 +90,10 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   @Watch("open")
   async toggleSheet(value: boolean): Promise<void> {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
     onToggleOpenCloseComponent(this);
     if (value) {
       this.openSheet();
@@ -334,6 +338,12 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
       try {
         await this.beforeClose(this.el);
       } catch (_error) {
+        // close prevented
+        requestAnimationFrame(() => {
+          this.ignoreOpenChange = true;
+          this.open = true;
+          this.ignoreOpenChange = false;
+        });
         return;
       }
     }
