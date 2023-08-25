@@ -125,7 +125,7 @@ describe("NumberStringFormat", () => {
         };
         const localizedNumberString = numberStringFormatter.localize(numberString);
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
-        expect(delocalizedNumberString).toBe(numberString);
+        expect(delocalizedNumberString).toBe("12345678.01");
       });
     });
   });

@@ -129,6 +129,25 @@ describe("BigDecimal", () => {
     expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
   });
 
+  it("formatting correctly limits the maximum decimal places", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "en",
+      numberingSystem: "latn",
+      maximumFractionDigits: 2,
+    };
+    expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.01");
+  });
+
+  it("formatting to parts correctly limits the maximum decimal places", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "en",
+      numberingSystem: "latn",
+      maximumFractionDigits: 2,
+    };
+    const parts = new BigDecimal("123.0123456789").formatToParts(numberStringFormatter);
+    expect(parts.filter((part) => part.type === "fraction").length).toBe(2);
+  });
+
   locales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
