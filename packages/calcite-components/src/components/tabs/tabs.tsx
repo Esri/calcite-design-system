@@ -26,7 +26,7 @@ export class Tabs {
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Specifies the position of the `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
    */
   @Prop({ reflect: true }) position: TabPosition = "top";
 
@@ -53,7 +53,7 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   render(): VNode {
@@ -144,12 +144,24 @@ export class Tabs {
    */
   @State() tabs: HTMLCalciteTabElement[] = [];
 
-  private mutationObserver = createObserver("mutation", () => this.updateItems());
+  mutationObserver = createObserver("mutation", () => this.updateItems());
 
   private updateItems = (): void => {
+    const { position, scale } = this;
+
+    const nav = this.el.querySelector("calcite-tab-nav") as HTMLCalciteTabNavElement;
+    if (nav) {
+      nav.position = position;
+    }
+
+    const tab = this.el.querySelector("calcite-tab") as HTMLCalciteTabElement;
+    if (tab) {
+      tab.scale = scale;
+    }
+
     this.titles.forEach((title) => {
-      title.position = this.position;
-      title.scale = this.scale;
+      title.position = position;
+      title.scale = scale;
     });
   };
 

@@ -46,9 +46,11 @@ export class Tab {
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+  @Prop() scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -76,10 +78,6 @@ export class Tab {
 
   componentDidLoad(): void {
     this.calciteInternalTabRegister.emit();
-  }
-
-  componentWillRender(): void {
-    this.scale = this.parentTabsEl?.scale;
   }
 
   disconnectedCallback(): void {
