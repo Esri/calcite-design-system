@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.4...@esri/calcite-components@1.7.0-next.5) (2023-08-24)
+
+### Bug Fixes
+
+- **loader:** tweak loading animations to work in Safari ([#7564](https://github.com/Esri/calcite-design-system/issues/7564)) ([2103654](https://github.com/Esri/calcite-design-system/commit/2103654a91705e254445fc89a6410bd8d3a0a691)), closes [#6383](https://github.com/Esri/calcite-design-system/issues/6383) [/github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/components/loader/loader.scss#L179-L181](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/components/loader/loader.scss/issues/L179-L181)
+
 ## [1.7.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.3...@esri/calcite-components@1.7.0-next.4) (2023-08-23)
 
 ### Bug Fixes
