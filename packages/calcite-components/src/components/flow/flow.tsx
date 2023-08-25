@@ -44,6 +44,7 @@ export class Flow implements LoadableComponent {
     try {
       await beforeBack.call(lastItem);
     } catch (_error) {
+      // back prevented
       return;
     }
 
