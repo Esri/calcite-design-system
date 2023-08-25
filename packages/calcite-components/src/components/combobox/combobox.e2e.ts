@@ -406,6 +406,34 @@ describe("calcite-combobox", () => {
         expect(await combobox.getProperty("value")).toBe("");
       });
 
+      it("single-persist-selection mode does not allow toggling selection once the selected item is clicked", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`
+            <calcite-combobox selection-mode="single-persist">
+              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        );
+        const combobox = await page.find("calcite-combobox");
+        const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+        await combobox.click();
+        await firstOpenEvent;
+
+        const item1 = await combobox.find("calcite-combobox-item[value=one]");
+
+        await item1.click();
+        expect(await combobox.getProperty("value")).toBe("one");
+
+        const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
+        await combobox.click();
+        await secondOpenEvent;
+
+        await item1.click();
+        expect(await combobox.getProperty("value")).toBe("one");
+      });
+
       it("multiple-selection mode allows toggling selection once the selected item is clicked", async () => {
         const page = await newE2EPage();
         await page.setContent(
