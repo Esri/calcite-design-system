@@ -71,6 +71,12 @@ export class SegmentedControlItem {
    */
   @Prop() scale: Scale = "m";
 
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
   render(): VNode {
     const { appearance, checked, layout, scale, value } = this;
 
@@ -98,9 +104,12 @@ export class SegmentedControlItem {
       <Host aria-checked={toAriaBoolean(checked)} aria-label={value} role="radio">
         <label
           class={{
-            [`label--scale-${scale}`]: true,
-            [`label--${layout}`]: true,
-            [`label--${appearance}`]: true,
+            "label--scale-s": scale === "s",
+            "label--scale-m": scale === "m",
+            "label--scale-l": scale === "l",
+            "label--horizontal": layout === "horizontal",
+            "label--outline": appearance === "outline",
+            "label--outline-fill": appearance === "outline-fill",
           }}
         >
           {this.iconStart ? iconStartEl : null}
