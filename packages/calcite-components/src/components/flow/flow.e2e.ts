@@ -102,6 +102,8 @@ describe("calcite-flow", () => {
 
       await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
 
+      expect(await page.findAll("calcite-flow-item")).toHaveLength(1);
+
       await page.$eval(
         "calcite-flow-item",
         (elm: HTMLCalciteFlowItemElement) =>
@@ -114,6 +116,50 @@ describe("calcite-flow", () => {
 
       expect(backValue).toBeDefined();
       expect(mockCallBack).toHaveBeenCalledTimes(1);
+      expect(await page.findAll("calcite-flow-item")).toHaveLength(0);
+    });
+
+    it("should handle rejected 'beforeBack' promise'", async () => {
+      const page = await newE2EPage();
+
+      const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+      await page.exposeFunction("beforeBack", mockCallBack);
+
+      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
+
+      await page.$eval(
+        "calcite-flow-item",
+        (elm: HTMLCalciteFlowItemElement) =>
+          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
+      );
+
+      const flow = await page.find("calcite-flow");
+
+      await flow.callMethod("back");
+
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not remove flow-item on rejected 'beforeBack' promise'", async () => {
+      const page = await newE2EPage();
+
+      await page.exposeFunction("beforeBack", () => Promise.reject());
+
+      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
+
+      expect(await page.findAll("calcite-flow-item")).toHaveLength(1);
+
+      await page.$eval(
+        "calcite-flow-item",
+        (elm: HTMLCalciteFlowItemElement) =>
+          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
+      );
+
+      const flow = await page.find("calcite-flow");
+
+      await flow.callMethod("back");
+
+      expect(await page.findAll("calcite-flow-item")).toHaveLength(1);
     });
 
     it("frame advancing should add animation class", async () => {
