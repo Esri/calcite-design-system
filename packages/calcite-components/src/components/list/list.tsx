@@ -357,7 +357,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   //
   // --------------------------------------------------------------------------
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @returns {Promise<void>}
+   */
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
