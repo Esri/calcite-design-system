@@ -47,6 +47,10 @@
               <!-- image -->
               <div slot="footer">test</div>
             </calcite-flow-item>
+            <calcite-flow-item heading="yet another item">
+              <!-- image -->
+              <div slot="footer">le sigh</div>
+            </calcite-flow-item>
           </calcite-flow>
         </div>
       </div>
@@ -124,6 +128,98 @@
             });
           </script>
         </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">custom flow-item support</div>
+
+        <div class="child">
+          <calcite-flow extra-item-selector="custom-flow-item">
+            <calcite-flow-item heading="calcite-panel">
+              <img src="https://via.placeholder.com/250x250.png?text=calcite-flow-item" />
+            </calcite-flow-item>
+            <!-- note: declarative shadow DOM only works in Chrome -->
+            <custom-flow-item heading="custom-flow-item" show-back-button>
+              <template shadowrootmode="open">
+                <style>
+                  :host {
+                    display: flex;
+                    background: #bdf2c4;
+                  }
+                </style>
+                <calcite-flow-item id="internalFlowItem">
+                  <slot></slot>
+                </calcite-flow-item>
+              </template>
+
+              <img src="https://via.placeholder.com/250x250.png?text=custom-flow-item" />
+            </custom-flow-item>
+            <calcite-flow-item heading="calcite-panel">
+              <img src="https://via.placeholder.com/250x250.png?text=calcite-panel" />
+            </calcite-flow-item>
+          </calcite-flow>
+        </div>
+        <script>
+          class CustomFlowItem extends HTMLElement {
+            constructor() {
+              super();
+              this.flowItemEl = this.shadowRoot.getElementById("internalFlowItem");
+            }
+
+            get heading() {
+              return this.getAttribute("heading");
+            }
+            set heading(value) {
+              this.setAttribute("heading", value);
+              this.flowItemEl.heading = value;
+            }
+
+            get hidden() {
+              return this.getAttribute("hidden");
+            }
+            set hidden(value) {
+              // no need to set global attribute
+              this.flowItemEl.hidden = value;
+            }
+
+            get menuOpen() {
+              return this.getAttribute("menu-open");
+            }
+            set menuOpen(value) {
+              this.setAttribute("menu-open", value);
+              this.flowItemEl.menuOpen = value;
+            }
+
+            get showBackButton() {
+              return this.getAttribute("show-back-button");
+            }
+            set showBackButton(value) {
+              this.setAttribute("show-back-button", value);
+              this.flowItemEl.showBackButton = value;
+            }
+
+            attributeChangedCallback(attributeName, oldValue, newValue) {
+              if (attributeName === "heading") {
+                this.heading = newValue;
+              } else if (attributeName === "hidden") {
+                this.hidden = newValue;
+              } else if (attributeName === "menu-open") {
+                this.menuOpen = newValue;
+              } else if (attributeName === "show-back-button") {
+                this.showBackButton = newValue;
+              }
+            }
+
+            static get observedAttributes() {
+              return ["heading", "hidden", "menu-open", "show-back-button"];
+            }
+
+            async setFocus() {
+              await this.flowItemEl.setFocus();
+            }
+          }
+          customElements.define("custom-flow-item", CustomFlowItem);
+        </script>
       </div>
     </demo-dom-swapper>
   </body>
