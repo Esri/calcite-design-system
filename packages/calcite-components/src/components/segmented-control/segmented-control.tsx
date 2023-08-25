@@ -54,6 +54,10 @@ export class SegmentedControl
   //
   //--------------------------------------------------------------------------
 
+  /** Specifies the appearance style of the component. */
+  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
+    "solid";
+
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
@@ -79,10 +83,6 @@ export class SegmentedControl
    */
   @Prop({ reflect: true }) name: string;
 
-  /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
-    "solid";
-
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: Layout = "horizontal";
 
@@ -93,7 +93,7 @@ export class SegmentedControl
   @Watch("layout")
   @Watch("scale")
   handlePropsChange(): void {
-    this.updateItemProps();
+    this.handleItemPropChange();
   }
 
   /** The component's `selectedItem` value. */
@@ -156,7 +156,7 @@ export class SegmentedControl
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
 
-    this.updateItemProps();
+    this.handleItemPropChange();
   }
 
   disconnectedCallback(): void {
@@ -293,7 +293,7 @@ export class SegmentedControl
 
   private mutationObserver = createObserver("mutation", () => this.setUpItems());
 
-  private updateItemProps = (): void => {
+  private handleItemPropChange(): void {
     const items = this.getItems();
 
     items.forEach((item) => {
@@ -301,7 +301,7 @@ export class SegmentedControl
       item.layout = this.layout;
       item.scale = this.scale;
     });
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -359,6 +359,6 @@ export class SegmentedControl
       items[0].tabIndex = 0;
     }
 
-    this.updateItemProps();
+    this.handleItemPropChange();
   }
 }

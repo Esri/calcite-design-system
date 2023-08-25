@@ -343,11 +343,11 @@ describe("calcite-segmented-control", () => {
     `);
     const segmentedControlItems = await page.findAll("calcite-segmented-control-item");
 
-    segmentedControlItems.forEach(async (item) => {
+    for (const item of segmentedControlItems) {
       expect(await item.getProperty("appearance")).toBe("outline");
       expect(await item.getProperty("layout")).toBe("vertical");
       expect(await item.getProperty("scale")).toBe("l");
-    });
+    }
   });
 
   describe("setFocus()", () => {

@@ -71,6 +71,12 @@ export class SegmentedControlItem {
    */
   @Prop() scale: Scale = "m";
 
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
   render(): VNode {
     const { appearance, checked, layout, scale, value } = this;
 
