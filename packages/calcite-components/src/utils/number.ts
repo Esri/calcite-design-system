@@ -48,9 +48,14 @@ export class BigDecimal {
     return { integers, decimals };
   }
 
-  toString(): string {
-    const { integers, decimals } = this.getIntegersAndDecimals();
-    return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
+  toString(places?: number | undefined): string {
+    const numberParts = this.getIntegersAndDecimals();
+    if (typeof places === "number" && places < numberParts.decimals.length) {
+      numberParts.decimals = numberParts.decimals.substring(0, places);
+    }
+    return `${this.isNegative ? "-" : ""}${numberParts.integers}${
+      numberParts.decimals.length ? "." + numberParts.decimals : ""
+    }`;
   }
 
   formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
@@ -101,7 +106,7 @@ export function isValidNumber(numberString: string): boolean {
   return !(!numberString || isNaN(Number(numberString)));
 }
 
-export function parseNumberString(numberString?: string): string {
+export function parseNumberString(numberString?: string, places?: number | undefined): string {
   if (!numberString || !stringContainsNumbers(numberString)) {
     return "";
   }
@@ -121,7 +126,7 @@ export function parseNumberString(numberString?: string): string {
         return numberKeys.includes(value);
       })
       .reduce((string, part) => string + part);
-    return isValidNumber(result) ? new BigDecimal(result).toString() : "";
+    return isValidNumber(result) ? new BigDecimal(result).toString(places) : "";
   });
 }
 
@@ -132,7 +137,7 @@ const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 const hasTrailingDecimalZeros = /0*$/;
 
-export const sanitizeNumberString = (numberString: string): string =>
+export const sanitizeNumberString = (numberString: string, places?: number | undefined): string =>
   sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
     const sanitizedValue = nonExpoNumString
       .replace(allHyphensExceptTheStart, "")
@@ -141,13 +146,13 @@ export const sanitizeNumberString = (numberString: string): string =>
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : getBigDecimalAsString(sanitizedValue)
+        : getBigDecimalAsString(sanitizedValue, places)
       : nonExpoNumString;
   });
 
-export function getBigDecimalAsString(sanitizedValue: string): string {
+function getBigDecimalAsString(sanitizedValue: string, places?: number | undefined): string {
   const sanitizedValueDecimals = sanitizedValue.split(".")[1];
-  const value = new BigDecimal(sanitizedValue).toString();
+  const value = new BigDecimal(sanitizedValue).toString(places);
   const [bigDecimalValueInteger, bigDecimalValueDecimals] = value.split(".");
 
   return sanitizedValueDecimals && bigDecimalValueDecimals !== sanitizedValueDecimals

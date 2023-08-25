@@ -388,7 +388,6 @@ export class InputNumber
       locale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
-      maximumFractionDigits: this.places,
     };
   }
 
@@ -617,7 +616,6 @@ export class InputNumber
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
-      maximumFractionDigits: this.places,
     };
     const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
@@ -627,7 +625,7 @@ export class InputNumber
       this.setNumberValue({
         nativeEvent,
         origin: "user",
-        value: parseNumberString(delocalizedValue),
+        value: parseNumberString(delocalizedValue, this.places),
       });
       this.childNumberEl.value = this.localizedValue;
     } else {
@@ -678,7 +676,6 @@ export class InputNumber
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
-      maximumFractionDigits: this.places,
     };
 
     if (event.key === numberStringFormatter.decimal) {
@@ -838,14 +835,15 @@ export class InputNumber
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
-      maximumFractionDigits: this.places,
     };
 
     const isValueDeleted =
       this.previousValue?.length > value.length || this.value?.length > value.length;
     const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
     const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
+      hasTrailingDecimalSeparator && isValueDeleted
+        ? value
+        : sanitizeNumberString(value, this.places);
 
     const newValue =
       value && !sanitizedValue
