@@ -361,12 +361,12 @@ describe("calcite-rating", () => {
 
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
-      const focusedElId = labels[2].getAttribute("for");
+      const dataValue = labels[2].getAttribute("data-value");
 
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
       expect(await page.find("calcite-rating >>> .partial")).toBeNull();
       expect(hoveredElements.length).toBe(3);
-      expect(await isElementFocused(page, `[for=${focusedElId}]`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.star[data-value='${dataValue}']`, { shadowed: true })).toBe(true);
       expect(selectedElements.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
       expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -523,12 +523,12 @@ describe("calcite-rating", () => {
 
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
-      const focusedElId = labels[2].getAttribute("for");
+      const dataValue = labels[2].getAttribute("data-value");
 
       expect(await element.getProperty("value")).toBe(0);
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(hoveredElements.length).toBe(3);
-      expect(await isElementFocused(page, `[for=${focusedElId}]`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.star[data-value='${dataValue}']`, { shadowed: true })).toBe(true);
       expect(selectedElements.length).toBe(0);
     });
 
@@ -545,12 +545,12 @@ describe("calcite-rating", () => {
 
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
-      const focusedElId = labels[2].getAttribute("for");
+      const dataValue = labels[2].getAttribute("data-value");
 
       expect(await element.getProperty("value")).toBe(3);
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(hoveredElements.length).toBe(3);
-      expect(await isElementFocused(page, `[for=${focusedElId}]`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.star[data-value='${dataValue}']`, { shadowed: true })).toBe(true);
       expect(selectedElements.length).toBe(3);
     });
 
@@ -585,10 +585,10 @@ describe("calcite-rating", () => {
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
       const labels = await page.findAll("calcite-rating >>> .star");
-      const focusedElId = labels[2].getAttribute("for");
+      const dataValue = labels[2].getAttribute("data-value");
 
       expect(hoveredElements.length).toBe(3);
-      expect(await isElementFocused(page, `[for=${focusedElId}]`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.star[data-value='${dataValue}']`, { shadowed: true })).toBe(true);
       expect(selectedElements.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
     });
@@ -626,10 +626,10 @@ describe("calcite-rating", () => {
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedElements = await page.findAll("calcite-rating >>> .star.selected");
       const labels = await page.findAll("calcite-rating >>> .star");
-      const focusedElId = labels[2].getAttribute("for");
+      const dataValue = labels[2].getAttribute("data-value");
 
       expect(hoveredElements.length).toBe(3);
-      expect(await isElementFocused(page, `[for=${focusedElId}]`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.star[data-value='${dataValue}']`, { shadowed: true })).toBe(true);
       expect(selectedElements.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
     });
