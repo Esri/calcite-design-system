@@ -1,3 +1,9 @@
+export const IDS = {
+  content: "content",
+  header: "header",
+  toggle: "toggle",
+};
+
 export const CSS = {
   content: "content",
   invalid: "invalid",
