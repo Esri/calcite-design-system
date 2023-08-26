@@ -231,7 +231,7 @@ export class Table implements LocalizedComponent {
       useGrouping: this.groupSeparator,
     };
 
-    return numberStringFormatter.localize(position?.toString());
+    return numberStringFormatter.localize(position.toString());
   };
 
   private emitTableRowFocusRequest = (
@@ -248,6 +248,7 @@ export class Table implements LocalizedComponent {
 
   private updateCells = (): void => {
     this.localizedPosition = this.localizeNumber(this.position);
+
     const slottedCells = this.tableRowSlotEl
       ?.assignedElements({ flatten: true })
       .filter(
@@ -266,7 +267,6 @@ export class Table implements LocalizedComponent {
       cells?.forEach((cell, index) => {
         cell.position = index + 1;
         cell.parentRowPosition = this.position;
-        cell.parentRowIsSelected = this.selected;
         cell.isInBody = !this.tableHeadRow;
       });
     }
@@ -312,6 +312,7 @@ export class Table implements LocalizedComponent {
         onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
         onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
         selectedRowCount={this.selectedRowCount}
+        selectedRowCountLocalized={this.localizeNumber(this.selectedRowCount)}
         selectionCell
         selectionMode={this.selectionMode}
         totalRowCount={this.totalRowCount}
@@ -322,10 +323,10 @@ export class Table implements LocalizedComponent {
         onClick={this.handleSelectionOfRow}
         onKeyDown={this.handleKeyboardSelection}
         parentRowIsSelected={this.selected}
+        parentRowPositionLocalized={this.localizeNumber(this.position)}
         selectedRowCount={this.selectedRowCount}
         selectionCell
         totalRowCount={this.totalRowCount}
-        value="Selection cell"
       >
         {this.renderSelectionIcon()}
       </calcite-table-cell>

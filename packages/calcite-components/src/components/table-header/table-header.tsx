@@ -17,7 +17,6 @@ import {
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter,
 } from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
@@ -93,6 +92,11 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
    * @internal
    */
   @Prop() selectedRowCount: number;
+
+  /**
+   * @internal
+   */
+  @Prop() selectedRowCountLocalized: string;
 
   /**
    * @internal
@@ -185,27 +189,16 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   //
   // --------------------------------------------------------------------------
 
-  private localizeNumber = (position): string => {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
-
-    return numberStringFormatter.localize(position?.toString());
-  };
-
   private getScreenReaderText(): string {
-    const localizedNumber = this.localizeNumber(this.selectedRowCount);
     let text;
     if (this.numberCell) {
       return this.messages.rowNumber;
     } else if (this.selectionMode === "single") {
-      text = `${this.messages.selectionColumn}. ${localizedNumber} ${this.messages.selected}`;
+      text = `${this.messages.selectionColumn}. ${this.selectedRowCountLocalized} ${this.messages.selected}`;
     } else if (this.totalRowCount === this.selectedRowCount) {
-      text = `${this.messages.selectionColumn}. ${this.messages.all} ${localizedNumber} ${this.messages.selected} ${this.messages.keyboardDeselectAll}`;
+      text = `${this.messages.selectionColumn}. ${this.messages.all} ${this.selectedRowCountLocalized} ${this.messages.selected} ${this.messages.keyboardDeselectAll}`;
     } else {
-      text = `${this.messages.selectionColumn}. ${localizedNumber} ${this.messages.selected} ${this.messages.keyboardSelectAll}`;
+      text = `${this.messages.selectionColumn}. ${this.selectedRowCountLocalized} ${this.messages.selected} ${this.messages.keyboardSelectAll}`;
     }
     return text;
   }

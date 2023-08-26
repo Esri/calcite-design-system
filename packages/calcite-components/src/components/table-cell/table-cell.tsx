@@ -18,7 +18,6 @@ import {
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter,
 } from "../../utils/locale";
 import { TableCellMessages } from "./assets/table-cell/t9n";
 import { CSS } from "./resources";
@@ -83,6 +82,11 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
    * @internal
    */
   @Prop() parentRowPosition: number;
+
+  /**
+   * @internal
+   */
+  @Prop() parentRowPositionLocalized: string;
 
   /**
    * @internal
@@ -184,20 +188,9 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   //
   // --------------------------------------------------------------------------
 
-  private localizeNumber = (position): string => {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
-
-    return numberStringFormatter.localize(position?.toString());
-  };
-
   private getScreenReaderText(): string {
-    const localizedNumber = this.localizeNumber(this.parentRowPosition);
-    const selectedText = `${this.messages.row} ${localizedNumber} ${this.messages.selected} ${this.messages.keyboardDeselect}`;
-    const unselectedText = `${this.messages.row} ${localizedNumber} ${this.messages.unselected} ${this.messages.keyboardSelect}`;
+    const selectedText = `${this.messages.row} ${this.parentRowPositionLocalized} ${this.messages.selected} ${this.messages.keyboardDeselect}`;
+    const unselectedText = `${this.messages.row} ${this.parentRowPositionLocalized} ${this.messages.unselected} ${this.messages.keyboardSelect}`;
     return this.parentRowIsSelected ? selectedText : unselectedText;
   }
 
