@@ -145,6 +145,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     updateMessages(this, this.effectiveLocale);
   }
 
+  private allRows: HTMLCalciteTableRowElement[];
+
   private bodyRows: HTMLCalciteTableRowElement[];
 
   private headRows: HTMLCalciteTableRowElement[];
@@ -249,6 +251,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       const rowPosition = allRows.indexOf(row);
       row.selectionMode = this.selectionMode;
       row.numberingSystem = this.numberingSystem;
+      row.totalRowCount = this.bodyRows?.length;
       row.groupSeparator = this.groupSeparator;
       row.numbered = this.numbered;
       row.tableHeadRow = headRows?.includes(row);
@@ -256,6 +259,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     });
     this.headRows = headRows;
     this.bodyRows = bodyRows;
+    this.allRows = allRows;
+
     const colCount =
       this.headRows?.length > 0
         ? this.headRows[0]?.querySelectorAll("calcite-table-header")?.length
@@ -292,6 +297,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this.selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
+    this.allRows?.forEach((row) => {
+      row.selectedRowCount = this.selectedCount;
+    });
+
     if (emit) {
       this.calciteTableSelect.emit();
     }
@@ -360,7 +369,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
             kind="neutral"
             onClick={this.handleDeselectAllRows}
             round
-            title={`${this.messages.clear} ${selectionText}`}
+            title={`${this.messages.clear} ${selectionText} ${this.messages.row}`}
           >
             {this.messages.clear}
           </calcite-button>

@@ -418,6 +418,16 @@ describe("selection modes", () => {
     // make sure event emit correct elements
   });
 
+  it("correctly emits 0 items after user clears selection via clear button", async () => {
+    // make sure rendered chip shows right number
+    // make sure event emit correct elements
+  });
+
+  it("correctly emits after user clears selection via select all button", async () => {
+    // make sure rendered chip shows right number
+    // make sure event emit correct elements
+  });
+
   it("correctly maintains selected items in count and event that have been navigated away from via pagination", async () => {
     // make sure rendered chip shows right number
     // make sure event emit correct elements
@@ -438,3 +448,4 @@ describe("selection modes", () => {
 
 // page size updates re-create keyboard navigation arrays
 // ensure keyboard navigation works after page size updates and more rows visible
+// correct assistive hidden text rendered for : table header number cell, table header single select, table header multiple select

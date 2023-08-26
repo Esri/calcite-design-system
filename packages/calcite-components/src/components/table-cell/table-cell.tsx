@@ -13,7 +13,13 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter,
+} from "../../utils/locale";
 import { TableCellMessages } from "./assets/table-cell/t9n";
 import { CSS } from "./resources";
 
@@ -72,6 +78,31 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
    * @internal
    */
   @Prop() parentRowIsSelected: boolean;
+
+  /**
+   * @internal
+   */
+  @Prop() parentRowPosition: number;
+
+  /**
+   * @internal
+   */
+  @Prop() totalRowCount: number;
+
+  /**
+   * @internal
+   */
+  @Prop() selectedRowCount: number;
+
+  /**
+   * @internal
+   */
+  @Prop() numberingSystem: NumberingSystem;
+
+  /**
+   * @internal
+   */
+  @Prop() groupSeparator: boolean;
 
   /**
    * Made into a prop for testing purposes only
@@ -147,6 +178,28 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
     await componentFocusable(this);
     this.focusableEl.focus();
   }
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private localizeNumber = (position): string => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
+
+    return numberStringFormatter.localize(position?.toString());
+  };
+
+  private getScreenReaderText(): string {
+    const localizedNumber = this.localizeNumber(this.parentRowPosition);
+    const selectedText = `${this.messages.row} ${localizedNumber} ${this.messages.selected} ${this.messages.keyboardDeselect}`;
+    const unselectedText = `${this.messages.row} ${localizedNumber} ${this.messages.unselected} ${this.messages.keyboardSelect}`;
+    return this.parentRowIsSelected ? selectedText : unselectedText;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -155,12 +208,9 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const prefix = this.parentRowIsSelected ? this.messages.selected : this.messages.unselected;
-    const describedBy = this.selectionCell ? `${prefix}. ${this.messages.toggleSelection}` : "";
     return (
       <Host>
         <td
-          aria-describedby={describedBy}
           class={{
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
@@ -173,11 +223,11 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.focusableEl = el as HTMLDivElement)}
         >
-          {/*
-          <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-            {this.value}
-          </span>
-        */}
+          {this.selectionCell && (
+            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
+              {this.getScreenReaderText()}
+            </span>
+          )}
           <slot />
         </td>
       </Host>

@@ -70,12 +70,25 @@ export class Table implements LocalizedComponent {
   /**
    * @internal
    */
+  @Prop() totalRowCount: number;
+
+  /**
+   * @internal
+   */
+  @Prop() selectedRowCount: number;
+
+  /**
+   * @internal
+   */
   @Prop() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
   @Watch("selected")
   @Watch("selectionMode")
+  @Watch("selectedRowCount")
+  @Watch("totalRowCount")
   @Watch("numbered")
   handleCellChanges(): void {
+    // todo wait until the selection or number cell are present
     if (this.rowCells?.length > 0) {
       setTimeout(() => this.updateCells(), 60);
     }
@@ -106,6 +119,8 @@ export class Table implements LocalizedComponent {
   private rowCells: (HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement)[] = [];
 
   @State() effectiveLocale = "";
+
+  @State() localizedPosition = "";
 
   // --------------------------------------------------------------------------
   //
@@ -209,7 +224,17 @@ export class Table implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  emitTableRowFocusRequest = (
+  private localizeNumber = (position): string => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
+
+    return numberStringFormatter.localize(position?.toString());
+  };
+
+  private emitTableRowFocusRequest = (
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination
@@ -221,7 +246,8 @@ export class Table implements LocalizedComponent {
     });
   };
 
-  updateCells = (): void => {
+  private updateCells = (): void => {
+    this.localizedPosition = this.localizeNumber(this.position);
     const slottedCells = this.tableRowSlotEl
       ?.assignedElements({ flatten: true })
       .filter(
@@ -247,11 +273,11 @@ export class Table implements LocalizedComponent {
     this.rowCells = cells || [];
   };
 
-  handleSelectionOfRow = (): void => {
+  private handleSelectionOfRow = (): void => {
     this.calciteTableRowSelect.emit();
   };
 
-  handleKeyboardSelection = (event: KeyboardEvent): void => {
+  private handleKeyboardSelection = (event: KeyboardEvent): void => {
     if (event.key === "Enter" || event.key === " ") {
       if (event.key === " ") {
         event.preventDefault();
@@ -285,9 +311,10 @@ export class Table implements LocalizedComponent {
         alignment="center"
         onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
         onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
-        position={0}
+        selectedRowCount={this.selectedRowCount}
         selectionCell
         selectionMode={this.selectionMode}
+        totalRowCount={this.totalRowCount}
       />
     ) : (
       <calcite-table-cell
@@ -295,7 +322,9 @@ export class Table implements LocalizedComponent {
         onClick={this.handleSelectionOfRow}
         onKeyDown={this.handleKeyboardSelection}
         parentRowIsSelected={this.selected}
+        selectedRowCount={this.selectedRowCount}
         selectionCell
+        totalRowCount={this.totalRowCount}
         value="Selection cell"
       >
         {this.renderSelectionIcon()}
@@ -304,18 +333,11 @@ export class Table implements LocalizedComponent {
   }
 
   renderNumberedCell(): VNode {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
-
-    const localizedPosition = numberStringFormatter.localize(this.position?.toString());
     return this.tableHeadRow ? (
       <calcite-table-header alignment="center" numberCell />
     ) : (
-      <calcite-table-cell alignment="center" numberCell value={this.position?.toString()}>
-        {localizedPosition}
+      <calcite-table-cell alignment="center" numberCell>
+        {this.localizedPosition}
       </calcite-table-cell>
     );
   }

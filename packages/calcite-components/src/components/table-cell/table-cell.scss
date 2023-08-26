@@ -21,6 +21,10 @@
   @apply text-end;
 }
 
+.assistive-text {
+  @apply sr-only;
+}
+
 td {
   @apply align-middle text-color-1;
   background: var(--calcite-table-cell-background-internal);

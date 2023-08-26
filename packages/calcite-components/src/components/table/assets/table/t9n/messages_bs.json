@@ -1,5 +1,7 @@
 {
-  "selected": "Row is selected",
-  "unselected": "Row is unselected",
-  "toggleSelection": "Toggle row selection"
+  "selected": "Selected",
+  "clear": "Clear",
+  "row": "Row",
+  "page": "Page",
+  "hiddenSelected": "Rows selected but out of view"
 }

@@ -21,6 +21,10 @@
   @apply text-end;
 }
 
+.assistive-text {
+  @apply sr-only;
+}
+
 th {
   @apply text-color-1 focus-base text-start font-medium;
   border-inline-end: 1px solid var(--calcite-table-header-border-color-internal);
@@ -50,6 +54,9 @@ th.is-in-body {
   min-inline-size: 2rem;
 }
 
+.selection-cell calcite-icon.active {
+  color: var(--calcite-ui-brand);
+}
 .number-cell calcite-icon,
 .selection-cell calcite-icon {
   @apply ms-auto me-auto align-middle;

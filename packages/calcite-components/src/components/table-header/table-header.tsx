@@ -12,7 +12,13 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter,
+} from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
 import { CSS } from "./resources";
@@ -72,6 +78,31 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
    * @internal
    */
   @Prop() isInBody = false;
+
+  /**
+   * @internal
+   */
+  @Prop() parentRowPosition: number;
+
+  /**
+   * @internal
+   */
+  @Prop() totalRowCount: number;
+
+  /**
+   * @internal
+   */
+  @Prop() selectedRowCount: number;
+
+  /**
+   * @internal
+   */
+  @Prop() numberingSystem: NumberingSystem;
+
+  /**
+   * @internal
+   */
+  @Prop() groupSeparator: boolean;
 
   /**
    * Made into a prop for testing purposes only
@@ -148,6 +179,37 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     this.focusableEl.focus();
   }
 
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private localizeNumber = (position): string => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
+
+    return numberStringFormatter.localize(position?.toString());
+  };
+
+  private getScreenReaderText(): string {
+    const localizedNumber = this.localizeNumber(this.selectedRowCount);
+    let text;
+    if (this.numberCell) {
+      return this.messages.rowNumber;
+    } else if (this.selectionMode === "single") {
+      text = `${this.messages.selectionColumn}. ${localizedNumber} ${this.messages.selected}`;
+    } else if (this.totalRowCount === this.selectedRowCount) {
+      text = `${this.messages.selectionColumn}. ${this.messages.all} ${localizedNumber} ${this.messages.selected} ${this.messages.keyboardDeselectAll}`;
+    } else {
+      text = `${this.messages.selectionColumn}. ${localizedNumber} ${this.messages.selected} ${this.messages.keyboardSelectAll}`;
+    }
+    return text;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -163,16 +225,13 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
       ? "row"
       : "col";
 
-    const describedBy = this.selectionCell
-      ? this.messages.selectAll
-      : this.numberCell
-      ? this.messages.rowNumber
-      : "";
+    const allSelected = this.selectedRowCount === this.totalRowCount;
+    const selectionIcon = allSelected ? "check-square-f" : "check-square";
+
     return (
       <Host>
         <th
           aria-colindex={!this.isInBody ? this.position : ""}
-          aria-describedby={describedBy}
           class={{
             [CSS.isInBody]: this.isInBody,
             [CSS.numberCell]: this.numberCell,
@@ -190,11 +249,11 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           {this.heading && <div class={CSS.heading}>{this.heading}</div>}
           {this.description && <div class={CSS.description}>{this.description}</div>}
           {this.selectionCell && this.selectionMode === "multiple" && (
-            <calcite-icon icon="check-square-f" scale="s" />
+            <calcite-icon class={{ [CSS.active]: allSelected }} icon={selectionIcon} scale="s" />
           )}
           {(this.selectionCell || this.numberCell) && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-              {describedBy}
+              {this.getScreenReaderText()}
             </span>
           )}
         </th>
