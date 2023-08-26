@@ -1,7 +1,5 @@
 import Sortable from "sortablejs";
-import { containsCrossShadowBoundary } from "./dom";
 const sortableComponentSet = new Set<SortableComponent>();
-const inactiveSortableComponentSet = new WeakSet<SortableComponent>();
 
 export interface DragEvent {
   toEl: HTMLElement;
@@ -61,12 +59,12 @@ export interface SortableComponent {
   /**
    * Element dragging started.
    */
-  onDragStart?: (event: Sortable.SortableEvent) => void;
+  onDragStart?: () => void;
 
   /**
    * Element dragging ended.
    */
-  onDragEnd?: (event: Sortable.SortableEvent) => void;
+  onDragEnd?: () => void;
 }
 
 /**
@@ -77,10 +75,6 @@ export interface SortableComponent {
 export function connectSortableComponent(component: SortableComponent): void {
   disconnectSortableComponent(component);
   sortableComponentSet.add(component);
-
-  if (inactiveSortableComponentSet.has(component)) {
-    return;
-  }
 
   const dataIdAttr = "id";
   const { group, handleSelector: handle, dragSelector: draggable } = component;
@@ -100,13 +94,11 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     handle,
-    onStart: (event) => {
-      onSortingStart(component);
-      component.onDragStart(event);
+    onStart: () => {
+      onSortingStart();
     },
-    onEnd: (event) => {
-      onSortingEnd(component);
-      component.onDragEnd(event);
+    onEnd: () => {
+      onSortingEnd();
     },
     onSort: (event) => {
       component.onDragSort(event);
@@ -122,34 +114,22 @@ export function connectSortableComponent(component: SortableComponent): void {
 export function disconnectSortableComponent(component: SortableComponent): void {
   sortableComponentSet.delete(component);
 
-  if (inactiveSortableComponentSet.has(component)) {
-    return;
-  }
-
   component.sortable?.destroy();
   component.sortable = null;
-}
-
-function getNestedSortableComponents(activeComponent: SortableComponent): SortableComponent[] {
-  return Array.from(sortableComponentSet).filter(
-    (component) => component !== activeComponent && containsCrossShadowBoundary(activeComponent.el, component.el)
-  );
 }
 
 /**
  * Helper to handle nested SortableComponents on `Sortable.onStart`.
  *
- * @param {SortableComponent} activeComponent - The active sortable component.
  */
-function onSortingStart(activeComponent: SortableComponent): void {
-  getNestedSortableComponents(activeComponent).forEach((component) => inactiveSortableComponentSet.add(component));
+function onSortingStart(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onDragStart());
 }
 
 /**
  * Helper to handle nested SortableComponents on `Sortable.onEnd`.
  *
- * @param {SortableComponent} activeComponent - The active sortable component.
  */
-function onSortingEnd(activeComponent: SortableComponent): void {
-  getNestedSortableComponents(activeComponent).forEach((component) => inactiveSortableComponentSet.delete(component));
+function onSortingEnd(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onDragEnd());
 }
