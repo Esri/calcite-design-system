@@ -34,113 +34,28 @@
 
   <body>
     <demo-dom-swapper>
-      <!-- basic -->
-      <div class="parent">
-        <div class="child right-aligned-text">basic</div>
-
-        <div class="child">
-          <calcite-flow>
-            <calcite-flow-item heading="one, two, three, four">
-              <!-- image -->
-            </calcite-flow-item>
-            <calcite-flow-item heading="tell me that you love me more">
-              <!-- image -->
-              <div slot="footer">test</div>
-            </calcite-flow-item>
-            <calcite-flow-item heading="yet another item">
-              <!-- image -->
-              <div slot="footer">le sigh</div>
-            </calcite-flow-item>
-          </calcite-flow>
-        </div>
-      </div>
-
-      <!-- menu-actions & footer -->
-      <div class="parent">
-        <div class="child right-aligned-text">menu-actions & footer</div>
-
-        <div class="child">
-          <calcite-flow>
-            <calcite-flow-item heading="What are the most popular commute alternatives?">
-              <button slot="header-menu-actions">Reset</button>
-              <button slot="header-menu-actions">Rename</button>
-              <button slot="footer">Save</button>
-              <button slot="footer">Cancel</button>
-            </calcite-flow-item>
-          </calcite-flow>
-        </div>
-      </div>
-
-      <!-- adding new items to flow -->
-      <div class="parent">
-        <div class="child right-aligned-text">adding new items to flow</div>
-
-        <div class="child">
-          <calcite-flow id="flow">
-            <calcite-flow-item
-              heading="What are the most popular commute alternatives?"
-              description="I don't have an answer to this questions. Stop asking me this question."
-            >
-              <button slot="menu-actions">Reset</button>
-              <button slot="menu-actions">Rename</button>
-              <button slot="footer" class="btn">Save</button>
-              <button slot="footer" class="btn btn-secondary">Cancel</button>
-              <p><img src="https://placeimg.com/300/200/nature" alt="placeholder" /></p>
-              <p><img src="https://placeimg.com/300/200/nature" alt="placeholder" /></p>
-            </calcite-flow-item>
-          </calcite-flow>
-          <calcite-button id="add-panel" appearance="solid" icon-end="plus" scale="l">Add Flow Item</calcite-button>
-          <script>
-            const flowNode = document.getElementById("flow");
-
-            const addFlowButtonNode = document.getElementById("add-panel");
-
-            addFlowButtonNode.addEventListener("click", function () {
-              const newNode = document.createElement("calcite-flow-item");
-
-              newNode.beforeBack = function () {
-                newNode.loading = true;
-                newNode.disabled = true;
-                return new Promise((resolve) =>
-                  setTimeout(() => {
-                    newNode.disabled = false;
-                    newNode.loading = false;
-                    resolve();
-                  }, 1000)
-                );
-              };
-
-              newNode.heading = "Item " + (flowNode.childElementCount + 1);
-              newNode.description = "I don't have an answer to this questions. Stop asking me this question.";
-              newNode.innerHTML = `
-          <p><img src="https://placeimg.com/300/200/nature" alt="nature" /></p>
-          <p><img src="https://placeimg.com/300/200/nature" alt="nature" /></p>
-          <calcite-action label="pencil icon" slot="menu-actions" icon="pencil"></calcite-action>
-          <button slot="footer">Save</button>
-          <button slot="footer">Cancel</button>
-        `;
-              flowNode.appendChild(newNode);
-              setTimeout(function () {
-                const newDiv = document.createElement("div");
-                newDiv.innerHTML = "new div who dis?";
-                newNode.appendChild(newDiv);
-              }, 100);
-            });
-          </script>
-        </div>
-      </div>
-
       <div class="parent">
         <div class="child right-aligned-text">custom flow-item support</div>
 
         <div class="child">
           <calcite-flow extra-item-selector="custom-flow-item">
-            <calcite-flow-item heading="calcite-panel">
+            <calcite-flow-item heading="flow-item-1">
               <img src="https://via.placeholder.com/250x250.png?text=calcite-flow-item" />
             </calcite-flow-item>
-            <!-- note: declarative shadow DOM only works in Chrome -->
-            <custom-flow-item heading="custom-flow-item" show-back-button>
-              <template shadowrootmode="open">
+            <custom-flow-item heading="custom-flow-item">
+              <img src="https://via.placeholder.com/250x250.png?text=custom-flow-item" />
+            </custom-flow-item>
+            <calcite-flow-item heading="flow-item-2">
+              <img src="https://via.placeholder.com/250x250.png?text=calcite-panel" />
+            </calcite-flow-item>
+          </calcite-flow>
+          <script>
+            class CustomFlowItem extends HTMLElement {
+              constructor() {
+                super();
+                const shadow = this.attachShadow({ mode: "open" });
+
+                shadow.innerHTML = `
                 <style>
                   :host {
                     display: flex;
@@ -150,76 +65,64 @@
                 <calcite-flow-item id="internalFlowItem">
                   <slot></slot>
                 </calcite-flow-item>
-              </template>
+              `;
 
-              <img src="https://via.placeholder.com/250x250.png?text=custom-flow-item" />
-            </custom-flow-item>
-            <calcite-flow-item heading="calcite-panel">
-              <img src="https://via.placeholder.com/250x250.png?text=calcite-panel" />
-            </calcite-flow-item>
-          </calcite-flow>
-        </div>
-        <script>
-          class CustomFlowItem extends HTMLElement {
-            constructor() {
-              super();
-              this.flowItemEl = this.shadowRoot.getElementById("internalFlowItem");
-            }
+                this.flowItemEl = shadow.getElementById("internalFlowItem");
+              }
 
-            get heading() {
-              return this.getAttribute("heading");
-            }
-            set heading(value) {
-              this.setAttribute("heading", value);
-              this.flowItemEl.heading = value;
-            }
+              connectedCallback() {
+                this.flowItemEl.setAttribute("heading", this.getAttribute("heading"));
+                this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button"));
+                this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open"));
+              }
 
-            get hidden() {
-              return this.getAttribute("hidden");
-            }
-            set hidden(value) {
-              // no need to set global attribute
-              this.flowItemEl.hidden = value;
-            }
+              get heading() {
+                return this.getAttribute("heading");
+              }
 
-            get menuOpen() {
-              return this.getAttribute("menu-open");
-            }
-            set menuOpen(value) {
-              this.setAttribute("menu-open", value);
-              this.flowItemEl.menuOpen = value;
-            }
+              set heading(value) {
+                this.flowItemEl.heading = value;
+              }
 
-            get showBackButton() {
-              return this.getAttribute("show-back-button");
-            }
-            set showBackButton(value) {
-              this.setAttribute("show-back-button", value);
-              this.flowItemEl.showBackButton = value;
-            }
+              get hidden() {
+                return this.hasAttribute("hidden");
+              }
 
-            attributeChangedCallback(attributeName, oldValue, newValue) {
-              if (attributeName === "heading") {
-                this.heading = newValue;
-              } else if (attributeName === "hidden") {
-                this.hidden = newValue;
-              } else if (attributeName === "menu-open") {
-                this.menuOpen = newValue;
-              } else if (attributeName === "show-back-button") {
-                this.showBackButton = newValue;
+              set hidden(value) {
+                this.toggleAttribute("hidden", value);
+                this.flowItemEl.toggleAttribute("hidden", value);
+              }
+
+              get menuOpen() {
+                return this.hasAttribute("menu-open");
+              }
+
+              set menuOpen(value) {
+                this.toggleAttribute("menu-open", value);
+                this.flowItemEl.menuOpen = value;
+              }
+
+              get showBackButton() {
+                return this.hasAttribute("show-back-button");
+              }
+
+              set showBackButton(value) {
+                this.toggleAttribute("show-back-button", value);
+                this.flowItemEl.showBackButton = value;
+              }
+
+              async beforeBack() {
+                // no op
+              }
+
+              async setFocus() {
+                await this.flowItemEl.setFocus();
               }
             }
 
-            static get observedAttributes() {
-              return ["heading", "hidden", "menu-open", "show-back-button"];
-            }
-
-            async setFocus() {
-              await this.flowItemEl.setFocus();
-            }
-          }
-          customElements.define("custom-flow-item", CustomFlowItem);
-        </script>
+            customElements.define("custom-flow-item", CustomFlowItem);
+          </script>
+        </div>
       </div>
     </demo-dom-swapper>
   </body>
