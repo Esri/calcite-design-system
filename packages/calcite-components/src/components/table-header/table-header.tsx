@@ -74,7 +74,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop() selectionMode: SelectionMode;
 
   /** @internal */
-  @Prop() totalRowCount: number;
+  @Prop() bodyRowCount: number;
 
   /**
    * Made into a prop for testing purposes only
@@ -163,7 +163,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
       return this.messages.rowNumber;
     } else if (this.selectionMode === "single") {
       text = `${this.messages.selectionColumn}. ${this.selectedRowCountLocalized} ${this.messages.selected}`;
-    } else if (this.totalRowCount === this.selectedRowCount) {
+    } else if (this.bodyRowCount === this.selectedRowCount) {
       text = `${this.messages.selectionColumn}. ${this.messages.all} ${this.selectedRowCountLocalized} ${this.messages.selected} ${this.messages.keyboardDeselectAll}`;
     } else {
       text = `${this.messages.selectionColumn}. ${this.selectedRowCountLocalized} ${this.messages.selected} ${this.messages.keyboardSelectAll}`;
@@ -186,7 +186,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
       ? "row"
       : "col";
 
-    const allSelected = this.selectedRowCount === this.totalRowCount;
+    const allSelected = this.selectedRowCount === this.bodyRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
 
     // test this.focusable and reading screen text in safari

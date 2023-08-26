@@ -404,6 +404,194 @@ export const rowSpanAndColSpan3_TestOnly = (): string => html`<calcite-table
   </calcite-table-row>
 </calcite-table>`;
 
+export const complexWithFooter_TestOnly = (): string => html`<calcite-table
+  caption="Multiple headers using col-span table"
+  appearance="bordered"
+>
+  <calcite-table-row slot="table-head">
+    <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
+    <calcite-table-header col-span="2" heading="Information"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-head">
+    <calcite-table-header heading="First"></calcite-table-header>
+    <calcite-table-header heading="Last"></calcite-table-header>
+    <calcite-table-header heading="Education level"></calcite-table-header>
+    <calcite-table-header heading="Age"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="3">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="3">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="3">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell row-span="4">cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="2">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell row-span="2">cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="2">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell row-span="4">cell</calcite-table-cell>
+    <calcite-table-cell col-span="3">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row slot="table-foot">
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row slot="table-foot">
+    <calcite-table-cell col-span="2">foot</calcite-table-cell>
+    <calcite-table-cell col-span="2">foot</calcite-table-cell>
+  </calcite-table-row>
+</calcite-table>`;
+
+export const headersInRows_TestOnly = (): string => html` <calcite-table caption="Headers in rows table">
+  <calcite-table-row>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+</calcite-table>`;
+
+export const headersInRowsAndHeadAndFooter_TestOnly = (): string => html` <calcite-table
+  caption="Headers in rows and table-head table"
+>
+  <calcite-table-row slot="table-head">
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row slot="table-foot">
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+  </calcite-table-row>
+</calcite-table>`;
+
+export const complexNestingMultipleHeaderAndFooter = (): string => html` <calcite-table
+  caption="Multiple headers using col-span table"
+  appearance="bordered"
+>
+  <calcite-table-row slot="table-head">
+    <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
+    <calcite-table-header col-span="2" heading="Information"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-head">
+    <calcite-table-header heading="First"></calcite-table-header>
+    <calcite-table-header heading="Last"></calcite-table-header>
+    <calcite-table-header heading="Education level"></calcite-table-header>
+    <calcite-table-header heading="Age"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="3">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="3">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="3">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell row-span="4">cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="2">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell row-span="2">cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell col-span="2">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell row-span="4">cell</calcite-table-cell>
+    <calcite-table-cell col-span="3">cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row slot="table-foot">
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row slot="table-foot">
+    <calcite-table-cell col-span="2">foot</calcite-table-cell>
+    <calcite-table-cell col-span="2">foot</calcite-table-cell>
+  </calcite-table-row>
+</calcite-table>`;
+
 export const singleSelection_TestOnly = (): string => html` <calcite-table
   selection-mode="single"
   caption="selection-mode single table"
@@ -501,6 +689,90 @@ export const selectionModeAndSelectedOnLoad_TestOnly = (): string => html` <calc
     <calcite-table-cell>cell</calcite-table-cell>
     <calcite-table-cell>cell</calcite-table-cell>
     <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+</calcite-table>`;
+
+export const selectionModeAndSelectedOnLoadWithMultipleFooterAndHeader_TestOnly = (): string => html`<calcite-table
+  page-size="4"
+  selection-mode="multiple"
+  numbered
+  caption="selection-mode multiple with selected at load"
+>
+  <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+  <calcite-action slot="selection-actions" icon="send"></calcite-action>
+  <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+  <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+  <calcite-table-row slot="table-head">
+    <calcite-table-header col-span="2" heading="Heading"></calcite-table-header>
+    <calcite-table-header col-span="2" heading="Heading"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-head">
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+    <calcite-table-header heading="Heading"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row selected>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row selected>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row selected>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row selected>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row slot="table-foot">
+    <calcite-table-cell col-span="3" value="cell"></calcite-table-cell>
+    <calcite-table-cell value="happy"
+      ><calcite-chip scale="s" icon="smile">58% happiness</calcite-chip></calcite-table-cell
+    >
+  </calcite-table-row>
+  <calcite-table-row slot="table-foot">
+    <calcite-table-cell value="cell"></calcite-table-cell>
+    <calcite-table-cell alignment="end" value="78">24,212</calcite-table-cell>
+    <calcite-table-cell value="happy"
+      ><calcite-chip scale="s" icon="smile">58% happiness</calcite-chip></calcite-table-cell
+    >
+    <calcite-table-cell> </calcite-table-cell>
   </calcite-table-row>
 </calcite-table>`;
 

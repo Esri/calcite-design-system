@@ -130,14 +130,6 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   @State() currentPageStartRow = 1;
 
-  @State() firstRowInTable = 1;
-
-  @State() firstRowInBody = 1;
-
-  @State() lastRowInBody: number;
-
-  @State() lastRowInTable: number;
-
   @State() selectedCount = 0;
 
   @State() defaultMessages: TableMessages;
@@ -222,34 +214,34 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     const cellPosition = event["detail"].cellPosition;
     const rowPos = event["detail"].rowPosition;
     const destination = event["detail"].destination;
-    const leavingHeader = destination === "next" && rowPos < this.firstRowInBody;
-    const leavingFooter = destination === "previous" && rowPos > this.lastRowInBody;
-    const enteringHeader = destination === "previous" && rowPos === this.firstRowInBody;
-    const enteringFooter =
-      this.footRows.length > 0 && destination === "next" && rowPos === this.lastRowInBody;
+
+    const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
+    const visibleAll = this.allRows?.filter((row) => !row.hidden);
+
+    const firstBodyRow = visibleBody[0]?.positionAll;
+    const firstFootRow = this.footRows[0]?.positionAll;
+    const lastBodyRow = visibleBody[visibleBody.length - 1]?.positionAll;
+    const lastTableRow = visibleAll[visibleAll.length - 1]?.positionAll;
+    const lastHeadRow = this.headRows[this.headRows.length - 1]?.positionAll;
+    const leavingHeader = destination === "next" && rowPos === lastHeadRow;
+    const leavingFooter = destination === "previous" && rowPos === firstFootRow;
+    const enteringHeader = destination === "previous" && rowPos === firstBodyRow;
+    const enteringFooter = destination === "next" && rowPos === lastBodyRow;
 
     let rowPosition: number;
+
     switch (destination) {
       case "first":
         rowPosition = 0;
         break;
       case "last":
-        rowPosition = this.lastRowInTable - 1;
+        rowPosition = lastTableRow;
         break;
       case "next":
-        rowPosition = leavingHeader
-          ? this.firstRowInBody
-          : enteringFooter
-          ? this.footRows[0].positionAll
-          : rowPos + 1;
+        rowPosition = leavingHeader ? firstBodyRow : enteringFooter ? firstFootRow : rowPos + 1;
         break;
       case "previous":
-        rowPosition = leavingFooter
-          ? this.lastRowInBody
-          : enteringHeader
-          ? this.headRows[this.headRows.length - 1].positionAll
-          : rowPos - 1;
-
+        rowPosition = leavingFooter ? lastBodyRow : enteringHeader ? lastHeadRow : rowPos - 1;
         break;
     }
     const destinationCount = this.allRows?.find(
@@ -257,12 +249,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     )?.cellCount;
 
     const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
-
-    this.calciteInternalTableRowFocusChange.emit({
-      cellPosition: adjustedPos,
-      rowPosition,
-      destination,
-    });
+    if (rowPosition !== undefined) {
+      this.calciteInternalTableRowFocusChange.emit({
+        cellPosition: adjustedPos,
+        rowPosition,
+        destination,
+      });
+    }
   }
   // --------------------------------------------------------------------------
   //
@@ -280,7 +273,6 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     const headRows = this.getSlottedRows(this.tableHeadSlotEl) || [];
     const bodyRows = this.getSlottedRows(this.tableBodySlotEl) || [];
     const footRows = this.getSlottedRows(this.tableFootSlotEl) || [];
-
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
     headRows?.forEach((row) => {
@@ -306,13 +298,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
     allRows?.forEach((row) => {
       row.selectionMode = this.selectionMode;
-      row.totalRowCount = bodyRows?.length;
+      row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);
       row.numbered = this.numbered;
     });
 
     const colCount =
-      headRows?.length > 0 ? headRows[0]?.querySelectorAll("calcite-table-header")?.length : 0;
+      headRows[0]?.cellCount || headRows[0]?.querySelectorAll("calcite-table-header")?.length;
 
     this.colCount = colCount;
     this.headRows = headRows;
@@ -338,17 +330,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         this.pageSize < 1 ||
         (offsetBodyPos > this.currentPageStartRow &&
           offsetBodyPos <= this.currentPageStartRow + this.pageSize);
-
       row.hidden = !inView && !this.footRows.includes(row);
     });
-
-    const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
-    const visibleAll = this.allRows?.filter((row) => !row.hidden);
-
-    this.firstRowInBody = visibleBody[0]?.positionSection + 1;
-    this.lastRowInBody = visibleBody[visibleBody?.length - 1]?.positionSection + 1;
-    this.firstRowInTable = visibleAll[0]?.positionAll + 1;
-    this.lastRowInTable = visibleAll[visibleAll?.length - 1]?.positionAll + 1;
   };
 
   private updateSelectedItems = (emit?: boolean): void => {
@@ -359,7 +342,6 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       row.selectedRowCount = this.selectedCount;
       row.selectedRowCountLocalized = this.localizeNumber(this.selectedCount);
     });
-
     if (emit) {
       this.calciteTableSelect.emit();
     }
@@ -417,10 +399,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     };
 
     const outOfViewCount = this.selectedItems?.filter((el) => el.hidden)?.length;
-    const localizedOutOfViewCount = this.localizeNumber(outOfViewCount?.toString());
+    const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
     const selectionText = `${localizedSelectedCount} ${this.messages.selected}`;
-    const outOfViewText = `${localizedOutOfViewCount} ${this.messages.hiddenSelected}`;
+    const outOfView = `${localizedOutOfView} ${this.messages.hiddenSelected}`;
 
     return (
       <div class={CSS.selectionArea}>
@@ -432,13 +414,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           {selectionText}
         </calcite-chip>
         {outOfViewCount > 0 && (
-          <calcite-chip
-            icon="hide-empty"
-            scale={this.scale}
-            title={outOfViewText}
-            value={outOfViewText}
-          >
-            {localizedOutOfViewCount}
+          <calcite-chip icon="hide-empty" scale={this.scale} title={outOfView} value={outOfView}>
+            {localizedOutOfView}
           </calcite-chip>
         )}
         {this.selectedCount > 0 && (

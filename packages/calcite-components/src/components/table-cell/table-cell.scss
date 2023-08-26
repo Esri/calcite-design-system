@@ -41,7 +41,7 @@ td {
 }
 
 .footer-cell {
-  @apply bg-background font-medium;
+  @apply bg-background font-medium text-color-1;
   border-block-start: 1px solid var(--calcite-ui-border-3);
   border-block-end: 1px solid var(--calcite-ui-border-3);
 }

@@ -2359,6 +2359,10 @@
           <calcite-table-cell>foot</calcite-table-cell>
           <calcite-table-cell>foot</calcite-table-cell>
         </calcite-table-row>
+        <calcite-table-row slot="table-foot">
+          <calcite-table-cell col-span="2">foot</calcite-table-cell>
+          <calcite-table-cell col-span="2">foot</calcite-table-cell>
+        </calcite-table-row>
       </calcite-table>
 
       <h3>Headers in rows</h3>
@@ -2642,7 +2646,91 @@
           <calcite-table-cell> </calcite-table-cell>
         </calcite-table-row>
       </calcite-table>
+      <h3>selection-mode multiple and numbered including out of view and multiple header and footer</h3>
 
+      <calcite-table
+        page-size="4"
+        selection-mode="multiple"
+        numbered
+        caption="selection-mode multiple with selected at load"
+      >
+        <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+        <calcite-action slot="selection-actions" icon="send"></calcite-action>
+        <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+        <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+        <calcite-table-row slot="table-head">
+          <calcite-table-header col-span="2" heading="Heading"></calcite-table-header>
+          <calcite-table-header col-span="2" heading="Heading"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row slot="table-head">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot">
+          <calcite-table-cell col-span="3" value="cell"></calcite-table-cell>
+          <calcite-table-cell value="happy"
+            ><calcite-chip scale="s" icon="smile">58% happiness</calcite-chip></calcite-table-cell
+          >
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot">
+          <calcite-table-cell value="cell"></calcite-table-cell>
+          <calcite-table-cell alignment="end" value="78">24,212</calcite-table-cell>
+          <calcite-table-cell value="happy"
+            ><calcite-chip scale="s" icon="smile">58% happiness</calcite-chip></calcite-table-cell
+          >
+          <calcite-table-cell> </calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
       <h3>With selection-mode multiple and rich cell content</h3>
       <calcite-table numbered selection-mode="multiple" caption="With selection-mode and rich cell content table">
         <calcite-table-row slot="table-head">

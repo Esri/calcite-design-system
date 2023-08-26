@@ -70,12 +70,12 @@ export class Table implements LocalizedComponent {
   @Prop() selectedRowCountLocalized: string;
 
   /** @internal */
-  @Prop() totalRowCount: number;
+  @Prop() bodyRowCount: number;
 
   @Watch("selected")
   @Watch("selectionMode")
   @Watch("selectedRowCount")
-  @Watch("totalRowCount")
+  @Watch("bodyRowCount")
   @Watch("numbered")
   handleCellChanges(): void {
     // todo need to ensure conditionally rendered cells
@@ -288,13 +288,13 @@ export class Table implements LocalizedComponent {
     return this.rowType === "head" ? (
       <calcite-table-header
         alignment="center"
+        bodyRowCount={this.bodyRowCount}
         onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
         onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
         selectedRowCount={this.selectedRowCount}
         selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell
         selectionMode={this.selectionMode}
-        totalRowCount={this.totalRowCount}
       />
     ) : this.rowType === "body" ? (
       <calcite-table-cell
