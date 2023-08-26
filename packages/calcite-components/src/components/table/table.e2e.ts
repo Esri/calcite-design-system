@@ -393,6 +393,7 @@ describe("calcite-table", () => {
 describe("keyboard navigation", () => {
   it("navigates correctly when no pagination present", async () => {
     //
+    // press home expect
   });
   it("navigates correctly when pagination present and first page displayed", async () => {
     //
@@ -401,6 +402,15 @@ describe("keyboard navigation", () => {
     //
   });
   it("navigates correctly skipping disabled rows", async () => {
+    //
+  });
+  it("navigates correctly when selection column present", async () => {
+    //
+  });
+  it("navigates correctly when number column present", async () => {
+    //
+  });
+  it("navigates correctly when number and selection column present", async () => {
     //
   });
   it("navigates correctly skipping disabled rows when disabled rows in last position", async () => {

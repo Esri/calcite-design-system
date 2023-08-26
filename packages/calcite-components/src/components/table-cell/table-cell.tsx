@@ -13,14 +13,10 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-} from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { TableCellMessages } from "./assets/table-cell/t9n";
 import { CSS } from "./resources";
+import { RowType } from "../table/interfaces";
 
 /**
  * @slot - A slot for adding content, usually text content.
@@ -50,53 +46,26 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Provide a value to the component - used for accessible technology and column sorting */
+  /** todo make it required - will be needed for sorting, a11y? */
   @Prop() value: string;
 
-  /**
-   * @internal
-   */
-  @Prop() position: number;
-
-  /**
-   * @internal
-   */
-  @Prop() selectionCell: boolean;
-
-  /**
-   * @internal
-   */
-  @Prop() selectionMode: SelectionMode;
-
-  /**
-   * @internal
-   */
+  /** @internal */
   @Prop() numberCell: boolean;
 
-  /**
-   * @internal
-   */
+  /** @internal */
   @Prop() parentRowIsSelected: boolean;
 
-  /**
-   * @internal
-   */
-  @Prop() parentRowPosition: number;
-
-  /**
-   * @internal
-   */
+  /** @internal */
   @Prop() parentRowPositionLocalized: string;
 
-  /**
-   * @internal
-   */
-  @Prop() numberingSystem: NumberingSystem;
+  /** @internal */
+  @Prop() parentRowType: RowType;
 
-  /**
-   * @internal
-   */
-  @Prop() groupSeparator: boolean;
+  /** @internal */
+  @Prop() positionInRow: number;
+
+  /** @internal */
+  @Prop() selectionCell: boolean;
 
   /**
    * Made into a prop for testing purposes only
@@ -195,6 +164,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
       <Host>
         <td
           class={{
+            [CSS.footerCell]: this.parentRowType === "foot",
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,

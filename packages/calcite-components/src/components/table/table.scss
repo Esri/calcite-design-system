@@ -40,6 +40,10 @@ thead {
   @apply sticky top-0 z-sticky;
 }
 
+tfoot {
+  @apply sticky bottom-0 z-sticky;
+}
+
 .table-fixed-layout {
   @apply table-fixed;
 }

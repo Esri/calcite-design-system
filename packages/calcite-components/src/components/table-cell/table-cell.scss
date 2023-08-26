@@ -29,7 +29,6 @@ td {
   @apply align-middle text-color-1;
   background: var(--calcite-table-cell-background-internal);
   border-inline-end: 1px solid var(--calcite-ui-border-3);
-
   @apply text-start focus-base;
   &:focus {
     @apply focus-inset;
@@ -39,6 +38,12 @@ td {
 
 .number-cell {
   @apply bg-foreground-2;
+}
+
+.footer-cell {
+  @apply bg-background font-medium;
+  border-block-start: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
 .number-cell,
@@ -53,7 +58,7 @@ td {
   inset-inline-start: 2rem;
 }
 
-.selected-cell:not(.number-cell) {
+.selected-cell:not(.number-cell):not(.footer-cell) {
   --calcite-table-cell-background: var(--calcite-ui-foreground-current);
   background: var(--calcite-ui-foreground-current);
 }

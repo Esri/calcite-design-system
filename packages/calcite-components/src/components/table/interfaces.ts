@@ -4,8 +4,9 @@ export interface TableRowFocusEvent {
   cellPosition: number;
   rowPosition: number;
   destination: FocusElementInGroupDestination;
-  fromHeader: boolean;
 }
+
+export type RowType = "head" | "body" | "foot";
 
 export type TableAppearance = "bordered" | "simple" | "bordered-zebra" | "simple-zebra";
 

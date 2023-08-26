@@ -12,15 +12,11 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-} from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
 import { CSS } from "./resources";
+import { RowType } from "../table/interfaces";
 
 @Component({
   tag: "calcite-table-header",
@@ -54,22 +50,16 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop({ reflect: true }) rowSpan: number;
 
   /** @internal */
-  @Prop() groupSeparator: boolean;
-
-  /** @internal */
-  @Prop() isInBody = false;
-
-  /** @internal */
   @Prop() numberCell = false;
-
-  /** @internal */
-  @Prop() numberingSystem: NumberingSystem;
 
   /** @internal */
   @Prop() parentRowPosition: number;
 
   /** @internal */
-  @Prop() position: number;
+  @Prop() parentRowType: RowType;
+
+  /** @internal */
+  @Prop() positionInRow: number;
 
   /** @internal */
   @Prop() selectedRowCount: number;
@@ -192,19 +182,20 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
       ? "rowgroup"
       : this.colSpan
       ? "colgroup"
-      : this.isInBody
+      : this.parentRowType === "body"
       ? "row"
       : "col";
 
     const allSelected = this.selectedRowCount === this.totalRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
 
+    // test this.focusable and reading screen text in safari
     return (
       <Host>
         <th
-          aria-colindex={!this.isInBody ? this.position : ""}
+          aria-colindex={this.parentRowType !== "body" ? this.positionInRow : ""}
           class={{
-            [CSS.isInBody]: this.isInBody,
+            [CSS.bodyRow]: this.parentRowType === "body",
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",

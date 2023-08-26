@@ -130,9 +130,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   @State() currentPageStartRow = 1;
 
-  @State() firstRowInPage = 1;
+  @State() firstRowInTable = 1;
 
-  @State() lastRowInPage: number;
+  @State() firstRowInBody = 1;
+
+  @State() lastRowInBody: number;
+
+  @State() lastRowInTable: number;
 
   @State() selectedCount = 0;
 
@@ -147,13 +151,17 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   private allRows: HTMLCalciteTableRowElement[];
 
+  private headRows: HTMLCalciteTableRowElement[];
+
   private bodyRows: HTMLCalciteTableRowElement[];
 
-  private headRows: HTMLCalciteTableRowElement[];
+  private footRows: HTMLCalciteTableRowElement[];
+
+  private tableHeadSlotEl: HTMLSlotElement;
 
   private tableBodySlotEl: HTMLSlotElement;
 
-  private tableHeadSlotEl: HTMLSlotElement;
+  private tableFootSlotEl: HTMLSlotElement;
 
   //--------------------------------------------------------------------------
   //
@@ -189,6 +197,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** Emits when the component's selection changes. */
   @Event({ cancelable: false }) calciteTableSelect: EventEmitter<void>;
 
+  /** Emits when the component's selection changes. */
+  @Event({ cancelable: false }) calciteTablePageSelect: EventEmitter<void>;
+
   /** @internal */
   @Event({ cancelable: false })
   calciteInternalTableRowFocusChange: EventEmitter<TableRowFocusEvent>;
@@ -211,10 +222,11 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     const cellPosition = event["detail"].cellPosition;
     const rowPos = event["detail"].rowPosition;
     const destination = event["detail"].destination;
-    const fromHeader = event["detail"].fromHeader;
-
-    const lastHeadTr =
-      this.headRows?.length > 0 ? this.headRows[this.headRows.length - 1].positionWithinAll : 0;
+    const leavingHeader = destination === "next" && rowPos < this.firstRowInBody;
+    const leavingFooter = destination === "previous" && rowPos > this.lastRowInBody;
+    const enteringHeader = destination === "previous" && rowPos === this.firstRowInBody;
+    const enteringFooter =
+      this.footRows.length > 0 && destination === "next" && rowPos === this.lastRowInBody;
 
     let rowPosition: number;
     switch (destination) {
@@ -222,21 +234,34 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         rowPosition = 0;
         break;
       case "last":
-        rowPosition = this.lastRowInPage;
+        rowPosition = this.lastRowInTable - 1;
         break;
       case "next":
-        rowPosition = fromHeader && !lastHeadTr ? this.firstRowInPage : rowPos + 1;
+        rowPosition = leavingHeader
+          ? this.firstRowInBody
+          : enteringFooter
+          ? this.footRows[0].positionAll
+          : rowPos + 1;
         break;
       case "previous":
-        const toEnd = !lastHeadTr && (fromHeader || rowPos <= this.firstRowInPage);
-        rowPosition = toEnd ? lastHeadTr : rowPos - 1;
+        rowPosition = leavingFooter
+          ? this.lastRowInBody
+          : enteringHeader
+          ? this.headRows[this.headRows.length - 1].positionAll
+          : rowPos - 1;
+
         break;
     }
+    const destinationCount = this.allRows?.find(
+      (row) => row.positionAll === rowPosition
+    )?.cellCount;
+
+    const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
+
     this.calciteInternalTableRowFocusChange.emit({
-      cellPosition,
+      cellPosition: adjustedPos,
       rowPosition,
       destination,
-      fromHeader,
     });
   }
   // --------------------------------------------------------------------------
@@ -245,47 +270,56 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   //
   // --------------------------------------------------------------------------
 
+  private getSlottedRows = (el: HTMLSlotElement): HTMLCalciteTableRowElement[] => {
+    return el
+      ?.assignedElements({ flatten: true })
+      ?.filter((el) => el?.matches("calcite-table-row")) as HTMLCalciteTableRowElement[];
+  };
+
   private updateRows = (): void => {
-    const headRows = this.tableHeadSlotEl
-      ?.assignedElements({ flatten: true })
-      ?.filter((el) => el?.matches("calcite-table-row")) as HTMLCalciteTableRowElement[];
+    const headRows = this.getSlottedRows(this.tableHeadSlotEl) || [];
+    const bodyRows = this.getSlottedRows(this.tableBodySlotEl) || [];
+    const footRows = this.getSlottedRows(this.tableFootSlotEl) || [];
 
-    const bodyRows = this.tableBodySlotEl
-      ?.assignedElements({ flatten: true })
-      ?.filter((el) => el?.matches("calcite-table-row")) as HTMLCalciteTableRowElement[];
-
-    const allRows = headRows?.length > 0 ? [...headRows, ...bodyRows] : bodyRows || [];
+    const allRows = [...headRows, ...bodyRows, ...footRows];
 
     headRows?.forEach((row) => {
-      row.tableHeadRow = true;
-      row.selectionMode = this.selectionMode;
-      row.numberingSystem = this.numberingSystem;
-      row.totalRowCount = this.bodyRows?.length;
-      row.groupSeparator = this.groupSeparator;
-      row.numbered = this.numbered;
-      row.position = headRows?.indexOf(row);
-      row.positionWithinAll = allRows?.indexOf(row);
+      const position = headRows?.indexOf(row);
+      row.rowType = "head";
+      row.positionSection = position;
+      row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
     bodyRows?.forEach((row) => {
-      row.selectionMode = this.selectionMode;
-      row.numberingSystem = this.numberingSystem;
-      row.totalRowCount = this.bodyRows?.length;
-      row.groupSeparator = this.groupSeparator;
-      row.numbered = this.numbered;
-      row.position = bodyRows?.indexOf(row);
-      row.positionWithinAll = allRows?.indexOf(row);
+      const position = bodyRows?.indexOf(row);
+      row.rowType = "body";
+      row.positionSection = position;
+      row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    this.headRows = headRows;
-    this.bodyRows = bodyRows;
-    this.allRows = allRows;
+    footRows?.forEach((row) => {
+      const position = footRows?.indexOf(row);
+      row.rowType = "foot";
+      row.positionSection = position;
+      row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
+    });
+
+    allRows?.forEach((row) => {
+      row.selectionMode = this.selectionMode;
+      row.totalRowCount = bodyRows?.length;
+      row.positionAll = allRows?.indexOf(row);
+      row.numbered = this.numbered;
+    });
 
     const colCount =
-      this.headRows?.length > 0
-        ? this.headRows[0]?.querySelectorAll("calcite-table-header")?.length
-        : 0;
+      headRows?.length > 0 ? headRows[0]?.querySelectorAll("calcite-table-header")?.length : 0;
+
     this.colCount = colCount;
+    this.headRows = headRows;
+    this.bodyRows = bodyRows;
+    this.footRows = footRows;
+    this.allRows = allRows;
+
     this.updateSelectedItems();
     this.paginateRows();
   };
@@ -293,24 +327,28 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   private handlePaginationChange = (event: CustomEvent): void => {
     const requestedItem = (event.target as HTMLCalcitePaginationElement).startItem;
     this.currentPageStartRow = requestedItem || 1;
+    this.calciteTablePageSelect.emit();
     this.updateRows();
   };
 
   private paginateRows = (): void => {
     this.bodyRows?.forEach((row) => {
+      const offsetBodyPos = row.positionSection + 1 + this.headRows?.length;
       const inView =
-        row.position >= this.currentPageStartRow &&
-        row.position < this.currentPageStartRow + this.pageSize;
-      row.style.display = this.pageSize === 0 || inView ? "contents" : "none";
-      row.hidden = this.pageSize === 0 || inView;
+        this.pageSize < 1 ||
+        (offsetBodyPos > this.currentPageStartRow &&
+          offsetBodyPos <= this.currentPageStartRow + this.pageSize);
+
+      row.hidden = !inView && !this.footRows.includes(row);
     });
 
-    const visibleRows = this.allRows?.filter((row) => row.hidden);
-    const firstVisibleRow = visibleRows[0]?.positionWithinAll || 1;
-    const lastVisibleRow = visibleRows[visibleRows?.length - 1]?.positionWithinAll;
+    const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
+    const visibleAll = this.allRows?.filter((row) => !row.hidden);
 
-    this.firstRowInPage = firstVisibleRow;
-    this.lastRowInPage = lastVisibleRow;
+    this.firstRowInBody = visibleBody[0]?.positionSection + 1;
+    this.lastRowInBody = visibleBody[visibleBody?.length - 1]?.positionSection + 1;
+    this.firstRowInTable = visibleAll[0]?.positionAll + 1;
+    this.lastRowInTable = visibleAll[visibleAll?.length - 1]?.positionAll + 1;
   };
 
   private updateSelectedItems = (emit?: boolean): void => {
@@ -319,6 +357,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     this.selectedCount = selectedItems?.length;
     this.allRows?.forEach((row) => {
       row.selectedRowCount = this.selectedCount;
+      row.selectedRowCountLocalized = this.localizeNumber(this.selectedCount);
     });
 
     if (emit) {
@@ -334,9 +373,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   };
 
   private setSelectedItems = (elToMatch?: HTMLCalciteTableRowElement): void => {
-    if (elToMatch?.tableHeadRow) {
+    if (elToMatch?.rowType === "head") {
       this.bodyRows?.forEach((el) => (el.selected = this.selectedCount !== this.bodyRows?.length));
-    } else if (elToMatch) {
+    } else if (elToMatch?.rowType === "body") {
       this.bodyRows?.forEach((el) => {
         const matchingEl = elToMatch === el;
         switch (this.selectionMode) {
@@ -354,6 +393,16 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     this.updateSelectedItems(true);
   };
 
+  private localizeNumber = (value: number | string): string => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
+
+    return numberStringFormatter.localize(value.toString());
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -367,9 +416,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       useGrouping: this.groupSeparator,
     };
 
-    const outOfViewCount = this.selectedItems?.filter((el) => !el.hidden)?.length;
-    const localizedOutOfViewCount = numberStringFormatter.localize(outOfViewCount?.toString());
-    const localizedSelectedCount = numberStringFormatter.localize(this.selectedCount?.toString());
+    const outOfViewCount = this.selectedItems?.filter((el) => el.hidden)?.length;
+    const localizedOutOfViewCount = this.localizeNumber(outOfViewCount?.toString());
+    const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
     const selectionText = `${localizedSelectedCount} ${this.messages.selected}`;
     const outOfViewText = `${localizedOutOfViewCount} ${this.messages.hiddenSelected}`;
 
@@ -429,7 +478,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   renderTHead(): VNode {
     return (
-      <thead role="rowgroup">
+      <thead>
         <slot
           name="table-head"
           onSlotchange={this.updateRows}
@@ -441,7 +490,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   renderTBody(): VNode {
     return (
-      <tbody role="rowgroup">
+      <tbody>
         <slot
           onSlotchange={this.updateRows}
           ref={(el) => (this.tableBodySlotEl = el as HTMLSlotElement)}
@@ -450,23 +499,36 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     );
   }
 
+  renderTFoot(): VNode {
+    return (
+      <tfoot>
+        <slot
+          name="table-foot"
+          onSlotchange={this.updateRows}
+          ref={(el) => (this.tableFootSlotEl = el as HTMLSlotElement)}
+        />
+      </tfoot>
+    );
+  }
+
   render(): VNode {
     return (
       <Host>
         <div class={CSS.container}>
           {this.selectionMode !== "none" && this.renderSelectionArea()}
-          <div class={CSS.tableContainer} role="region" tabIndex={-1}>
+          <div class={CSS.tableContainer}>
             <table
               aria-colcount={this.colCount}
               aria-multiselectable={this.selectionMode === "multiple"}
-              aria-rowcount={this.bodyRows?.length}
+              aria-readonly={true}
+              aria-rowcount={this.allRows?.length}
               class={{ [this.appearance]: true, [CSS.tableFixed]: this.layout === "fixed" }}
               role="grid"
-              tabIndex={0}
             >
+              <caption class={CSS.assistiveText}>{this.caption}</caption>
               {this.renderTHead()}
               {this.renderTBody()}
-              <caption class={CSS.assistiveText}>{this.caption}</caption>
+              {this.renderTFoot()}
             </table>
           </div>
           {this.pageSize > 0 && this.renderPaginationArea()}

@@ -11,10 +11,10 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { LocalizedComponent, NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import { LocalizedComponent } from "../../utils/locale";
 import { Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
-import { TableRowFocusEvent } from "../table/interfaces";
+import { RowType, TableRowFocusEvent } from "../table/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -43,28 +43,31 @@ export class Table implements LocalizedComponent {
   @Prop({ reflect: true }) selected = false;
 
   /** @internal */
-  @Prop() groupSeparator: boolean;
+  @Prop({ mutable: true }) cellCount: number;
+
+  /** @internal */
+  @Prop() rowType: RowType;
 
   /** @internal */
   @Prop() numbered = false;
 
   /** @internal */
-  @Prop() numberingSystem: NumberingSystem;
+  @Prop() positionSection: number;
 
   /** @internal */
-  @Prop() position: number;
+  @Prop() positionSectionLocalized: string;
 
   /** @internal */
-  @Prop() positionWithinAll: number;
-
-  /** @internal */
-  @Prop() selectedRowCount: number;
+  @Prop() positionAll: number;
 
   /** @internal */
   @Prop() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
   /** @internal */
-  @Prop() tableHeadRow = false;
+  @Prop() selectedRowCount: number;
+
+  /** @internal */
+  @Prop() selectedRowCountLocalized: string;
 
   /** @internal */
   @Prop() totalRowCount: number;
@@ -108,8 +111,6 @@ export class Table implements LocalizedComponent {
 
   @State() effectiveLocale = "";
 
-  @State() localizedPosition = "";
-
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -138,11 +139,11 @@ export class Table implements LocalizedComponent {
       const rowPosition = event.detail.rowPosition;
       const destination = event.detail.destination;
 
-      if (rowPosition === this.positionWithinAll) {
+      if (rowPosition === this.positionAll) {
         if (this.disabled) {
           const deflectDirection =
             destination === "last" ? "previous" : destination === "first" ? "next" : destination;
-          this.emitTableRowFocusRequest(position, this.positionWithinAll, deflectDirection);
+          this.emitTableRowFocusRequest(position, this.positionAll, deflectDirection);
           return;
         }
         const cellPosition = (this.rowCells as any)?.find((_, index) => index + 1 === position);
@@ -167,19 +168,19 @@ export class Table implements LocalizedComponent {
     if (el?.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
       switch (key) {
         case "ArrowUp":
-          this.emitTableRowFocusRequest(el.position, this.positionWithinAll, "previous");
+          this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "previous");
           event.preventDefault();
           break;
         case "ArrowDown":
-          this.emitTableRowFocusRequest(el.position, this.positionWithinAll, "next");
+          this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "next");
           event.preventDefault();
           break;
         case "PageUp":
-          this.emitTableRowFocusRequest(el.position, this.positionWithinAll, "first");
+          this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "first");
           event.preventDefault();
           break;
         case "PageDown":
-          this.emitTableRowFocusRequest(el.position, this.positionWithinAll, "last");
+          this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "last");
           event.preventDefault();
           break;
         case "ArrowLeft":
@@ -192,7 +193,7 @@ export class Table implements LocalizedComponent {
           break;
         case "Home":
           if (isControl) {
-            this.emitTableRowFocusRequest(1, this.positionWithinAll, "first");
+            this.emitTableRowFocusRequest(1, this.positionAll, "first");
             event.preventDefault();
           } else {
             focusElementInGroup(cells, el, "first", false);
@@ -201,7 +202,7 @@ export class Table implements LocalizedComponent {
           break;
         case "End":
           if (isControl) {
-            this.emitTableRowFocusRequest(this.rowCells?.length, this.positionWithinAll, "last");
+            this.emitTableRowFocusRequest(this.rowCells?.length, this.positionAll, "last");
             event.preventDefault();
           } else {
             focusElementInGroup(cells, el, "last", false);
@@ -212,16 +213,6 @@ export class Table implements LocalizedComponent {
     }
   }
 
-  private localizeNumber = (position): string => {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
-
-    return numberStringFormatter.localize(position.toString());
-  };
-
   private emitTableRowFocusRequest = (
     cellPosition: number,
     rowPosition: number,
@@ -231,13 +222,10 @@ export class Table implements LocalizedComponent {
       cellPosition,
       rowPosition,
       destination,
-      fromHeader: this.tableHeadRow,
     });
   };
 
   private updateCells = (): void => {
-    this.localizedPosition = this.localizeNumber(this.position);
-
     const slottedCells = this.tableRowSlotEl
       ?.assignedElements({ flatten: true })
       .filter(
@@ -254,13 +242,14 @@ export class Table implements LocalizedComponent {
 
     if (cells.length > 0) {
       cells?.forEach((cell, index) => {
-        cell.position = index + 1;
-        cell.parentRowPosition = this.position;
+        cell.positionInRow = index + 1;
+        cell.parentRowType = this.rowType;
         cell.parentRowIsSelected = this.selected;
-        cell.isInBody = !this.tableHeadRow;
+        cell.parentRowType = this.rowType;
       });
     }
     this.rowCells = cells || [];
+    this.cellCount = cells.length;
   };
 
   private handleSelectionOfRow = (): void => {
@@ -296,37 +285,39 @@ export class Table implements LocalizedComponent {
   }
 
   renderSelectableCell(): VNode {
-    return this.tableHeadRow ? (
+    return this.rowType === "head" ? (
       <calcite-table-header
         alignment="center"
         onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
         onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
         selectedRowCount={this.selectedRowCount}
-        selectedRowCountLocalized={this.localizeNumber(this.selectedRowCount)}
+        selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell
         selectionMode={this.selectionMode}
         totalRowCount={this.totalRowCount}
       />
-    ) : (
+    ) : this.rowType === "body" ? (
       <calcite-table-cell
         alignment="center"
         onClick={this.handleSelectionOfRow}
         onKeyDown={this.handleKeyboardSelection}
         parentRowIsSelected={this.selected}
-        parentRowPositionLocalized={this.localizeNumber(this.position)}
+        parentRowPositionLocalized={this.positionSectionLocalized}
         selectionCell
       >
         {this.renderSelectionIcon()}
       </calcite-table-cell>
+    ) : (
+      <calcite-table-cell alignment="center" selectionCell />
     );
   }
 
   renderNumberedCell(): VNode {
-    return this.tableHeadRow ? (
+    return this.rowType === "head" ? (
       <calcite-table-header alignment="center" numberCell />
     ) : (
       <calcite-table-cell alignment="center" numberCell>
-        {this.localizedPosition}
+        {this.rowType === "body" && this.positionSectionLocalized}
       </calcite-table-cell>
     );
   }
@@ -335,9 +326,9 @@ export class Table implements LocalizedComponent {
     return (
       <Host>
         <tr
-          aria-rowindex={this.tableHeadRow ? "" : this.position}
+          aria-rowindex={this.positionAll + 1}
           aria-selected={this.selected}
-          class={{ [CSS.isInTableHead]: this.tableHeadRow }}
+          class={{ [CSS.isInTableHead]: this.rowType === "head" }}
           onKeyDown={(event) => this.keyDownHandler(event)}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.tableRowEl = el)}

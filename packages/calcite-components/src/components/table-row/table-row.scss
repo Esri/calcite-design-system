@@ -25,7 +25,6 @@
 
 tr {
   @apply table-row;
-  border-block-start: 1px solid var(--calcite-table-row-border-color, var(--calcite-ui-border-3));
   border-block-end: 1px solid var(--calcite-table-row-border-color-internal);
   background-color: var(--calcite-table-row-background-internal);
 }

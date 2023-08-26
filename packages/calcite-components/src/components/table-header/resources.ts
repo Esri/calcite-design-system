@@ -1,7 +1,7 @@
 export const CSS = {
   numberCell: "number-cell",
   selectionCell: "selection-cell",
-  isInBody: "is-in-body",
+  bodyRow: "is-in-body",
   heading: "heading",
   description: "description",
   multipleSelectionCell: "multiple-selection-cell",
