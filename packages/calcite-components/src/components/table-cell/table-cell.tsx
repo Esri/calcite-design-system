@@ -91,16 +91,6 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   /**
    * @internal
    */
-  @Prop() totalRowCount: number;
-
-  /**
-   * @internal
-   */
-  @Prop() selectedRowCount: number;
-
-  /**
-   * @internal
-   */
   @Prop() numberingSystem: NumberingSystem;
 
   /**
@@ -143,7 +133,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
     updateMessages(this, this.effectiveLocale);
   }
 
-  private focusableEl: HTMLDivElement;
+  private tdEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -176,11 +166,11 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   //
   // --------------------------------------------------------------------------
 
-  /** Sets focus on the component's first focusable element. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.focusableEl.focus();
+    this.tdEl.focus();
   }
   // --------------------------------------------------------------------------
   //
@@ -214,7 +204,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
           rowSpan={this.rowSpan}
           tabIndex={0}
           // eslint-disable-next-line react/jsx-sort-props
-          ref={(el) => (this.focusableEl = el as HTMLDivElement)}
+          ref={(el) => (this.tdEl = el as HTMLDivElement)}
         >
           {this.selectionCell && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>

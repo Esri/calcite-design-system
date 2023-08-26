@@ -4,6 +4,7 @@ export interface TableRowFocusEvent {
   cellPosition: number;
   rowPosition: number;
   destination: FocusElementInGroupDestination;
+  fromHeader: boolean;
 }
 
 export type TableAppearance = "bordered" | "simple" | "bordered-zebra" | "simple-zebra";

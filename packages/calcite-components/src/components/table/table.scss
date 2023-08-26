@@ -64,7 +64,8 @@ thead {
 }
 
 .selection-area {
-  @apply flex flex-row items-center py-1;
+  @apply flex flex-row items-center;
+  padding-block: var(--calcite-table-cell-padding-internal);
   border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 
@@ -81,7 +82,8 @@ thead {
 }
 
 .pagination-area {
-  @apply flex flex-row py-2 w-full justify-center;
+  @apply flex flex-row w-full justify-center;
+  padding-block: var(--calcite-table-cell-padding-internal);
   border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 

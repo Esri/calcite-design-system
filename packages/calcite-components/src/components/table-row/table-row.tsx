@@ -42,45 +42,32 @@ export class Table implements LocalizedComponent {
   /** Is the component selected. */
   @Prop({ reflect: true }) selected = false;
 
-  /**
-   * @internal
-   */
-  @Prop() position: number;
-
-  /**
-   * @internal
-   */
-  @Prop() numbered = false;
-
-  /**
-   * @internal
-   */
-  @Prop() numberingSystem: NumberingSystem;
-
-  /**
-   * @internal
-   */
+  /** @internal */
   @Prop() groupSeparator: boolean;
 
-  /**
-   * @internal
-   */
-  @Prop() tableHeadRow = false;
+  /** @internal */
+  @Prop() numbered = false;
 
-  /**
-   * @internal
-   */
-  @Prop() totalRowCount: number;
+  /** @internal */
+  @Prop() numberingSystem: NumberingSystem;
 
-  /**
-   * @internal
-   */
+  /** @internal */
+  @Prop() position: number;
+
+  /** @internal */
+  @Prop() positionWithinAll: number;
+
+  /** @internal */
   @Prop() selectedRowCount: number;
 
-  /**
-   * @internal
-   */
+  /** @internal */
   @Prop() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
+
+  /** @internal */
+  @Prop() tableHeadRow = false;
+
+  /** @internal */
+  @Prop() totalRowCount: number;
 
   @Watch("selected")
   @Watch("selectionMode")
@@ -88,7 +75,8 @@ export class Table implements LocalizedComponent {
   @Watch("totalRowCount")
   @Watch("numbered")
   handleCellChanges(): void {
-    // todo wait until the selection or number cell are present
+    // todo need to ensure conditionally rendered cells
+    // (number / selection) exist before setting properties on all cells
     if (this.rowCells?.length > 0) {
       setTimeout(() => this.updateCells(), 60);
     }
@@ -150,11 +138,11 @@ export class Table implements LocalizedComponent {
       const rowPosition = event.detail.rowPosition;
       const destination = event.detail.destination;
 
-      if (rowPosition === this.position) {
+      if (rowPosition === this.positionWithinAll) {
         if (this.disabled) {
           const deflectDirection =
             destination === "last" ? "previous" : destination === "first" ? "next" : destination;
-          this.emitTableRowFocusRequest(position, this.position, deflectDirection);
+          this.emitTableRowFocusRequest(position, this.positionWithinAll, deflectDirection);
           return;
         }
         const cellPosition = (this.rowCells as any)?.find((_, index) => index + 1 === position);
@@ -165,7 +153,13 @@ export class Table implements LocalizedComponent {
     }
   }
 
-  keyDownHandler(event: KeyboardEvent): void {
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private keyDownHandler(event: KeyboardEvent): void {
     const el = event.target as HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement;
     const key = event.key;
     const isControl = event.ctrlKey;
@@ -173,19 +167,19 @@ export class Table implements LocalizedComponent {
     if (el?.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
       switch (key) {
         case "ArrowUp":
-          this.emitTableRowFocusRequest(el.position, this.position, "previous");
+          this.emitTableRowFocusRequest(el.position, this.positionWithinAll, "previous");
           event.preventDefault();
           break;
         case "ArrowDown":
-          this.emitTableRowFocusRequest(el.position, this.position, "next");
+          this.emitTableRowFocusRequest(el.position, this.positionWithinAll, "next");
           event.preventDefault();
           break;
         case "PageUp":
-          this.emitTableRowFocusRequest(el.position, this.position, "first");
+          this.emitTableRowFocusRequest(el.position, this.positionWithinAll, "first");
           event.preventDefault();
           break;
         case "PageDown":
-          this.emitTableRowFocusRequest(el.position, this.position, "last");
+          this.emitTableRowFocusRequest(el.position, this.positionWithinAll, "last");
           event.preventDefault();
           break;
         case "ArrowLeft":
@@ -198,7 +192,7 @@ export class Table implements LocalizedComponent {
           break;
         case "Home":
           if (isControl) {
-            this.emitTableRowFocusRequest(1, this.position, "first");
+            this.emitTableRowFocusRequest(1, this.positionWithinAll, "first");
             event.preventDefault();
           } else {
             focusElementInGroup(cells, el, "first", false);
@@ -207,7 +201,7 @@ export class Table implements LocalizedComponent {
           break;
         case "End":
           if (isControl) {
-            this.emitTableRowFocusRequest(this.rowCells?.length, this.position, "last");
+            this.emitTableRowFocusRequest(this.rowCells?.length, this.positionWithinAll, "last");
             event.preventDefault();
           } else {
             focusElementInGroup(cells, el, "last", false);
@@ -217,12 +211,6 @@ export class Table implements LocalizedComponent {
       }
     }
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 
   private localizeNumber = (position): string => {
     numberStringFormatter.numberFormatOptions = {
@@ -243,6 +231,7 @@ export class Table implements LocalizedComponent {
       cellPosition,
       rowPosition,
       destination,
+      fromHeader: this.tableHeadRow,
     });
   };
 
@@ -267,6 +256,7 @@ export class Table implements LocalizedComponent {
       cells?.forEach((cell, index) => {
         cell.position = index + 1;
         cell.parentRowPosition = this.position;
+        cell.parentRowIsSelected = this.selected;
         cell.isInBody = !this.tableHeadRow;
       });
     }
@@ -324,9 +314,7 @@ export class Table implements LocalizedComponent {
         onKeyDown={this.handleKeyboardSelection}
         parentRowIsSelected={this.selected}
         parentRowPositionLocalized={this.localizeNumber(this.position)}
-        selectedRowCount={this.selectedRowCount}
         selectionCell
-        totalRowCount={this.totalRowCount}
       >
         {this.renderSelectionIcon()}
       </calcite-table-cell>

@@ -53,60 +53,38 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   /** Specifies the number of rows the component should span. */
   @Prop({ reflect: true }) rowSpan: number;
 
-  /**
-   * @internal
-   */
-  @Prop() position: number;
+  /** @internal */
+  @Prop() groupSeparator: boolean;
 
-  /**
-   * @internal
-   */
-  @Prop() selectionCell = false;
-
-  /**
-   * @internal
-   */
-  @Prop() selectionMode: SelectionMode;
-
-  /**
-   * @internal
-   */
-  @Prop() numberCell = false;
-
-  /**
-   * @internal
-   */
+  /** @internal */
   @Prop() isInBody = false;
 
-  /**
-   * @internal
-   */
-  @Prop() parentRowPosition: number;
+  /** @internal */
+  @Prop() numberCell = false;
 
-  /**
-   * @internal
-   */
-  @Prop() totalRowCount: number;
-
-  /**
-   * @internal
-   */
-  @Prop() selectedRowCount: number;
-
-  /**
-   * @internal
-   */
-  @Prop() selectedRowCountLocalized: string;
-
-  /**
-   * @internal
-   */
+  /** @internal */
   @Prop() numberingSystem: NumberingSystem;
 
-  /**
-   * @internal
-   */
-  @Prop() groupSeparator: boolean;
+  /** @internal */
+  @Prop() parentRowPosition: number;
+
+  /** @internal */
+  @Prop() position: number;
+
+  /** @internal */
+  @Prop() selectedRowCount: number;
+
+  /** @internal */
+  @Prop() selectedRowCountLocalized: string;
+
+  /** @internal */
+  @Prop() selectionCell = false;
+
+  /** @internal */
+  @Prop() selectionMode: SelectionMode;
+
+  /** @internal */
+  @Prop() totalRowCount: number;
 
   /**
    * Made into a prop for testing purposes only
@@ -125,15 +103,6 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
-  }
-
-  @State() defaultMessages: TableHeaderMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
   }
 
   // --------------------------------------------------------------------------
@@ -168,7 +137,16 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   // --------------------------------------------------------------------------
   @Element() el: HTMLCalciteTableHeaderElement;
 
-  private focusableEl: HTMLDivElement;
+  @State() defaultMessages: TableHeaderMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  private thEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -176,11 +154,11 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   //
   // --------------------------------------------------------------------------
 
-  /** Sets focus on the component's first focusable element. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.focusableEl.focus();
+    this.thEl.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -237,7 +215,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           scope={scope}
           tabindex={0}
           // eslint-disable-next-line react/jsx-sort-props
-          ref={(el) => (this.focusableEl = el as HTMLDivElement)}
+          ref={(el) => (this.thEl = el as HTMLDivElement)}
         >
           {this.heading && <div class={CSS.heading}>{this.heading}</div>}
           {this.description && <div class={CSS.description}>{this.description}</div>}

@@ -211,9 +211,12 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     const cellPosition = event["detail"].cellPosition;
     const rowPos = event["detail"].rowPosition;
     const destination = event["detail"].destination;
-    const fromHeader = rowPos === 0;
-    let rowPosition: number;
+    const fromHeader = event["detail"].fromHeader;
 
+    const lastHeadTr =
+      this.headRows?.length > 0 ? this.headRows[this.headRows.length - 1].positionWithinAll : 0;
+
+    let rowPosition: number;
     switch (destination) {
       case "first":
         rowPosition = 0;
@@ -222,13 +225,19 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         rowPosition = this.lastRowInPage;
         break;
       case "next":
-        rowPosition = fromHeader ? this.firstRowInPage : rowPos + 1;
+        rowPosition = fromHeader && !lastHeadTr ? this.firstRowInPage : rowPos + 1;
         break;
       case "previous":
-        rowPosition = fromHeader || rowPos <= this.firstRowInPage ? 0 : rowPos - 1;
+        const toEnd = !lastHeadTr && (fromHeader || rowPos <= this.firstRowInPage);
+        rowPosition = toEnd ? lastHeadTr : rowPos - 1;
         break;
     }
-    this.calciteInternalTableRowFocusChange.emit({ cellPosition, rowPosition, destination });
+    this.calciteInternalTableRowFocusChange.emit({
+      cellPosition,
+      rowPosition,
+      destination,
+      fromHeader,
+    });
   }
   // --------------------------------------------------------------------------
   //
@@ -236,7 +245,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   //
   // --------------------------------------------------------------------------
 
-  updateRows = (): void => {
+  private updateRows = (): void => {
     const headRows = this.tableHeadSlotEl
       ?.assignedElements({ flatten: true })
       ?.filter((el) => el?.matches("calcite-table-row")) as HTMLCalciteTableRowElement[];
@@ -247,16 +256,27 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
     const allRows = headRows?.length > 0 ? [...headRows, ...bodyRows] : bodyRows || [];
 
-    allRows?.forEach((row) => {
-      const rowPosition = allRows.indexOf(row);
+    headRows?.forEach((row) => {
+      row.tableHeadRow = true;
       row.selectionMode = this.selectionMode;
       row.numberingSystem = this.numberingSystem;
       row.totalRowCount = this.bodyRows?.length;
       row.groupSeparator = this.groupSeparator;
       row.numbered = this.numbered;
-      row.tableHeadRow = headRows?.includes(row);
-      row.position = rowPosition;
+      row.position = headRows?.indexOf(row);
+      row.positionWithinAll = allRows?.indexOf(row);
     });
+
+    bodyRows?.forEach((row) => {
+      row.selectionMode = this.selectionMode;
+      row.numberingSystem = this.numberingSystem;
+      row.totalRowCount = this.bodyRows?.length;
+      row.groupSeparator = this.groupSeparator;
+      row.numbered = this.numbered;
+      row.position = bodyRows?.indexOf(row);
+      row.positionWithinAll = allRows?.indexOf(row);
+    });
+
     this.headRows = headRows;
     this.bodyRows = bodyRows;
     this.allRows = allRows;
@@ -270,13 +290,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     this.paginateRows();
   };
 
-  handlePaginationChange = (event: CustomEvent): void => {
+  private handlePaginationChange = (event: CustomEvent): void => {
     const requestedItem = (event.target as HTMLCalcitePaginationElement).startItem;
     this.currentPageStartRow = requestedItem || 1;
     this.updateRows();
   };
 
-  paginateRows = (): void => {
+  private paginateRows = (): void => {
     this.bodyRows?.forEach((row) => {
       const inView =
         row.position >= this.currentPageStartRow &&
@@ -285,15 +305,15 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       row.hidden = this.pageSize === 0 || inView;
     });
 
-    const firstVisibleRow = this.bodyRows?.filter((row) => row.hidden)[0]?.position || 1;
+    const visibleRows = this.allRows?.filter((row) => row.hidden);
+    const firstVisibleRow = visibleRows[0]?.positionWithinAll || 1;
+    const lastVisibleRow = visibleRows[visibleRows?.length - 1]?.positionWithinAll;
+
     this.firstRowInPage = firstVisibleRow;
-    this.lastRowInPage =
-      this.pageSize < 1 && this.bodyRows?.length > 0
-        ? this.bodyRows[this.bodyRows?.length - 1].position
-        : firstVisibleRow + this.pageSize - 1;
+    this.lastRowInPage = lastVisibleRow;
   };
 
-  updateSelectedItems = (emit?: boolean): void => {
+  private updateSelectedItems = (emit?: boolean): void => {
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this.selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
@@ -306,14 +326,14 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     }
   };
 
-  handleDeselectAllRows = (): void => {
+  private handleDeselectAllRows = (): void => {
     this.bodyRows?.forEach((row) => {
       row.selected = false;
     });
     this.updateSelectedItems(true);
   };
 
-  setSelectedItems = (elToMatch?: HTMLCalciteTableRowElement): void => {
+  private setSelectedItems = (elToMatch?: HTMLCalciteTableRowElement): void => {
     if (elToMatch?.tableHeadRow) {
       this.bodyRows?.forEach((el) => (el.selected = this.selectedCount !== this.bodyRows?.length));
     } else if (elToMatch) {
@@ -355,11 +375,20 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
     return (
       <div class={CSS.selectionArea}>
-        <calcite-chip kind={this.selectedCount > 0 ? "brand" : "neutral"} value={selectionText}>
+        <calcite-chip
+          kind={this.selectedCount > 0 ? "brand" : "neutral"}
+          scale={this.scale}
+          value={selectionText}
+        >
           {selectionText}
         </calcite-chip>
         {outOfViewCount > 0 && (
-          <calcite-chip icon="hide-empty" title={outOfViewText} value={outOfViewText}>
+          <calcite-chip
+            icon="hide-empty"
+            scale={this.scale}
+            title={outOfViewText}
+            value={outOfViewText}
+          >
             {localizedOutOfViewCount}
           </calcite-chip>
         )}
@@ -369,6 +398,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
             kind="neutral"
             onClick={this.handleDeselectAllRows}
             round
+            scale={this.scale}
             title={`${this.messages.clear} ${selectionText} ${this.messages.row}`}
           >
             {this.messages.clear}
@@ -389,6 +419,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           numberingSystem={this.numberingSystem}
           onCalcitePaginationChange={(event) => this.handlePaginationChange(event)}
           pageSize={this.pageSize}
+          scale={this.scale}
           startItem={1}
           totalItems={this.bodyRows?.length}
         />
@@ -431,6 +462,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
               aria-rowcount={this.bodyRows?.length}
               class={{ [this.appearance]: true, [CSS.tableFixed]: this.layout === "fixed" }}
               role="grid"
+              tabIndex={0}
             >
               {this.renderTHead()}
               {this.renderTBody()}

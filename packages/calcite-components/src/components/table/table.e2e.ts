@@ -447,5 +447,6 @@ describe("selection modes", () => {
 });
 
 // page size updates re-create keyboard navigation arrays
+// can correctly keyboard navigate through two levels of headers to body rows and back
 // ensure keyboard navigation works after page size updates and more rows visible
 // correct assistive hidden text rendered for : table header number cell, table header single select, table header multiple select

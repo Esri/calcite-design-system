@@ -19,6 +19,10 @@
   @apply opacity-disabled pointer-events-none;
 }
 
+:host([hidden]) {
+  @apply hidden;
+}
+
 tr {
   @apply table-row;
   border-block-start: 1px solid var(--calcite-table-row-border-color, var(--calcite-ui-border-3));
