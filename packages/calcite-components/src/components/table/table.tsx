@@ -397,12 +397,6 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   // --------------------------------------------------------------------------
 
   renderSelectionArea(): VNode {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
-
     const outOfViewCount = this.selectedItems?.filter((el) => el.hidden)?.length;
     const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
