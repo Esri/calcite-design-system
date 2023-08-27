@@ -532,66 +532,6 @@ export const headersInRowsAndHeadAndFooter_TestOnly = (): string => html` <calci
   </calcite-table-row>
 </calcite-table>`;
 
-export const complexNestingMultipleHeaderAndFooter = (): string => html` <calcite-table
-  caption="Multiple headers using col-span table"
-  appearance="bordered"
->
-  <calcite-table-row slot="table-head">
-    <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
-    <calcite-table-header col-span="2" heading="Information"></calcite-table-header>
-  </calcite-table-row>
-  <calcite-table-row slot="table-head">
-    <calcite-table-header heading="First"></calcite-table-header>
-    <calcite-table-header heading="Last"></calcite-table-header>
-    <calcite-table-header heading="Education level"></calcite-table-header>
-    <calcite-table-header heading="Age"></calcite-table-header>
-  </calcite-table-row>
-  <calcite-table-row>
-    <calcite-table-cell>cell</calcite-table-cell>
-    <calcite-table-cell col-span="3">cell</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row>
-    <calcite-table-cell>cell</calcite-table-cell>
-    <calcite-table-cell col-span="3">cell</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row>
-    <calcite-table-cell>cell</calcite-table-cell>
-    <calcite-table-cell col-span="3">cell</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row>
-    <calcite-table-cell row-span="4">cell</calcite-table-cell>
-    <calcite-table-cell>cell</calcite-table-cell>
-    <calcite-table-cell col-span="2">cell</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row>
-    <calcite-table-cell row-span="2">cell</calcite-table-cell>
-    <calcite-table-cell>cell</calcite-table-cell>
-    <calcite-table-cell>cell</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row>
-    <calcite-table-cell>cell</calcite-table-cell>
-    <calcite-table-cell>cell</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row>
-    <calcite-table-cell>cell</calcite-table-cell>
-    <calcite-table-cell col-span="2">cell</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row>
-    <calcite-table-cell row-span="4">cell</calcite-table-cell>
-    <calcite-table-cell col-span="3">cell</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row slot="table-foot">
-    <calcite-table-cell>foot</calcite-table-cell>
-    <calcite-table-cell>foot</calcite-table-cell>
-    <calcite-table-cell>foot</calcite-table-cell>
-    <calcite-table-cell>foot</calcite-table-cell>
-  </calcite-table-row>
-  <calcite-table-row slot="table-foot">
-    <calcite-table-cell col-span="2">foot</calcite-table-cell>
-    <calcite-table-cell col-span="2">foot</calcite-table-cell>
-  </calcite-table-row>
-</calcite-table>`;
-
 export const singleSelection_TestOnly = (): string => html` <calcite-table
   selection-mode="single"
   caption="selection-mode single table"

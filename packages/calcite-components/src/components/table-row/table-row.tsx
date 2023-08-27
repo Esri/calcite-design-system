@@ -138,6 +138,7 @@ export class Table implements LocalizedComponent {
       const position = event.detail.cellPosition;
       const rowPosition = event.detail.rowPosition;
       const destination = event.detail.destination;
+      const lastCell = event.detail.lastCell;
 
       if (rowPosition === this.positionAll) {
         if (this.disabled) {
@@ -146,7 +147,10 @@ export class Table implements LocalizedComponent {
           this.emitTableRowFocusRequest(position, this.positionAll, deflectDirection);
           return;
         }
-        const cellPosition = (this.rowCells as any)?.find((_, index) => index + 1 === position);
+        const cellPosition = lastCell
+          ? this.rowCells[this.rowCells.length - 1]
+          : (this.rowCells as any)?.find((_, index) => index + 1 === position);
+
         if (cellPosition) {
           cellPosition.setFocus();
         }
@@ -202,7 +206,7 @@ export class Table implements LocalizedComponent {
           break;
         case "End":
           if (isControl) {
-            this.emitTableRowFocusRequest(this.rowCells?.length, this.positionAll, "last");
+            this.emitTableRowFocusRequest(this.rowCells?.length, this.positionAll, "last", true);
             event.preventDefault();
           } else {
             focusElementInGroup(cells, el, "last", false);
@@ -216,12 +220,14 @@ export class Table implements LocalizedComponent {
   private emitTableRowFocusRequest = (
     cellPosition: number,
     rowPosition: number,
-    destination: FocusElementInGroupDestination
+    destination: FocusElementInGroupDestination,
+    lastCell?: boolean
   ): void => {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
       rowPosition,
       destination,
+      lastCell,
     });
   };
 

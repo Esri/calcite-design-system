@@ -36,6 +36,10 @@ table {
   border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
+tbody {
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+}
+
 thead {
   @apply sticky top-0 z-sticky;
 }
@@ -88,7 +92,7 @@ tfoot {
 .pagination-area {
   @apply flex flex-row w-full justify-center;
   padding-block: var(--calcite-table-cell-padding-internal);
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block: 1px solid var(--calcite-ui-border-3);
 }
 
 @include base-component();

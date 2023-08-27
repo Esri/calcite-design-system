@@ -214,15 +214,17 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     const cellPosition = event["detail"].cellPosition;
     const rowPos = event["detail"].rowPosition;
     const destination = event["detail"].destination;
+    const lastCell = event["detail"].lastCell;
 
     const visibleBody = this.bodyRows?.filter((row) => !row.hidden);
     const visibleAll = this.allRows?.filter((row) => !row.hidden);
 
-    const firstBodyRow = visibleBody[0]?.positionAll;
-    const firstFootRow = this.footRows[0]?.positionAll;
-    const lastBodyRow = visibleBody[visibleBody.length - 1]?.positionAll;
-    const lastTableRow = visibleAll[visibleAll.length - 1]?.positionAll;
     const lastHeadRow = this.headRows[this.headRows.length - 1]?.positionAll;
+    const firstBodyRow = visibleBody[0]?.positionAll;
+    const lastBodyRow = visibleBody[visibleBody.length - 1]?.positionAll;
+    const firstFootRow = this.footRows[0]?.positionAll;
+    const lastTableRow = visibleAll[visibleAll.length - 1]?.positionAll;
+
     const leavingHeader = destination === "next" && rowPos === lastHeadRow;
     const leavingFooter = destination === "previous" && rowPos === firstFootRow;
     const enteringHeader = destination === "previous" && rowPos === firstBodyRow;
@@ -244,16 +246,19 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         rowPosition = leavingFooter ? lastBodyRow : enteringHeader ? lastHeadRow : rowPos - 1;
         break;
     }
+
     const destinationCount = this.allRows?.find(
       (row) => row.positionAll === rowPosition
     )?.cellCount;
 
     const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
+
     if (rowPosition !== undefined) {
       this.calciteInternalTableRowFocusChange.emit({
         cellPosition: adjustedPos,
         rowPosition,
         destination,
+        lastCell,
       });
     }
   }

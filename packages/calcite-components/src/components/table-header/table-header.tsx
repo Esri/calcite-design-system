@@ -189,7 +189,6 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     const allSelected = this.selectedRowCount === this.bodyRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
 
-    // test this.focusable and reading screen text in safari
     return (
       <Host>
         <th
