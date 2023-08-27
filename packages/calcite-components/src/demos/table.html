@@ -230,9 +230,10 @@
     </style>
   </head>
 
-  <body class="calcite-mode-dark">
+  <body>
     <demo-dom-swapper>
       <h3>Interactive</h3>
+
       <div style="display: flex; gap: 2em; width: 80vw; margin: 0 auto">
         <div>
           <span>Appearance</span>
@@ -2500,6 +2501,47 @@
           <calcite-table-cell>foot</calcite-table-cell>
           <calcite-table-cell>foot</calcite-table-cell>
           <calcite-table-cell>foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
+
+      <h3>selection-mode multiple with multiple headers, footers, pageSize</h3>
+
+      <calcite-table numbered caption="Multiple headers using col-span table" appearance="bordered" page-size="2">
+        <calcite-table-row slot="table-head">
+          <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
+          <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row slot="table-head">
+          <calcite-table-header id="head-2a" heading="First"></calcite-table-header>
+          <calcite-table-header id="head-2b" heading="Last"></calcite-table-header>
+          <calcite-table-header id="head-2c" heading="Education level"></calcite-table-header>
+          <calcite-table-header id="head-2d" heading="Age"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-1b" col-span="3">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b" col-span="3">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-3b" col-span="3">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-4b" col-span="3">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot">
+          <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1c">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1d">foot</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot">
+          <calcite-table-cell id="foot-2a" col-span="2">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>
 

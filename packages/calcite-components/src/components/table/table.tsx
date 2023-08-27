@@ -128,7 +128,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   @State() colCount = 0;
 
-  @State() currentPageStartRow = 1;
+  @State() pageStartRow = 1;
 
   @State() selectedCount = 0;
 
@@ -323,19 +323,16 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   private handlePaginationChange = (event: CustomEvent): void => {
     const requestedItem = (event.target as HTMLCalcitePaginationElement).startItem;
-    this.currentPageStartRow = requestedItem || 1;
+    this.pageStartRow = requestedItem || 1;
     this.calciteTablePageSelect.emit();
     this.updateRows();
   };
 
   private paginateRows = (): void => {
     this.bodyRows?.forEach((row) => {
-      const offsetBodyPos = row.positionSection + 1 + this.headRows?.length;
-      const inView =
-        this.pageSize < 1 ||
-        (offsetBodyPos > this.currentPageStartRow &&
-          offsetBodyPos <= this.currentPageStartRow + this.pageSize);
-      row.hidden = !inView && !this.footRows.includes(row);
+      const rowPos = row.positionSection + 1;
+      const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
+      row.hidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
     });
   };
 
