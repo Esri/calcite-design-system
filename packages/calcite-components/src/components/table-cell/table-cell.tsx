@@ -17,6 +17,7 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { TableCellMessages } from "./assets/table-cell/t9n";
 import { CSS } from "./resources";
 import { RowType } from "../table/interfaces";
+import { getUserAgentString } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding content, usually text content.
@@ -45,9 +46,6 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** todo make it required - will be needed for sorting, a11y? */
-  @Prop() value: string;
 
   /** @internal */
   @Prop() numberCell: boolean;
@@ -93,6 +91,12 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   // --------------------------------------------------------------------------
   @Element() el: HTMLCalciteTableCellElement;
 
+  /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
+  /* Fixed with latest Safari Tech Preview */
+  @State() isSafari: boolean;
+
+  @State() safariText = "";
+
   @State() defaultMessages: TableCellMessages;
 
   @State() effectiveLocale = "";
@@ -113,6 +117,8 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
+    this.isSafari = /safari/i.test(getUserAgentString());
+    await this.updateSafariText;
   }
 
   componentDidLoad(): void {
@@ -153,6 +159,10 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
     return this.parentRowIsSelected ? selectedText : unselectedText;
   }
 
+  private updateSafariText = (): void => {
+    this.safariText = this.el.textContent;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -174,14 +184,15 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
           rowSpan={this.rowSpan}
           tabIndex={0}
           // eslint-disable-next-line react/jsx-sort-props
-          ref={(el) => (this.tdEl = el as HTMLDivElement)}
+          ref={(el) => (this.tdEl = el)}
         >
-          {this.selectionCell && (
+          {(this.selectionCell || this.isSafari) && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-              {this.getScreenReaderText()}
+              {this.selectionCell && this.getScreenReaderText()}
+              {this.isSafari && !this.selectionCell && this.safariText}
             </span>
           )}
-          <slot />
+          <slot onSlotchange={this.updateSafariText} />
         </td>
       </Host>
     );

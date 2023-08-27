@@ -186,10 +186,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when the component's selection changes. */
+  /** Emits when the component's selected rows change. */
   @Event({ cancelable: false }) calciteTableSelect: EventEmitter<void>;
 
-  /** Emits when the component's selection changes. */
+  /** Emits when the component's page selection changes. */
   @Event({ cancelable: false }) calciteTablePageSelect: EventEmitter<void>;
 
   /** @internal */
