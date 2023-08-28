@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.10...@esri/calcite-components@1.7.0-next.11) (2023-08-28)
+
+### Features
+
+- **shell:** Add "Sheets" Slot ([#7579](https://github.com/Esri/calcite-design-system/issues/7579)) ([e798765](https://github.com/Esri/calcite-design-system/commit/e7987655fef6abf0ef88d3ccfc4985d509473a81)), closes [#7154](https://github.com/Esri/calcite-design-system/issues/7154) [#7561](https://github.com/Esri/calcite-design-system/issues/7561)
+
 ## [1.7.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.9...@esri/calcite-components@1.7.0-next.10) (2023-08-28)
 
 ### Features
