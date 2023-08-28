@@ -14,10 +14,8 @@
  */
 
 :host {
-  @apply absolute flex inset-0 opacity-0 z-overlay;
+  @apply flex;
   visibility: hidden !important;
-  transition: visibility 0ms linear var(--calcite-internal-animation-timing-medium),
-    opacity var(--calcite-internal-animation-timing-medium) $easing-function;
   // the sheet should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
   --calcite-sheet-scrim-background-internal: #{rgba($blk-240, 0.85)};
   --calcite-scrim-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
@@ -37,8 +35,8 @@
     flex
     overflow-y-hidden
     opacity-0
-    z-overlay;
-  visibility: hidden !important;
+    z-overlay
+    invisible;
   transition: visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
 }
@@ -154,9 +152,7 @@
 }
 
 :host([opened]) {
-  @apply opacity-100;
   visibility: visible !important;
-  transition-delay: 0ms;
 }
 
 .content {
@@ -184,8 +180,7 @@
 }
 
 .container--open {
-  @apply opacity-100;
-  visibility: visible !important;
+  @apply opacity-100 visible;
   transition-delay: 0ms;
   .content {
     @apply pointer-events-auto visible opacity-100;
