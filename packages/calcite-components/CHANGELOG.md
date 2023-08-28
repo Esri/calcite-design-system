@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.8...@esri/calcite-components@1.7.0-next.9) (2023-08-26)
+
+### Bug Fixes
+
+- **rating:** adds focus outline on click ([#7341](https://github.com/Esri/calcite-design-system/issues/7341)) ([af30073](https://github.com/Esri/calcite-design-system/commit/af300739f0da5713345cad30ba85732599794250)), closes [#4633](https://github.com/Esri/calcite-design-system/issues/4633)
+
 ## [1.7.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.7...@esri/calcite-components@1.7.0-next.8) (2023-08-25)
 
 ### Bug Fixes
