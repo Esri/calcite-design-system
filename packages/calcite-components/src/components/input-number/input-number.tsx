@@ -245,7 +245,7 @@ export class InputNumber
   @Prop({ reflect: true }) status: Status = "idle";
 
   /** Specifies the maximum number of decimal places. No maximum by default. */
-  @Prop() places: number;
+  @Prop() places: number | undefined;
 
   /**
    * Specifies the granularity that the component's value must adhere to.
@@ -878,6 +878,8 @@ export class InputNumber
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
       this.setPreviousEmittedNumberValue(newLocalizedValue);
+    } else if (this.value.split(".")[1]?.length === this.places) {
+      this.setInputNumberValue(newLocalizedValue);
     }
 
     if (nativeEvent) {

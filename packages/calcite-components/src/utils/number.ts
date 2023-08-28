@@ -151,7 +151,11 @@ export const sanitizeNumberString = (numberString: string, places?: number | und
   });
 
 function getBigDecimalAsString(sanitizedValue: string, places?: number | undefined): string {
-  const sanitizedValueDecimals = sanitizedValue.split(".")[1];
+  let sanitizedValueDecimals = sanitizedValue.split(".")[1];
+  if (sanitizedValueDecimals?.length > places) {
+    sanitizedValueDecimals = sanitizedValueDecimals.substring(0, places);
+  }
+
   const value = new BigDecimal(sanitizedValue).toString(places);
   const [bigDecimalValueInteger, bigDecimalValueDecimals] = value.split(".");
 
