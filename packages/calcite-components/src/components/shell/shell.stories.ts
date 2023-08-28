@@ -630,7 +630,6 @@ export const slottedModalAndAlert = (): string =>
 
 export const slottedSheet = (): string =>
   html(`
-  <main>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
       Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four dollar
@@ -718,7 +717,7 @@ export const slottedSheet = (): string =>
       document.querySelector("calcite-sheet").open = false;
     });
   </script>
-  </main>`);
+`);
 
 export const contentBehind = (): string =>
   html(`<calcite-shell content-behind>

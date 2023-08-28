@@ -205,8 +205,14 @@
 /**
  * Conditional styles for when Sheet is slotted in Shell
  */
-.container--slotted-in-shell {
+:host([position]) .container--slotted-in-shell {
   @apply absolute pointer-events-auto;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 100%;
+  block-size: 100%;
+  max-block-size: 100%;
+  min-block-size: 100%;
   calcite-scrim {
     @apply absolute;
   }
