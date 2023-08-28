@@ -17,5 +17,6 @@ export const SLOTS = {
   header: "header",
   footer: "footer",
   alerts: "alerts",
+  sheets: "sheets",
   modals: "modals",
 };
