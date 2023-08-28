@@ -69,19 +69,22 @@
   --calcite-sheet-hidden-position-internal: translate3d(0, 1rem, 0);
 }
 
-:host([display-mode="float"][position="inline-start"]) .container {
+:host([display-mode="float"]) .container {
+  @apply shadow-2;
+}
+:host([display-mode="overlay"][position="inline-start"]) .container {
   box-shadow: var(--calcite-scrim-shadow-inline-start-internal);
 }
 
-:host([display-mode="float"][position="inline-end"]) .container {
+:host([display-mode="overlay"][position="inline-end"]) .container {
   box-shadow: var(--calcite-scrim-shadow-inline-end-internal);
 }
 
-:host([display-mode="float"][position="block-start"]) .container {
+:host([display-mode="overlay"][position="block-start"]) .container {
   box-shadow: var(--calcite-scrim-shadow-block-start-internal);
 }
 
-:host([display-mode="float"][position="block-end"]) .container {
+:host([display-mode="overlay"][position="block-end"]) .container {
   box-shadow: var(--calcite-scrim-shadow-block-end-internal);
 }
 
@@ -176,7 +179,7 @@
 }
 
 :host([display-mode="float"]) .container {
-  @apply m-3;
+  @apply p-3;
 }
 
 .container--open {
