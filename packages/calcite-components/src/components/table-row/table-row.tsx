@@ -252,6 +252,7 @@ export class Table implements LocalizedComponent {
         cell.parentRowType = this.rowType;
         cell.parentRowIsSelected = this.selected;
         cell.parentRowType = this.rowType;
+        cell.disabled = this.disabled;
       });
     }
     this.rowCells = cells || [];
@@ -332,6 +333,7 @@ export class Table implements LocalizedComponent {
     return (
       <Host>
         <tr
+          aria-disabled={this.disabled}
           aria-rowindex={this.positionAll + 1}
           aria-selected={this.selected}
           class={{ [CSS.isInTableHead]: this.rowType === "head" }}

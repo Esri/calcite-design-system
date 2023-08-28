@@ -48,6 +48,9 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** @internal */
+  @Prop() disabled: boolean;
+
+  /** @internal */
   @Prop() numberCell: boolean;
 
   /** @internal */
@@ -173,6 +176,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
     return (
       <Host>
         <td
+          aria-disabled={this.disabled}
           class={{
             [CSS.footerCell]: this.parentRowType === "foot",
             [CSS.numberCell]: this.numberCell,
@@ -182,7 +186,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
           colSpan={this.colSpan}
           role="gridcell"
           rowSpan={this.rowSpan}
-          tabIndex={0}
+          tabIndex={this.disabled ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.tdEl = el)}
         >
