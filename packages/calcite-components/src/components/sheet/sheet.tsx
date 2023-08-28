@@ -172,7 +172,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
-            [CSS.slottedInShell]: this.slottedInShell,
+            [CSS.containerSlottedInShell]: this.slottedInShell,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
         >
@@ -181,7 +181,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             class={{
               [CSS.content]: true,
             }}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setTransitionEl}
           >
             <slot />
@@ -234,6 +234,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   //  Events
   //
   //--------------------------------------------------------------------------
+
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event({ cancelable: false }) calciteSheetBeforeClose: EventEmitter<void>;
 
@@ -304,7 +305,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.el.removeEventListener("calciteSheetOpen", this.openEnd);
   };
 
-  private openSheet() {
+  private openSheet(): void {
     if (this.ignoreOpenChange) {
       return;
     }
@@ -359,7 +360,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
   }
 
-  private handleMutationObserver = (): void => {
+  private handleMutationObserver(): void {
     this.updateFocusTrapElements();
-  };
+  }
 }

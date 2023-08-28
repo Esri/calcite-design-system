@@ -210,12 +210,10 @@
 /**
  * Conditional styles for when Sheet is slotted in Shell
  */
-
-.container.slotted-in-shell {
-  position: absolute;
-  pointer-events: auto;
+.container--slotted-in-shell {
+  @apply absolute pointer-events-auto;
   calcite-scrim {
-    position: absolute;
+    @apply absolute;
   }
 }
 
