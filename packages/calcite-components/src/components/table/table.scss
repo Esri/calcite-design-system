@@ -40,14 +40,6 @@ tbody {
   border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
-thead {
-  @apply sticky top-0 z-sticky;
-}
-
-tfoot {
-  @apply sticky bottom-0 z-sticky;
-}
-
 .table-fixed-layout {
   @apply table-fixed;
 }
