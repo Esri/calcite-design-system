@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Sheet</title>
+    <style>
+      .parent {
+        display: flex;
+        width: 60%;
+        align-items: center;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 15%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+    </style>
+
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Sheet</h1>
+
+      <calcite-sheet
+        width-scale="l"
+        id="example-sheet"
+        label="libero nunc"
+        position="inline-start"
+        display-mode="overlay"
+      >
+        <calcite-panel closable heading="Ultrices neque">
+          <calcite-block open heading="Preview Sheet options">
+            <calcite-label
+              >display-mode
+              <calcite-segmented-control id="control-display">
+                <calcite-segmented-control-item value="overlay" checked>overlay</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="float">float</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >position
+              <calcite-segmented-control id="control-position">
+                <calcite-segmented-control-item value="inline-start" checked
+                  >inline-start</calcite-segmented-control-item
+                >
+                <calcite-segmented-control-item value="inline-end">inline-end</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="block-start">block-start</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="block-end">block-end</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >height-scale
+              <calcite-segmented-control id="control-height">
+                <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >width-scale
+              <calcite-segmented-control id="control-width">
+                <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+          </calcite-block>
+          <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+          <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+        </calcite-panel>
+      </calcite-sheet>
+
+      <div class="parent">
+        <div class="child">
+          <calcite-button onClick="openSheet('example-sheet')"> Open example sheet </calcite-button>
+        </div>
+      </div>
+
+      <script>
+        function openSheet(id) {
+          document.getElementById(id).open = true;
+        }
+
+        const exampleSheet = document.getElementById("example-sheet");
+        const controlDisplay = document.getElementById("control-display");
+        const controlPosition = document.getElementById("control-position");
+        const controlHeight = document.getElementById("control-height");
+        const controlWidth = document.getElementById("control-width");
+
+        controlDisplay.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.displayMode = event.target.value;
+        });
+        controlPosition.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.position = event.target.value;
+        });
+
+        controlHeight.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.heightScale = event.target.value;
+        });
+
+        controlWidth.addEventListener("calciteSegmentedControlChange", function (event) {
+          exampleSheet.widthScale = event.target.value;
+        });
+
+        document.addEventListener("calcitePanelClose", () => {
+          document.querySelectorAll("calcite-sheet").forEach((sheet) => (sheet.open = false));
+          document.querySelectorAll("calcite-panel").forEach((panel) => (panel.closed = false));
+        });
+      </script>
+    </demo-dom-swapper>
+  </body>
+</html>
