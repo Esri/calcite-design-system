@@ -211,6 +211,27 @@ describe("calcite-sheet properties", () => {
     expect(mockCallBack).toHaveBeenCalledTimes(1);
   });
 
+  it("should remain open with rejected 'beforeClose' promise'", async () => {
+    const page = await newE2EPage();
+
+    await page.exposeFunction("beforeClose", () => Promise.reject());
+    await page.setContent(`<calcite-sheet open></calcite-sheet>`);
+
+    await page.$eval(
+      "calcite-sheet",
+      (elm: HTMLCalciteSheetElement) =>
+        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+    );
+
+    const sheet = await page.find("calcite-sheet");
+    sheet.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(await sheet.getProperty("open")).toBe(true);
+    expect(await sheet.getProperty("opened")).toBe(true);
+    expect(sheet.getAttribute("open")).toBe(""); // Makes sure attribute is added back
+  });
+
   it("has correct aria role/attribute", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-sheet></calcite-sheet>`);

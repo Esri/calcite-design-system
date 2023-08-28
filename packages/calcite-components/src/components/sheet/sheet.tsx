@@ -29,8 +29,8 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS } from "./resources";
-import { DisplayMode, Position } from "./interfaces";
-import { Scale } from "../interfaces";
+import { DisplayMode } from "./interfaces";
+import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
@@ -90,6 +90,10 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   @Watch("open")
   async toggleSheet(value: boolean): Promise<void> {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
     onToggleOpenCloseComponent(this);
     if (value) {
       this.openSheet();
@@ -108,8 +112,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) position: Position = "inline-start";
+  /** Determines where the component will be positioned. */
+  @Prop({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
   /**
    * This internal property, managed by a containing calcite-shell, is used
@@ -168,7 +172,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
-            [CSS.slottedInShell]: this.slottedInShell,
+            [CSS.containerSlottedInShell]: this.slottedInShell,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
         >
@@ -177,7 +181,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             class={{
               [CSS.content]: true,
             }}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setTransitionEl}
           >
             <slot />
@@ -230,6 +234,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   //  Events
   //
   //--------------------------------------------------------------------------
+
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event({ cancelable: false }) calciteSheetBeforeClose: EventEmitter<void>;
 
@@ -300,7 +305,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.el.removeEventListener("calciteSheetOpen", this.openEnd);
   };
 
-  private openSheet() {
+  private openSheet(): void {
     if (this.ignoreOpenChange) {
       return;
     }
@@ -334,6 +339,12 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
       try {
         await this.beforeClose(this.el);
       } catch (_error) {
+        // close prevented
+        requestAnimationFrame(() => {
+          this.ignoreOpenChange = true;
+          this.open = true;
+          this.ignoreOpenChange = false;
+        });
         return;
       }
     }
@@ -349,7 +360,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
   }
 
-  private handleMutationObserver = (): void => {
+  private handleMutationObserver(): void {
     this.updateFocusTrapElements();
-  };
+  }
 }
