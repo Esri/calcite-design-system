@@ -92,7 +92,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   @Element() el: HTMLCalciteTableCellElement;
 
   /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
-  /* Fixed with latest Safari Tech Preview */
+  /* q - should this be a state on a parent table and passed via internal prop? */
   @State() isSafari: boolean;
 
   @State() safariText = "";

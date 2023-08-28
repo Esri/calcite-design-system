@@ -3,6 +3,8 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
+import { CSS } from "../table-header/resources";
+import { CSS as CELLCSS } from "../table-cell/resources";
 
 describe("calcite-table", () => {
   describe("renders", () => {
@@ -1634,22 +1636,521 @@ describe("keyboard navigation", () => {
   });
 
   it("navigates correctly when selection column present", async () => {
-    //
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table selection-mode="multiple" caption="Simple table">
+        <calcite-table-row id="row-head" slot="table-head">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3">
+          <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot" id="row-foot">
+          <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`
+    );
+
+    const rowHead = await page.find("#row-head");
+    const rowFoot = await page.find("#row-foot");
+    const row3 = await page.find("#row-3");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+
+    await page.keyboard.press("PageDown");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+
+    page.keyboard.press("ControlRight");
+    await page.keyboard.press("End");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+
+    page.keyboard.press("ControlLeft");
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
   });
+
   it("navigates correctly when number column present", async () => {
-    //
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table numbered caption="Simple table">
+        <calcite-table-row id="row-head" slot="table-head">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3">
+          <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot" id="row-foot">
+          <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`
+    );
+
+    const rowHead = await page.find("#row-head");
+    const rowFoot = await page.find("#row-foot");
+    const row3 = await page.find("#row-3");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("PageDown");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.numberCell });
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+
+    page.keyboard.press("ControlRight");
+    await page.keyboard.press("End");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+
+    page.keyboard.press("ControlLeft");
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
   });
 
-  it("navigates correctly when number and selection column present", async () => {
-    //
+  it("navigates correctly when number and selection column present numbered", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table numbered selection-mode="single" caption="Simple table">
+        <calcite-table-row id="row-head" slot="table-head">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3">
+          <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot" id="row-foot">
+          <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`
+    );
+
+    const rowHead = await page.find("#row-head");
+    const rowFoot = await page.find("#row-foot");
+    const row3 = await page.find("#row-3");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("PageDown");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+
+    page.keyboard.press("ControlRight");
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
   });
 
-  it("navigates correctly when pagination present and selection and number  and first page displayed", async () => {
-    //
+  it("navigates correctly when pagination present and selection and number and first page displayed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table numbered selection-mode="multiple" page-size="2" caption="Simple table">
+        <calcite-table-row id="row-head" slot="table-head">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3">
+          <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-4">
+          <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot" id="row-foot">
+          <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`
+    );
+
+    const rowHead = await page.find("#row-head");
+    const rowFoot = await page.find("#row-foot");
+    const row2 = await page.find("#row-2");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+
+    await page.keyboard.press("PageDown");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+
+    page.keyboard.press("ControlRight");
+    await page.keyboard.press("End");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.numberCell });
+
+    page.keyboard.press("ControlLeft");
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
   });
 
   it("navigates correctly when pagination present, and selection  and number and navigation to two other pages occurs", async () => {
-    //
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table">
+        <calcite-table-row id="row-head" slot="table-head">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-2b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3">
+          <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-4">
+          <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
+          <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot" id="row-foot">
+          <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`
+    );
+
+    const rowHead = await page.find("#row-head");
+    const rowFoot = await page.find("#row-foot");
+    const row1 = await page.find("#row-1");
+    const row2 = await page.find("#row-2");
+    const row3 = await page.find("#row-3");
+    const row4 = await page.find("#row-4");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("PageDown");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.numberCell });
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    page.keyboard.press("ControlRight");
+    await page.keyboard.press("End");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.numberCell });
+
+    page.keyboard.press("ControlRight");
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.$eval("calcite-table", () => {
+      const table = document.querySelector("calcite-table");
+      const headerCell = document.getElementById("head-1a");
+
+      const pagination = table?.shadowRoot.querySelector("calcite-pagination");
+      const button = pagination?.shadowRoot.querySelector("button.page:nth-of-type(3)") as HTMLButtonElement;
+      button?.click();
+      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+    });
+
+    await page.waitForChanges();
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("PageDown");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.selectionCell });
+
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CSS.numberCell });
+
+    page.keyboard.press("ControlRight");
+    await page.keyboard.press("End");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+    expect(
+      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+    ).toEqual({ "0": CELLCSS.footerCell, "1": CSS.numberCell });
   });
 });
 

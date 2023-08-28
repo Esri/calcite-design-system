@@ -128,6 +128,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   @State() colCount = 0;
 
+  // this could probably also be a public property for setting the currently active page on load
   @State() pageStartRow = 1;
 
   @State() selectedCount = 0;
