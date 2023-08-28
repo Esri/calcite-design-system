@@ -14,7 +14,7 @@
  */
 
 :host {
-  @apply flex;
+  @apply flex absolute z-overlay inset-0;
   visibility: hidden !important;
   // the sheet should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
   --calcite-sheet-scrim-background-internal: #{rgba($blk-240, 0.85)};
