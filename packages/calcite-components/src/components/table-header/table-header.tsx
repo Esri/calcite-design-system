@@ -158,17 +158,16 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   // --------------------------------------------------------------------------
 
   private getScreenReaderText(): string {
-    let text;
+    const sharedText = `${this.selectedRowCountLocalized} ${this.messages.selected}`;
     if (this.numberCell) {
       return this.messages.rowNumber;
     } else if (this.selectionMode === "single") {
-      text = `${this.messages.selectionColumn}. ${this.selectedRowCountLocalized} ${this.messages.selected}`;
+      return `${this.messages.selectionColumn}. ${sharedText}`;
     } else if (this.bodyRowCount === this.selectedRowCount) {
-      text = `${this.messages.selectionColumn}. ${this.messages.all} ${this.selectedRowCountLocalized} ${this.messages.selected} ${this.messages.keyboardDeselectAll}`;
+      return `${this.messages.selectionColumn}. ${this.messages.all} ${sharedText} ${this.messages.keyboardDeselectAll}`;
     } else {
-      text = `${this.messages.selectionColumn}. ${this.selectedRowCountLocalized} ${this.messages.selected} ${this.messages.keyboardSelectAll}`;
+      return `${this.messages.selectionColumn}. ${sharedText} ${this.messages.keyboardSelectAll}`;
     }
-    return text;
   }
 
   //--------------------------------------------------------------------------

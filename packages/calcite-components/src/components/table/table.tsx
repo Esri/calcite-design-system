@@ -142,6 +142,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     updateMessages(this, this.effectiveLocale);
   }
 
+  private paginationEl: HTMLCalcitePaginationElement;
+
   private allRows: HTMLCalciteTableRowElement[];
 
   private headRows: HTMLCalciteTableRowElement[];
@@ -322,8 +324,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     this.paginateRows();
   };
 
-  private handlePaginationChange = (event: CustomEvent): void => {
-    const requestedItem = (event.target as HTMLCalcitePaginationElement).startItem;
+  private handlePaginationChange = (): void => {
+    const requestedItem = this.paginationEl?.startItem;
     this.pageStartRow = requestedItem || 1;
     this.calciteTablePageSelect.emit();
     this.updateRows();
@@ -440,11 +442,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         <calcite-pagination
           groupSeparator={this.groupSeparator}
           numberingSystem={this.numberingSystem}
-          onCalcitePaginationChange={(event) => this.handlePaginationChange(event)}
+          onCalcitePaginationChange={this.handlePaginationChange}
           pageSize={this.pageSize}
           scale={this.scale}
           startItem={1}
           totalItems={this.bodyRows?.length}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el) => (this.paginationEl = el)}
         />
       </div>
     );
