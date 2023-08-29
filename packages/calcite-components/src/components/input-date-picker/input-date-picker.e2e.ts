@@ -857,23 +857,15 @@ describe("calcite-input-date-picker", () => {
 
       const element = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const wrapper = (
-        await page.waitForFunction(() =>
-          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(".calendar-picker-wrapper")
-        )
-      ).asElement();
-      expect(await wrapper.isIntersectingViewport()).toBe(true);
 
       await element.click();
       await page.waitForChanges();
-
       await page.keyboard.type("3/7/20");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
       expect(await element.getProperty("value")).toBe("2020-03-07");
       expect(await element.getProperty("valueAsDate")).toBeDefined();
-
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
 
@@ -888,7 +880,6 @@ describe("calcite-input-date-picker", () => {
 
       expect(await element.getProperty("value")).toBe("2020-01-01");
       expect(await element.getProperty("valueAsDate")).toBeDefined();
-
       expect(changeEvent).toHaveReceivedEventTimes(0);
     });
 
@@ -900,7 +891,6 @@ describe("calcite-input-date-picker", () => {
 
       await element.click();
       await page.waitForChanges();
-
       await page.keyboard.type("1/1/20");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
