@@ -52,6 +52,7 @@ import { FocusTrap } from "focus-trap";
 import {
   formatTimePart,
   formatTimeString,
+  FractionalSecondDigits,
   isValidTime,
   localizeTimeString,
   toISOTimeString,
@@ -253,6 +254,7 @@ export class InputTimePicker
         locale: this.effectiveLocale,
         numberingSystem,
         includeSeconds: this.shouldIncludeSeconds(),
+        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
       })
     );
   }
@@ -358,6 +360,7 @@ export class InputTimePicker
         locale,
         numberingSystem: this.numberingSystem,
         includeSeconds: this.shouldIncludeSeconds(),
+        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
       })
     );
   }
@@ -397,6 +400,7 @@ export class InputTimePicker
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       includeSeconds: this.shouldIncludeSeconds(),
+      fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
     });
 
     if (localizedTimeString !== inputValue) {
@@ -450,6 +454,7 @@ export class InputTimePicker
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
         includeSeconds,
+        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
       })
     );
   };
@@ -496,11 +501,10 @@ export class InputTimePicker
       const centisecondParts = this.delocalizeTimeStringToParts(value, "S");
 
       if (stepPrecision === 1) {
-        if (centisecondParts.millisecond !== 0) {
-          delocalizedTimeString = this.getTimeStringFromParts(centisecondParts);
-        } else {
-          delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
-        }
+        delocalizedTimeString =
+          centisecondParts.millisecond !== 0
+            ? this.getTimeStringFromParts(centisecondParts)
+            : this.getTimeStringFromParts(nonFractionalSecondParts);
       } else {
         const decisecondParts = this.delocalizeTimeStringToParts(value, "SS");
 
@@ -637,6 +641,7 @@ export class InputTimePicker
           locale: this.effectiveLocale,
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
+          fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
         });
 
         if (newValue && this.calciteInputEl.value !== localizedTimeString) {
@@ -821,6 +826,7 @@ export class InputTimePicker
           locale: this.effectiveLocale,
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
+          fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
         })
       );
     }
@@ -842,6 +848,7 @@ export class InputTimePicker
             includeSeconds,
             locale: this.effectiveLocale,
             numberingSystem: this.numberingSystem,
+            fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
           })
         : ""
     );
@@ -890,6 +897,7 @@ export class InputTimePicker
           locale: this.effectiveLocale,
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
+          fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
         })
       );
     }

@@ -1,6 +1,9 @@
 import { getDateTimeFormat, getSupportedNumberingSystem, NumberingSystem, numberStringFormatter } from "./locale";
 import { decimalPlaces } from "./math";
 import { isValidNumber } from "./number";
+
+export type FractionalSecondDigits = 1 | 2 | 3;
+
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
@@ -42,7 +45,8 @@ export const maxTenthForMinuteAndSecond = 5;
 function createLocaleDateTimeFormatter(
   locale: string,
   numberingSystem: NumberingSystem,
-  includeSeconds = true
+  includeSeconds = true,
+  fractionalSecondDigits?: FractionalSecondDigits
 ): Intl.DateTimeFormat {
   const options: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
@@ -52,6 +56,9 @@ function createLocaleDateTimeFormatter(
   };
   if (includeSeconds) {
     options.second = "2-digit";
+    if (fractionalSecondDigits) {
+      options.fractionalSecondDigits = fractionalSecondDigits;
+    }
   }
 
   return getDateTimeFormat(locale, options);
@@ -85,7 +92,7 @@ export function formatTimeString(value: string): string {
   if (!isValidTime(value)) {
     return null;
   }
-  let { hour, minute, second, fractionalSecond } = parseTimeString(value);
+  const { hour, minute, second, fractionalSecond } = parseTimeString(value);
   let formattedValue = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
   if (second) {
     formattedValue += `:${formatTimePart(parseInt(second))}`;
@@ -94,6 +101,10 @@ export function formatTimeString(value: string): string {
     }
   }
   return formattedValue;
+}
+
+function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): number {
+  return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
 }
 
 export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem): HourCycle {
@@ -244,6 +255,7 @@ export function localizeTimePart({ value, part, locale, numberingSystem }: Local
 interface LocalizeTimeStringParameters {
   value: string;
   includeSeconds?: boolean;
+  fractionalSecondDigits?: FractionalSecondDigits;
   locale: string;
   numberingSystem: NumberingSystem;
 }
@@ -253,30 +265,26 @@ export function localizeTimeString({
   locale,
   numberingSystem,
   includeSeconds = true,
+  fractionalSecondDigits,
 }: LocalizeTimeStringParameters): string {
   if (!isValidTime(value)) {
     return null;
   }
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value);
 
-  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
-  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem, includeSeconds);
-  const parts = formatter.formatToParts(dateFromTimeString);
-  const localizedTimeString = parts?.reduce((result, part) => {
-    if (part.type === "second" && fractionalSecond) {
-      return (
-        result +
-        `${part.value}.${localizeTimePart({
-          value: fractionalSecond,
-          part: "fractionalSecond",
-          locale,
-          numberingSystem,
-        })}`
-      );
-    }
-    return result + part.value;
-  }, "");
-  return localizedTimeString || null;
+  const dateFromTimeString = new Date(
+    Date.UTC(
+      0,
+      0,
+      0,
+      parseInt(hour),
+      parseInt(minute),
+      parseInt(second),
+      fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond)
+    )
+  );
+  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem, includeSeconds, fractionalSecondDigits);
+  return formatter.format(dateFromTimeString) || null;
 }
 
 interface LocalizeTimeStringToPartsParameters {
@@ -339,8 +347,9 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
 
 export function parseTimeString(value: string): Time {
   if (isValidTime(value)) {
-    let [hour, minute, second] = value.split(":"),
-      fractionalSecond = null;
+    // eslint-disable-next-line prefer-const
+    let [hour, minute, second] = value.split(":");
+    let fractionalSecond = null;
     if (second?.includes(".")) {
       [second, fractionalSecond] = second.split(".");
     }
