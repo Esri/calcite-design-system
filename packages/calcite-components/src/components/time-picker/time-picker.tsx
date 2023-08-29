@@ -555,7 +555,9 @@ export class TimePicker
     const stepPrecision = decimalPlaces(this.step);
     const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
     const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
-    let nudgedValue, nudgedValueRounded, newFractionalSecond;
+    let nudgedValue;
+    let nudgedValueRounded;
+    let newFractionalSecond;
     if (direction === "up") {
       nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + this.step;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
@@ -570,15 +572,12 @@ export class TimePicker
           ? 1 - this.step
           : fractionalSecondAsFloat - this.step;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
-      if (
+      newFractionalSecond =
         nudgedValueRounded < 1 &&
         decimalPlaces(nudgedValueRounded) > 0 &&
         Math.sign(nudgedValueRounded) === 1
-      ) {
-        newFractionalSecond = formatTimePart(nudgedValueRounded, stepPrecision);
-      } else {
-        newFractionalSecond = "".padStart(stepPrecision, "0");
-      }
+          ? formatTimePart(nudgedValueRounded, stepPrecision)
+          : "".padStart(stepPrecision, "0");
     }
     this.setValuePart("fractionalSecond", newFractionalSecond);
   };
@@ -761,8 +760,8 @@ export class TimePicker
         numberingSystem,
       });
     }
-    let emit = false,
-      newValue;
+    let emit = false;
+    let newValue;
     if (this.hour && this.minute) {
       newValue = `${this.hour}:${this.minute}`;
       if (this.showSecond) {
@@ -1036,7 +1035,7 @@ export class TimePicker
               onKeyDown={this.fractionalSecondKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setFractionalSecondEl}
             >
               {this.localizedFractionalSecond || "--"}
