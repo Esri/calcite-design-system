@@ -48,14 +48,9 @@ export class BigDecimal {
     return { integers, decimals };
   }
 
-  toString(places?: number | undefined): string {
-    const numberParts = this.getIntegersAndDecimals();
-    if (typeof places === "number" && places < numberParts.decimals.length) {
-      numberParts.decimals = numberParts.decimals.substring(0, places);
-    }
-    return `${this.isNegative ? "-" : ""}${numberParts.integers}${
-      numberParts.decimals.length ? "." + numberParts.decimals : ""
-    }`;
+  toString(): string {
+    const { integers, decimals } = this.getIntegersAndDecimals();
+    return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
   formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
@@ -106,7 +101,7 @@ export function isValidNumber(numberString: string): boolean {
   return !(!numberString || isNaN(Number(numberString)));
 }
 
-export function parseNumberString(numberString?: string, places?: number | undefined): string {
+export function parseNumberString(numberString?: string): string {
   if (!numberString || !stringContainsNumbers(numberString)) {
     return "";
   }
@@ -126,7 +121,7 @@ export function parseNumberString(numberString?: string, places?: number | undef
         return numberKeys.includes(value);
       })
       .reduce((string, part) => string + part);
-    return isValidNumber(result) ? new BigDecimal(result).toString(places) : "";
+    return isValidNumber(result) ? new BigDecimal(result).toString() : "";
   });
 }
 
@@ -137,7 +132,7 @@ const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 const hasTrailingDecimalZeros = /0*$/;
 
-export const sanitizeNumberString = (numberString: string, places?: number | undefined): string =>
+export const sanitizeNumberString = (numberString: string): string =>
   sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
     const sanitizedValue = nonExpoNumString
       .replace(allHyphensExceptTheStart, "")
@@ -146,22 +141,44 @@ export const sanitizeNumberString = (numberString: string, places?: number | und
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : getBigDecimalAsString(sanitizedValue, places)
+        : getBigDecimalAsString(sanitizedValue)
       : nonExpoNumString;
   });
 
-function getBigDecimalAsString(sanitizedValue: string, places?: number | undefined): string {
-  let sanitizedValueDecimals = sanitizedValue.split(".")[1];
-  if (sanitizedValueDecimals?.length > places) {
-    sanitizedValueDecimals = sanitizedValueDecimals.substring(0, places);
-  }
-
-  const value = new BigDecimal(sanitizedValue).toString(places);
+export function getBigDecimalAsString(sanitizedValue: string): string {
+  const sanitizedValueDecimals = sanitizedValue.split(".")[1];
+  const value = new BigDecimal(sanitizedValue).toString();
   const [bigDecimalValueInteger, bigDecimalValueDecimals] = value.split(".");
 
   return sanitizedValueDecimals && bigDecimalValueDecimals !== sanitizedValueDecimals
     ? `${bigDecimalValueInteger}.${sanitizedValueDecimals}`
     : value;
+}
+
+function stripDecimalPlaces(numberString: string, places: number | undefined): string {
+  const numberParts = numberString.split(".");
+  if (numberParts[1]?.length > places) {
+    numberParts[1] = numberParts[1].substring(0, places);
+  }
+  return numberParts.join(".");
+}
+
+export function numberStringToFixed(numberString: string, places: number | undefined): string {
+  if (places === undefined) {
+    return numberString;
+  }
+
+  const exponentIndex = numberString.indexOf("e");
+  if (exponentIndex === -1) {
+    return stripDecimalPlaces(numberString, places);
+  }
+
+  if (numberString.charAt(exponentIndex + 1) === "-") {
+    const expanded = expandExponentialNumberString(numberString);
+    const expandedToFixed = stripDecimalPlaces(expanded, places);
+    return expanded === expandedToFixed ? numberString : expandedToFixed;
+  }
+  return numberString;
 }
 
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {

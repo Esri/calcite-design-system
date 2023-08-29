@@ -52,6 +52,7 @@ import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
   isValidNumber,
+  numberStringToFixed,
   parseNumberString,
   sanitizeNumberString,
 } from "../../utils/number";
@@ -727,10 +728,11 @@ export class Input
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
       }
+      const delocalizedValueToFixed = numberStringToFixed(delocalizedValue, this.places);
       this.setValue({
         nativeEvent,
         origin: "user",
-        value: parseNumberString(delocalizedValue, this.places),
+        value: parseNumberString(delocalizedValueToFixed),
       });
       this.childNumberEl.value = this.localizedValue;
     } else {
@@ -966,7 +968,7 @@ export class Input
       const sanitizedValue =
         hasTrailingDecimalSeparator && isValueDeleted
           ? value
-          : sanitizeNumberString(value, this.places);
+          : sanitizeNumberString(numberStringToFixed(value, this.places));
 
       const newValue =
         value && !sanitizedValue
