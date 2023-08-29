@@ -1140,12 +1140,13 @@ export class InputDatePicker
 
     const dateParts = value.split("-");
     const year = Number(dateParts[0]);
+    const isTwoDigitYear = year < 100;
 
-    if (!this.normalizeYear || year > 1000) {
+    if (!this.normalizeYear || !isTwoDigitYear) {
       return value;
     }
 
-    if (year < 1000) {
+    if (isTwoDigitYear) {
       const normalizedYear = this.normalizeToCurrentCentury(year);
       return `${normalizedYear}-${dateParts[1]}-${dateParts[2]}`;
     }
