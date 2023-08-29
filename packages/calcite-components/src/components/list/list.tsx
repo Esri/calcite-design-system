@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import Sortable, { SortableEvent } from "sortablejs";
+import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
@@ -485,17 +485,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragSort(event: SortableEvent): void {
+  onDragSort(event: DragEvent): void {
     this.parentListEl = this.el.parentElement.closest("calcite-list");
     this.updateListItems();
 
-    const { from, item, to } = event;
-
-    this.calciteListOrderChange.emit({
-      dragEl: item,
-      fromEl: from,
-      toEl: to,
-    });
+    this.calciteListOrderChange.emit(event);
   }
 
   private handleDefaultSlotChange = (event: Event): void => {

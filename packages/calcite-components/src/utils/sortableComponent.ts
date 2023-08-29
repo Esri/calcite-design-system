@@ -54,7 +54,7 @@ export interface SortableComponent {
   /**
    * Called by any change to the list (add / update / remove).
    */
-  onDragSort: (event: Sortable.SortableEvent) => void;
+  onDragSort: (event: DragEvent) => void;
 
   /**
    * Called when a sortable component drag starts.
@@ -103,7 +103,8 @@ export function connectSortableComponent(component: SortableComponent): void {
       onDragEnd();
     },
     onSort: (event) => {
-      component.onDragSort(event);
+      const { from, item, to } = event;
+      component.onDragSort({ fromEl: from, dragEl: item, toEl: to });
     },
   });
 }
