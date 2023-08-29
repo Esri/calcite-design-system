@@ -175,11 +175,7 @@ export class Notice
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
-      <div
-        class={CSS.container}
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={this.setTransitionEl}
-      >
+      <div class={CSS.container} ref={this.setTransitionEl}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
             <calcite-icon
@@ -213,11 +209,11 @@ export class Notice
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event({ cancelable: false }) calciteNoticeBeforeClose: EventEmitter<void>;
 
-  /** Fires when the component is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteNoticeClose: EventEmitter<void>;
-
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   @Event({ cancelable: false }) calciteNoticeBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteNoticeClose: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteNoticeOpen: EventEmitter<void>;
@@ -245,20 +241,20 @@ export class Notice
     }
   }
 
-  onBeforeOpen(): void {
-    this.calciteNoticeBeforeOpen.emit();
-  }
-
-  onOpen(): void {
-    this.calciteNoticeOpen.emit();
-  }
-
   onBeforeClose(): void {
     this.calciteNoticeBeforeClose.emit();
   }
 
+  onBeforeOpen(): void {
+    this.calciteNoticeBeforeOpen.emit();
+  }
+
   onClose(): void {
     this.calciteNoticeClose.emit();
+  }
+
+  onOpen(): void {
+    this.calciteNoticeOpen.emit();
   }
 
   private setTransitionEl = (el: HTMLDivElement): void => {
