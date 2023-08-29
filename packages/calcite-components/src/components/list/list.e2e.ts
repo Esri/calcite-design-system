@@ -471,6 +471,7 @@ describe("calcite-list", () => {
 
     it("works using a mouse", async () => {
       const page = await createSimpleList();
+      const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
 
       await dragAndDrop(
         page,
@@ -487,6 +488,8 @@ describe("calcite-list", () => {
       const [first, second] = await page.findAll("calcite-list-item");
       expect(await first.getProperty("value")).toBe("two");
       expect(await second.getProperty("value")).toBe("one");
+      await page.waitForChanges();
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(1);
     });
 
     it("supports dragging items between lists", async () => {
@@ -513,6 +516,8 @@ describe("calcite-list", () => {
           <calcite-list-item value="f" label="F"></calcite-list-item>
         </calcite-list>
       `);
+
+      const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
 
       await dragAndDrop(
         page,
@@ -568,6 +573,8 @@ describe("calcite-list", () => {
       expect(await seventh.getProperty("value")).toBe("c");
       expect(await eight.getProperty("value")).toBe("e");
       expect(await ninth.getProperty("value")).toBe("f");
+
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(2);
     });
 
     it("works using a keyboard", async () => {
