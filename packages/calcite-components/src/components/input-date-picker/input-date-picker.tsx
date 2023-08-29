@@ -274,6 +274,11 @@ export class InputDatePicker
   @Prop({ reflect: true }) name: string;
 
   /**
+   * Normalizes year to current century.
+   */
+  @Prop({ reflect: true }) normalizeYear = false;
+
+  /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
    */
@@ -435,9 +440,13 @@ export class InputDatePicker
     const { open } = this;
     open && this.openHandler(open);
     if (Array.isArray(this.value)) {
+      console.log("value", this.value);
+      const newValue = this.value.map((val) => this.getNormalizedDate(val));
+      this.value = newValue;
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
       try {
+        this.value = this.getNormalizedDate(this.value);
         this.valueAsDate = dateFromISO(this.value);
       } catch (error) {
         this.warnAboutInvalidValue(this.value);
@@ -1027,9 +1036,16 @@ export class InputDatePicker
     const valueIsArray = Array.isArray(valueAsDate);
 
     const newStartDate = valueIsArray ? valueAsDate[0] : null;
-    const newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    let newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    if (newStartDateISO) {
+      newStartDateISO = this.getNormalizedDate(newStartDateISO);
+    }
+
     const newEndDate = valueIsArray ? valueAsDate[1] : null;
-    const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
+    let newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
+    if (newEndDateISO) {
+      newEndDateISO = this.getNormalizedDate(newEndDateISO);
+    }
 
     const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";
 
@@ -1061,7 +1077,8 @@ export class InputDatePicker
     }
 
     const oldValue = this.value;
-    const newValue = dateToISO(value as Date);
+    let newValue = dateToISO(value as Date);
+    newValue = this.getNormalizedDate(newValue);
 
     if (newValue === oldValue) {
       return;
@@ -1110,4 +1127,29 @@ export class InputDatePicker
           )
           .join("")
       : "";
+
+  private normalizeToCurrentCentury(twoDigitYear: number) {
+    const currentYear = new Date().getFullYear();
+    const currentCentury = Math.floor(currentYear / 100) * 100;
+    const normalizedYear = currentCentury + twoDigitYear;
+    return normalizedYear;
+  }
+
+  private getNormalizedDate(value: string): string {
+    if (!value) {
+      return "";
+    }
+
+    if (!this.normalizeYear) {
+      return value;
+    }
+
+    const dateParts = value.split("-");
+    const year = Number(dateParts[0]);
+    if (year < 1000) {
+      const normalizedYear = this.normalizeToCurrentCentury(year);
+      return `${normalizedYear}-${dateParts[1]}-${dateParts[2]}`;
+    }
+    return value;
+  }
 }
