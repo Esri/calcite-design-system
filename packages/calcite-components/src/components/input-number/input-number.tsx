@@ -880,7 +880,10 @@ export class InputNumber
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
       this.setPreviousEmittedNumberValue(newLocalizedValue);
-    } else if (this.value.split(".")[1]?.length === this.places) {
+    } else if (
+      typeof this.places === "number" &&
+      this.value.split(".")[1]?.length === this.places
+    ) {
       this.setInputNumberValue(newLocalizedValue);
     }
 

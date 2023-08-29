@@ -1005,7 +1005,10 @@ export class Input
     if (origin === "direct") {
       this.setInputValue(value);
       this.previousEmittedValue = value;
-    } else if (this.type === "number" && this.value.split(".")[1]?.length === this.places) {
+    } else if (
+      typeof this.places === "number" &&
+      this.value.split(".")[1]?.length === this.places
+    ) {
       this.setInputValue(this.localizedValue);
     }
 
