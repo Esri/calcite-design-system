@@ -22,6 +22,11 @@ export interface SortableComponent {
   dragEnabled: boolean;
 
   /**
+   * When `true`, component is being dragged.
+   */
+  dragging: boolean;
+
+  /**
    * Specifies which items inside the element should be draggable.
    */
   dragSelector?: string;
@@ -73,6 +78,7 @@ export interface SortableComponent {
  * @param {SortableComponent} component - The sortable component.
  */
 export function connectSortableComponent(component: SortableComponent): void {
+  component.dragging = false;
   disconnectSortableComponent(component);
   sortableComponentSet.add(component);
 
@@ -118,12 +124,22 @@ export function disconnectSortableComponent(component: SortableComponent): void 
   component.sortable = null;
 }
 
+function dragStarted(component: SortableComponent): void {
+  component.dragging = true;
+  component.onDragStart();
+}
+
 /**
  * Helper to handle nested SortableComponents on `Sortable.onStart`.
  *
  */
 function onSortingStart(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onDragStart());
+  Array.from(sortableComponentSet).forEach((component) => dragStarted(component));
+}
+
+function dragEnded(component: SortableComponent): void {
+  component.dragging = false;
+  component.onDragEnd();
 }
 
 /**
@@ -131,5 +147,5 @@ function onSortingStart(): void {
  *
  */
 function onSortingEnd(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onDragEnd());
+  Array.from(sortableComponentSet).forEach((component) => dragEnded(component));
 }

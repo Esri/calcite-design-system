@@ -294,6 +294,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    if (this.dragging) {
+      return;
+    }
+
     this.connectObserver();
     this.updateListItems();
     this.setUpSorting();
@@ -302,6 +306,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   }
 
   disconnectedCallback(): void {
+    if (this.dragging) {
+      return;
+    }
+
     this.disconnectObserver();
     disconnectSortableComponent(this);
     disconnectInteractive(this);
@@ -330,6 +338,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   @State() assistiveText: string;
 
   @State() dataForFilter: ItemData = [];
+
+  dragging: boolean;
 
   dragSelector = "calcite-list-item";
 

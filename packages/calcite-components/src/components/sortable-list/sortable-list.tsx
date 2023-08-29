@@ -93,6 +93,8 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   dragEnabled = true;
 
+  dragging: boolean;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -100,12 +102,20 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    if (this.dragging) {
+      return;
+    }
+
     this.setUpSorting();
     this.beginObserving();
     connectInteractive(this);
   }
 
   disconnectedCallback(): void {
+    if (this.dragging) {
+      return;
+    }
+
     disconnectInteractive(this);
     disconnectSortableComponent(this);
     this.endObserving();

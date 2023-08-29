@@ -231,6 +231,8 @@ export class ValueList<
 
   dragSelector = "calcite-value-list-item";
 
+  dragging: boolean;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -238,6 +240,10 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    if (this.dragging) {
+      return;
+    }
+
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -261,6 +267,10 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
+    if (this.dragging) {
+      return;
+    }
+
     disconnectInteractive(this);
     disconnectSortableComponent(this);
     disconnectLocalized(this);
