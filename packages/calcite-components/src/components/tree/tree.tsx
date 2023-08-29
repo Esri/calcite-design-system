@@ -9,10 +9,10 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
-import { focusElement, getRootNode, nodeListToArray } from "../../utils/dom";
+import { focusElement, nodeListToArray } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
-import { getEnabledSiblingItem } from "./utils";
+import { getTraversableItems, isTreeItem } from "./utils";
 
 /**
  * @slot - A slot for `calcite-tree-item` elements.
@@ -85,6 +85,7 @@ export class Tree {
                 this.selectionMode === "multiple" || this.selectionMode === "multichildren"
               ).toString()
         }
+        onKeyDown={this.keyDownHandler}
         role={!this.child ? "tree" : undefined}
         tabIndex={this.getRootTabIndex()}
       >
@@ -244,72 +245,96 @@ export class Tree {
     event.stopPropagation();
   }
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
-    const root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.child) {
+      return;
+    }
+
+    const root = this.el;
     const target = event.target as HTMLCalciteTreeItemElement;
 
-    if (!(root === this.el && target.tagName === "CALCITE-TREE-ITEM" && this.el.contains(target))) {
+    const supportedKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End", "Tab"];
+
+    if (!(isTreeItem(target) && this.el.contains(target)) || !supportedKeys.includes(event.key)) {
+      return;
+    }
+
+    const traversableItems = getTraversableItems(root);
+
+    if (event.key === "Tab") {
+      // root tabindex will be restored when blurred/focused
+      traversableItems.forEach((item) => (item.tabIndex = -1));
       return;
     }
 
     if (event.key === "ArrowDown") {
-      const next = getEnabledSiblingItem(target.nextElementSibling, "down");
-      if (next) {
-        next.focus();
-        event.preventDefault();
-      }
-
+      const currentItemIndex = traversableItems.indexOf(target);
+      const nextItem = traversableItems[currentItemIndex + 1];
+      nextItem?.focus();
+      event.preventDefault();
       return;
     }
 
     if (event.key === "ArrowUp") {
-      const previous = getEnabledSiblingItem(target.previousElementSibling, "up");
-      if (previous) {
-        previous.focus();
-        event.preventDefault();
-      }
+      const currentItemIndex = traversableItems.indexOf(target);
+      const previousItem = traversableItems[currentItemIndex - 1];
+      previousItem?.focus();
+      event.preventDefault();
+      return;
     }
 
-    if (event.key === "ArrowLeft" && !target.disabled) {
-      // When focus is on an open node, closes the node.
+    if (event.key === "ArrowLeft") {
       if (target.hasChildren && target.expanded) {
         target.expanded = false;
         event.preventDefault();
         return;
       }
 
-      // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-      const parentItem = target.parentElement.closest("calcite-tree-item");
+      const rootToItemPath = traversableItems.slice(0, traversableItems.indexOf(target)).reverse();
+      const parentItem = rootToItemPath.find((item) => item.depth === target.depth - 1);
 
-      if (parentItem && (!target.hasChildren || target.expanded === false)) {
-        parentItem.focus();
-        event.preventDefault();
-        return;
-      }
+      parentItem?.focus();
+      event.preventDefault();
 
-      // When focus is on a root node that is also either an end node or a closed node, does nothing.
       return;
     }
 
-    if (event.key === "ArrowRight" && !target.disabled) {
-      if (target.hasChildren) {
-        if (target.expanded && getRootNode(this.el).activeElement === target) {
-          // When focus is on an open node, moves focus to the first child node.
-          getEnabledSiblingItem(target.querySelector("calcite-tree-item"), "down")?.focus();
+    if (event.key === "ArrowRight") {
+      if (!target.disabled && target.hasChildren) {
+        if (!target.expanded) {
+          target.expanded = true;
           event.preventDefault();
         } else {
-          // When focus is on a closed node, opens the node; focus does not move.
-          target.expanded = true;
+          const currentItemIndex = traversableItems.indexOf(target);
+          const nextItem = traversableItems[currentItemIndex + 1];
+          nextItem?.focus();
           event.preventDefault();
         }
       }
 
       return;
     }
-  }
 
-  updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
+    if (event.key === "Home") {
+      const firstNode = traversableItems.shift();
+      if (firstNode) {
+        firstNode.focus();
+        event.preventDefault();
+      }
+      return;
+    }
+
+    if (event.key === "End") {
+      const lastNode = traversableItems.pop();
+      if (lastNode) {
+        lastNode.focus();
+        event.preventDefault();
+      }
+      return;
+    }
+  };
+
+  private updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
     const item = event.target as HTMLCalciteTreeItemElement;
     const updateItem = event.detail.updateItem;
 
