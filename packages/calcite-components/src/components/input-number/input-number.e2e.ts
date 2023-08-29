@@ -1676,22 +1676,20 @@ describe("calcite-input-number", () => {
     await page.setContent(html`<calcite-input-number value="1.234" places="2"></calcite-input-number>`);
     const input = await page.find("calcite-input-number");
 
-    input.setProperty("value", "");
-    await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("1.23");
 
     input.setProperty("value", "1");
-    input.setProperty("places", "1");
+    input.setProperty("places", "3");
     await input.callMethod("setFocus");
     await page.waitForChanges();
-    await typeNumberValue(page, ".567");
+    await typeNumberValue(page, ".56789");
     await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("1.5");
+    expect(await input.getProperty("value")).toBe("1.567");
 
-    input.setProperty("places", "3");
-    input.setProperty("value", "0.8901234");
+    input.setProperty("places", "4");
+    input.setProperty("value", "0.987654321");
     await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("0.980");
+    expect(await input.getProperty("value")).toBe("0.9876");
   });
 
   describe("is form-associated", () => {
