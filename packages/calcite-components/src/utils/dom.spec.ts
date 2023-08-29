@@ -17,6 +17,7 @@ import {
   slotChangeHasAssignedNode,
   slotChangeHasTextContent,
   slotChangeHasContent,
+  isBefore,
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -571,6 +572,26 @@ describe("dom", () => {
     it("should return null for non shadowed element", () => {
       document.body.innerHTML = html` <div></div> `;
       expect(getShadowRootNode(document.body.querySelector("div"))).toBe(null);
+    });
+  });
+
+  describe("isBefore", () => {
+    let div1: HTMLDivElement;
+    let div2: HTMLDivElement;
+
+    beforeEach(() => {
+      div1 = document.createElement("div");
+      div2 = document.createElement("div");
+    });
+
+    it("should return true if element A is before element B", () => {
+      document.body.append(div1, div2);
+      expect(isBefore(div1, div2)).toBe(true);
+    });
+
+    it("should return false if element A is after element B", () => {
+      document.body.append(div2, div1);
+      expect(isBefore(div1, div2)).toBe(false);
     });
   });
 });

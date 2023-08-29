@@ -41,7 +41,12 @@ export class Flow implements LoadableComponent {
       ? lastItem.beforeBack
       : (): Promise<void> => Promise.resolve();
 
-    await beforeBack.call(lastItem);
+    try {
+      await beforeBack.call(lastItem);
+    } catch (_error) {
+      // back prevented
+      return;
+    }
 
     lastItem.remove();
 

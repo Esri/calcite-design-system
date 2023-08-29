@@ -6,3 +6,7 @@ export const SLOTS = {
 export const ICONS = {
   menu: "ellipsis",
 };
+
+export const CSS = {
+  container: "container",
+};

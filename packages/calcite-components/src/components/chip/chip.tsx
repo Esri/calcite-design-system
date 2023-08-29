@@ -351,7 +351,7 @@ export class Chip
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
         tabIndex={this.disabled ? -1 : 0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
@@ -408,7 +408,7 @@ export class Chip
           onClick={this.handleEmittingEvent}
           role={role}
           tabIndex={disableInteraction ? -1 : 0}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >
           {this.selectionMode !== "none" && this.renderSelectionIcon()}

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
       <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
@@ -56,6 +56,17 @@ describe("calcite-action-group", () => {
     await page.waitForChanges();
     const menu = await page.find(`calcite-action-group >>> calcite-action-menu`);
     expect(await menu.getProperty("overlayPositioning")).toBe("fixed");
+  });
+
+  it("should honor label", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-action-group label="test">
+    <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+    <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
+    </calcite-action-group>`);
+    await page.waitForChanges();
+    const container = await page.find(`calcite-action-group >>> .${CSS.container}`);
+    expect(await container.getProperty("ariaLabel")).toBe("test");
   });
 
   describe("translation support", () => {

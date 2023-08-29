@@ -405,7 +405,7 @@ export class Panel
         onClick={close}
         text={text}
         title={text}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setCloseRef}
       />
     ) : null;
@@ -524,7 +524,7 @@ export class Panel
       <div
         class={CSS.contentWrapper}
         onScroll={this.panelScrollHandler}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setPanelScrollEl}
       >
         <slot />
@@ -551,7 +551,7 @@ export class Panel
         hidden={closed}
         onKeyDown={panelKeyDownHandler}
         tabIndex={closable ? 0 : -1}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}

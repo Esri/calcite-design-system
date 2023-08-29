@@ -37,6 +37,7 @@ import { Scale } from "../interfaces";
 import { RatingMessages } from "./assets/rating/t9n";
 import { StarIcon } from "./function/star";
 import { Star } from "./interfaces";
+import { focusFirstTabbable } from "../../utils/dom";
 
 @Component({
   tag: "calcite-rating",
@@ -124,7 +125,6 @@ export class Rating
   @Watch("value")
   handleValueUpdate(newValue: number): void {
     this.hoverValue = newValue;
-    this.focusValue = newValue;
     if (this.emit) {
       this.calciteRatingChange.emit();
     }
@@ -160,10 +160,6 @@ export class Rating
 
   @State() hoverValue: number;
 
-  @State() focusValue: number;
-
-  @State() hasFocus: boolean;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -181,43 +177,29 @@ export class Rating
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
     setUpLoadableComponent(this);
-    this.inputRefs = Array(this.max);
   }
 
   componentWillRender(): void {
     this.starsMap = Array.from({ length: this.max }, (_, i) => {
       const value = i + 1;
-      const average =
-        !this.focusValue &&
-        !this.hoverValue &&
-        this.average &&
-        !this.value &&
-        value <= this.average;
+      const average = !this.hoverValue && this.average && !this.value && value <= this.average;
       const checked = value === this.value;
-      const focused = this.isKeyboardInteraction && this.hasFocus && this.focusValue === value;
       const fraction = this.average && this.average + 1 - value;
       const hovered = value <= this.hoverValue;
       const id = `${this.guid}-${value}`;
-      const partial =
-        !this.focusValue &&
-        !this.hoverValue &&
-        !this.value &&
-        !hovered &&
-        fraction > 0 &&
-        fraction < 1;
+      const partial = !this.hoverValue && !this.value && !hovered && fraction > 0 && fraction < 1;
       const selected = this.value >= value;
-
+      const tabIndex = this.getTabIndex(value);
       return {
         average,
         checked,
-        focused,
         fraction,
         hovered,
         id,
-        idx: i,
         partial,
         selected,
         value,
+        tabIndex,
       };
     });
   }
@@ -241,8 +223,6 @@ export class Rating
   render() {
     return (
       <Host
-        onBlur={this.handleRatingFocusLeave}
-        onFocus={this.handleRatingFocusIn}
         onKeyDown={this.handleHostKeyDown}
         onPointerOut={this.handleRatingPointerOut}
         onPointerOver={this.handleRatingPointerOver}
@@ -251,31 +231,26 @@ export class Rating
           <fieldset class="fieldset" disabled={this.disabled}>
             <legend class="visually-hidden">{this.messages.rating}</legend>
             {this.starsMap.map(
-              ({
-                average,
-                checked,
-                focused,
-                fraction,
-                hovered,
-                id,
-                idx,
-                partial,
-                selected,
-                value,
-              }) => {
+              ({ average, checked, fraction, hovered, id, partial, selected, value, tabIndex }) => {
                 return (
                   <label
                     class={{
                       star: true,
-                      focused,
                       selected,
                       hovered,
                       average,
                       partial,
                     }}
+                    data-value={value}
                     htmlFor={id}
+                    onClick={this.handleLabelClick}
+                    onFocus={this.handleLabelFocus}
+                    onKeyDown={this.handleLabelKeyDown}
                     onPointerDown={this.handleLabelPointerDown}
                     onPointerOver={this.handleLabelPointerOver}
+                    tabIndex={tabIndex}
+                    // eslint-disable-next-line react/jsx-sort-props
+                    ref={this.setLabelEl}
                   >
                     <input
                       checked={checked}
@@ -284,17 +259,9 @@ export class Rating
                       id={id}
                       name={this.guid}
                       onChange={this.handleInputChange}
-                      onKeyDown={this.handleInputKeyDown}
+                      tabIndex={-1}
                       type="radio"
                       value={value}
-                      // eslint-disable-next-line react/jsx-sort-props
-                      ref={(el) => {
-                        this.inputRefs[idx] = el;
-                        return (
-                          (value === 1 || value === this.value) &&
-                          (this.inputFocusRef = el as HTMLInputElement)
-                        );
-                      }}
                     />
                     <StarIcon full={selected || average} scale={this.scale} />
                     {partial && (
@@ -340,34 +307,14 @@ export class Rating
   private handleRatingPointerOut = () => {
     this.isKeyboardInteraction = true;
     this.hoverValue = null;
-    this.focusValue = null;
-    this.hasFocus = false;
-  };
-
-  private handleRatingFocusIn = (): void => {
-    const selectedInput = this.value > 0 ? this.value - 1 : 0;
-    const focusInput = this.inputRefs[selectedInput];
-    const focusValue = Number(focusInput.value);
-
-    focusInput.select();
-    this.focusValue = focusValue;
-    this.hoverValue = focusValue;
-    this.hasFocus = true;
-  };
-
-  private handleRatingFocusLeave = (): void => {
-    this.focusValue = null;
-    this.hoverValue = null;
-    this.hasFocus = false;
   };
 
   private handleHostKeyDown = () => {
     this.isKeyboardInteraction = true;
   };
 
-  private handleInputKeyDown = (event: KeyboardEvent) => {
-    const target = event.currentTarget as HTMLInputElement;
-    const inputVal = Number(target.value);
+  private handleLabelKeyDown = (event: KeyboardEvent) => {
+    const inputValue = this.getValueFromLabelEvent(event);
     const key = event.key;
     const numberKey = key == " " ? undefined : Number(key);
 
@@ -376,20 +323,20 @@ export class Rating
       switch (key) {
         case "Enter":
         case " ":
-          this.value = !this.required && this.value === inputVal ? 0 : inputVal;
+          this.value = !this.required && this.value === inputValue ? 0 : inputValue;
           break;
         case "ArrowLeft":
-          this.value = inputVal - 1;
+          this.value = this.getPreviousRatingValue(inputValue);
+          this.updateFocus();
+          event.preventDefault();
           break;
         case "ArrowRight":
-          this.value = inputVal + 1;
+          this.value = this.getNextRatingValue(inputValue);
+          this.updateFocus();
+          event.preventDefault();
           break;
         case "Tab":
-          if (this.hasFocus) {
-            this.hasFocus = false;
-            this.focusValue = null;
-            this.hoverValue = null;
-          }
+          this.hoverValue = null;
         default:
           break;
       }
@@ -399,34 +346,69 @@ export class Rating
       } else if (this.required && numberKey > 0 && numberKey <= this.max) {
         this.value = numberKey;
       }
+      this.updateFocus();
     }
   };
 
   private handleInputChange = (event: InputEvent) => {
     if (this.isKeyboardInteraction === true) {
       const inputVal = Number(event.target["value"]);
-      this.focusValue = inputVal;
       this.hoverValue = inputVal;
       this.value = inputVal;
     }
   };
 
   private handleLabelPointerOver = (event: PointerEvent) => {
-    const target = event.currentTarget as HTMLLabelElement;
-    const newPointerValue = Number(target.firstChild["value"] || 0);
-    this.hoverValue = newPointerValue;
-    this.focusValue = null;
+    this.hoverValue = this.getValueFromLabelEvent(event);
   };
 
   private handleLabelPointerDown = (event: PointerEvent) => {
     const target = event.currentTarget as HTMLLabelElement;
-    const inputVal = Number(target.firstChild["value"] || 0);
-
-    this.focusValue = null;
-    this.hoverValue = null;
+    const inputValue = this.getValueFromLabelEvent(event);
+    this.hoverValue = inputValue;
     this.emit = true;
-    this.value = !this.required && this.value === inputVal ? 0 : inputVal;
+    this.value = !this.required && this.value === inputValue ? 0 : inputValue;
+    target.focus();
   };
+
+  private handleLabelClick = (event: Event) => {
+    //preventing pointerdown event will supress any compatability mouse events except for click event.
+    event.preventDefault();
+  };
+
+  private handleLabelFocus = (event: FocusEvent) => {
+    const inputValue = this.getValueFromLabelEvent(event);
+    this.hoverValue = inputValue;
+  };
+
+  private updateFocus(): void {
+    this.hoverValue = this.value;
+    this.labelElements[this.value - 1].focus();
+  }
+
+  private getTabIndex(value: number): number {
+    if (this.readOnly || (this.value !== value && (this.value || value !== 1))) {
+      return -1;
+    }
+    return 0;
+  }
+
+  private setLabelEl = (el: HTMLLabelElement): void => {
+    this.labelElements.push(el);
+  };
+
+  private getValueFromLabelEvent(event: FocusEvent | PointerEvent | KeyboardEvent): number {
+    const target = event.currentTarget as HTMLLabelElement;
+    return Number(target.getAttribute("data-value"));
+  }
+
+  getNextRatingValue(currentValue: number): number {
+    return currentValue === 5 ? 1 : currentValue + 1;
+  }
+
+  getPreviousRatingValue(currentValue: number): number {
+    return currentValue === 1 ? 5 : currentValue - 1;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -438,8 +420,7 @@ export class Rating
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-
-    this.inputFocusRef?.focus();
+    focusFirstTabbable(this.el);
   }
 
   // --------------------------------------------------------------------------
@@ -460,11 +441,9 @@ export class Rating
 
   private guid = `calcite-ratings-${guid()}`;
 
-  private inputRefs: HTMLInputElement[];
-
-  private inputFocusRef: HTMLInputElement;
-
   private isKeyboardInteraction = true;
+
+  private labelElements: HTMLLabelElement[] = [];
 
   private max = 5;
 

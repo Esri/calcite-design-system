@@ -286,7 +286,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -312,7 +312,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelValueClasses}>
@@ -347,7 +347,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -383,7 +383,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -411,7 +411,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
@@ -439,7 +439,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelValueClasses}>
@@ -476,7 +476,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
@@ -512,7 +512,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -538,7 +538,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
@@ -573,7 +573,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -609,7 +609,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
@@ -637,7 +637,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
@@ -667,7 +667,7 @@ export class Slider
           {this.renderGraph()}
           <div
             class="track"
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeTrackRef}
           >
             <div

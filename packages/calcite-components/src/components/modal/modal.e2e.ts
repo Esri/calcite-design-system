@@ -35,8 +35,8 @@ describe("calcite-modal properties", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    const style = await page.$eval("calcite-modal", (elm) => {
-      const m = elm.shadowRoot.querySelector(".modal");
+    const style = await page.$eval("calcite-modal", (el) => {
+      const m = el.shadowRoot.querySelector(".modal");
       return window.getComputedStyle(m).getPropertyValue("width");
     });
     expect(style).toEqual("600px");
@@ -50,8 +50,8 @@ describe("calcite-modal properties", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    const style = await page.$eval("calcite-modal", (elm) => {
-      const m = elm.shadowRoot.querySelector(".modal");
+    const style = await page.$eval("calcite-modal", (el) => {
+      const m = el.shadowRoot.querySelector(".modal");
       return window.getComputedStyle(m).getPropertyValue("height");
     });
     expect(style).toEqual("600px");
@@ -65,8 +65,8 @@ describe("calcite-modal properties", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    const style = await page.$eval("calcite-modal", (elm) => {
-      const m = elm.shadowRoot.querySelector(".modal");
+    const style = await page.$eval("calcite-modal", (el) => {
+      const m = el.shadowRoot.querySelector(".modal");
       return window.getComputedStyle(m).getPropertyValue("width");
     });
     expect(style).not.toEqual("600px");
@@ -80,8 +80,8 @@ describe("calcite-modal properties", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    const style = await page.$eval("calcite-modal", (elm) => {
-      const m = elm.shadowRoot.querySelector(".modal");
+    const style = await page.$eval("calcite-modal", (el) => {
+      const m = el.shadowRoot.querySelector(".modal");
       return window.getComputedStyle(m).getPropertyValue("height");
     });
     expect(style).not.toEqual("600px");
@@ -97,19 +97,19 @@ describe("calcite-modal properties", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
-    const styleW = await page.$eval("calcite-modal", (elm) => {
-      const m = elm.shadowRoot.querySelector(".modal");
+    const styleW = await page.$eval("calcite-modal", (el) => {
+      const m = el.shadowRoot.querySelector(".modal");
       return window.getComputedStyle(m).getPropertyValue("width");
     });
-    const styleH = await page.$eval("calcite-modal", (elm) => {
-      const m = elm.shadowRoot.querySelector(".modal");
+    const styleH = await page.$eval("calcite-modal", (el) => {
+      const m = el.shadowRoot.querySelector(".modal");
       return window.getComputedStyle(m).getPropertyValue("height");
     });
     expect(styleW).toEqual("800px");
     expect(styleH).toEqual("800px");
   });
 
-  it("calls the beforeClose method prior to closing", async () => {
+  it("calls the beforeClose method prior to closing via click", async () => {
     const page = await newE2EPage();
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
@@ -119,16 +119,114 @@ describe("calcite-modal properties", () => {
     const modal = await page.find("calcite-modal");
     await page.$eval(
       "calcite-modal",
-      (elm: HTMLCalciteModalElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+      (el: HTMLCalciteModalElement) =>
+        (el.beforeClose = (
+          window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
+        ).beforeClose)
     );
     await page.waitForChanges();
-    await modal.setProperty("open", true);
+    modal.setProperty("open", true);
     await page.waitForChanges();
-    await modal.setProperty("open", false);
+    expect(await modal.getProperty("opened")).toBe(true);
+    const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
+    await closeButton.click();
     await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalled();
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(await modal.getProperty("opened")).toBe(false);
   });
+
+  it("calls the beforeClose method prior to closing via ESC key", async () => {
+    const page = await newE2EPage();
+    const mockCallBack = jest.fn();
+    await page.exposeFunction("beforeClose", mockCallBack);
+    await page.setContent(`
+      <calcite-modal open></calcite-modal>
+    `);
+    const modal = await page.find("calcite-modal");
+    await page.$eval(
+      "calcite-modal",
+      (el: HTMLCalciteModalElement) =>
+        (el.beforeClose = (
+          window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
+        ).beforeClose)
+    );
+    await page.waitForChanges();
+    modal.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await modal.getProperty("opened")).toBe(true);
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    await page.waitForChanges();
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(await modal.getProperty("opened")).toBe(false);
+  });
+});
+
+it("calls the beforeClose method prior to closing via attribute", async () => {
+  const page = await newE2EPage();
+  const mockCallBack = jest.fn();
+  await page.exposeFunction("beforeClose", mockCallBack);
+  await page.setContent(`
+    <calcite-modal open></calcite-modal>
+  `);
+  const modal = await page.find("calcite-modal");
+  await page.$eval(
+    "calcite-modal",
+    (el: HTMLCalciteModalElement) =>
+      (el.beforeClose = (
+        window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
+      ).beforeClose)
+  );
+  await page.waitForChanges();
+  modal.setProperty("open", true);
+  await page.waitForChanges();
+  expect(await modal.getProperty("opened")).toBe(true);
+  modal.removeAttribute("open");
+  await page.waitForChanges();
+  expect(mockCallBack).toHaveBeenCalledTimes(1);
+  expect(await modal.getProperty("opened")).toBe(false);
+});
+
+it("should handle rejected 'beforeClose' promise'", async () => {
+  const page = await newE2EPage();
+
+  const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+  await page.exposeFunction("beforeClose", mockCallBack);
+
+  await page.setContent(`<calcite-modal open></calcite-modal>`);
+
+  await page.$eval(
+    "calcite-modal",
+    (elm: HTMLCalciteModalElement) =>
+      (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+  );
+
+  const modal = await page.find("calcite-modal");
+  modal.setProperty("open", false);
+  await page.waitForChanges();
+
+  expect(mockCallBack).toHaveBeenCalledTimes(1);
+});
+
+it("should remain open with rejected 'beforeClose' promise'", async () => {
+  const page = await newE2EPage();
+
+  await page.exposeFunction("beforeClose", () => Promise.reject());
+  await page.setContent(`<calcite-modal open></calcite-modal>`);
+
+  await page.$eval(
+    "calcite-modal",
+    (elm: HTMLCalciteModalElement) =>
+      (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+  );
+
+  const modal = await page.find("calcite-modal");
+  modal.setProperty("open", false);
+  await page.waitForChanges();
+
+  expect(await modal.getProperty("open")).toBe(true);
+  expect(await modal.getProperty("opened")).toBe(true);
+  expect(modal.getAttribute("open")).toBe(""); // Makes sure attribute is added back
 });
 
 describe("opening and closing behavior", () => {
@@ -462,7 +560,7 @@ describe("calcite-modal accessibility checks", () => {
     modal.setProperty("open", true);
     await page.waitForChanges();
     expect(modal).toHaveAttribute("open");
-    await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector("calcite-scrim").click());
+    await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
     await page.waitForChanges();
     expect(await modal.getProperty("open")).toBe(false);
   });
@@ -474,7 +572,7 @@ describe("calcite-modal accessibility checks", () => {
     modal.setProperty("open", true);
     await page.waitForChanges();
     expect(modal).toHaveAttribute("open");
-    await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector("calcite-scrim").click());
+    await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
     await page.waitForChanges();
     expect(await modal.getProperty("open")).toBe(true);
   });
@@ -536,11 +634,11 @@ describe("calcite-modal accessibility checks", () => {
         <calcite-button slot="primary">TEST</calcite-button>
       </calcite-modal>
     `);
-    let footer = await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector(".footer"));
+    let footer = await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector(".footer"));
     expect(footer).toBeDefined();
-    await page.$eval("calcite-button", (elm) => elm.parentElement.removeChild(elm));
+    await page.$eval("calcite-button", (el) => el.parentElement.removeChild(el));
     await page.waitForChanges();
-    footer = await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector(".footer"));
+    footer = await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector(".footer"));
     expect(footer).toBeFalsy();
   });
 

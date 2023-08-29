@@ -35,6 +35,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Layout, Scale, Width } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-segmented-control-item`s.
@@ -75,9 +76,6 @@ export class SegmentedControl
    */
   @Prop({ reflect: true }) required = false;
 
-  /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
-
   /**
    * Specifies the name of the component.
    *
@@ -85,8 +83,18 @@ export class SegmentedControl
    */
   @Prop({ reflect: true }) name: string;
 
+  /** Defines the layout of the component. */
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("appearance")
+  @Watch("layout")
+  @Watch("scale")
+  handlePropsChange(): void {
+    this.handleItemPropChange();
+  }
 
   /** The component's `selectedItem` value. */
   @Prop({ mutable: true }) value: string = null;
@@ -134,15 +142,7 @@ export class SegmentedControl
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
-
-    const items = this.getItems();
-    const lastChecked = items.filter((item) => item.checked).pop();
-
-    if (lastChecked) {
-      this.selectItem(lastChecked);
-    } else if (items[0]) {
-      items[0].tabIndex = 0;
-    }
+    this.setUpItems();
   }
 
   componentDidLoad(): void {
@@ -154,12 +154,16 @@ export class SegmentedControl
     connectInteractive(this);
     connectLabel(this);
     connectForm(this);
+    this.mutationObserver?.observe(this.el, { childList: true });
+
+    this.handleItemPropChange();
   }
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
+    this.mutationObserver?.unobserve(this.el);
   }
 
   componentDidRender(): void {
@@ -287,6 +291,18 @@ export class SegmentedControl
 
   defaultValue: SegmentedControl["value"];
 
+  private mutationObserver = createObserver("mutation", () => this.setUpItems());
+
+  private handleItemPropChange(): void {
+    const items = this.getItems();
+
+    items.forEach((item) => {
+      item.appearance = this.appearance;
+      item.layout = this.layout;
+      item.scale = this.scale;
+    });
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -330,6 +346,17 @@ export class SegmentedControl
     this.selectedItem = match;
     if (Build.isBrowser && match) {
       match.focus();
+    }
+  }
+
+  private setUpItems(): void {
+    const items = this.getItems();
+    const lastChecked = items.filter((item) => item.checked).pop();
+
+    if (lastChecked) {
+      this.selectItem(lastChecked);
+    } else if (items[0]) {
+      items[0].tabIndex = 0;
     }
   }
 }

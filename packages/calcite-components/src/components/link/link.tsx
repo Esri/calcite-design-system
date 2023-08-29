@@ -127,7 +127,7 @@ export class Link implements InteractiveComponent, LoadableComponent {
           role={role}
           tabIndex={tabIndex}
           target={Tag === "a" && this.target}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.storeTagRef}
         >
           {this.iconStart ? iconStartEl : null}

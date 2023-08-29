@@ -162,7 +162,7 @@ Due to a [bug in Stencil](https://github.com/ionic-team/stencil/issues/4074), `r
   class={CSS.foo}
   // ...
   tabIndex={0}
-  // eslint-disable-next-line react/jsx-sort-props
+  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
   ref={this.storeSomeElementRef}
 />
 ```

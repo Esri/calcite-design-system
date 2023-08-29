@@ -84,3 +84,7 @@ export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
   >
   </calcite-input-time-picker>
 `;
+
+export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
+  <calcite-input-time-picker read-only value="10:37"></calcite-input-time-picker>
+`;

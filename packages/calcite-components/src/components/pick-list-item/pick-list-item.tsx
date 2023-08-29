@@ -390,7 +390,7 @@ export class PickListItem
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
           tabIndex={0}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
         >
           <div

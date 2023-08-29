@@ -120,6 +120,44 @@ export const disabled_TestOnly = (): string => html`<calcite-split-button disabl
   </calcite-dropdown-group>
 </calcite-split-button>`;
 
-export const transparentWithInverseKind_TestOnly = (): string =>
-  html`<calcite-split-button scale="s" primary-text="Button" appearance="transparent" kind="inverse">
-  </calcite-split-button>`;
+export const appearanceAndKindCombinations_TestOnly = (): string => html`
+  <calcite-split-button primary-text="outline+brand" appearance="outline" kind="brand"></calcite-split-button>
+  <calcite-split-button primary-text="outline+danger" appearance="outline" kind="danger"></calcite-split-button>
+  <calcite-split-button primary-text="outline+inverse" appearance="outline" kind="inverse"></calcite-split-button>
+  <calcite-split-button primary-text="outline+neutral" appearance="outline" kind="neutral"></calcite-split-button>
+
+  <calcite-split-button primary-text="outline-fill+brand" appearance="outline-fill" kind="brand"></calcite-split-button>
+  <calcite-split-button
+    primary-text="outline-fill+danger"
+    appearance="outline-fill"
+    kind="danger"
+  ></calcite-split-button>
+  <calcite-split-button
+    primary-text="outline-fill+inverse"
+    appearance="outline-fill"
+    kind="inverse"
+  ></calcite-split-button>
+  <calcite-split-button
+    primary-text="outline-fill+neutral"
+    appearance="outline-fill"
+    kind="neutral"
+  ></calcite-split-button>
+
+  <calcite-split-button primary-text="solid+brand" appearance="solid" kind="brand"></calcite-split-button>
+  <calcite-split-button primary-text="solid+danger" appearance="solid" kind="danger"></calcite-split-button>
+  <calcite-split-button primary-text="solid+inverse" appearance="solid" kind="inverse"></calcite-split-button>
+  <calcite-split-button primary-text="solid+neutral" appearance="solid" kind="neutral"></calcite-split-button>
+
+  <calcite-split-button primary-text="transparent+brand" appearance="transparent" kind="brand"></calcite-split-button>
+  <calcite-split-button primary-text="transparent+danger" appearance="transparent" kind="danger"></calcite-split-button>
+  <calcite-split-button
+    primary-text="transparent+inverse"
+    appearance="transparent"
+    kind="inverse"
+  ></calcite-split-button>
+  <calcite-split-button
+    primary-text="transparent+neutral"
+    appearance="transparent"
+    kind="neutral"
+  ></calcite-split-button>
+`;

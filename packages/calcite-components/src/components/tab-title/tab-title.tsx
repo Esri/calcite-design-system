@@ -223,7 +223,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
             [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
           }}
           hidden={closed}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => this.resizeObserver?.observe(el)}
         >
           <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
@@ -249,7 +249,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         onClick={this.closeClickHandler}
         title={messages.close}
         type="button"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />

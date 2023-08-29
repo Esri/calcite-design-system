@@ -791,7 +791,7 @@ export class TimePicker
             onKeyDown={this.hourKeyDownHandler}
             role="spinbutton"
             tabIndex={0}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setHourEl}
           >
             {this.localizedHour || "--"}
@@ -839,7 +839,7 @@ export class TimePicker
             onKeyDown={this.minuteKeyDownHandler}
             role="spinbutton"
             tabIndex={0}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setMinuteEl}
           >
             {this.localizedMinute || "--"}
@@ -886,7 +886,7 @@ export class TimePicker
               onKeyDown={this.secondKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setSecondEl}
             >
               {this.localizedSecond || "--"}
@@ -943,7 +943,7 @@ export class TimePicker
               onKeyDown={this.meridiemKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setMeridiemEl}
             >
               {this.localizedMeridiem || "--"}

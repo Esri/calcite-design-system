@@ -278,7 +278,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           role="separator"
           tabIndex={0}
           touch-action="none"
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.connectSeparator}
         />
       ) : null;
@@ -308,7 +308,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         hidden={collapsed}
         key="content"
         style={style}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.storeContentEl}
       >
         {this.renderHeader()}

@@ -8,7 +8,7 @@ import { html } from "../../support/formatting";
 import { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
-import { GlobalTestProps, skipAnimations } from "./utils";
+import { GlobalTestProps, isElementFocused, skipAnimations } from "./utils";
 import { InteractiveHTMLElement } from "../utils/interactive";
 
 expect.extend(toHaveNoViolations);
@@ -383,10 +383,10 @@ async function assertLabelable({
   focusTargetSelector?: string;
   shadowFocusTargetSelector?: string;
 }): Promise<void> {
-  let component: E2EElement;
   let initialPropertyValue: boolean;
+  const component = await page.find(componentTag);
+
   if (propertyToToggle) {
-    component = await page.find(componentTag);
     initialPropertyValue = await component.getProperty(propertyToToggle);
   }
 
@@ -422,6 +422,12 @@ async function assertLabelable({
     await page.waitForChanges();
     expect(await component.getProperty(propertyToToggle)).toBe(toggledPropertyValue);
   }
+
+  // assert clicking on labelable keeps focus
+  await component.callMethod("click");
+  await page.waitForChanges();
+
+  expect(await isElementFocused(page, focusTargetSelector)).toBe(true);
 }
 
 interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" | "shadowFocusTargetSelector"> {
@@ -459,118 +465,146 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
   }
 
-  it("is labelable when component is wrapped in a label", async () => {
-    const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
-    const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
-    await wrappedPage.waitForChanges();
+  describe("label wraps labelables", () => {
+    it("is labelable when component is wrapped in a label", async () => {
+      const wrappedHtml = html`<calcite-label>${labelTitle} ${componentHtml}</calcite-label>`;
+      const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
+      await wrappedPage.waitForChanges();
 
-    await assertLabelable({
-      page: wrappedPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
+      await assertLabelable({
+        page: wrappedPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
+
+    it("is labelable when wrapping label is set prior to component", async () => {
+      const labelFirstWrappedPage: E2EPage = await newE2EPage();
+      await labelFirstWrappedPage.setContent(`<calcite-label></calcite-label>`);
+      await labelFirstWrappedPage.waitForChanges();
+      await labelFirstWrappedPage.evaluate((componentHtml: string) => {
+        const template = document.createElement("template");
+        template.innerHTML = `${componentHtml}`.trim();
+        const componentNode = template.content.firstChild;
+        const labelEl = document.querySelector("calcite-label");
+        labelEl.append(componentNode);
+      }, componentHtml);
+      await labelFirstWrappedPage.waitForChanges();
+
+      await assertLabelable({
+        page: labelFirstWrappedPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
+
+    it("is labelable when a component is set first before being wrapped in a label", async () => {
+      const componentFirstWrappedPage: E2EPage = await newE2EPage();
+      await componentFirstWrappedPage.setContent(`${componentHtml}`);
+      await componentFirstWrappedPage.waitForChanges();
+      await componentFirstWrappedPage.evaluate((id: string) => {
+        const componentEl = document.querySelector(`[id='${id}']`);
+        const labelEl = document.createElement("calcite-label");
+        document.body.append(labelEl);
+        labelEl.append(componentEl);
+      }, id);
+      await componentFirstWrappedPage.waitForChanges();
+
+      await assertLabelable({
+        page: componentFirstWrappedPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
+
+    it("only sets focus on the first labelable when label is clicked", async () => {
+      const firstLabelableId = `${id}`;
+      const componentFirstWrappedPage: E2EPage = await newE2EPage();
+      await componentFirstWrappedPage.setContent(html`
+        <calcite-label>
+          <!-- duplicate tags should be fine as assertion uses first match -->
+          ${componentHtml.replace(id, firstLabelableId)} ${componentHtml.replace(id, `${id}-2`)}
+          ${componentHtml.replace(id, `${id}-3`)}
+        </calcite-label>
+      `);
+      await componentFirstWrappedPage.waitForChanges();
+
+      const firstLabelableSelector = `#${firstLabelableId}`;
+
+      await assertLabelable({
+        page: componentFirstWrappedPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector:
+          focusTargetSelector === firstLabelableSelector
+            ? firstLabelableSelector
+            : `${firstLabelableSelector} ${focusTargetSelector}`,
+      });
     });
   });
 
-  it("is labelable with label set as a sibling to the component", async () => {
-    const siblingHtml = html`
-      <calcite-label for="${id}">${labelTitle}</calcite-label>
-      ${componentHtml}
-    `;
-    const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
-    await siblingPage.waitForChanges();
+  describe("label is sibling to labelables", () => {
+    it("is labelable with label set as a sibling to the component", async () => {
+      const siblingHtml = html`
+        <calcite-label for="${id}">${labelTitle}</calcite-label>
+        ${componentHtml}
+      `;
+      const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
+      await siblingPage.waitForChanges();
 
-    await assertLabelable({
-      page: siblingPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
+      await assertLabelable({
+        page: siblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
     });
-  });
 
-  it("is labelable when sibling label is set prior to component", async () => {
-    const labelFirstSiblingPage: E2EPage = await newE2EPage();
-    await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
-    await labelFirstSiblingPage.waitForChanges();
-    await labelFirstSiblingPage.evaluate((componentHtml: string) => {
-      const template = document.createElement("template");
-      template.innerHTML = `${componentHtml}`.trim();
-      const componentNode = template.content.firstChild;
-      document.body.append(componentNode);
-    }, componentHtml);
-    await labelFirstSiblingPage.waitForChanges();
+    it("is labelable when sibling label is set prior to component", async () => {
+      const labelFirstSiblingPage: E2EPage = await newE2EPage();
+      await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
+      await labelFirstSiblingPage.waitForChanges();
+      await labelFirstSiblingPage.evaluate((componentHtml: string) => {
+        const template = document.createElement("template");
+        template.innerHTML = `${componentHtml}`.trim();
+        const componentNode = template.content.firstChild;
+        document.body.append(componentNode);
+      }, componentHtml);
+      await labelFirstSiblingPage.waitForChanges();
 
-    await assertLabelable({
-      page: labelFirstSiblingPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
+      await assertLabelable({
+        page: labelFirstSiblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
     });
-  });
 
-  it("is labelable when wrapping label is set prior to component", async () => {
-    const labelFirstWrappedPage: E2EPage = await newE2EPage();
-    await labelFirstWrappedPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
-    await labelFirstWrappedPage.waitForChanges();
-    await labelFirstWrappedPage.evaluate((componentHtml: string) => {
-      const template = document.createElement("template");
-      template.innerHTML = `${componentHtml}`.trim();
-      const componentNode = template.content.firstChild;
-      const labelEl = document.querySelector("calcite-label");
-      labelEl.append(componentNode);
-    }, componentHtml);
-    await labelFirstWrappedPage.waitForChanges();
+    it("is labelable for a component set before sibling label", async () => {
+      const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
+      await componentFirstSiblingPage.waitForChanges();
+      await componentFirstSiblingPage.evaluate((id: string) => {
+        const label = document.createElement("calcite-label");
+        label.setAttribute("for", `${id}`);
+        document.body.append(label);
+      }, id);
+      await componentFirstSiblingPage.waitForChanges();
 
-    await assertLabelable({
-      page: labelFirstWrappedPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
-    });
-  });
-
-  it("is labelable for a component set before sibling label", async () => {
-    const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
-    await componentFirstSiblingPage.waitForChanges();
-    await componentFirstSiblingPage.evaluate((id: string) => {
-      const label = document.createElement("calcite-label");
-      label.setAttribute("for", `${id}`);
-      document.body.append(label);
-    }, id);
-    await componentFirstSiblingPage.waitForChanges();
-
-    await assertLabelable({
-      page: componentFirstSiblingPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
-    });
-  });
-
-  it("is labelable when a component is set first before being wrapped in a label", async () => {
-    const componentFirstWrappedPage: E2EPage = await newE2EPage();
-    await componentFirstWrappedPage.setContent(`${componentHtml}`);
-    await componentFirstWrappedPage.waitForChanges();
-    await componentFirstWrappedPage.evaluate((id: string) => {
-      const componentEl = document.querySelector(`[id='${id}']`);
-      const labelEl = document.createElement("calcite-label");
-      labelEl.setAttribute("for", `${id}`);
-      document.body.append(labelEl);
-      labelEl.append(componentEl);
-    }, id);
-    await componentFirstWrappedPage.waitForChanges();
-
-    await assertLabelable({
-      page: componentFirstWrappedPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
+      await assertLabelable({
+        page: componentFirstSiblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
     });
   });
 }

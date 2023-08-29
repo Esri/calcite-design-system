@@ -16,6 +16,10 @@
   --calcite-action-group-columns: 3;
 }
 
+.container {
+  @apply flex flex-col;
+}
+
 :host([columns="1"]) {
   --calcite-action-group-columns: 1;
 }
@@ -39,11 +43,16 @@
   @apply pt-0;
 }
 
-:host([layout="horizontal"]) {
+:host([layout="horizontal"]),
+:host([layout="horizontal"]) .container {
   @apply flex-row;
 }
 
 :host([layout="grid"]) {
+  @apply grid;
+}
+
+:host([layout="grid"]) .container {
   @apply bg-background
   grid
   place-content-stretch

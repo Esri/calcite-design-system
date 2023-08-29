@@ -80,6 +80,12 @@ export const laoNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string 
   </div>
 `;
 
+export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
+  </div>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker

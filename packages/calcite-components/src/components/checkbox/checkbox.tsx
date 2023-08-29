@@ -265,7 +265,7 @@ export class Checkbox
           onFocus={this.onToggleFocus}
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(toggleEl) => (this.toggleEl = toggleEl)}
         >
           <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">

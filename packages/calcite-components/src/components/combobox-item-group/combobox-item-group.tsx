@@ -1,5 +1,4 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
@@ -34,6 +33,13 @@ export class ComboboxItemGroup {
   /** Specifies the title of the component. */
   @Prop() label!: string;
 
+  /**
+   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
+   *
+   * @internal
+   */
+  @Prop() scale: Scale = "m";
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -42,7 +48,6 @@ export class ComboboxItemGroup {
 
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
-    this.scale = getElementProp(this.el, "scale", this.scale);
   }
 
   // --------------------------------------------------------------------------
@@ -54,8 +59,6 @@ export class ComboboxItemGroup {
   @Element() el: HTMLCalciteComboboxItemGroupElement;
 
   guid: string = guid();
-
-  scale: Scale = "m";
 
   // --------------------------------------------------------------------------
   //
