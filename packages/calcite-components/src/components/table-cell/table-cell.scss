@@ -26,10 +26,9 @@
 }
 
 td {
-  @apply align-middle text-color-1;
+  @apply text-start focus-base align-middle text-color-1;
   background: var(--calcite-table-cell-background-internal);
   border-inline-end: 1px solid var(--calcite-ui-border-3);
-  @apply text-start focus-base;
   &:focus {
     @apply focus-inset;
   }

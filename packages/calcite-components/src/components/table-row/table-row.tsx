@@ -36,9 +36,6 @@ export class Table implements LocalizedComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
   /** Is the component selected. */
   @Prop({ reflect: true }) selected = false;
 
@@ -61,6 +58,9 @@ export class Table implements LocalizedComponent {
   @Prop() positionAll: number;
 
   /** @internal */
+  @Prop() scale: Scale;
+
+  /** @internal */
   @Prop() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
   /** @internal */
@@ -72,11 +72,12 @@ export class Table implements LocalizedComponent {
   /** @internal */
   @Prop() bodyRowCount: number;
 
-  @Watch("selected")
-  @Watch("selectionMode")
-  @Watch("selectedRowCount")
   @Watch("bodyRowCount")
   @Watch("numbered")
+  @Watch("scale")
+  @Watch("selected")
+  @Watch("selectedRowCount")
+  @Watch("selectionMode")
   handleCellChanges(): void {
     // todo need to ensure conditionally rendered cells
     // (number / selection) exist before setting properties on all cells
@@ -253,6 +254,7 @@ export class Table implements LocalizedComponent {
         cell.parentRowIsSelected = this.selected;
         cell.parentRowType = this.rowType;
         cell.disabled = this.disabled;
+        cell.scale = this.scale;
       });
     }
     this.rowCells = cells || [];
@@ -288,7 +290,7 @@ export class Table implements LocalizedComponent {
         ? "circle-f"
         : "circle";
 
-    return <calcite-icon icon={icon} scale="s" />;
+    return <calcite-icon icon={icon} scale={this.scale === "l" ? "m" : "s"} />;
   }
 
   renderSelectableCell(): VNode {

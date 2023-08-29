@@ -31,9 +31,6 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
   /** Specifies the alignment of the component. */
   @Prop({ reflect: true }) alignment: Alignment = "start";
 
@@ -60,6 +57,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
   /** @internal */
   @Prop() positionInRow: number;
+
+  /** @internal */
+  @Prop() scale: Scale;
 
   /** @internal */
   @Prop() selectedRowCount: number;
@@ -209,7 +209,11 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           {this.heading && <div class={CSS.heading}>{this.heading}</div>}
           {this.description && <div class={CSS.description}>{this.description}</div>}
           {this.selectionCell && this.selectionMode === "multiple" && (
-            <calcite-icon class={{ [CSS.active]: allSelected }} icon={selectionIcon} scale="s" />
+            <calcite-icon
+              class={{ [CSS.active]: allSelected }}
+              icon={selectionIcon}
+              scale={this.scale === "l" ? "m" : "s"}
+            />
           )}
           {(this.selectionCell || this.numberCell) && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>

@@ -83,11 +83,12 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
 
-  @Watch("pageSize")
-  @Watch("numbered")
-  @Watch("selectionMode")
-  @Watch("numberingSystem")
   @Watch("groupSeparator")
+  @Watch("numbered")
+  @Watch("numberingSystem")
+  @Watch("pageSize")
+  @Watch("scale")
+  @Watch("selectionMode")
   handleNumberedChange(): void {
     this.updateRows();
   }
@@ -309,6 +310,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);
       row.numbered = this.numbered;
+      row.scale = this.scale;
     });
 
     const colCount =
@@ -360,23 +362,14 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   };
 
   private setSelectedItems = (elToMatch?: HTMLCalciteTableRowElement): void => {
-    if (elToMatch?.rowType === "head") {
-      this.bodyRows?.forEach((el) => (el.selected = this.selectedCount !== this.bodyRows?.length));
-    } else if (elToMatch?.rowType === "body") {
-      this.bodyRows?.forEach((el) => {
-        const matchingEl = elToMatch === el;
-        switch (this.selectionMode) {
-          case "multiple":
-            if (matchingEl) {
-              el.selected = !el.selected;
-            }
-            break;
-          case "single":
-            el.selected = matchingEl ? !el.selected : false;
-            break;
-        }
-      });
-    }
+    this.bodyRows?.forEach((el) => {
+      if (elToMatch?.rowType === "head") {
+        el.selected = this.selectedCount !== this.bodyRows?.length;
+      } else {
+        el.selected =
+          elToMatch === el ? !el.selected : this.selectionMode === "multiple" ? el.selected : false;
+      }
+    });
     this.updateSelectedItems(true);
   };
 

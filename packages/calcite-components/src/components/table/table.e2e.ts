@@ -536,6 +536,248 @@ describe("selection modes", () => {
     await assertSelectedItems(page, { expectedItemIds: [] });
   });
 
+  it("selection mode single allows one or no rows to be selected with keyboard", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table selection-mode="single" caption="Simple table">
+        <calcite-table-row slot="table-head">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2">
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3" selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`
+    );
+
+    await assertSelectedItems.setUpEvents(page);
+
+    const element = await page.find("calcite-table");
+    const row1 = await page.find("#row-1");
+    const row2 = await page.find("#row-2");
+    const row3 = await page.find("#row-3");
+
+    const tableSelectSpy = await element.spyOnEvent("calciteTableSelect");
+    const rowSelectSpy1 = await row1.spyOnEvent("calciteTableRowSelect");
+    const rowSelectSpy2 = await row2.spyOnEvent("calciteTableRowSelect");
+    const rowSelectSpy3 = await row3.spyOnEvent("calciteTableRowSelect");
+
+    await page.waitForChanges();
+    expect(tableSelectSpy).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
+
+    expect(await element.getProperty("selectedItems")).toHaveLength(1);
+    await assertSelectedItems(page, { expectedItemIds: [row3.id] });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-1");
+      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      cell.setFocus();
+    });
+
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+    expect(await tableSelectSpy).toHaveReceivedEventTimes(1);
+    expect(await rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(await rowSelectSpy2).toHaveReceivedEventTimes(0);
+    expect(await rowSelectSpy3).toHaveReceivedEventTimes(0);
+    expect(await row1.getProperty("selected")).toBe(true);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(false);
+    expect(await element.getProperty("selectedItems")).toHaveLength(1);
+    await assertSelectedItems(page, { expectedItemIds: [row1.id] });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-2");
+      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      cell.setFocus();
+    });
+
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(tableSelectSpy).toHaveReceivedEventTimes(2);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
+    expect(await row1.getProperty("selected")).toBe(false);
+    expect(await row2.getProperty("selected")).toBe(true);
+    expect(await row3.getProperty("selected")).toBe(false);
+    expect(await element.getProperty("selectedItems")).toHaveLength(1);
+    await assertSelectedItems(page, { expectedItemIds: [row2.id] });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-3");
+      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      cell.setFocus();
+    });
+
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(tableSelectSpy).toHaveReceivedEventTimes(3);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(1);
+    expect(await row1.getProperty("selected")).toBe(false);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(true);
+    expect(await element.getProperty("selectedItems")).toHaveLength(1);
+    await assertSelectedItems(page, { expectedItemIds: [row3.id] });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-3");
+      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      cell.setFocus();
+    });
+
+    await page.waitForChanges();
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+    expect(tableSelectSpy).toHaveReceivedEventTimes(4);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(2);
+    expect(await row1.getProperty("selected")).toBe(false);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(false);
+
+    expect(await element.getProperty("selectedItems")).toEqual([]);
+    await assertSelectedItems(page, { expectedItemIds: [] });
+  });
+
+  it("selection mode multiple allows one, multiple, or no rows to be selected with keyboard", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-table selection-mode="multiple" caption="Simple table">
+        <calcite-table-row slot="table-head">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-2" selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="row-3" selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`
+    );
+
+    await assertSelectedItems.setUpEvents(page);
+
+    const element = await page.find("calcite-table");
+    const row1 = await page.find("#row-1");
+    const row2 = await page.find("#row-2");
+    const row3 = await page.find("#row-3");
+
+    const tableSelectSpy = await element.spyOnEvent("calciteTableSelect");
+    const rowSelectSpy1 = await row1.spyOnEvent("calciteTableRowSelect");
+    const rowSelectSpy2 = await row2.spyOnEvent("calciteTableRowSelect");
+    const rowSelectSpy3 = await row3.spyOnEvent("calciteTableRowSelect");
+
+    await page.waitForChanges();
+
+    expect(tableSelectSpy).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
+
+    expect(await element.getProperty("selectedItems")).toHaveLength(2);
+    await assertSelectedItems(page, { expectedItemIds: [row2.id, row3.id] });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-1");
+      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      cell.setFocus();
+    });
+
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await tableSelectSpy).toHaveReceivedEventTimes(1);
+    expect(await rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(await rowSelectSpy2).toHaveReceivedEventTimes(0);
+    expect(await rowSelectSpy3).toHaveReceivedEventTimes(0);
+    expect(await row1.getProperty("selected")).toBe(true);
+    expect(await row2.getProperty("selected")).toBe(true);
+    expect(await row3.getProperty("selected")).toBe(true);
+    expect(await element.getProperty("selectedItems")).toHaveLength(3);
+    await assertSelectedItems(page, { expectedItemIds: [row1.id, row2.id, row3.id] });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-2");
+      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      cell.setFocus();
+    });
+    await page.waitForChanges();
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+    expect(tableSelectSpy).toHaveReceivedEventTimes(2);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
+    expect(await row1.getProperty("selected")).toBe(true);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(true);
+    expect(await element.getProperty("selectedItems")).toHaveLength(2);
+    await assertSelectedItems(page, { expectedItemIds: [row1.id, row3.id] });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-3");
+      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      cell.setFocus();
+    });
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(tableSelectSpy).toHaveReceivedEventTimes(3);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(1);
+    expect(await row1.getProperty("selected")).toBe(true);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(false);
+    expect(await element.getProperty("selectedItems")).toHaveLength(1);
+    await assertSelectedItems(page, { expectedItemIds: [row1.id] });
+
+    await page.$eval("calcite-table", () => {
+      const row = document.getElementById("row-1");
+      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      cell.setFocus();
+    });
+
+    await page.waitForChanges();
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+    expect(tableSelectSpy).toHaveReceivedEventTimes(4);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(2);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(1);
+    expect(await row1.getProperty("selected")).toBe(false);
+    expect(await row2.getProperty("selected")).toBe(false);
+    expect(await row3.getProperty("selected")).toBe(false);
+
+    expect(await element.getProperty("selectedItems")).toEqual([]);
+    await assertSelectedItems(page, { expectedItemIds: [] });
+  });
   it("correctly has no selected items after user clears selection via clear button", async () => {
     const page = await newE2EPage();
     await page.setContent(

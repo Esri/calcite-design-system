@@ -44,9 +44,6 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   /** Specifies the number of rows the component should span. */
   @Prop({ reflect: true }) rowSpan: number;
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
   /** @internal */
   @Prop() disabled: boolean;
 
@@ -64,6 +61,9 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
 
   /** @internal */
   @Prop() positionInRow: number;
+
+  /** @internal */
+  @Prop() scale: Scale = "m";
 
   /** @internal */
   @Prop() selectionCell: boolean;
