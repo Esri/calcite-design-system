@@ -93,7 +93,28 @@ describe("calcite-sheet properties", () => {
       },
       `.${CSS.content}`
     );
-    expect(style).toEqual("432px");
+    expect(style).toEqual("420px");
+  });
+
+  it("sets custom width and max correctly", async () => {
+    const page = await newE2EPage();
+    // set large page to ensure test sheet isn't becoming fullscreen
+    await page.setViewport({ width: 1440, height: 1440 });
+    await page.setContent(
+      `<calcite-sheet position="inline-start" style="--calcite-sheet-width:600px;--calcite-sheet-max-width:600px;"></calcite-sheet>`
+    );
+    const sheet = await page.find("calcite-sheet");
+    sheet.setProperty("open", true);
+    await page.waitForChanges();
+    const style = await page.$eval(
+      "calcite-sheet",
+      (elm, selector: string) => {
+        const s = elm.shadowRoot.querySelector(selector);
+        return window.getComputedStyle(s).getPropertyValue("width");
+      },
+      `.${CSS.content}`
+    );
+    expect(style).toEqual("600px");
   });
 
   it("sets custom height correctly", async () => {
