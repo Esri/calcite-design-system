@@ -114,37 +114,37 @@
 }
 
 :host([position^="inline"][width-scale="s"]) {
-  --calcite-sheet-width-internal: var(--calcite-sheet-width, 20vw);
-  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 20vw);
-  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 20vw);
+  --calcite-sheet-width-internal: var(--calcite-sheet-width, 15vw);
+  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 360px);
+  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 260px);
 }
 
 :host([position^="inline"][width-scale="m"]) {
-  --calcite-sheet-width-internal: var(--calcite-sheet-width, 30vw);
-  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 30vw);
-  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 30vw);
+  --calcite-sheet-width-internal: var(--calcite-sheet-width, 25vw);
+  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 420px);
+  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 300px);
 }
 
 :host([position^="inline"][width-scale="l"]) {
-  --calcite-sheet-width-internal: var(--calcite-sheet-width, 40vw);
-  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 40vw);
-  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 40vw);
+  --calcite-sheet-width-internal: var(--calcite-sheet-width, 45vw);
+  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 680px);
+  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 340px);
 }
 
 :host([position^="block"][height-scale="s"]) {
-  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 10vh);
-  --calcite-sheet-height-internal: var(--calcite-sheet-height, 20vh);
+  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 160px);
+  --calcite-sheet-height-internal: var(--calcite-sheet-height, 30vh);
   --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 30vh);
 }
 
 :host([position^="block"][height-scale="m"]) {
-  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 10vh);
-  --calcite-sheet-height-internal: var(--calcite-sheet-height, 40vh);
+  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 200px);
+  --calcite-sheet-height-internal: var(--calcite-sheet-height, 45vh);
   --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 50vh);
 }
 
 :host([position^="block"][height-scale="l"]) {
-  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 10vh);
+  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 240px);
   --calcite-sheet-height-internal: var(--calcite-sheet-height, 60vh);
   --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 70vh);
 }
