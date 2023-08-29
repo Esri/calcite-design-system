@@ -865,7 +865,7 @@ export class InputTimePicker
             scale={this.scale}
             step={this.step}
           />
-          {this.renderToggleIcon(this.open)}
+          {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
         <calcite-popover
           focusTrapDisabled={true}
@@ -879,7 +879,7 @@ export class InputTimePicker
           placement={this.placement}
           referenceElement={this.referenceElementId}
           triggerDisabled={true}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setCalcitePopoverEl}
         >
           <calcite-time-picker
@@ -891,7 +891,7 @@ export class InputTimePicker
             step={this.step}
             tabIndex={this.open ? undefined : -1}
             value={this.value}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setCalciteTimePickerEl}
           />
         </calcite-popover>

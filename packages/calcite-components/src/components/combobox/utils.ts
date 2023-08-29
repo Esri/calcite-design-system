@@ -2,6 +2,7 @@ import { nodeListToArray } from "../../utils/dom";
 import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector } from "./resources";
 import { Build } from "@stencil/core";
+import { Combobox } from "./combobox";
 
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
   const parent: ComboboxChildElement = element.parentElement?.closest(ComboboxChildSelector);
@@ -38,4 +39,8 @@ export function getDepth(element: HTMLElement): number {
   );
 
   return result.snapshotLength;
+}
+
+export function isSingleLike(selectionMode: Combobox["selectionMode"]): boolean {
+  return selectionMode.includes("single");
 }
