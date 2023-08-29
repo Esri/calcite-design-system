@@ -207,8 +207,8 @@ export class InputTimePicker
 
   @Watch("disabled")
   @Watch("readOnly")
-  handleDisabledAndReadOnlyChange(open: boolean): void {
-    if (!open) {
+  handleDisabledAndReadOnlyChange(value: boolean): void {
+    if (!value) {
       this.open = false;
     }
   }
@@ -365,19 +365,19 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteInputTimePickerBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteInputTimePickerBeforeOpen: EventEmitter<void>;
+
   /**
    * Fires when the time value is changed as a result of user input.
    */
   @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<void>;
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteInputTimePickerBeforeClose: EventEmitter<void>;
-
   /** Fires when the component is closed and animation is complete. */
   @Event({ cancelable: false }) calciteInputTimePickerClose: EventEmitter<void>;
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteInputTimePickerBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteInputTimePickerOpen: EventEmitter<void>;
@@ -793,7 +793,9 @@ export class InputTimePicker
     connectLocalized(this);
 
     const { open } = this;
-    open && this.openHandler(open);
+    if (open) {
+      this.openHandler(open);
+    }
 
     if (isValidTime(this.value)) {
       this.setValueDirectly(this.value);
@@ -860,10 +862,11 @@ export class InputTimePicker
             onCalciteInputInput={this.calciteInternalInputInputHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
             readOnly={readOnly}
-            ref={this.setInputAndTransitionEl}
             role="combobox"
             scale={this.scale}
             step={this.step}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setInputAndTransitionEl}
           />
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>

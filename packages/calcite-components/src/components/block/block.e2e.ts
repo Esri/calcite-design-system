@@ -140,6 +140,7 @@ describe("calcite-block", () => {
     const page = await newE2EPage({ html: "<calcite-block collapsible></calcite-block>" });
 
     const element = await page.find("calcite-block");
+    const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
     const openSpy = await element.spyOnEvent("calciteBlockOpen");
     const closeSpy = await element.spyOnEvent("calciteBlockClose");
 
@@ -151,6 +152,7 @@ describe("calcite-block", () => {
 
     await toggle.click();
 
+    expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(true);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.collapse);
@@ -159,6 +161,7 @@ describe("calcite-block", () => {
 
     await toggle.click();
 
+    expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(closeSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
@@ -204,6 +207,7 @@ describe("calcite-block", () => {
       expect(await controlSlot.isVisible()).toBe(true);
 
       const block = await page.find("calcite-block");
+      const blockToggleSpy = await block.spyOnEvent("calciteBlockToggle");
       const blockOpenSpy = await block.spyOnEvent("calciteBlockOpen");
       const blockCloseSpy = await block.spyOnEvent("calciteBlockClose");
 
@@ -211,9 +215,11 @@ describe("calcite-block", () => {
       await control.press("Enter");
       await control.click();
       expect(blockOpenSpy).toHaveReceivedEventTimes(0);
+      expect(blockToggleSpy).toHaveReceivedEventTimes(0);
 
       await block.click();
       await block.click();
+      expect(blockToggleSpy).toHaveReceivedEventTimes(2);
       expect(blockOpenSpy).toHaveReceivedEventTimes(1);
       expect(blockCloseSpy).toHaveReceivedEventTimes(1);
     });

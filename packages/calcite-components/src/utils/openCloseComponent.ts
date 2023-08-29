@@ -52,7 +52,7 @@ export interface OpenCloseComponent {
 
 const componentToTransitionListeners = new WeakMap<
   OpenCloseComponent,
-  [HTMLDivElement, typeof transitionStart, typeof transitionEnd]
+  [HTMLElement, typeof transitionStart, typeof transitionEnd]
 >();
 
 function transitionStart(event: TransitionEvent): void {
@@ -166,7 +166,7 @@ export function connectOpenCloseComponent(component: OpenCloseComponent): void {
     const boundOnTransitionEnd: (event: TransitionEvent) => void = transitionEnd.bind(component);
 
     componentToTransitionListeners.set(component, [
-      component.transitionEl as HTMLDivElement,
+      component.transitionEl,
       boundOnTransitionStart,
       boundOnTransitionEnd,
     ]);

@@ -109,10 +109,6 @@ export class Block
   @Watch("open")
   openHandler(): void {
     onToggleOpenCloseComponent(this);
-
-    if (this.disabled) {
-      return;
-    }
   }
 
   /**
@@ -210,6 +206,7 @@ export class Block
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
+
     if (this.open) {
       this.openHandler();
     }
@@ -241,6 +238,18 @@ export class Block
   //
   // --------------------------------------------------------------------------
 
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteBlockBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteBlockBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteBlockClose: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteBlockOpen: EventEmitter<void>;
+
   /**
    * Emits when the component's header is clicked.
    *
@@ -248,17 +257,6 @@ export class Block
    */
   @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event({ cancelable: false }) calciteBlockBeforeClose: EventEmitter<void>;
-
-  /** Fires when the component is closed and animation is complete. */
-  @Event({ cancelable: false }) calciteBlockClose: EventEmitter<void>;
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event({ cancelable: false }) calciteBlockBeforeOpen: EventEmitter<void>;
-
-  /** Fires when the component is open and animation is complete. */
-  @Event({ cancelable: false }) calciteBlockOpen: EventEmitter<void>;
   // --------------------------------------------------------------------------
   //
   //  Private Methods
