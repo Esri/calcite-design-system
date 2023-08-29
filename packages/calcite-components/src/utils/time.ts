@@ -347,11 +347,11 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
 
 export function parseTimeString(value: string): Time {
   if (isValidTime(value)) {
-    // eslint-disable-next-line prefer-const
-    let [hour, minute, second] = value.split(":");
+    const [hour, minute, secondDecimal] = value.split(":");
+    let second = null;
     let fractionalSecond = null;
-    if (second?.includes(".")) {
-      [second, fractionalSecond] = second.split(".");
+    if (secondDecimal?.includes(".")) {
+      [second, fractionalSecond] = secondDecimal.split(".");
     }
     return {
       fractionalSecond,
