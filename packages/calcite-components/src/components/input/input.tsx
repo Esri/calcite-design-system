@@ -955,6 +955,7 @@ export class Input
     this.setPreviousValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
 
+    const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
     if (this.type === "number") {
       numberStringFormatter.numberFormatOptions = {
         locale: this.effectiveLocale,
@@ -964,7 +965,6 @@ export class Input
 
       const isValueDeleted =
         this.previousValue?.length > value.length || this.value?.length > value.length;
-      const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
       const sanitizedValue =
         hasTrailingDecimalSeparator && isValueDeleted
           ? value
@@ -1006,8 +1006,10 @@ export class Input
       this.setInputValue(value);
       this.previousEmittedValue = value;
     } else if (
+      this.type === "number" &&
       typeof this.places === "number" &&
-      this.value.split(".")[1]?.length === this.places
+      ((this.places === 0 && hasTrailingDecimalSeparator) ||
+        this.value.split(".")[1]?.length === this.places)
     ) {
       this.setInputValue(this.localizedValue);
     }

@@ -882,7 +882,8 @@ export class InputNumber
       this.setPreviousEmittedNumberValue(newLocalizedValue);
     } else if (
       typeof this.places === "number" &&
-      this.value.split(".")[1]?.length === this.places
+      ((this.places === 0 && hasTrailingDecimalSeparator) ||
+        this.value.split(".")[1]?.length === this.places)
     ) {
       this.setInputNumberValue(newLocalizedValue);
     }

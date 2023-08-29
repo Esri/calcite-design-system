@@ -157,6 +157,9 @@ export function getBigDecimalAsString(sanitizedValue: string): string {
 
 function stripDecimalPlaces(numberString: string, places: number | undefined): string {
   const numberParts = numberString.split(".");
+  if (places === 0) {
+    return numberParts[0];
+  }
   if (numberParts[1]?.length > places) {
     numberParts[1] = numberParts[1].substring(0, places);
   }
