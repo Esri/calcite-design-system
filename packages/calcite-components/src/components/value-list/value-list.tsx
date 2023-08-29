@@ -66,6 +66,7 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
+  dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -231,8 +232,6 @@ export class ValueList<
 
   dragSelector = "calcite-value-list-item";
 
-  dragging: boolean;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -240,7 +239,7 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.dragging) {
+    if (dragActive()) {
       return;
     }
 
@@ -267,7 +266,7 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
-    if (this.dragging) {
+    if (dragActive()) {
       return;
     }
 

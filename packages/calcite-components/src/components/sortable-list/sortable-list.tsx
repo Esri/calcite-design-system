@@ -15,6 +15,7 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
+  dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -93,8 +94,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   dragEnabled = true;
 
-  dragging: boolean;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -102,7 +101,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.dragging) {
+    if (dragActive()) {
       return;
     }
 
@@ -112,7 +111,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   }
 
   disconnectedCallback(): void {
-    if (this.dragging) {
+    if (dragActive()) {
       return;
     }
 

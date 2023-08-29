@@ -31,6 +31,7 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
+  dragActive,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 
@@ -294,7 +295,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.dragging) {
+    if (dragActive()) {
       return;
     }
 
@@ -306,7 +307,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   }
 
   disconnectedCallback(): void {
-    if (this.dragging) {
+    if (dragActive()) {
       return;
     }
 
@@ -338,8 +339,6 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   @State() assistiveText: string;
 
   @State() dataForFilter: ItemData = [];
-
-  dragging: boolean;
 
   dragSelector = "calcite-list-item";
 
@@ -487,6 +486,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   }
 
   onDragSort(event: SortableEvent): void {
+    this.parentListEl = this.el.parentElement.closest("calcite-list");
     this.updateListItems();
 
     const { from, item, to } = event;
