@@ -109,7 +109,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
     updateMessages(this, this.effectiveLocale);
   }
 
-  private tdEl: HTMLDivElement;
+  private containerEl: HTMLTableCellElement;
 
   // --------------------------------------------------------------------------
   //
@@ -148,7 +148,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.tdEl.focus();
+    this.containerEl.focus();
   }
   // --------------------------------------------------------------------------
   //
@@ -188,7 +188,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
           rowSpan={this.rowSpan}
           tabIndex={this.disabled ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props
-          ref={(el) => (this.tdEl = el)}
+          ref={(el) => (this.containerEl = el)}
         >
           {(this.selectionCell || this.isSafari) && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>

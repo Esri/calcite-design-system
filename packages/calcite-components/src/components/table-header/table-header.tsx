@@ -136,7 +136,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     updateMessages(this, this.effectiveLocale);
   }
 
-  private thEl: HTMLDivElement;
+  private containerEl: HTMLTableCellElement;
 
   // --------------------------------------------------------------------------
   //
@@ -148,7 +148,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.thEl.focus();
+    this.containerEl.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -204,7 +204,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           scope={scope}
           tabindex={0}
           // eslint-disable-next-line react/jsx-sort-props
-          ref={(el) => (this.thEl = el as HTMLDivElement)}
+          ref={(el) => (this.containerEl = el)}
         >
           {this.heading && <div class={CSS.heading}>{this.heading}</div>}
           {this.description && <div class={CSS.description}>{this.description}</div>}

@@ -26,7 +26,7 @@ import { CSS } from "./resources";
   styleUrl: "table-row.scss",
   shadow: true,
 })
-export class Table implements LocalizedComponent {
+export class TableRow implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
