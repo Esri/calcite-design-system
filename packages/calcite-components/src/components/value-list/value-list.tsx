@@ -196,6 +196,8 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteValueListElement;
+
   @State() dataForFilter: ItemData = [];
 
   @State() defaultMessages: ValueListMessages;
@@ -216,8 +218,6 @@ export class ValueList<
   mutationObserver = createObserver("mutation", mutationObserverCallback.bind(this));
 
   sortable: Sortable;
-
-  @Element() el: HTMLCalciteValueListElement;
 
   emitCalciteListChange: () => void;
 

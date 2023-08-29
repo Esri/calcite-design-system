@@ -31,14 +31,6 @@ import { Scale } from "../interfaces";
 export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDatePickerDayElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -211,6 +203,8 @@ export class DatePickerDay implements InteractiveComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteDatePickerDayElement;
 
   private parentDatePickerEl: HTMLCalciteDatePickerElement;
 }

@@ -64,19 +64,16 @@ import {
 export class ActionBar
   implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteActionBarElement;
-
   // --------------------------------------------------------------------------
   //
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Specifies the accessible label for the last action-group.
+   */
+  @Prop() actionsEndGroupLabel: string;
 
   /**
    * When `true`, the expand-toggling behavior is disabled.
@@ -167,6 +164,8 @@ export class ActionBar
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteActionBarElement;
 
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
@@ -378,7 +377,17 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const { expanded, expandDisabled, el, position, toggleExpand, scale, layout, messages } = this;
+    const {
+      expanded,
+      expandDisabled,
+      el,
+      position,
+      toggleExpand,
+      scale,
+      layout,
+      messages,
+      actionsEndGroupLabel,
+    } = this;
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
@@ -390,7 +399,7 @@ export class ActionBar
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setExpandToggleRef}
       />
     ) : null;
@@ -399,6 +408,7 @@ export class ActionBar
       <calcite-action-group
         class={CSS.actionGroupEnd}
         hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
+        label={actionsEndGroupLabel}
         layout={layout}
         scale={scale}
       >

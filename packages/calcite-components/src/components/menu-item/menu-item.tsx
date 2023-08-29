@@ -48,14 +48,6 @@ type Layout = "horizontal" | "vertical";
 export class CalciteMenuItem implements LoadableComponent, T9nComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteMenuItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -140,6 +132,8 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteMenuItemElement;
 
   @State() defaultMessages: MenuItemMessages;
 
@@ -412,7 +406,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
         text={this.messages.open}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.dropdownActionEl = el)}
       />
     );
@@ -489,7 +483,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
               role="menuitem"
               tabIndex={this.isTopLevelItem ? 0 : -1}
               target={this.target}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}

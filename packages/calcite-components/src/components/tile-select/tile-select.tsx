@@ -39,14 +39,6 @@ import { CSS } from "./resources";
 export class TileSelect implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTileSelectElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -109,6 +101,8 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTileSelectElement;
 
   private input: HTMLCalciteCheckboxElement | HTMLCalciteRadioButtonElement;
 

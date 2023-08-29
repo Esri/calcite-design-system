@@ -60,14 +60,6 @@ export class Notice
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteNoticeElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //---------------------------------------------------------------------------
@@ -158,7 +150,7 @@ export class Notice
         aria-label={this.messages.close}
         class={CSS.close}
         onClick={this.close}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
@@ -243,6 +235,8 @@ export class Notice
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteNoticeElement;
 
   /** The close button element. */
   private closeButton?: HTMLButtonElement;

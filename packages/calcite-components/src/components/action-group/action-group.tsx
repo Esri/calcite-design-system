@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import { Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { CalciteActionMenuCustomEvent } from "../../components";
 import {
   ConditionalSlotComponent,
@@ -22,7 +22,7 @@ import {
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Columns, Layout, Scale } from "../interfaces";
 import { ActionGroupMessages } from "./assets/action-group/t9n";
-import { ICONS, SLOTS } from "./resources";
+import { ICONS, SLOTS, CSS } from "./resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 
@@ -57,6 +57,11 @@ export class ActionGroup
   expandedHandler(): void {
     this.menuOpen = false;
   }
+
+  /**
+   * Specifies the label of the component. Required for accessibility.
+   */
+  @Prop() label: string;
 
   /**
    * Indicates the layout of the component.
@@ -202,10 +207,10 @@ export class ActionGroup
 
   render(): VNode {
     return (
-      <Fragment>
+      <div aria-label={this.label} class={CSS.container} role="group">
         <slot />
         {this.renderMenu()}
-      </Fragment>
+      </div>
     );
   }
 

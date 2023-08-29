@@ -9,7 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementProp, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
 import { CSS, SLOTS } from "./resources";
 
@@ -19,15 +19,6 @@ import { CSS, SLOTS } from "./resources";
   shadow: true,
 })
 export class SegmentedControlItem {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element()
-  el: HTMLCalciteSegmentedControlItemElement;
-
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -59,15 +50,35 @@ export class SegmentedControlItem {
   @Prop({ mutable: true })
   value: any | null;
 
+  /**
+   * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `solid`.
+   *
+   * @internal
+   */
+  @Prop() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
+
+  /**
+   * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
+   *
+   * @internal
+   */
+  @Prop() layout: Layout = "horizontal";
+
+  /**
+   * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
+   *
+   * @internal
+   */
+  @Prop() scale: Scale = "m";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
   render(): VNode {
-    const { checked, value } = this;
-    const scale: Scale = getElementProp(this.el, "scale", "m");
-    const appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = getElementProp(
-      this.el,
-      "appearance",
-      "solid"
-    );
-    const layout: Layout = getElementProp(this.el, "layout", "horizontal");
+    const { appearance, checked, layout, scale, value } = this;
 
     const iconStartEl = this.iconStart ? (
       <calcite-icon
@@ -109,6 +120,14 @@ export class SegmentedControlItem {
       </Host>
     );
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteSegmentedControlItemElement;
 
   //--------------------------------------------------------------------------
   //

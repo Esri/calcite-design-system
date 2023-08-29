@@ -8,11 +8,13 @@ import {
   Listen,
   Prop,
   VNode,
+  Watch,
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
-import { CSS } from "./resources";
+import { createObserver } from "../../utils/observers";
+import { CSS } from "../dropdown-item/resources";
+
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.
  */
@@ -26,13 +28,6 @@ import { CSS } from "./resources";
 export class DropdownGroup {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteDropdownGroupElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -41,18 +36,25 @@ export class DropdownGroup {
   @Prop({ reflect: true }) groupTitle: string;
 
   /**
-   * Specifies the component's selection mode, where
-   * `"multiple"` allows any number of (or no) selected `calcite-dropdown-item`s,
-   * `"single"` allows and requires one selected `calcite-dropdown-item`, and
-   * `"none"` does not allow selection on `calcite-dropdown-item`s.
+   * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) selectionMode: Extract<"single" | "none" | "multiple", SelectionMode> =
-    "single";
+  @Prop() scale: Scale = "m";
 
   /**
-   * Specifies the size of the component.
+   * Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`:
+   * - `multiple` allows any number of selected items,
+   * - `single` allows only one selection (default),
+   * - `none` doesn't allow for any selection.
    */
-  @Prop({ reflect: true }) scale: Scale;
+  @Prop({ reflect: true }) selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> =
+    "single";
+
+  @Watch("selectionMode")
+  handlePropsChange(): void {
+    this.updateItems();
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -71,12 +73,15 @@ export class DropdownGroup {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.updateItems();
+  }
+
   componentWillLoad(): void {
     this.groupPosition = this.getGroupPosition();
   }
 
   render(): VNode {
-    const scale: Scale = this.scale || getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
       <span aria-hidden="true" class="dropdown-title">
         {this.groupTitle}
@@ -90,12 +95,9 @@ export class DropdownGroup {
       <Host aria-label={this.groupTitle} role="group">
         <div
           class={{
-            container: true,
-            [CSS.containerSmall]: scale === "s",
-            [CSS.containerMedium]: scale === "m",
-            [CSS.containerLarge]: scale === "l",
+            [CSS.container]: true,
+            [`${CSS.container}--${this.scale}`]: true,
           }}
-          title={this.groupTitle}
         >
           {dropdownSeparator}
           {groupTitle}
@@ -127,6 +129,8 @@ export class DropdownGroup {
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteDropdownGroupElement;
+
   /** position of group within a dropdown */
   private groupPosition: number;
 
@@ -135,6 +139,14 @@ export class DropdownGroup {
 
   /** the requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
+
+  private updateItems = (): void => {
+    Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach(
+      (item) => (item.selectionMode = this.selectionMode)
+    );
+  };
+
+  mutationObserver = createObserver("mutation", () => this.updateItems());
 
   //--------------------------------------------------------------------------
   //

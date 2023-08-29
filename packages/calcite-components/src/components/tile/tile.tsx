@@ -23,14 +23,6 @@ import { SLOTS } from "./resources";
   shadow: true,
 })
 export class Tile implements ConditionalSlotComponent, InteractiveComponent {
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTileElement;
-
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -79,7 +71,16 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   @Prop({ reflect: true }) icon: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+
   @Prop({ reflect: true }) iconFlipRtl = false;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTileElement;
 
   // --------------------------------------------------------------------------
   //

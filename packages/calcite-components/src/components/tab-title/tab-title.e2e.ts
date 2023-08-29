@@ -11,7 +11,7 @@ describe("calcite-tab-title", () => {
       <calcite-tab-nav slot="title-group">
         <calcite-tab-title id="title1" closable>Watercraft</calcite-tab-title>
         <calcite-tab-title id="title2" closable>Automobiles</calcite-tab-title>
-        <calcite-tab-title id="title3" closable>Aircrafts</calcite-tab-title>
+        <calcite-tab-title id="title3" closable>Aircraft</calcite-tab-title>
         <calcite-tab-title id="title4" closable>Bicycles</calcite-tab-title>
       </calcite-tab-nav>
       <calcite-tab id="tab1">

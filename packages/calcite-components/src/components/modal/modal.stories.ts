@@ -115,6 +115,10 @@ export const withTooltips_TestOnly = (): string => html`
   <calcite-tooltip open label="Back" reference-element="back-button-modal">Back</calcite-tooltip>
 `;
 
+withTooltips_TestOnly.parameters = {
+  chromatic: { delay: 500 },
+};
+
 export const withCSSVars_TestOnly = (): string => html`
   <button id="button">Open</button>
   <calcite-modal open aria-labelledby="modal-title" id="modal" style="--calcite-modal-content-background: #ddd;">

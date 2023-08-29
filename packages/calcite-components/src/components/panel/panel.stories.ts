@@ -129,7 +129,7 @@ export const onlyProps = (): string => html`
       heading-level="${text("heading-level", "2")}"
       description="${text(
         "description",
-        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
       )}"
       heading="${text(
         "heading",

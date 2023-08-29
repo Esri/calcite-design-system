@@ -135,7 +135,7 @@ export const hongKongLocale_TestOnly = (): string =>
     ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
   >`;
 
-export const ukranianLocaleWithTipGroup_TestOnly = (): string => html`<calcite-tip-manager>
+export const ukrainianLocaleWithTipGroup_TestOnly = (): string => html`<calcite-tip-manager>
 <calcite-tip-group group-title="Tip Manager heading">
     <calcite-tip heading="Example tip title">
     <calcite-tip><p>basic render</p></calcite-tip>

@@ -189,11 +189,14 @@
           const determinateLoaderMedium = document.querySelector("#loader-determinate-m");
           const determinateLoaderLarge = document.querySelector("#loader-determinate-l");
           const randoms = [0, 0, 0, 0, 0, 0, 1, 3];
+
           function updateLoader() {
-            const random = randoms[Math.floor(Math.random() * randoms.length)];
-            determinateLoaderSmall.value = Math.min(determinateLoaderSmall.value + random, 100);
-            determinateLoaderMedium.value = Math.min(determinateLoaderMedium.value + random, 100);
-            determinateLoaderLarge.value = Math.min(determinateLoaderLarge.value + random, 100);
+            const random = randoms[Math.floor(Math.random() * (randoms.length - 1))];
+
+            determinateLoaderSmall.value = Math.min((determinateLoaderSmall.value ?? 0) + random, 100);
+            determinateLoaderMedium.value = Math.min((determinateLoaderMedium.value ?? 0) + random, 100);
+            determinateLoaderLarge.value = Math.min((determinateLoaderLarge.value ?? 0) + random, 100);
+
             if (
               determinateLoaderSmall.value !== 100 ||
               determinateLoaderMedium.value !== 100 ||

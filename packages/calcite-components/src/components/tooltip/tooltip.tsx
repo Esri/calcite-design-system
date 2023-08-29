@@ -344,12 +344,12 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           <FloatingArrow
             floatingLayout={floatingLayout}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
           />
           <div class={CSS.container}>

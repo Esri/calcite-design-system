@@ -17,14 +17,6 @@ import {
 export class CalciteNavigationUser implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteNavigationUserElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -62,6 +54,14 @@ export class CalciteNavigationUser implements LoadableComponent {
     await componentFocusable(this);
     this.el.focus();
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteNavigationUserElement;
 
   //--------------------------------------------------------------------------
   //

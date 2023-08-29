@@ -42,14 +42,6 @@ export class Switch
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteSwitchElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -89,6 +81,8 @@ export class Switch
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteSwitchElement;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -211,7 +205,7 @@ export class Switch
           class="container"
           role="switch"
           tabIndex={0}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setSwitchEl}
         >
           <div class="track">

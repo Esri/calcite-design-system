@@ -130,8 +130,8 @@ const item2HTML = html`
       erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
     </li>
     <li>
-      Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.
-      Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+      Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetur ligula vulputate sem tristique cursus. Nam
+      nulla quam, gravida non, commodo a, sodales sit amet, nisi.
     </li>
     <li>
       Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
@@ -178,7 +178,7 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
   <div id="container">
     <calcite-flow>
       <calcite-flow-item heading="Example">
-        <div>### Stickied Content e.g. toolbar</div>
+        <div>### Sticky Content e.g. toolbar</div>
         <div class="content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
           sollicitudin ac nulla. Pellentesque tincidunt malesuada arcu et placerat. In malesuada neque lectus, at congue

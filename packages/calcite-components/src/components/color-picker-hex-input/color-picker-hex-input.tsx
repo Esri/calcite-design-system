@@ -45,14 +45,6 @@ const DEFAULT_COLOR = Color();
 export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteColorPickerHexInputElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -291,6 +283,8 @@ export class ColorPickerHexInput implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteColorPickerHexInputElement;
+
   private hexInputNode: HTMLCalciteInputTextElement;
 
   /**
@@ -327,7 +321,7 @@ export class ColorPickerHexInput implements LoadableComponent {
           prefixText="#"
           scale={inputScale}
           value={hexInputValue}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.storeHexInputRef}
         />
         {alphaChannel ? (
@@ -346,7 +340,7 @@ export class ColorPickerHexInput implements LoadableComponent {
             scale={inputScale}
             suffixText="%"
             value={opacityInputValue}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeOpacityInputRef}
           />
         ) : null}

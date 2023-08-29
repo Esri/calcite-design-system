@@ -412,7 +412,7 @@ export class ListItem
         hidden={!hasActionsStart}
         key="actions-start-container"
         role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsStartEl = el)}
       >
         <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
@@ -429,7 +429,7 @@ export class ListItem
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsEndEl = el)}
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
@@ -514,7 +514,7 @@ export class ListItem
         key="content-container"
         onClick={this.itemClicked}
         role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.contentEl = el)}
       >
         {content}
@@ -561,7 +561,7 @@ export class ListItem
           role="row"
           style={{ "--calcite-list-item-spacing-indent-multiplier": `${this.visualLevel}` }}
           tabIndex={active ? 0 : -1}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >
           {this.renderDragHandle()}

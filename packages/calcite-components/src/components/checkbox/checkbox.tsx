@@ -43,14 +43,6 @@ export class Checkbox
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteCheckboxElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -116,6 +108,8 @@ export class Checkbox
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteCheckboxElement;
 
   readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
@@ -271,7 +265,7 @@ export class Checkbox
           onFocus={this.onToggleFocus}
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(toggleEl) => (this.toggleEl = toggleEl)}
         >
           <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
