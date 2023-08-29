@@ -12,11 +12,10 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  slotChangeHasAssignedElement,
   filterDirectChildren,
   getElementDir,
   getSlotted,
-  nodeListToArray,
+  slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
 import {
@@ -186,7 +185,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, () => this.parentExpanded || this.depth === 1);
+    updateHostInteraction(
+      this,
+      () => false // programmatically focusable
+    );
   }
 
   //--------------------------------------------------------------------------
@@ -358,8 +360,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    let root;
-
     if (this.isActionEndEvent(event)) {
       return;
     }
@@ -382,7 +382,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           return;
         }
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
-        const link = nodeListToArray(this.el.children).find((el) =>
+        const link = Array.from(this.el.children).find((el) =>
           el.matches("a")
         ) as HTMLAnchorElement;
 
@@ -398,32 +398,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
             updateItem: true,
           });
         }
-
         event.preventDefault();
-        break;
-      case "Home":
-        root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
-
-        const firstNode = root.querySelector("calcite-tree-item");
-
-        firstNode?.focus();
-
-        break;
-      case "End":
-        root = this.el.closest("calcite-tree:not([child])");
-
-        let currentNode = root.children[root.children.length - 1]; // last child
-        let currentTree = nodeListToArray(currentNode.children).find((el) =>
-          el.matches("calcite-tree")
-        );
-        while (currentTree) {
-          currentNode = currentTree.children[root.children.length - 1];
-          currentTree = nodeListToArray(currentNode.children).find((el) =>
-            el.matches("calcite-tree")
-          );
-        }
-        currentNode?.focus();
-        break;
     }
   }
 
