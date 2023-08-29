@@ -62,14 +62,14 @@ export interface SortableComponent {
   onDragSort: (event: Sortable.SortableEvent) => void;
 
   /**
-   * Element dragging started.
+   * Called when any sortable component drag starts.
    */
-  onDragStart?: () => void;
+  onDragStart: () => void;
 
   /**
-   * Element dragging ended.
+   * Called when any sortable component drag ends.
    */
-  onDragEnd?: () => void;
+  onDragEnd: () => void;
 }
 
 /**
@@ -101,10 +101,10 @@ export function connectSortableComponent(component: SortableComponent): void {
     }),
     handle,
     onStart: () => {
-      onSortingStart();
+      onDragStart();
     },
     onEnd: () => {
-      onSortingEnd();
+      onDragEnd();
     },
     onSort: (event) => {
       component.onDragSort(event);
@@ -124,28 +124,16 @@ export function disconnectSortableComponent(component: SortableComponent): void 
   component.sortable = null;
 }
 
-function dragStarted(component: SortableComponent): void {
-  component.dragging = true;
-  component.onDragStart();
+function onDragStart(): void {
+  Array.from(sortableComponentSet).forEach((component) => {
+    component.dragging = true;
+    component.onDragStart();
+  });
 }
 
-/**
- * Helper to handle nested SortableComponents on `Sortable.onStart`.
- *
- */
-function onSortingStart(): void {
-  Array.from(sortableComponentSet).forEach((component) => dragStarted(component));
-}
-
-function dragEnded(component: SortableComponent): void {
-  component.dragging = false;
-  component.onDragEnd();
-}
-
-/**
- * Helper to handle nested SortableComponents on `Sortable.onEnd`.
- *
- */
-function onSortingEnd(): void {
-  Array.from(sortableComponentSet).forEach((component) => dragEnded(component));
+function onDragEnd(): void {
+  Array.from(sortableComponentSet).forEach((component) => {
+    component.dragging = false;
+    component.onDragEnd();
+  });
 }
