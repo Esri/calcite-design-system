@@ -98,11 +98,18 @@ function emitImmediately(component: OpenCloseComponent, nonOpenCloseComponent = 
 export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
   readTask((): void => {
     if (component.transitionEl) {
-      const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
-      const openTransitionPropIndex = allTransitionPropsArray.findIndex(
-        (item) => item === component.openTransitionProp
+      const { transitionDuration: allDurations, transitionProperty: allProps } = getComputedStyle(
+        component.transitionEl
       );
-      const transitionDuration = allTransitionPropsArray[openTransitionPropIndex + 1];
+      const allTransitionDurationsArray = allDurations.split(",");
+      const allTransitionPropsArray = allProps.split(",");
+      const openTransitionPropIndex = allTransitionPropsArray.indexOf(component.openTransitionProp);
+
+      const transitionDuration =
+        allTransitionDurationsArray[openTransitionPropIndex] ??
+        /* Safari will have a single transition value if multiple props share it,
+        so we fall back to it if there's no matching prop duration */
+        allTransitionDurationsArray[0];
 
       if (transitionDuration === "0s") {
         emitImmediately(component, nonOpenCloseComponent);

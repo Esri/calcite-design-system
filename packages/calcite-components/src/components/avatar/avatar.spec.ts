@@ -10,7 +10,7 @@ describe("stringToHex", () => {
   });
   it("generates a valid hex color, regardless of input", () => {
     expect(isValidHex(stringToHex("hey dude"))).toBe(true);
-    expect(isValidHex(stringToHex("numbe8972983767869891823"))).toBe(true);
+    expect(isValidHex(stringToHex("number8972983767869891823"))).toBe(true);
     expect(isValidHex(stringToHex("asdf8798768657476876yashjkdfbasd"))).toBe(true);
     expect(isValidHex(stringToHex(")#@$%*@^#&%$(^!)@*)#$*!%"))).toBe(true);
     expect(isValidHex(stringToHex("0"))).toBe(true);

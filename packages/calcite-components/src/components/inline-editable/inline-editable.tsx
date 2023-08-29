@@ -182,7 +182,7 @@ export class InlineEditable
               width: this.editingEnabled ? "0" : "inherit",
             }}
             type="button"
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.enableEditingButton = el)}
           />
           {this.shouldShowControls && [
@@ -197,7 +197,7 @@ export class InlineEditable
                 onClick={this.cancelEditingHandler}
                 scale={this.scale}
                 type="button"
-                // eslint-disable-next-line react/jsx-sort-props
+                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={(el) => (this.cancelEditingButton = el)}
               />
             </div>,
@@ -212,7 +212,7 @@ export class InlineEditable
               onClick={this.confirmChangesHandler}
               scale={this.scale}
               type="button"
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el) => (this.confirmEditingButton = el)}
             />,
           ]}

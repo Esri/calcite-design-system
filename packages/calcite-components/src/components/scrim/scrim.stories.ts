@@ -30,8 +30,8 @@ export const simple = (): string => html`
           Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
         </li>
         <li>
-          Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
-          cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+          Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetur ligula vulputate sem tristique cursus.
+          Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
         </li>
         <li>
           Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
@@ -60,8 +60,8 @@ export const darkModeRTL_TestOnly = (): string => html`
           Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
         </li>
         <li>
-          Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
-          cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+          Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetur ligula vulputate sem tristique cursus.
+          Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
         </li>
         <li>
           Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.

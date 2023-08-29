@@ -583,3 +583,20 @@ export const focusElementInGroup = (
   focusElement(focusTarget);
   return focusTarget;
 };
+
+/**
+ * This helper determines if an element is before another element in the DOM.
+ *
+ * @param a the reference element to compare
+ * @param b the element to compare against
+ *
+ * @returns true when a is before b in the DOM
+ */
+export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
+  if (a.parentNode !== b.parentNode) {
+    return false;
+  }
+
+  const children = Array.from(a.parentNode.children);
+  return children.indexOf(a) < children.indexOf(b);
+}

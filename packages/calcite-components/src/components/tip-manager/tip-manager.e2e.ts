@@ -156,8 +156,8 @@ describe("calcite-tip-manager", () => {
       const nextButton = await page.find(`calcite-tip-manager >>> .${CSS.pageNext}`);
       await nextButton.click();
 
-      const sharedtitleNode = await page.find(`calcite-tip-manager >>> .${CSS.heading}`);
-      expect(sharedtitleNode.innerText).toBe(sharedTitle);
+      const sharedTitleNode = await page.find(`calcite-tip-manager >>> .${CSS.heading}`);
+      expect(sharedTitleNode.innerText).toBe(sharedTitle);
 
       await nextButton.click();
 
@@ -180,7 +180,7 @@ describe("calcite-tip-manager", () => {
     });
   });
   describe("handling dom updates after initial render", () => {
-    it("should update if tips are added after intial load", async () => {
+    it("should update if tips are added after initial load", async () => {
       const page = await newE2EPage({
         html: `<calcite-tip-manager>
       <calcite-tip><p>dynamically adding/removing tips</p></calcite-tip>

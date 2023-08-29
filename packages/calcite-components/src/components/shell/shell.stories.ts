@@ -628,6 +628,188 @@ export const slottedModalAndAlert = (): string =>
     </p>
   </main>`);
 
+export const slottedSheetOverlay = (): string =>
+  html(`
+    <p class="padded-content">
+      <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
+      Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four dollar
+      toast DSA chicharrones, typewriter chia raw denim. Bicycle rights mustache humblebrag, mixtape slow-carb retro
+      vibecession franzen chia. Bespoke coloring book hot chicken literally bushwick succulents wayfarers. Dreamcatcher
+      taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee bushwick readymade yuccie praxis
+      enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
+    </p>
+    <calcite-shell
+      style="
+    width:100%;
+    height:500px;
+    max-height:80%;
+    position:relative;
+    "
+    >
+      <div class="gnav" slot="header">Header Example</div>
+      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+            <calcite-panel closable heading="Ultrices neque"
+              ><p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+              </p>
+              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+            </calcite-panel>
+          </calcite-sheet>
+      <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
+        <calcite-action-bar slot="action-bar">
+          <calcite-action-group>
+            <calcite-action text="Save" icon="save" indicator> </calcite-action>
+            <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+            <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action icon="layers" text="Layers" active> </calcite-action>
+            <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+            <calcite-action icon="legend" text="Legend"> </calcite-action>
+            <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+        <calcite-panel heading="Panel">
+          <div class="padded-content">Panel content<br />Padding is fake.</div>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end" position="end">
+        <calcite-action-bar slot="action-bar">
+          <calcite-tooltip slot="expand-tooltip" label="tooltip" disable-pointer>Add layers</calcite-tooltip>
+          <calcite-action-group>
+            <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+            <calcite-action text="Styles" icon="shapes"> </calcite-action>
+            <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+            <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+            <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+            </calcite-action>
+            <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+            <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+        <calcite-flow>
+          <calcite-flow-item heading="Flow 01">
+            <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
+          </calcite-flow-item>
+          <calcite-flow-item heading="Flow 02">
+            <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
+          </calcite-flow-item>
+        </calcite-flow>
+      </calcite-shell-panel>
+      <calcite-panel heading="Main content">
+        <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+      </calcite-panel>
+      <footer slot="footer">Footer Example</footer>
+    </calcite-shell>
+    <p class="padded-content">
+      <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
+      Edison bulb iceland narwhal fit DSA. Activated charcoal dreamcatcher shabby chic, microdosing gluten-free locavore
+      chambray tumblr hella sus ugh cronut tofu. Vibecession air plant etsy, vape church-key narwhal activated charcoal
+      offal kombucha hella. Actually mumblecore butcher, iceland man bun prism blog taiyaki roof party portland hashtag.
+    </p>
+    <script>
+    document.addEventListener("calcitePanelClose", () => {
+      document.querySelector("calcite-sheet").open = false;
+    });
+  </script>
+`);
+
+export const slottedSheetFloat = (): string =>
+  html(`
+    <p class="padded-content">
+      <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
+      Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four dollar
+      toast DSA chicharrones, typewriter chia raw denim. Bicycle rights mustache humblebrag, mixtape slow-carb retro
+      vibecession franzen chia. Bespoke coloring book hot chicken literally bushwick succulents wayfarers. Dreamcatcher
+      taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee bushwick readymade yuccie praxis
+      enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
+    </p>
+    <calcite-shell
+      style="
+    width:100%;
+    height:500px;
+    max-height:80%;
+    position:relative;
+    "
+    >
+      <div class="gnav" slot="header">Header Example</div>
+      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="float">
+            <calcite-panel closable heading="Ultrices neque"
+              ><p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+              </p>
+              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+            </calcite-panel>
+          </calcite-sheet>
+      <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
+        <calcite-action-bar slot="action-bar">
+          <calcite-action-group>
+            <calcite-action text="Save" icon="save" indicator> </calcite-action>
+            <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+            <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action icon="layers" text="Layers" active> </calcite-action>
+            <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+            <calcite-action icon="legend" text="Legend"> </calcite-action>
+            <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+        <calcite-panel heading="Panel">
+          <div class="padded-content">Panel content<br />Padding is fake.</div>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end" position="end">
+        <calcite-action-bar slot="action-bar">
+          <calcite-tooltip slot="expand-tooltip" label="tooltip" disable-pointer>Add layers</calcite-tooltip>
+          <calcite-action-group>
+            <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+            <calcite-action text="Styles" icon="shapes"> </calcite-action>
+            <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+            <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+            <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+            </calcite-action>
+            <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+            <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+        <calcite-flow>
+          <calcite-flow-item heading="Flow 01">
+            <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
+          </calcite-flow-item>
+          <calcite-flow-item heading="Flow 02">
+            <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
+          </calcite-flow-item>
+        </calcite-flow>
+      </calcite-shell-panel>
+      <calcite-panel heading="Main content">
+        <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+      </calcite-panel>
+      <footer slot="footer">Footer Example</footer>
+    </calcite-shell>
+    <p class="padded-content">
+      <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
+      Edison bulb iceland narwhal fit DSA. Activated charcoal dreamcatcher shabby chic, microdosing gluten-free locavore
+      chambray tumblr hella sus ugh cronut tofu. Vibecession air plant etsy, vape church-key narwhal activated charcoal
+      offal kombucha hella. Actually mumblecore butcher, iceland man bun prism blog taiyaki roof party portland hashtag.
+    </p>
+    <script>
+    document.addEventListener("calcitePanelClose", () => {
+      document.querySelector("calcite-sheet").open = false;
+    });
+  </script>
+`);
+
 export const contentBehind = (): string =>
   html(`<calcite-shell content-behind>
   ${headerHTML}
@@ -902,6 +1084,10 @@ position:relative;
   </calcite-shell-panel>
 </calcite-shell>`;
 
+resizableShellPanels.parameters = {
+  chromatic: { delay: 500 },
+};
+
 export const overlayDisplayMode_TestOnly = (): string => html`<calcite-shell
   style="
 width:800px;
@@ -1130,3 +1316,7 @@ position:relative;
     <calcite-panel heading="Example"> Example </calcite-panel>
   </calcite-shell-panel>
 </calcite-shell>`;
+
+overlayDisplayMode_TestOnly.parameters = {
+  chromatic: { delay: 500 },
+};

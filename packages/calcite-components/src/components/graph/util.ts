@@ -37,8 +37,8 @@ function slopeSingle(p0: Point, p1: Point, m: number): number {
  * Given two points and their tangent slopes,
  * calculate the bezier handle coordinates and return draw command.
  *
- * Translates Hermite Spline to Beziér curve:
- * stackoverflow.com/questions/42574940/
+ * Translates Hermite Spline to Bézier curve:
+ * https://stackoverflow.com/questions/42574940/
  *
  * @param p0
  * @param p1
