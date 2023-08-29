@@ -1,7 +1,7 @@
 import Sortable from "sortablejs";
 const sortableComponentSet = new Set<SortableComponent>();
 
-export interface DragEvent {
+export interface DragDetail {
   toEl: HTMLElement;
   fromEl: HTMLElement;
   dragEl: HTMLElement;
@@ -44,17 +44,17 @@ export interface SortableComponent {
   /**
    * Whether the element can move from the list.
    */
-  canPull: (event: DragEvent) => boolean;
+  canPull: (detail: DragDetail) => boolean;
 
   /**
    * Whether the element can be added from another list.
    */
-  canPut: (event: DragEvent) => boolean;
+  canPut: (detail: DragDetail) => boolean;
 
   /**
    * Called by any change to the list (add / update / remove).
    */
-  onDragSort: (event: DragEvent) => void;
+  onDragSort: (detail: DragDetail) => void;
 
   /**
    * Called when a sortable component drag starts.

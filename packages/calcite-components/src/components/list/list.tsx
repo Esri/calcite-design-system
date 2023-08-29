@@ -27,7 +27,7 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
-  DragEvent,
+  DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
@@ -74,12 +74,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() canPull: (event: DragEvent) => boolean;
+  @Prop() canPull: (detail: DragDetail) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() canPut: (event: DragEvent) => boolean;
+  @Prop() canPut: (detail: DragDetail) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -192,12 +192,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragEvent>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragDetail>;
 
   /**
    * Emitted when the default slot has changes in order to notify parent lists.
    */
-  @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<DragEvent>;
+  @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
@@ -485,11 +485,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragSort(event: DragEvent): void {
+  onDragSort(detail: DragDetail): void {
     this.parentListEl = this.el.parentElement.closest("calcite-list");
     this.updateListItems();
 
-    this.calciteListOrderChange.emit(event);
+    this.calciteListOrderChange.emit(detail);
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
