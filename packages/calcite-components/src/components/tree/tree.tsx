@@ -253,16 +253,9 @@ export class Tree {
     const root = this.el;
     const target = event.target as HTMLCalciteTreeItemElement;
 
-    if (
-      !(isTreeItem(target) && this.el.contains(target)) ||
-      (event.key !== "ArrowRight" &&
-        event.key !== "ArrowDown" &&
-        event.key !== "ArrowLeft" &&
-        event.key !== "ArrowUp" &&
-        event.key !== "Home" &&
-        event.key !== "End" &&
-        event.key !== "Tab")
-    ) {
+    const supportedKeys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End", "Tab"];
+
+    if (!(isTreeItem(target) && this.el.contains(target)) || !supportedKeys.includes(event.key)) {
       return;
     }
 
