@@ -440,9 +440,8 @@ export class InputDatePicker
     const { open } = this;
     open && this.openHandler(open);
     if (Array.isArray(this.value)) {
-      console.log("value", this.value);
-      const newValue = this.value.map((val) => this.getNormalizedDate(val));
-      this.value = newValue;
+      const normalizedValue = this.value.map((val) => this.getNormalizedDate(val));
+      this.value = normalizedValue;
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
       try {
@@ -1130,8 +1129,7 @@ export class InputDatePicker
 
   private normalizeToCurrentCentury(twoDigitYear: number) {
     const currentYear = new Date().getFullYear();
-    const currentCentury = Math.floor(currentYear / 100) * 100;
-    const normalizedYear = currentCentury + twoDigitYear;
+    const normalizedYear = Math.floor(currentYear / 100) * 100 + twoDigitYear;
     return normalizedYear;
   }
 
@@ -1140,16 +1138,16 @@ export class InputDatePicker
       return "";
     }
 
-    if (!this.normalizeYear) {
+    const dateParts = value.split("-");
+    const year = Number(dateParts[0]);
+
+    if (!this.normalizeYear || year > 1000) {
       return value;
     }
 
-    const dateParts = value.split("-");
-    const year = Number(dateParts[0]);
     if (year < 1000) {
       const normalizedYear = this.normalizeToCurrentCentury(year);
       return `${normalizedYear}-${dateParts[1]}-${dateParts[2]}`;
     }
-    return value;
   }
 }
