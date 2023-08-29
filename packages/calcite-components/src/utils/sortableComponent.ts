@@ -126,10 +126,11 @@ const dragState: { active: boolean } = { active: false };
 /**
  * Helper to determine if dragging is currently active.
  *
+ * @param component The sortable component.
  * @returns {boolean} a boolean value.
  */
-export function dragActive(): boolean {
-  return dragState.active;
+export function dragActive(component: SortableComponent): boolean {
+  return component.dragEnabled && dragState.active;
 }
 
 function onDragStart(): void {

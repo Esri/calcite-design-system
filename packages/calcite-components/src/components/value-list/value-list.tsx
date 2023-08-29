@@ -239,7 +239,7 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive()) {
+    if (dragActive(this)) {
       return;
     }
 
@@ -266,7 +266,7 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
-    if (dragActive()) {
+    if (dragActive(this)) {
       return;
     }
 

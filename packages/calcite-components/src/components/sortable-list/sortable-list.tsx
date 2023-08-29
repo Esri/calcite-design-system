@@ -101,7 +101,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive()) {
+    if (dragActive(this)) {
       return;
     }
 
@@ -111,7 +111,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   }
 
   disconnectedCallback(): void {
-    if (dragActive()) {
+    if (dragActive(this)) {
       return;
     }
 

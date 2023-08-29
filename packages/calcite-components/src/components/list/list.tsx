@@ -295,7 +295,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive()) {
+    if (dragActive(this)) {
       return;
     }
 
@@ -303,11 +303,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateListItems();
     this.setUpSorting();
     connectInteractive(this);
-    this.parentListEl = this.el.parentElement.closest("calcite-list");
+    this.parentListEl = this.el.parentElement?.closest("calcite-list");
   }
 
   disconnectedCallback(): void {
-    if (dragActive()) {
+    if (dragActive(this)) {
       return;
     }
 
@@ -486,7 +486,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   }
 
   onDragSort(detail: DragDetail): void {
-    this.parentListEl = this.el.parentElement.closest("calcite-list");
+    this.parentListEl = this.el.parentElement?.closest("calcite-list");
     this.updateListItems();
 
     this.calciteListOrderChange.emit(detail);
