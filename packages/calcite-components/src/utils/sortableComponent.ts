@@ -57,12 +57,12 @@ export interface SortableComponent {
   onDragSort: (event: Sortable.SortableEvent) => void;
 
   /**
-   * Called when any sortable component drag starts.
+   * Called when a sortable component drag starts.
    */
   onDragStart: () => void;
 
   /**
-   * Called when any sortable component drag ends.
+   * Called when a sortable component drag ends.
    */
   onDragEnd: () => void;
 }
@@ -95,11 +95,11 @@ export function connectSortableComponent(component: SortableComponent): void {
     }),
     handle,
     onStart: () => {
-      dragging = true;
+      dragState.active = true;
       onDragStart();
     },
     onEnd: () => {
-      dragging = false;
+      dragState.active = false;
       onDragEnd();
     },
     onSort: (event) => {
@@ -120,7 +120,7 @@ export function disconnectSortableComponent(component: SortableComponent): void 
   component.sortable = null;
 }
 
-let dragging = false;
+const dragState: { active: boolean } = { active: false };
 
 /**
  * Helper to determine if dragging is currently active.
@@ -128,7 +128,7 @@ let dragging = false;
  * @returns {boolean} a boolean value.
  */
 export function dragActive(): boolean {
-  return dragging;
+  return dragState.active;
 }
 
 function onDragStart(): void {
