@@ -64,7 +64,7 @@ import { Scale, SelectionMode } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
-import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
+import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
 
 interface ItemData {
@@ -198,12 +198,13 @@ export class Combobox
 
   /**
    * Specifies the selection mode:
-   * - `multiple` allows any number of selected items (default),
-   * - `single` allows only one selection,
-   * - `ancestors` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   * - "multiple" allows any number of selected items (default),
+   * - "single" allows only one selection,
+   * - "single-persist" allow and require one open item,
+   * - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
-    "single" | "ancestors" | "multiple",
+    "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   > = "multiple";
 
@@ -766,7 +767,7 @@ export class Combobox
       this.addCustomChip(this.text);
     }
 
-    if (this.selectionMode === "single") {
+    if (isSingleLike(this.selectionMode)) {
       if (this.textInput) {
         this.textInput.value = "";
       }
@@ -1003,7 +1004,7 @@ export class Combobox
   }
 
   getNeedsIcon(): boolean {
-    return this.selectionMode === "single" && this.items.some((item) => item.icon);
+    return isSingleLike(this.selectionMode) && this.items.some((item) => item.icon);
   }
 
   resetText(): void {
@@ -1134,7 +1135,7 @@ export class Combobox
   }
 
   isMulti(): boolean {
-    return this.selectionMode !== "single";
+    return this.selectionMode !== "single" && this.selectionMode !== "single-persist";
   }
 
   comboboxFocusHandler = (): void => {
@@ -1187,7 +1188,7 @@ export class Combobox
 
   renderInput(): VNode {
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
-    const single = selectionMode === "single";
+    const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
     const showLabel = !open && single && !!selectedItem;
 
@@ -1284,7 +1285,7 @@ export class Combobox
     const { selectedItems, placeholderIcon, selectionMode, placeholderIconFlipRtl } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = selectionMode === "single";
+    const singleSelectionMode = isSingleLike(selectionMode);
 
     const iconAtStart =
       !this.open && selectedItem
@@ -1316,7 +1317,7 @@ export class Combobox
 
   render(): VNode {
     const { guid, label, open } = this;
-    const single = this.selectionMode === "single";
+    const single = isSingleLike(this.selectionMode);
     const isClearable = !this.clearDisabled && this.value?.length > 0;
 
     return (

@@ -1,8 +1,60 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { disabled, focusable, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
+import {
+  defaults,
+  disabled,
+  focusable,
+  formAssociated,
+  hidden,
+  labelable,
+  reflects,
+  renders,
+} from "../../tests/commonTests";
 
 describe("calcite-segmented-control", () => {
+  describe("defaults", () => {
+    defaults("calcite-segmented-control", [
+      {
+        propertyName: "appearance",
+        defaultValue: "solid",
+      },
+      {
+        propertyName: "layout",
+        defaultValue: "horizontal",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+
+      {
+        propertyName: "width",
+        defaultValue: "auto",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-segmented-control", [
+      {
+        propertyName: "scale",
+        value: "m",
+      },
+      {
+        propertyName: "layout",
+        value: "horizontal",
+      },
+      {
+        propertyName: "appearance",
+        value: "solid",
+      },
+      {
+        propertyName: "width",
+        value: "auto",
+      },
+    ]);
+  });
+
   describe("renders", () => {
     renders("calcite-segmented-control", { display: "flex" });
   });
@@ -284,14 +336,18 @@ describe("calcite-segmented-control", () => {
     expect(element).toEqualAttribute("width", "full");
   });
 
-  it("renders default props", async () => {
+  it("inheritable props: `appearance`, `layout`, and `scale` modified on the parent get passed to items", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-segmented-control></calcite-segmented-control>");
-    const element = await page.find("calcite-segmented-control");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("layout", "horizontal");
-    expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("width", "auto");
+    await page.setContent(html`
+      <calcite-segmented-control appearance="outline" layout="vertical" scale="l"></calcite-segmented-control>
+    `);
+    const segmentedControlItems = await page.findAll("calcite-segmented-control-item");
+
+    for (const item of segmentedControlItems) {
+      expect(await item.getProperty("appearance")).toBe("outline");
+      expect(await item.getProperty("layout")).toBe("vertical");
+      expect(await item.getProperty("scale")).toBe("l");
+    }
   });
 
   describe("setFocus()", () => {

@@ -12,11 +12,10 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  slotChangeHasAssignedElement,
   filterDirectChildren,
   getElementDir,
   getSlotted,
-  nodeListToArray,
+  slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
 import {
@@ -60,6 +59,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
+  @Watch("expanded")
+  expandedHandler(newValue: boolean): void {
+    this.updateParentIsExpanded(this.el, newValue);
+  }
+
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
@@ -69,9 +73,18 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
 
-  @Watch("expanded")
-  expandedHandler(newValue: boolean): void {
-    this.updateParentIsExpanded(this.el, newValue);
+  @Watch("selected")
+  handleSelectedChange(value: boolean): void {
+    if (this.selectionMode === "ancestors" && !this.userChangedValue) {
+      if (value) {
+        this.indeterminate = false;
+      }
+      this.calciteInternalTreeItemSelect.emit({
+        modifyCurrentSelection: true,
+        forceToggle: false,
+        updateItem: false,
+      });
+    }
   }
 
   /**
@@ -172,7 +185,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, () => this.parentExpanded || this.depth === 1);
+    updateHostInteraction(
+      this,
+      () => false // programmatically focusable
+    );
   }
 
   //--------------------------------------------------------------------------
@@ -330,7 +346,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
       forceToggle: false,
+      updateItem: true,
     });
+    this.userChangedValue = true;
   }
 
   iconClickHandler = (event: MouseEvent): void => {
@@ -342,8 +360,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    let root;
-
     if (this.isActionEndEvent(event)) {
       return;
     }
@@ -353,9 +369,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         if (this.selectionMode === "none") {
           return;
         }
+        this.userChangedValue = true;
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false,
+          updateItem: true,
         });
         event.preventDefault();
         break;
@@ -364,9 +382,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           return;
         }
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
-        const link = nodeListToArray(this.el.children).find((el) =>
+        const link = Array.from(this.el.children).find((el) =>
           el.matches("a")
         ) as HTMLAnchorElement;
+
+        this.userChangedValue = true;
 
         if (link) {
           link.click();
@@ -375,35 +395,11 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
             forceToggle: false,
+            updateItem: true,
           });
         }
-
         event.preventDefault();
-        break;
-      case "Home":
-        root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
-
-        const firstNode = root.querySelector("calcite-tree-item");
-
-        firstNode?.focus();
-
-        break;
-      case "End":
-        root = this.el.closest("calcite-tree:not([child])");
-
-        let currentNode = root.children[root.children.length - 1]; // last child
-        let currentTree = nodeListToArray(currentNode.children).find((el) =>
-          el.matches("calcite-tree")
-        );
-        while (currentTree) {
-          currentNode = currentTree.children[root.children.length - 1];
-          currentTree = nodeListToArray(currentNode.children).find((el) =>
-            el.matches("calcite-tree")
-          );
-        }
-        currentNode?.focus();
-        break;
-    }
+      }
   }
 
   //--------------------------------------------------------------------------
@@ -429,6 +425,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   //--------------------------------------------------------------------------
 
+  @State() hasEndActions = false;
+
   /**
    * Used to make sure initially expanded tree-item can properly
    * transition and emit events from closed state when rendered.
@@ -437,15 +435,15 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @State() updateAfterInitialRender = false;
 
+  actionSlotWrapper!: HTMLElement;
+
   childrenSlotWrapper!: HTMLElement;
 
   defaultSlotWrapper!: HTMLElement;
 
-  actionSlotWrapper!: HTMLElement;
-
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 
-  @State() hasEndActions = false;
+  private userChangedValue = false;
 
   //--------------------------------------------------------------------------
   //
@@ -474,7 +472,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   private updateAncestorTree(): void {
     const parentItem = this.parentTreeItem;
-
     if (this.selectionMode !== "ancestors" || !parentItem) {
       return;
     }
@@ -492,6 +489,15 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       } else if (selectedSiblings.length > 0) {
         parentItem.indeterminate = true;
       }
+
+      const childItems = Array.from(
+        this.el.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
+      );
+
+      childItems.forEach((item: HTMLCalciteTreeItemElement) => {
+        item.selected = true;
+        item.indeterminate = false;
+      });
     } else if (this.indeterminate) {
       const parentItem = this.parentTreeItem;
       parentItem.indeterminate = true;
@@ -502,3 +508,4 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 }
+
