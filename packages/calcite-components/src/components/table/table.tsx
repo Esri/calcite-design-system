@@ -493,13 +493,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       <Host>
         <div class={CSS.container}>
           {this.selectionMode !== "none" && this.renderSelectionArea()}
-          <div class={CSS.tableContainer}>
+          <div class={{ [this.appearance]: true, [CSS.tableContainer]: true }}>
             <table
               aria-colcount={this.colCount}
               aria-multiselectable={this.selectionMode === "multiple"}
               aria-readonly={true}
               aria-rowcount={this.allRows?.length}
-              class={{ [this.appearance]: true, [CSS.tableFixed]: this.layout === "fixed" }}
+              class={{ [CSS.tableFixed]: this.layout === "fixed" }}
               role="grid"
             >
               <caption class={CSS.assistiveText}>{this.caption}</caption>

@@ -29,6 +29,7 @@ td {
   @apply text-start focus-base align-middle text-color-1;
   background: var(--calcite-table-cell-background-internal);
   border-inline-end: 1px solid var(--calcite-ui-border-3);
+  font-size: var(--calcite-table-cell-font-size-internal);
   &:focus {
     @apply focus-inset;
   }
@@ -42,7 +43,6 @@ td {
 .footer-cell {
   @apply bg-background font-medium text-color-1;
   border-block-start: 1px solid var(--calcite-ui-border-3);
-  border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
 .number-cell,
