@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.12...@esri/calcite-components@1.7.0-next.13) (2023-08-30)
+
+### Features
+
+- **sheet:** Update default widths ([#7617](https://github.com/Esri/calcite-design-system/issues/7617)) ([47d2c0b](https://github.com/Esri/calcite-design-system/commit/47d2c0b88489ff8c1ea1296d5ace68aa0dc9a94e))
+
+## [1.7.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.11...@esri/calcite-components@1.7.0-next.12) (2023-08-29)
+
+### Bug Fixes
+
+- **tree:** improve keyboard navigation ([#7618](https://github.com/Esri/calcite-design-system/issues/7618)) ([826a5cb](https://github.com/Esri/calcite-design-system/commit/826a5cbb5c31a2b02e1a6676d740888d48567345)), closes [#6861](https://github.com/Esri/calcite-design-system/issues/6861)
+
 ## [1.7.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.10...@esri/calcite-components@1.7.0-next.11) (2023-08-28)
 
 ### Features
