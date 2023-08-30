@@ -358,7 +358,5 @@ export class SegmentedControl
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
-
-    this.handleItemPropChange();
   }
 }
