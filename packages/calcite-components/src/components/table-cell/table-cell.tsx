@@ -98,6 +98,8 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
 
   @State() contentsText = "";
 
+  @State() selectionText = "";
+
   @State() defaultMessages: TableCellMessages;
 
   @State() effectiveLocale = "";
@@ -153,10 +155,10 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   //
   // --------------------------------------------------------------------------
 
-  private updateScreenReaderSelectionText(): string {
+  private updateScreenReaderSelectionText(): void {
     const selectedText = `${this.messages.row} ${this.parentRowPositionLocalized} ${this.messages.selected} ${this.messages.keyboardDeselect}`;
     const unselectedText = `${this.messages.row} ${this.parentRowPositionLocalized} ${this.messages.unselected} ${this.messages.keyboardSelect}`;
-    return this.parentRowIsSelected ? selectedText : unselectedText;
+    this.selectionText = this.parentRowIsSelected ? selectedText : unselectedText;
   }
 
   private updateScreenReaderContentsText = (): void => {

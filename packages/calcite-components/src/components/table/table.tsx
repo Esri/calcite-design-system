@@ -133,7 +133,6 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   @State() colCount = 0;
 
-  // Follow up - Have a public start row property for setting initial page
   @State() pageStartRow = 1;
 
   @State() selectedCount = 0;

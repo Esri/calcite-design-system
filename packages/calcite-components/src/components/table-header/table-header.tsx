@@ -203,7 +203,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           role="columnheader"
           rowSpan={this.rowSpan}
           scope={scope}
-          tabindex={0}
+          tabIndex={0}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >
