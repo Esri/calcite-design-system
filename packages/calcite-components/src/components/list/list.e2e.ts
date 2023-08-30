@@ -517,7 +517,7 @@ describe("calcite-list", () => {
         </calcite-list>
       `);
 
-      //const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
+      const eventSpy = await page.spyOnEvent("calciteListOrderChange");
 
       await dragAndDrop(
         page,
@@ -574,7 +574,7 @@ describe("calcite-list", () => {
       expect(await eight.getProperty("value")).toBe("e");
       expect(await ninth.getProperty("value")).toBe("f");
 
-      //expect(listOrderChangeSpy).toHaveReceivedEventTimes(2);
+      expect(eventSpy).toHaveReceivedEventTimes(2);
     });
 
     it("works using a keyboard", async () => {
