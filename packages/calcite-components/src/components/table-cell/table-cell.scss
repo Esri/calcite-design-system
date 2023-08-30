@@ -72,6 +72,6 @@ td {
 .selection-cell {
   @apply align-middle;
   & ::slotted(calcite-icon) {
-    margin-block-start: 0.3rem;
+    @apply pointer-events-none mt-1;
   }
 }

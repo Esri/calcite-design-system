@@ -26,7 +26,7 @@
 }
 
 th {
-  @apply text-color-1 focus-base text-start font-medium align-middle;
+  @apply text-color-1 focus-base text-start font-medium align-top;
   font-size: var(--calcite-table-cell-font-size-internal);
   border-inline-end: 1px solid var(--calcite-table-header-border-color-internal);
   border-block-end: 1px solid var(--calcite-table-header-border-color-internal);
@@ -40,11 +40,14 @@ th {
 
 th.body-row,
 th.footer-row {
+  @apply align-middle;
   border-block-end: 0;
 }
+
 th.footer-row {
   border-block-start: 1px solid var(--calcite-table-header-border-color-internal);
 }
+
 .cell--multiple-selection {
   @apply cursor-pointer align-middle text-color-3;
 }
