@@ -279,7 +279,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     }
 
     event.stopPropagation();
-    this.updateListItems(true);
+    this.updateListItems();
   }
 
   @Listen("calciteInternalListItemGroupDefaultSlotChange")
