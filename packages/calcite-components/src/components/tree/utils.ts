@@ -1,20 +1,24 @@
-function isTreeItem(element: Element): element is HTMLCalciteTreeItemElement {
-  return element?.matches("calcite-tree-item");
+export function isTreeItem(element: Element): element is HTMLCalciteTreeItemElement {
+  return element?.tagName === "CALCITE-TREE-ITEM";
 }
 
-export function getEnabledSiblingItem(el: Element, direction: "up" | "down"): HTMLCalciteTreeItemElement {
-  const directionProp = direction === "down" ? "nextElementSibling" : "previousElementSibling";
-  let currentEl: Element = el;
-  let enabledEl: HTMLCalciteTreeItemElement | null = null;
+export function getTraversableItems(root: HTMLCalciteTreeElement): HTMLCalciteTreeItemElement[] {
+  return Array.from(root.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")).filter(
+    (item): boolean => {
+      let currentItem: HTMLElement = item;
 
-  while (isTreeItem(currentEl)) {
-    if (!currentEl.disabled) {
-      enabledEl = currentEl;
-      break;
+      while (currentItem !== root && currentItem !== undefined) {
+        const parent = currentItem.parentElement;
+        const traversable = !isTreeItem(parent) || !parent.hasChildren || parent.expanded;
+
+        if (!traversable) {
+          return false;
+        }
+
+        currentItem = currentItem.parentElement;
+      }
+
+      return true;
     }
-
-    currentEl = currentEl[directionProp];
-  }
-
-  return enabledEl;
+  );
 }

@@ -76,9 +76,6 @@ export class SegmentedControl
    */
   @Prop({ reflect: true }) required = false;
 
-  /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
-
   /**
    * Specifies the name of the component.
    *
@@ -86,8 +83,18 @@ export class SegmentedControl
    */
   @Prop({ reflect: true }) name: string;
 
+  /** Defines the layout of the component. */
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("appearance")
+  @Watch("layout")
+  @Watch("scale")
+  handlePropsChange(): void {
+    this.handleItemPropChange();
+  }
 
   /** The component's `selectedItem` value. */
   @Prop({ mutable: true }) value: string = null;
@@ -148,6 +155,8 @@ export class SegmentedControl
     connectLabel(this);
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
+
+    this.handleItemPropChange();
   }
 
   disconnectedCallback(): void {
@@ -283,6 +292,16 @@ export class SegmentedControl
   defaultValue: SegmentedControl["value"];
 
   private mutationObserver = createObserver("mutation", () => this.setUpItems());
+
+  private handleItemPropChange(): void {
+    const items = this.getItems();
+
+    items.forEach((item) => {
+      item.appearance = this.appearance;
+      item.layout = this.layout;
+      item.scale = this.scale;
+    });
+  }
 
   //--------------------------------------------------------------------------
   //
