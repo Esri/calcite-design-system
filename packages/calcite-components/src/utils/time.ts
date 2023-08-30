@@ -348,7 +348,7 @@ export function getTimeParts({ value, locale, numberingSystem }: GetTimePartsPar
 export function parseTimeString(value: string): Time {
   if (isValidTime(value)) {
     const [hour, minute, secondDecimal] = value.split(":");
-    let second = null;
+    let second = secondDecimal;
     let fractionalSecond = null;
     if (secondDecimal?.includes(".")) {
       [second, fractionalSecond] = secondDecimal.split(".");
