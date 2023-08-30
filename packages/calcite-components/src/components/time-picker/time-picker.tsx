@@ -137,11 +137,11 @@ export class TimePicker
 
   private meridiemEl: HTMLSpanElement;
 
+  private meridiemOrder: number;
+
   private minuteEl: HTMLSpanElement;
 
   private secondEl: HTMLSpanElement;
-
-  private meridiemOrder: number;
 
   // --------------------------------------------------------------------------
   //
