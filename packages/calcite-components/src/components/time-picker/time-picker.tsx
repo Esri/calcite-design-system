@@ -131,6 +131,8 @@ export class TimePicker
 
   private activeEl: HTMLSpanElement;
 
+  private fractionalSecondEl: HTMLSpanElement;
+
   private hourEl: HTMLSpanElement;
 
   private meridiemEl: HTMLSpanElement;
@@ -138,8 +140,6 @@ export class TimePicker
   private minuteEl: HTMLSpanElement;
 
   private secondEl: HTMLSpanElement;
-
-  private fractionalSecondEl: HTMLSpanElement;
 
   private meridiemOrder: number;
 
