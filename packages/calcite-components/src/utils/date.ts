@@ -160,10 +160,10 @@ export function dateToISO(date?: Date): string {
  * Retrieve day, month, and year strings from a ISO string (YYYY-mm-dd)
  *
  * @param string
- * @param ISODate
+ * @param isoDate
  */
-export function datePartsFromISO(ISODate: string): { day: string; month: string; year: string } {
-  const dateParts = ISODate.split("-");
+export function datePartsFromISO(isoDate: string): { day: string; month: string; year: string } {
+  const dateParts = isoDate.split("-");
   return { day: dateParts[2], month: dateParts[1], year: dateParts[0] };
 }
 

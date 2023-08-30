@@ -1,4 +1,4 @@
-import { isTwoDigitYear } from "./utils";
+import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
 describe("utils", () => {
   describe("isTwoDigitYear", () => {
@@ -11,10 +11,9 @@ describe("utils", () => {
 
   describe("normalizedYear", () => {
     it("return normalized date for a given ISO string date with two digit year", () => {
-      expect(normalizeToCurrentCentury("20-08-01")).toEqual("2020-08-01");
-      expect(normalizeToCurrentCentury("00-08-01")).toBe("2000-08-01");
-      expect(normalizeToCurrentCentury("1-08-01")).toBe("2001-08-01");
-      expect(normalizeToCurrentCentury("")).toBe("");
+      expect(normalizeToCurrentCentury(20)).toEqual(2020);
+      expect(normalizeToCurrentCentury(0)).toBe(2000);
+      expect(normalizeToCurrentCentury(1)).toBe(2001);
     });
   });
 });
