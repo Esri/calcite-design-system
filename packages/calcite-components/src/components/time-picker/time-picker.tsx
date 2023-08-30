@@ -560,6 +560,7 @@ export class TimePicker
   };
 
   private nudgeFractionalSecond = (direction: "up" | "down"): void => {
+    const stepDecimal = this.sanitizeFractionalStep(this.step);
     const stepPrecision = decimalPlaces(this.step);
     const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
     const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
@@ -567,23 +568,21 @@ export class TimePicker
     let nudgedValueRounded;
     let newFractionalSecond;
     if (direction === "up") {
-      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + this.step;
+      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
       newFractionalSecond =
-        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRounded) > 0
+        decimalPlaces(nudgedValueRounded) > 0
           ? formatTimePart(nudgedValueRounded, stepPrecision)
           : "".padStart(stepPrecision, "0");
     }
     if (direction === "down") {
       nudgedValue =
         isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
-          ? 1 - this.step
-          : fractionalSecondAsFloat - this.step;
+          ? 1 - stepDecimal
+          : fractionalSecondAsFloat - stepDecimal;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
       newFractionalSecond =
-        nudgedValueRounded < 1 &&
-        decimalPlaces(nudgedValueRounded) > 0 &&
-        Math.sign(nudgedValueRounded) === 1
+        decimalPlaces(nudgedValueRounded) > 0 && Math.sign(nudgedValueRounded) === 1
           ? formatTimePart(nudgedValueRounded, stepPrecision)
           : "".padStart(stepPrecision, "0");
     }
@@ -603,6 +602,13 @@ export class TimePicker
     fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
       ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
       : fractionalSecond;
+
+  private sanitizeFractionalStep = (step: number): number => {
+    if (decimalPlaces(step) > 0 && step > 0) {
+      return parseFloat(`0.${step.toString().split(".")[1]}`);
+    }
+    return step;
+  };
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
     const { key } = event;

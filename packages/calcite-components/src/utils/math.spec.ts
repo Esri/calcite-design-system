@@ -32,6 +32,12 @@ describe("decimalPlaces", () => {
     expect(decimalPlaces(0.01)).toBe(2);
     expect(decimalPlaces(0.001)).toBe(3);
     expect(decimalPlaces(0.0001)).toBe(4);
+    expect(decimalPlaces(1)).toBe(0);
+    expect(decimalPlaces(1.0)).toBe(0);
+    expect(decimalPlaces(1.1)).toBe(1);
+    expect(decimalPlaces(1.01)).toBe(2);
+    expect(decimalPlaces(1.001)).toBe(3);
+    expect(decimalPlaces(1.0001)).toBe(4);
   });
 });
 
