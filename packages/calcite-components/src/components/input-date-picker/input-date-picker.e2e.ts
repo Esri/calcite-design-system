@@ -905,5 +905,18 @@ describe("calcite-input-date-picker", () => {
       expect(await element.getProperty("value")).toEqual(["2020-01-01", "2020-02-02"]);
       expect(changeEvent).toHaveReceivedEventTimes(2);
     });
+
+    it("should normalize year to current century when value is changed programmatically in range", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-input-date-picker normalize-year  range></calcite-input-date-picker>");
+      const element = await page.find("calcite-input-date-picker");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+
+      element.setProperty("value", ["00-03-07", "00-03-08"]);
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toEqual(["2000-03-07", "2000-03-08"]);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+    });
   });
 });

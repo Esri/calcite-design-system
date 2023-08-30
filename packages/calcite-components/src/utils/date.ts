@@ -157,6 +157,17 @@ export function dateToISO(date?: Date): string {
 }
 
 /**
+ * Retrieve day, month, and year strings from a ISO string (YYYY-mm-dd)
+ *
+ * @param string
+ * @param ISODate
+ */
+export function datePartsFromISO(ISODate: string): { day: string; month: string; year: string } {
+  const dateParts = ISODate.split("-");
+  return { day: dateParts[2], month: dateParts[1], year: dateParts[0] };
+}
+
+/**
  * Check if two dates are the same day, month, year
  *
  * @param d1
