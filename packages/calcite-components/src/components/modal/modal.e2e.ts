@@ -15,9 +15,6 @@ describe("calcite-modal properties", () => {
 
   describe("openClose", () => {
     openClose("<calcite-modal></calcite-modal>", "open");
-  });
-
-  describe("openClose when open on initial render", () => {
     openClose("<calcite-modal open></calcite-modal>", "open", true);
   });
 

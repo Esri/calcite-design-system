@@ -34,7 +34,7 @@ function getTag(tagOrHTML: string): ComponentTag {
     const trimmedTag = tagOrHTML.trim();
     const calciteTagMatchResult = trimmedTag.match(calciteTagRegex);
     if (calciteTagMatchResult) {
-      return calciteTagMatchResult[0].substring(1) as ComponentTag;
+      return calciteTagMatchResult[1] as ComponentTag;
     }
     throw new Error(`Could not extract tag from HTML: ${trimmedTag}`);
   }
@@ -1381,35 +1381,43 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   }
 }
 
+interface userInputDevice {
+  /**
+   * Function argument to simulate user input (mouse or keyboard), to open the component.
+   */
+  open: (page: E2EPage) => Promise<void>;
+
+  /**
+   * Function argument to simulate user input (mouse or keyboard), to close the component.
+   */
+  close: (page: E2EPage) => Promise<void>;
+}
+
 /**
  * Helper to test openClose component setup.
  *
  * Note that this helper should be used within a `describe` block.
  *
  * @example
- * import { openClose } from "../../tests/commonTests";
  *
- * openClose("calcite-tooltip", "open", false, {
- *   open: async (page) => {
- *     await page.keyboard.press("Tab");
- *     await page.waitForChanges();
- *   },
- *   close: async (page) => {
- *     await page.keyboard.press("Tab");
- *     await page.waitForChanges();
- *   },
- * });
+ * describe("openClose", () => {
+ *  openClose("calcite-tooltip", "open", false, {
+ *     open: async (page) => {
+ *       await page.keyboard.press("Tab");
+ *       await page.waitForChanges();
+ *     },
+ *      close: async (page) => {
+ *       await page.keyboard.press("Tab");
+ *       await page.waitForChanges();
+ *    },
+ *  });
+ * })
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
- * @param {string} toggleProp - Toggle property to test. Currently, either "open" or "expanded".
- * @param {boolean} initialToggleValue - Indicates the initial value of the toggle property to determine whether to configure a `simplePageSetup` or `newProgrammaticE2EPage`.
- * @param {userInputDevice} userInputDevice - Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
+ * @param componentTagOrHTML - the component tag or HTML markup to test against
+ * @param toggleProp - Toggle property to test. Currently, either "open" or "expanded".
+ * @param initialToggleValue - Indicates the initial value of the toggle property to determine whether to configure a `simplePageSetup` or `newProgrammaticE2EPage`.
+ * @param userInputDevice - Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
  */
-
-type userInputDevice = {
-  open: (page: E2EPage) => Promise<void>;
-  close: (page: E2EPage) => Promise<void>;
-};
 
 export async function openClose(
   componentTagOrHTML: TagOrHTML,
