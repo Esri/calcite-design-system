@@ -73,7 +73,7 @@ import { getSupportedLocale } from "../../utils/locale";
 import { decimalPlaces } from "../../utils/math";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
-const supportedDayJsLocaleToLocaleConfigImport = new Map([
+const supportedDayjsLocaleToLocaleConfigImport = new Map([
   ["ar", () => import("dayjs/esm/locale/ar.js")],
   ["bg", () => import("dayjs/esm/locale/bg.js")],
   ["bs", () => import("dayjs/esm/locale/bs.js")],
@@ -132,7 +132,7 @@ dayjs.extend(localizedFormat);
 dayjs.extend(preParsePostFormat);
 dayjs.extend(updateLocale);
 
-interface DayJSTimeParts {
+interface DayjsTimeParts {
   hour: number;
   minute: number;
   second: number;
@@ -540,7 +540,7 @@ export class InputTimePicker
   private delocalizeTimeStringToParts(
     localizedTimeString: string,
     fractionalSecondFormatToken?: "S" | "SS" | "SSS"
-  ): DayJSTimeParts {
+  ): DayjsTimeParts {
     const ltsFormatString = this.localeConfig?.formats?.LTS;
     const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
 
@@ -554,7 +554,7 @@ export class InputTimePicker
     }
 
     dayjs.updateLocale(
-      this.getSupportedDayJSLocale(getSupportedLocale(this.effectiveLocale)),
+      this.getSupportedDayjsLocale(getSupportedLocale(this.effectiveLocale)),
       this.localeConfig as Record<string, any>
     );
 
@@ -576,7 +576,7 @@ export class InputTimePicker
     };
   }
 
-  private getTimeStringFromParts(parts: DayJSTimeParts): string {
+  private getTimeStringFromParts(parts: DayjsTimeParts): string {
     let timeString = "";
     if (!parts) {
       return timeString;
@@ -659,7 +659,7 @@ export class InputTimePicker
     }
   };
 
-  private getSupportedDayJSLocale(locale: string) {
+  private getSupportedDayjsLocale(locale: string) {
     const dayjsLocale = locale.toLowerCase();
     if (dayjsLocale === "no") {
       return "nb";
@@ -673,9 +673,9 @@ export class InputTimePicker
   private async loadDateTimeLocaleData(): Promise<void> {
     let supportedLocale = getSupportedLocale(this.effectiveLocale).toLowerCase();
 
-    supportedLocale = this.getSupportedDayJSLocale(supportedLocale);
+    supportedLocale = this.getSupportedDayjsLocale(supportedLocale);
 
-    const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
+    const { default: localeConfig } = await supportedDayjsLocaleToLocaleConfigImport.get(
       supportedLocale
     )();
 
