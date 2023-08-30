@@ -517,6 +517,8 @@ describe("calcite-list", () => {
         </calcite-list>
       `);
 
+      await page.waitForChanges();
+
       const eventSpy = await page.spyOnEvent("calciteListOrderChange");
 
       await dragAndDrop(
