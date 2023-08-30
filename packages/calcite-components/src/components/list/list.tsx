@@ -303,7 +303,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateListItems();
     this.setUpSorting();
     connectInteractive(this);
-    this.parentListEl = this.el.parentElement?.closest("calcite-list");
+    this.setParentList();
   }
 
   disconnectedCallback(): void {
@@ -486,10 +486,14 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   }
 
   onDragSort(detail: DragDetail): void {
-    this.parentListEl = this.el.parentElement?.closest("calcite-list");
+    this.setParentList();
     this.updateListItems();
 
     this.calciteListOrderChange.emit(detail);
+  }
+
+  private setParentList(): void {
+    this.parentListEl = this.el.parentElement?.closest("calcite-list") ?? null;
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
