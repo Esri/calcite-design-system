@@ -334,7 +334,7 @@ export class InputTimePicker
 
   private dialogId = `time-picker-dialog--${guid()}`;
 
-  private localeConfig;
+  private localeConfig: ILocale;
 
   /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
@@ -555,7 +555,7 @@ export class InputTimePicker
 
     dayjs.updateLocale(
       this.getSupportedDayJSLocale(getSupportedLocale(this.effectiveLocale)),
-      this.localeConfig
+      this.localeConfig as Record<string, any>
     );
 
     const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
