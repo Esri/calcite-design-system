@@ -54,7 +54,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { decimalPlaces } from "../../utils/math";
+import { decimalPlaces, getDecimals } from "../../utils/math";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -560,19 +560,21 @@ export class TimePicker
   };
 
   private nudgeFractionalSecond = (direction: "up" | "down"): void => {
-    const stepDecimal = this.sanitizeFractionalStep(this.step);
+    const stepDecimal = getDecimals(this.step);
     const stepPrecision = decimalPlaces(this.step);
     const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
     const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
     let nudgedValue;
     let nudgedValueRounded;
+    let nudgedValueRoundedDecimals;
     let newFractionalSecond;
     if (direction === "up") {
       nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
       newFractionalSecond =
-        decimalPlaces(nudgedValueRounded) > 0
-          ? formatTimePart(nudgedValueRounded, stepPrecision)
+        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
           : "".padStart(stepPrecision, "0");
     }
     if (direction === "down") {
@@ -581,9 +583,12 @@ export class TimePicker
           ? 1 - stepDecimal
           : fractionalSecondAsFloat - stepDecimal;
       nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
       newFractionalSecond =
-        decimalPlaces(nudgedValueRounded) > 0 && Math.sign(nudgedValueRounded) === 1
-          ? formatTimePart(nudgedValueRounded, stepPrecision)
+        nudgedValueRounded < 1 &&
+        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
+        Math.sign(nudgedValueRoundedDecimals) === 1
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
           : "".padStart(stepPrecision, "0");
     }
     this.setValuePart("fractionalSecond", newFractionalSecond);
@@ -602,13 +607,6 @@ export class TimePicker
     fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
       ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
       : fractionalSecond;
-
-  private sanitizeFractionalStep = (step: number): number => {
-    if (decimalPlaces(step) > 0 && step > 0) {
-      return parseFloat(`0.${step.toString().split(".")[1]}`);
-    }
-    return step;
-  };
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
     const { key } = event;

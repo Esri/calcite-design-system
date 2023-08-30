@@ -26,6 +26,13 @@ export const decimalPlaces = (value: number | string): number => {
   );
 };
 
+export function getDecimals(value: number): number {
+  if (decimalPlaces(value) > 0 && value > 0) {
+    return parseFloat(`0.${value.toString().split(".")[1]}`);
+  }
+  return value;
+}
+
 export function remap(value: number, fromMin: number, fromMax: number, toMin: number, toMax: number): number {
   return ((value - fromMin) * (toMax - toMin)) / (fromMax - fromMin) + toMin;
 }
