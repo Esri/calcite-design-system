@@ -15,7 +15,6 @@ import { LocalizedComponent } from "../../utils/locale";
 import { Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableRowFocusEvent } from "../table/interfaces";
-import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
@@ -158,7 +157,6 @@ export class TableRow implements LocalizedComponent {
       }
     }
   }
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -338,7 +336,6 @@ export class TableRow implements LocalizedComponent {
           aria-disabled={this.disabled}
           aria-rowindex={this.positionAll + 1}
           aria-selected={this.selected}
-          class={{ [CSS.isInTableHead]: this.rowType === "head" }}
           onKeyDown={(event) => this.keyDownHandler(event)}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.tableRowEl = el)}

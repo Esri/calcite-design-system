@@ -32,7 +32,7 @@ import {
   NumberingSystem,
 } from "../../utils/locale";
 import { TableAppearance, TableLayout, TableRowFocusEvent } from "./interfaces";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
 
 /**
@@ -129,7 +129,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   @State() colCount = 0;
 
-  // this could probably also be a public property for setting the currently active page on load
+  // Follow up - Have a public start row property for setting initial page
   @State() pageStartRow = 1;
 
   @State() selectedCount = 0;
@@ -423,7 +423,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           </calcite-button>
         )}
         <div class={CSS.selectionActions}>
-          <slot name="selection-actions" />
+          <slot name={SLOTS.selectionActions} />
         </div>
       </div>
     );
@@ -451,7 +451,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return (
       <thead>
         <slot
-          name="table-head"
+          name={SLOTS.tableHead}
           onSlotchange={this.updateRows}
           ref={(el) => (this.tableHeadSlotEl = el as HTMLSlotElement)}
         />
@@ -474,7 +474,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return (
       <tfoot>
         <slot
-          name="table-foot"
+          name={SLOTS.tableFoot}
           onSlotchange={this.updateRows}
           ref={(el) => (this.tableFootSlotEl = el as HTMLSlotElement)}
         />

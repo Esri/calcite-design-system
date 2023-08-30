@@ -1,10 +1,10 @@
 export const CSS = {
   numberCell: "number-cell",
   selectionCell: "selection-cell",
-  bodyRow: "is-in-body",
+  bodyRow: "body-row",
   heading: "heading",
   description: "description",
-  multipleSelectionCell: "multiple-selection-cell",
+  multipleSelectionCell: "cell--multiple-selection",
   assistiveText: "assistive-text",
   active: "active",
 };

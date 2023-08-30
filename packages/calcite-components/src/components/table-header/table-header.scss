@@ -37,13 +37,13 @@ th {
   }
 }
 
-th.is-in-body {
+th.body-row {
   border-inline-end: 1px solid var(--calcite-table-header-border-color-internal);
   border-block-end: 0;
   border-block-start: 0;
 }
 
-.multiple-selection-cell {
+.cell--multiple-selection {
   @apply cursor-pointer align-middle text-color-3;
 }
 
