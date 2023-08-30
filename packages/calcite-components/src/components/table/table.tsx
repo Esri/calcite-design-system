@@ -34,6 +34,7 @@ import {
 import { TableAppearance, TableLayout, TableRowFocusEvent } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
+import { getUserAgentString } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding `calcite-table-row` or nested `calcite-table` elements. Content placed here will be rendered in a `table-body` tag.
@@ -134,6 +135,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   @State() selectedCount = 0;
 
+  /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
+  @State() readCellContentsToAT: boolean;
+
   @State() defaultMessages: TableMessages;
 
   @State() effectiveLocale = "";
@@ -168,6 +172,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
+    this.readCellContentsToAT = /safari/i.test(getUserAgentString());
     this.updateRows();
   }
 
@@ -311,6 +316,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       row.positionAll = allRows?.indexOf(row);
       row.numbered = this.numbered;
       row.scale = this.scale;
+      row.readCellContentsToAT = this.readCellContentsToAT;
     });
 
     const colCount =

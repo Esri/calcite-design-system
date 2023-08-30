@@ -17,7 +17,6 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { TableCellMessages } from "./assets/table-cell/t9n";
 import { CSS } from "./resources";
 import { RowType } from "../table/interfaces";
-import { getUserAgentString } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding content, usually text content.
@@ -63,6 +62,9 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   @Prop() positionInRow: number;
 
   /** @internal */
+  @Prop() readCellContentsToAT: boolean;
+
+  /** @internal */
   @Prop() scale: Scale = "m";
 
   /** @internal */
@@ -94,11 +96,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   // --------------------------------------------------------------------------
   @Element() el: HTMLCalciteTableCellElement;
 
-  /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
-  /* q - should this be a state on a parent table and passed via internal prop? */
-  @State() isSafari: boolean;
-
-  @State() safariText = "";
+  @State() contentsText = "";
 
   @State() defaultMessages: TableCellMessages;
 
@@ -120,8 +118,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
-    this.isSafari = /safari/i.test(getUserAgentString());
-    await this.updateSafariText;
+    await this.updateScreenReaderContentsText;
   }
 
   componentDidLoad(): void {
@@ -156,14 +153,14 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   //
   // --------------------------------------------------------------------------
 
-  private getScreenReaderText(): string {
+  private updateScreenReaderSelectionText(): string {
     const selectedText = `${this.messages.row} ${this.parentRowPositionLocalized} ${this.messages.selected} ${this.messages.keyboardDeselect}`;
     const unselectedText = `${this.messages.row} ${this.parentRowPositionLocalized} ${this.messages.unselected} ${this.messages.keyboardSelect}`;
     return this.parentRowIsSelected ? selectedText : unselectedText;
   }
 
-  private updateSafariText = (): void => {
-    this.safariText = this.el.textContent;
+  private updateScreenReaderContentsText = (): void => {
+    this.contentsText = this.el.textContent;
   };
 
   //--------------------------------------------------------------------------
@@ -190,13 +187,13 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >
-          {(this.selectionCell || this.isSafari) && (
+          {(this.selectionCell || this.readCellContentsToAT) && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-              {this.selectionCell && this.getScreenReaderText()}
-              {this.isSafari && !this.selectionCell && this.safariText}
+              {this.selectionCell && this.updateScreenReaderSelectionText()}
+              {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
             </span>
           )}
-          <slot onSlotchange={this.updateSafariText} />
+          <slot onSlotchange={this.updateScreenReaderContentsText} />
         </td>
       </Host>
     );

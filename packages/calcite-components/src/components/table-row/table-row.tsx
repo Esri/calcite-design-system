@@ -57,6 +57,9 @@ export class TableRow implements LocalizedComponent {
   @Prop() positionAll: number;
 
   /** @internal */
+  @Prop() readCellContentsToAT: boolean;
+
+  /** @internal */
   @Prop() scale: Scale;
 
   /** @internal */
@@ -253,6 +256,7 @@ export class TableRow implements LocalizedComponent {
         cell.parentRowType = this.rowType;
         cell.disabled = this.disabled;
         cell.scale = this.scale;
+        cell.readCellContentsToAT = this.readCellContentsToAT;
       });
     }
     this.rowCells = cells || [];
