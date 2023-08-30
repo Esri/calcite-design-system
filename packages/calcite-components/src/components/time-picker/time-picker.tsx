@@ -337,6 +337,10 @@ export class TimePicker
     this[`${target || "hour"}El`]?.focus();
   }
 
+  private decrementFractionalSecond = (): void => {
+    this.nudgeFractionalSecond("down");
+  };
+
   private decrementHour = (): void => {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
@@ -456,6 +460,10 @@ export class TimePicker
           break;
       }
     }
+  };
+
+  private incrementFractionalSecond = (): void => {
+    this.nudgeFractionalSecond("up");
   };
 
   private incrementMeridiem = (): void => {
@@ -1016,7 +1024,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondUp]: true,
               }}
-              onClick={() => this.nudgeFractionalSecond("up")}
+              onClick={this.incrementFractionalSecond}
               role="button"
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
@@ -1046,7 +1054,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondDown]: true,
               }}
-              onClick={() => this.nudgeFractionalSecond("down")}
+              onClick={this.decrementFractionalSecond}
               role="button"
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
