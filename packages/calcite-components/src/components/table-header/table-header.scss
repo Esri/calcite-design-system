@@ -38,11 +38,13 @@ th {
   }
 }
 
-th.body-row {
+th.body-row,
+th.footer-row {
   border-block-end: 0;
-  border-block-start: 0;
 }
-
+th.footer-row {
+  border-block-start: 1px solid var(--calcite-table-header-border-color-internal);
+}
 .cell--multiple-selection {
   @apply cursor-pointer align-middle text-color-3;
 }

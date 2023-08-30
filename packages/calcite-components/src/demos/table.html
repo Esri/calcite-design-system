@@ -2226,8 +2226,26 @@
           <calcite-table-header heading="Heading"></calcite-table-header>
           <calcite-table-header heading="Heading"></calcite-table-header>
         </calcite-table-row>
+        <calcite-table-row slot="table-head">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+        </calcite-table-row>
         <calcite-table-row>
           <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading" description="description in row"></calcite-table-header>
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
@@ -2238,17 +2256,11 @@
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-header heading="Heading" description="desceription in row"></calcite-table-header>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-header heading="Heading"></calcite-table-header>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-row slot="table-foot">
+          <calcite-table-header heading="Footer heading" description="footer description"></calcite-table-header>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
         </calcite-table-row>
         <calcite-table-row slot="table-foot">
           <calcite-table-header heading="Footer heading" description="footer description"></calcite-table-header>
@@ -2365,6 +2377,16 @@
         </calcite-table-row>
         <calcite-table-row slot="table-foot">
           <calcite-table-cell id="foot-2a" col-span="2">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot">
+          <calcite-table-header id="foot-1a" heading="foot"></calcite-table-header>
+          <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1c">foot</calcite-table-cell>
+          <calcite-table-cell id="foot-1d">foot</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-foot">
+          <calcite-table-header id="foot-2a" heading="foot"></calcite-table-header>
           <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>

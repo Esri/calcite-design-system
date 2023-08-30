@@ -194,6 +194,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           aria-colindex={this.parentRowType !== "body" ? this.positionInRow : ""}
           class={{
             [CSS.bodyRow]: this.parentRowType === "body",
+            [CSS.footerRow]: this.parentRowType === "foot",
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
