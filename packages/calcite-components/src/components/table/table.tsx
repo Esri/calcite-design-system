@@ -37,10 +37,10 @@ import { TableMessages } from "./assets/table/t9n";
 import { getUserAgentString } from "../../utils/browser";
 
 /**
- * @slot - A slot for adding `calcite-table-row` or nested `calcite-table` elements. Content placed here will be rendered in a `table-body` tag.
+ * @slot - A slot for adding `calcite-table-row` or nested `calcite-table` elements.
  * @slot table-head- A slot for adding `calcite-table-row` and nested `calcite-table-header` elements.
  * @slot table-foot- A slot for adding `calcite-table-row` and nested `calcite-table-header` elements.
- * @slot selection-actions - A slot for adding a `calcite-action` or other element to display when `selectionMode !== "none"` and `calcite-table-row` are selected.
+ * @slot selection-actions - A slot for adding a `calcite-action-bar` or other components to display when `selectionMode` is not `"none"` and one or more `calcite-table-row` is selected.
  */
 
 @Component({
@@ -56,7 +56,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** When `true`, displays borders in the table */
+  /** When `true`, displays borders in the component. */
   @Prop({ reflect: true }) bordered = false;
 
   /** Specifies an accessible title for the component. */
@@ -68,13 +68,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** Specifies the layout of the component. */
   @Prop({ reflect: true }) layout: TableLayout = "auto";
 
-  /** When `true`, displays the position of the row in numeric form */
+  /** When `true`, displays the position of the row in numeric form. */
   @Prop({ reflect: true }) numbered = false;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the page size of the component. When true, renders pagination. */
+  /** Specifies the page size of the component. When `true`, renders `calcite-pagination` */
   @Prop({ reflect: true }) pageSize = 0;
 
   /** Specifies the size of the component. */
@@ -84,7 +84,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
 
-  /** When `true`, displays zebra styling in the table */
+  /** When `true`, displays zebra styling in the component. */
   @Prop({ reflect: true }) zebra = false;
 
   @Watch("groupSeparator")

@@ -35,7 +35,7 @@ export class TableRow implements LocalizedComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Is the component selected. */
+  /** When `true`, the component is selected. */
   @Prop({ reflect: true }) selected = false;
 
   /** @internal */
@@ -81,11 +81,7 @@ export class TableRow implements LocalizedComponent {
   @Watch("selectedRowCount")
   @Watch("selectionMode")
   handleCellChanges(): void {
-    // todo need to ensure conditionally rendered cells
-    // (number / selection) exist before setting properties on all cells
-    if (this.rowCells?.length > 0) {
-      setTimeout(() => this.updateCells(), 60);
-    }
+    this.updateCells();
   }
 
   //--------------------------------------------------------------------------
