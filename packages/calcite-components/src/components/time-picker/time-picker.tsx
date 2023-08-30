@@ -1016,7 +1016,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondUp]: true,
               }}
-              onClick={this.nudgeFractionalSecond.bind(this, "up")}
+              onClick={() => this.nudgeFractionalSecond("up")}
               role="button"
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
@@ -1046,7 +1046,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondDown]: true,
               }}
-              onClick={this.nudgeFractionalSecond.bind(this, "down")}
+              onClick={() => this.nudgeFractionalSecond("down")}
               role="button"
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
