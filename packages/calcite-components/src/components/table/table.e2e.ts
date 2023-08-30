@@ -35,8 +35,8 @@ describe("calcite-table", () => {
   describe("defaults", () => {
     defaults("calcite-table", [
       {
-        propertyName: "appearance",
-        defaultValue: "simple",
+        propertyName: "bordered",
+        defaultValue: false,
       },
       {
         propertyName: "groupSeparator",
@@ -62,15 +62,15 @@ describe("calcite-table", () => {
         propertyName: "selectionMode",
         defaultValue: "none",
       },
+      {
+        propertyName: "zebra",
+        defaultValue: false,
+      },
     ]);
   });
 
   describe("reflects", () => {
     reflects("calcite-table", [
-      {
-        propertyName: "appearance",
-        value: "simple",
-      },
       {
         propertyName: "layout",
         value: "auto",
@@ -1589,7 +1589,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when multiple header and multiple footer rows", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Multiple headers using col-span table" appearance="bordered">
+      html`<calcite-table caption="Multiple headers using col-span table">
           <calcite-table-row slot=${SLOTS.tableHead}>
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
@@ -1688,7 +1688,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when multiple header and multiple footer rows, pagination present, and navigation to other page occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Multiple headers using col-span table" appearance="bordered" page-size="2">
+      html`<calcite-table caption="Multiple headers using col-span table" page-size="2">
           <calcite-table-row slot=${SLOTS.tableHead}>
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>

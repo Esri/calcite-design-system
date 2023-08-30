@@ -17,10 +17,11 @@ export const simple = (): string =>
     page-size="${number("page-size", 0)}"
     selection-mode="${select("selection-mode", ["none", "single", "multiple"], "none")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    appearance="${select("appearance", ["simple", "simple-zebra", "bordered", "bordered-zebra"], "simple")}"
     layout="${select("layout", ["auto", "fixed"], "auto")}"
     caption="${text("caption", "Simple table")}"
     ${boolean("numbered", false)}
+    ${boolean("bordered", false)}
+    ${boolean("zebra", false)}
     caption="Simple table"
   >
     <calcite-table-row slot="table-head">
@@ -49,10 +50,7 @@ export const simple = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const simpleZebra_TestOnly = (): string => html`<calcite-table
-  appearance="simple-zebra"
-  caption="Simple-zebra table"
->
+export const simpleZebra_TestOnly = (): string => html`<calcite-table zebra caption="Simple-zebra table">
   <calcite-table-row slot="table-head">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -79,7 +77,7 @@ export const simpleZebra_TestOnly = (): string => html`<calcite-table
   </calcite-table-row>
 </calcite-table>`;
 
-export const bordered_TestOnly = (): string => html`<calcite-table appearance="bordered" caption="Bordered table">
+export const bordered_TestOnly = (): string => html`<calcite-table bordered caption="Bordered table">
   <calcite-table-row slot="table-head">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -106,10 +104,7 @@ export const bordered_TestOnly = (): string => html`<calcite-table appearance="b
   </calcite-table-row>
 </calcite-table>`;
 
-export const borderedZebra_TestOnly = (): string => html`<calcite-table
-  appearance="bordered-zebra"
-  caption="Bordered zebra table"
->
+export const borderedZebra_TestOnly = (): string => html`<calcite-table bordered zebra caption="Bordered zebra table">
   <calcite-table-row slot="table-head">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -163,7 +158,7 @@ export const alignments_TestOnly = (): string => html`<calcite-table numbered>
   </calcite-table-row>
 </calcite-table>`;
 
-export const displayedRows_TestOnly = (): string => html`<calcite-table caption="Bordered-zebra table">
+export const disabledRows_TestOnly = (): string => html`<calcite-table caption="Bordered-zebra table">
   <calcite-table-row slot="table-head">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -282,7 +277,8 @@ export const layoutFixed_TestOnly = (): string => html`<calcite-table layout="fi
 </calcite-table>`;
 
 export const rowSpanAndColSpan_TestOnly = (): string => html`<calcite-table
-  appearance="bordered-zebra"
+  bordered
+  zebra
   caption="Using row-span and col-span table"
 >
   <calcite-table-row slot="table-head">
@@ -321,7 +317,8 @@ export const rowSpanAndColSpan_TestOnly = (): string => html`<calcite-table
 </calcite-table>`;
 
 export const rowSpanAndColSpan2_TestOnly = (): string => html`<calcite-table
-  appearance="bordered-zebra"
+  bordered
+  zebra
   numbered
   caption="Using row-span and col-span table"
 >
@@ -361,7 +358,8 @@ export const rowSpanAndColSpan2_TestOnly = (): string => html`<calcite-table
 </calcite-table>`;
 
 export const rowSpanAndColSpan3_TestOnly = (): string => html`<calcite-table
-  appearance="bordered-zebra"
+  bordered
+  zebra
   caption="Using row-span and col-span table"
 >
   <calcite-table-row slot="table-head">
@@ -406,7 +404,7 @@ export const rowSpanAndColSpan3_TestOnly = (): string => html`<calcite-table
 
 export const complexWithFooter_TestOnly = (): string => html`<calcite-table
   caption="Multiple headers using col-span table"
-  appearance="bordered"
+  bordered
 >
   <calcite-table-row slot="table-head">
     <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
@@ -883,7 +881,7 @@ export const localized_TestOnly = (): string => html`<calcite-table
 </calcite-table>`;
 
 export const darkModeRTL_TestOnly = (): string =>
-  html`<calcite-table appearance="simple-zebra" caption="Simple-zebra table" dir="rtl">
+  html`<calcite-table zebra caption="Simple-zebra table" dir="rtl">
     <calcite-table-row slot="table-head">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>

@@ -236,12 +236,11 @@
 
       <div style="display: flex; gap: 2em; width: 80vw; margin: 0 auto">
         <div>
-          <span>Appearance</span>
-          <calcite-chip-group selection-mode="single-persist" id="appearance-chips">
-            <calcite-chip appearance="outline-fill" selected value="simple">simple</calcite-chip>
-            <calcite-chip appearance="outline-fill" value="simple-zebra">simple-zebra</calcite-chip>
-            <calcite-chip appearance="outline-fill" value="bordered">bordered</calcite-chip>
-            <calcite-chip appearance="outline-fill" value="bordered-zebra">bordered-zebra</calcite-chip>
+          <span>Features</span>
+          <calcite-chip-group selection-mode="multiple" id="preview-chips">
+            <calcite-chip appearance="outline-fill" icon="number-circle-1" value="numbered">Numbered</calcite-chip>
+            <calcite-chip appearance="outline-fill" icon="list-rectangle" value="zebra">Zebra</calcite-chip>
+            <calcite-chip appearance="outline-fill" icon="border-radius-sharp" value="Bordered">Bordered</calcite-chip>
           </calcite-chip-group>
         </div>
         <div>
@@ -272,11 +271,8 @@
           <calcite-label>
             <calcite-input-number id="page-size-input" value="10"></calcite-input-number>
           </calcite-label>
-          <span>Features</span>
-          <calcite-chip-group selection-mode="multiple" id="preview-chips">
-            <calcite-chip appearance="outline-fill" icon="number-circle-1" value="numbered">Numbered</calcite-chip>
-          </calcite-chip-group>
         </div>
+
         <div>
           <span>Themes</span>
           <calcite-chip-group selection-mode="single-persist" id="theme-chips">
@@ -1689,8 +1685,8 @@
         </calcite-table-row>
       </calcite-table>
 
-      <h3>Simple-zebra</h3>
-      <calcite-table appearance="simple-zebra" caption="Simple-zebra table">
+      <h3>zebra</h3>
+      <calcite-table zebra caption="zebra">
         <calcite-table-row slot="table-head">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1718,7 +1714,7 @@
       </calcite-table>
 
       <h3>Bordered</h3>
-      <calcite-table appearance="bordered" caption="Bordered table">
+      <calcite-table bordered caption="Bordered table">
         <calcite-table-row slot="table-head">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1746,7 +1742,7 @@
       </calcite-table>
 
       <h3>Bordered-zebra</h3>
-      <calcite-table appearance="bordered-zebra" caption="Bordered-zebra table">
+      <calcite-table bordered zebra caption="Bordered-zebra table">
         <calcite-table-row slot="table-head">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1991,7 +1987,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span</h3>
-      <calcite-table appearance="bordered-zebra" caption="Using row-span and col-span table">
+      <calcite-table bordered zebra caption="Using row-span and col-span table">
         <calcite-table-row slot="table-head">
           <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -2028,7 +2024,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span and numbered</h3>
-      <calcite-table appearance="bordered-zebra" numbered caption="Using row-span and col-span table">
+      <calcite-table bordered zebra numbered caption="Using row-span and col-span table">
         <calcite-table-row slot="table-head">
           <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -2065,7 +2061,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span</h3>
-      <calcite-table appearance="bordered-zebra" caption="Using row-span and col-span table">
+      <calcite-table bordered zebra caption="Using row-span and col-span table">
         <calcite-table-row slot="table-head">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header col-span="3" heading="Heading" description="Description"></calcite-table-header>
@@ -2133,7 +2129,7 @@
       </calcite-table>
 
       <h3>Complex keyboard test with multiple headers, selection, pagination using col-span</h3>
-      <calcite-table caption="Multiple headers using col-span table" appearance="bordered">
+      <calcite-table caption="Multiple headers using col-span table" bordered>
         <calcite-table-row slot="table-head">
           <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
           <calcite-table-header col-span="2" heading="Information"></calcite-table-header>
@@ -2342,7 +2338,7 @@
 
       <h3>selection-mode multiple with multiple headers, footers, pageSize</h3>
 
-      <calcite-table numbered caption="Multiple headers using col-span table" appearance="bordered" page-size="2">
+      <calcite-table numbered caption="Multiple headers using col-span table" bordered page-size="2">
         <calcite-table-row slot="table-head">
           <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
           <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
@@ -2718,7 +2714,6 @@
     const chipGroup = document.getElementById("preview-chips");
     const chipGroupTheme = document.getElementById("theme-chips");
     const chipGroupScale = document.getElementById("scale-chips");
-    const chipGroupAppearance = document.getElementById("appearance-chips");
     const chipGroupSelectionMode = document.getElementById("selection-mode-chips");
     const chipGroupLayout = document.getElementById("layout-chips");
     const pageSizeInput = document.getElementById("page-size-input");
@@ -2726,7 +2721,6 @@
     const calciteChips = document.querySelectorAll("#preview-chips calcite-chip");
     const calciteChipsTheme = document.querySelectorAll("#theme-chips calcite-chip");
     const calciteChipsScale = document.querySelectorAll("#scale-chips calcite-chip");
-    const calciteChipsAppearance = document.querySelectorAll("#appearance-chips calcite-chip");
     const calciteChipsSelectionMode = document.querySelectorAll("#selection-mode-chips calcite-chip");
     const calciteChipsLayout = document.querySelectorAll("#layout-chips calcite-chip");
 
@@ -2748,16 +2742,6 @@
           table.setAttribute(chip.value, true);
         } else {
           table.removeAttribute(chip.value);
-        }
-      });
-    });
-
-    chipGroupAppearance.addEventListener("calciteChipGroupSelect", (event) => {
-      calciteChipsAppearance.forEach((chip) => {
-        if (event.target.selectedItems.includes(chip)) {
-          table.appearance = chip.value;
-        } else {
-          return;
         }
       });
     });

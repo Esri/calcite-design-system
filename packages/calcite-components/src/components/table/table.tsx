@@ -31,7 +31,7 @@ import {
   numberStringFormatter,
   NumberingSystem,
 } from "../../utils/locale";
-import { TableAppearance, TableLayout, TableRowFocusEvent } from "./interfaces";
+import { TableLayout, TableRowFocusEvent } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
 import { getUserAgentString } from "../../utils/browser";
@@ -56,8 +56,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: TableAppearance = "simple";
+  /** When `true`, displays borders in the table */
+  @Prop({ reflect: true }) bordered = false;
 
   /** Specifies an accessible title for the component. */
   @Prop() caption!: string;
@@ -83,6 +83,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** Specifies the selection mode of the component. */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
+
+  /** When `true`, displays zebra styling in the table */
+  @Prop({ reflect: true }) zebra = false;
 
   @Watch("groupSeparator")
   @Watch("numbered")
@@ -493,7 +496,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       <Host>
         <div class={CSS.container}>
           {this.selectionMode !== "none" && this.renderSelectionArea()}
-          <div class={{ [this.appearance]: true, [CSS.tableContainer]: true }}>
+          <div
+            class={{
+              [CSS.bordered]: this.bordered,
+              [CSS.zebra]: this.zebra,
+              [CSS.tableContainer]: true,
+            }}
+          >
             <table
               aria-colcount={this.colCount}
               aria-multiselectable={this.selectionMode === "multiple"}

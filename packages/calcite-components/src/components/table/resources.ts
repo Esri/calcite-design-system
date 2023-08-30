@@ -1,8 +1,6 @@
 export const CSS = {
   bordered: "bordered",
-  simple: "simple",
-  borderedZebra: "bordered-zebra",
-  simpleZebra: "simple-zebra",
+  zebra: "zebra",
   selectionArea: "selection-area",
   paginationArea: "pagination-area",
   container: "container",
