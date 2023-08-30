@@ -117,13 +117,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   @Prop() numbered = false;
 
   /**
-   * The containing parent `calcite-stepper` element.
-   *
-   * @internal
-   */
-  @Prop() stepperParent: HTMLCalciteStepperElement;
-
-  /**
    * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
    *
    * @internal
@@ -192,6 +185,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
+    this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
     this.itemPosition = this.getItemPosition();
     this.registerStepperItem();
 
@@ -253,7 +247,10 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   @Listen("calciteInternalStepperItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent<StepperItemChangeEventDetail>): void {
-    if (event.target === this.stepperParent || event.composedPath().includes(this.stepperParent)) {
+    if (
+      event.target === this.parentStepperEl ||
+      event.composedPath().includes(this.parentStepperEl)
+    ) {
       this.selectedPosition = event.detail.position;
       this.determineSelectedItem();
     }
@@ -286,6 +283,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   /** the latest requested item position*/
   private selectedPosition: number;
+
+  /** the parent stepper component */
+  private parentStepperEl: HTMLCalciteStepperElement;
 
   //--------------------------------------------------------------------------
   //
@@ -374,7 +374,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   };
 
   private getItemPosition(): number {
-    return Array.from(this.stepperParent?.querySelectorAll("calcite-stepper-item")).indexOf(
+    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
       this.el
     );
   }

@@ -41,16 +41,12 @@ export class Stepper {
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
 
-  /** Specifies the parent of the component. */
-  @Prop({ reflect: true }) stepperParent: HTMLCalciteStepperElement;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("icon")
   @Watch("layout")
   @Watch("numbered")
-  @Watch("stepperParent")
   @Watch("scale")
   handleItemPropChange(): void {
     this.updateItems();
@@ -280,12 +276,12 @@ export class Stepper {
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   private updateItems(): void {
-    if (this.items) {
-      for (const item of this.items) {
+    const items = Array.from(this.el.querySelectorAll("calcite-stepper-item"));
+    if (items) {
+      for (const item of items) {
         item.icon = this.icon;
         item.numbered = this.numbered;
         item.layout = this.layout;
-        item.stepperParent = this.el;
         item.scale = this.scale;
       }
     }
