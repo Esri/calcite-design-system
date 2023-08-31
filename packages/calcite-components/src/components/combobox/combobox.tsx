@@ -890,7 +890,10 @@ export class Combobox
   private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
-    if (!item) {
+    if (
+      !item ||
+      (this.selectionMode === "single-persist" && item.selected && item.value === this.value)
+    ) {
       return;
     }
 
@@ -907,6 +910,7 @@ export class Combobox
       this.ignoreSelectedEventsFlag = false;
       this.selectedItems = this.getSelectedItems();
       this.emitComboboxChange();
+
       if (this.textInput) {
         this.textInput.value = item.textLabel;
       }
@@ -1135,7 +1139,7 @@ export class Combobox
   }
 
   isMulti(): boolean {
-    return this.selectionMode !== "single" && this.selectionMode !== "single-persist";
+    return !isSingleLike(this.selectionMode);
   }
 
   comboboxFocusHandler = (): void => {
