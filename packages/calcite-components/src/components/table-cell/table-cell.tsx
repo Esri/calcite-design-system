@@ -13,6 +13,13 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
+
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { TableCellMessages } from "./assets/table-cell/t9n";
 import { CSS } from "./resources";
@@ -27,7 +34,9 @@ import { RowType } from "../table/interfaces";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class TableCell implements LocalizedComponent, LoadableComponent, T9nComponent {
+export class TableCell
+  implements InteractiveComponent, LocalizedComponent, LoadableComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -132,11 +141,17 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    connectInteractive(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    disconnectInteractive(this);
   }
 
   //--------------------------------------------------------------------------

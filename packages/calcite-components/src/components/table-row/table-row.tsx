@@ -16,6 +16,12 @@ import { Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
@@ -26,7 +32,7 @@ import { isActivationKey } from "../../utils/key";
   styleUrl: "table-row.scss",
   shadow: true,
 })
-export class TableRow implements LocalizedComponent {
+export class TableRow implements InteractiveComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -97,6 +103,18 @@ export class TableRow implements LocalizedComponent {
     if (this.tableRowEl && this.rowCells.length > 0) {
       this.updateCells();
     }
+  }
+
+  connectedCallback(): void {
+    connectInteractive(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
   }
 
   //--------------------------------------------------------------------------
