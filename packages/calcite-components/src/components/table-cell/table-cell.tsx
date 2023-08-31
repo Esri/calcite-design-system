@@ -115,6 +115,8 @@ export class TableCell
 
   @State() defaultMessages: TableCellMessages;
 
+  @State() focused = false;
+
   @State() selectionText = "";
 
   @State() effectiveLocale = "";
@@ -188,6 +190,14 @@ export class TableCell
     this.contentsText = this.el.textContent;
   };
 
+  private onContainerBlur = (): void => {
+    this.focused = false;
+  };
+
+  private onContainerFocus = (): void => {
+    this.focused = true;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -206,13 +216,15 @@ export class TableCell
             [CSS.selectedCell]: this.parentRowIsSelected,
           }}
           colSpan={this.colSpan}
+          onBlur={this.onContainerBlur}
+          onFocus={this.onContainerFocus}
           role="gridcell"
           rowSpan={this.rowSpan}
           tabIndex={this.disabled ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >
-          {(this.selectionCell || this.readCellContentsToAT) && (
+          {(this.selectionCell || this.readCellContentsToAT) && this.focused && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
               {this.selectionCell && this.selectionText}
               {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
