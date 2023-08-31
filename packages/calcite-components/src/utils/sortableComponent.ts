@@ -102,9 +102,8 @@ export function connectSortableComponent(component: SortableComponent): void {
       dragState.active = false;
       onDragEnd();
     },
-    onSort: (event) => {
-      const { from, item, to } = event;
-      component.onDragSort({ fromEl: from, dragEl: item, toEl: to });
+    onSort: ({ from: fromEl, item: dragEl, to: toEl }) => {
+      component.onDragSort({ fromEl, dragEl, toEl });
     },
   });
 }

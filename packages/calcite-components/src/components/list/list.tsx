@@ -493,7 +493,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   }
 
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest("calcite-list") ?? null;
+    this.parentListEl = this.el.parentElement?.closest("calcite-list");
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
