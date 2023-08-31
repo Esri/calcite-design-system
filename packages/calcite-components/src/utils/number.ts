@@ -120,7 +120,7 @@ export function parseNumberString(numberString?: string): string {
         }
         return numberKeys.includes(value);
       })
-      .reduce((string, part) => string + part);
+      .join("");
     return isValidNumber(result) ? new BigDecimal(result).toString() : "";
   });
 }
@@ -173,7 +173,7 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
     .split(/[eE]/)
     .map((section, i) => (i === 1 ? func(section.replace(/\./g, "")) : func(section)))
     .join("e")
-    .replace(/^e/, "1e");
+    .replace(/^e/, "e");
 }
 
 /**
