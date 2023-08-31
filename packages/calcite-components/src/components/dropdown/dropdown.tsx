@@ -237,7 +237,11 @@ export class Dropdown
   render(): VNode {
     const { open, guid } = this;
     return (
-      <Host>
+      <Host
+        {...{
+          "aria-label": this.label,
+        }}
+      >
         <div
           class="calcite-trigger-container"
           id={`${guid}-menubutton`}
@@ -288,7 +292,8 @@ export class Dropdown
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param {boolean} delayed -
+   * @returns {Promise<void>}
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -452,6 +457,8 @@ export class Dropdown
 
   defaultAssignedElements: Element[] = [];
 
+  label: string;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -606,7 +613,43 @@ export class Dropdown
   };
 
   private updateSelectedItems(): void {
+    const selectedLabels: string[] | string[][] = [[], []];
     this.selectedItems = this.items.filter((item) => item.selected);
+    this.label = this.selectedItems
+      .reduce((acc, item, idx) => {
+        // @ts-expect-error TODO: write special type for selectedItems which includes the parentElement as a DropDownGroup
+        const group = item.parentElement.groupTitle;
+        let groupIdx = acc[0].indexOf(group);
+
+        if (groupIdx !== -1) {
+          if (acc[groupIdx]) {
+            acc[groupIdx + 1].push(item.textContent);
+          } else {
+            acc[groupIdx + 1] = [item.textContent];
+          }
+        } else {
+          acc[0].push(group);
+          groupIdx = acc[0].indexOf(group);
+          acc[groupIdx + 1] = [item.textContent];
+        }
+
+        if (this.selectedItems.length - 1 === idx) {
+          const groups = acc[0];
+          const finalAcc = [];
+
+          groups.forEach((group, idx) => {
+            finalAcc.push(group);
+            acc[idx + 1].forEach((item) => {
+              finalAcc.push(item);
+            });
+          });
+
+          return finalAcc;
+        }
+
+        return acc;
+      }, selectedLabels)
+      .join(" ");
   }
 
   private getMaxScrollerHeight(): number {
