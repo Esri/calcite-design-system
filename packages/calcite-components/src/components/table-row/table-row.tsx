@@ -276,7 +276,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
         cell.parentRowType = this.rowType;
         cell.scale = this.scale;
 
-        if (cell.nodeName === "calcite-table-cell") {
+        if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
           (cell as HTMLCalciteTableCellElement).disabled = this.disabled;
           (cell as HTMLCalciteTableCellElement).parentRowIsSelected = this.selected;
