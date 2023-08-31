@@ -137,11 +137,11 @@ export class Flow implements LoadableComponent {
   };
 
   updateFlowProps = (): void => {
-    const { el, items } = this;
+    const { customItemSelectors, el, items } = this;
 
     const newItems = Array.from<FlowItemLikeElement>(
       el.querySelectorAll(
-        `calcite-flow-item${this.customItemSelectors ? `,${this.customItemSelectors}` : ""}`
+        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`
       )
     ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
 
