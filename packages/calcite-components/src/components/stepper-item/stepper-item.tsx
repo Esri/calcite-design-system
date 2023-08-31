@@ -107,7 +107,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
    *
    * @internal
    */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout>;
 
   /**
    * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
