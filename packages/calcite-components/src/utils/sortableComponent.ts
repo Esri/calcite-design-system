@@ -9,6 +9,12 @@ export interface DragEvent {
   dragEl: HTMLElement;
 }
 
+export const CSS = {
+  ghostClass: "calcite-sortable--ghost",
+  chosenClass: "calcite-sortable--chosen",
+  dragClass: "calcite-sortable--drag",
+};
+
 /**
  * Defines interface for components with sorting functionality.
  */
@@ -87,6 +93,7 @@ export function connectSortableComponent(component: SortableComponent): void {
 
   component.sortable = Sortable.create(component.el, {
     dataIdAttr,
+    ...CSS,
     ...(!!draggable && { draggable }),
     ...(!!group && {
       group: {

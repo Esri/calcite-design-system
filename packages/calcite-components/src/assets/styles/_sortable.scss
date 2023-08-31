@@ -1,0 +1,12 @@
+@mixin sortable-helper-classes() {
+  .calcite-sortable--chosen {
+    border: 1px solid red;
+  }
+  .calcite-sortable--drag {
+    border: 1px solid blue;
+  }
+  .calcite-sortable--ghost {
+    border: 1px dashed blue;
+    min-block-size: 20px;
+  }
+}
