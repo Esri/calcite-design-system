@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.15...@esri/calcite-components@1.7.0-next.16) (2023-08-31)
+
+### Bug Fixes
+
+- **combobox:** prevent deselecting items via keyboard in single-persist mode ([#7634](https://github.com/Esri/calcite-design-system/issues/7634)) ([4f5f8b0](https://github.com/Esri/calcite-design-system/commit/4f5f8b0ff411341ec26eb65053bbd3985b1ebe25)), closes [#4738](https://github.com/Esri/calcite-design-system/issues/4738)
+- **list:** Stop emitting calciteListChange when a list-item is disabled or closed. ([#7624](https://github.com/Esri/calcite-design-system/issues/7624)) ([7008463](https://github.com/Esri/calcite-design-system/commit/700846385fe737913c1db9fb6cc0c5cd06ee650d)), closes [#7627](https://github.com/Esri/calcite-design-system/issues/7627)
+
 ## [1.7.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.14...@esri/calcite-components@1.7.0-next.15) (2023-08-31)
 
 ### Features
