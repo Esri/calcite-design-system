@@ -15,6 +15,8 @@ import { RequestedItem } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 import { CSS } from "../dropdown-item/resources";
 
+import { guid } from "../../utils/guid";
+
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.
  */
@@ -74,6 +76,7 @@ export class DropdownGroup {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.el.setAttribute("id", this.el.getAttribute("id") || `dropdown-group-${guid()}`);
     this.updateItems();
   }
 
@@ -92,7 +95,14 @@ export class DropdownGroup {
       this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
 
     return (
-      <Host aria-label={this.groupTitle} role="group">
+      <Host
+        {...{
+          "aria-label": this.groupTitle,
+          role: "menu",
+          id: "demo-menu-list",
+          tabindex: "-1",
+        }}
+      >
         <div
           class={{
             [CSS.container]: true,

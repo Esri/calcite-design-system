@@ -21,6 +21,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding text.
@@ -85,6 +86,7 @@ export class DropdownItem implements LoadableComponent {
 
   /** @internal */
   @Event({ cancelable: false }) calciteInternalDropdownCloseRequest: EventEmitter<void>;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -133,6 +135,7 @@ export class DropdownItem implements LoadableComponent {
 
   connectedCallback(): void {
     this.initialize();
+    this.el.setAttribute("id", this.el.getAttribute("id") || `dropdown-item-${guid()}`);
   }
 
   render(): VNode {
@@ -197,7 +200,7 @@ export class DropdownItem implements LoadableComponent {
     const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
 
     return (
-      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole} tabindex="0">
+      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole} tabindex="-1">
         <div
           class={{
             [CSS.container]: true,

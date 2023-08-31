@@ -50,6 +50,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
+import { updateElementAria } from "../../utils/updateElementAria";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -252,24 +253,24 @@ export class Dropdown
             aria-haspopup="menu"
             name={SLOTS.dropdownTrigger}
             onSlotchange={this.updateTriggers}
+            {...{
+              "aria-label": this.label,
+            }}
           />
         </div>
         <div
-          aria-hidden={toAriaBoolean(!open)}
           class="calcite-dropdown-wrapper"
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setFloatingEl}
         >
           <div
-            aria-labelledby={`${guid}-menubutton`}
             class={{
               ["calcite-dropdown-content"]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}
+            hidden={!open}
             id={`${guid}-menu`}
-            role="menu"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setScrollerAndTransitionEl}
           >
             <slot onSlotchange={this.updateGroups} />
@@ -288,7 +289,8 @@ export class Dropdown
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param {boolean} delayed -
+   * @returns {Promise<void>}
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -380,6 +382,7 @@ export class Dropdown
   calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = event.detail;
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
+    let focusTarget;
 
     switch (keyboardEvent.key) {
       case "Tab":
@@ -387,17 +390,25 @@ export class Dropdown
         this.updateTabIndexOfItems(target);
         break;
       case "ArrowDown":
-        focusElementInGroup(this.items, target, "next");
+        focusTarget = focusElementInGroup(this.items, target, "next");
         break;
       case "ArrowUp":
-        focusElementInGroup(this.items, target, "previous");
+        focusTarget = focusElementInGroup(this.items, target, "previous");
         break;
       case "Home":
-        focusElementInGroup(this.items, target, "first");
+        focusTarget = focusElementInGroup(this.items, target, "first");
         break;
       case "End":
-        focusElementInGroup(this.items, target, "last");
+        focusTarget = focusElementInGroup(this.items, target, "last");
         break;
+    }
+
+    if (focusTarget) {
+      this.triggers.forEach((trigger) => {
+        updateElementAria(trigger, {
+          "aria-activedescendant": focusTarget.id,
+        });
+      });
     }
 
     event.stopPropagation();
@@ -405,7 +416,35 @@ export class Dropdown
 
   @Listen("calciteInternalDropdownItemSelect")
   handleItemSelect(event: CustomEvent<RequestedItem>): void {
+    const { selectionMode } = event.detail.requestedDropdownItem;
+    const selectionArray = [
+      event.detail.requestedDropdownGroup.id,
+      event.detail.requestedDropdownItem.id,
+    ];
+    let newSelection = [];
+
     this.updateSelectedItems();
+
+    this.triggers.forEach((trigger) => {
+      if (selectionMode === "multiple") {
+        const currentSelection = trigger.getAttribute("aria-labeledby")?.split(" ") || [];
+        newSelection = currentSelection.includes(event.detail.requestedDropdownItem.id)
+          ? currentSelection.filter((id) => id !== event.detail.requestedDropdownItem.id)
+          : [].concat(
+              currentSelection,
+              selectionArray.filter((id) => !currentSelection.includes(id))
+            );
+      } else if (selectionMode === "single") {
+        newSelection = selectionArray;
+      }
+
+      newSelection = newSelection.filter((id) => id);
+      newSelection = newSelection.length > 1 ? newSelection : [];
+
+      updateElementAria(trigger, {
+        "aria-labeledby": newSelection.join(" "),
+      });
+    });
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
     if (
@@ -452,12 +491,13 @@ export class Dropdown
 
   defaultAssignedElements: Element[] = [];
 
+  label: string;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
   slotChangeHandler = (event: Event): void => {
     this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
       flatten: true,
@@ -606,7 +646,43 @@ export class Dropdown
   };
 
   private updateSelectedItems(): void {
+    const selectedLabels: string[] | string[][] = [[], []];
     this.selectedItems = this.items.filter((item) => item.selected);
+    this.label = this.selectedItems
+      .reduce((acc, item, idx) => {
+        // @ts-expect-error TODO: write special type for selectedItems which includes the parentElement as a DropDownGroup
+        const group = item.parentElement.groupTitle;
+        let groupIdx = acc[0].indexOf(group);
+
+        if (groupIdx !== -1) {
+          if (acc[groupIdx]) {
+            acc[groupIdx + 1].push(item.textContent);
+          } else {
+            acc[groupIdx + 1] = [item.textContent];
+          }
+        } else {
+          acc[0].push(group);
+          groupIdx = acc[0].indexOf(group);
+          acc[groupIdx + 1] = [item.textContent];
+        }
+
+        if (this.selectedItems.length - 1 === idx) {
+          const groups = acc[0];
+          const finalAcc = [];
+
+          groups.forEach((group, idx) => {
+            finalAcc.push(group);
+            acc[idx + 1].forEach((item) => {
+              finalAcc.push(item);
+            });
+          });
+
+          return finalAcc;
+        }
+
+        return acc;
+      }, selectedLabels)
+      .join(" ");
   }
 
   private getMaxScrollerHeight(): number {
