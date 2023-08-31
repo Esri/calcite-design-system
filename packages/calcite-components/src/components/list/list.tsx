@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import Sortable, { SortableEvent } from "sortablejs";
+import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
@@ -27,10 +27,11 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
-  DragEvent,
+  DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
+  dragActive,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 
@@ -73,12 +74,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() canPull: (event: DragEvent) => boolean;
+  @Prop() canPull: (detail: DragDetail) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() canPut: (event: DragEvent) => boolean;
+  @Prop() canPut: (detail: DragDetail) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -191,12 +192,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragEvent>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragDetail>;
 
   /**
    * Emitted when the default slot has changes in order to notify parent lists.
    */
-  @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<DragEvent>;
+  @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
@@ -294,14 +295,22 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    if (dragActive(this)) {
+      return;
+    }
+
     this.connectObserver();
     this.updateListItems();
     this.setUpSorting();
     connectInteractive(this);
-    this.parentListEl = this.el.parentElement.closest("calcite-list");
+    this.setParentList();
   }
 
   disconnectedCallback(): void {
+    if (dragActive(this)) {
+      return;
+    }
+
     this.disconnectObserver();
     disconnectSortableComponent(this);
     disconnectInteractive(this);
@@ -476,16 +485,15 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragSort(event: SortableEvent): void {
+  onDragSort(detail: DragDetail): void {
+    this.setParentList();
     this.updateListItems();
 
-    const { from, item, to } = event;
+    this.calciteListOrderChange.emit(detail);
+  }
 
-    this.calciteListOrderChange.emit({
-      dragEl: item,
-      fromEl: from,
-      toEl: to,
-    });
+  private setParentList(): void {
+    this.parentListEl = this.el.parentElement?.closest("calcite-list");
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
