@@ -82,7 +82,9 @@ export class TableRow implements LocalizedComponent {
   @Watch("selectedRowCount")
   @Watch("selectionMode")
   handleCellChanges(): void {
-    this.updateCells();
+    if (this.tableRowEl && this.rowCells.length > 0) {
+      this.updateCells();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -92,7 +94,9 @@ export class TableRow implements LocalizedComponent {
   //--------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    this.updateCells();
+    if (this.tableRowEl && this.rowCells.length > 0) {
+      this.updateCells();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -298,6 +302,7 @@ export class TableRow implements LocalizedComponent {
       <calcite-table-header
         alignment="center"
         bodyRowCount={this.bodyRowCount}
+        key="selection-head"
         onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
         onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
         selectedRowCount={this.selectedRowCount}
@@ -308,6 +313,7 @@ export class TableRow implements LocalizedComponent {
     ) : this.rowType === "body" ? (
       <calcite-table-cell
         alignment="center"
+        key="selection-body"
         onClick={this.handleSelectionOfRow}
         onKeyDown={this.handleKeyboardSelection}
         parentRowIsSelected={this.selected}
@@ -317,17 +323,19 @@ export class TableRow implements LocalizedComponent {
         {this.renderSelectionIcon()}
       </calcite-table-cell>
     ) : (
-      <calcite-table-cell alignment="center" selectionCell={true} />
+      <calcite-table-cell alignment="center" key="selection-foot" selectionCell={true} />
     );
   }
 
   renderNumberedCell(): VNode {
     return this.rowType === "head" ? (
-      <calcite-table-header alignment="center" numberCell={true} />
-    ) : (
-      <calcite-table-cell alignment="center" numberCell={true}>
-        {this.rowType === "body" && this.positionSectionLocalized}
+      <calcite-table-header alignment="center" key="numbered-head" numberCell={true} />
+    ) : this.rowType === "body" ? (
+      <calcite-table-cell alignment="center" key="numbered-body" numberCell={true}>
+        {this.positionSectionLocalized}
       </calcite-table-cell>
+    ) : (
+      <calcite-table-cell alignment="center" key="numbered-foot" numberCell={true} />
     );
   }
 

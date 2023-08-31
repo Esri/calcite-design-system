@@ -121,7 +121,8 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
-    await this.updateScreenReaderContentsText;
+    this.updateScreenReaderContentsText;
+    this.updateScreenReaderSelectionText;
   }
 
   componentDidLoad(): void {
@@ -193,7 +194,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
         >
           {(this.selectionCell || this.readCellContentsToAT) && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-              {this.selectionCell && this.updateScreenReaderSelectionText()}
+              {this.selectionCell && this.selectionText}
               {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
             </span>
           )}
