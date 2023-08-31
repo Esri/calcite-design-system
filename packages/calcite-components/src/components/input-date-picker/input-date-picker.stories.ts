@@ -96,3 +96,16 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const normalizeYearWithGermanLocale_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-input-date-picker normalize-year range lang="de"></calcite-input-date-picker>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-input-date-picker");
+      const inputDatePicker = await document.querySelector("calcite-input-date-picker").componentOnReady();
+      inputDatePicker.value = ["00-03-07", "00-03-08"];
+    })();
+  </script>
+`;
