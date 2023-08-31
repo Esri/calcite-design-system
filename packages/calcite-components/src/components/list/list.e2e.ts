@@ -5,7 +5,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
-import { dragAndDrop, isElementFocused } from "../../tests/utils";
+import { GlobalTestProps, dragAndDrop, isElementFocused } from "../../tests/utils";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -469,9 +469,19 @@ describe("calcite-list", () => {
       return page;
     }
 
+    type TestWindow = GlobalTestProps<{
+      calledTimes: number;
+    }>;
+
     it("works using a mouse", async () => {
       const page = await createSimpleList();
-      const eventSpy = await page.spyOnEvent("calciteListOrderChange");
+
+      await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+        (window as TestWindow).calledTimes = 0;
+        list.addEventListener("calciteListOrderChange", () => {
+          (window as TestWindow).calledTimes++;
+        });
+      });
 
       await dragAndDrop(
         page,
@@ -489,7 +499,8 @@ describe("calcite-list", () => {
       expect(await first.getProperty("value")).toBe("two");
       expect(await second.getProperty("value")).toBe("one");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+
+      expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(1);
     });
 
     it("supports dragging items between lists", async () => {
@@ -519,7 +530,15 @@ describe("calcite-list", () => {
 
       await page.waitForChanges();
 
-      const eventSpy = await page.spyOnEvent("calciteListOrderChange");
+      await page.evaluate(() => {
+        (window as TestWindow).calledTimes = 0;
+        const lists = document.querySelectorAll("calcite-list");
+        lists.forEach((list) =>
+          list.addEventListener("calciteListOrderChange", () => {
+            (window as TestWindow).calledTimes++;
+          })
+        );
+      });
 
       await dragAndDrop(
         page,
@@ -576,7 +595,7 @@ describe("calcite-list", () => {
       expect(await eight.getProperty("value")).toBe("e");
       expect(await ninth.getProperty("value")).toBe("f");
 
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
     });
 
     it("works using a keyboard", async () => {
