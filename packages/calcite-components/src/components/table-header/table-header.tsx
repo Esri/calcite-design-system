@@ -104,6 +104,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
+    this.updateScreenReaderText();
   }
 
   componentDidLoad(): void {
@@ -128,6 +129,8 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Element() el: HTMLCalciteTableHeaderElement;
 
   @State() defaultMessages: TableHeaderMessages;
+
+  @State() screenReaderText = "";
 
   @State() effectiveLocale = "";
 
@@ -157,17 +160,19 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   //
   // --------------------------------------------------------------------------
 
-  private getScreenReaderText(): string {
+  private updateScreenReaderText(): void {
+    let text = "";
     const sharedText = `${this.selectedRowCountLocalized} ${this.messages.selected}`;
     if (this.numberCell) {
-      return this.messages.rowNumber;
+      text = this.messages.rowNumber;
     } else if (this.selectionMode === "single") {
-      return `${this.messages.selectionColumn}. ${sharedText}`;
+      text = `${this.messages.selectionColumn}. ${sharedText}`;
     } else if (this.bodyRowCount === this.selectedRowCount) {
-      return `${this.messages.selectionColumn}. ${this.messages.all} ${sharedText} ${this.messages.keyboardDeselectAll}`;
+      text = `${this.messages.selectionColumn}. ${this.messages.all} ${sharedText} ${this.messages.keyboardDeselectAll}`;
     } else {
-      return `${this.messages.selectionColumn}. ${sharedText} ${this.messages.keyboardSelectAll}`;
+      text = `${this.messages.selectionColumn}. ${sharedText} ${this.messages.keyboardSelectAll}`;
     }
+    this.screenReaderText = text;
   }
 
   //--------------------------------------------------------------------------
@@ -218,7 +223,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           )}
           {(this.selectionCell || this.numberCell) && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-              {this.getScreenReaderText()}
+              {this.screenReaderText}
             </span>
           )}
         </th>

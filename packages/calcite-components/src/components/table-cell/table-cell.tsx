@@ -110,9 +110,9 @@ export class TableCell
 
   @State() defaultMessages: TableCellMessages;
 
-  @State() effectiveLocale = "";
-
   @State() selectionText = "";
+
+  @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {

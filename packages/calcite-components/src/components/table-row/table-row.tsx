@@ -89,7 +89,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Watch("selectionMode")
   handleCellChanges(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
-      this.updateCells();
+      setTimeout(() => this.updateCells(), 120);
     }
   }
 
