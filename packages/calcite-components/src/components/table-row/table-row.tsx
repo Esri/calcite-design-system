@@ -256,31 +256,37 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   private updateCells = (): void => {
     const slottedCells = this.tableRowSlotEl
       ?.assignedElements({ flatten: true })
-      .filter(
-        (el) => el?.matches("calcite-table-cell") || el?.matches("calcite-table-header")
-      ) as any;
-    // todo any
+      ?.filter(
+        (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
+          el.matches("calcite-table-cell") || el.matches("calcite-table-header")
+      );
+
     const renderedCells = Array.from(
       this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell")
-    ).filter(
+    )?.filter(
       (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
         el.numberCell || el.selectionCell
     );
+
     const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
 
     if (cells.length > 0) {
-      cells?.forEach((cell, index) => {
+      cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
         cell.positionInRow = index + 1;
         cell.parentRowType = this.rowType;
-        cell.parentRowIsSelected = this.selected;
-        cell.parentRowType = this.rowType;
-        cell.disabled = this.disabled;
         cell.scale = this.scale;
-        cell.readCellContentsToAT = this.readCellContentsToAT;
+
+        if (cell.nodeName === "calcite-table-cell") {
+          (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
+          (cell as HTMLCalciteTableCellElement).disabled = this.disabled;
+          (cell as HTMLCalciteTableCellElement).parentRowIsSelected = this.selected;
+        }
       });
     }
-    this.rowCells = cells || [];
-    this.cellCount = cells.length;
+
+    this.rowCells =
+      (cells as (HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement)[]) || [];
+    this.cellCount = cells?.length;
   };
 
   private handleSelectionOfRow = (): void => {
