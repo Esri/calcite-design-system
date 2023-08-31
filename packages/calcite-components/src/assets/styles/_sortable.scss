@@ -1,11 +1,14 @@
 @mixin sortable-helper-classes() {
   .calcite-sortable--chosen {
-    border: 1px solid red;
+    @apply border border-dashed;
+    border-color: var(--calcite-ui-success);
   }
   .calcite-sortable--drag {
-    border: 1px solid blue;
+    @apply border border-solid;
+    border-color: var(--calcite-ui-brand-press);
   }
   .calcite-sortable--ghost {
-    border: 1px dashed blue;
+    @apply border border-dashed;
+    border-color: var(--calcite-ui-brand-hover);
   }
 }
