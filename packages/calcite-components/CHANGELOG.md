@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.14...@esri/calcite-components@1.7.0-next.15) (2023-08-31)
+
+### Features
+
+- **input-date-picker:** normalize year to current century ([#7622](https://github.com/Esri/calcite-design-system/issues/7622)) ([0ca35e9](https://github.com/Esri/calcite-design-system/commit/0ca35e92afe694841ff677b58be99bbe950d52aa)), closes [#7588](https://github.com/Esri/calcite-design-system/issues/7588)
+
 ## [1.7.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.13...@esri/calcite-components@1.7.0-next.14) (2023-08-31)
 
 ### Features
