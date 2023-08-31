@@ -1,7 +1,7 @@
 {
-  "selected": "Selected",
   "clear": "Clear",
-  "row": "Row",
+  "hiddenSelected": "Rows selected but out of view",
   "page": "Page",
-  "hiddenSelected": "Rows selected but out of view"
+  "row": "Row",
+  "selected": "Selected"
 }

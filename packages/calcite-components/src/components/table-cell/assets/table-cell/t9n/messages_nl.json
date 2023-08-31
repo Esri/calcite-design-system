@@ -1,8 +1,8 @@
 {
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardSelect": "Press Enter or Space to select row",
   "row": "row",
   "selected": "selected",
-  "unselected": "unselected",
   "selectionColumn": "Selection column",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "keyboardDeselect": "Press Enter or Space to deselect row"
+  "unselected": "unselected"
 }
