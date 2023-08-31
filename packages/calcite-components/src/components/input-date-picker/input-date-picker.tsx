@@ -17,6 +17,7 @@ import {
   dateFromISO,
   dateFromLocalizedString,
   dateFromRange,
+  datePartsFromISO,
   datePartsFromLocalizedString,
   dateToISO,
   inRange,
@@ -77,6 +78,7 @@ import {
 } from "../../utils/focusTrapComponent";
 import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
+import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -155,8 +157,16 @@ export class InputDatePicker
       let newValueAsDate: Date | Date[];
 
       if (Array.isArray(newValue)) {
+        if (isTwoDigitYear(newValue[0]) || isTwoDigitYear(newValue[1])) {
+          this.value = newValue.map((val) => this.getNormalizedDate(val));
+          return;
+        }
         newValueAsDate = getValueAsDateRange(newValue);
       } else if (newValue) {
+        if (isTwoDigitYear(newValue)) {
+          this.value = this.getNormalizedDate(newValue);
+          return;
+        }
         newValueAsDate = dateFromISO(newValue);
       } else {
         newValueAsDate = undefined;
@@ -272,6 +282,11 @@ export class InputDatePicker
    * Required to pass the component's `value` on form submission.
    */
   @Prop({ reflect: true }) name: string;
+
+  /**
+   * Normalizes year to current century.
+   */
+  @Prop({ reflect: true }) normalizeYear = false;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
@@ -435,9 +450,17 @@ export class InputDatePicker
     const { open } = this;
     open && this.openHandler(open);
     if (Array.isArray(this.value)) {
+      if (isTwoDigitYear(this.value[0]) || isTwoDigitYear(this.value[1])) {
+        this.value = this.value.map((val) => this.getNormalizedDate(val));
+        return;
+      }
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
       try {
+        if (isTwoDigitYear(this.value)) {
+          this.value = this.getNormalizedDate(this.value);
+          return;
+        }
         this.valueAsDate = dateFromISO(this.value);
       } catch (error) {
         this.warnAboutInvalidValue(this.value);
@@ -1027,9 +1050,16 @@ export class InputDatePicker
     const valueIsArray = Array.isArray(valueAsDate);
 
     const newStartDate = valueIsArray ? valueAsDate[0] : null;
-    const newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    let newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    if (newStartDateISO && isTwoDigitYear(newStartDateISO)) {
+      newStartDateISO = this.getNormalizedDate(newStartDateISO);
+    }
+
     const newEndDate = valueIsArray ? valueAsDate[1] : null;
-    const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
+    let newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
+    if (newEndDateISO && isTwoDigitYear(newEndDateISO)) {
+      newEndDateISO = this.getNormalizedDate(newEndDateISO);
+    }
 
     const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";
 
@@ -1061,7 +1091,11 @@ export class InputDatePicker
     }
 
     const oldValue = this.value;
-    const newValue = dateToISO(value as Date);
+    let newValue = dateToISO(value as Date);
+
+    if (isTwoDigitYear(newValue)) {
+      newValue = this.getNormalizedDate(newValue);
+    }
 
     if (newValue === oldValue) {
       return;
@@ -1110,4 +1144,18 @@ export class InputDatePicker
           )
           .join("")
       : "";
+
+  private getNormalizedDate(value: string): string {
+    if (!value) {
+      return "";
+    }
+
+    if (!this.normalizeYear) {
+      return value;
+    }
+
+    const { day, month, year } = datePartsFromISO(value);
+    const normalizedYear = normalizeToCurrentCentury(Number(year));
+    return `${normalizedYear}-${month}-${day}`;
+  }
 }
