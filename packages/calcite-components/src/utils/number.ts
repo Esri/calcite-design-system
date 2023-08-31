@@ -172,7 +172,8 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
     .concat(numberString.slice(firstE).replace(/[eE]/g, ""))
     .split(/[eE]/)
     .map((section, i) => (i === 1 ? func(section.replace(/\./g, "")) : func(section)))
-    .join("e");
+    .join("e")
+    .replace(/^e/, "1e");
 }
 
 /**
