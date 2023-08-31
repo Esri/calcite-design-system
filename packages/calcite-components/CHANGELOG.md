@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.18...@esri/calcite-components@1.7.0-next.19) (2023-08-31)
+
+### Features
+
+- **input-number:** add integer property ([#7646](https://github.com/Esri/calcite-design-system/issues/7646)) ([cd66a6d](https://github.com/Esri/calcite-design-system/commit/cd66a6dfa1179c656efbb149359d13a2e1ab2dd9)), closes [#6706](https://github.com/Esri/calcite-design-system/issues/6706)
+
+### Bug Fixes
+
+- **list, sortable-list, value-list:** Emit calciteListOrderChange when dragging between lists ([#7614](https://github.com/Esri/calcite-design-system/issues/7614)) ([4653581](https://github.com/Esri/calcite-design-system/commit/4653581e72dfa0c235e799bf6039ff6bc4c9ef8a)), closes [#7046](https://github.com/Esri/calcite-design-system/issues/7046)
+
 ## [1.7.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.17...@esri/calcite-components@1.7.0-next.18) (2023-08-31)
 
 ### Bug Fixes
