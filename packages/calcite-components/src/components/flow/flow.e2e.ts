@@ -298,7 +298,7 @@ describe("calcite-flow", () => {
   it("supports custom flow-items", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-flow extra-item-selector="custom-flow-item">
+      <calcite-flow custom-item-selectors="custom-flow-item">
         <calcite-flow-item heading="flow-item-1" id="first">
           <p>😃</p>
         </calcite-flow-item>

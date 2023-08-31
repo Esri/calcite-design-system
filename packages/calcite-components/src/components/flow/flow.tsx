@@ -68,11 +68,11 @@ export class Flow implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * This property enables the component to consider other elements implementing flow-item's interface.
+   * This property enables the component to consider other custom elements implementing flow-item's interface.
    *
    * @internal
    */
-  @Prop() extraItemSelector: string;
+  @Prop() customItemSelectors: string;
 
   // --------------------------------------------------------------------------
   //
@@ -141,7 +141,7 @@ export class Flow implements LoadableComponent {
 
     const newItems = Array.from<FlowItemLikeElement>(
       el.querySelectorAll(
-        `calcite-flow-item${this.extraItemSelector ? `,${this.extraItemSelector}` : ""}`
+        `calcite-flow-item${this.customItemSelectors ? `,${this.customItemSelectors}` : ""}`
       )
     ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
 
