@@ -476,6 +476,7 @@ describe("calcite-list", () => {
     it("works using a mouse", async () => {
       const page = await createSimpleList();
 
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
         (window as TestWindow).calledTimes = 0;
         list.addEventListener("calciteListOrderChange", () => {
@@ -530,6 +531,7 @@ describe("calcite-list", () => {
 
       await page.waitForChanges();
 
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.evaluate(() => {
         (window as TestWindow).calledTimes = 0;
         const lists = document.querySelectorAll("calcite-list");
