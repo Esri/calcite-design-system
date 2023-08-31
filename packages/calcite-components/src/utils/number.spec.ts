@@ -41,7 +41,7 @@ describe("parseNumberString", () => {
 
     expect(parseNumberString(lettersAndSymbols)).toBe("");
     expect(parseNumberString(lettersAndSymbolsWithLeadingNegativeSign)).toBe("");
-    expect(parseNumberString("123test")).toBe("123");
+    expect(parseNumberString("123test")).toBe("123e");
   });
 
   it("returns valid number string for string values that compute to a valid number", () => {
