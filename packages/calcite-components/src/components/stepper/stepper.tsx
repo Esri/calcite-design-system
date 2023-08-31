@@ -97,7 +97,7 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true });
     this.updateItems();
   }
 
@@ -276,15 +276,12 @@ export class Stepper {
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   private updateItems(): void {
-    const items = Array.from(this.el.querySelectorAll("calcite-stepper-item"));
-    if (items) {
-      for (const item of items) {
-        item.icon = this.icon;
-        item.numbered = this.numbered;
-        item.layout = this.layout;
-        item.scale = this.scale;
-      }
-    }
+    this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
+      item.icon = this.icon;
+      item.numbered = this.numbered;
+      item.layout = this.layout;
+      item.scale = this.scale;
+    });
   }
 
   //--------------------------------------------------------------------------
