@@ -8,8 +8,8 @@
  */
 
 :host {
-  --calcite-table-header-background-internal: var(--calcite-table-header-background, var(--calcite-ui-foreground-2));
-  --calcite-table-header-border-color-internal: var(--calcite-table-border-color, var(--calcite-ui-border-3));
+  --calcite-internal-table-header-background: var(--calcite-table-header-background, var(--calcite-ui-foreground-2));
+  --calcite-internal-table-header-border-color: var(--calcite-table-border-color, var(--calcite-ui-border-3));
   @apply contents;
 }
 
@@ -27,12 +27,12 @@
 
 th {
   @apply text-color-1 focus-base text-start font-medium align-top;
-  font-size: var(--calcite-table-cell-font-size-internal);
-  border-inline-end: 1px solid var(--calcite-table-header-border-color-internal);
-  border-block-end: 1px solid var(--calcite-table-header-border-color-internal);
-  padding-block: calc(var(--calcite-table-cell-padding-internal) * 1.5);
-  padding-inline: var(--calcite-table-cell-padding-internal);
-  background-color: var(--calcite-table-header-background-internal);
+  font-size: var(--calcite-internal-table-cell-font-size);
+  border-inline-end: 1px solid var(--calcite-internal-table-header-border-color);
+  border-block-end: 1px solid var(--calcite-internal-table-header-border-color);
+  padding-block: calc(var(--calcite-internal-table-cell-padding) * 1.5);
+  padding-inline: var(--calcite-internal-table-cell-padding);
+  background-color: var(--calcite-internal-table-header-background);
   &:focus-within {
     @apply focus-inset;
   }
@@ -45,7 +45,7 @@ th.footer-row {
 }
 
 th.footer-row {
-  border-block-start: 1px solid var(--calcite-table-header-border-color-internal);
+  border-block-start: 1px solid var(--calcite-internal-table-header-border-color);
 }
 
 .cell--multiple-selection {
@@ -54,6 +54,7 @@ th.footer-row {
 
 .number-cell,
 .selection-cell {
+  @apply text-color-2;
   inline-size: 2rem;
   min-inline-size: 2rem;
 }
@@ -72,5 +73,5 @@ th.footer-row {
 
 .description {
   @apply text-color-3;
-  font-size: var(--calcite-table-cell-font-size-secondary-internal);
+  font-size: var(--calcite-internal-table-cell-font-size-secondary);
 }

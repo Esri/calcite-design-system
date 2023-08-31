@@ -204,7 +204,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           rowSpan={this.rowSpan}
           scope={scope}
           tabIndex={0}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >
           {this.heading && <div class={CSS.heading}>{this.heading}</div>}

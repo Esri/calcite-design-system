@@ -15,6 +15,7 @@ import { LocalizedComponent } from "../../utils/locale";
 import { Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableRowFocusEvent } from "../table/interfaces";
+import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
@@ -102,11 +103,11 @@ export class TableRow implements LocalizedComponent {
 
   @Element() el: HTMLCalciteTableRowElement;
 
-  private tableRowSlotEl: HTMLSlotElement;
+  private rowCells: (HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement)[] = [];
 
   private tableRowEl: HTMLTableRowElement;
 
-  private rowCells: (HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement)[] = [];
+  private tableRowSlotEl: HTMLSlotElement;
 
   @State() effectiveLocale = "";
 
@@ -148,7 +149,7 @@ export class TableRow implements LocalizedComponent {
         }
         const cellPosition = lastCell
           ? this.rowCells[this.rowCells.length - 1]
-          : (this.rowCells as any)?.find((_, index) => index + 1 === position);
+          : this.rowCells?.find((_, index) => index + 1 === position);
 
         if (cellPosition) {
           cellPosition.setFocus();
@@ -156,6 +157,7 @@ export class TableRow implements LocalizedComponent {
       }
     }
   }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -167,7 +169,7 @@ export class TableRow implements LocalizedComponent {
     const key = event.key;
     const isControl = event.ctrlKey;
     const cells = this.rowCells;
-    if (el?.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
+    if (el.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
       switch (key) {
         case "ArrowUp":
           this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "previous");
@@ -264,7 +266,7 @@ export class TableRow implements LocalizedComponent {
   };
 
   private handleKeyboardSelection = (event: KeyboardEvent): void => {
-    if (event.key === "Enter" || event.key === " ") {
+    if (isActivationKey(event.key)) {
       if (event.key === " ") {
         event.preventDefault();
       }
@@ -300,7 +302,7 @@ export class TableRow implements LocalizedComponent {
         onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
         selectedRowCount={this.selectedRowCount}
         selectedRowCountLocalized={this.selectedRowCountLocalized}
-        selectionCell
+        selectionCell={true}
         selectionMode={this.selectionMode}
       />
     ) : this.rowType === "body" ? (
@@ -310,20 +312,20 @@ export class TableRow implements LocalizedComponent {
         onKeyDown={this.handleKeyboardSelection}
         parentRowIsSelected={this.selected}
         parentRowPositionLocalized={this.positionSectionLocalized}
-        selectionCell
+        selectionCell={true}
       >
         {this.renderSelectionIcon()}
       </calcite-table-cell>
     ) : (
-      <calcite-table-cell alignment="center" selectionCell />
+      <calcite-table-cell alignment="center" selectionCell={true} />
     );
   }
 
   renderNumberedCell(): VNode {
     return this.rowType === "head" ? (
-      <calcite-table-header alignment="center" numberCell />
+      <calcite-table-header alignment="center" numberCell={true} />
     ) : (
-      <calcite-table-cell alignment="center" numberCell>
+      <calcite-table-cell alignment="center" numberCell={true}>
         {this.rowType === "body" && this.positionSectionLocalized}
       </calcite-table-cell>
     );
@@ -337,7 +339,7 @@ export class TableRow implements LocalizedComponent {
           aria-rowindex={this.positionAll + 1}
           aria-selected={this.selected}
           onKeyDown={(event) => this.keyDownHandler(event)}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.tableRowEl = el)}
         >
           {this.numbered && this.renderNumberedCell()}

@@ -10,7 +10,7 @@ describe("calcite-table", () => {
   describe("renders", () => {
     renders(
       html`<calcite-table caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHead}>
+        <calcite-table-row slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -93,7 +93,7 @@ describe("calcite-table", () => {
     describe("is accessible simple", () => {
       accessible(
         html`<calcite-table caption="Simple table">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -116,7 +116,7 @@ describe("calcite-table", () => {
     describe("is accessible with selection mode multiple", () => {
       accessible(
         html`<calcite-table caption="Simple table" selection-mode="multiple">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -139,7 +139,7 @@ describe("calcite-table", () => {
     describe("is accessible with selection mode multiple selected at load", () => {
       accessible(
         html`<calcite-table caption="Simple table" selection-mode="multiple">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -162,7 +162,7 @@ describe("calcite-table", () => {
     describe("is accessible with selection mode single", () => {
       accessible(
         html`<calcite-table caption="Simple table" selection-mode="single">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -185,7 +185,7 @@ describe("calcite-table", () => {
     describe("is accessible with numbered", () => {
       accessible(
         html`<calcite-table caption="Simple table" numbered>
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -208,7 +208,7 @@ describe("calcite-table", () => {
     describe("is accessible with numbered and selection", () => {
       accessible(
         html`<calcite-table caption="Simple table" numbered selection-mode="multiple">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -231,7 +231,7 @@ describe("calcite-table", () => {
     describe("is accessible with pagination", () => {
       accessible(
         html`<calcite-table page-size="4" caption="Simple table">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -270,7 +270,7 @@ describe("calcite-table", () => {
     describe("is accessible with pagination and selection mode", () => {
       accessible(
         html`<calcite-table page-size="4" selection-mode="multiple" caption="Simple table">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           </calcite-table-row>
@@ -313,7 +313,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="single" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHead}>
+        <calcite-table-row slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -427,7 +427,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHead}>
+        <calcite-table-row slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -542,7 +542,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="single" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHead}>
+        <calcite-table-row slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -664,7 +664,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHead}>
+        <calcite-table-row slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -784,7 +784,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row slot=${SLOTS.tableHead}>
+        <calcite-table-row slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -835,7 +835,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -886,7 +886,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -937,7 +937,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -991,7 +991,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1045,7 +1045,7 @@ describe("selection modes", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1071,7 +1071,7 @@ describe("selection modes", () => {
     const row3 = await page.find("#row-3");
 
     const tableSelectSpy = await element.spyOnEvent("calciteTableSelect");
-    const tablePaginateSpy = await element.spyOnEvent("calciteTablePageSelect");
+    const tablePaginateSpy = await element.spyOnEvent("calciteTablePageChange");
 
     await page.waitForChanges();
 
@@ -1106,7 +1106,7 @@ describe("pagination event", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1127,7 +1127,7 @@ describe("pagination event", () => {
 
     await assertSelectedItems.setUpEvents(page);
     const element = await page.find("calcite-table");
-    const tablePaginateSpy = await element.spyOnEvent("calciteTablePageSelect");
+    const tablePaginateSpy = await element.spyOnEvent("calciteTablePageChange");
     await page.waitForChanges();
 
     expect(tablePaginateSpy).toHaveReceivedEventTimes(0);
@@ -1169,7 +1169,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1240,7 +1240,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table" page-size="2">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1311,7 +1311,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table" page-size="2">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1478,7 +1478,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1531,7 +1531,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1591,11 +1591,11 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Multiple headers using col-span table">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header id="head-2a" heading="First"></calcite-table-header>
             <calcite-table-header id="head-2b" heading="Last"></calcite-table-header>
             <calcite-table-header id="head-2c" heading="Education level"></calcite-table-header>
@@ -1617,13 +1617,13 @@ describe("keyboard navigation", () => {
             <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
             <calcite-table-cell id="cell-4b" col-span="3">cell</calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableFoot}>
+          <calcite-table-row slot=${SLOTS.tableFooter}>
             <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1c">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1d">foot</calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableFoot}>
+          <calcite-table-row slot=${SLOTS.tableFooter}>
             <calcite-table-cell id="foot-2a" col-span="2">foot</calcite-table-cell>
             <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
           </calcite-table-row>
@@ -1690,11 +1690,11 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table caption="Multiple headers using col-span table" page-size="2">
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableHead}>
+          <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header id="head-2a" heading="First"></calcite-table-header>
             <calcite-table-header id="head-2b" heading="Last"></calcite-table-header>
             <calcite-table-header id="head-2c" heading="Education level"></calcite-table-header>
@@ -1716,13 +1716,13 @@ describe("keyboard navigation", () => {
             <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
             <calcite-table-cell id="cell-4b" col-span="3">cell</calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableFoot}>
+          <calcite-table-row slot=${SLOTS.tableFooter}>
             <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1c">foot</calcite-table-cell>
             <calcite-table-cell id="foot-1d">foot</calcite-table-cell>
           </calcite-table-row>
-          <calcite-table-row slot=${SLOTS.tableFoot}>
+          <calcite-table-row slot=${SLOTS.tableFooter}>
             <calcite-table-cell id="foot-2a" col-span="2">foot</calcite-table-cell>
             <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
           </calcite-table-row>
@@ -1883,7 +1883,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table selection-mode="multiple" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1899,7 +1899,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFoot} id="row-foot">
+        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -1964,7 +1964,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -1980,7 +1980,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFoot} id="row-foot">
+        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -2045,7 +2045,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered selection-mode="single" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -2061,7 +2061,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFoot} id="row-foot">
+        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -2132,7 +2132,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered selection-mode="multiple" page-size="2" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -2152,7 +2152,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFoot} id="row-foot">
+        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
@@ -2226,7 +2226,7 @@ describe("keyboard navigation", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table">
-        <calcite-table-row id="row-head" slot=${SLOTS.tableHead}>
+        <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
@@ -2246,7 +2246,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
         </calcite-table-row>
-        <calcite-table-row slot=${SLOTS.tableFoot} id="row-foot">
+        <calcite-table-row slot=${SLOTS.tableFooter} id="row-foot">
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>

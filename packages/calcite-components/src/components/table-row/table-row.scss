@@ -7,23 +7,21 @@
  * @prop --calcite-table-row-border-color: Specifies the border color of the component.
  */
 
-@include disabled();
-
 :host {
-  --calcite-table-row-background-internal: var(--calcite-table-row-background, var(--calcite-ui-foreground-1));
-  --calcite-table-row-border-color-internal: var(--calcite-table-row-border-color, transparent);
+  --calcite-internal-table-row-background: var(--calcite-table-row-background, var(--calcite-ui-foreground-1));
+  --calcite-internal-table-row-border-color: var(--calcite-table-row-border-color, transparent);
   @apply contents;
 }
 
-:host([disabled]) tr {
-  @apply opacity-disabled pointer-events-none;
-}
+@include base-component();
 
-:host([hidden]) {
-  @apply hidden;
+@include disabled() {
+  tr {
+    @apply opacity-disabled pointer-events-none;
+  }
 }
 
 tr {
-  border-block-end: 1px solid var(--calcite-table-row-border-color-internal);
-  background-color: var(--calcite-table-row-background-internal);
+  border-block-end: 1px solid var(--calcite-internal-table-row-border-color);
+  background-color: var(--calcite-internal-table-row-background);
 }

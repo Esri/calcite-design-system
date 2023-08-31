@@ -94,15 +94,16 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
   @Element() el: HTMLCalciteTableCellElement;
 
   @State() contentsText = "";
 
-  @State() selectionText = "";
-
   @State() defaultMessages: TableCellMessages;
 
   @State() effectiveLocale = "";
+
+  @State() selectionText = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
@@ -149,6 +150,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
     await componentFocusable(this);
     this.containerEl.focus();
   }
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -186,7 +188,7 @@ export class TableCell implements LocalizedComponent, LoadableComponent, T9nComp
           role="gridcell"
           rowSpan={this.rowSpan}
           tabIndex={this.disabled ? -1 : 0}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >
           {(this.selectionCell || this.readCellContentsToAT) && (

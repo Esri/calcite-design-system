@@ -38,8 +38,8 @@ import { getUserAgentString } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding `calcite-table-row` or nested `calcite-table` elements.
- * @slot table-head- A slot for adding `calcite-table-row` and nested `calcite-table-header` elements.
- * @slot table-foot- A slot for adding `calcite-table-row` and nested `calcite-table-header` elements.
+ * @slot table-header - A slot for adding `calcite-table-row` and nested `calcite-table-header` elements.
+ * @slot table-footer - A slot for adding `calcite-table-row` and nested `calcite-table-header` elements.
  * @slot selection-actions - A slot for adding a `calcite-action-bar` or other components to display when `selectionMode` is not `"none"` and one or more `calcite-table-row` is selected.
  */
 
@@ -138,6 +138,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @State() selectedCount = 0;
 
   /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
+  // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
   @State() readCellContentsToAT: boolean;
 
   @State() defaultMessages: TableMessages;
@@ -149,19 +150,19 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     updateMessages(this, this.effectiveLocale);
   }
 
-  private paginationEl: HTMLCalcitePaginationElement;
-
   private allRows: HTMLCalciteTableRowElement[];
-
-  private headRows: HTMLCalciteTableRowElement[];
 
   private bodyRows: HTMLCalciteTableRowElement[];
 
+  private headRows: HTMLCalciteTableRowElement[];
+
   private footRows: HTMLCalciteTableRowElement[];
 
-  private tableHeadSlotEl: HTMLSlotElement;
+  private paginationEl: HTMLCalcitePaginationElement;
 
   private tableBodySlotEl: HTMLSlotElement;
+
+  private tableHeadSlotEl: HTMLSlotElement;
 
   private tableFootSlotEl: HTMLSlotElement;
 
@@ -201,7 +202,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Event({ cancelable: false }) calciteTableSelect: EventEmitter<void>;
 
   /** Emits when the component's page selection changes. */
-  @Event({ cancelable: false }) calciteTablePageSelect: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteTablePageChange: EventEmitter<void>;
 
   /** @internal */
   @Event({ cancelable: false })
@@ -337,7 +338,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   private handlePaginationChange = (): void => {
     const requestedItem = this.paginationEl?.startItem;
     this.pageStartRow = requestedItem || 1;
-    this.calciteTablePageSelect.emit();
+    this.calciteTablePageChange.emit();
     this.updateRows();
   };
 
@@ -448,7 +449,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           scale={this.scale}
           startItem={1}
           totalItems={this.bodyRows?.length}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.paginationEl = el)}
         />
       </div>
@@ -459,7 +460,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return (
       <thead>
         <slot
-          name={SLOTS.tableHead}
+          name={SLOTS.tableHeader}
           onSlotchange={this.updateRows}
           ref={(el) => (this.tableHeadSlotEl = el as HTMLSlotElement)}
         />
@@ -482,7 +483,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return (
       <tfoot>
         <slot
-          name={SLOTS.tableFoot}
+          name={SLOTS.tableFooter}
           onSlotchange={this.updateRows}
           ref={(el) => (this.tableFootSlotEl = el as HTMLSlotElement)}
         />

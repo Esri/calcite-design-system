@@ -24,7 +24,7 @@ export const simple = (): string =>
     ${boolean("zebra", false)}
     caption="Simple table"
   >
-    <calcite-table-row slot="table-head">
+    <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -51,7 +51,7 @@ export const simple = (): string =>
   </calcite-table>`;
 
 export const simpleZebra_TestOnly = (): string => html`<calcite-table zebra caption="Simple-zebra table">
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -78,7 +78,7 @@ export const simpleZebra_TestOnly = (): string => html`<calcite-table zebra capt
 </calcite-table>`;
 
 export const bordered_TestOnly = (): string => html`<calcite-table bordered caption="Bordered table">
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -105,7 +105,7 @@ export const bordered_TestOnly = (): string => html`<calcite-table bordered capt
 </calcite-table>`;
 
 export const borderedZebra_TestOnly = (): string => html`<calcite-table bordered zebra caption="Bordered zebra table">
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -132,7 +132,7 @@ export const borderedZebra_TestOnly = (): string => html`<calcite-table bordered
 </calcite-table>`;
 
 export const alignments_TestOnly = (): string => html`<calcite-table numbered>
-  <calcite-table-row slot="table-head" caption="Various alignments table">
+  <calcite-table-row slot="table-header" caption="Various alignments table">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" alignment="end" description="End"></calcite-table-header>
     <calcite-table-header heading="Heading" alignment="center" description="Center"></calcite-table-header>
@@ -159,7 +159,7 @@ export const alignments_TestOnly = (): string => html`<calcite-table numbered>
 </calcite-table>`;
 
 export const disabledRows_TestOnly = (): string => html`<calcite-table caption="Bordered-zebra table">
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -186,7 +186,7 @@ export const disabledRows_TestOnly = (): string => html`<calcite-table caption="
 </calcite-table>`;
 
 export const numbered_TestOnly = (): string => html` <calcite-table numbered caption="Numbered table">
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -216,7 +216,7 @@ export const richCellContent_TestOnly = (): string => html` <calcite-table
   numbered
   caption="With rich cell content table"
 >
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -250,7 +250,7 @@ export const richCellContent_TestOnly = (): string => html` <calcite-table
 </calcite-table>`;
 
 export const layoutFixed_TestOnly = (): string => html`<calcite-table layout="fixed" caption="Layout fixed">
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -281,7 +281,7 @@ export const rowSpanAndColSpan_TestOnly = (): string => html`<calcite-table
   zebra
   caption="Using row-span and col-span table"
 >
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
   </calcite-table-row>
@@ -322,7 +322,7 @@ export const rowSpanAndColSpanNumbered_TestOnly = (): string => html`<calcite-ta
   numbered
   caption="Using row-span and col-span table"
 >
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
   </calcite-table-row>
@@ -362,7 +362,7 @@ export const rowSpanAndColSpan3_TestOnly = (): string => html`<calcite-table
   zebra
   caption="Using row-span and col-span table"
 >
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header col-span="3" heading="Heading" description="Description"></calcite-table-header>
   </calcite-table-row>
@@ -406,11 +406,11 @@ export const complexWithFooter_TestOnly = (): string => html`<calcite-table
   caption="Multiple headers using col-span table"
   bordered
 >
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
     <calcite-table-header col-span="2" heading="Information"></calcite-table-header>
   </calcite-table-row>
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="First"></calcite-table-header>
     <calcite-table-header heading="Last"></calcite-table-header>
     <calcite-table-header heading="Education level"></calcite-table-header>
@@ -450,13 +450,13 @@ export const complexWithFooter_TestOnly = (): string => html`<calcite-table
     <calcite-table-cell row-span="4">cell</calcite-table-cell>
     <calcite-table-cell col-span="3">cell</calcite-table-cell>
   </calcite-table-row>
-  <calcite-table-row slot="table-foot">
+  <calcite-table-row slot="table-footer">
     <calcite-table-cell>foot</calcite-table-cell>
     <calcite-table-cell>foot</calcite-table-cell>
     <calcite-table-cell>foot</calcite-table-cell>
     <calcite-table-cell>foot</calcite-table-cell>
   </calcite-table-row>
-  <calcite-table-row slot="table-foot">
+  <calcite-table-row slot="table-footer">
     <calcite-table-cell col-span="2">foot</calcite-table-cell>
     <calcite-table-cell col-span="2">foot</calcite-table-cell>
   </calcite-table-row>
@@ -492,7 +492,7 @@ export const headersInRows_TestOnly = (): string => html` <calcite-table caption
 export const headersInRowsAndHeadAndFooter_TestOnly = (): string => html` <calcite-table
   caption="Headers in rows and table-head table"
 >
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading"></calcite-table-header>
     <calcite-table-header heading="Heading"></calcite-table-header>
     <calcite-table-header heading="Heading"></calcite-table-header>
@@ -522,7 +522,7 @@ export const headersInRowsAndHeadAndFooter_TestOnly = (): string => html` <calci
     <calcite-table-cell>cell</calcite-table-cell>
     <calcite-table-cell>cell</calcite-table-cell>
   </calcite-table-row>
-  <calcite-table-row slot="table-foot">
+  <calcite-table-row slot="table-footer">
     <calcite-table-cell>foot</calcite-table-cell>
     <calcite-table-cell>foot</calcite-table-cell>
     <calcite-table-cell>foot</calcite-table-cell>
@@ -538,7 +538,7 @@ export const singleSelection_TestOnly = (): string => html` <calcite-table
   <calcite-action slot="selection-actions" icon="send"></calcite-action>
   <calcite-action slot="selection-actions" icon="copy"></calcite-action>
   <calcite-action slot="selection-actions" icon="plus"></calcite-action>
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading"></calcite-table-header>
     <calcite-table-header heading="Heading"></calcite-table-header>
     <calcite-table-header heading="Heading"></calcite-table-header>
@@ -574,7 +574,7 @@ export const selectionModeMultipleAndSelectedOnLoad_TestOnly = (): string => htm
   <calcite-action slot="selection-actions" icon="send"></calcite-action>
   <calcite-action slot="selection-actions" icon="copy"></calcite-action>
   <calcite-action slot="selection-actions" icon="plus"></calcite-action>
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading"></calcite-table-header>
     <calcite-table-header heading="Heading"></calcite-table-header>
     <calcite-table-header heading="Heading"></calcite-table-header>
@@ -641,11 +641,11 @@ export const selectionModeMultipleAndSelectedOnLoadWithMultipleFooterAndHeader_T
     <calcite-action slot="selection-actions" icon="send"></calcite-action>
     <calcite-action slot="selection-actions" icon="copy"></calcite-action>
     <calcite-action slot="selection-actions" icon="plus"></calcite-action>
-    <calcite-table-row slot="table-head">
+    <calcite-table-row slot="table-header">
       <calcite-table-header col-span="2" heading="Heading"></calcite-table-header>
       <calcite-table-header col-span="2" heading="Heading"></calcite-table-header>
     </calcite-table-row>
-    <calcite-table-row slot="table-head">
+    <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading"></calcite-table-header>
       <calcite-table-header heading="Heading"></calcite-table-header>
       <calcite-table-header heading="Heading"></calcite-table-header>
@@ -699,13 +699,13 @@ export const selectionModeMultipleAndSelectedOnLoadWithMultipleFooterAndHeader_T
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
-    <calcite-table-row slot="table-foot">
+    <calcite-table-row slot="table-footer">
       <calcite-table-cell col-span="3" value="cell"></calcite-table-cell>
       <calcite-table-cell value="happy"
         ><calcite-chip scale="s" icon="smile">58% happiness</calcite-chip></calcite-table-cell
       >
     </calcite-table-row>
-    <calcite-table-row slot="table-foot">
+    <calcite-table-row slot="table-footer">
       <calcite-table-cell value="cell"></calcite-table-cell>
       <calcite-table-cell alignment="end" value="78">24,212</calcite-table-cell>
       <calcite-table-cell value="happy"
@@ -727,7 +727,7 @@ export const localized_TestOnly = (): string => html`<calcite-table
   <calcite-action slot="selection-actions" icon="send"></calcite-action>
   <calcite-action slot="selection-actions" icon="copy"></calcite-action>
   <calcite-action slot="selection-actions" icon="plus"></calcite-action>
-  <calcite-table-row slot="table-head">
+  <calcite-table-row slot="table-header">
     <calcite-table-header heading="Column 1"></calcite-table-header>
     <calcite-table-header heading="Column 2"></calcite-table-header>
     <calcite-table-header heading="Column 3">
@@ -883,7 +883,7 @@ export const localized_TestOnly = (): string => html`<calcite-table
 
 export const darkModeRTL_TestOnly = (): string =>
   html`<calcite-table zebra caption="Simple-zebra table" dir="rtl">
-    <calcite-table-row slot="table-head">
+    <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>

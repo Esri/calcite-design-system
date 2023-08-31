@@ -12,6 +12,6 @@ export const CSS = {
 
 export const SLOTS = {
   selectionActions: "selection-actions",
-  tableHead: "table-head",
-  tableFoot: "table-foot",
+  tableHeader: "table-header",
+  tableFooter: "table-footer",
 };

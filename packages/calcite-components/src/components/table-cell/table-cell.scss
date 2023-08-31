@@ -8,8 +8,8 @@
  */
 
 :host {
-  --calcite-table-cell-background-internal: var(--calcite-table-cell-background, transparent);
-  --calcite-table-cell-border-color-internal: var(--calcite-table-cell-border-color, transparent);
+  --calcite-internal-table-cell-background-internal: var(--calcite-table-cell-background, transparent);
+  --calcite-internal-table-cell-border-color-internal: var(--calcite-table-cell-border-color, transparent);
   @apply contents;
 }
 
@@ -27,13 +27,13 @@
 
 td {
   @apply text-start focus-base align-middle text-color-1;
-  background: var(--calcite-table-cell-background-internal);
+  background: var(--calcite-internal-table-cell-background);
   border-inline-end: 1px solid var(--calcite-ui-border-3);
-  font-size: var(--calcite-table-cell-font-size-internal);
+  font-size: var(--calcite-internal-table-cell-font-size);
   &:focus {
     @apply focus-inset;
   }
-  padding: var(--calcite-table-cell-padding-internal);
+  padding: var(--calcite-internal-table-cell-padding);
 }
 
 .number-cell {
@@ -53,7 +53,7 @@ td {
 }
 
 .selection-cell {
-  @apply cursor-pointer;
+  @apply cursor-pointer text-color-3;
   inset-inline-start: 2rem;
 }
 
