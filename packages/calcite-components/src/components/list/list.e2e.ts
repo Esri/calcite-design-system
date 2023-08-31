@@ -391,10 +391,12 @@ describe("calcite-list", () => {
 
       expect(await isElementFocused(page, "#two")).toBe(true);
 
+      const calciteListChange = await page.spyOnEvent("calciteListChange");
       const listItemThree = await page.find("#three");
       listItemThree.setProperty("disabled", false);
       await page.waitForChanges();
       await page.waitForTimeout(listDebounceTimeout);
+      expect(calciteListChange).toHaveReceivedEventTimes(0);
 
       await list.press("ArrowDown");
 
@@ -404,6 +406,7 @@ describe("calcite-list", () => {
       listItemFour.setProperty("closed", false);
       await page.waitForChanges();
       await page.waitForTimeout(listDebounceTimeout);
+      expect(calciteListChange).toHaveReceivedEventTimes(0);
 
       await list.press("ArrowDown");
 
