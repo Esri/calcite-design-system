@@ -1,4 +1,4 @@
-A simple meter component.
+A simple table component.
 
 ```html
 <calcite-table caption="Example table">
