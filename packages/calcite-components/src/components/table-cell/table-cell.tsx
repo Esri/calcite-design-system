@@ -130,8 +130,8 @@ export class TableCell
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
-    this.updateScreenReaderContentsText;
-    this.updateScreenReaderSelectionText;
+    this.updateScreenReaderContentsText();
+    this.updateScreenReaderSelectionText();
   }
 
   componentDidLoad(): void {
