@@ -3,6 +3,6 @@
   "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
   "keyboardSelectAll": "Press Enter or Space to select all rows",
   "rowNumber": "Row number",
-  "selected": "selected",
+  "selected": "rows selected",
   "selectionColumn": "Selection column"
 }

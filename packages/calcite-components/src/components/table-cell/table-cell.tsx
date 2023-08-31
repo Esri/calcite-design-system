@@ -61,6 +61,11 @@ export class TableCell
   /** @internal */
   @Prop() parentRowIsSelected: boolean;
 
+  @Watch("parentRowIsSelected")
+  onSelectedChange(): void {
+    this.updateScreenReaderSelectionText();
+  }
+
   /** @internal */
   @Prop() parentRowPositionLocalized: string;
 
@@ -174,8 +179,8 @@ export class TableCell
   // --------------------------------------------------------------------------
 
   private updateScreenReaderSelectionText(): void {
-    const selectedText = `${this.messages.row} ${this.parentRowPositionLocalized} ${this.messages.selected} ${this.messages.keyboardDeselect}`;
-    const unselectedText = `${this.messages.row} ${this.parentRowPositionLocalized} ${this.messages.unselected} ${this.messages.keyboardSelect}`;
+    const selectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.selected} ${this.messages?.keyboardDeselect}`;
+    const unselectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;
     this.selectionText = this.parentRowIsSelected ? selectedText : unselectedText;
   }
 

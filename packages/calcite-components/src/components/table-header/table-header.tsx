@@ -67,7 +67,6 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   /** @internal */
   @Prop() selectedRowCountLocalized: string;
 
-  @Watch("selectedRowCount")
   @Watch("selectedRowCountLocalized")
   onSelectedChange(): void {
     this.updateScreenReaderText();
@@ -168,15 +167,15 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
   private updateScreenReaderText(): void {
     let text = "";
-    const sharedText = `${this.selectedRowCountLocalized} ${this.messages.selected}`;
+    const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selected}`;
     if (this.numberCell) {
-      text = this.messages.rowNumber;
+      text = this.messages?.rowNumber;
     } else if (this.selectionMode === "single") {
-      text = `${this.messages.selectionColumn}. ${sharedText}`;
+      text = `${this.messages?.selectionColumn}. ${sharedText}`;
     } else if (this.bodyRowCount === this.selectedRowCount) {
-      text = `${this.messages.selectionColumn}. ${this.messages.all} ${sharedText} ${this.messages.keyboardDeselectAll}`;
+      text = `${this.messages?.selectionColumn}. ${this.messages?.all} ${sharedText} ${this.messages?.keyboardDeselectAll}`;
     } else {
-      text = `${this.messages.selectionColumn}. ${sharedText} ${this.messages.keyboardSelectAll}`;
+      text = `${this.messages?.selectionColumn}. ${sharedText} ${this.messages?.keyboardSelectAll}`;
     }
     this.screenReaderText = text;
   }
