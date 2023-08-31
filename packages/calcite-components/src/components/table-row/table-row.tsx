@@ -82,12 +82,18 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Prop() bodyRowCount: number;
 
   @Watch("bodyRowCount")
-  @Watch("numbered")
   @Watch("scale")
   @Watch("selected")
   @Watch("selectedRowCount")
-  @Watch("selectionMode")
   handleCellChanges(): void {
+    if (this.tableRowEl && this.rowCells.length > 0) {
+      this.updateCells();
+    }
+  }
+
+  @Watch("numbered")
+  @Watch("selectionMode")
+  handleDelayedCellChanges(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
       setTimeout(() => this.updateCells(), 120);
     }
