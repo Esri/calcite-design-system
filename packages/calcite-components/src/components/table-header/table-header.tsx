@@ -67,6 +67,12 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   /** @internal */
   @Prop() selectedRowCountLocalized: string;
 
+  @Watch("selectedRowCount")
+  @Watch("selectedRowCountLocalized")
+  onSelectedChange(): void {
+    this.updateScreenReaderText();
+  }
+
   /** @internal */
   @Prop() selectionCell = false;
 
