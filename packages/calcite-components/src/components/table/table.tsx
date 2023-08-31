@@ -38,8 +38,8 @@ import { getUserAgentString } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding `calcite-table-row` or nested `calcite-table` elements.
- * @slot table-header - A slot for adding `calcite-table-row` and nested `calcite-table-header` elements.
- * @slot table-footer - A slot for adding `calcite-table-row` and nested `calcite-table-header` elements.
+ * @slot table-header - A slot for adding `calcite-table-row` containing `calcite-table-header` elements.
+ * @slot table-footer - A slot for adding `calcite-table-row` containing `calcite-table-cell` or `calcite-table-header` elements.
  * @slot selection-actions - A slot for adding a `calcite-action-bar` or other components to display when `selectionMode` is not `"none"` and one or more `calcite-table-row` is selected.
  */
 
