@@ -34,7 +34,7 @@ describe("calcite-accordion-item", () => {
 
     const content = await page.find(`calcite-accordion-item >>> .${CSS.content}`);
 
-    expect(content.getAttribute("aria-labelledby")).toBe(IDS.section);
+    expect(content.getAttribute("aria-labelledby")).toBe(IDS.sectionToggle);
     expect(await content.getProperty("id")).toBe(IDS.section);
 
     const accordionItem = await page.find(`calcite-accordion-item`);

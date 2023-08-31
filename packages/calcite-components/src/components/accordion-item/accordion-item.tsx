@@ -206,7 +206,7 @@ export class AccordionItem implements ConditionalSlotComponent {
             </div>
             {this.renderActionsEnd()}
           </div>
-          <section aria-labelledby={IDS.section} class={CSS.content} id={IDS.section}>
+          <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>
             <slot />
           </section>
         </div>
