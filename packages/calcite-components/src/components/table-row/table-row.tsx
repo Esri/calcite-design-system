@@ -95,7 +95,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Watch("selectionMode")
   handleDelayedCellChanges(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
-      setTimeout(() => this.updateCells(), 120);
+      requestAnimationFrame(() => this.updateCells());
     }
   }
 
