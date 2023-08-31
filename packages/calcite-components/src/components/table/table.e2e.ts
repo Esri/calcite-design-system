@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps, getFocusedElementProp } from "../../tests/utils";
 import { CSS } from "../table-header/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
 import { SLOTS } from "../table/resources";
@@ -355,7 +355,8 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
+
       cell.click();
     });
 
@@ -372,7 +373,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-2");
-      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -389,7 +390,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
-      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -406,7 +407,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
-      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -470,7 +471,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -487,7 +488,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-2");
-      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -504,7 +505,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-3");
-      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -521,7 +522,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-1");
-      const cell = row.shadowRoot.querySelector("calcite-table-cell:first-child") as HTMLCalciteTableCellElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableCellElement>("calcite-table-cell:first-child");
       cell.click();
     });
 
@@ -846,7 +847,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
-      const cell = row.shadowRoot.querySelector("calcite-table-header:first-child") as HTMLCalciteTableHeaderElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableHeaderElement>("calcite-table-header:first-child");
       cell.click();
     });
 
@@ -897,7 +898,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
-      const cell = row.shadowRoot.querySelector("calcite-table-header:first-child") as HTMLCalciteTableHeaderElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableHeaderElement>("calcite-table-header:first-child");
       cell.click();
     });
 
@@ -951,7 +952,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
-      const cell = row.shadowRoot.querySelector("calcite-table-header:first-child") as HTMLCalciteTableHeaderElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableHeaderElement>("calcite-table-header:first-child");
       cell.click();
     });
 
@@ -1005,7 +1006,7 @@ describe("selection modes", () => {
 
     await page.$eval("calcite-table", () => {
       const row = document.getElementById("row-head");
-      const cell = row.shadowRoot.querySelector("calcite-table-header:first-child") as HTMLCalciteTableHeaderElement;
+      const cell = row.shadowRoot.querySelector<HTMLCalciteTableHeaderElement>("calcite-table-header:first-child");
       cell.click();
     });
 
@@ -1063,7 +1064,8 @@ describe("selection modes", () => {
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
       const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector("button.page:nth-of-type(2)") as HTMLButtonElement;
+      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(2)");
+
       button?.click();
     });
 
@@ -1112,7 +1114,8 @@ describe("pagination event", () => {
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
       const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector("button:nth-of-type(2)") as HTMLButtonElement;
+      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(2)");
+
       button?.click();
     });
 
@@ -1122,7 +1125,8 @@ describe("pagination event", () => {
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
       const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector("button:nth-of-type(3)") as HTMLButtonElement;
+      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
+
       button?.click();
     });
 
@@ -1132,7 +1136,8 @@ describe("pagination event", () => {
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
       const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector("button:nth-of-type(4)") as HTMLButtonElement;
+      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(4)");
+
       button?.click();
     });
 
@@ -1167,50 +1172,50 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
   });
 
   it("navigates correctly when pagination present and first page displayed", async () => {
@@ -1246,42 +1251,42 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
   });
 
   it("navigates correctly when pagination present, and navigation to two other pages occurs", async () => {
@@ -1317,138 +1322,139 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
       const headerCell = document.getElementById("head-1a");
 
       const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector("button.page:nth-of-type(3)") as HTMLButtonElement;
+      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
       button?.click();
       (headerCell as HTMLCalciteTableHeaderElement).setFocus();
     });
 
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
 
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
       const headerCell = document.getElementById("head-1a");
 
       const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector("button.page:nth-of-type(4)") as HTMLButtonElement;
+      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(4)");
+
       button?.click();
       (headerCell as HTMLCalciteTableHeaderElement).setFocus();
     });
 
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-5b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-5b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-5a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-5a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-5a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-5a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-5a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-5a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-5a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-5a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-5b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-5b");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-5b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-5b");
   });
 
   it("navigates correctly skipping disabled rows", async () => {
@@ -1480,28 +1486,28 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
   });
 
   it("navigates correctly skipping disabled rows when disabled rows in last body position", async () => {
@@ -1533,35 +1539,35 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3b");
   });
 
   it("navigates correctly when multiple header and multiple footer rows", async () => {
@@ -1610,57 +1616,57 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2d");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2d");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("PageUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2b");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2b");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
   });
 
   it("navigates correctly when multiple header and multiple footer rows, pagination present, and navigation to other page occurs", async () => {
@@ -1709,151 +1715,152 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2d");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2d");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
 
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
       const headerCell = document.getElementById("head-1a");
 
       const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector("button.page:nth-of-type(3)") as HTMLButtonElement;
+      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
+
       button?.click();
       (headerCell as HTMLCalciteTableHeaderElement).setFocus();
     });
 
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2d");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2d");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1a");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-4a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-4a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2a");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-2b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
     page.keyboard.press("ControlRight");
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-2a");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
   });
 
   it("navigates correctly when selection column present", async () => {
@@ -1896,11 +1903,11 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
@@ -1922,12 +1929,12 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
 
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("Home");
@@ -1977,11 +1984,11 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
@@ -2003,12 +2010,12 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
 
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("Home");
@@ -2065,7 +2072,7 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
@@ -2095,7 +2102,7 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-3a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-3a");
 
     page.keyboard.press("ControlRight");
     await page.keyboard.press("Home");
@@ -2156,7 +2163,7 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
@@ -2178,12 +2185,12 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("cell-2a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-2a");
 
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
@@ -2199,7 +2206,7 @@ describe("keyboard navigation", () => {
     ).toEqual({ "0": CSS.numberCell });
   });
 
-  it("navigates correctly when pagination present, and selection  and number and navigation to two other pages occurs", async () => {
+  it("navigates correctly when pagination present, and selection and number and navigation to two other pages occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table">
@@ -2253,7 +2260,7 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
@@ -2294,7 +2301,7 @@ describe("keyboard navigation", () => {
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
@@ -2315,7 +2322,7 @@ describe("keyboard navigation", () => {
       const headerCell = document.getElementById("head-1a");
 
       const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector("button.page:nth-of-type(3)") as HTMLButtonElement;
+      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
       button?.click();
       (headerCell as HTMLCalciteTableHeaderElement).setFocus();
     });
@@ -2324,7 +2331,7 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("head-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
@@ -2365,7 +2372,7 @@ describe("keyboard navigation", () => {
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("foot-1b");
+    expect(await getFocusedElementProp(page, "id")).toBe("foot-1b");
 
     await page.keyboard.press("Home");
     await page.waitForChanges();

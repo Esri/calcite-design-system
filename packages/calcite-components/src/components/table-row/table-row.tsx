@@ -259,7 +259,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       .filter(
         (el) => el?.matches("calcite-table-cell") || el?.matches("calcite-table-header")
       ) as any;
-
+    // todo any
     const renderedCells = Array.from(
       this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell")
     ).filter(
