@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.13...@esri/calcite-components@1.7.0-next.14) (2023-08-31)
+
+### Features
+
+- **input-time-picker:** support fractional seconds ([#7532](https://github.com/Esri/calcite-design-system/issues/7532)) ([c2bf34b](https://github.com/Esri/calcite-design-system/commit/c2bf34b69c6c199c4709774b2d80b71d3b2f9b9e)), closes [#6591](https://github.com/Esri/calcite-design-system/issues/6591)
+
 ## [1.7.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.12...@esri/calcite-components@1.7.0-next.13) (2023-08-30)
 
 ### Features

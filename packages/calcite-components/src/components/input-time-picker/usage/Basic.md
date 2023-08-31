@@ -1,9 +1,3 @@
 ```html
-<calcite-input-time-picker
-  hour-display-format="12"
-  name="light"
-  scale="m"
-  step="1"
-  value="12:21"
-></calcite-input-time-picker>
+<calcite-input-time-picker name="light" scale="m" step="1" value="12:21:30"></calcite-input-time-picker>
 ```
