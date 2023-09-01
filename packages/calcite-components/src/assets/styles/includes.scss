@@ -7,6 +7,7 @@
 @import "host";
 @import "spacing";
 @import "floating-ui";
+@import "sortable";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),

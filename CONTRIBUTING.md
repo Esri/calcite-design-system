@@ -207,7 +207,7 @@ johndoe/feature/add-something-to-modal
 
 This project follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to automatically update the changelog.
 
-[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/master/.github/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
+[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
 
 ## Breaking changes
 

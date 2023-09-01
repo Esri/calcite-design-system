@@ -1,6 +1,6 @@
 # calcite-accordion-item
 
-individual `calcite-accordion` item
+A child component of `calcite-accordion`, where some behavior is inherited from its parent such as the `appearance` and `selectionMode`.
 
 <!-- Auto Generated Below -->
 

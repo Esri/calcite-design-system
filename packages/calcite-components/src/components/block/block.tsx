@@ -17,7 +17,6 @@ import {
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { focusFirstTabbable, getSlotted, toAriaBoolean } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -35,7 +34,7 @@ import {
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import { BlockMessages } from "./assets/block/t9n";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
@@ -179,8 +178,6 @@ export class Block
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteBlockElement;
-
-  private guid = guid();
 
   @State() effectiveLocale: string;
 
@@ -341,20 +338,15 @@ export class Block
     const hasMenuActions = !!getSlotted(el, SLOTS.headerMenuActions);
     const collapseIcon = open ? ICONS.opened : ICONS.closed;
 
-    const { guid } = this;
-    const regionId = `${guid}-region`;
-    const buttonId = `${guid}-button`;
-
     const headerNode = (
       <div class={CSS.headerContainer}>
         {this.dragHandle ? <calcite-handle /> : null}
         {collapsible ? (
           <button
-            aria-controls={regionId}
+            aria-controls={IDS.content}
             aria-expanded={collapsible ? toAriaBoolean(open) : null}
-            aria-label={toggleLabel}
             class={CSS.toggle}
-            id={buttonId}
+            id={IDS.toggle}
             onClick={this.onHeaderClick}
             title={toggleLabel}
           >
@@ -393,15 +385,7 @@ export class Block
           }}
         >
           {headerNode}
-          <section
-            aria-expanded={toAriaBoolean(open)}
-            aria-labelledby={buttonId}
-            class={CSS.content}
-            hidden={!open}
-            id={regionId}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={this.setTransitionEl}
-          >
+          <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
             {this.renderScrim()}
           </section>
         </article>

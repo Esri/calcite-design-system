@@ -11,10 +11,11 @@ import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
 import { CSS } from "./resources";
 import {
-  DragEvent,
+  DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
+  dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -36,12 +37,12 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() canPull: (event: DragEvent) => boolean;
+  @Prop() canPull: (detail: DragDetail) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() canPut: (event: DragEvent) => boolean;
+  @Prop() canPut: (detail: DragDetail) => boolean;
 
   /**
    * Specifies which items inside the element should be draggable.
@@ -100,12 +101,20 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    if (dragActive(this)) {
+      return;
+    }
+
     this.setUpSorting();
     this.beginObserving();
     connectInteractive(this);
   }
 
   disconnectedCallback(): void {
+    if (dragActive(this)) {
+      return;
+    }
+
     disconnectInteractive(this);
     disconnectSortableComponent(this);
     this.endObserving();

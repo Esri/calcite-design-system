@@ -1,10 +1,52 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { renders, hidden } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
+  describe("defaults", () => {
+    defaults("calcite-stepper", [
+      {
+        propertyName: "icon",
+        defaultValue: false,
+      },
+      {
+        propertyName: "layout",
+        defaultValue: "horizontal",
+      },
+      {
+        propertyName: "numbered",
+        defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-stepper", [
+      {
+        propertyName: "icon",
+        value: true,
+      },
+      {
+        propertyName: "layout",
+        value: "horizontal",
+      },
+      {
+        propertyName: "numbered",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
+      },
+    ]);
+  });
+
   describe("renders", () => {
     renders(
       html`<calcite-stepper>
@@ -25,50 +67,32 @@ describe("calcite-stepper", () => {
     );
   });
 
-  it("renders default props when none are provided", async () => {
+  it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-stepper>
-      <calcite-stepper-item heading="Step 1" id="step-1">
-        <div>Step 1 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Step 2" id="step-2">
-        <div>Step 2 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Step 3" id="step-3">
-        <div>Step 3 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Step 4" id="step-4">
-        <div>Step 4 content</div>
-      </calcite-stepper-item>
-    </calcite-stepper>`);
-    const element = await page.find("calcite-stepper");
-    expect(element).toEqualAttribute("layout", "horizontal");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).not.toHaveAttribute("numbered");
-    expect(element).not.toHaveAttribute("icon");
-  });
+    await page.setContent(html`
+      <calcite-stepper layout="vertical" scale="l" numbered icon>
+        <calcite-stepper-item heading="Step 1" id="step-1">
+          <div>Step 1 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 3" id="step-3">
+          <div>Step 3 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 4" id="step-4">
+          <div>Step 4 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>
+    `);
+    const stepperItems = await page.findAll("calcite-stepper-items");
 
-  it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-stepper layout="vertical" scale="l" numbered icon>
-      <calcite-stepper-item heading="Step 1" id="step-1">
-        <div>Step 1 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Step 2" id="step-2">
-        <div>Step 2 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Step 3" id="step-3">
-        <div>Step 3 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Step 4" id="step-4">
-        <div>Step 4 content</div>
-      </calcite-stepper-item>
-    </calcite-stepper>`);
-    const element = await page.find("calcite-stepper");
-    expect(element).toEqualAttribute("layout", "vertical");
-    expect(element).toEqualAttribute("scale", "l");
-    expect(element).toHaveAttribute("numbered");
-    expect(element).toHaveAttribute("icon");
+    stepperItems.forEach(async (item) => {
+      expect(await item.getProperty("icon")).toBe(true);
+      expect(await item.getProperty("layout")).toBe("vertical");
+      expect(await item.getProperty("scale")).toBe("l");
+      expect(await item.getProperty("numbered")).toBe(true);
+    });
   });
 
   // eslint-disable-next-line jest/no-disabled-tests
