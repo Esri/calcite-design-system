@@ -1,20 +1,25 @@
+export const IDS = {
+  content: "content",
+  toggle: "toggle",
+};
+
 export const CSS = {
+  button: "button",
   container: "container",
   content: "content",
+  controlContainer: "control-container",
+  description: "description",
+  header: "header",
   headerContainer: "header-container",
+  heading: "heading",
   icon: "icon",
+  invalid: "invalid",
   statusIcon: "status-icon",
+  summary: "summary",
+  title: "title",
   toggle: "toggle",
   toggleIcon: "toggle-icon",
-  title: "title",
-  heading: "heading",
-  header: "header",
-  button: "button",
-  summary: "summary",
-  description: "description",
-  controlContainer: "control-container",
   valid: "valid",
-  invalid: "invalid",
 };
 
 export const SLOTS = {
