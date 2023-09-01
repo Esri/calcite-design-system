@@ -51,6 +51,7 @@ module.exports = async ({ github, context, core }) => {
           allowedLabels,
         )}.`,
       );
+      process.exit(1)
     } else {
       core.notice(
         "The current milestone is not for a Maintenance release, ending run.",
