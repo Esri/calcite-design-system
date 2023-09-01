@@ -17,6 +17,7 @@ import {
   dateFromISO,
   dateFromLocalizedString,
   dateFromRange,
+  datePartsFromISO,
   datePartsFromLocalizedString,
   dateToISO,
   inRange,
@@ -77,6 +78,7 @@ import {
 } from "../../utils/focusTrapComponent";
 import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
+import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -1027,9 +1029,16 @@ export class InputDatePicker
     const valueIsArray = Array.isArray(valueAsDate);
 
     const newStartDate = valueIsArray ? valueAsDate[0] : null;
-    const newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    let newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    if (newStartDateISO) {
+      newStartDateISO = this.getNormalizedDate(newStartDateISO);
+    }
+
     const newEndDate = valueIsArray ? valueAsDate[1] : null;
-    const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
+    let newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
+    if (newEndDateISO) {
+      newEndDateISO = this.getNormalizedDate(newEndDateISO);
+    }
 
     const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";
 
@@ -1061,7 +1070,8 @@ export class InputDatePicker
     }
 
     const oldValue = this.value;
-    const newValue = dateToISO(value as Date);
+    let newValue = dateToISO(value as Date);
+    newValue = this.getNormalizedDate(newValue);
 
     if (newValue === oldValue) {
       return;
@@ -1110,4 +1120,18 @@ export class InputDatePicker
           )
           .join("")
       : "";
+
+  private getNormalizedDate(value: string): string {
+    if (!value) {
+      return "";
+    }
+
+    if (!isTwoDigitYear(value)) {
+      return value;
+    }
+
+    const { day, month, year } = datePartsFromISO(value);
+    const normalizedYear = normalizeToCurrentCentury(Number(year));
+    return `${normalizedYear}-${month}-${day}`;
+  }
 }

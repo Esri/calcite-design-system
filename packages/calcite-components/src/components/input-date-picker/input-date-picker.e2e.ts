@@ -849,4 +849,61 @@ describe("calcite-input-date-picker", () => {
 
     expect(await getActiveMonth(page)).toBe("October");
   });
+
+  describe("normalize year", () => {
+    it("should normalize year to current century when user types the value", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker normalize-year></calcite-input-date-picker>`);
+
+      const element = await page.find("calcite-input-date-picker");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+
+      await element.click();
+      await page.waitForChanges();
+      await page.keyboard.type("3/7/20");
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toBe("2020-03-07");
+      expect(await element.getProperty("valueAsDate")).toBeDefined();
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+
+    it("should not normalize year to current century when value is parsed as attribute", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-date-picker normalize-year value="20-01-01"></calcite-input-date-picker>`
+      );
+
+      const element = await page.find("calcite-input-date-picker");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+
+      expect(await element.getProperty("value")).toBe("0020-01-01");
+      expect(await element.getProperty("valueAsDate")).toBeDefined();
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+    });
+
+    it("should normalize year to current century when user types the value in range", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-input-date-picker normalize-year  range></calcite-input-date-picker>");
+      const element = await page.find("calcite-input-date-picker");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+
+      await element.click();
+      await page.waitForChanges();
+      await page.keyboard.type("1/1/20");
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toEqual(["2020-01-01", ""]);
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.type("2/2/20");
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toEqual(["2020-01-01", "2020-02-02"]);
+      expect(changeEvent).toHaveReceivedEventTimes(2);
+    });
+  });
 });

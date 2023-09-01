@@ -18,7 +18,7 @@ import { CSS, SLOTS } from "./resources";
  * @slot center-row - [Deprecated] Use the `"panel-bottom"` slot instead. A slot for adding the bottom `calcite-shell-center-row`.
  * @slot modals - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell.
  * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the shell.
- * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the alert position will be constrained to the extent of the shell.
+ * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the shell.
  */
 
 @Component({

@@ -1,0 +1,27 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-table-row-background: Specifies the background color of the component.
+ * @prop --calcite-table-row-border-color: Specifies the border color of the component.
+ */
+
+:host {
+  --calcite-internal-table-row-background: var(--calcite-table-row-background, var(--calcite-ui-foreground-1));
+  --calcite-internal-table-row-border-color: var(--calcite-table-row-border-color, transparent);
+  @apply contents;
+}
+
+@include base-component();
+
+@include disabled() {
+  tr {
+    @apply opacity-disabled pointer-events-none;
+  }
+}
+
+tr {
+  border-block-end: 1px solid var(--calcite-internal-table-row-border-color);
+  background-color: var(--calcite-internal-table-row-background);
+}

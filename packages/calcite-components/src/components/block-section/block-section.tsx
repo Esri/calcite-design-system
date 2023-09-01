@@ -13,7 +13,6 @@ import {
 } from "@stencil/core";
 
 import { focusFirstTabbable, getElementDir, toAriaBoolean } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -26,7 +25,7 @@ import {
 import { Status } from "../interfaces";
 import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { BlockSectionToggleDisplay } from "./interfaces";
-import { CSS, ICONS } from "./resources";
+import { CSS, ICONS, IDS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
@@ -116,8 +115,6 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteBlockSectionElement;
-
-  private guid = guid();
 
   @State() effectiveLocale: string;
 
@@ -213,41 +210,46 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
-    const { guid } = this;
-    const regionId = `${guid}-region`;
-    const buttonId = `${guid}-button`;
-
     const headerNode =
       toggleDisplay === "switch" ? (
         <div
-          aria-controls={regionId}
-          aria-label={toggleLabel}
           class={{
-            [CSS.toggle]: true,
-            [CSS.toggleSwitch]: true,
+            [CSS.toggleSwitchContainer]: true,
           }}
-          id={buttonId}
-          onClick={this.toggleSection}
-          onKeyDown={this.handleHeaderKeyDown}
-          tabIndex={0}
-          title={toggleLabel}
         >
-          <div class={CSS.toggleSwitchContent}>
-            <span class={CSS.toggleSwitchText}>{text}</span>
+          <div
+            aria-controls={IDS.content}
+            aria-expanded={toAriaBoolean(open)}
+            class={{
+              [CSS.toggle]: true,
+              [CSS.toggleSwitch]: true,
+            }}
+            id={IDS.toggle}
+            onClick={this.toggleSection}
+            onKeyDown={this.handleHeaderKeyDown}
+            role="button"
+            tabIndex={0}
+            title={toggleLabel}
+          >
+            <div class={CSS.toggleSwitchContent}>
+              <span class={CSS.toggleSwitchText}>{text}</span>
+            </div>
+            {this.renderStatusIcon()}
           </div>
-          <calcite-switch checked={open} label={toggleLabel} scale="s" tabIndex={-1} />
-          {this.renderStatusIcon()}
+          {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
+          <calcite-label class={CSS.focusGuard} layout="inline" tabIndex={-1}>
+            <calcite-switch checked={open} label={toggleLabel} scale="s" />
+          </calcite-label>
         </div>
       ) : (
         <button
-          aria-controls={regionId}
-          aria-label={toggleLabel}
+          aria-controls={IDS.content}
+          aria-expanded={toAriaBoolean(open)}
           class={{
             [CSS.sectionHeader]: true,
             [CSS.toggle]: true,
           }}
-          id={buttonId}
-          name={toggleLabel}
+          id={IDS.toggle}
           onClick={this.toggleSection}
         >
           <calcite-icon icon={arrowIcon} scale="s" />
@@ -259,13 +261,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     return (
       <Host>
         {headerNode}
-        <section
-          aria-expanded={toAriaBoolean(open)}
-          aria-labelledby={buttonId}
-          class={CSS.content}
-          hidden={!open}
-          id={regionId}
-        >
+        <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
           <slot />
         </section>
       </Host>
