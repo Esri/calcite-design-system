@@ -139,6 +139,8 @@ export class TimePicker
 
   private minuteEl: HTMLSpanElement;
 
+  private pointerActivated = false;
+
   private secondEl: HTMLSpanElement;
 
   // --------------------------------------------------------------------------
@@ -222,7 +224,7 @@ export class TimePicker
   @Listen("blur")
   hostBlurHandler(): void {
     this.activeEl = undefined;
-    this.mouseActivated = false;
+    this.pointerActivated = false;
     this.calciteInternalTimePickerBlur.emit();
   }
 
@@ -233,7 +235,7 @@ export class TimePicker
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    this.mouseActivated = false;
+    this.pointerActivated = false;
     const { defaultPrevented, key } = event;
 
     if (defaultPrevented) {
@@ -312,9 +314,9 @@ export class TimePicker
     }
   }
 
-  @Listen("mousedown")
-  hostMouseDownHandler(): void {
-    this.mouseActivated = true;
+  @Listen("pointerdown")
+  pointerDownHandler(): void {
+    this.pointerActivated = true;
   }
 
   //--------------------------------------------------------------------------
@@ -375,7 +377,7 @@ export class TimePicker
   };
 
   private focusHandler = (event: FocusEvent): void => {
-    if (this.mouseActivated) {
+    if (this.pointerActivated) {
       return;
     }
     this.activeEl = event.currentTarget as HTMLSpanElement;
@@ -613,8 +615,6 @@ export class TimePicker
       }
     }
   };
-
-  private mouseActivated = false;
 
   private nudgeFractionalSecond = (direction: "up" | "down"): void => {
     const stepDecimal = getDecimals(this.step);
