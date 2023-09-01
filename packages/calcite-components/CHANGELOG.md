@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.20...@esri/calcite-components@1.7.0-next.21) (2023-09-01)
+
+### Bug Fixes
+
+- add drag styles for improved UX ([#7644](https://github.com/Esri/calcite-design-system/issues/7644)) ([afbb764](https://github.com/Esri/calcite-design-system/commit/afbb764be4789254312b2787aa233616a8752f08))
+- **input, input-number:** correctly sanitize numbers when pasting string with 'e' ([#7648](https://github.com/Esri/calcite-design-system/issues/7648)) ([b8bc11c](https://github.com/Esri/calcite-design-system/commit/b8bc11ca529e84b40ed40c0bc3dbfa2f0956a7d3))
+
 ## [1.7.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.19...@esri/calcite-components@1.7.0-next.20) (2023-09-01)
 
 ### Features
