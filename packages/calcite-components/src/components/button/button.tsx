@@ -206,6 +206,10 @@ export class Button
 
   componentDidRender(): void {
     updateHostInteraction(this);
+    const ariaExpanded = this.el.getAttribute("aria-expanded");
+    const ariaControls = this.el.getAttribute("aria-controls");
+    this.childEl.setAttribute("aria-expanded", ariaExpanded);
+    this.childEl.setAttribute("aria-controls", ariaControls);
   }
 
   render(): VNode {
