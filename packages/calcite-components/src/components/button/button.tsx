@@ -206,10 +206,16 @@ export class Button
 
   componentDidRender(): void {
     updateHostInteraction(this);
-    const ariaExpanded = this.el.getAttribute("aria-expanded");
-    const ariaControls = this.el.getAttribute("aria-controls");
-    this.childEl.setAttribute("aria-expanded", ariaExpanded);
-    this.childEl.setAttribute("aria-controls", ariaControls);
+    // if (!this.href) {
+    // const ariaExpanded = this.el?.getAttribute("aria-expanded");
+    // const ariaControls = this.el?.getAttribute("aria-controls");
+    // this.childEl.setAttribute("aria-expanded", ariaExpanded !== null ? ariaExpanded : undefined);
+    // if (ariaControls) {
+    //   this.childEl.setAttribute("aria-controls", ariaControls);
+    // } else {
+    //   this.childEl.removeAttribute("aria-controls");
+    // }
+    // }
   }
 
   render(): VNode {
