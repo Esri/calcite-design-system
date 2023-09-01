@@ -1,13 +1,17 @@
 import Sortable from "sortablejs";
-import { containsCrossShadowBoundary } from "./dom";
 const sortableComponentSet = new Set<SortableComponent>();
-const inactiveSortableComponentSet = new WeakSet<SortableComponent>();
 
-export interface DragEvent {
+export interface DragDetail {
   toEl: HTMLElement;
   fromEl: HTMLElement;
   dragEl: HTMLElement;
 }
+
+export const CSS = {
+  ghostClass: "calcite-sortable--ghost",
+  chosenClass: "calcite-sortable--chosen",
+  dragClass: "calcite-sortable--drag",
+};
 
 /**
  * Defines interface for components with sorting functionality.
@@ -46,27 +50,27 @@ export interface SortableComponent {
   /**
    * Whether the element can move from the list.
    */
-  canPull: (event: DragEvent) => boolean;
+  canPull: (detail: DragDetail) => boolean;
 
   /**
    * Whether the element can be added from another list.
    */
-  canPut: (event: DragEvent) => boolean;
+  canPut: (detail: DragDetail) => boolean;
 
   /**
    * Called by any change to the list (add / update / remove).
    */
-  onDragSort: (event: Sortable.SortableEvent) => void;
+  onDragSort: (detail: DragDetail) => void;
 
   /**
-   * Element dragging started.
+   * Called when a sortable component drag starts.
    */
-  onDragStart?: (event: Sortable.SortableEvent) => void;
+  onDragStart: () => void;
 
   /**
-   * Element dragging ended.
+   * Called when a sortable component drag ends.
    */
-  onDragEnd?: (event: Sortable.SortableEvent) => void;
+  onDragEnd: () => void;
 }
 
 /**
@@ -78,15 +82,12 @@ export function connectSortableComponent(component: SortableComponent): void {
   disconnectSortableComponent(component);
   sortableComponentSet.add(component);
 
-  if (inactiveSortableComponentSet.has(component)) {
-    return;
-  }
-
   const dataIdAttr = "id";
   const { group, handleSelector: handle, dragSelector: draggable } = component;
 
   component.sortable = Sortable.create(component.el, {
     dataIdAttr,
+    ...CSS,
     ...(!!draggable && { draggable }),
     ...(!!group && {
       group: {
@@ -100,16 +101,16 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     handle,
-    onStart: (event) => {
-      onSortingStart(component);
-      component.onDragStart(event);
+    onStart: () => {
+      dragState.active = true;
+      onDragStart();
     },
-    onEnd: (event) => {
-      onSortingEnd(component);
-      component.onDragEnd(event);
+    onEnd: () => {
+      dragState.active = false;
+      onDragEnd();
     },
-    onSort: (event) => {
-      component.onDragSort(event);
+    onSort: ({ from: fromEl, item: dragEl, to: toEl }) => {
+      component.onDragSort({ fromEl, dragEl, toEl });
     },
   });
 }
@@ -122,34 +123,26 @@ export function connectSortableComponent(component: SortableComponent): void {
 export function disconnectSortableComponent(component: SortableComponent): void {
   sortableComponentSet.delete(component);
 
-  if (inactiveSortableComponentSet.has(component)) {
-    return;
-  }
-
   component.sortable?.destroy();
   component.sortable = null;
 }
 
-function getNestedSortableComponents(activeComponent: SortableComponent): SortableComponent[] {
-  return Array.from(sortableComponentSet).filter(
-    (component) => component !== activeComponent && containsCrossShadowBoundary(activeComponent.el, component.el)
-  );
-}
+const dragState: { active: boolean } = { active: false };
 
 /**
- * Helper to handle nested SortableComponents on `Sortable.onStart`.
+ * Helper to determine if dragging is currently active.
  *
- * @param {SortableComponent} activeComponent - The active sortable component.
+ * @param component The sortable component.
+ * @returns {boolean} a boolean value.
  */
-function onSortingStart(activeComponent: SortableComponent): void {
-  getNestedSortableComponents(activeComponent).forEach((component) => inactiveSortableComponentSet.add(component));
+export function dragActive(component: SortableComponent): boolean {
+  return component.dragEnabled && dragState.active;
 }
 
-/**
- * Helper to handle nested SortableComponents on `Sortable.onEnd`.
- *
- * @param {SortableComponent} activeComponent - The active sortable component.
- */
-function onSortingEnd(activeComponent: SortableComponent): void {
-  getNestedSortableComponents(activeComponent).forEach((component) => inactiveSortableComponentSet.delete(component));
+function onDragStart(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onDragStart());
+}
+
+function onDragEnd(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onDragEnd());
 }

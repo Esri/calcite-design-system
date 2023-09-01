@@ -157,16 +157,8 @@ export class InputDatePicker
       let newValueAsDate: Date | Date[];
 
       if (Array.isArray(newValue)) {
-        if (isTwoDigitYear(newValue[0]) || isTwoDigitYear(newValue[1])) {
-          this.value = newValue.map((val) => this.getNormalizedDate(val));
-          return;
-        }
         newValueAsDate = getValueAsDateRange(newValue);
       } else if (newValue) {
-        if (isTwoDigitYear(newValue)) {
-          this.value = this.getNormalizedDate(newValue);
-          return;
-        }
         newValueAsDate = dateFromISO(newValue);
       } else {
         newValueAsDate = undefined;
@@ -282,11 +274,6 @@ export class InputDatePicker
    * Required to pass the component's `value` on form submission.
    */
   @Prop({ reflect: true }) name: string;
-
-  /**
-   * Normalizes year to current century.
-   */
-  @Prop({ reflect: true }) normalizeYear = false;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
@@ -450,17 +437,9 @@ export class InputDatePicker
     const { open } = this;
     open && this.openHandler(open);
     if (Array.isArray(this.value)) {
-      if (isTwoDigitYear(this.value[0]) || isTwoDigitYear(this.value[1])) {
-        this.value = this.value.map((val) => this.getNormalizedDate(val));
-        return;
-      }
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
       try {
-        if (isTwoDigitYear(this.value)) {
-          this.value = this.getNormalizedDate(this.value);
-          return;
-        }
         this.valueAsDate = dateFromISO(this.value);
       } catch (error) {
         this.warnAboutInvalidValue(this.value);
@@ -1051,13 +1030,13 @@ export class InputDatePicker
 
     const newStartDate = valueIsArray ? valueAsDate[0] : null;
     let newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
-    if (newStartDateISO && isTwoDigitYear(newStartDateISO)) {
+    if (newStartDateISO) {
       newStartDateISO = this.getNormalizedDate(newStartDateISO);
     }
 
     const newEndDate = valueIsArray ? valueAsDate[1] : null;
     let newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
-    if (newEndDateISO && isTwoDigitYear(newEndDateISO)) {
+    if (newEndDateISO) {
       newEndDateISO = this.getNormalizedDate(newEndDateISO);
     }
 
@@ -1092,10 +1071,7 @@ export class InputDatePicker
 
     const oldValue = this.value;
     let newValue = dateToISO(value as Date);
-
-    if (isTwoDigitYear(newValue)) {
-      newValue = this.getNormalizedDate(newValue);
-    }
+    newValue = this.getNormalizedDate(newValue);
 
     if (newValue === oldValue) {
       return;
@@ -1150,7 +1126,7 @@ export class InputDatePicker
       return "";
     }
 
-    if (!this.normalizeYear) {
+    if (!isTwoDigitYear(value)) {
       return value;
     }
 

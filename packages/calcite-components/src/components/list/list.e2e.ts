@@ -5,7 +5,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
-import { dragAndDrop, isElementFocused } from "../../tests/utils";
+import { GlobalTestProps, dragAndDrop, isElementFocused } from "../../tests/utils";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -472,8 +472,20 @@ describe("calcite-list", () => {
       return page;
     }
 
+    type TestWindow = GlobalTestProps<{
+      calledTimes: number;
+    }>;
+
     it("works using a mouse", async () => {
       const page = await createSimpleList();
+
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+        (window as TestWindow).calledTimes = 0;
+        list.addEventListener("calciteListOrderChange", () => {
+          (window as TestWindow).calledTimes++;
+        });
+      });
 
       await dragAndDrop(
         page,
@@ -490,6 +502,9 @@ describe("calcite-list", () => {
       const [first, second] = await page.findAll("calcite-list-item");
       expect(await first.getProperty("value")).toBe("two");
       expect(await second.getProperty("value")).toBe("one");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(1);
     });
 
     it("supports dragging items between lists", async () => {
@@ -516,6 +531,19 @@ describe("calcite-list", () => {
           <calcite-list-item value="f" label="F"></calcite-list-item>
         </calcite-list>
       `);
+
+      await page.waitForChanges();
+
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.evaluate(() => {
+        (window as TestWindow).calledTimes = 0;
+        const lists = document.querySelectorAll("calcite-list");
+        lists.forEach((list) =>
+          list.addEventListener("calciteListOrderChange", () => {
+            (window as TestWindow).calledTimes++;
+          })
+        );
+      });
 
       await dragAndDrop(
         page,
@@ -571,6 +599,8 @@ describe("calcite-list", () => {
       expect(await seventh.getProperty("value")).toBe("c");
       expect(await eight.getProperty("value")).toBe("e");
       expect(await ninth.getProperty("value")).toBe("f");
+
+      expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
     });
 
     it("works using a keyboard", async () => {
@@ -586,7 +616,7 @@ describe("calcite-list", () => {
 
       let totalMoves = 0;
 
-      const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
+      const eventSpy = await page.spyOnEvent("calciteListOrderChange");
 
       async function assertKeyboardMove(
         arrowKey: "ArrowDown" | "ArrowUp",
@@ -603,7 +633,7 @@ describe("calcite-list", () => {
           expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
         }
 
-        expect(listOrderChangeSpy).toHaveReceivedEventTimes(++totalMoves);
+        expect(eventSpy).toHaveReceivedEventTimes(++totalMoves);
       }
 
       await assertKeyboardMove("ArrowDown", ["two", "one", "three"]);
