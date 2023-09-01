@@ -1,6 +1,7 @@
 export const IDS = {
   content: "content",
   toggle: "toggle",
+  header: "header",
 };
 
 export const CSS = {
