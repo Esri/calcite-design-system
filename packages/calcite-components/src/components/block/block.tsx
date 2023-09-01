@@ -250,7 +250,7 @@ export class Block
   /**
    * Emits when the component's header is clicked.
    *
-   * @deprecated use `openClose` events instead.
+   * @deprecated use `openClose` events: `calciteBlock[Before]Open` and `calciteBlock[Before]Close` instead.
    */
   @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 
@@ -385,7 +385,14 @@ export class Block
           }}
         >
           {headerNode}
-          <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
+          <section
+            aria-labelledby={IDS.toggle}
+            class={CSS.content}
+            hidden={!open}
+            id={IDS.content}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setTransitionEl}
+          >
             {this.renderScrim()}
           </section>
         </article>

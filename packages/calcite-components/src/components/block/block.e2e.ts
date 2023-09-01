@@ -197,9 +197,11 @@ describe("calcite-block", () => {
 
     it("allows users to add a control in a collapsible block", async () => {
       const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block heading="test-heading" collapsible><div class="nested-control" tabindex="0" slot=${SLOTS.control}>fake space/enter-bubbling control</div></calcite-block>`
-      );
+      await page.setContent(html`
+        <calcite-block heading="test-heading" collapsible>
+          <div class="nested-control" tabindex="0" slot=${SLOTS.control}>fake space/enter-bubbling control</div>
+        </calcite-block>
+      `);
       const control = await page.find(".nested-control");
       expect(await control.isVisible()).toBe(true);
 
@@ -216,6 +218,7 @@ describe("calcite-block", () => {
       await control.click();
       expect(blockOpenSpy).toHaveReceivedEventTimes(0);
       expect(blockToggleSpy).toHaveReceivedEventTimes(0);
+      expect(blockCloseSpy).toHaveReceivedEventTimes(0);
 
       await block.click();
       await block.click();

@@ -27,7 +27,7 @@ export interface OpenCloseComponent {
   /**
    * Specifies element that the transition is allowed to emit on.
    */
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLElement;
 
   /**
    * Defines method for `beforeOpen` event handler.
@@ -52,7 +52,7 @@ export interface OpenCloseComponent {
 
 const componentToTransitionListeners = new WeakMap<
   OpenCloseComponent,
-  [HTMLDivElement, typeof transitionStart, typeof transitionEnd]
+  [HTMLElement, typeof transitionStart, typeof transitionEnd]
 >();
 
 function transitionStart(event: TransitionEvent): void {
