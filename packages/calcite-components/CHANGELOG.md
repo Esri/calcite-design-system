@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0...@esri/calcite-components@1.7.1-next.0) (2023-09-01)
+
+### Bug Fixes
+
+- **block:** provide textual name on collapse and expansion to AT ([#7652](https://github.com/Esri/calcite-design-system/issues/7652)) ([85bd71b](https://github.com/Esri/calcite-design-system/commit/85bd71b4065dff86e4ebeceb0b6b26f9607b15f6)), closes [#5565](https://github.com/Esri/calcite-design-system/issues/5565)
+
 ## [1.7.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.6.1...@esri/calcite-components@1.7.0) (2023-09-01)
 
 ### Features
