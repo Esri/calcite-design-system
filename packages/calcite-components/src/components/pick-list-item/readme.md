@@ -1,6 +1,6 @@
 # calcite-pick-list-item
 
-`calcite-pick-list-item`s are cards contained in a `calcite-pick-list`. They each can have a label and description, an icon, and be set to compact. The developer can disable or preselect each list item and give it a value.
+`calcite-pick-list-item`s are cards contained in a `calcite-pick-list`. They each can have a label, description and an icon. The developer can disable or preselect each list item and give it a value.
 
 <!-- Auto Generated Below -->
 

@@ -328,7 +328,7 @@ export class Block
     const toggleLabel = open ? messages.collapse : messages.expand;
 
     const headerContent = (
-      <header class={CSS.header}>
+      <header class={CSS.header} id={IDS.header}>
         {this.renderIcon()}
         {this.renderTitle()}
       </header>
@@ -344,6 +344,7 @@ export class Block
         {collapsible ? (
           <button
             aria-controls={IDS.content}
+            aria-describedby={IDS.header}
             aria-expanded={collapsible ? toAriaBoolean(open) : null}
             class={CSS.toggle}
             id={IDS.toggle}
