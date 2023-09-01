@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.21...@esri/calcite-components@1.7.0-next.22) (2023-09-01)
+
+### Bug Fixes
+
+- **block, block-section:** improve a11y ([#7557](https://github.com/Esri/calcite-design-system/issues/7557)) ([1f44f6b](https://github.com/Esri/calcite-design-system/commit/1f44f6b0e05bcaf708015432ef64c8cb660101bd)), closes [#5565](https://github.com/Esri/calcite-design-system/issues/5565)
+
 ## [1.7.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.20...@esri/calcite-components@1.7.0-next.21) (2023-09-01)
 
 ### Bug Fixes
