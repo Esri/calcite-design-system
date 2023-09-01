@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.19...@esri/calcite-components@1.7.0-next.20) (2023-09-01)
+
+### Features
+
+- **flow:** add support for custom flow-item elements ([#7608](https://github.com/Esri/calcite-design-system/issues/7608)) ([197adfe](https://github.com/Esri/calcite-design-system/commit/197adfe763491d728521d4265bc9b2c413be66c9)), closes [#6237](https://github.com/Esri/calcite-design-system/issues/6237) [/github.com/Esri/calcite-design-system/pull/7608/files#diff-82c222ab365cde13a1f1288d936611519dfd9bee1e283164b260ca554c04a191R3-R7](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/7608/files/issues/diff-82c222ab365cde13a1f1288d936611519dfd9bee1e283164b260ca554c04a191R3-R7) [/github.com/Esri/calcite-design-system/pull/7608/files#diff-9b86e64de24dfca441533c63ae0f6834bff10bffbde23fd8bb3989a2259e356cR315-R387](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/7608/files/issues/diff-9b86e64de24dfca441533c63ae0f6834bff10bffbde23fd8bb3989a2259e356cR315-R387)
+
 ## [1.7.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0-next.18...@esri/calcite-components@1.7.0-next.19) (2023-08-31)
 
 ### Features
