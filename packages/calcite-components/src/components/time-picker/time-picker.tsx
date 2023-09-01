@@ -129,8 +129,6 @@ export class TimePicker
 
   @Element() el: HTMLCalciteTimePickerElement;
 
-  private activeEl: HTMLSpanElement;
-
   private fractionalSecondEl: HTMLSpanElement;
 
   private hourEl: HTMLSpanElement;
@@ -148,6 +146,8 @@ export class TimePicker
   //  State
   //
   // --------------------------------------------------------------------------
+
+  @State() activeEl: HTMLSpanElement;
 
   @State() effectiveLocale = "";
 
@@ -221,6 +221,8 @@ export class TimePicker
 
   @Listen("blur")
   hostBlurHandler(): void {
+    this.activeEl = undefined;
+    this.mouseActivated = false;
     this.calciteInternalTimePickerBlur.emit();
   }
 
@@ -231,6 +233,7 @@ export class TimePicker
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
+    this.mouseActivated = false;
     const { defaultPrevented, key } = event;
 
     if (defaultPrevented) {
@@ -309,6 +312,11 @@ export class TimePicker
     }
   }
 
+  @Listen("mousedown")
+  hostMouseDownHandler(): void {
+    this.mouseActivated = true;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -367,6 +375,9 @@ export class TimePicker
   };
 
   private focusHandler = (event: FocusEvent): void => {
+    if (this.mouseActivated) {
+      return;
+    }
     this.activeEl = event.currentTarget as HTMLSpanElement;
   };
 
@@ -513,6 +524,10 @@ export class TimePicker
     this.incrementMinuteOrSecond("second");
   };
 
+  private inputClickHandler = (event: MouseEvent): void => {
+    this.activeEl = event.target as HTMLSpanElement;
+  };
+
   private meridiemUpClickHandler = (): void => {
     this.activeEl = this.meridiemEl;
     this.meridiemEl.focus();
@@ -598,6 +613,8 @@ export class TimePicker
       }
     }
   };
+
+  private mouseActivated = false;
 
   private nudgeFractionalSecond = (direction: "up" | "down"): void => {
     const stepDecimal = getDecimals(this.step);
@@ -956,7 +973,9 @@ export class TimePicker
             class={{
               [CSS.input]: true,
               [CSS.hour]: true,
+              [CSS.inputFocus]: this.activeEl && this.activeEl === this.hourEl,
             }}
+            onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
             onKeyDown={this.hourKeyDownHandler}
             role="spinbutton"
@@ -1001,7 +1020,9 @@ export class TimePicker
             class={{
               [CSS.input]: true,
               [CSS.minute]: true,
+              [CSS.inputFocus]: this.activeEl && this.activeEl === this.minuteEl,
             }}
+            onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
             onKeyDown={this.minuteKeyDownHandler}
             role="spinbutton"
@@ -1046,7 +1067,9 @@ export class TimePicker
               class={{
                 [CSS.input]: true,
                 [CSS.second]: true,
+                [CSS.inputFocus]: this.activeEl && this.activeEl === this.secondEl,
               }}
+              onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.secondKeyDownHandler}
               role="spinbutton"
@@ -1094,7 +1117,9 @@ export class TimePicker
               class={{
                 [CSS.input]: true,
                 [CSS.fractionalSecond]: true,
+                [CSS.inputFocus]: this.activeEl && this.activeEl === this.fractionalSecondEl,
               }}
+              onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.fractionalSecondKeyDownHandler}
               role="spinbutton"
@@ -1149,7 +1174,9 @@ export class TimePicker
               class={{
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
+                [CSS.inputFocus]: this.activeEl && this.activeEl === this.meridiemEl,
               }}
+              onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
               role="spinbutton"
