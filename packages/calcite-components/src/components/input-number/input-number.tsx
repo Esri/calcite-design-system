@@ -148,6 +148,9 @@ export class InputNumber
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
+  /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
+  @Prop() integer = false;
+
   /** Accessible name for the component's button or hyperlink. */
   @Prop() label: string;
 
@@ -540,7 +543,9 @@ export class InputNumber
   ): void {
     const { value } = this;
     const adjustment = direction === "up" ? 1 : -1;
-    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    const stepHandleInteger =
+      this.integer && this.step !== "any" ? Math.round(this.step) : this.step;
+    const inputStep = stepHandleInteger === "any" ? 1 : Math.abs(stepHandleInteger || 1);
     const inputVal = new BigDecimal(value !== "" ? value : "0");
     const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
 
@@ -616,7 +621,10 @@ export class InputNumber
     };
     const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
-      if (!isValidNumber(delocalizedValue)) {
+      if (
+        !isValidNumber(delocalizedValue) ||
+        (this.integer && (delocalizedValue.includes("e") || delocalizedValue.includes(".")))
+      ) {
         nativeEvent.preventDefault();
       }
       this.setNumberValue({
@@ -675,7 +683,7 @@ export class InputNumber
       useGrouping: this.groupSeparator,
     };
 
-    if (event.key === numberStringFormatter.decimal) {
+    if (event.key === numberStringFormatter.decimal && !this.integer) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
@@ -683,7 +691,7 @@ export class InputNumber
         return;
       }
     }
-    if (/[eE]/.test(event.key)) {
+    if (/[eE]/.test(event.key) && !this.integer) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
@@ -836,9 +844,16 @@ export class InputNumber
 
     const isValueDeleted =
       this.previousValue?.length > value.length || this.value?.length > value.length;
-    const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
+
+    const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
+
+    const hasTrailingDecimalSeparator =
+      valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
+
     const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
+      hasTrailingDecimalSeparator && isValueDeleted
+        ? valueHandleInteger
+        : sanitizeNumberString(valueHandleInteger);
 
     const newValue =
       value && !sanitizedValue
