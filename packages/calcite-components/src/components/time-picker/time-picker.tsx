@@ -337,10 +337,6 @@ export class TimePicker
     this[`${target || "hour"}El`]?.focus();
   }
 
-  private decrementFractionalSecond = (): void => {
-    this.nudgeFractionalSecond("down");
-  };
-
   private decrementHour = (): void => {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
@@ -414,6 +410,24 @@ export class TimePicker
     }
   };
 
+  private fractionalSecondDownClickHandler = (): void => {
+    this.activeEl = this.fractionalSecondEl;
+    this.fractionalSecondEl.focus();
+    this.nudgeFractionalSecond("down");
+  };
+
+  private fractionalSecondUpClickHandler = (): void => {
+    this.activeEl = this.fractionalSecondEl;
+    this.fractionalSecondEl.focus();
+    this.nudgeFractionalSecond("up");
+  };
+
+  private hourDownClickHandler = (): void => {
+    this.activeEl = this.hourEl;
+    this.hourEl.focus();
+    this.decrementHour();
+  };
+
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
     if (numberKeys.includes(key)) {
@@ -462,8 +476,10 @@ export class TimePicker
     }
   };
 
-  private incrementFractionalSecond = (): void => {
-    this.nudgeFractionalSecond("up");
+  private hourUpClickHandler = (): void => {
+    this.activeEl = this.hourEl;
+    this.hourEl.focus();
+    this.incrementHour();
   };
 
   private incrementMeridiem = (): void => {
@@ -497,6 +513,12 @@ export class TimePicker
     this.incrementMinuteOrSecond("second");
   };
 
+  private meridiemUpClickHandler = (): void => {
+    this.activeEl = this.meridiemEl;
+    this.meridiemEl.focus();
+    this.incrementMeridiem();
+  };
+
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
     switch (event.key) {
       case "a":
@@ -521,6 +543,24 @@ export class TimePicker
         event.preventDefault();
         break;
     }
+  };
+
+  private meridiemDownClickHandler = (): void => {
+    this.activeEl = this.meridiemEl;
+    this.meridiemEl.focus();
+    this.decrementMeridiem();
+  };
+
+  private minuteDownClickHandler = (): void => {
+    this.activeEl = this.minuteEl;
+    this.minuteEl.focus();
+    this.decrementMinute();
+  };
+
+  private minuteUpClickHandler = (): void => {
+    this.activeEl = this.minuteEl;
+    this.minuteEl.focus();
+    this.incrementMinute();
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
@@ -642,6 +682,18 @@ export class TimePicker
           break;
       }
     }
+  };
+
+  private secondDownClickHandler = (): void => {
+    this.activeEl = this.secondEl;
+    this.secondEl.focus();
+    this.decrementSecond();
+  };
+
+  private secondUpClickHandler = (): void => {
+    this.activeEl = this.secondEl;
+    this.secondEl.focus();
+    this.incrementSecond();
   };
 
   private setHourEl = (el: HTMLSpanElement) => (this.hourEl = el);
@@ -890,7 +942,7 @@ export class TimePicker
               [CSS.buttonHourUp]: true,
               [CSS.buttonTopLeft]: true,
             }}
-            onClick={this.incrementHour}
+            onClick={this.hourUpClickHandler}
             role="button"
           >
             <calcite-icon icon="chevron-up" scale={iconScale} />
@@ -921,7 +973,7 @@ export class TimePicker
               [CSS.buttonHourDown]: true,
               [CSS.buttonBottomLeft]: true,
             }}
-            onClick={this.decrementHour}
+            onClick={this.hourDownClickHandler}
             role="button"
           >
             <calcite-icon icon="chevron-down" scale={iconScale} />
@@ -935,7 +987,7 @@ export class TimePicker
               [CSS.button]: true,
               [CSS.buttonMinuteUp]: true,
             }}
-            onClick={this.incrementMinute}
+            onClick={this.minuteUpClickHandler}
             role="button"
           >
             <calcite-icon icon="chevron-up" scale={iconScale} />
@@ -965,7 +1017,7 @@ export class TimePicker
               [CSS.button]: true,
               [CSS.buttonMinuteDown]: true,
             }}
-            onClick={this.decrementMinute}
+            onClick={this.minuteDownClickHandler}
             role="button"
           >
             <calcite-icon icon="chevron-down" scale={iconScale} />
@@ -980,7 +1032,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonSecondUp]: true,
               }}
-              onClick={this.incrementSecond}
+              onClick={this.secondUpClickHandler}
               role="button"
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
@@ -1010,7 +1062,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonSecondDown]: true,
               }}
-              onClick={this.decrementSecond}
+              onClick={this.secondDownClickHandler}
               role="button"
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
@@ -1028,7 +1080,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondUp]: true,
               }}
-              onClick={this.incrementFractionalSecond}
+              onClick={this.fractionalSecondUpClickHandler}
               role="button"
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
@@ -1058,7 +1110,7 @@ export class TimePicker
                 [CSS.button]: true,
                 [CSS.buttonFractionalSecondDown]: true,
               }}
-              onClick={this.decrementFractionalSecond}
+              onClick={this.fractionalSecondDownClickHandler}
               role="button"
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
@@ -1083,7 +1135,7 @@ export class TimePicker
                 [CSS.buttonMeridiemUp]: true,
                 [CSS.buttonTopRight]: true,
               }}
-              onClick={this.incrementMeridiem}
+              onClick={this.meridiemUpClickHandler}
               role="button"
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
@@ -1114,7 +1166,7 @@ export class TimePicker
                 [CSS.buttonMeridiemDown]: true,
                 [CSS.buttonBottomRight]: true,
               }}
-              onClick={this.decrementMeridiem}
+              onClick={this.meridiemDownClickHandler}
               role="button"
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
