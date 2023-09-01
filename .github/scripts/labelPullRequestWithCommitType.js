@@ -49,4 +49,3 @@ function getLabelName(type) {
       return "chore";
   }
 }
-
