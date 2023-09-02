@@ -26,7 +26,7 @@
 }
 
 td {
-  @apply text-start focus-base align-middle text-color-1;
+  @apply text-start focus-base align-middle text-color-1 whitespace-normal;
   background: var(--calcite-internal-table-cell-background);
   border-inline-end: 1px solid var(--calcite-ui-border-3);
   font-size: var(--calcite-internal-table-cell-font-size);
