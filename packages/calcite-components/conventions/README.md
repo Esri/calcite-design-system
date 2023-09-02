@@ -440,10 +440,28 @@ type ChildComponentLikeElement = ChilcComponentLike & HTMLElement;
 
 ```tsx
 export class CustomItem implements ChildComponentLike {
+  private childComponentEl: HTMLChlidComponentLikeElement;
+
   @Prop() required: boolean;
   @Prop() props: string;
   @Prop() from: number;
-  @Prop() parent: string;
+
+  @Method() async parent(): Promise<string> {
+    await this.childComponentEl.parent();
+  }
+
+  render(): VNode {
+    return (
+      <Host>
+        <child-component
+          required={this.required}
+          props={this.props}
+          from={this.from}
+          ref={(el) => (this.childComponentEl = el)}
+        />
+      </Host>
+    );
+  }
 }
 ```
 
