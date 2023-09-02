@@ -60,11 +60,18 @@
   word-wrap: anywhere;
 }
 
-.toggle--switch {
-  calcite-switch {
-    @apply pointer-events-none;
+.toggle--switch-container {
+  @apply flex items-center relative bg-transparent w-full;
+
+  .focus-guard {
+    --calcite-label-margin-bottom: 0;
+    @apply absolute pointer-events-none;
+    inset-inline-end: 0;
     margin-inline-start: theme("margin.1");
   }
+}
+
+.toggle--switch {
   .status-icon {
     margin-inline-start: theme("margin.2");
   }

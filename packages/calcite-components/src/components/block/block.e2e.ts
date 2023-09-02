@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
@@ -136,31 +136,31 @@ describe("calcite-block", () => {
   });
 
   it("allows toggling its content", async () => {
-    const page = await newE2EPage({ html: "<calcite-block collapsible></calcite-block>" });
+    const heading = "heading";
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
+    const messages = await import(`./assets/block/t9n/messages.json`);
 
     const element = await page.find("calcite-block");
     const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
     const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
-    expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
-    expect(toggle.getAttribute("title")).toBe(TEXT.expand);
+    expect(toggle.getAttribute("title")).toBe(messages.expand);
 
     await toggle.click();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(true);
-    expect(toggle.getAttribute("aria-label")).toBe(TEXT.collapse);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
-    expect(toggle.getAttribute("title")).toBe(TEXT.collapse);
+    expect(toggle.getAttribute("title")).toBe(messages.collapse);
 
     await toggle.click();
 
     expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(await element.getProperty("open")).toBe(false);
-    expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
-    expect(toggle.getAttribute("title")).toBe(TEXT.expand);
+    expect(toggle.getAttribute("title")).toBe(messages.expand);
   });
 
   describe("header", () => {

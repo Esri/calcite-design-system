@@ -21,7 +21,7 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { SLOTS, CSS } from "./resources";
+import { SLOTS, CSS, IDS } from "./resources";
 import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
 
@@ -174,8 +174,10 @@ export class AccordionItem implements ConditionalSlotComponent {
           <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
             {this.renderActionsStart()}
             <div
+              aria-controls={IDS.section}
               aria-expanded={toAriaBoolean(this.expanded)}
               class={CSS.headerContent}
+              id={IDS.sectionToggle}
               onClick={this.itemHeaderClickHandler}
               role="button"
               tabindex="0"
@@ -204,9 +206,9 @@ export class AccordionItem implements ConditionalSlotComponent {
             </div>
             {this.renderActionsEnd()}
           </div>
-          <div class={CSS.content}>
+          <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>
             <slot />
-          </div>
+          </section>
         </div>
       </Host>
     );

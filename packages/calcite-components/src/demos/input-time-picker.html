@@ -100,6 +100,25 @@
             } else {
               h23.append(labelEl);
             }
+
+            labelEl = document.createElement("calcite-label");
+            inputTimePickerEl = document.createElement("calcite-input-time-picker");
+
+            inputTimePickerEl.setAttribute("lang", locale);
+            if (numberingSystem) {
+              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
+            inputTimePickerEl.setAttribute("step", 0.001);
+            inputTimePickerEl.setAttribute("value", "10:00:00.001");
+            labelEl.append(document.createTextNode(`${name} (${locale}) (milliseconds)`));
+            labelEl.append(inputTimePickerEl);
+            mainEl.append(labelEl);
+
+            if (localeObject.hourCycles[0] === "h12") {
+              h12.append(labelEl);
+            } else {
+              h23.append(labelEl);
+            }
           });
         })();
       </script>
