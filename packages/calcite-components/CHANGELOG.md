@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.1-next.0...@esri/calcite-components@1.7.1-next.1) (2023-09-02)
+
+### Bug Fixes
+
+- **sheet:** Update shadow style in display-mode="float" ([#7664](https://github.com/Esri/calcite-design-system/issues/7664)) ([851bedb](https://github.com/Esri/calcite-design-system/commit/851bedb7ddd4d49ac1f05cced67549a799eb4903))
+- **table:** Allow wrapping text in table-header and table-cell ([#7665](https://github.com/Esri/calcite-design-system/issues/7665)) ([15cb2bf](https://github.com/Esri/calcite-design-system/commit/15cb2bf10a303ffb209c20979ecd202ea146df7b))
+
 ## [1.7.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0...@esri/calcite-components@1.7.1-next.0) (2023-09-01)
 
 ### Bug Fixes
