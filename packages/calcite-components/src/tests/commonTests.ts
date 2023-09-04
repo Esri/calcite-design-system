@@ -1425,31 +1425,29 @@ export async function openClose(
   initialToggleValue = false,
   userInputDevice?: userInputDevice
 ): Promise<void> {
-  type eventOrderWindow = GlobalTestProps<{ events: string[] }>;
+  type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
   const eventSequence = await setupEventSequence(componentTagOrHTML);
 
-  async function setupEventSequence(componentTagOrHTML: TagOrHTML) {
+  async function setupEventSequence(componentTagOrHTML: TagOrHTML): Promise<string[]> {
     const tag = getTag(componentTagOrHTML);
 
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
     const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
 
-    const eventSequence = eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
-
-    return eventSequence;
+    return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
   }
 
-  const addEventListeners = async () => {
+  const addEventListeners = async (): Promise<void> => {
     const receivedEvents: string[] = [];
 
-    (window as eventOrderWindow).events = receivedEvents;
+    (window as EventOrderWindow).events = receivedEvents;
 
     eventSequence.forEach((eventType) => {
       document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
     });
   };
 
-  async function setupPage(componentTagOrHTML: TagOrHTML, page: E2EPage) {
+  async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
     initialToggleValue
       ? await page.evaluate(() => {
           addEventListeners();
@@ -1464,7 +1462,7 @@ export async function openClose(
         });
   }
 
-  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage) {
+  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
     const tag = getTag(componentTagOrHTML);
     const element = await page.find(tag);
 
@@ -1503,17 +1501,17 @@ export async function openClose(
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
 
-    expect(await page.evaluate(() => (window as eventOrderWindow).events)).toEqual(eventSequence);
+    expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
   }
 
   /**
-   * skipAnimations unititly sets the animation duration to 0.01. This is a workaround for an issue with the animation utility.
+   * `skipAnimations` utility sets the animation duration to 0.01. This is a workaround for an issue with the animation utility.
    * Because this still leaves a very small duration, we can still test the animation events, but faster.
    */
   it(`emits with animations enabled`, async () => {
     const page = await simplePageSetup(componentTagOrHTML);
     await skipAnimations(page);
-    setupPage(componentTagOrHTML, page);
+    setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
@@ -1526,14 +1524,14 @@ export async function openClose(
         }
       `,
     });
-    setupPage(componentTagOrHTML, page);
+    setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
   it("emits on initialization with animations enabled", async () => {
     const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
-    setupPage(componentTagOrHTML, page);
+    setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
@@ -1546,7 +1544,7 @@ export async function openClose(
         }
       `,
     });
-    setupPage(componentTagOrHTML, page);
+    setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 }

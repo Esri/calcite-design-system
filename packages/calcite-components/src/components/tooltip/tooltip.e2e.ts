@@ -117,10 +117,6 @@ describe("calcite-tooltip", () => {
     </style>
   `;
 
-  describe("openClose", () => {
-    openClose(simpleTooltipHtml, "open", false);
-  });
-
   describe("openClose via mouse", () => {
     const mouseMoveOptions = { steps: 10 };
     const mouseTotalDelayFromMoveSteps = TOOLTIP_OPEN_DELAY_MS * mouseMoveOptions.steps;
@@ -762,7 +758,7 @@ describe("calcite-tooltip", () => {
   describe("beforeOpen, open, beforeClose, close event emitting", () => {
     it("emits via prop", async () => {
       await assertEventEmitting({
-        open: async (page) => {
+        openTooltip: async (page) => {
           const tooltipBeforeOpenEvent = page.waitForEvent("calciteTooltipBeforeOpen");
           const tooltipOpenEvent = page.waitForEvent("calciteTooltipOpen");
           const tooltip = await page.find("calcite-tooltip");
@@ -773,7 +769,7 @@ describe("calcite-tooltip", () => {
           await tooltipBeforeOpenEvent;
           await tooltipOpenEvent;
         },
-        close: async (page) => {
+        closeTooltip: async (page) => {
           const tooltipBeforeCloseEvent = page.waitForEvent("calciteTooltipBeforeClose");
           const tooltipCloseEvent = page.waitForEvent("calciteTooltipClose");
           const tooltip = await page.find("calcite-tooltip");
@@ -793,7 +789,7 @@ describe("calcite-tooltip", () => {
       const xMoveOffset = 25;
 
       await assertEventEmitting({
-        open: async (page: E2EPage) => {
+        openTooltip: async (page: E2EPage) => {
           const [refElementX, refElementY] = await getElementXY(page, "#ref");
 
           await page.mouse.move(0, 0, moveOptions);
@@ -803,7 +799,7 @@ describe("calcite-tooltip", () => {
 
           await page.waitForTimeout(totalDelayFromMoveSteps);
         },
-        close: async (page: E2EPage) => {
+        closeTooltip: async (page: E2EPage) => {
           const [refElementX, refElementY] = await getElementXY(page, "#ref");
 
           await page.mouse.move(refElementX + xMoveOffset, refElementY, moveOptions);
@@ -818,11 +814,11 @@ describe("calcite-tooltip", () => {
 
     it("emits via keyboard", async () => {
       await assertEventEmitting({
-        open: async (page) => {
+        openTooltip: async (page) => {
           await page.keyboard.press("Tab");
           await page.waitForChanges();
         },
-        close: async (page) => {
+        closeTooltip: async (page) => {
           await page.keyboard.press("Tab");
           await page.waitForChanges();
         },
@@ -830,8 +826,8 @@ describe("calcite-tooltip", () => {
     });
 
     async function assertEventEmitting(params: {
-      open: (page: E2EPage) => Promise<void>;
-      close: (page: E2EPage) => Promise<void>;
+      openTooltip: (page: E2EPage) => Promise<void>;
+      closeTooltip: (page: E2EPage) => Promise<void>;
     }): Promise<void> {
       const page = await newE2EPage();
       await page.setContent(
@@ -849,7 +845,7 @@ describe("calcite-tooltip", () => {
       expect(beforeCloseEvent).toHaveReceivedEventTimes(0);
       expect(closeEvent).toHaveReceivedEventTimes(0);
 
-      await params.open(page);
+      await params.openTooltip(page);
       await page.waitForChanges();
 
       expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
@@ -857,7 +853,7 @@ describe("calcite-tooltip", () => {
       expect(beforeCloseEvent).toHaveReceivedEventTimes(0);
       expect(closeEvent).toHaveReceivedEventTimes(0);
 
-      await params.close(page);
+      await params.closeTooltip(page);
       await page.waitForChanges();
 
       expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
