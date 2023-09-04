@@ -391,117 +391,131 @@ describe("calcite-combobox", () => {
 
   describe("item selection", () => {
     describe("toggling items", () => {
-      it("single-selection mode allows toggling selection once the selected item is clicked", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`
-            <calcite-combobox selection-mode="single">
-              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-            </calcite-combobox>
-          `
-        );
-        const combobox = await page.find("calcite-combobox");
-        const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
-        await combobox.click();
-        await firstOpenEvent;
-
-        const item1 = await combobox.find("calcite-combobox-item[value=one]");
-
-        await item1.click();
-        expect(await combobox.getProperty("value")).toBe("one");
-
-        const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
-        await combobox.click();
-        await secondOpenEvent;
-
-        await item1.click();
-        expect(await combobox.getProperty("value")).toBe("");
+      describe("via keyboard", () => {
+        assertSelectionModeToggling(async (item): Promise<void> => {
+          await item.press("Enter");
+        });
       });
 
-      it("single-persist-selection mode does not allow toggling selection once the selected item is clicked", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`
-            <calcite-combobox selection-mode="single-persist">
-              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-            </calcite-combobox>
-          `
-        );
-        const combobox = await page.find("calcite-combobox");
-        const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
-        await combobox.click();
-        await firstOpenEvent;
-
-        const item1 = await combobox.find("calcite-combobox-item[value=one]");
-
-        await item1.click();
-        expect(await combobox.getProperty("value")).toBe("one");
-
-        const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
-        await combobox.click();
-        await secondOpenEvent;
-
-        await item1.click();
-        expect(await combobox.getProperty("value")).toBe("one");
+      describe("via mouse", () => {
+        assertSelectionModeToggling(async (item): Promise<void> => {
+          await item.click();
+        });
       });
 
-      it("multiple-selection mode allows toggling selection once the selected item is clicked", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`
-            <calcite-combobox selection-mode="multiple">
-              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-            </calcite-combobox>
-          `
-        );
-        const combobox = await page.find("calcite-combobox");
-        const openEvent = page.waitForEvent("calciteComboboxOpen");
-        await combobox.click();
-        await openEvent;
+      async function assertSelectionModeToggling(selectItem: (item: E2EElement) => Promise<void>): Promise<void> {
+        it("single-selection mode allows toggling selection once the selected item is selected", async () => {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`
+              <calcite-combobox selection-mode="single">
+                <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+                <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              </calcite-combobox>
+            `
+          );
+          const combobox = await page.find("calcite-combobox");
+          const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await firstOpenEvent;
 
-        const item1 = await combobox.find("calcite-combobox-item[value=one]");
+          const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+          await selectItem(item1);
+          expect(await combobox.getProperty("value")).toBe("one");
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+          const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await secondOpenEvent;
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
-      });
+          await selectItem(item1);
+          expect(await combobox.getProperty("value")).toBe("");
+        });
 
-      it("ancestors-selection mode allows toggling selection once the selected item is clicked", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`
-            <calcite-combobox selection-mode="ancestors">
-              <calcite-combobox-item value="one" text-label="parent">
-                <calcite-combobox-item value="two" text-label="child1"></calcite-combobox-item>
-                <calcite-combobox-item value="three" text-label="child2"></calcite-combobox-item>
-              </calcite-combobox-item>
-            </calcite-combobox>
-          `
-        );
-        const combobox = await page.find("calcite-combobox");
-        const openEvent = page.waitForEvent("calciteComboboxOpen");
-        await combobox.click();
-        await openEvent;
+        it("single-persist-selection mode does not allow toggling selection once the selected item is selected", async () => {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`
+              <calcite-combobox selection-mode="single-persist">
+                <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+                <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              </calcite-combobox>
+            `
+          );
+          const combobox = await page.find("calcite-combobox");
+          const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await firstOpenEvent;
 
-        const item1 = await combobox.find("calcite-combobox-item[value=one]");
+          const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+          await selectItem(item1);
+          expect(await combobox.getProperty("value")).toBe("one");
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+          const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await secondOpenEvent;
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
-      });
+          await selectItem(item1);
+          expect(await combobox.getProperty("value")).toBe("one");
+        });
+
+        it("multiple-selection mode allows toggling selection once the selected item is selected", async () => {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`
+              <calcite-combobox selection-mode="multiple">
+                <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+                <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              </calcite-combobox>
+            `
+          );
+          const combobox = await page.find("calcite-combobox");
+          const openEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await openEvent;
+
+          const item1 = await combobox.find("calcite-combobox-item[value=one]");
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+        });
+
+        it("ancestors-selection mode allows toggling selection once the selected item is selected", async () => {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`
+              <calcite-combobox selection-mode="ancestors">
+                <calcite-combobox-item value="one" text-label="parent">
+                  <calcite-combobox-item value="two" text-label="child1"></calcite-combobox-item>
+                  <calcite-combobox-item value="three" text-label="child2"></calcite-combobox-item>
+                </calcite-combobox-item>
+              </calcite-combobox>
+            `
+          );
+          const combobox = await page.find("calcite-combobox");
+          const openEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await openEvent;
+
+          const item1 = await combobox.find("calcite-combobox-item[value=one]");
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+        });
+      }
     });
 
     it("should select parent in ancestor selection mode", async () => {

@@ -2,6 +2,7 @@ import { DateLocaleData } from "../components/date-picker/utils";
 import {
   dateFromISO,
   dateFromRange,
+  datePartsFromISO,
   dateToISO,
   formatCalendarYear,
   getOrder,
@@ -248,5 +249,12 @@ describe("parseCalendarYear", () => {
   it("parses display calendar years", () => {
     expect(parseCalendarYear(2023, { "default-calendar": "gregorian" } as DateLocaleData)).toBe(2023);
     expect(parseCalendarYear(2566, { "default-calendar": "buddhist" } as DateLocaleData)).toBe(2023);
+  });
+});
+
+describe("datePartsFromISO", () => {
+  it("returns date, year, month from parsed ISO string date", () => {
+    expect(datePartsFromISO("2023-08-01")).toEqual({ day: "01", month: "08", year: "2023" });
+    expect(datePartsFromISO("00-08-01")).toEqual({ day: "01", month: "08", year: "00" });
   });
 });

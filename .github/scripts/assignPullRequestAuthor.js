@@ -6,9 +6,7 @@ module.exports = async ({ github, context }) => {
   } = context.payload.pull_request;
 
   const updatedAssignees =
-    assignees && assignees.length
-      ? [...assignees.map((a) => a.login).filter((a) => a !== author), author]
-      : [author];
+    assignees && assignees.length ? [...assignees.map((a) => a.login).filter((a) => a !== author), author] : [author];
 
   try {
     await github.rest.issues.addAssignees({
@@ -18,9 +16,6 @@ module.exports = async ({ github, context }) => {
       assignees: updatedAssignees,
     });
   } catch (e) {
-    console.error(
-      "Unable to assign the PR author, they likely do not have write permissions\n",
-      e,
-    );
+    console.error("Unable to assign the PR author, they likely do not have write permissions\n", e);
   }
 };

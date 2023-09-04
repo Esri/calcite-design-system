@@ -409,3 +409,33 @@ The [`globalAttributes`](../src/utils/globalAttributes.ts) util was specifically
 ### BigDecimal
 
 `BigDecimal` is a [number util](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).
+
+### Custom child element support
+
+In order to support certain architectures, parent components might need to handle custom elements that wrap their expected child items within shadow DOM that would prevent discovery when querying the DOM.
+
+For such cases, the following pattern will enable developers to create custom child/item components and have them work seamlessly with parent components.
+
+#### Parent component
+
+- Must provide a `customItemSelectors` property to allow querying for custom elements in addition to their expected children.
+- An interface for `HTML<ChildComponentItem>Element` must be created in the parent's `interfaces.d.ts` file, where the necessary child APIs must be extracted.
+  **`parent/interfaces.d.ts`**
+  ```ts
+  type ChildComponentLike = Pick<HTMLCalciteChildElement, "required" | "props" | "from" | "parent"> & HTMLElement;
+  ```
+  **`parent/parent.tsx`**
+  ```tsx
+    @Prop() selectedItem: HTMLChildComponentElement | ChildComponentLike;
+  ```
+
+#### Custom child component
+
+- Must implement the element interface expected by the parent (e.g., `ChildComponentLike`).
+
+#### Notes
+
+- This pattern should be applied sparingly and on a case-by-case basis.
+- We can refine this pattern as we go on, but additional modifications needed to handle the custom items workflow will be considered out-of-scope and thus not supported.
+- Until we have documentation covering creating custom elements, `customItemSelectors` must be made internal and any `ChildComponentLike` types must be excluded from the doc.
+- Please refer to https://github.com/Esri/calcite-design-system/pull/7608/ as an example on how this pattern is applied.

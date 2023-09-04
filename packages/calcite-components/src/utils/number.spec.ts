@@ -34,21 +34,28 @@ describe("parseNumberString", () => {
     expect(parseNumberString("")).toBe("");
     expect(parseNumberString("only numbers")).toBe("");
 
+    // eslint-disable-next-line @cspell/spellchecker
     const lettersAndSymbols = "kjas;lkjwo;aij(*&,asd;flkj-";
+    // eslint-disable-next-line @cspell/spellchecker
     const lettersAndSymbolsWithLeadingNegativeSign = "-ASDF(*^LKJihsdf*&^";
 
     expect(parseNumberString(lettersAndSymbols)).toBe("");
     expect(parseNumberString(lettersAndSymbolsWithLeadingNegativeSign)).toBe("");
+    expect(parseNumberString("123test")).toBe("123e");
   });
 
   it("returns valid number string for string values that compute to a valid number", () => {
     const stringWithLettersAndDigits = "lkj2323lkj";
     const frenchNumber = "1 2345,67";
     const positiveInteger = "123345345";
+    // eslint-disable-next-line @cspell/spellchecker
     const stringWithLettersDigitsAndSymbols = "123sdfa34345klndfsi8*&(^asdf5345";
     const decimal = "123123.234234";
+    // eslint-disable-next-line @cspell/spellchecker
     const stringWithLettersAndDecimal = "12asdfas$%@$3123.23asdf2a4234";
+    // eslint-disable-next-line @cspell/spellchecker
     const stringWithLettersDecimalAndNonLeadingNegativeSign = "12a-sdfas$%@$3123.23asdf2a4234";
+    // eslint-disable-next-line @cspell/spellchecker
     const stringWithLettersDecimalAndLeadingNegativeSign = "-12a-sdfas$%@$3123.23asdf2a4234";
 
     expect(parseNumberString(stringWithLettersAndDigits)).toBe("2323");
