@@ -13,19 +13,35 @@ const { resolve } = require("path");
 // attempting to use browser APIs, which don't exist on the server.
 const defineCustomElementImports = /import { defineCustomElement as defineCalcite.*(\r\n|\r|\n)/gm;
 
-// The removed imports are replaced with autoDefine, which is a wrapper around defineCustomElement
-// to make sure it's only called on the client.
-const autoDefineImport = "import { autoDefine } from './auto-define';";
+// The removed imports are replaced with utils that check the environment
+// to make sure the components are only defined on the browser.
+const browserCheckUtils = `
+// CodeSandbox exposes 'process', which makes it look like NodeJS. The only way to determine it should be
+// be treated as the browser is the non-standard value they use for 'process.platform'.
+// https://nodejs.org/api/process.html#processplatform
+type CodeSandboxWorkaround = NodeJS.Platform | "browser";
 
-// Matches createReactComponent exports to add autoDefine instead of defineCustomElement.
-// The regex creates capture groups for the component name and other parts of the line
-// that shouldn't be replaced/removed.
-const reactWrapperExports = /createReactComponent<(.*)>.*\((['|\w|-]*)(.*)(defineCalcite\w*)\)/g;
+// https://github.com/flexdinesh/browser-or-node/blob/master/src/index.js
+const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
+const isNode =
+  typeof process !== "undefined" &&
+  process.versions != null &&
+  process.versions.node != null &&
+  (process?.platform as CodeSandboxWorkaround) !== "browser";
+`;
 
-// The patched version of the createReactComponent export using the capture groups to fill in the blanks
-const patchedReactWrapperExports = "createReactComponent<$1>($2$3autoDefine($2))";
+// Matches createReactComponent exports to replace defineCustomElement with
+// a function that dynamic imports the components when in the browser.
+// The regex creates capture groups for the component name and other parts of
+// the line that shouldn't be replaced/removed.
+const reactWrapperExports = /createReactComponent<(.*)>.*\('([\w|-]*)'(.*)(defineCalcite\w*)\)/g;
 
-// The autoDefine import is placed below this line
+// The patched version of the createReactComponent export using capture groups
+// to fill in the blanks.
+const patchedReactWrapperExports =
+  "createReactComponent<$1>('$2'$3(): (() => Promise<void> | undefined) => isBrowser && !isNode ? async () => (await import('@esri/calcite-components/dist/components/$2.js')).defineCustomElement() : undefined)";
+
+// The isBrowser and isNode utils are placed below this line
 const reactLibImport = "import { createReactComponent } from './react-component-lib';";
 
 (async () => {
@@ -33,13 +49,13 @@ const reactLibImport = "import { createReactComponent } from './react-component-
     const filePath = resolve(`${__dirname}/../src/components.ts`);
     const contents = await readFile(filePath, { encoding: "utf8" });
 
-    if (contents.includes(autoDefineImport)) {
+    if (contents.includes("isBrowser")) {
       console.log("SSR patch: skipping, components.ts is already patched");
       return;
     }
 
     const patchedContents = contents
-      .replace(reactLibImport, `$&\n${autoDefineImport}`)
+      .replace(reactLibImport, `$&\n${browserCheckUtils}`)
       .replace(defineCustomElementImports, "")
       .replace(reactWrapperExports, patchedReactWrapperExports);
 
