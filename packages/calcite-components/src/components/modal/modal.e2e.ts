@@ -298,6 +298,31 @@ describe("opening and closing behavior", () => {
     ]);
   });
 
+  it("emits when closing on click", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-modal open></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+
+    await page.waitForChanges();
+    expect(await modal.isVisible()).toBe(true);
+
+    const beforeCloseSpy = await modal.spyOnEvent("calciteModalBeforeClose");
+    const closeSpy = await modal.spyOnEvent("calciteModalClose");
+    const modalBeforeClose = page.waitForEvent("calciteModalBeforeClose");
+    const modalClose = page.waitForEvent("calciteModalClose");
+
+    const closeButton = await page.find("calcite-modal >>> .close");
+    await closeButton.click();
+
+    await modalBeforeClose;
+    await modalClose;
+
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(closeSpy).toHaveReceivedEventTimes(1);
+
+    expect(await modal.isVisible()).toBe(false);
+  });
+
   it("emits when set to open on initial render", async () => {
     const page = await newProgrammaticE2EPage();
 

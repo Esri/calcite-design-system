@@ -290,7 +290,7 @@ export class Modal
         aria-label={this.messages.close}
         class={CSS.close}
         key="button"
-        onClick={this.closeModal}
+        onClick={this.handleCloseClick}
         title={this.messages.close}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
@@ -510,10 +510,10 @@ export class Modal
     onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
-      this.openModal();
+      this.openModal(true);
     } else {
       this.transitionEl?.classList.add(CSS.closingIdle);
-      this.closeModal();
+      this.closeModal(true);
     }
   }
 
@@ -522,13 +522,21 @@ export class Modal
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
   };
 
-  /** Open the modal */
-  private openModal() {
+  private handleCloseClick = () => {
+    this.closeModal();
+  };
+
+  /**
+   * Open the modal
+   *
+   * @param ignoreOpenChange - Ignores the open watcher.
+   */
+  private openModal(ignoreOpenChange = false) {
     if (this.ignoreOpenChange) {
       return;
     }
 
-    this.ignoreOpenChange = true;
+    this.ignoreOpenChange = ignoreOpenChange;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
     this.opened = true;
@@ -554,8 +562,12 @@ export class Modal
     this.closeModal();
   };
 
-  /** Close the modal, first running the `beforeClose` method */
-  closeModal = async (): Promise<void> => {
+  /**
+   * Close the modal, first running the `beforeClose` method
+   *
+   * @param ignoreOpenChange - Ignores the open watcher.
+   */
+  closeModal = async (ignoreOpenChange = false): Promise<void> => {
     if (this.ignoreOpenChange) {
       return;
     }
@@ -574,7 +586,7 @@ export class Modal
       }
     }
 
-    this.ignoreOpenChange = true;
+    this.ignoreOpenChange = ignoreOpenChange;
     this.open = false;
     this.opened = false;
     this.removeOverflowHiddenClass();
