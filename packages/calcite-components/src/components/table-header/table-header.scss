@@ -26,7 +26,7 @@
 }
 
 th {
-  @apply text-color-1 focus-base text-start font-medium align-top;
+  @apply text-color-1 focus-base text-start font-medium align-top whitespace-normal;
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: 1px solid var(--calcite-internal-table-header-border-color);
   border-block-end: 1px solid var(--calcite-internal-table-header-border-color);

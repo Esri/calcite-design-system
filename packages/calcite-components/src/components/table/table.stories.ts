@@ -715,6 +715,81 @@ export const selectionModeMultipleAndSelectedOnLoadWithMultipleFooterAndHeader_T
     </calcite-table-row>
   </calcite-table>`;
 
+export const LongWrappingTextContent_TestOnly = (): string => html` <calcite-table
+  numbered
+  caption="Long cell wrapping table"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header
+      heading="Heading or a longer wrapping text that goes here"
+      description="Description"
+    ></calcite-table-header>
+    <calcite-table-header
+      heading="Heading or a longer wrapping text that goes here"
+      description="Description"
+    ></calcite-table-header>
+    <calcite-table-header
+      heading="Heading or a longer wrapping text that goes here and maybe one is longer"
+      description="Description"
+    ></calcite-table-header>
+    <calcite-table-header
+      heading="Heading or a longer wrapping text that goes here"
+      description="Description or a longer bit of text that can go here"
+    ></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>A slot for adding a calcite-action-bar or other components to display.</calcite-table-cell>
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not "none" and one or
+      more calcite-table-row is selected.</calcite-table-cell
+    >
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not "none" and one or
+      more calcite-table-row is selected.</calcite-table-cell
+    >
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not
+      "none".</calcite-table-cell
+    >
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>A slot for adding a calcite-action-bar or other components to display.</calcite-table-cell>
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not "none" and one or
+      more calcite-table-row is selected.</calcite-table-cell
+    >
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not "none" and one or
+      more calcite-table-row is selected.</calcite-table-cell
+    >
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not
+      "none".</calcite-table-cell
+    >
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>A slot for adding a calcite-action-bar or other components to display.</calcite-table-cell>
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not "none" and one or
+      more calcite-table-row is selected.</calcite-table-cell
+    >
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not "none" and one or
+      more calcite-table-row is selected.</calcite-table-cell
+    >
+    <calcite-table-cell
+      >A slot for adding a calcite-action-bar or other components to display when selectionMode is not
+      "none".</calcite-table-cell
+    >
+  </calcite-table-row>
+  <calcite-table-row slot="table-footer">
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+    <calcite-table-cell>foot</calcite-table-cell>
+  </calcite-table-row>
+</calcite-table>`;
+
 export const localized_TestOnly = (): string => html`<calcite-table
   lang="ar"
   numbering-system="arab"
