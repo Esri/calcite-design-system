@@ -504,6 +504,7 @@ export class Modal
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
     if (this.ignoreOpenChange) {
+      this.ignoreOpenChange = false;
       return;
     }
 
@@ -532,10 +533,6 @@ export class Modal
    * @param ignoreOpenChange - Ignores the open watcher.
    */
   private openModal(ignoreOpenChange = false) {
-    if (this.ignoreOpenChange) {
-      return;
-    }
-
     this.ignoreOpenChange = ignoreOpenChange;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
@@ -551,7 +548,6 @@ export class Modal
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
-    this.ignoreOpenChange = false;
   }
 
   private handleOutsideClose = (): void => {
@@ -568,10 +564,6 @@ export class Modal
    * @param ignoreOpenChange - Ignores the open watcher.
    */
   closeModal = async (ignoreOpenChange = false): Promise<void> => {
-    if (this.ignoreOpenChange) {
-      return;
-    }
-
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
@@ -580,7 +572,6 @@ export class Modal
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;
           this.open = true;
-          this.ignoreOpenChange = false;
         });
         return;
       }
@@ -590,7 +581,6 @@ export class Modal
     this.open = false;
     this.opened = false;
     this.removeOverflowHiddenClass();
-    this.ignoreOpenChange = false;
   };
 
   private removeOverflowHiddenClass(): void {

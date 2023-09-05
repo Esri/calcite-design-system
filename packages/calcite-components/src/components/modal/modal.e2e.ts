@@ -23,7 +23,7 @@ describe("calcite-modal properties", () => {
     const modal = await page.find("calcite-modal");
     modal.setProperty("closeButtonDisabled", true);
     await page.waitForChanges();
-    const closeButton = await page.find("calcite-modal >>> .close");
+    const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
     expect(closeButton).toBe(null);
   });
 
@@ -311,7 +311,7 @@ describe("opening and closing behavior", () => {
     const modalBeforeClose = page.waitForEvent("calciteModalBeforeClose");
     const modalClose = page.waitForEvent("calciteModalClose");
 
-    const closeButton = await page.find("calcite-modal >>> .close");
+    const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
     await closeButton.click();
 
     await modalBeforeClose;
@@ -499,7 +499,7 @@ describe("calcite-modal accessibility checks", () => {
     const createModalHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-modal open ${attrs}>${contentHTML}</calcite-modal>`;
 
-    const closeButtonTargetSelector = ".close";
+    const closeButtonTargetSelector = `.${CSS.close}`;
     const focusableContentTargetClass = "test";
 
     const focusableContentHTML = html`<h3 slot="header">Title</h3>
@@ -568,7 +568,7 @@ describe("calcite-modal accessibility checks", () => {
     modal.setProperty("open", true);
     await page.waitForChanges();
     expect(await modal.isVisible()).toBe(true);
-    const closeButton = await page.find("calcite-modal >>> .close");
+    const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
     await closeButton.click();
     await page.waitForChanges();
     expect(await modal.isVisible()).toBe(false);
