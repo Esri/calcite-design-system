@@ -19,6 +19,7 @@ export const CSS = {
   fractionalSecond: "fractionalSecond",
   hour: "hour",
   input: "input",
+  inputFocus: "inputFocus",
   meridiem: "meridiem",
   minute: "minute",
   second: "second",
