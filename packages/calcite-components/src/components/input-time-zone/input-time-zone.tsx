@@ -138,13 +138,6 @@ export class InputTimeZone
    */
   @Prop({ mutable: true }) value: string;
 
-  @Watch("value")
-  valueWatcher(value: string): void {
-    if (this.comboboxEl && this.comboboxEl.value !== value) {
-      this.comboboxEl.value = value;
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -316,7 +309,7 @@ export class InputTimeZone
           open={this.open}
           overlayPositioning={this.overlayPositioning}
           scale={this.scale}
-          selectionMode="single"
+          selectionMode="single-persist"
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setComboboxRef}
         >
