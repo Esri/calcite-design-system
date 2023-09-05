@@ -222,7 +222,7 @@ export class TimePicker
   //--------------------------------------------------------------------------
 
   @Listen("blur")
-  hostBlurHandler(): void {
+  blurHandler(): void {
     this.activeEl = undefined;
     this.pointerActivated = false;
     this.calciteInternalTimePickerBlur.emit();

@@ -1234,7 +1234,7 @@ describe("calcite-time-picker", () => {
       expect(fractionalSecondEl.innerHTML).toEqual("00");
     });
 
-    it("upward nudge of empty fractional second sets to 000 for step=0.001.", async () => {
+    it("upward nudge of empty fractional second sets to 000 for step=0.001", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step="0.001"></calcite-time-picker>`);
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
