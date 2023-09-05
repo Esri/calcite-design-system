@@ -59,6 +59,118 @@ describe("calcite-time-picker", () => {
     ]);
   });
 
+  describe("focusing", () => {
+    it("should focus input when corresponding nudge up button is clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);
+
+      const minuteEl = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
+      const minuteUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteUp}`);
+
+      await minuteUpEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await minuteEl.getAttribute("aria-label"));
+
+      const secondEl = await page.find(`calcite-time-picker >>> .${CSS.second}`);
+      const secondUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonSecondUp}`);
+
+      await secondUpEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await secondEl.getAttribute("aria-label"));
+
+      const fractionalSecondEl = await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`);
+      const fractionalSecondUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonFractionalSecondUp}`);
+
+      await fractionalSecondUpEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await fractionalSecondEl.getAttribute("aria-label"));
+
+      const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiemUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemUp}`);
+
+      await meridiemUpEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await meridiemEl.getAttribute("aria-label"));
+
+      const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
+      const hourUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonHourUp}`);
+
+      await hourUpEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await hourEl.getAttribute("aria-label"));
+    });
+
+    it("should focus input when corresponding nudge down button is clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);
+
+      const minuteEl = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
+      const minuteDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteDown}`);
+
+      await minuteDownEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await minuteEl.getAttribute("aria-label"));
+
+      const secondEl = await page.find(`calcite-time-picker >>> .${CSS.second}`);
+      const secondDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonSecondDown}`);
+
+      await secondDownEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await secondEl.getAttribute("aria-label"));
+
+      const fractionalSecondEl = await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`);
+      const fractionalSecondDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonFractionalSecondDown}`);
+
+      await fractionalSecondDownEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await fractionalSecondEl.getAttribute("aria-label"));
+
+      const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiemDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemDown}`);
+
+      await meridiemDownEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await meridiemEl.getAttribute("aria-label"));
+
+      const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
+      const hourDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonHourDown}`);
+
+      await hourDownEl.click();
+      await page.waitForChanges();
+
+      expect(
+        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
+      ).toBe(await hourEl.getAttribute("aria-label"));
+    });
+  });
+
   describe("should focus the first focusable element when setFocus is called (ltr)", () => {
     focusable(`calcite-time-picker`, {
       shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
@@ -1122,7 +1234,7 @@ describe("calcite-time-picker", () => {
       expect(fractionalSecondEl.innerHTML).toEqual("00");
     });
 
-    it("upward nudge of empty fractional second sets to 000 for step=0.001", async () => {
+    it("upward nudge of empty fractional second sets to 000 for step=0.001.", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step="0.001"></calcite-time-picker>`);
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
