@@ -440,7 +440,7 @@ type ChildComponentLikeElement = ChilcComponentLike & HTMLElement;
 
 ```tsx
 export class CustomItem implements ChildComponentLike {
-  private childComponentEl: HTMLChlidComponentLikeElement;
+  private childComponentEl: HTMLChildComponentLikeElement;
 
   @Prop() required: boolean;
   @Prop() props: string;
