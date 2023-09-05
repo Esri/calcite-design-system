@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
-import { getElementXY } from "../../tests/utils";
+import { getElementXY, getFocusedElementProp } from "../../tests/utils";
 
 const letterKeys = [
   "a",
@@ -64,110 +64,98 @@ describe("calcite-time-picker", () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);
 
-      const minuteEl = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
+      const minuteElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.minute}`)).getAttribute("aria-label");
       const minuteUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteUp}`);
 
       await minuteUpEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await minuteEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(minuteElAriaLabel);
 
-      const secondEl = await page.find(`calcite-time-picker >>> .${CSS.second}`);
+      const secondElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.second}`)).getAttribute("aria-label");
       const secondUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonSecondUp}`);
 
       await secondUpEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await secondEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(secondElAriaLabel);
 
-      const fractionalSecondEl = await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`);
+      const fractionalSecondElAriaLabel = (
+        await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`)
+      ).getAttribute("aria-label");
       const fractionalSecondUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonFractionalSecondUp}`);
 
       await fractionalSecondUpEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await fractionalSecondEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(fractionalSecondElAriaLabel);
 
-      const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiemElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.meridiem}`)).getAttribute(
+        "aria-label"
+      );
       const meridiemUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemUp}`);
 
       await meridiemUpEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await meridiemEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(meridiemElAriaLabel);
 
-      const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
+      const hourElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.hour}`)).getAttribute("aria-label");
       const hourUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonHourUp}`);
 
       await hourUpEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await hourEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(hourElAriaLabel);
     });
 
     it("should focus input when corresponding nudge down button is clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);
 
-      const minuteEl = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
+      const minuteElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.minute}`)).getAttribute("aria-label");
       const minuteDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteDown}`);
 
       await minuteDownEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await minuteEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(minuteElAriaLabel);
 
-      const secondEl = await page.find(`calcite-time-picker >>> .${CSS.second}`);
+      const secondElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.second}`)).getAttribute("aria-label");
       const secondDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonSecondDown}`);
 
       await secondDownEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await secondEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(secondElAriaLabel);
 
-      const fractionalSecondEl = await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`);
+      const fractionalSecondElAriaLabel = (
+        await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`)
+      ).getAttribute("aria-label");
       const fractionalSecondDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonFractionalSecondDown}`);
 
       await fractionalSecondDownEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await fractionalSecondEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(fractionalSecondElAriaLabel);
 
-      const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiemElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.meridiem}`)).getAttribute(
+        "aria-label"
+      );
       const meridiemDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemDown}`);
 
       await meridiemDownEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await meridiemEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(meridiemElAriaLabel);
 
-      const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
+      const hourElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.hour}`)).getAttribute("aria-label");
       const hourDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonHourDown}`);
 
       await hourDownEl.click();
       await page.waitForChanges();
 
-      expect(
-        await page.evaluate(() => document.activeElement.shadowRoot.activeElement.getAttribute("aria-label"))
-      ).toBe(await hourEl.getAttribute("aria-label"));
+      expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(hourElAriaLabel);
     });
   });
 
