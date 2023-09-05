@@ -26,6 +26,11 @@ import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes,
+} from "../../utils/globalAttributes";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -39,6 +44,7 @@ import { CSS } from "./resources";
 })
 export class Button
   implements
+    GlobalAttrComponent,
     LabelableComponent,
     InteractiveComponent,
     FormOwner,
@@ -175,6 +181,7 @@ export class Button
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
+    watchGlobalAttributes(this, ["aria-expanded"]);
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
@@ -189,6 +196,7 @@ export class Button
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
     this.formEl = null;
+    unwatchGlobalAttributes(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -206,16 +214,6 @@ export class Button
 
   componentDidRender(): void {
     updateHostInteraction(this);
-    // if (!this.href) {
-    // const ariaExpanded = this.el?.getAttribute("aria-expanded");
-    // const ariaControls = this.el?.getAttribute("aria-controls");
-    // this.childEl.setAttribute("aria-expanded", ariaExpanded !== null ? ariaExpanded : undefined);
-    // if (ariaControls) {
-    //   this.childEl.setAttribute("aria-controls", ariaControls);
-    // } else {
-    //   this.childEl.removeAttribute("aria-controls");
-    // }
-    // }
   }
 
   render(): VNode {
@@ -278,6 +276,7 @@ export class Button
         target={childElType === "a" && this.target}
         title={this.tooltipText}
         type={childElType === "button" && this.type}
+        {...this.globalAttributes}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}
@@ -353,6 +352,10 @@ export class Button
   private contentEl: HTMLSpanElement;
 
   resizeObserver = createObserver("resize", () => this.setTooltipText());
+
+  @State() globalAttributes = {
+    ariaExpanded: undefined,
+  };
 
   //--------------------------------------------------------------------------
   //
