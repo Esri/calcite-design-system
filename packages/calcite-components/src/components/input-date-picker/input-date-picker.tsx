@@ -58,6 +58,7 @@ import {
 } from "../../utils/loadable";
 import {
   connectLocalized,
+  defaultNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
@@ -1002,10 +1003,17 @@ export class InputDatePicker
         )
       : null;
 
+    const formattingOptions = {
+      // we explicitly set numberingSystem to prevent the browser-inferred value
+      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      numberingSystem: defaultNumberingSystem,
+    };
+
     const localizedDate =
-      date && this.formatNumerals(date.toLocaleDateString(this.effectiveLocale));
+      date && this.formatNumerals(date.toLocaleDateString(this.effectiveLocale, formattingOptions));
     const localizedEndDate =
-      endDate && this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale));
+      endDate &&
+      this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale, formattingOptions));
 
     this.setInputValue(localizedDate ?? "", "start");
     this.setInputValue((this.range && localizedEndDate) ?? "", "end");
