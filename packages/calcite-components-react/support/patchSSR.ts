@@ -27,8 +27,7 @@ const isNode =
   typeof process !== "undefined" &&
   process.versions != null &&
   process.versions.node != null &&
-  (process?.platform as CodeSandboxWorkaround) !== "browser";
-`;
+  (process?.platform as CodeSandboxWorkaround) !== "browser";`;
 
 // Matches createReactComponent exports to replace the defineCustomElement
 // arguments with inlined, anonymous functions that dynamically import the
@@ -36,13 +35,12 @@ const isNode =
 // component name and other arguments that shouldn't be replaced/removed.
 const reactWrapperExports = /createReactComponent<(.*)>.*\('([\w|-]*)'(.*)(defineCalcite\w*)\)/g;
 
-// The patched version of the createReactComponent export using capture groups
-// to fill in the blanks.
+// The patched version of the createReactComponent export using capture groups to fill in the blanks.
 const patchedReactWrapperExports =
   "createReactComponent<$1>('$2'$3() => isBrowser && !isNode ? async () => (await import('@esri/calcite-components/dist/components/$2.js')).defineCustomElement() : undefined)";
 
 // The isBrowser and isNode utils are placed below this line
-const reactLibImport = "import { createReactComponent } from './react-component-lib';";
+const jsxTypeImport = "import type { JSX } from '@esri/calcite-components/dist/components';";
 
 (async () => {
   try {
@@ -55,7 +53,7 @@ const reactLibImport = "import { createReactComponent } from './react-component-
     }
 
     const patchedContents = contents
-      .replace(reactLibImport, `$&\n${browserCheckUtils}`)
+      .replace(jsxTypeImport, `$&\n${browserCheckUtils}`)
       .replace(defineCustomElementImports, "")
       .replace(reactWrapperExports, patchedReactWrapperExports);
 
