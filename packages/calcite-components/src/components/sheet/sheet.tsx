@@ -96,9 +96,9 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
     onToggleOpenCloseComponent(this);
     if (value) {
-      this.openSheet();
+      this.openSheet(true);
     } else {
-      this.closeSheet();
+      this.closeSheet(true);
     }
   }
 
@@ -305,11 +305,12 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.el.removeEventListener("calciteSheetOpen", this.openEnd);
   };
 
-  private openSheet(): void {
+  private openSheet(ignoreOpenChange = false): void {
     if (this.ignoreOpenChange) {
       return;
     }
 
+    this.ignoreOpenChange = ignoreOpenChange;
     this.el.addEventListener("calciteSheetOpen", this.openEnd);
     this.open = true;
     this.opened = true;
@@ -330,7 +331,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.closeSheet();
   };
 
-  private closeSheet = async (): Promise<void> => {
+  private closeSheet = async (ignoreOpenChange = false): Promise<void> => {
     if (this.ignoreOpenChange) {
       return;
     }
@@ -349,7 +350,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
       }
     }
 
-    this.ignoreOpenChange = true;
+    this.ignoreOpenChange = ignoreOpenChange;
     this.open = false;
     this.opened = false;
     this.removeOverflowHiddenClass();

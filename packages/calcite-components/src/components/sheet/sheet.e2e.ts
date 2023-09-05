@@ -409,6 +409,31 @@ describe("calcite-sheet properties", () => {
       ]);
     });
 
+    it("emits when closing on click", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-sheet open></calcite-sheet>`);
+      const sheet = await page.find("calcite-sheet");
+
+      await page.waitForChanges();
+      expect(await sheet.isVisible()).toBe(true);
+
+      const beforeCloseSpy = await sheet.spyOnEvent("calciteSheetBeforeClose");
+      const closeSpy = await sheet.spyOnEvent("calciteSheetClose");
+      const sheetBeforeClose = page.waitForEvent("calciteSheetBeforeClose");
+      const sheetClose = page.waitForEvent("calciteSheetClose");
+
+      const scrim = await page.find(`calcite-sheet >>> .${CSS.scrim}`);
+      await scrim.click();
+
+      await sheetBeforeClose;
+      await sheetClose;
+
+      expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+      expect(closeSpy).toHaveReceivedEventTimes(1);
+
+      expect(await sheet.isVisible()).toBe(false);
+    });
+
     it("emits when set to open on initial render", async () => {
       const page = await newProgrammaticE2EPage();
 
