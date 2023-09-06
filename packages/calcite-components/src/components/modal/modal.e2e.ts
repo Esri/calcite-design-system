@@ -300,23 +300,47 @@ describe("opening and closing behavior", () => {
 
   it("emits when closing on click", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-modal open></calcite-modal>`);
+    await page.setContent(html`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
 
-    await page.waitForChanges();
-    expect(await modal.isVisible()).toBe(true);
-
+    const beforeOpenSpy = await modal.spyOnEvent("calciteModalBeforeOpen");
+    const openSpy = await modal.spyOnEvent("calciteModalOpen");
     const beforeCloseSpy = await modal.spyOnEvent("calciteModalBeforeClose");
     const closeSpy = await modal.spyOnEvent("calciteModalClose");
+
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(0);
+    expect(openSpy).toHaveReceivedEventTimes(0);
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+    expect(closeSpy).toHaveReceivedEventTimes(0);
+
+    expect(await modal.isVisible()).toBe(false);
+
+    const modalBeforeOpen = page.waitForEvent("calciteModalBeforeOpen");
+    const modalOpen = page.waitForEvent("calciteModalOpen");
+    modal.setProperty("open", true);
+    await page.waitForChanges();
+
+    await modalBeforeOpen;
+    await modalOpen;
+
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+    expect(closeSpy).toHaveReceivedEventTimes(0);
+
+    expect(await modal.isVisible()).toBe(true);
+
     const modalBeforeClose = page.waitForEvent("calciteModalBeforeClose");
     const modalClose = page.waitForEvent("calciteModalClose");
-
     const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
     await closeButton.click();
+    await page.waitForChanges();
 
     await modalBeforeClose;
     await modalClose;
 
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
     expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
     expect(closeSpy).toHaveReceivedEventTimes(1);
 

@@ -532,10 +532,6 @@ export class Modal
     this.open = false;
   };
 
-  /**
-   * Open the modal
-   *
-   */
   private openModal() {
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.opened = true;
@@ -560,10 +556,6 @@ export class Modal
     this.open = false;
   };
 
-  /**
-   * Close the modal, first running the `beforeClose` method
-   *
-   */
   closeModal = async (): Promise<void> => {
     if (this.beforeClose) {
       try {
