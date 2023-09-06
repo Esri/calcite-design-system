@@ -1,7 +1,5 @@
 export type FlowDirection = "advancing" | "retreating";
 
-export type FlowItemLikeElement = Pick<
-  HTMLCalciteFlowItemElement,
-  "beforeBack" | "menuOpen" | "setFocus" | "showBackButton"
-> &
-  HTMLElement;
+export type FlowItemLike = Pick<HTMLCalciteFlowItemElement, "beforeBack" | "menuOpen" | "setFocus" | "showBackButton">;
+
+export type FlowItemLikeElement = FlowItemLike & HTMLElement;
