@@ -18,3 +18,8 @@ export const CSS = {
   iconEnd: "icon--end",
   headerContainer: "header-container",
 };
+
+export const IDS = {
+  section: "section",
+  sectionToggle: "section-toggle",
+};

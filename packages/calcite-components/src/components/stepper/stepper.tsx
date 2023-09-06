@@ -15,6 +15,7 @@ import { focusElementInGroup } from "../../utils/dom";
 import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -40,6 +41,17 @@ export class Stepper {
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
 
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("icon")
+  @Watch("layout")
+  @Watch("numbered")
+  @Watch("scale")
+  handleItemPropChange(): void {
+    this.updateItems();
+  }
+
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
@@ -56,9 +68,6 @@ export class Stepper {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItem: HTMLCalciteStepperItemElement = null;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -86,6 +95,12 @@ export class Stepper {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.updateItems();
+  }
+
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
     if (typeof this.currentPosition !== "number") {
@@ -257,6 +272,17 @@ export class Stepper {
 
   /** keep track of the currently active item position */
   private currentPosition: number;
+
+  private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  private updateItems(): void {
+    this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
+      item.icon = this.icon;
+      item.numbered = this.numbered;
+      item.layout = this.layout;
+      item.scale = this.scale;
+    });
+  }
 
   //--------------------------------------------------------------------------
   //
