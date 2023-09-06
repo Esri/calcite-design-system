@@ -214,7 +214,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         onKeyDown={this.keyDownHandler}
       >
         <div class="container">
-          {this.complete && <span class="visually-hidden">{" Completed Step"}</span>}
+          {this.complete && <span class="visually-hidden">{"Completed Step"}</span>}
           <div
             class="stepper-item-header"
             tabIndex={
