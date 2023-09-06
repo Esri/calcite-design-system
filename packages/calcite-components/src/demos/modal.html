@@ -1092,6 +1092,22 @@
             Custom width and height preview
           </calcite-button>
         </div>
+
+        <!--
+        **************************************************
+        * beforeClose rejected
+        **************************************************
+        -->
+        <div class="child">
+          <calcite-modal id="js-modal-before-close">
+            <h3 slot="header">Test rejected beforeClose</h3>
+            <div slot="content">test</div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-modal>
+          <calcite-button onClick="openModal('#js-modal-before-close')" appearance="outline" scale="s">
+            beforeClose rejected
+          </calcite-button>
+        </div>
       </div>
 
       <!-- Magic code that makes every calcite link work -->
@@ -1100,6 +1116,11 @@
         const heightInput = document.querySelector("#css-modal-height-adjuster");
         const widthInput = document.querySelector("#css-modal-width-adjuster");
         const optionsSegmentedControl = document.querySelector("#css-modal-options-adjuster");
+        const beforeCloseRejected = document.getElementById("js-modal-before-close");
+
+        beforeCloseRejected.beforeClose = () => {
+          return new Promise((_resolve, reject) => setTimeout(reject, 300));
+        };
 
         heightInput.addEventListener("calciteInputInput", (event) => {
           customSizeModal.style.setProperty("--calcite-modal-height", event.target.value);
