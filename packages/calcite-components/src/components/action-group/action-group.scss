@@ -17,7 +17,7 @@
 }
 
 .container {
-  @apply flex flex-col;
+  @apply flex flex-col flex-grow;
 }
 
 :host([columns="1"]) {
