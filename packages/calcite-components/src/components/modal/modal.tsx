@@ -349,6 +349,8 @@ export class Modal
   //
   //--------------------------------------------------------------------------
 
+  ignoreOpenChange = false;
+
   @Element() el: HTMLCalciteModalElement;
 
   modalContent: HTMLDivElement;
@@ -501,6 +503,10 @@ export class Modal
 
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
+    if (this.ignoreOpenChange) {
+      return;
+    }
+
     onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
@@ -559,7 +565,9 @@ export class Modal
       } catch (_error) {
         // close prevented
         requestAnimationFrame(() => {
+          this.ignoreOpenChange = true;
           this.open = true;
+          this.ignoreOpenChange = false;
         });
         return;
       }
