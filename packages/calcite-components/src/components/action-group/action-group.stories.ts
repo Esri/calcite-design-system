@@ -11,6 +11,17 @@ export default {
   ...storyFilters(),
 };
 
+export const honorsFlexGrow = (): string => html`<style>
+    calcite-action {
+      flex-grow: 1;
+    }
+  </style>
+  <calcite-action-group style="width:600px" layout="horizontal">
+    <calcite-action icon="bell" alignment="center"></calcite-action>
+    <calcite-action icon="biking" alignment="center"></calcite-action>
+    <calcite-action icon="bluetooth" alignment="center"></calcite-action>
+  </calcite-action-group>`;
+
 export const gridCenteringOfActionsInAGroup = (): string => html`
   <div style="width:400px">
     <calcite-action-group layout="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
