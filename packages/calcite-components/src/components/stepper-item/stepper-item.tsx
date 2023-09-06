@@ -12,7 +12,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale } from "../interfaces";
 import {
   connectInteractive,
@@ -210,11 +209,12 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   render(): VNode {
     return (
       <Host
-        aria-expanded={toAriaBoolean(this.selected)}
+        aria-current={this.selected ? "step" : "false"}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
       >
         <div class="container">
+          {this.complete && <span class="visually-hidden">{" Completed Step"}</span>}
           <div
             class="stepper-item-header"
             tabIndex={

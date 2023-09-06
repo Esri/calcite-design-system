@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -112,17 +113,19 @@ export class Stepper {
 
   render(): VNode {
     return (
-      <slot
-        onSlotchange={(event: Event) => {
-          const items = (event.currentTarget as HTMLSlotElement)
-            .assignedElements()
-            .filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
-          const spacing = Array(items.length).fill("1fr").join(" ");
-          this.el.style.gridTemplateAreas = spacing;
-          this.el.style.gridTemplateColumns = spacing;
-          this.setStepperItemNumberingSystem();
-        }}
-      />
+      <Host aria-label="progress step indicator">
+        <slot
+          onSlotchange={(event: Event) => {
+            const items = (event.currentTarget as HTMLSlotElement)
+              .assignedElements()
+              .filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
+            const spacing = Array(items.length).fill("1fr").join(" ");
+            this.el.style.gridTemplateAreas = spacing;
+            this.el.style.gridTemplateColumns = spacing;
+            this.setStepperItemNumberingSystem();
+          }}
+        />
+      </Host>
     );
   }
 
