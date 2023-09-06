@@ -17,6 +17,7 @@ import {
   dateFromISO,
   dateFromLocalizedString,
   dateFromRange,
+  datePartsFromISO,
   datePartsFromLocalizedString,
   dateToISO,
   inRange,
@@ -57,6 +58,7 @@ import {
 } from "../../utils/loadable";
 import {
   connectLocalized,
+  defaultNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
@@ -77,6 +79,7 @@ import {
 } from "../../utils/focusTrapComponent";
 import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
+import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -1000,10 +1003,17 @@ export class InputDatePicker
         )
       : null;
 
+    const formattingOptions = {
+      // we explicitly set numberingSystem to prevent the browser-inferred value
+      // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
+      numberingSystem: defaultNumberingSystem,
+    };
+
     const localizedDate =
-      date && this.formatNumerals(date.toLocaleDateString(this.effectiveLocale));
+      date && this.formatNumerals(date.toLocaleDateString(this.effectiveLocale, formattingOptions));
     const localizedEndDate =
-      endDate && this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale));
+      endDate &&
+      this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale, formattingOptions));
 
     this.setInputValue(localizedDate ?? "", "start");
     this.setInputValue((this.range && localizedEndDate) ?? "", "end");
@@ -1027,9 +1037,16 @@ export class InputDatePicker
     const valueIsArray = Array.isArray(valueAsDate);
 
     const newStartDate = valueIsArray ? valueAsDate[0] : null;
-    const newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    let newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    if (newStartDateISO) {
+      newStartDateISO = this.getNormalizedDate(newStartDateISO);
+    }
+
     const newEndDate = valueIsArray ? valueAsDate[1] : null;
-    const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
+    let newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
+    if (newEndDateISO) {
+      newEndDateISO = this.getNormalizedDate(newEndDateISO);
+    }
 
     const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";
 
@@ -1061,7 +1078,8 @@ export class InputDatePicker
     }
 
     const oldValue = this.value;
-    const newValue = dateToISO(value as Date);
+    let newValue = dateToISO(value as Date);
+    newValue = this.getNormalizedDate(newValue);
 
     if (newValue === oldValue) {
       return;
@@ -1110,4 +1128,18 @@ export class InputDatePicker
           )
           .join("")
       : "";
+
+  private getNormalizedDate(value: string): string {
+    if (!value) {
+      return "";
+    }
+
+    if (!isTwoDigitYear(value)) {
+      return value;
+    }
+
+    const { day, month, year } = datePartsFromISO(value);
+    const normalizedYear = normalizeToCurrentCentury(Number(year));
+    return `${normalizedYear}-${month}-${day}`;
+  }
 }

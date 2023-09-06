@@ -488,10 +488,30 @@ export const clearDisabled_TestOnly = (): string => html`
     <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
   </calcite-combobox>
   <br />
-  <calcite-combobox clear-disabled selection-mode="ancestors">
-    <calcite-combobox-item value="parent" text-label="parent" style="width:400px">
+  <calcite-combobox clear-disabled selection-mode="ancestors" style="width:400px">
+    <calcite-combobox-item value="parent" text-label="parent">
       <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
       <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
     </calcite-combobox-item>
+  </calcite-combobox>
+`;
+
+export const openInAllScales_TestOnly = (): string => html`
+  <calcite-combobox open scale="s">
+    <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+  <br />
+  <calcite-combobox open scale="m">
+    <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+  <br />
+  <calcite-combobox open scale="l">
+    <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
   </calcite-combobox>
 `;
