@@ -103,4 +103,21 @@ describe("calcite-input-time-zone", () => {
 
     expect(await timeZoneItem.getProperty("textLabel")).toMatch("GMT-6");
   });
+
+  it("does not allow users to deselect a timezone offset", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(html`<calcite-input-time-zone value="-360" open></calcite-input-time-zone>`);
+    await page.waitForChanges();
+
+    let selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+    await selectedTimeZoneItem.click();
+    await page.waitForChanges();
+
+    selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+    const input = await page.find("calcite-input-time-zone");
+
+    expect(await input.getProperty("value")).toBe("-360");
+    expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch("GMT-6");
+  });
 });
