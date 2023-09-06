@@ -133,6 +133,41 @@ describe("calcite-list-item", () => {
     expect(eventSpy).toHaveReceivedEventTimes(1);
   });
 
+  it("does not emit calciteListItemSelect on Enter within action slots", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-list-item selection-mode="single" label="hello" description="world" active><calcite-action
+      appearance="transparent"
+      icon="banana"
+      text="menu"
+      label="menu"
+      slot="filter-actions-start"
+    ></calcite-action>
+    <calcite-action
+      appearance="transparent"
+      icon="sort-ascending"
+      text="menu"
+      label="menu"
+      slot="filter-actions-end"
+    ></calcite-action></calcite-list-item>`,
+    });
+
+    await page.waitForChanges();
+
+    const eventSpy = await page.spyOnEvent("calciteListItemSelect");
+
+    const actionsStart = await page.find(`calcite-list-item >>> .${CSS.actionsStart}`);
+    await actionsStart.focus();
+    await page.keyboard.press("Enter");
+
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+
+    const actionsEnd = await page.find(`calcite-list-item >>> .${CSS.actionsEnd}`);
+    await actionsEnd.focus();
+    await page.keyboard.press("Enter");
+
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+  });
+
   it("emits calciteListItemSelect on click", async () => {
     const page = await newE2EPage({
       html: `<calcite-list-item selection-mode="single" label="hello" description="world"></calcite-list-item>`,
