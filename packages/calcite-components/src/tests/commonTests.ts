@@ -1381,7 +1381,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   }
 }
 
-interface userInputDevice {
+interface UserInputDevice {
   /**
    * Function argument to simulate user input (mouse or keyboard), to open the component.
    */
@@ -1391,6 +1391,23 @@ interface userInputDevice {
    * Function argument to simulate user input (mouse or keyboard), to close the component.
    */
   close: (page: E2EPage) => Promise<void>;
+}
+
+interface OpenCloseOptions {
+  /**
+   * Indicates the initial value of the toggle property to determine whether to configure a `simplePageSetup` or `newProgrammaticE2EPage`.
+   */
+  initialToggleValue?: boolean;
+
+  /**
+   * Toggle property to test. Currently, either "open" or "expanded".
+   */
+  toggleProp?: string;
+
+  /**
+   * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
+   */
+  userInputDevice?: UserInputDevice;
 }
 
 /**
@@ -1413,18 +1430,17 @@ interface userInputDevice {
  *  });
  * })
  *
- * @param componentTagOrHTML - the component tag or HTML markup to test against
- * @param toggleProp - Toggle property to test. Currently, either "open" or "expanded".
- * @param initialToggleValue - Indicates the initial value of the toggle property to determine whether to configure a `simplePageSetup` or `newProgrammaticE2EPage`.
- * @param userInputDevice - Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
+ * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param {object} [options] - Additional options to assert.
  */
 
-export async function openClose(
-  componentTagOrHTML: TagOrHTML,
-  toggleProp = "open",
-  initialToggleValue = false,
-  userInputDevice?: userInputDevice
-): Promise<void> {
+export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): Promise<void> {
+  const defaultOptions: OpenCloseOptions = {
+    initialToggleValue: false,
+    toggleProp: "open",
+  };
+  const customizedOptions = { ...defaultOptions, ...options };
+
   type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
   const eventSequence = await setupEventSequence(componentTagOrHTML);
 
@@ -1448,12 +1464,12 @@ export async function openClose(
   };
 
   async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
-    initialToggleValue
+    customizedOptions.initialToggleValue
       ? await page.evaluate(() => {
           addEventListeners();
 
-          const component = document.createElement(componentTagOrHTML) as any;
-          component["open"] = true;
+          const component = document.createElement(componentTagOrHTML);
+          component[customizedOptions.toggleProp] = true;
 
           document.body.append(component);
         })
@@ -1474,10 +1490,10 @@ export async function openClose(
       eventSequence.map(async (event) => await element.spyOnEvent(event))
     );
 
-    if (userInputDevice) {
-      await userInputDevice.open(page);
+    if (customizedOptions.userInputDevice) {
+      await customizedOptions.userInputDevice.open(page);
     } else {
-      element.setProperty(toggleProp, true);
+      element.setProperty(customizedOptions.toggleProp, true);
     }
 
     await page.waitForChanges();
@@ -1490,7 +1506,12 @@ export async function openClose(
     expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
     expect(closeSpy).toHaveReceivedEventTimes(0);
 
-    userInputDevice ? await userInputDevice.close(page) : element.setProperty(toggleProp, false);
+    if (customizedOptions.userInputDevice) {
+      await customizedOptions.userInputDevice.close(page);
+    } else {
+      element.setProperty(customizedOptions.toggleProp, false);
+    }
+
     await page.waitForChanges();
 
     await beforeCloseEvent;

@@ -57,11 +57,7 @@ describe("calcite-input-date-picker", () => {
   });
 
   describe("openClose", () => {
-    openClose(
-      `<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`,
-      "open",
-      false
-    );
+    openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
   });
 
   it.skip("supports t9n", () => t9n("calcite-input-date-picker"));

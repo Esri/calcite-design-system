@@ -75,7 +75,7 @@ describe("calcite-dropdown", () => {
     });
 
     describe("openClose", () => {
-      openClose(simpleDropdownHTML, "open", false);
+      openClose(simpleDropdownHTML);
     });
 
     interface SelectedItemsAssertionOptions {
