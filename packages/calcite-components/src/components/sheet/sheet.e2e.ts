@@ -411,23 +411,47 @@ describe("calcite-sheet properties", () => {
 
     it("emits when closing on click", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-sheet open></calcite-sheet>`);
+      await page.setContent(html`<calcite-sheet></calcite-sheet>`);
       const sheet = await page.find("calcite-sheet");
 
-      await page.waitForChanges();
-      expect(await sheet.isVisible()).toBe(true);
-
+      const beforeOpenSpy = await sheet.spyOnEvent("calciteSheetBeforeOpen");
+      const openSpy = await sheet.spyOnEvent("calciteSheetOpen");
       const beforeCloseSpy = await sheet.spyOnEvent("calciteSheetBeforeClose");
       const closeSpy = await sheet.spyOnEvent("calciteSheetClose");
+
+      expect(beforeOpenSpy).toHaveReceivedEventTimes(0);
+      expect(openSpy).toHaveReceivedEventTimes(0);
+      expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+      expect(closeSpy).toHaveReceivedEventTimes(0);
+
+      expect(await sheet.isVisible()).toBe(false);
+
+      const sheetBeforeOpen = page.waitForEvent("calciteSheetBeforeOpen");
+      const sheetOpen = page.waitForEvent("calciteSheetOpen");
+      sheet.setProperty("open", true);
+      await page.waitForChanges();
+
+      await sheetBeforeOpen;
+      await sheetOpen;
+
+      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+      expect(openSpy).toHaveReceivedEventTimes(1);
+      expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+      expect(closeSpy).toHaveReceivedEventTimes(0);
+
+      expect(await sheet.isVisible()).toBe(true);
+
       const sheetBeforeClose = page.waitForEvent("calciteSheetBeforeClose");
       const sheetClose = page.waitForEvent("calciteSheetClose");
-
       const scrim = await page.find(`calcite-sheet >>> .${CSS.scrim}`);
       await scrim.click();
+      await page.waitForChanges();
 
       await sheetBeforeClose;
       await sheetClose;
 
+      expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+      expect(openSpy).toHaveReceivedEventTimes(1);
       expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
       expect(closeSpy).toHaveReceivedEventTimes(1);
 
