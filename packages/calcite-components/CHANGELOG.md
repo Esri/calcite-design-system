@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0-next.1...@esri/calcite-components@1.8.0-next.2) (2023-09-06)
+
+### Bug Fixes
+
+- **action-group:** Honor flex-grow on slotted actions ([#7690](https://github.com/Esri/calcite-design-system/issues/7690)) ([0777234](https://github.com/Esri/calcite-design-system/commit/0777234511cfaf3deead780269f7e8ac57ad91fa)), closes [#7687](https://github.com/Esri/calcite-design-system/issues/7687)
+
 ## [1.8.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0-next.0...@esri/calcite-components@1.8.0-next.1) (2023-09-06)
 
 ### Bug Fixes
