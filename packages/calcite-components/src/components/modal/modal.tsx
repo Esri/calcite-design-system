@@ -172,7 +172,6 @@ export class Modal
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      onToggleOpenCloseComponent(this);
       requestAnimationFrame(() => this.openModal());
     }
   }
@@ -502,18 +501,25 @@ export class Modal
   }
 
   @Watch("open")
-  async toggleModal(value: boolean): Promise<void> {
+  toggleModal(value: boolean): void {
     if (this.ignoreOpenChange) {
       return;
     }
 
+    if (value) {
+      this.openModal();
+    } else {
+      this.closeModal();
+    }
+  }
+
+  @Watch("opened")
+  handleOpenedChange(value: boolean): void {
     onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
-      this.openModal();
     } else {
       this.transitionEl?.classList.add(CSS.closingIdle);
-      this.closeModal();
     }
   }
 
