@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Fractional second",
+  "fractionalSecondDown": "Decrease fractional second",
+  "fractionalSecondUp": "Increase fractional second",
   "hour": "時間",
   "hourDown": "時間を減らす",
   "hourUp": "時間を増やす",

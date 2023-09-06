@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Fractional second",
+  "fractionalSecondDown": "Decrease fractional second",
+  "fractionalSecondUp": "Increase fractional second",
   "hour": "시간",
   "hourDown": "시간 감소",
   "hourUp": "시간 증가",
