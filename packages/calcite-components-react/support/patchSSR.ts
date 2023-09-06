@@ -37,7 +37,7 @@ const reactWrapperExports = /createReactComponent<(.*)>.*\('([\w|-]*)'(.*)(defin
 
 // The patched version of the createReactComponent export using capture groups to fill in the blanks.
 const patchedReactWrapperExports =
-  "createReactComponent<$1>('$2'$3() => isBrowser && !isNode ? async () => (await import('@esri/calcite-components/dist/components/$2.js')).defineCustomElement() : undefined)";
+  "createReactComponent<$1>('$2'$3isBrowser && !isNode ? async () => (await import('@esri/calcite-components/dist/components/$2.js')).defineCustomElement() : undefined)";
 
 // The isBrowser and isNode utils are placed below this line
 const jsxTypeImport = "import type { JSX } from '@esri/calcite-components/dist/components';";
