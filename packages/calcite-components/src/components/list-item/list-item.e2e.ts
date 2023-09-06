@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-list-item", () => {
   describe("renders", () => {
@@ -134,22 +135,23 @@ describe("calcite-list-item", () => {
   });
 
   it("does not emit calciteListItemSelect on Enter within action slots", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-list-item selection-mode="single" label="hello" description="world" active><calcite-action
-      appearance="transparent"
-      icon="banana"
-      text="menu"
-      label="menu"
-      slot="filter-actions-start"
-    ></calcite-action>
-    <calcite-action
-      appearance="transparent"
-      icon="sort-ascending"
-      text="menu"
-      label="menu"
-      slot="filter-actions-end"
-    ></calcite-action></calcite-list-item>`,
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list-item selection-mode="single" label="hello" description="world" active
+      ><calcite-action
+        appearance="transparent"
+        icon="banana"
+        text="menu"
+        label="menu"
+        slot="filter-actions-start"
+      ></calcite-action>
+      <calcite-action
+        appearance="transparent"
+        icon="sort-ascending"
+        text="menu"
+        label="menu"
+        slot="filter-actions-end"
+      ></calcite-action
+    ></calcite-list-item>`);
 
     await page.waitForChanges();
 
