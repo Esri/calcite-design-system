@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.1-next.2...@esri/calcite-components@1.8.0-next.0) (2023-09-05)
+
+### Features
+
+- **flow:** split up custom flow item interfaces ([#7666](https://github.com/Esri/calcite-design-system/issues/7666)) ([6c22e7c](https://github.com/Esri/calcite-design-system/commit/6c22e7c60525385550ecd76a19abfe58f729f5bf)), closes [#7608](https://github.com/Esri/calcite-design-system/issues/7608)
+
+### Bug Fixes
+
+- **time-picker:** focus corresponding input when nudge buttons are clicked ([#7650](https://github.com/Esri/calcite-design-system/issues/7650)) ([9c7d846](https://github.com/Esri/calcite-design-system/commit/9c7d846fc376cc50726dc6662b99afe466021a54)), closes [#7533](https://github.com/Esri/calcite-design-system/issues/7533)
+
+## [1.7.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.1-next.1...@esri/calcite-components@1.7.1-next.2) (2023-09-05)
+
+### Bug Fixes
+
+- **input-time-zone:** prevent items from being deselected ([#7661](https://github.com/Esri/calcite-design-system/issues/7661)) ([c2dd436](https://github.com/Esri/calcite-design-system/commit/c2dd4368c2707dcfdfeafb85d80e2f48706e0354)), closes [#7530](https://github.com/Esri/calcite-design-system/issues/7530)
+
 ## [1.7.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.1-next.0...@esri/calcite-components@1.7.1-next.1) (2023-09-02)
 
 ### Bug Fixes
