@@ -349,8 +349,6 @@ export class Modal
   //
   //--------------------------------------------------------------------------
 
-  ignoreOpenChange = false;
-
   @Element() el: HTMLCalciteModalElement;
 
   modalContent: HTMLDivElement;
@@ -405,7 +403,7 @@ export class Modal
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
     if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.closeModal();
+      this.open = false;
       event.preventDefault();
     }
   }
@@ -503,18 +501,13 @@ export class Modal
 
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
-    if (this.ignoreOpenChange) {
-      this.ignoreOpenChange = false;
-      return;
-    }
-
     onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
-      this.openModal(true);
+      this.openModal();
     } else {
       this.transitionEl?.classList.add(CSS.closingIdle);
-      this.closeModal(true);
+      this.closeModal();
     }
   }
 
@@ -524,18 +517,15 @@ export class Modal
   };
 
   private handleCloseClick = () => {
-    this.closeModal();
+    this.open = false;
   };
 
   /**
    * Open the modal
    *
-   * @param ignoreOpenChange - Ignores the open watcher.
    */
-  private openModal(ignoreOpenChange = false) {
-    this.ignoreOpenChange = ignoreOpenChange;
+  private openModal() {
     this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.open = true;
     this.opened = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
@@ -555,30 +545,26 @@ export class Modal
       return;
     }
 
-    this.closeModal();
+    this.open = false;
   };
 
   /**
    * Close the modal, first running the `beforeClose` method
    *
-   * @param ignoreOpenChange - Ignores the open watcher.
    */
-  closeModal = async (ignoreOpenChange = false): Promise<void> => {
+  closeModal = async (): Promise<void> => {
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
       } catch (_error) {
         // close prevented
         requestAnimationFrame(() => {
-          this.ignoreOpenChange = true;
           this.open = true;
         });
         return;
       }
     }
 
-    this.ignoreOpenChange = ignoreOpenChange;
-    this.open = false;
     this.opened = false;
     this.removeOverflowHiddenClass();
   };
