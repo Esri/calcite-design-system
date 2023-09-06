@@ -419,15 +419,51 @@ For such cases, the following pattern will enable developers to create custom ch
 #### Parent component
 
 - Must provide a `customItemSelectors` property to allow querying for custom elements in addition to their expected children.
-- An interface for `HTML<ChildComponentItem>Element` must be created in the parent's `interfaces.d.ts` file, where the necessary child APIs must be extracted.
-  **`parent/interfaces.d.ts`**
-  ```ts
-  type ChildComponentLike = Pick<HTMLCalciteChildElement, "required" | "props" | "from" | "parent"> & HTMLElement;
-  ```
-  **`parent/parent.tsx`**
-  ```tsx
-    @Prop() selectedItem: HTMLChildComponentElement | ChildComponentLike;
-  ```
+- An interface for the class (used by custom item classes) and element (used by parent component APIs) must be created in the parent's `interfaces.d.ts` file, where the necessary child APIs must be extracted.
+
+**Example**
+
+**`parent/interfaces.d.ts`**
+
+```ts
+type ChildComponentLike = Pick<Components.CalciteChild, "required" | "props" | "from" | "parent">;
+type ChildComponentLikeElement = ChilcComponentLike & HTMLElement;
+```
+
+**`parent/parent.tsx`**
+
+```tsx
+  @Prop() selectedItem: HTMLChildComponentElement | ChildComponentLikeElement;
+```
+
+**`custom-item/custom-item.tsx`**
+
+```tsx
+export class CustomItem implements ChildComponentLike {
+  private childComponentEl: HTMLChildComponentLikeElement;
+
+  @Prop() required: boolean;
+  @Prop() props: string;
+  @Prop() from: number;
+
+  @Method() async parent(): Promise<string> {
+    await this.childComponentEl.parent();
+  }
+
+  render(): VNode {
+    return (
+      <Host>
+        <child-component
+          required={this.required}
+          props={this.props}
+          from={this.from}
+          ref={(el) => (this.childComponentEl = el)}
+        />
+      </Host>
+    );
+  }
+}
+```
 
 #### Custom child component
 
