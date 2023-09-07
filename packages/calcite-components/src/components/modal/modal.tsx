@@ -172,7 +172,6 @@ export class Modal
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      onToggleOpenCloseComponent(this);
       requestAnimationFrame(() => this.openModal());
     }
   }
@@ -290,7 +289,7 @@ export class Modal
         aria-label={this.messages.close}
         class={CSS.close}
         key="button"
-        onClick={this.closeModal}
+        onClick={this.handleCloseClick}
         title={this.messages.close}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
@@ -405,7 +404,7 @@ export class Modal
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
     if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.closeModal();
+      this.open = false;
       event.preventDefault();
     }
   }
@@ -502,18 +501,25 @@ export class Modal
   }
 
   @Watch("open")
-  async toggleModal(value: boolean): Promise<void> {
+  toggleModal(value: boolean): void {
     if (this.ignoreOpenChange) {
       return;
     }
 
+    if (value) {
+      this.openModal();
+    } else {
+      this.closeModal();
+    }
+  }
+
+  @Watch("opened")
+  handleOpenedChange(value: boolean): void {
     onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
-      this.openModal();
     } else {
       this.transitionEl?.classList.add(CSS.closingIdle);
-      this.closeModal();
     }
   }
 
@@ -522,15 +528,12 @@ export class Modal
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
   };
 
-  /** Open the modal */
-  private openModal() {
-    if (this.ignoreOpenChange) {
-      return;
-    }
+  private handleCloseClick = () => {
+    this.open = false;
+  };
 
-    this.ignoreOpenChange = true;
+  private openModal() {
     this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.open = true;
     this.opened = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
@@ -543,7 +546,6 @@ export class Modal
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
-    this.ignoreOpenChange = false;
   }
 
   private handleOutsideClose = (): void => {
@@ -551,15 +553,10 @@ export class Modal
       return;
     }
 
-    this.closeModal();
+    this.open = false;
   };
 
-  /** Close the modal, first running the `beforeClose` method */
   closeModal = async (): Promise<void> => {
-    if (this.ignoreOpenChange) {
-      return;
-    }
-
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
@@ -574,11 +571,8 @@ export class Modal
       }
     }
 
-    this.ignoreOpenChange = true;
-    this.open = false;
     this.opened = false;
     this.removeOverflowHiddenClass();
-    this.ignoreOpenChange = false;
   };
 
   private removeOverflowHiddenClass(): void {
