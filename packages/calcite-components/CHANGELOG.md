@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0-next.1...@esri/calcite-components@1.8.0-next.2) (2023-09-06)
+
+### Bug Fixes
+
+- **action-group:** Honor flex-grow on slotted actions ([#7690](https://github.com/Esri/calcite-design-system/issues/7690)) ([0777234](https://github.com/Esri/calcite-design-system/commit/0777234511cfaf3deead780269f7e8ac57ad91fa)), closes [#7687](https://github.com/Esri/calcite-design-system/issues/7687)
+
+## [1.8.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0-next.0...@esri/calcite-components@1.8.0-next.1) (2023-09-06)
+
+### Bug Fixes
+
+- **input-date-picker:** apply default numbering system to avoid browser inferring from locale ([#7682](https://github.com/Esri/calcite-design-system/issues/7682)) ([3e1ed2d](https://github.com/Esri/calcite-design-system/commit/3e1ed2dedeea09a6118e2f639201f5861dd492fd)), closes [#7529](https://github.com/Esri/calcite-design-system/issues/7529)
+- **list-item:** Do not call preventDefault on enter key within slotted actions ([#7684](https://github.com/Esri/calcite-design-system/issues/7684)) ([c3261f0](https://github.com/Esri/calcite-design-system/commit/c3261f00f9a65f31f09e61f8b5c0c1ba24d5dae2)), closes [#7676](https://github.com/Esri/calcite-design-system/issues/7676)
+- **list:** remove unnecessary z-index ([#7678](https://github.com/Esri/calcite-design-system/issues/7678)) ([1f4cd97](https://github.com/Esri/calcite-design-system/commit/1f4cd978faf0415f9bc7319f557835ea206fbcb9)), closes [#7599](https://github.com/Esri/calcite-design-system/issues/7599)
+- **modal:** calciteModalClose should emit on close button click ([#7680](https://github.com/Esri/calcite-design-system/issues/7680)) ([796bf90](https://github.com/Esri/calcite-design-system/commit/796bf90cacd68595a108f39e2a66bcc5d71de0e9)), closes [#7655](https://github.com/Esri/calcite-design-system/issues/7655)
+- **sheet:** calciteSheetClose should emit on scrim click ([#7685](https://github.com/Esri/calcite-design-system/issues/7685)) ([6ae963e](https://github.com/Esri/calcite-design-system/commit/6ae963ede66845802c0fa79f42e5ccf234d98246)), closes [#7681](https://github.com/Esri/calcite-design-system/issues/7681) [#7680](https://github.com/Esri/calcite-design-system/issues/7680)
+
 ## [1.8.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.1-next.2...@esri/calcite-components@1.8.0-next.0) (2023-09-05)
 
 ### Features
