@@ -18,7 +18,7 @@ describe("calcite-tab", () => {
     defaults("calcite-tab", [
       { propertyName: "tab", defaultValue: undefined },
       { propertyName: "selected", defaultValue: false },
-      { propertyName: "scale", defaultValue: undefined },
+      { propertyName: "scale", defaultValue: "m" },
     ]);
   });
 
@@ -28,7 +28,7 @@ describe("calcite-tab", () => {
         html: `<calcite-tabs>${tabHtml}</calcite-tabs>`,
       });
       const element = await page.find("calcite-tab");
-      expect(element).toEqualAttribute("scale", "m");
+      expect(await element.getProperty("scale")).toBe("m");
       expect(await (await element.getComputedStyle())["font-size"]).toEqual("14px");
       expect(await (await element.getComputedStyle())["line-height"]).toEqual("16px"); // 1rem
     });
@@ -39,7 +39,7 @@ describe("calcite-tab", () => {
           html: `<calcite-tabs scale="s">${tabHtml}</calcite-tabs>`,
         });
         const element = await page.find("calcite-tab");
-        expect(element).toEqualAttribute("scale", "s");
+        expect(await element.getProperty("scale")).toBe("s");
         expect(await (await element.getComputedStyle())["font-size"]).toEqual("12px");
         expect(await (await element.getComputedStyle())["line-height"]).toEqual("16px"); // 1rem
       });
@@ -51,7 +51,7 @@ describe("calcite-tab", () => {
           html: `<calcite-tabs scale="l">${tabHtml}</calcite-tabs>`,
         });
         const element = await page.find("calcite-tab");
-        expect(element).toEqualAttribute("scale", "l");
+        expect(await element.getProperty("scale")).toBe("l");
         expect(await (await element.getComputedStyle())["font-size"]).toEqual("16px");
         expect(await (await element.getComputedStyle())["line-height"]).toEqual("20px"); // 1.25rem
       });
