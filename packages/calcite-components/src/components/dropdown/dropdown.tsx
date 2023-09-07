@@ -50,7 +50,6 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
-import { updateElementAria } from "../../utils/updateElementAria";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -247,16 +246,7 @@ export class Dropdown
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setReferenceEl}
         >
-          <slot
-            aria-controls={`${guid}-menu`}
-            aria-expanded={toAriaBoolean(open)}
-            aria-haspopup="menu"
-            name={SLOTS.dropdownTrigger}
-            onSlotchange={this.updateTriggers}
-            {...{
-              "aria-label": this.label,
-            }}
-          />
+          <slot name={SLOTS.dropdownTrigger} onSlotchange={this.updateTriggers} />
         </div>
         <div
           class="calcite-dropdown-wrapper"
@@ -405,9 +395,7 @@ export class Dropdown
 
     if (focusTarget) {
       this.triggers.forEach((trigger) => {
-        updateElementAria(trigger, {
-          "aria-activedescendant": focusTarget.id,
-        });
+        trigger.setAttribute("aria-activedescendant", focusTarget.id);
       });
     }
 
@@ -441,9 +429,7 @@ export class Dropdown
       newSelection = newSelection.filter((id) => id);
       newSelection = newSelection.length > 1 ? newSelection : [];
 
-      updateElementAria(trigger, {
-        "aria-labeledby": newSelection.join(" "),
-      });
+      trigger.setAttribute("aria-labeledby", newSelection.join(" "));
     });
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
@@ -515,9 +501,22 @@ export class Dropdown
   };
 
   updateTriggers = (event: Event): void => {
+    const ariaAttributes = {
+      "aria-label": this.label,
+      "aria-expanded": toAriaBoolean(this.open),
+      "aria-haspopup": "menu",
+    };
+
     this.triggers = (event.target as HTMLSlotElement).assignedElements({
       flatten: true,
     }) as HTMLElement[];
+
+    this.triggers.forEach((trigger) => {
+      for (const ariaAttribute in ariaAttributes) {
+        const attributeValue = ariaAttributes[ariaAttribute];
+        trigger.setAttribute(ariaAttribute, attributeValue);
+      }
+    });
 
     this.reposition(true);
   };
@@ -538,8 +537,12 @@ export class Dropdown
     const groups = (event.target as HTMLSlotElement)
       .assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
-
+    const groupIds = groups.map((group) => group.id);
     this.groups = groups;
+
+    this.triggers.forEach((trigger) => {
+      trigger.setAttribute("aria-controls", groupIds.join(" "));
+    });
 
     this.updateItems();
   };
