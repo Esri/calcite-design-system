@@ -7,16 +7,13 @@
 @import "host";
 @import "spacing";
 @import "floating-ui";
+@import "sortable";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
   #{$scope} #{$tag}::slotted([slot="#{$selector}"]) {
     @content;
   }
-}
-
-:host([hidden]) {
-  display: none;
 }
 
 @mixin word-break() {
@@ -72,6 +69,16 @@
   :host([calcite-hydrated-hidden]) {
     visibility: hidden !important; // 'important' is being used here to temporarily handle precendence of visibility set with calcite-hydrated. Do not follow this pattern. See #991.
     pointer-events: none;
+  }
+}
+
+@mixin base-component() {
+  :host([hidden]) {
+    @apply hidden;
+  }
+
+  [hidden] {
+    @apply hidden;
   }
 }
 

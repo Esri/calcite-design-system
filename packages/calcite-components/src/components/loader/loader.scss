@@ -84,7 +84,10 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   block-size: var(--calcite-loader-size);
   inset-inline-start: 50%;
   margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
-  transform: scale(1, 1);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: scaleDuration(--calcite-internal-animation-timing-slow, 6.66);
+  animation-name: loader-clockwise;
 }
 
 .loader__svg {
@@ -94,7 +97,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   block-size: var(--calcite-loader-size);
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  animation-name: loader-clockwise;
 }
 
 // in newer browsers use the stroke-dash-offset animation as it looks better
@@ -113,6 +115,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 :host([type="determinate"]) {
   @apply animate-none;
   stroke: var(--calcite-ui-border-3);
+  .loader__svgs {
+    @apply animate-none;
+  }
   .loader__svg--3 {
     @apply animate-none;
     stroke: var(--calcite-ui-brand);
@@ -176,9 +181,10 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   - duration  how long the segment takes to rotate 360° (seconds)
 */
 @mixin generateSegment($i, $size, $growth, $duration) {
-  $circumference: calc($loader-circumference / $loader-scale) * 100%;
+  $circumference: calc($loader-circumference / $loader-scale) * 100;
   $length: ($size * 0.01) * $circumference;
   $end: $length + ($growth * 0.01) * $circumference;
+
   .loader__svg--#{$i} {
     stroke-dasharray: $length $circumference - $end;
     animation-duration: $duration;
@@ -199,9 +205,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-@include generateSegment(1, 10, 40, scaleDuration(--calcite-internal-animation-timing-slow, 2.4));
-@include generateSegment(2, 20, 30, scaleDuration(--calcite-internal-animation-timing-slow, 3.2));
-@include generateSegment(3, 05, 45, scaleDuration(--calcite-internal-animation-timing-slow, 3.867));
+@include generateSegment(1, 10, 40, scaleDuration(--calcite-internal-animation-timing-slow, 4.8));
+@include generateSegment(2, 20, 30, scaleDuration(--calcite-internal-animation-timing-slow, 6.4));
+@include generateSegment(3, 05, 45, scaleDuration(--calcite-internal-animation-timing-slow, 7.734));
 
 @keyframes loader-color-shift {
   0% {
@@ -219,10 +225,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 @keyframes loader-clockwise {
-  0% {
-    transform: rotate(0deg);
-  }
   100% {
     transform: rotate(360deg);
   }
 }
+
+@include base-component();

@@ -64,3 +64,5 @@
 :host([status][scale="l"]) {
   @apply text-n1h mt-1;
 }
+
+@include base-component();

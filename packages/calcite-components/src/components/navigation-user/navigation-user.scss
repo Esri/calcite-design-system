@@ -3,12 +3,12 @@
   & .button {
     background-color: transparent;
     border: none;
-    @apply flex 
+    @apply flex
       m-0
-      items-center 
+      items-center
       justify-center
-      cursor-pointer 
-      transition-default 
+      cursor-pointer
+      transition-default
       focus-base
       font-sans
       text-0h;
@@ -43,16 +43,16 @@ calcite-avatar ~ .text-container {
 }
 
 .text-container {
-  @apply flex 
-  flex-col 
+  @apply flex
+  flex-col
   text-start
   px-4
   mt-0.5;
 }
 
 .full-name {
-  @apply text-0 
-  ms-0 
+  @apply text-0
+  ms-0
   text-color-1
   font-medium;
 }
@@ -61,3 +61,5 @@ calcite-avatar ~ .text-container {
   @apply text-color-2;
   font-size: var(--calcite-font-size--1);
 }
+
+@include base-component();

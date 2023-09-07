@@ -4,12 +4,12 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 <calcite-shell>
   <calcite-shell-panel slot="panel-start" position="start" display-mode="float">
     <calcite-action-bar slot="action-bar">
-      <calcite-action-group>
+      <calcite-action-group label="Manage item">
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" disabled icon="save"></calcite-action>
         <calcite-action text="Layers" active indicator icon="layers"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group>
+      <calcite-action-group label="Item types">
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Layers" indicator icon="layers"></calcite-action>
       </calcite-action-group>
@@ -30,17 +30,17 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 
    <calcite-shell-panel slot="panel-end" position="end" display-mode="float" height-scale="l">
       <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
+        <calcite-action-group label="Manage item">
           <calcite-action text="Add" active icon="plus"></calcite-action>
           <calcite-action text="Save" disabled icon="save"></calcite-action>
           <calcite-action text="Layers" icon="layers"></calcite-action>
         </calcite-action-group>
-        <calcite-action-group>
+        <calcite-action-group label="Item types">
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Save" disabled icon="save"></calcite-action>
           <calcite-action text="Layers" icon="layers"></calcite-action>
         </calcite-action-group>
-        <calcite-action slot="bottom-actions" text="Tips" icon="lightbulb"></calcite-action>
+        <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
       </calcite-action-bar>
       <calcite-flow>
         <calcite-flow-item heading="Layer settings">

@@ -15,6 +15,7 @@
 :host([scale="l"]) {
   --calcite-checkbox-size: theme("spacing.4");
 }
+
 :host {
   @apply relative
     inline-flex
@@ -68,3 +69,4 @@
 
 @include disabled();
 @include hidden-form-input();
+@include base-component();

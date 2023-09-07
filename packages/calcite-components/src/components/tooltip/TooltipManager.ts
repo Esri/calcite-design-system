@@ -215,6 +215,11 @@ export default class TooltipManager {
         }
 
         this.clearHoverCloseTimeout();
+
+        if (this.activeTooltip === this.hoveredTooltip) {
+          return;
+        }
+
         this.closeActiveTooltip();
 
         if (tooltip !== this.hoveredTooltip) {

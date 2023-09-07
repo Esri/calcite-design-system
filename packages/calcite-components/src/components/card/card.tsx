@@ -50,14 +50,6 @@ import { CSS, SLOTS } from "./resources";
 export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteCardElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -130,7 +122,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     return (
       <div class={{ "calcite-card-container": true, inline: thumbnailInline }}>
         {this.loading ? (
-          <div class="calcite-card-loader-container">
+          <div aria-live="polite" class="calcite-card-loader-container">
             <calcite-loader label={this.messages.loading} />
           </div>
         ) : null}
@@ -152,6 +144,8 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteCardElement;
 
   @State() effectiveLocale: string;
 

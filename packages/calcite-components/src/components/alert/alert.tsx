@@ -31,11 +31,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   connectMessages,
   disconnectMessages,
@@ -70,14 +66,6 @@ import { CSS, DURATIONS, SLOTS } from "./resources";
 export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAlertElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //---------------------------------------------------------------------------
@@ -87,6 +75,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @Watch("open")
   openHandler(): void {
+    onToggleOpenCloseComponent(this);
     if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
@@ -188,8 +177,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     if (open && !this.queued) {
       this.openHandler();
       this.calciteInternalAlertRegister.emit();
+      onToggleOpenCloseComponent(this);
     }
-    connectOpenCloseComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -210,7 +199,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
-    disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.slottedInShell = false;
@@ -224,7 +212,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         class="alert-close"
         onClick={this.closeAlert}
         type="button"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
@@ -276,7 +264,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -399,6 +387,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteAlertElement;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -450,7 +440,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   /** determine which alert is active */

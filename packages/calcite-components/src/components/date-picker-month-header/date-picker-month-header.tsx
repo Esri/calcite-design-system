@@ -36,14 +36,6 @@ import { CSS, ICON } from "./resources";
 export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDatePickerMonthHeaderElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -173,7 +165,7 @@ export class DatePickerMonthHeader {
               pattern="\d*"
               type="text"
               value={localizedYear}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el) => (this.yearInput = el)}
             />
             {suffix && <span class={CSS.suffix}>{suffix}</span>}
@@ -200,6 +192,8 @@ export class DatePickerMonthHeader {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteDatePickerMonthHeaderElement;
 
   private yearInput: HTMLInputElement;
 

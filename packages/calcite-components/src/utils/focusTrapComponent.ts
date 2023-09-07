@@ -1,7 +1,6 @@
 import { createFocusTrap, FocusTrap as _FocusTrap, Options as FocusTrapOptions } from "focus-trap";
 import { FocusableElement, focusElement, tabbableOptions } from "./dom";
-
-const trapStack: _FocusTrap[] = [];
+import { focusTrapStack } from "./config";
 
 /**
  * Defines interface for components with a focus trap. Focusable content is required for components implementing focus trapping with this interface.
@@ -68,10 +67,10 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
     },
     ...options?.focusTrapOptions,
 
-    // the following options are not overrideable
+    // the following options are not overridable
     document: el.ownerDocument,
     tabbableOptions,
-    trapStack,
+    trapStack: focusTrapStack,
   };
 
   component.focusTrap = createFocusTrap(focusTrapNode, focusTrapOptions);

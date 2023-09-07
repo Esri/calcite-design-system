@@ -13,9 +13,7 @@
   flex
   w-full
   flex-col
-  bg-transparent
-  relative
-  z-default;
+  bg-transparent;
   * {
     @apply box-border;
   }
@@ -47,3 +45,9 @@
     @apply p-0;
   }
 }
+
+.assistive-text {
+  @apply sr-only;
+}
+
+@include base-component();

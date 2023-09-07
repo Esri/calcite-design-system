@@ -14,9 +14,14 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
+import {
+  closestElementCrossShadowBoundary,
+  getElementDir,
+  getSlotted,
+  toAriaBoolean,
+} from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { SLOTS, CSS } from "./resources";
+import { SLOTS, CSS, IDS } from "./resources";
 import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
 
@@ -31,14 +36,6 @@ import { RequestedItem } from "./interfaces";
   shadow: true,
 })
 export class AccordionItem implements ConditionalSlotComponent {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteAccordionItemElement;
-
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -82,13 +79,6 @@ export class AccordionItem implements ConditionalSlotComponent {
    * @internal
    */
   @Prop() accordionParent: HTMLCalciteAccordionElement;
-
-  /**
-   * Specifies the `selectionMode` of the component inherited from the `calcite-accordion`.
-   *
-   * @internal
-   */
-  @Prop() selectionMode: Extract<"single" | "single-persist" | "multiple", SelectionMode>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-accordion`.
@@ -184,8 +174,10 @@ export class AccordionItem implements ConditionalSlotComponent {
           <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
             {this.renderActionsStart()}
             <div
+              aria-controls={IDS.section}
               aria-expanded={toAriaBoolean(this.expanded)}
               class={CSS.headerContent}
+              id={IDS.sectionToggle}
               onClick={this.itemHeaderClickHandler}
               role="button"
               tabindex="0"
@@ -214,9 +206,9 @@ export class AccordionItem implements ConditionalSlotComponent {
             </div>
             {this.renderActionsEnd()}
           </div>
-          <div class={CSS.content}>
+          <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>
             <slot />
-          </div>
+          </section>
         </div>
       </Host>
     );
@@ -243,12 +235,45 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   @Listen("calciteInternalAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
-    this.requestedAccordionItem = event.detail
-      .requestedAccordionItem as HTMLCalciteAccordionItemElement;
-    if (this.el.parentNode !== this.requestedAccordionItem.parentNode) {
+    const [accordion] = event.composedPath();
+    const parent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
+      this.el,
+      "calcite-accordion"
+    );
+
+    if (accordion !== parent) {
       return;
     }
-    this.determineActiveItem();
+
+    this.determineActiveItem(parent.selectionMode, event.detail.requestedAccordionItem);
+    event.stopPropagation();
+  }
+
+  @Listen("calciteInternalAccordionItemsSync", { target: "document" })
+  accordionItemSyncHandler(event: CustomEvent): void {
+    const [accordion] = event.composedPath();
+    const accordionItem = this.el;
+
+    // we sync with our accordion parent via event only if the item is wrapped within another component's shadow DOM,
+    // otherwise, the accordion parent will sync the item directly
+
+    const willBeSyncedByDirectParent = accordionItem.parentElement === accordion;
+    if (willBeSyncedByDirectParent) {
+      return;
+    }
+
+    const closestAccordionParent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
+      accordionItem,
+      "calcite-accordion"
+    );
+
+    if (accordion !== closestAccordionParent) {
+      return;
+    }
+
+    accordionItem.iconPosition = closestAccordionParent.iconPosition;
+    accordionItem.iconType = closestAccordionParent.iconType;
+    accordionItem.scale = closestAccordionParent.scale;
     event.stopPropagation();
   }
 
@@ -258,11 +283,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** the latest requested item */
-  private requestedAccordionItem: HTMLCalciteAccordionItemElement;
-
-  /** handle clicks on item header */
-  private itemHeaderClickHandler = (): void => this.emitRequestedItem();
+  @Element() el: HTMLCalciteAccordionItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -270,20 +291,26 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  private determineActiveItem(): void {
-    switch (this.selectionMode) {
+  /** handle clicks on item header */
+  private itemHeaderClickHandler = (): void => this.emitRequestedItem();
+
+  private determineActiveItem(
+    selectionMode: SelectionMode,
+    requestedItem: HTMLCalciteAccordionItemElement
+  ): void {
+    switch (selectionMode) {
       case "multiple":
-        if (this.el === this.requestedAccordionItem) {
+        if (this.el === requestedItem) {
           this.expanded = !this.expanded;
         }
         break;
 
       case "single":
-        this.expanded = this.el === this.requestedAccordionItem ? !this.expanded : false;
+        this.expanded = this.el === requestedItem ? !this.expanded : false;
         break;
 
       case "single-persist":
-        this.expanded = this.el === this.requestedAccordionItem;
+        this.expanded = this.el === requestedItem;
         break;
     }
   }

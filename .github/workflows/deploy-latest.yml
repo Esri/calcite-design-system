@@ -22,20 +22,19 @@ jobs:
         if: ${{ steps.release.outputs.releases_created }}
         uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
-          ref: master
+          ref: main
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 16
           registry-url: "https://registry.npmjs.org"
-      - name: Build Packages
+      - name: Build Packages and Publish to NPM
         if: ${{ steps.release.outputs.releases_created }}
         run: |
           npm install
           npm run build
-      - name: Publish to NPM
-        if: ${{ steps.release.outputs.releases_created }}
+          npm run publish:latest
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        run: npm run publish:latest

@@ -1,0 +1,225 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-sheet-scrim-background: Specifies the background color of the sheet scrim.
+ * @prop --calcite-sheet-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+ * @prop --calcite-sheet-max-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the maximum width of the component.
+ * @prop --calcite-sheet-min-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the minimum width of the component.
+ * @prop --calcite-sheet-height:  When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+ * @prop --calcite-sheet-max-height:  When `position` is `"block-start"` or `"block-end"`, specifies the maximum height of the component.
+ * @prop --calcite-sheet-min-height:  When `position` is `"block-start"` or `"block-end"`, specifies the minimum height of the component.
+ *
+ */
+
+:host {
+  @apply flex absolute z-overlay inset-0;
+  visibility: hidden !important;
+  // the sheet should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
+  --calcite-sheet-scrim-background-internal: #{rgba($blk-240, 0.85)};
+  --calcite-scrim-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-scrim-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08), 0 -2px 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-scrim-shadow-inline-start-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-scrim-shadow-inline-end-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+.calcite--rtl {
+  --calcite-scrim-shadow-inline-start-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-scrim-shadow-inline-end-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+.container {
+  @apply text-color-2
+    fixed
+    flex
+    overflow-y-hidden
+    opacity-0
+    z-overlay
+    invisible;
+  transition: visibility 0ms linear var(--calcite-internal-animation-timing-medium),
+    opacity var(--calcite-internal-animation-timing-medium) $easing-function;
+}
+
+:host([position="inline-start"]) .container {
+  @apply justify-start;
+  inset-block: 0;
+  inset-inline: 0 auto;
+  --calcite-sheet-hidden-position-internal: translate3d(-1rem, 0, 0);
+}
+
+:host([position="inline-end"]) .container {
+  @apply justify-end;
+  inset-block: 0;
+  inset-inline: auto 0;
+  --calcite-sheet-hidden-position-internal: translate3d(1rem, 0, 0);
+}
+
+:host([position="block-start"]) .container {
+  @apply items-start;
+  inset-block: 0 auto;
+  inset-inline: 0;
+  --calcite-sheet-hidden-position-internal: translate3d(0, -1rem, 0);
+}
+
+:host([position="block-end"]) .container {
+  @apply items-end;
+  inset-block: auto 0;
+  inset-inline: 0;
+  --calcite-sheet-hidden-position-internal: translate3d(0, 1rem, 0);
+}
+
+:host([display-mode="float"]) .content {
+  @apply shadow-2-sm;
+}
+
+:host([display-mode="overlay"][position="inline-start"]) .container {
+  box-shadow: var(--calcite-scrim-shadow-inline-start-internal);
+}
+
+:host([display-mode="overlay"][position="inline-end"]) .container {
+  box-shadow: var(--calcite-scrim-shadow-inline-end-internal);
+}
+
+:host([display-mode="overlay"][position="block-start"]) .container {
+  box-shadow: var(--calcite-scrim-shadow-block-start-internal);
+}
+
+:host([display-mode="overlay"][position="block-end"]) .container {
+  box-shadow: var(--calcite-scrim-shadow-block-end-internal);
+}
+
+:host([position^="inline"]) .container,
+:host([position^="inline"]) .content {
+  inline-size: var(--calcite-sheet-width-internal);
+  max-inline-size: var(--calcite-sheet-max-width-internal);
+  min-inline-size: var(--calcite-sheet-min-width-internal);
+}
+
+:host([position^="block"]) .container,
+:host([position^="block"]) .content {
+  block-size: var(--calcite-sheet-height-internal);
+  max-block-size: var(--calcite-sheet-max-height-internal);
+  min-block-size: var(--calcite-sheet-min-height-internal);
+}
+
+:host([display-mode="float"][position^="inline"]) .container {
+  block-size: calc(100% - 1.5rem);
+  max-block-size: calc(100% - 1.5rem);
+  min-block-size: calc(100% - 1.5rem);
+}
+:host([display-mode="float"][position^="block"]) .container {
+  inline-size: calc(100% - 1.5rem);
+  max-inline-size: calc(100% - 1.5rem);
+  min-inline-size: calc(100% - 1.5rem);
+}
+
+:host([position^="inline"][width-scale="s"]) {
+  --calcite-sheet-width-internal: var(--calcite-sheet-width, 15vw);
+  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 360px);
+  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 260px);
+}
+
+:host([position^="inline"][width-scale="m"]) {
+  --calcite-sheet-width-internal: var(--calcite-sheet-width, 25vw);
+  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 420px);
+  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 300px);
+}
+
+:host([position^="inline"][width-scale="l"]) {
+  --calcite-sheet-width-internal: var(--calcite-sheet-width, 45vw);
+  --calcite-sheet-max-width-internal: var(--calcite-sheet-max-width, 680px);
+  --calcite-sheet-min-width-internal: var(--calcite-sheet-min-width, 340px);
+}
+
+:host([position^="block"][height-scale="s"]) {
+  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 160px);
+  --calcite-sheet-height-internal: var(--calcite-sheet-height, 30vh);
+  --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 30vh);
+}
+
+:host([position^="block"][height-scale="m"]) {
+  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 200px);
+  --calcite-sheet-height-internal: var(--calcite-sheet-height, 45vh);
+  --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 50vh);
+}
+
+:host([position^="block"][height-scale="l"]) {
+  --calcite-sheet-min-height-internal: var(--calcite-sheet-min-height, 240px);
+  --calcite-sheet-height-internal: var(--calcite-sheet-height, 60vh);
+  --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 70vh);
+}
+
+.scrim {
+  --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
+  @apply fixed inset-0 flex overflow-y-hidden;
+}
+
+:host([opened]) {
+  visibility: visible !important;
+}
+
+.content {
+  @apply relative box-border block p-0 z-modal max-h-full max-w-full overflow-y-hidden;
+  background-color: theme("colors.background.foreground.1");
+  max-block-size: 100%;
+  visibility: hidden;
+  transition: transform var(--calcite-internal-animation-timing-medium) $easing-function,
+    visibility 0ms linear var(--calcite-internal-animation-timing-medium),
+    opacity var(--calcite-internal-animation-timing-medium) $easing-function;
+  transform: var(--calcite-sheet-hidden-position-internal);
+}
+
+.container--open .content {
+  transform: translate3d(0, 0, 0);
+}
+
+:host([display-mode="float"]) .content,
+:host([display-mode="float"]) .container {
+  @apply rounded;
+}
+
+:host([display-mode="float"]) .container {
+  @apply p-3;
+}
+
+.container--open {
+  @apply opacity-100 visible;
+  transition-delay: 0ms;
+  .content {
+    @apply pointer-events-auto visible opacity-100;
+    transition: transform var(--calcite-internal-animation-timing-medium) $easing-function, visibility 0ms linear,
+      opacity var(--calcite-internal-animation-timing-medium) $easing-function,
+      max-inline-size var(--calcite-internal-animation-timing-medium) $easing-function,
+      max-block-size var(--calcite-internal-animation-timing-medium) $easing-function;
+    transition-delay: 0ms;
+  }
+}
+
+:host([position="inline-start"]) .content,
+:host([position="inline-end"]) .content {
+  @apply h-full;
+}
+
+:host([position="block-start"]) .content,
+:host([position="block-end"]) .content {
+  @apply w-full;
+}
+
+/**
+ * Conditional styles for when Sheet is slotted in Shell
+ */
+:host([position]) .container--slotted-in-shell {
+  @apply absolute pointer-events-auto;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 100%;
+  block-size: 100%;
+  max-block-size: 100%;
+  min-block-size: 100%;
+  calcite-scrim {
+    @apply absolute;
+  }
+}
+
+@include base-component();

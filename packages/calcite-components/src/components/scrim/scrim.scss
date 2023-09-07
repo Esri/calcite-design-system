@@ -42,3 +42,5 @@
 .content {
   @apply p-4;
 }
+
+@include base-component();

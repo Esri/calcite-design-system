@@ -120,7 +120,7 @@ export function parseNumberString(numberString?: string): string {
         }
         return numberKeys.includes(value);
       })
-      .reduce((string, part) => string + part);
+      .join("");
     return isValidNumber(result) ? new BigDecimal(result).toString() : "";
   });
 }

@@ -5,6 +5,7 @@ import { accessible, focusable, hidden, renders } from "../../tests/commonTests"
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { CSS } from "./resources";
 import { isElementFocused } from "../../tests/utils";
+import { FlowItemLikeElement } from "./interfaces";
 
 describe("calcite-flow", () => {
   describe("renders", () => {
@@ -102,6 +103,8 @@ describe("calcite-flow", () => {
 
       await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
 
+      expect(await page.findAll("calcite-flow-item")).toHaveLength(1);
+
       await page.$eval(
         "calcite-flow-item",
         (elm: HTMLCalciteFlowItemElement) =>
@@ -114,6 +117,50 @@ describe("calcite-flow", () => {
 
       expect(backValue).toBeDefined();
       expect(mockCallBack).toHaveBeenCalledTimes(1);
+      expect(await page.findAll("calcite-flow-item")).toHaveLength(0);
+    });
+
+    it("should handle rejected 'beforeBack' promise'", async () => {
+      const page = await newE2EPage();
+
+      const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+      await page.exposeFunction("beforeBack", mockCallBack);
+
+      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
+
+      await page.$eval(
+        "calcite-flow-item",
+        (elm: HTMLCalciteFlowItemElement) =>
+          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
+      );
+
+      const flow = await page.find("calcite-flow");
+
+      await flow.callMethod("back");
+
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not remove flow-item on rejected 'beforeBack' promise'", async () => {
+      const page = await newE2EPage();
+
+      await page.exposeFunction("beforeBack", () => Promise.reject());
+
+      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
+
+      expect(await page.findAll("calcite-flow-item")).toHaveLength(1);
+
+      await page.$eval(
+        "calcite-flow-item",
+        (elm: HTMLCalciteFlowItemElement) =>
+          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
+      );
+
+      const flow = await page.find("calcite-flow");
+
+      await flow.callMethod("back");
+
+      expect(await page.findAll("calcite-flow-item")).toHaveLength(1);
     });
 
     it("frame advancing should add animation class", async () => {
@@ -292,5 +339,138 @@ describe("calcite-flow", () => {
       expect(items[4].getAttribute("hidden")).toBe(null);
       expect(await items[4].getProperty("showBackButton")).toBe(false);
     });
+  });
+
+  it("supports custom flow-items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-flow custom-item-selectors="custom-flow-item">
+        <calcite-flow-item heading="flow-item-1" id="first">
+          <p>😃</p>
+        </calcite-flow-item>
+        <custom-flow-item heading="custom-flow-item" id="second">
+          <p>🥸</p>
+        </custom-flow-item>
+        <calcite-flow-item heading="flow-item-2" id="third">
+          <p>😃</p>
+        </calcite-flow-item>
+      </calcite-flow>
+    `);
+
+    await page.evaluate(async () => {
+      class CustomFlowItem extends HTMLElement implements FlowItemLikeElement {
+        private flowItemEl: HTMLCalciteFlowItemElement;
+
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+
+          shadow.innerHTML = `
+                <style>
+                  :host {
+                    display: flex;
+                    background: #bdf2c4;
+                  }
+                </style>
+                <calcite-flow-item id="internalFlowItem">
+                  <slot></slot>
+                </calcite-flow-item>
+              `;
+
+          this.flowItemEl = shadow.getElementById("internalFlowItem") as HTMLCalciteFlowItemElement;
+        }
+
+        connectedCallback(): void {
+          this.flowItemEl.setAttribute("heading", this.getAttribute("heading"));
+          this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button"));
+          this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open"));
+        }
+
+        get heading(): string {
+          return this.getAttribute("heading");
+        }
+
+        set heading(value: string) {
+          this.flowItemEl.heading = value;
+        }
+
+        get hidden(): boolean {
+          return this.hasAttribute("hidden");
+        }
+
+        set hidden(value: boolean) {
+          this.toggleAttribute("hidden", value);
+          this.flowItemEl.toggleAttribute("hidden", value);
+        }
+
+        get menuOpen(): boolean {
+          return this.hasAttribute("menu-open");
+        }
+
+        set menuOpen(value: boolean) {
+          this.toggleAttribute("menu-open", value);
+          this.flowItemEl.menuOpen = value;
+        }
+
+        get showBackButton(): boolean {
+          return this.hasAttribute("show-back-button");
+        }
+
+        set showBackButton(value: boolean) {
+          this.toggleAttribute("show-back-button", value);
+          this.flowItemEl.showBackButton = value;
+        }
+
+        async beforeBack(): Promise<void> {
+          // no op
+        }
+
+        async setFocus(): Promise<void> {
+          await this.flowItemEl.setFocus();
+        }
+      }
+
+      customElements.define("custom-flow-item", CustomFlowItem);
+    });
+
+    const flow = await page.find("calcite-flow");
+    const displayedItemSelector = "calcite-flow > *:not([hidden])";
+    let displayedItem = await page.find(displayedItemSelector);
+
+    expect(await flow.getProperty("childElementCount")).toBe(3);
+    expect(displayedItem.id).toBe("third");
+
+    await page.evaluate(
+      async (displayedItemSelector: string, ITEM_CSS) => {
+        document
+          .querySelector(displayedItemSelector)
+          .shadowRoot.querySelector<HTMLCalciteActionElement>(`.${ITEM_CSS.backButton}`)
+          .click();
+      },
+      displayedItemSelector,
+      ITEM_CSS
+    );
+    await page.waitForChanges();
+
+    displayedItem = await page.find(displayedItemSelector);
+    expect(await flow.getProperty("childElementCount")).toBe(2);
+    expect(displayedItem.id).toBe("second");
+
+    await page.evaluate(
+      async (displayedItemSelector: string, ITEM_CSS) => {
+        document
+          .querySelector(displayedItemSelector)
+          .shadowRoot.querySelector("calcite-flow-item")
+          .shadowRoot.querySelector<HTMLCalciteActionElement>(`.${ITEM_CSS.backButton}`)
+          .click();
+      },
+      displayedItemSelector,
+      ITEM_CSS
+    );
+    await page.waitForChanges();
+
+    displayedItem = await page.find(displayedItemSelector);
+    expect(await flow.getProperty("childElementCount")).toBe(1);
+    expect(displayedItem.id).toBe("first");
   });
 });

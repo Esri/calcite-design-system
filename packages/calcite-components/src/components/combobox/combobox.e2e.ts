@@ -1,15 +1,15 @@
 import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
 import {
-  renders,
-  hidden,
   accessible,
   defaults,
-  labelable,
+  disabled,
   floatingUIOwner,
   formAssociated,
-  disabled,
-  t9n,
+  hidden,
+  labelable,
   reflects,
+  renders,
+  t9n,
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
@@ -30,12 +30,20 @@ describe("calcite-combobox", () => {
         defaultValue: false,
       },
       {
+        propertyName: "flipPlacements",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
       {
         propertyName: "flipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ]);
   });
@@ -370,89 +378,131 @@ describe("calcite-combobox", () => {
 
   describe("item selection", () => {
     describe("toggling items", () => {
-      it("single-selection mode allows toggling selection once the selected item is clicked", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`
-            <calcite-combobox selection-mode="single">
-              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-            </calcite-combobox>
-          `
-        );
-        const combobox = await page.find("calcite-combobox");
-        const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
-        await combobox.click();
-        await firstOpenEvent;
-
-        const item1 = await combobox.find("calcite-combobox-item[value=one]");
-
-        await item1.click();
-        expect(await combobox.getProperty("value")).toBe("one");
-
-        const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
-        await combobox.click();
-        await secondOpenEvent;
-
-        await item1.click();
-        expect(await combobox.getProperty("value")).toBe("");
+      describe("via keyboard", () => {
+        assertSelectionModeToggling(async (item): Promise<void> => {
+          await item.press("Enter");
+        });
       });
 
-      it("multiple-selection mode allows toggling selection once the selected item is clicked", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`
-            <calcite-combobox selection-mode="multiple">
-              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-            </calcite-combobox>
-          `
-        );
-        const cbox = await page.find("calcite-combobox");
-        const openEvent = page.waitForEvent("calciteComboboxOpen");
-        await cbox.click();
-        await openEvent;
-
-        const item1 = await cbox.find("calcite-combobox-item[value=one]");
-
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
-
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
-
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+      describe("via mouse", () => {
+        assertSelectionModeToggling(async (item): Promise<void> => {
+          await item.click();
+        });
       });
 
-      it("ancestors-selection mode allows toggling selection once the selected item is clicked", async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`
-            <calcite-combobox selection-mode="ancestors">
-              <calcite-combobox-item value="one" text-label="parent">
-                <calcite-combobox-item value="two" text-label="child1"></calcite-combobox-item>
-                <calcite-combobox-item value="three" text-label="child2"></calcite-combobox-item>
-              </calcite-combobox-item>
-            </calcite-combobox>
-          `
-        );
-        const cbox = await page.find("calcite-combobox");
-        const openEvent = page.waitForEvent("calciteComboboxOpen");
-        await cbox.click();
-        await openEvent;
+      async function assertSelectionModeToggling(selectItem: (item: E2EElement) => Promise<void>): Promise<void> {
+        it("single-selection mode allows toggling selection once the selected item is selected", async () => {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`
+              <calcite-combobox selection-mode="single">
+                <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+                <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              </calcite-combobox>
+            `
+          );
+          const combobox = await page.find("calcite-combobox");
+          const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await firstOpenEvent;
 
-        const item1 = await cbox.find("calcite-combobox-item[value=one]");
+          const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+          await selectItem(item1);
+          expect(await combobox.getProperty("value")).toBe("one");
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+          const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await secondOpenEvent;
 
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
-      });
+          await selectItem(item1);
+          expect(await combobox.getProperty("value")).toBe("");
+        });
+
+        it("single-persist-selection mode does not allow toggling selection once the selected item is selected", async () => {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`
+              <calcite-combobox selection-mode="single-persist">
+                <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+                <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              </calcite-combobox>
+            `
+          );
+          const combobox = await page.find("calcite-combobox");
+          const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await firstOpenEvent;
+
+          const item1 = await combobox.find("calcite-combobox-item[value=one]");
+
+          await selectItem(item1);
+          expect(await combobox.getProperty("value")).toBe("one");
+
+          const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await secondOpenEvent;
+
+          await selectItem(item1);
+          expect(await combobox.getProperty("value")).toBe("one");
+        });
+
+        it("multiple-selection mode allows toggling selection once the selected item is selected", async () => {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`
+              <calcite-combobox selection-mode="multiple">
+                <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+                <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              </calcite-combobox>
+            `
+          );
+          const combobox = await page.find("calcite-combobox");
+          const openEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await openEvent;
+
+          const item1 = await combobox.find("calcite-combobox-item[value=one]");
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+        });
+
+        it("ancestors-selection mode allows toggling selection once the selected item is selected", async () => {
+          const page = await newE2EPage();
+          await page.setContent(
+            html`
+              <calcite-combobox selection-mode="ancestors">
+                <calcite-combobox-item value="one" text-label="parent">
+                  <calcite-combobox-item value="two" text-label="child1"></calcite-combobox-item>
+                  <calcite-combobox-item value="three" text-label="child2"></calcite-combobox-item>
+                </calcite-combobox-item>
+              </calcite-combobox>
+            `
+          );
+          const combobox = await page.find("calcite-combobox");
+          const openEvent = page.waitForEvent("calciteComboboxOpen");
+          await combobox.click();
+          await openEvent;
+
+          const item1 = await combobox.find("calcite-combobox-item[value=one]");
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+
+          await selectItem(item1);
+          expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+        });
+      }
     });
 
     it("should select parent in ancestor selection mode", async () => {
@@ -466,15 +516,15 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
-      const cbox = await page.find("calcite-combobox");
+      const combobox = await page.find("calcite-combobox");
       const openEvent = page.waitForEvent("calciteComboboxOpen");
-      await cbox.click();
+      await combobox.click();
       await openEvent;
 
-      const item1 = await cbox.find("calcite-combobox-item[value=child1]");
+      const item1 = await combobox.find("calcite-combobox-item[value=child1]");
       await item1.click();
 
-      const parent = await cbox.find("calcite-combobox-item[value=one]");
+      const parent = await combobox.find("calcite-combobox-item[value=one]");
       expect(parent).toBeDefined();
       expect(parent).toHaveAttribute("selected");
 
@@ -494,15 +544,15 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
-      const cbox = await page.find("calcite-combobox");
+      const combobox = await page.find("calcite-combobox");
       const openEvent = page.waitForEvent("calciteComboboxOpen");
-      await cbox.click();
+      await combobox.click();
       await openEvent;
 
-      const parent = await cbox.find("calcite-combobox-item[value=parent]");
-      const parentItem = await cbox.find("calcite-combobox-item[value=parent] >>> li");
-      const item1 = await cbox.find("calcite-combobox-item[value=child1]");
-      const item2 = await cbox.find("calcite-combobox-item[value=child2]");
+      const parent = await combobox.find("calcite-combobox-item[value=parent]");
+      const parentItem = await combobox.find("calcite-combobox-item[value=parent] >>> li");
+      const item1 = await combobox.find("calcite-combobox-item[value=child1]");
+      const item2 = await combobox.find("calcite-combobox-item[value=child2]");
       await item1.click();
       await item2.click();
       await page.waitForChanges();
@@ -527,17 +577,17 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
-      const cbox = await page.find("calcite-combobox");
+      const combobox = await page.find("calcite-combobox");
       const openEvent = page.waitForEvent("calciteComboboxOpen");
-      await cbox.click();
+      await combobox.click();
       await openEvent;
 
-      const item1 = await cbox.find("calcite-combobox-item[value=one]");
+      const item1 = await combobox.find("calcite-combobox-item[value=one]");
       await item1.click();
 
       let chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).not.toBeNull();
-      expect(await cbox.getProperty("open")).toBe(true);
+      expect(await combobox.getProperty("open")).toBe(true);
       await page.evaluate(() => {
         const combobox = document.querySelector("calcite-combobox");
         const chip = combobox.shadowRoot.querySelector("calcite-chip");
@@ -549,7 +599,7 @@ describe("calcite-combobox", () => {
 
       chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
-      expect(await cbox.getProperty("open")).toBe(false);
+      expect(await combobox.getProperty("open")).toBe(false);
     });
 
     it("should honor calciteComboboxChipClose", async () => {
@@ -586,13 +636,10 @@ describe("calcite-combobox", () => {
       await input.click();
       await input.press("K");
       await input.press("Enter");
-      await input.press("Escape");
       await page.waitForChanges();
 
       const item = await page.find("calcite-combobox-item:last-child");
-      const label = await page.find("calcite-combobox >>> .label");
-
-      expect(label.textContent).toBe("K");
+      expect(await item.getProperty("textLabel")).toBe("K");
 
       const combobox = await page.find("calcite-combobox");
 
@@ -622,9 +669,9 @@ describe("calcite-combobox", () => {
 
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item:last-child");
-      const label = await page.find("calcite-combobox >>> .label");
 
-      expect(label.textContent).toBe("K");
+      expect(await item2.getProperty("textLabel")).toBe("K");
+
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(true);
@@ -827,7 +874,7 @@ describe("calcite-combobox", () => {
       expect(visible).toBe(false);
     });
 
-    it("tab moves to next input, but doesn’t open the item group", async () => {
+    it("tab moves to next input, but doesn't open the item group", async () => {
       await page.keyboard.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
@@ -897,7 +944,7 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
 
-    it(`Space opens dropdown and puts focus on first item`, async () => {
+    it(`Space opens dropdown and puts focus on first item and subsequent Space do not change the focus`, async () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
@@ -910,6 +957,12 @@ describe("calcite-combobox", () => {
 
       const visible = await firstFocusedGroupItem.isVisible();
       expect(visible).toBe(true);
+
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(firstFocusedGroupItem).toBeTruthy();
     });
 
     it("when the combobox is focused & closed, Page up/down (fn arrow up/down) scrolls up and down the page", async () => {
@@ -917,14 +970,14 @@ describe("calcite-combobox", () => {
         // set body to overflow so we can test the scroll functionality;
         // set default margin/padding to 0 to not have to adjust for it in position calculations
         content: `body {
-            height: ${scrollablePageSizeInPx}px;
-            width: ${scrollablePageSizeInPx}px;
-          }
-          html, body {
-            margin: 0;
-            padding: 0;
-          }
-      `,
+              height: ${scrollablePageSizeInPx}px;
+              width: ${scrollablePageSizeInPx}px;
+            }
+            html, body {
+              margin: 0;
+              padding: 0;
+            }
+        `,
       });
       const combobox = await page.find("calcite-combobox");
       await combobox.callMethod(`setFocus`);
@@ -1326,9 +1379,9 @@ describe("calcite-combobox", () => {
       const chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
 
-      const cbox = await page.find("calcite-combobox");
+      const combobox = await page.find("calcite-combobox");
       const openEvent = page.waitForEvent("calciteComboboxOpen");
-      await cbox.click();
+      await combobox.click();
       await openEvent;
 
       const items = await page.findAll("calcite-combobox-item");
@@ -1468,7 +1521,7 @@ describe("calcite-combobox", () => {
     );
   });
 
-  it("should emit component status for transition-chained events: 'calciteComoboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
+  it("should emit component status for transition-chained events: 'calciteComboboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-combobox id="myCombobox">
@@ -1691,6 +1744,23 @@ describe("calcite-combobox", () => {
           </calcite-combobox>`,
           "item3"
         ));
+    });
+  });
+
+  it("inheritable props: `selectionMode` and `scale` modified on the parent get passed to items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox label="Trees" value="Trees" scale="l" selection-mode="single">
+        <calcite-combobox-item-group label="Conifers">
+          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+    `);
+    const comboboxItems = await page.findAll("calcite-combobox-items");
+
+    comboboxItems.forEach(async (item) => {
+      expect(await item.getProperty("selectionMode")).toBe("single");
+      expect(await item.getProperty("scale")).toBe("l");
     });
   });
 });

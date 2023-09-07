@@ -88,14 +88,6 @@ export class Input
 {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -401,6 +393,8 @@ export class Input
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteInputElement;
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -419,7 +413,7 @@ export class Input
   private childNumberEl?: HTMLInputElement;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
   }
 
   get isTextarea(): boolean {
@@ -592,17 +586,6 @@ export class Input
     }
   }
 
-  // TODO: refactor so we don't need to sync the internals in color-picker
-  // https://github.com/Esri/calcite-design-system/issues/6100
-  /** @internal */
-  @Method()
-  async internalSyncChildElValue(): Promise<void> {
-    if (this.type === "number") {
-      this.childNumberEl.value = this.value;
-    } else {
-      this.childEl.value = this.value;
-    }
-  }
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -1154,7 +1137,7 @@ export class Input
           readOnly={this.readOnly}
           type="text"
           value={this.localizedValue}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setChildNumberElRef}
         />
       ) : null;
@@ -1197,7 +1180,7 @@ export class Input
               }
               type={this.type}
               value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setChildElRef}
             />,
             this.isTextarea ? (

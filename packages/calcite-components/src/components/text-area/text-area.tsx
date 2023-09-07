@@ -46,6 +46,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { CharacterLengthObj } from "./interfaces";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding text.
@@ -68,13 +69,6 @@ export class TextArea
     T9nComponent,
     InteractiveComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteTextAreaElement;
-
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -260,12 +254,13 @@ export class TextArea
     return (
       <Host>
         <textarea
-          aria-invalid={toAriaBoolean(this.value?.length > this.maxLength)}
+          aria-describedby={this.guid}
+          aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
             [CSS.readOnly]: this.readOnly,
-            [CSS.textAreaInvalid]: this.value?.length > this.maxLength,
+            [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.blockSizeFull]: !hasFooter,
             [CSS.borderColor]: !hasFooter,
@@ -281,7 +276,7 @@ export class TextArea
           rows={this.rows}
           value={this.value}
           wrap={this.wrap}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTextAreaEl}
         />
         <span class={{ [CSS.content]: true }}>
@@ -317,6 +312,11 @@ export class TextArea
           {this.renderCharacterLimit()}
         </footer>
         <HiddenFormInputSlot component={this} />
+        {this.isCharacterLimitExceeded() && (
+          <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
+            {this.replacePlaceHoldersInMessages()}
+          </span>
+        )}
       </Host>
     );
   }
@@ -346,6 +346,8 @@ export class TextArea
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteTextAreaElement;
+
   defaultValue: TextArea["value"];
 
   footerEl: HTMLElement;
@@ -370,6 +372,8 @@ export class TextArea
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
+
+  private guid = guid();
 
   //--------------------------------------------------------------------------
   //
@@ -410,7 +414,7 @@ export class TextArea
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
         <span class={CSS.characterLimit}>
-          <span class={{ [CSS.characterOverLimit]: this.value?.length > this.maxLength }}>
+          <span class={{ [CSS.characterOverLimit]: this.isCharacterLimitExceeded() }}>
             {this.localizedCharacterLengthObj.currentLength}
           </span>
           {"/"}
@@ -443,7 +447,7 @@ export class TextArea
   resizeObserver = createObserver("resize", async () => {
     await componentLoaded(this);
     const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
-      this.getHeightandWidthOfElements();
+      this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerEl.style.width = `${textAreaWidth}px`;
     }
@@ -454,9 +458,44 @@ export class TextArea
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
-    if (this.value?.length > this.maxLength) {
+    if (this.isCharacterLimitExceeded()) {
       input.setCustomValidity(this.replacePlaceHoldersInMessages());
     }
+  }
+
+  setTextAreaEl = (el: HTMLTextAreaElement): void => {
+    this.textAreaEl = el;
+    this.resizeObserver.observe(el);
+  };
+
+  setTextAreaHeight(): void {
+    const { textAreaHeight, elHeight, footerHeight } = this.getHeightAndWidthOfElements();
+    if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
+      this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
+    }
+  }
+
+  getHeightAndWidthOfElements(): {
+    textAreaHeight: number;
+    textAreaWidth: number;
+    elHeight: number;
+    elWidth: number;
+    footerHeight: number;
+    footerWidth: number;
+  } {
+    const { height: textAreaHeight, width: textAreaWidth } =
+      this.textAreaEl.getBoundingClientRect();
+    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
+    const { height: footerHeight, width: footerWidth } = this.footerEl?.getBoundingClientRect();
+
+    return {
+      textAreaHeight,
+      textAreaWidth,
+      elHeight,
+      elWidth,
+      footerHeight,
+      footerWidth,
+    };
   }
 
   private replacePlaceHoldersInMessages(): string {
@@ -480,38 +519,7 @@ export class TextArea
     { leading: false }
   );
 
-  setTextAreaEl = (el: HTMLTextAreaElement): void => {
-    this.textAreaEl = el;
-    this.resizeObserver.observe(el);
-  };
-
-  setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight } = this.getHeightandWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
-      this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
-    }
-  }
-
-  getHeightandWidthOfElements(): {
-    textAreaHeight: number;
-    textAreaWidth: number;
-    elHeight: number;
-    elWidth: number;
-    footerHeight: number;
-    footerWidth: number;
-  } {
-    const { height: textAreaHeight, width: textAreaWidth } =
-      this.textAreaEl.getBoundingClientRect();
-    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
-    const { height: footerHeight, width: footerWidth } = this.footerEl?.getBoundingClientRect();
-
-    return {
-      textAreaHeight,
-      textAreaWidth,
-      elHeight,
-      elWidth,
-      footerHeight,
-      footerWidth,
-    };
+  private isCharacterLimitExceeded(): boolean {
+    return this.value?.length > this.maxLength;
   }
 }

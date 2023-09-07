@@ -2,7 +2,7 @@ import { waitForAnimationFrame } from "../tests/utils";
 import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "./loadable";
 
 describe("loadable", () => {
-  it("should honor loadable component lifecyce", async () => {
+  it("should honor loadable component lifecycle", async () => {
     const fakeComponent: any = {};
 
     const afterLoad = jest.fn();

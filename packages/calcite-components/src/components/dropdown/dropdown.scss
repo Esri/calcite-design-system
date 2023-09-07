@@ -53,3 +53,5 @@
 :host([width="l"]) {
   --calcite-dropdown-width: theme("spacing.64");
 }
+
+@include base-component();

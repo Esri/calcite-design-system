@@ -1,6 +1,6 @@
-import { Component, Element, h, Listen, Method, State, VNode } from "@stencil/core";
+import { Component, Element, h, Listen, Method, Prop, State, VNode } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
-import { FlowDirection } from "./interfaces";
+import { FlowDirection, FlowItemLikeElement } from "./interfaces";
 import { CSS } from "./resources";
 import {
   componentFocusable,
@@ -28,7 +28,7 @@ export class Flow implements LoadableComponent {
    * Removes the currently active `calcite-flow-item`.
    */
   @Method()
-  async back(): Promise<HTMLCalciteFlowItemElement> {
+  async back(): Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement> {
     const { items } = this;
 
     const lastItem = items[items.length - 1];
@@ -41,7 +41,12 @@ export class Flow implements LoadableComponent {
       ? lastItem.beforeBack
       : (): Promise<void> => Promise.resolve();
 
-    await beforeBack.call(lastItem);
+    try {
+      await beforeBack.call(lastItem);
+    } catch (_error) {
+      // back prevented
+      return;
+    }
 
     lastItem.remove();
 
@@ -63,6 +68,19 @@ export class Flow implements LoadableComponent {
 
   // --------------------------------------------------------------------------
   //
+  //  Public Properties
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * This property enables the component to consider other custom elements implementing flow-item's interface.
+   *
+   * @internal
+   */
+  @Prop() customItemSelectors: string;
+
+  // --------------------------------------------------------------------------
+  //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
@@ -73,7 +91,7 @@ export class Flow implements LoadableComponent {
 
   @State() itemCount = 0;
 
-  @State() items: HTMLCalciteFlowItemElement[] = [];
+  @State() items: FlowItemLikeElement[] = [];
 
   itemMutationObserver = createObserver("mutation", () => this.updateFlowProps());
 
@@ -124,11 +142,13 @@ export class Flow implements LoadableComponent {
   };
 
   updateFlowProps = (): void => {
-    const { el, items } = this;
+    const { customItemSelectors, el, items } = this;
 
-    const newItems: HTMLCalciteFlowItemElement[] = Array.from(
-      el.querySelectorAll("calcite-flow-item")
-    ).filter((flowItem) => flowItem.closest("calcite-flow") === el) as HTMLCalciteFlowItemElement[];
+    const newItems = Array.from<FlowItemLikeElement>(
+      el.querySelectorAll(
+        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`
+      )
+    ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
 
     const oldItemCount = items.length;
     const newItemCount = newItems.length;

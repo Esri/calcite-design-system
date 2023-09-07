@@ -129,7 +129,7 @@ export const onlyProps = (): string => html`
       heading-level="${text("heading-level", "2")}"
       description="${text(
         "description",
-        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
       )}"
       heading="${text(
         "heading",
@@ -218,3 +218,106 @@ export const actionBarBackgroundColor_TestOnly = (): string => html`<calcite-pan
   <p style="height: 400px">Hello world!</p>
   <p slot="footer">Slotted content!</p>
 </calcite-panel>`;
+
+export const footerWithoutContent_TestOnly = (): string => html`<calcite-panel
+  height-scale="s"
+  heading="Header!"
+  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
+>
+  <p slot="footer">Footer content!</p>
+</calcite-panel>`;
+
+export const actionBarWithoutContent_TestOnly = (): string => html`<calcite-panel
+  height-scale="s"
+  heading="Header!"
+  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
+>
+  <calcite-action-bar slot="action-bar">
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"> </calcite-action>
+      <calcite-action text="Save" icon="save"> </calcite-action>
+      <calcite-action text="Layers" icon="layers"> </calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+</calcite-panel>`;
+
+export const actionBarZIndex_TestOnly = (): string => html`<calcite-panel
+  style="width: 400px;"
+  height-scale="s"
+  menu-open
+>
+  <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+  <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+  <calcite-action-bar slot="action-bar">
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"> </calcite-action>
+      <calcite-action text="Save" icon="save">
+        <calcite-tooltip open overlay-positioning="fixed" placement="top" slot="tooltip">test</calcite-tooltip>
+      </calcite-action>
+      <calcite-action text="Layers" icon="layers"> </calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+  <p>Some content</p></calcite-panel
+>`;
+
+export const footerAndActionBarWithoutContent_TestOnly = (): string => html`<calcite-panel
+  height-scale="s"
+  heading="Header!"
+  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
+>
+  <calcite-action-bar slot="action-bar">
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"> </calcite-action>
+      <calcite-action text="Save" icon="save"> </calcite-action>
+      <calcite-action text="Layers" icon="layers"> </calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+  <p slot="footer">Footer content!</p>
+</calcite-panel>`;
+
+export const flexContent_TestOnly = (): string => html`<calcite-panel
+  style="height: 300px; width: 500px"
+  heading="My Panel"
+  ><div
+    style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
+    circle,
+    white 1px,
+    transparent 1px
+  );"
+  ></div
+></calcite-panel>`;
+
+export const flexContentWithFAB_TestOnly = (): string => html`<calcite-panel
+  style="height: 300px; width: 500px"
+  heading="My Panel"
+  ><div
+    style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
+  circle,
+  white 1px,
+  transparent 1px
+);"
+  ></div>
+  <calcite-fab slot="fab"></calcite-fab
+></calcite-panel>`;
+
+export const overflowContentWithFab_TestOnly = (): string => html` <calcite-panel
+  style="max-height: 300px; height: 300px; width: 500px"
+  heading="My Panel"
+  ><div style="min-height: 500px">My Content</div>
+  <calcite-fab slot="fab"></calcite-fab
+></calcite-panel>`;
+
+export const noOverflowContentWithFab_TestOnly = (): string => html` <calcite-panel
+  style="max-height: 300px; height: 300px; width: 500px"
+  heading="My Panel"
+  ><div>My Content</div>
+  <calcite-fab slot="fab"></calcite-fab
+></calcite-panel>`;
+
+export const withTextContentOnly = (): string =>
+  html`<calcite-panel height-scale="s" heading="My Panel">Slotted content!</calcite-panel>`;
+
+export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
+  html`<calcite-panel style="--calcite-internal-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
+    >Slotted content!</calcite-panel
+  >`;

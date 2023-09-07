@@ -1,17 +1,17 @@
 :host {
   @apply inline-block
   relative
-  w-full 
+  w-full
   h-full;
 }
 
 textarea {
-  @apply text-color-1 
-  relative 
+  @apply text-color-1
+  relative
   block
-  bg-foreground-1 
+  bg-foreground-1
   box-border
-  border-color-input  
+  border-color-input
   border
   font-sans
   w-full
@@ -25,9 +25,9 @@ textarea {
     @apply focus-inset;
   }
   &.text-area--invalid {
-    @apply border-color-danger 
-    border 
-    border-solid 
+    @apply border-color-danger
+    border
+    border-solid
     border-b;
     &:focus {
       @apply focus-inset-danger;
@@ -39,8 +39,8 @@ textarea {
 }
 
 .footer {
-  @apply flex 
-  bg-foreground-1 
+  @apply flex
+  bg-foreground-1
   box-border
   border-color-input
   border
@@ -50,16 +50,16 @@ textarea {
 }
 
 .character-limit {
-  @apply flex 
-  justify-end 
-  text-color-2 
+  @apply flex
+  justify-end
+  text-color-2
   items-center
-  font-normal 
+  font-normal
   whitespace-nowrap;
 }
 
 .character--over-limit {
-  @apply font-bold 
+  @apply font-bold
   text-danger;
 }
 
@@ -78,12 +78,12 @@ textarea {
 :host([scale="s"]) {
   @apply text-n2;
   .footer {
-    @apply py-1 
+    @apply py-1
     px-2;
     min-block-size: 1.75rem;
   }
   textarea {
-    @apply py-1 
+    @apply py-1
     px-2;
   }
 }
@@ -92,18 +92,18 @@ textarea {
   textarea,
   .footer,
   .character-limit {
-    @apply text-n2 
+    @apply text-n2
     pl-2;
   }
 }
 
 :host([scale="m"]) {
   textarea {
-    @apply py-2 
+    @apply py-2
     px-3;
   }
   .footer {
-    @apply py-2 
+    @apply py-2
     px-3;
     min-block-size: 2.25rem;
   }
@@ -113,7 +113,7 @@ textarea {
   textarea,
   .footer,
   .character-limit {
-    @apply text-n1 
+    @apply text-n1
     pl-3;
   }
 }
@@ -121,11 +121,11 @@ textarea {
 :host([scale="l"]) {
   @apply text-0;
   textarea {
-    @apply py-3 
+    @apply py-3
     px-4;
   }
   .footer {
-    @apply py-3 
+    @apply py-3
     px-4;
     min-block-size: 2.75rem;
   }
@@ -135,7 +135,7 @@ textarea {
   textarea,
   .footer,
   .character-limit {
-    @apply text-0 
+    @apply text-0
     pl-4;
   }
 }
@@ -168,7 +168,7 @@ textarea.block-size--full {
 }
 
 .container {
-  @apply flex 
+  @apply flex
   justify-between
   w-full;
 }
@@ -177,5 +177,10 @@ textarea.block-size--full {
   @apply justify-end;
 }
 
+.assistive-text {
+  @apply sr-only;
+}
+
 @include hidden-form-input();
 @include disabled();
+@include base-component();

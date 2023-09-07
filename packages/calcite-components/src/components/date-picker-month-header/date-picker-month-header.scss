@@ -126,8 +126,10 @@
 }
 
 .suffix {
-  @apply top-0 
+  @apply top-0
     whitespace-nowrap
     text-start;
   inset-inline-start: 0;
 }
+
+@include base-component();

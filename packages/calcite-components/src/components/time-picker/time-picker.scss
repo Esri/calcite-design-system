@@ -69,9 +69,12 @@
     &:focus,
     &:hover:focus {
       @apply outline-none;
+      outline-offset: 0;
+    }
+    &.inputFocus,
+    &:hover.inputFocus {
       box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
       z-index: theme("zIndex.header");
-      outline-offset: 0;
     }
   }
 
@@ -117,3 +120,5 @@
     }
   }
 }
+
+@include base-component();

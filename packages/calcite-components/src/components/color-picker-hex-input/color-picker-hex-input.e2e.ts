@@ -54,7 +54,7 @@ describe("calcite-color-picker-hex-input", () => {
     await page.setContent("<calcite-color-picker-hex-input allow-empty></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
-    await input.setProperty("value", null);
+    input.setProperty("value", null);
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(null);
@@ -69,7 +69,7 @@ describe("calcite-color-picker-hex-input", () => {
     await page.setContent("<calcite-color-picker-hex-input></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
-    await input.setProperty("value", "#abc");
+    input.setProperty("value", "#abc");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("#aabbcc");
@@ -80,7 +80,7 @@ describe("calcite-color-picker-hex-input", () => {
     await page.setContent("<calcite-color-picker-hex-input alpha-channel></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
-    await input.setProperty("value", "#abcd");
+    input.setProperty("value", "#abcd");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("#aabbccdd");
@@ -91,7 +91,7 @@ describe("calcite-color-picker-hex-input", () => {
     await page.setContent("<calcite-color-picker-hex-input></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
-    await input.setProperty("value", "#fafafa");
+    input.setProperty("value", "#fafafa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("#fafafa");
@@ -102,7 +102,7 @@ describe("calcite-color-picker-hex-input", () => {
     await page.setContent("<calcite-color-picker-hex-input alpha-channel></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
-    await input.setProperty("value", "#fafafafa");
+    input.setProperty("value", "#fafafafa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("#fafafafa");
@@ -132,37 +132,37 @@ describe("calcite-color-picker-hex-input", () => {
     await page.setContent(`<calcite-color-picker-hex-input value='${hex}'></calcite-color-picker-hex-input>`);
     const input = await page.find(`calcite-color-picker-hex-input`);
 
-    await input.setProperty("value", null);
+    input.setProperty("value", null);
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "wrong");
+    input.setProperty("value", "wrong");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#");
+    input.setProperty("value", "#");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#a");
+    input.setProperty("value", "#a");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#aa");
+    input.setProperty("value", "#aa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#aaaa");
+    input.setProperty("value", "#aaaa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#aaaaa");
+    input.setProperty("value", "#aaaaa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
@@ -176,37 +176,37 @@ describe("calcite-color-picker-hex-input", () => {
     );
     const input = await page.find(`calcite-color-picker-hex-input`);
 
-    await input.setProperty("value", null);
+    input.setProperty("value", null);
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "wrong");
+    input.setProperty("value", "wrong");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#");
+    input.setProperty("value", "#");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#a");
+    input.setProperty("value", "#a");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#aa");
+    input.setProperty("value", "#aa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#aaaaa");
+    input.setProperty("value", "#aaaaa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#aaaaaaa");
+    input.setProperty("value", "#aaaaaaa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
@@ -219,7 +219,7 @@ describe("calcite-color-picker-hex-input", () => {
     const input = await page.find("calcite-color-picker-hex-input");
     const spy = await input.spyOnEvent("calciteColorPickerHexInputChange");
 
-    await input.setProperty("value", "#abcdef");
+    input.setProperty("value", "#abcdef");
     await page.waitForChanges();
 
     expect(spy).toHaveReceivedEventTimes(0);
@@ -360,7 +360,7 @@ describe("calcite-color-picker-hex-input", () => {
           const initialHex = "#000000";
 
           await input.callMethod("setFocus");
-          await input.setProperty("value", initialHex);
+          input.setProperty("value", initialHex);
           await page.waitForChanges();
 
           await page.keyboard.press("ArrowUp");
@@ -404,7 +404,7 @@ describe("calcite-color-picker-hex-input", () => {
 
           it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {
             const noColorValue = null;
-            await input.setProperty("value", noColorValue);
+            input.setProperty("value", noColorValue);
             await page.waitForChanges();
             await input.callMethod("setFocus");
             await page.waitForChanges();
@@ -413,14 +413,14 @@ describe("calcite-color-picker-hex-input", () => {
             await page.waitForChanges();
             expect(await input.getProperty("value")).toBe(startingHex);
 
-            await input.setProperty("value", noColorValue);
+            input.setProperty("value", noColorValue);
             await page.waitForChanges();
 
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
             expect(await input.getProperty("value")).toBe(startingHex);
 
-            await input.setProperty("value", noColorValue);
+            input.setProperty("value", noColorValue);
             await page.waitForChanges();
 
             await page.keyboard.down("Shift");
@@ -428,7 +428,7 @@ describe("calcite-color-picker-hex-input", () => {
             await page.keyboard.up("Shift");
             expect(await input.getProperty("value")).toBe(startingHex);
 
-            await input.setProperty("value", noColorValue);
+            input.setProperty("value", noColorValue);
             await page.waitForChanges();
 
             await page.keyboard.down("Shift");
@@ -474,7 +474,7 @@ describe("calcite-color-picker-hex-input", () => {
           const initialHex = "#000000ff";
 
           await input.callMethod("setFocus");
-          await input.setProperty("value", initialHex);
+          input.setProperty("value", initialHex);
           await page.waitForChanges();
 
           await page.keyboard.press("ArrowUp");
@@ -523,7 +523,7 @@ describe("calcite-color-picker-hex-input", () => {
 
           it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {
             const noColorValue = null;
-            await input.setProperty("value", noColorValue);
+            input.setProperty("value", noColorValue);
             await page.waitForChanges();
             await input.callMethod("setFocus");
             await page.waitForChanges();
@@ -532,14 +532,14 @@ describe("calcite-color-picker-hex-input", () => {
             await page.waitForChanges();
             expect(await input.getProperty("value")).toBe(startingHexa);
 
-            await input.setProperty("value", noColorValue);
+            input.setProperty("value", noColorValue);
             await page.waitForChanges();
 
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
             expect(await input.getProperty("value")).toBe(startingHexa);
 
-            await input.setProperty("value", noColorValue);
+            input.setProperty("value", noColorValue);
             await page.waitForChanges();
 
             await page.keyboard.down("Shift");
@@ -547,7 +547,7 @@ describe("calcite-color-picker-hex-input", () => {
             await page.keyboard.up("Shift");
             expect(await input.getProperty("value")).toBe(startingHexa);
 
-            await input.setProperty("value", noColorValue);
+            input.setProperty("value", noColorValue);
             await page.waitForChanges();
 
             await page.keyboard.down("Shift");

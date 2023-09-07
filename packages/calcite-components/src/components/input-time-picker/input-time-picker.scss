@@ -30,3 +30,5 @@
   inset-block: 0;
   padding-inline: var(--calcite-toggle-spacing);
 }
+
+@include base-component();

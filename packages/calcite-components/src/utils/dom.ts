@@ -427,6 +427,82 @@ export function toAriaBoolean(value: boolean): string {
 }
 
 /**
+ * This helper returns `true` if the target `slot` element from the `onSlotchange` event has any content (text or elements).
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotHasContent = slotChangeHasContent(event)} />}
+ * ```
+ *
+ * @param {Event} event The event.
+ * @returns {boolean} Whether the slot has any content.
+ */
+export function slotChangeHasContent(event: Event): boolean {
+  return slotChangeHasAssignedElement(event) || slotChangeHasTextContent(event);
+}
+
+/**
+ * This helper returns a string of textContent if the target `slot` element from the `onSlotchange` event has any text content.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotText = slotChangeGetTextContent(event)} />}
+ * ```
+ *
+ * @param {Event} event The event.
+ * @returns {string} The slots text.
+ */
+export function slotChangeGetTextContent(event: Event): string {
+  return slotChangeGetAssignedNodes(event)
+    .filter((node) => node.nodeType === Node.TEXT_NODE)
+    .map((node) => node.textContent)
+    .join("")
+    .trim();
+}
+
+/**
+ * This helper returns `true` if the target `slot` element from the `onSlotchange` event has any text content.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotHasTextContent = slotChangeHasTextContent(event)} />}
+ * ```
+ *
+ * @param {Event} event The event.
+ * @returns {boolean} Whether the slot has any text content.
+ */
+export function slotChangeHasTextContent(event: Event): boolean {
+  return !!slotChangeGetTextContent(event);
+}
+
+/**
+ * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned node.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotHasNode = slotChangeHasAssignedNode(event)} />}
+ * ```
+ *
+ * @param {Event} event The event.
+ * @returns {boolean} Whether the slot has any assigned nodes.
+ */
+export function slotChangeHasAssignedNode(event: Event): boolean {
+  return !!slotChangeGetAssignedNodes(event).length;
+}
+
+/**
+ * This helper returns the assigned nodes on a `slot` element from the `onSlotchange` event.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotNodes = slotChangeGetAssignedNodes(event)} />}
+ * ```
+ *
+ * @param {Event} event The event.
+ * @returns {boolean} Whether the slot has any assigned nodes.
+ */
+export function slotChangeGetAssignedNodes(event: Event): Node[] {
+  return (event.target as HTMLSlotElement).assignedNodes({
+    flatten: true,
+  });
+}
+
+/**
  * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned element.
  *
  * ```
@@ -507,3 +583,20 @@ export const focusElementInGroup = (
   focusElement(focusTarget);
   return focusTarget;
 };
+
+/**
+ * This helper determines if an element is before another element in the DOM.
+ *
+ * @param a the reference element to compare
+ * @param b the element to compare against
+ *
+ * @returns true when a is before b in the DOM
+ */
+export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
+  if (a.parentNode !== b.parentNode) {
+    return false;
+  }
+
+  const children = Array.from(a.parentNode.children);
+  return children.indexOf(a) < children.indexOf(b);
+}

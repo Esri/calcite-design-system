@@ -9,3 +9,5 @@ ul {
 :host([layout="vertical"]) ul {
   @apply flex flex-col w-full;
 }
+
+@include base-component();

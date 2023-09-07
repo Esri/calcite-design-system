@@ -302,3 +302,4 @@ slot[name="image"]::slotted(*) {
 }
 
 @include disabled();
+@include base-component();

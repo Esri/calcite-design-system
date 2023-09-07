@@ -47,9 +47,8 @@
 
 @include disabled();
 
-// focus styles
-:host {
-  @apply focus-base w-auto;
+.container {
+  @apply outline-0;
 }
 
 .track {
@@ -63,9 +62,11 @@
     border
     border-solid
     align-top
-    transition-all
-    duration-150
-    ease-in-out;
+    focus-base;
+}
+
+:host(:focus) .track {
+  @apply focus-outset;
 }
 
 .handle {
@@ -120,8 +121,5 @@
   }
 }
 
-.container:focus {
-  @apply focus-outset;
-}
-
 @include hidden-form-input();
+@include base-component();

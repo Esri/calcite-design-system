@@ -16,7 +16,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -57,6 +57,11 @@ export class ActionPad
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Specifies the accessible label for the last action-group.
+   */
+  @Prop() actionsEndGroupLabel: string;
 
   /**
    * When `true`, the expand-toggling behavior is disabled.
@@ -130,6 +135,8 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteActionPadElement;
+
+  @State() expandTooltip: HTMLCalciteTooltipElement;
 
   mutationObserver = createObserver("mutation", () =>
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")))
@@ -233,6 +240,14 @@ export class ActionPad
     this.setGroupLayout(groups);
   };
 
+  handleTooltipSlotChange = (event: Event): void => {
+    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-tooltip")
+    ) as HTMLCalciteTooltipElement[];
+
+    this.expandTooltip = tooltips[0];
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Component Methods
@@ -240,28 +255,41 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const { expanded, expandDisabled, messages, el, position, toggleExpand, scale, layout } = this;
-
-    const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
+    const {
+      expanded,
+      expandDisabled,
+      messages,
+      el,
+      position,
+      toggleExpand,
+      scale,
+      layout,
+      actionsEndGroupLabel,
+    } = this;
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
+        collapseText={messages.collapse}
         el={el}
+        expandText={messages.expand}
         expanded={expanded}
-        intlCollapse={messages.collapse}
-        intlExpand={messages.expand}
         position={position}
         scale={scale}
         toggle={toggleExpand}
-        tooltip={tooltip}
-        // eslint-disable-next-line react/jsx-sort-props
+        tooltip={this.expandTooltip}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setExpandToggleRef}
       />
     ) : null;
 
     return expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
-        <slot name={SLOTS.expandTooltip} />
+      <calcite-action-group
+        class={CSS.actionGroupEnd}
+        label={actionsEndGroupLabel}
+        layout={layout}
+        scale={scale}
+      >
+        <slot name={SLOTS.expandTooltip} onSlotchange={this.handleTooltipSlotChange} />
         {expandToggleNode}
       </calcite-action-group>
     ) : null;

@@ -1,4 +1,6 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 @Component({
   tag: "calcite-progress",
   styleUrl: "progress.scss",
@@ -30,6 +32,7 @@ export class Progress {
   render(): VNode {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
+    const dir = getElementDir(this.el);
     return (
       <div
         aria-label={this.label || this.text}
@@ -43,6 +46,7 @@ export class Progress {
             class={{
               bar: true,
               indeterminate: this.type === "indeterminate",
+              [CSS_UTILITY.rtl]: dir === "rtl",
               reversed: this.reversed,
             }}
             style={barStyles}

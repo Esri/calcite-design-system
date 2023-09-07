@@ -35,14 +35,6 @@ import {
 export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteChipGroupElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -79,6 +71,8 @@ export class ChipGroup implements InteractiveComponent {
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteChipGroupElement;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -131,7 +125,7 @@ export class ChipGroup implements InteractiveComponent {
   @Listen("calciteInternalChipKeyEvent")
   calciteInternalChipKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      const interactiveItems = this.items.filter((el) => !el.disabled);
+      const interactiveItems = this.items?.filter((el) => !el.disabled);
       switch (event.detail.key) {
         case "ArrowRight":
           focusElementInGroup(interactiveItems, event.detail.target, "next");
@@ -152,16 +146,16 @@ export class ChipGroup implements InteractiveComponent {
   @Listen("calciteChipClose")
   calciteChipCloseListener(event: CustomEvent): void {
     const item = event.target as HTMLCalciteChipElement;
-    if (this.items.includes(item)) {
-      if (this.items.indexOf(item) > 0) {
+    if (this.items?.includes(item)) {
+      if (this.items?.indexOf(item) > 0) {
         focusElementInGroup(this.items, item as HTMLCalciteChipElement, "previous");
-      } else if (this.items.indexOf(item) === 0) {
+      } else if (this.items?.indexOf(item) === 0) {
         focusElementInGroup(this.items, item as HTMLCalciteChipElement, "next");
       } else {
         focusElementInGroup(this.items, item as HTMLCalciteChipElement, "first");
       }
     }
-    this.items = this.items.filter((el) => el !== item);
+    this.items = this.items?.filter((el) => el !== item);
   }
 
   @Listen("calciteChipSelect")
@@ -197,10 +191,10 @@ export class ChipGroup implements InteractiveComponent {
   private updateItems = (event?: Event): void => {
     const target = event ? (event.target as HTMLSlotElement) : this.slotRefEl;
     this.items = target
-      .assignedElements({ flatten: true })
+      ?.assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-chip")) as HTMLCalciteChipElement[];
 
-    this.items.forEach((el) => {
+    this.items?.forEach((el) => {
       el.interactive = true;
       el.scale = this.scale;
       el.selectionMode = this.selectionMode;
@@ -211,7 +205,7 @@ export class ChipGroup implements InteractiveComponent {
 
   private setSelectedItems = (emit: boolean, elToMatch?: HTMLCalciteChipElement): void => {
     if (elToMatch) {
-      this.items.forEach((el) => {
+      this.items?.forEach((el) => {
         const matchingEl = elToMatch === el;
         switch (this.selectionMode) {
           case "multiple":
@@ -231,7 +225,7 @@ export class ChipGroup implements InteractiveComponent {
       });
     }
 
-    this.selectedItems = this.items.filter((el) => el.selected);
+    this.selectedItems = this.items?.filter((el) => el.selected);
 
     if (emit) {
       this.calciteChipGroupSelect.emit();

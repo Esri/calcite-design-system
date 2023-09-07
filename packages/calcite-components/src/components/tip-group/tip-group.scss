@@ -10,3 +10,5 @@
   @apply m-0 border-none;
   max-inline-size: var(--calcite-tip-max-width);
 }
+
+@include base-component();

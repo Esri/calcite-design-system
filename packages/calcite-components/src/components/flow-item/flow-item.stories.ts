@@ -129,7 +129,7 @@ export const onlyProps = (): string => html`
       heading-level="${text("heading-level", "2")}"
       description="${text(
         "description",
-        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
       )}"
       heading="${text(
         "heading",
@@ -181,7 +181,7 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
   <div id="container">
     <calcite-flow>
       <calcite-flow-item heading="Example">
-        <div>### Stickied Content e.g. toolbar</div>
+        <div>### Sticky Content e.g. toolbar</div>
         <div class="content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
           sollicitudin ac nulla. Pellentesque tincidunt malesuada arcu et placerat. In malesuada neque lectus, at congue

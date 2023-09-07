@@ -39,3 +39,5 @@ calcite-filter {
 .assistive-text {
   @apply sr-only;
 }
+
+@include base-component();

@@ -190,7 +190,6 @@ export class FlowItem
 
   containerEl: HTMLCalcitePanelElement;
 
-  @State()
   backButtonEl: HTMLCalciteActionElement;
 
   @State() defaultMessages: FlowItemMessages;
@@ -292,7 +291,8 @@ export class FlowItem
         scale="s"
         slot="header-actions-start"
         text={label}
-        // eslint-disable-next-line react/jsx-sort-props
+        title={label}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setBackRef}
       />
     ) : null;
@@ -309,9 +309,7 @@ export class FlowItem
       loading,
       menuOpen,
       messages,
-      backButtonEl,
     } = this;
-    const label = messages.back;
     return (
       <Host>
         <calcite-panel
@@ -326,7 +324,7 @@ export class FlowItem
           messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
           onCalcitePanelScroll={this.handlePanelScroll}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setContainerRef}
         >
           {this.renderBackButton()}
@@ -340,17 +338,6 @@ export class FlowItem
           <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot />
         </calcite-panel>
-        {backButtonEl ? (
-          <calcite-tooltip
-            closeOnClick={true}
-            label={label}
-            overlayPositioning="fixed"
-            placement="top"
-            referenceElement={backButtonEl}
-          >
-            {label}
-          </calcite-tooltip>
-        ) : null}
       </Host>
     );
   }

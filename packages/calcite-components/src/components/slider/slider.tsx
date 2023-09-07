@@ -29,7 +29,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
@@ -46,7 +46,7 @@ import {
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale } from "../interfaces";
-import { CSS } from "./resources";
+import { CSS, maxTickElementThreshold } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
@@ -70,13 +70,6 @@ export class Slider
     LocalizedComponent,
     LoadableComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteSliderElement;
-
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -182,6 +175,11 @@ export class Slider
   /** Displays tick marks on the number line at a specified interval. */
   @Prop({ reflect: true }) ticks: number;
 
+  @Watch("ticks")
+  ticksWatcher(): void {
+    this.tickValues = this.generateTickValues();
+  }
+
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
 
@@ -226,17 +224,12 @@ export class Slider
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
-    this.tickValues = this.generateTickValues();
     if (!isRange(this.value)) {
-      this.value = this.clamp(this.value);
+      this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
     }
+    this.ticksWatcher();
+    this.histogramWatcher(this.histogram);
     afterConnectDefaultValueSet(this, this.value);
-    if (this.snap && !isRange(this.value)) {
-      this.value = this.getClosestStep(this.value);
-    }
-    if (this.histogram) {
-      this.hasHistogram = true;
-    }
   }
 
   componentDidLoad(): void {
@@ -293,7 +286,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -319,7 +312,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelValueClasses}>
@@ -354,7 +347,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -390,7 +383,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -418,7 +411,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
@@ -446,7 +439,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelValueClasses}>
@@ -483,7 +476,7 @@ export class Slider
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
@@ -519,7 +512,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -545,7 +538,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
@@ -580,7 +573,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
@@ -616,7 +609,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
@@ -644,7 +637,7 @@ export class Slider
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
@@ -674,7 +667,7 @@ export class Slider
           {this.renderGraph()}
           <div
             class="track"
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeTrackRef}
           >
             <div
@@ -959,6 +952,8 @@ export class Slider
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteSliderElement;
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -1031,13 +1026,33 @@ export class Slider
     );
   }
 
+  private getTickDensity(): number {
+    const density = (this.max - this.min) / this.ticks / maxTickElementThreshold;
+
+    return density < 1 ? 1 : density;
+  }
+
   private generateTickValues(): number[] {
-    const ticks = [];
-    let current = this.min;
-    while (this.ticks && current < this.max + this.ticks) {
-      ticks.push(Math.min(current, this.max));
-      current = current + this.ticks;
+    const tickInterval = this.ticks ?? 0;
+
+    if (tickInterval <= 0) {
+      return [];
     }
+
+    const ticks: number[] = [this.min];
+    const density = this.getTickDensity();
+    const tickOffset = tickInterval * density;
+    let current = this.min;
+
+    while (current < this.max) {
+      current += tickOffset;
+      ticks.push(Math.min(current, this.max));
+    }
+
+    if (!ticks.includes(this.max)) {
+      ticks.push(this.max);
+    }
+
     return ticks;
   }
 

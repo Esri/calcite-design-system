@@ -45,3 +45,5 @@
   @apply block h-px;
   background-color: theme("borderColor.color.3");
 }
+
+@include base-component();

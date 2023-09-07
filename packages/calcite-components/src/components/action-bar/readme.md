@@ -19,14 +19,14 @@ Renders `calcite-action`s that stick to the top of the bar.
 </calcite-action-bar>
 ```
 
-### Bottom-actions
+### Actions-end
 
-The bottom-actions slot renders `calcite-action`s that stick to the bottom of the bar above the expand/collapse icon.
+The actions-end slot renders `calcite-action`s that stick to the end of the bar prior to the expand/collapse icon.
 
 ```html
 <calcite-action-bar>
   <calcite-action text="Information" icon="information"></calcite-action>
-  <calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+  <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>
 ```
 
@@ -92,7 +92,7 @@ Type: `Promise<void>`
 | Slot               | Description                                                                                                            |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
 |                    | A slot for adding `calcite-action`s that will appear at the top of the component.                                      |
-| `"bottom-actions"` | A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button. |
+| `"actions-end"`    | A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button. |
 | `"expand-tooltip"` | A slot to set the `calcite-tooltip` for the expand toggle.                                                             |
 
 ## CSS Custom Properties

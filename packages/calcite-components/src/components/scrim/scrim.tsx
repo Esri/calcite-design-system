@@ -11,6 +11,7 @@ import { ScrimMessages } from "./assets/scrim/t9n";
 import { CSS, BREAKPOINTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
+import { slotChangeHasContent } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.
@@ -75,6 +76,8 @@ export class Scrim implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
+  @State() hasContent = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -84,6 +87,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    this.resizeObserver?.observe(this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -93,6 +97,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -102,21 +107,20 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, loading, messages } = this;
-    const hasContent = el.innerHTML.trim().length > 0;
-    const loaderNode = loading ? (
-      <calcite-loader label={messages.loading} ref={this.storeLoaderEl} scale={this.loaderScale} />
-    ) : null;
-    const contentNode = hasContent ? (
-      <div class={CSS.content}>
-        <slot />
-      </div>
-    ) : null;
+    const { hasContent, loading, messages } = this;
 
     return (
       <div class={CSS.scrim}>
-        {loaderNode}
-        {contentNode}
+        {loading ? (
+          <calcite-loader
+            label={messages.loading}
+            ref={this.storeLoaderEl}
+            scale={this.loaderScale}
+          />
+        ) : null}
+        <div class={CSS.content} hidden={!hasContent}>
+          <slot onSlotchange={this.handleDefaultSlotChange} />
+        </div>
       </div>
     );
   }
@@ -126,6 +130,10 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private handleDefaultSlotChange = (event: Event): void => {
+    this.hasContent = slotChangeHasContent(event);
+  };
 
   private storeLoaderEl = (el: HTMLCalciteLoaderElement): void => {
     this.loaderEl = el;

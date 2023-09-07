@@ -239,3 +239,5 @@
 .indicator-text {
   @apply sr-only;
 }
+
+@include base-component();

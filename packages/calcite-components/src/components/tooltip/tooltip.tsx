@@ -25,11 +25,7 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 
 import TooltipManager from "./TooltipManager";
@@ -92,6 +88,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("open")
   openHandler(value: boolean): void {
+    onToggleOpenCloseComponent(this);
     if (value) {
       this.reposition(true);
     }
@@ -165,8 +162,16 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectOpenCloseComponent(this);
     this.setUpReferenceElement(this.hasLoaded);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
+  }
+
+  async componentWillLoad(): Promise<void> {
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {
@@ -180,7 +185,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   disconnectedCallback(): void {
     this.removeReferences();
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
-    disconnectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -264,7 +268,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   setUpReferenceElement = (warn = true): void => {
@@ -341,12 +344,12 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           <FloatingArrow
             floatingLayout={floatingLayout}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
           />
           <div class={CSS.container}>

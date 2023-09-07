@@ -6,8 +6,8 @@ import { Position, Scale } from "../interfaces";
 
 interface ExpandToggleProps {
   expanded: boolean;
-  intlExpand: string;
-  intlCollapse: string;
+  expandText: string;
+  collapseText: string;
   el: HTMLElement;
   position: Position;
   tooltip?: HTMLCalciteTooltipElement;
@@ -64,8 +64,8 @@ const setTooltipReference = ({
 
 export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   expanded,
-  intlExpand,
-  intlCollapse,
+  expandText,
+  collapseText,
   toggle,
   el,
   position,
@@ -75,7 +75,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
 }) => {
   const rtl = getElementDir(el) === "rtl";
 
-  const expandText = expanded ? intlCollapse : intlExpand;
+  const text = expanded ? collapseText : expandText;
   const icons = [ICONS.chevronsLeft, ICONS.chevronsRight];
 
   if (rtl) {
@@ -91,9 +91,10 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
       icon={expanded ? expandIcon : collapseIcon}
       onClick={toggle}
       scale={scale}
-      text={expandText}
+      text={text}
       textEnabled={expanded}
-      // eslint-disable-next-line react/jsx-sort-props
+      title={!expanded && !tooltip ? text : null}
+      // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
       ref={(referenceElement): HTMLCalciteActionElement =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }

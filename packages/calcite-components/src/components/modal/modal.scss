@@ -108,7 +108,7 @@
   }
 }
 
-:host([open]) {
+:host([opened]) {
   @apply opacity-100;
   visibility: visible !important;
   transition-delay: 0ms;
@@ -310,7 +310,7 @@ slot[name="primary"] {
   }
 }
 
-:host([open][fullscreen]) {
+:host([opened][fullscreen]) {
   .header,
   .footer,
   .content-top,
@@ -407,3 +407,5 @@ slot[name="primary"] {
     position: absolute;
   }
 }
+
+@include base-component();

@@ -1,20 +1,20 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "0.2.3-next.0",
+  "version": "0.2.3-next.4",
   "description": "ESLint rules for @esri/calcite-components",
   "main": "dist/index.js",
   "files": [
     "dist/index.js"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
     "test": "jest"
   },
   "dependencies": {
     "stencil-eslint-core": "0.3.1"
   },
   "peerDependencies": {
-    "eslint": "^8"
+    "eslint": "8.44.0"
   },
   "license": "SEE LICENSE.md",
   "engines": {

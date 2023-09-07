@@ -23,3 +23,5 @@
 :host([scale="l"]) {
   max-inline-size: 398px;
 }
+
+@include base-component();

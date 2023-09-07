@@ -33,12 +33,15 @@
 :host([appearance="transparent"]) {
   &:host([kind="brand"]) {
     --calcite-split-button-divider: theme("colors.brand");
+    --calcite-split-button-background: transparent;
   }
   &:host([kind="danger"]) {
     --calcite-split-button-divider: theme("colors.danger");
+    --calcite-split-button-background: transparent;
   }
   &:host([kind="neutral"]) {
     --calcite-split-button-divider: theme("colors.color.1");
+    --calcite-split-button-background: transparent;
   }
   &:host([kind="inverse"]) {
     --calcite-split-button-divider: theme("colors.background.foreground.1");
@@ -46,8 +49,7 @@
   }
 }
 
-:host([appearance="outline"]),
-:host([appearance="transparent"]) {
+:host([appearance="outline"]) {
   --calcite-split-button-background: transparent;
 }
 
@@ -64,7 +66,8 @@
     --calcite-split-button-divider: theme("colors.danger");
   }
   &:host([kind="neutral"]) {
-    --calcite-split-button-divider: theme("colors.background.foreground.3");
+    --calcite-split-button-divider: theme("borderColor.color.1");
+    --calcite-split-button-background: theme("borderColor.color.1");
   }
   &:host([kind="inverse"]) {
     --calcite-split-button-divider: var(--calcite-ui-inverse);
@@ -132,3 +135,5 @@
     @apply pointer-events-none;
   }
 }
+
+@include base-component();

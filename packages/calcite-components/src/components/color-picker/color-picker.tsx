@@ -23,8 +23,10 @@ import {
   DEFAULT_STORAGE_KEY_PREFIX,
   DIMENSIONS,
   HSV_LIMITS,
+  HUE_LIMIT_CONSTRAINED,
   OPACITY_LIMITS,
   RGB_LIMITS,
+  SCOPE_SIZE,
 } from "./resources";
 import {
   alphaCompatible,
@@ -62,7 +64,7 @@ import {
   LocalizedComponent,
   NumberingSystem,
 } from "../../utils/locale";
-import { clamp } from "../../utils/math";
+import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import {
   connectMessages,
   disconnectMessages,
@@ -85,14 +87,6 @@ const throttleFor60FpsInMs = 16;
 export class ColorPicker
   implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
 {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteColorPickerElement;
-
   //--------------------------------------------------------------------------
   //
   //  Public properties
@@ -152,9 +146,10 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) format: Format = "auto";
 
+  @Watch("alphaChannel")
   @Watch("format")
-  handleFormatChange(format: Format): void {
-    this.setMode(format);
+  handleFormatOrAlphaChannelChange(): void {
+    this.setMode(this.format);
     this.internalColorSet(this.color, false, "internal");
   }
 
@@ -283,6 +278,8 @@ export class ColorPicker
   //  Internal State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteColorPickerElement;
 
   private activeCanvasInfo: {
     context: CanvasRenderingContext2D;
@@ -439,7 +436,7 @@ export class ColorPicker
   };
 
   private handleChannelInput = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputElement;
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const isAlphaChannel = channelIndex === 3;
 
@@ -462,10 +459,6 @@ export class ColorPicker
     }
 
     input.value = inputValue;
-
-    // TODO: refactor calcite-input so we don't need to sync the internals
-    // https://github.com/Esri/calcite-design-system/issues/6100
-    input.internalSyncChildElValue();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -503,7 +496,7 @@ export class ColorPicker
   }
 
   private handleChannelChange = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputElement;
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
@@ -622,7 +615,7 @@ export class ColorPicker
       } else if (clientX < bounds.x) {
         samplingX = 0;
       } else {
-        samplingX = bounds.width - 1;
+        samplingX = bounds.width;
       }
 
       if (clientY < bounds.y + bounds.height && clientY > bounds.y) {
@@ -727,7 +720,6 @@ export class ColorPicker
       colorFieldScopeLeft,
       colorFieldScopeTop,
       dimensions: {
-        colorField: { width: colorFieldWidth },
         slider: { width: sliderWidth },
         thumb: { radius: thumbRadius },
       },
@@ -750,12 +742,24 @@ export class ColorPicker
     const opacityTop = thumbRadius;
     const opacityLeft =
       opacityScopeLeft ??
-      (colorFieldWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
+      (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
     const noHex = hexDisabled || hideHex;
     const noChannels = channelsDisabled || hideChannels;
     const noSaved = savedDisabled || hideSaved;
+    const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
+      colorFieldScopeLeft,
+      colorFieldScopeTop
+    );
+    const [adjustedHueScopeLeft, adjustedHueScopeTop] = this.getAdjustedScopePosition(
+      hueLeft,
+      hueTop
+    );
+    const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = this.getAdjustedScopePosition(
+      opacityLeft,
+      opacityTop
+    );
 
     return (
       <div class={CSS.container}>
@@ -763,7 +767,7 @@ export class ColorPicker
           <canvas
             class={CSS.colorField}
             onPointerDown={this.handleColorFieldPointerDown}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.initColorField}
           />
           <div
@@ -774,9 +778,12 @@ export class ColorPicker
             class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
-            style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
+            style={{
+              top: `${adjustedColorFieldScopeTop || 0}px`,
+              left: `${adjustedColorFieldScopeLeft || 0}px`,
+            }}
             tabindex="0"
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeColorFieldScope}
           />
         </div>
@@ -787,7 +794,7 @@ export class ColorPicker
               <canvas
                 class={{ [CSS.slider]: true, [CSS.hueSlider]: true }}
                 onPointerDown={this.handleHueSliderPointerDown}
-                // eslint-disable-next-line react/jsx-sort-props
+                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.initHueSlider}
               />
               <div
@@ -798,9 +805,12 @@ export class ColorPicker
                 class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                 onKeyDown={this.handleHueScopeKeyDown}
                 role="slider"
-                style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
+                style={{
+                  top: `${adjustedHueScopeTop}px`,
+                  left: `${adjustedHueScopeLeft}px`,
+                }}
                 tabindex="0"
-                // eslint-disable-next-line react/jsx-sort-props
+                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.storeHueScope}
               />
             </div>
@@ -809,7 +819,7 @@ export class ColorPicker
                 <canvas
                   class={{ [CSS.slider]: true, [CSS.opacitySlider]: true }}
                   onPointerDown={this.handleOpacitySliderPointerDown}
-                  // eslint-disable-next-line react/jsx-sort-props
+                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.initOpacitySlider}
                 />
                 <div
@@ -820,9 +830,12 @@ export class ColorPicker
                   class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                   onKeyDown={this.handleOpacityScopeKeyDown}
                   role="slider"
-                  style={{ top: `${opacityTop}px`, left: `${opacityLeft}px` }}
+                  style={{
+                    top: `${adjustedOpacityScopeTop}px`,
+                    left: `${adjustedOpacityScopeLeft}px`,
+                  }}
                   tabindex="0"
-                  // eslint-disable-next-line react/jsx-sort-props
+                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.storeOpacityScope}
                 />
               </div>
@@ -992,7 +1005,7 @@ export class ColorPicker
     suffix?: string
   ): VNode => {
     return (
-      <calcite-input
+      <calcite-input-number
         class={CSS.channel}
         data-channel-index={index}
         dir={direction}
@@ -1001,8 +1014,8 @@ export class ColorPicker
         lang={this.effectiveLocale}
         numberButtonType="none"
         numberingSystem={this.numberingSystem}
-        onCalciteInputChange={this.handleChannelChange}
-        onCalciteInputInput={this.handleChannelInput}
+        onCalciteInputNumberChange={this.handleChannelChange}
+        onCalciteInputNumberInput={this.handleChannelInput}
         onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
         // workaround to ensure input borders overlap as desired
@@ -1013,7 +1026,6 @@ export class ColorPicker
             index > 0 && !(this.scale === "s" && this.alphaChannel && index === 3) ? "-1px" : "",
         }}
         suffixText={suffix}
-        type="number"
         value={value?.toString()}
       />
     );
@@ -1079,7 +1091,7 @@ export class ColorPicker
         slider: { width },
       },
     } = this;
-    const hue = (360 / width) * x;
+    const hue = (HUE_LIMIT_CONSTRAINED / width) * x;
 
     this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
   }
@@ -1300,6 +1312,10 @@ export class ColorPicker
   };
 
   private initOpacitySlider = (canvas: HTMLCanvasElement): void => {
+    if (!canvas) {
+      return;
+    }
+
     this.opacitySliderRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("opacity-slider");
     this.drawOpacitySlider();
@@ -1369,7 +1385,6 @@ export class ColorPicker
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
     const outlineWidth = 1;
-    radius = radius - outlineWidth;
 
     context.beginPath();
     context.arc(x, y, radius, startAngle, endAngle);
@@ -1396,19 +1411,20 @@ export class ColorPicker
 
     const {
       dimensions: {
-        slider: { height, width },
+        slider: { width },
         thumb: { radius },
       },
     } = this;
 
-    const x = hsvColor.hue() / (360 / width);
-    const y = radius - height / 2 + height / 2;
+    const x = hsvColor.hue() / (HUE_LIMIT_CONSTRAINED / width);
+    const y = radius;
+    const sliderBoundX = this.getSliderBoundX(x, width, radius);
 
     requestAnimationFrame(() => {
-      this.hueScopeLeft = x;
+      this.hueScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.hueSliderRenderingContext, radius, x, y, hsvColor);
+    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor);
   }
 
   private drawHueSlider(): void {
@@ -1425,7 +1441,15 @@ export class ColorPicker
 
     const gradient = context.createLinearGradient(0, 0, width, 0);
 
-    const hueSliderColorStopKeywords = ["red", "yellow", "lime", "cyan", "blue", "magenta", "red"];
+    const hueSliderColorStopKeywords = [
+      "red",
+      "yellow",
+      "lime",
+      "cyan",
+      "blue",
+      "magenta",
+      "#ff0004" /* 1 unit less than #ff0 to avoid duplicate values within range */,
+    ];
 
     const offset = 1 / (hueSliderColorStopKeywords.length - 1);
     let currentOffset = 0;
@@ -1549,12 +1573,23 @@ export class ColorPicker
 
     const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
     const y = radius;
+    const sliderBoundX = this.getSliderBoundX(x, width, radius);
 
     requestAnimationFrame(() => {
-      this.opacityScopeLeft = x;
+      this.opacityScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.opacitySliderRenderingContext, radius, x, y, hsvColor);
+    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+  }
+
+  private getSliderBoundX(x: number, width: number, radius: number): number {
+    const closeToEdge = closeToRangeEdge(x, width, radius);
+
+    return closeToEdge === 0
+      ? x
+      : closeToEdge === -1
+      ? remap(x, 0, width, radius, radius * 2)
+      : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
   private storeOpacityScope = (node: HTMLDivElement): void => {
@@ -1565,16 +1600,18 @@ export class ColorPicker
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
     const arrowKeyToXOffset = {
-      ArrowUp: 1,
-      ArrowRight: 1,
-      ArrowDown: -1,
-      ArrowLeft: -1,
+      ArrowUp: 0.01,
+      ArrowRight: 0.01,
+      ArrowDown: -0.01,
+      ArrowLeft: -0.01,
     };
 
     if (arrowKeyToXOffset[key]) {
       event.preventDefault();
-      const delta = opacityToAlpha(arrowKeyToXOffset[key] * modifier);
-      this.captureHueSliderColor(this.opacityScopeLeft + delta);
+      const delta = arrowKeyToXOffset[key] * modifier;
+      const alpha = this.baseColorFieldColor.alpha();
+      const color = this.baseColorFieldColor.alpha(alpha + delta);
+      this.internalColorSet(color, false);
     }
   };
 
@@ -1601,5 +1638,9 @@ export class ColorPicker
     }
 
     return channels as Channels;
+  }
+
+  private getAdjustedScopePosition(left: number, top: number): [number, number] {
+    return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
 }

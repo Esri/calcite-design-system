@@ -678,9 +678,9 @@ describe("calcite-input", () => {
       await page.setContent(html`<calcite-input type="number" value="1"></calcite-input>`);
       const element = await page.find("calcite-input");
       await element.click();
-      await page.waitForChanges;
+      await page.waitForChanges();
       await element.callMethod("blur");
-      await page.waitForChanges;
+      await page.waitForChanges();
       element.setProperty("value", "2");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("2");
@@ -1070,7 +1070,7 @@ describe("calcite-input", () => {
       expect(Number(await element.getProperty("value"))).toBe(195);
     });
 
-    it("allows deleting exponentail number from decimal and adding trailing zeros", async () => {
+    it("allows deleting exponential number from decimal and adding trailing zeros", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
 

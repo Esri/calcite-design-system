@@ -22,11 +22,6 @@ export const simple = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-progress
     class="calcite-mode-dark"
     type="determinate"

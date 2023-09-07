@@ -1,0 +1,34 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
+  "platformCommit": true,
+  "rangeStrategy": "pin",
+  "enabledManagers": ["npm"],
+  "timezone": "America/Los_Angeles",
+  "schedule": ["before 5am on tuesday and thursday"],
+  "labels": ["dependencies"],
+  "ignoreDeps": [
+    "@types/jest",
+    "@types/react",
+    "@types/react-dom",
+    "@whitespace/storybook-addon-html",
+    "cheerio",
+    "jest",
+    "jest-cli",
+    "node",
+    "npm",
+    "puppeteer",
+    "react",
+    "react-dom",
+    "ts-jest",
+    "typescript"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["*"],
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps",
+      "addLabels": ["chore"]
+    }
+  ]
+}

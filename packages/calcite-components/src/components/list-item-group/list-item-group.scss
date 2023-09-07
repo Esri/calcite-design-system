@@ -23,6 +23,4 @@
   @apply shadow-none;
 }
 
-[hidden] {
-  display: none;
-}
+@include base-component();

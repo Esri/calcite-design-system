@@ -207,7 +207,7 @@ johndoe/feature/add-something-to-modal
 
 This project follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to automatically update the changelog.
 
-[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/master/.github/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
+[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
 
 ## Breaking changes
 
@@ -230,3 +230,9 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
 
 You can update the PR title any time before merging the PR. This may be necessary when the scope or type of the PR changes, or if additional details are needed for the changelog entry.
+
+By default, the PR body will be used for the commit message when squash merging, so make sure to add any relevant details there.
+
+Once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required for rerunning snapshots, e.g. when pushing additional updates.
+
+If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent rerunning Chromatic after pushing minor cleanup changes before merging.

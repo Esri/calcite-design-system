@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementProp, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale } from "../interfaces";
 import {
   connectInteractive,
@@ -50,14 +50,6 @@ import {
 export class StepperItem implements InteractiveComponent, LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteStepperItemElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -89,26 +81,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** A description for the component. Displays below the header text. */
   @Prop() description: string;
 
-  // internal props inherited from wrapping calcite-stepper
-  /** Defines the layout of the component. */
-  /** @internal */
-  @Prop({ reflect: true, mutable: true }) layout: Extract<"horizontal" | "vertical", Layout> =
-    "horizontal";
-
-  /** When `true`, displays a status icon in the component's heading. */
-  /** @internal */
-  @Prop({ mutable: true }) icon = false;
-
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
-
-  /** When `true`, displays the step number in the component's heading. */
-  /** @internal */
-  @Prop({ mutable: true }) numbered = false;
-
-  /** Specifies the size of the component. */
-  /** @internal */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
   /**
    * @internal
@@ -120,6 +94,34 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   disabledWatcher(): void {
     this.registerStepperItem();
   }
+
+  /**
+   * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
+   *
+   * @internal
+   */
+  @Prop() icon = false;
+
+  /**
+   * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout>;
+
+  /**
+   * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
+   *
+   * @internal
+   */
+  @Prop() numbered = false;
+
+  /**
+   * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -183,10 +185,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
-    this.icon = getElementProp(this.el, "icon", false);
-    this.numbered = getElementProp(this.el, "numbered", false);
-    this.layout = getElementProp(this.el, "layout", false);
-    this.scale = getElementProp(this.el, "scale", "m");
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
     this.itemPosition = this.getItemPosition();
     this.registerStepperItem();
@@ -223,7 +221,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
               /* additional tab index logic needed because of display: contents */
               this.layout === "horizontal" && !this.disabled ? 0 : null
             }
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.headerEl = el)}
           >
             {this.icon ? this.renderIcon() : null}
@@ -277,6 +275,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteStepperItemElement;
+
   /** position within parent */
   private itemPosition: number;
 

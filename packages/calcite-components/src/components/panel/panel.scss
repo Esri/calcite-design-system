@@ -12,6 +12,7 @@
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-footer-padding: theme("spacing.2");
+  --calcite-internal-panel-header-border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
 @include disabled();
@@ -29,20 +30,24 @@
 }
 
 .header {
-  border-block-end: 1px solid;
-  @apply bg-foreground-1
-    border-b-color-3
-    w-full
-    items-stretch
-    justify-start
+  @apply bg-foreground-1 flex flex-col
     z-header;
+  border-block-end: var(--calcite-internal-panel-header-border-block-end);
+}
+
+.header-container {
+  @apply flex flex-row w-full
+  items-stretch
+  justify-start;
   flex: 0 0 auto;
 }
 
+.header-container--border-end {
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+}
+
 .action-bar-container {
-  border-block-end: 1px solid;
-  @apply w-full
-  z-header border-b-color-3;
+  @apply w-full;
 }
 
 .action-bar-container ::slotted(calcite-action-bar) {
@@ -92,32 +97,25 @@
 }
 
 .content-wrapper {
-  @apply overflow-auto;
-}
-
-.content-height {
-  @apply h-full;
-}
-
-.content-container {
-  @apply bg-background
-  flex
+  @apply flex
   flex-auto
   flex-col
   flex-nowrap
-  items-stretch;
+  items-stretch
+  bg-background
+  overflow-auto
+  h-full;
 }
 
 .footer {
-  border-block-start: 1px solid;
   @apply bg-foreground-1
-  border-t-color-3
   flex
   w-full
   justify-evenly;
 
   flex: 0 0 auto;
   padding: var(--calcite-panel-footer-padding);
+  border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 
 .fab-container {
@@ -132,6 +130,4 @@
   inline-size: fit-content;
 }
 
-[hidden] {
-  display: none;
-}
+@include base-component();

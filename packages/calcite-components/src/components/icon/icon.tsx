@@ -15,15 +15,6 @@ import { fetchIcon, scaleToPx } from "./utils";
 export class Icon {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element()
-  el: HTMLCalciteIconElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -125,6 +116,8 @@ export class Icon {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteIconElement;
 
   private intersectionObserver: IntersectionObserver;
 

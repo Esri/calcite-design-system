@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { KeyInput } from "puppeteer";
 import { html } from "../../../support/formatting";
 import {
@@ -544,8 +544,8 @@ describe("calcite-input-number", () => {
     });
 
     describe("mouse events on arrow buttons", () => {
-      let input;
-      let calciteInputNumberInput;
+      let input: E2EElement;
+      let calciteInputNumberInput: EventSpy;
 
       beforeEach(async () => {
         await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
@@ -713,9 +713,9 @@ describe("calcite-input-number", () => {
       await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
       const element = await page.find("calcite-input-number");
       await element.click();
-      await page.waitForChanges;
+      await page.waitForChanges();
       await element.callMethod("blur");
-      await page.waitForChanges;
+      await page.waitForChanges();
       element.setProperty("value", "2");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("2");
@@ -911,7 +911,7 @@ describe("calcite-input-number", () => {
     expect(Number(await element.getProperty("value"))).toBe(195);
   });
 
-  it("allows deleting exponentail number from decimal and adding trailing zeros", async () => {
+  it("allows deleting exponential number from decimal and adding trailing zeros", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number></calcite-input-number>`);
 
@@ -1631,7 +1631,7 @@ describe("calcite-input-number", () => {
     expect(await button.getProperty("disabled")).toBe(true);
     expect(await input.getProperty("disabled")).toBe(false);
 
-    await input.setProperty("disabled", true);
+    input.setProperty("disabled", true);
     await input.callMethod("setFocus");
     await page.waitForChanges();
     await typeNumberValue(page, "2");
@@ -1640,7 +1640,7 @@ describe("calcite-input-number", () => {
     expect(await button.getProperty("disabled")).toBe(true);
     expect(await input.getProperty("disabled")).toBe(true);
 
-    await input.setProperty("disabled", false);
+    input.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
     await page.waitForChanges();
@@ -1650,7 +1650,7 @@ describe("calcite-input-number", () => {
     expect(await button.getProperty("disabled")).toBe(true);
     expect(await input.getProperty("disabled")).toBe(false);
 
-    await button.setProperty("disabled", false);
+    button.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
     await page.waitForChanges();
@@ -1660,7 +1660,7 @@ describe("calcite-input-number", () => {
     expect(await button.getProperty("disabled")).toBe(false);
     expect(await input.getProperty("disabled")).toBe(false);
 
-    await input.setProperty("disabled", true);
+    input.setProperty("disabled", true);
     await page.waitForChanges();
     await input.callMethod("setFocus");
     await page.waitForChanges();
@@ -1669,6 +1669,33 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("134");
     expect(await button.getProperty("disabled")).toBe(true);
     expect(await input.getProperty("disabled")).toBe(true);
+  });
+
+  it("integer property prevents decimals and exponential notation", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-number integer value="1.2" step="0.01"></calcite-input-number>`);
+
+    const input = await page.find("calcite-input-number");
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+    );
+
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("12"); // test initial value
+
+    await typeNumberValue(page, "3.4e-5");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("12345"); // test user input
+
+    input.setProperty("value", "-9.8e-7");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-987"); // test directly setting value
+
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-986"); // test incrementing
   });
 
   describe("is form-associated", () => {

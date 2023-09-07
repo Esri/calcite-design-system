@@ -5,3 +5,5 @@
 :host(:focus) {
   @apply outline-none;
 }
+
+@include base-component();

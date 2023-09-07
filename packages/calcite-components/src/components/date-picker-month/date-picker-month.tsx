@@ -33,14 +33,6 @@ interface Day {
 export class DatePickerMonth {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteDatePickerMonthElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -267,6 +259,9 @@ export class DatePickerMonth {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteDatePickerMonthElement;
+
   private activeFocus: boolean;
 
   //--------------------------------------------------------------------------
@@ -477,7 +472,7 @@ export class DatePickerMonth {
           selected={this.isSelected(date)}
           startOfRange={this.isStartOfRange(date)}
           value={date}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLCalciteDatePickerDayElement) => {
             // when moving via keyboard, focus must be updated on active date
             if (ref && active && this.activeFocus) {

@@ -17,7 +17,7 @@ export const simple = (): string => html`
     ${boolean("active", false)}
     description="${text(
       "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     )}"
     ${boolean("disabled", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
@@ -46,7 +46,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     ${boolean("active", false)}
     description="${text(
       "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     )}"
     ${boolean("disabled", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
@@ -85,7 +85,7 @@ export const disabled_TestOnly = (): string => html`
     ${boolean("active", false)}
     description="${text(
       "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     )}"
     ${boolean("disabled", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"

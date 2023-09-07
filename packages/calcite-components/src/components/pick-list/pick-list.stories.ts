@@ -163,7 +163,7 @@ export const nested = (): string =>
         </calcite-pick-list-item>
         <calcite-pick-list-item label="Himalayan" value="himalayan"> ${action} </calcite-pick-list-item>
         <calcite-pick-list-item label="Persian" value="persian"> ${action} </calcite-pick-list-item>
-        <calcite-pick-list-item label="Spynx" value="spynx"> ${action} </calcite-pick-list-item>
+        <calcite-pick-list-item label="Sphynx" value="sphynx"> ${action} </calcite-pick-list-item>
       </calcite-pick-list-group>
     `
   );

@@ -48,6 +48,9 @@ export const HSV_LIMITS = {
   v: 100,
 };
 
+// 0 and 360 represent the same value, so we limit the hue to 359
+export const HUE_LIMIT_CONSTRAINED = HSV_LIMITS.h - 1;
+
 export const OPACITY_LIMITS = {
   min: 0,
   max: 100,
@@ -94,3 +97,5 @@ export const DIMENSIONS = {
     },
   },
 };
+
+export const SCOPE_SIZE = 1;

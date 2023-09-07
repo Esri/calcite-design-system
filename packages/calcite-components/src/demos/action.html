@@ -315,7 +315,7 @@
           alignment center when enclosed within group (grid layout, text-enabled)
         </div>
         <div class="child">
-          <calcite-action-group layout="grid">
+          <calcite-action-group layout="grid" label="Shapes">
             <calcite-action alignment="center" scale="s" appearance="solid" icon="polygon" text="polygon" text-enabled>
             </calcite-action>
             <calcite-action
@@ -336,7 +336,7 @@
       <div class="parent">
         <div class="child right-aligned-text">alignment center when enclosed within group (grid layout, no text)</div>
         <div class="child">
-          <calcite-action-group layout="grid">
+          <calcite-action-group layout="grid" label="More shapes">
             <calcite-action alignment="center" scale="s" appearance="solid" icon="polygon"></calcite-action>
             <calcite-action alignment="center" scale="s" appearance="solid" icon="rectangle"></calcite-action>
             <calcite-action alignment="center" scale="s" appearance="solid" icon="trash"></calcite-action>
@@ -428,11 +428,11 @@
         <div class="child-action-bar">
           <div>grouping</div>
           <calcite-action-bar>
-            <calcite-action-group>
+            <calcite-action-group label="Item things">
               <calcite-action text="Add" icon="plus"> </calcite-action>
               <calcite-action text="Save" icon="save"> </calcite-action>
             </calcite-action-group>
-            <calcite-action-group>
+            <calcite-action-group label="Layer things">
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
           </calcite-action-bar>
@@ -443,24 +443,24 @@
           <calcite-action-bar>
             <calcite-action text="Add" icon="plus"> </calcite-action>
             <calcite-action text="Save" icon="save"> </calcite-action>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
 
         <div class="child-action-bar">
           <div>tall container</div>
           <calcite-action-bar>
-            <calcite-action-group>
+            <calcite-action-group label="Manage">
               <calcite-action text="Add" icon="plus"> </calcite-action>
               <calcite-action text="Save" icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action-group>
+            <calcite-action-group label="Tinker">
               <calcite-action text="Add" icon="plus"> </calcite-action>
               <calcite-action text="Save" active icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
 
@@ -489,7 +489,7 @@
             const slotTestNode2 = document.getElementById("slot-test2");
             setTimeout(function () {
               const action = document.createElement("calcite-action");
-              action.setAttribute("slot", "bottom-actions");
+              action.setAttribute("slot", "actions-end");
               action.setAttribute("text", "Hello world");
               action.setAttribute("icon", "layers");
               slotTestNode2.appendChild(action);
@@ -509,7 +509,7 @@
             const expandedTestNode = document.getElementById("slot-test-expanded");
             setTimeout(function () {
               const action = document.createElement("calcite-action");
-              action.setAttribute("slot", "bottom-actions");
+              action.setAttribute("slot", "actions-end");
               action.setAttribute("text", "Hello world");
               action.setAttribute("icon", "layers");
               expandedTestNode.appendChild(action);
@@ -531,11 +531,11 @@
         <div class="child-action-bar" style="flex: 1">
           <div>grouping</div>
           <calcite-action-bar layout="horizontal">
-            <calcite-action-group>
+            <calcite-action-group label="Fiddle">
               <calcite-action text="Add" icon="plus"> </calcite-action>
               <calcite-action text="Save" icon="save"> </calcite-action>
             </calcite-action-group>
-            <calcite-action-group>
+            <calcite-action-group label="Tasks">
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
           </calcite-action-bar>
@@ -546,24 +546,24 @@
           <calcite-action-bar layout="horizontal">
             <calcite-action text="Add" icon="plus"> </calcite-action>
             <calcite-action text="Save" icon="save"> </calcite-action>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
 
         <div class="child-action-bar" style="flex: 1">
           <div>tall container</div>
           <calcite-action-bar layout="horizontal">
-            <calcite-action-group>
+            <calcite-action-group label="Tweak">
               <calcite-action text="Add" icon="plus"> </calcite-action>
               <calcite-action text="Save" icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action-group>
+            <calcite-action-group label="Daddle">
               <calcite-action text="Add" icon="plus"> </calcite-action>
               <calcite-action text="Save" active icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
 
@@ -580,17 +580,17 @@
         <div class="child-action-bar" style="flex: 1">
           <div>Full width</div>
           <calcite-action-bar layout="horizontal" style="width: 100%">
-            <calcite-action-group>
+            <calcite-action-group label="Poke around">
               <calcite-action text="Add" icon="plus"> </calcite-action>
               <calcite-action text="Save" icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action-group>
+            <calcite-action-group label="Mess with">
               <calcite-action text="Add" icon="plus"> </calcite-action>
               <calcite-action text="Save" active icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
-            <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+            <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
       </div>
@@ -609,11 +609,11 @@
 
         <div class="child-action-bar">
           <calcite-action-pad scale="s">
-            <calcite-action-group>
+            <calcite-action-group label="test">
               <calcite-action scale="s" text="Undo" icon="undo"> </calcite-action>
               <calcite-action scale="s" text="Cool" icon="redo"> </calcite-action>
             </calcite-action-group>
-            <calcite-action-group scale="s">
+            <calcite-action-group label="test2" scale="s">
               <calcite-action scale="s" text="Add" icon="trash"> </calcite-action>
             </calcite-action-group>
           </calcite-action-pad>
@@ -621,11 +621,11 @@
 
         <div class="child-action-bar">
           <calcite-action-pad scale="m">
-            <calcite-action-group>
+            <calcite-action-group label="Revert">
               <calcite-action scale="m" text="Undo" icon="undo"> </calcite-action>
               <calcite-action scale="m" text="Cool" icon="redo"> </calcite-action>
             </calcite-action-group>
-            <calcite-action-group scale="m">
+            <calcite-action-group label="Add things" scale="m">
               <calcite-action scale="m" text="Add" icon="trash"> </calcite-action>
             </calcite-action-group>
           </calcite-action-pad>

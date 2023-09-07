@@ -1,4 +1,14 @@
-import { Component, Element, h, Host, Prop, State, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  State,
+  VNode,
+} from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -33,6 +43,18 @@ export class ListItemGroup implements InteractiveComponent {
    *
    */
   @Prop({ reflect: true }) heading: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Emitted when the default slot has changes in order to notify parent lists.
+   */
+  @Event({ cancelable: false })
+  calciteInternalListItemGroupDefaultSlotChange: EventEmitter<DragEvent>;
 
   // --------------------------------------------------------------------------
   //
@@ -82,8 +104,18 @@ export class ListItemGroup implements InteractiveComponent {
             {heading}
           </td>
         </tr>
-        <slot />
+        <slot onSlotchange={this.handleDefaultSlotChange} />
       </Host>
     );
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private handleDefaultSlotChange = (): void => {
+    this.calciteInternalListItemGroupDefaultSlotChange.emit();
+  };
 }

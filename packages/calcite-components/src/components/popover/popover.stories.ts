@@ -47,29 +47,24 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html` <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
-  <div style="width: 400px;">
-    ${referenceElementHTML}
-    <calcite-popover
-      ${boolean("closable", false)}
-      ${boolean("flip-disabled", false)}
-      ${boolean("pointer-disabled", false)}
-      reference-element="reference-element"
-      placement="${select("placement", placements, defaultPopoverPlacement)}"
-      offset-distance="${number("offset-distance", 6)}"
-      offset-skidding="${number("offset-skidding", 0)}"
-      ${boolean("open", true)}
-      text-close="${text("text-close", "Close")}"
-      dir="${select("dir", ["ltr", "rtl"], "rtl")}"
-      class="calcite-mode-dark"
-    >
-      ${contentHTML}
-    </calcite-popover>
-  </div>`;
+export const darkModeRTL_TestOnly = (): string => html` <div style="width: 400px;">
+  ${referenceElementHTML}
+  <calcite-popover
+    ${boolean("closable", false)}
+    ${boolean("flip-disabled", false)}
+    ${boolean("pointer-disabled", false)}
+    reference-element="reference-element"
+    placement="${select("placement", placements, defaultPopoverPlacement)}"
+    offset-distance="${number("offset-distance", 6)}"
+    offset-skidding="${number("offset-skidding", 0)}"
+    ${boolean("open", true)}
+    text-close="${text("text-close", "Close")}"
+    dir="${select("dir", ["ltr", "rtl"], "rtl")}"
+    class="calcite-mode-dark"
+  >
+    ${contentHTML}
+  </calcite-popover>
+</div>`;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
@@ -101,11 +96,6 @@ nested.parameters = {
 };
 
 export const flipPlacements_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="height: 100px; overflow:scroll; width: 200px;">
     <div class="my-popover-reference">
       <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
@@ -120,11 +110,6 @@ export const flipPlacements_TestOnly = (): string => html`
 `;
 
 export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -141,11 +126,6 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): stri
 `;
 
 export const smallScaleLayout_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -162,11 +142,6 @@ export const smallScaleLayout_TestOnly = (): string => html`
 `;
 
 export const mediumScaleLayout_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -183,11 +158,6 @@ export const mediumScaleLayout_TestOnly = (): string => html`
 `;
 
 export const largeScaleLayout_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover

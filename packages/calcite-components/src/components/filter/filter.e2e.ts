@@ -151,37 +151,37 @@ describe("calcite-filter", () => {
             name: "Harry",
             description: "developer",
             value: "harry",
-            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
+            metadata: { hairColor: "red", favoriteBand: "MetallicA" },
           },
           {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
+            metadata: { hairColor: "black", favoriteBand: "Radiohead" },
           },
           {
             name: "Franco",
             description: "developer",
             value: "franco",
-            metadata: { haircolor: "black", favoriteBand: "The Mars Volta" },
+            metadata: { hairColor: "black", favoriteBand: "The Mars Volta" },
           },
           {
             name: "Katy",
             description: "engineer",
             value: "katy",
-            metadata: { haircolor: "red", favoriteBand: "unknown" },
+            metadata: { hairColor: "red", favoriteBand: "unknown" },
           },
           {
             name: "Jon",
             description: "developer",
             value: "jon",
-            metadata: { haircolor: "brown", favoriteBand: "Hippity Hops" },
+            metadata: { hairColor: "brown", favoriteBand: "Hippity Hops" },
           },
           {
             name: "regex",
             description: "regex",
             value: "regex",
-            metadata: { haircolor: "rainbow", favoriteBand: "regex()" },
+            metadata: { hairColor: "rainbow", favoriteBand: "regex()" },
           },
         ];
       });
@@ -260,13 +260,13 @@ describe("calcite-filter", () => {
             name: "Harry",
             description: "developer",
             value: "harry",
-            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
+            metadata: { hairColor: "red", favoriteBand: "MetallicA" },
           },
           {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
+            metadata: { hairColor: "black", favoriteBand: "Radiohead" },
           },
         ];
       });
@@ -292,13 +292,13 @@ describe("calcite-filter", () => {
             name: "Harry",
             description: "developer",
             value: "harry",
-            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
+            metadata: { hairColor: "red", favoriteBand: "MetallicA" },
           },
           {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
+            metadata: { hairColor: "black", favoriteBand: "Radiohead" },
           },
         ];
       });

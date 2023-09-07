@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-list-item", () => {
   describe("renders", () => {
@@ -43,6 +44,10 @@ describe("calcite-list-item", () => {
         propertyName: "open",
         defaultValue: false,
       },
+      {
+        propertyName: "dragHandle",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -52,6 +57,24 @@ describe("calcite-list-item", () => {
 
   describe("disabled", () => {
     disabled(`<calcite-list-item label="test" active></calcite-list-item>`);
+  });
+
+  it("renders dragHandle when property is true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item></calcite-list-item>`);
+    await page.waitForChanges();
+
+    let handleNode = await page.find("calcite-list-item >>> calcite-handle");
+
+    expect(handleNode).toBeNull();
+
+    const item = await page.find("calcite-list-item");
+    item.setProperty("dragHandle", true);
+    await page.waitForChanges();
+
+    handleNode = await page.find("calcite-list-item >>> calcite-handle");
+
+    expect(handleNode).not.toBeNull();
   });
 
   it("renders content node when label is provided", async () => {
@@ -109,6 +132,42 @@ describe("calcite-list-item", () => {
     await page.keyboard.press("Enter");
 
     expect(eventSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("does not emit calciteListItemSelect on Enter within action slots", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list-item selection-mode="single" label="hello" description="world" active
+      ><calcite-action
+        appearance="transparent"
+        icon="banana"
+        text="menu"
+        label="menu"
+        slot="filter-actions-start"
+      ></calcite-action>
+      <calcite-action
+        appearance="transparent"
+        icon="sort-ascending"
+        text="menu"
+        label="menu"
+        slot="filter-actions-end"
+      ></calcite-action
+    ></calcite-list-item>`);
+
+    await page.waitForChanges();
+
+    const eventSpy = await page.spyOnEvent("calciteListItemSelect");
+
+    const actionsStart = await page.find(`calcite-list-item >>> .${CSS.actionsStart}`);
+    await actionsStart.focus();
+    await page.keyboard.press("Enter");
+
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+
+    const actionsEnd = await page.find(`calcite-list-item >>> .${CSS.actionsEnd}`);
+    await actionsEnd.focus();
+    await page.keyboard.press("Enter");
+
+    expect(eventSpy).toHaveReceivedEventTimes(0);
   });
 
   it("emits calciteListItemSelect on click", async () => {

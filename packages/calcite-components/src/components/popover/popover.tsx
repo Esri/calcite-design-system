@@ -38,11 +38,7 @@ import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./re
 
 import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent,
-} from "../../utils/openCloseComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 
@@ -196,6 +192,8 @@ export class Popover
 
   @Watch("open")
   openHandler(value: boolean): void {
+    onToggleOpenCloseComponent(this);
+
     if (value) {
       this.reposition(true);
     }
@@ -255,13 +253,13 @@ export class Popover
   //
   // --------------------------------------------------------------------------
 
+  @Element() el: HTMLCalcitePopoverElement;
+
   mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.updateFocusTrapElements()
   );
 
   filteredFlipPlacements: EffectivePlacement[];
-
-  @Element() el: HTMLCalcitePopoverElement;
 
   @State() effectiveLocale = "";
 
@@ -300,9 +298,11 @@ export class Popover
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    connectOpenCloseComponent(this);
     this.setUpReferenceElement(this.hasLoaded);
     connectFocusTrap(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -324,7 +324,6 @@ export class Popover
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
-    disconnectOpenCloseComponent(this);
     deactivateFocusTrap(this);
   }
 
@@ -414,7 +413,6 @@ export class Popover
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   setFilteredPlacements = (): void => {
@@ -541,7 +539,7 @@ export class Popover
           onClick={this.hide}
           scale={this.scale}
           text={messages.close}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         >
           <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
@@ -575,7 +573,7 @@ export class Popover
       <FloatingArrow
         floatingLayout={floatingLayout}
         key="floating-arrow"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.storeArrowEl}
       />
     ) : null;
@@ -594,7 +592,7 @@ export class Popover
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           {arrowNode}

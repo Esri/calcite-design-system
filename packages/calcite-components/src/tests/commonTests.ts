@@ -8,7 +8,7 @@ import { html } from "../../support/formatting";
 import { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
-import { GlobalTestProps, skipAnimations } from "./utils";
+import { GlobalTestProps, isElementFocused, skipAnimations } from "./utils";
 import { InteractiveHTMLElement } from "../utils/interactive";
 
 expect.extend(toHaveNoViolations);
@@ -127,7 +127,7 @@ export async function renders(
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
- * @param {any} propsToTest.value - the property value
+ * @param {any} propsToTest.value - the property value (if boolean, needs to be `true` to ensure reflection)
  */
 export function reflects(
   componentTagOrHTML: TagOrHTML,
@@ -136,35 +136,35 @@ export function reflects(
     value: any;
   }[]
 ): void {
-  it(`reflects`, async () => {
+  const cases = propsToTest.map(({ propertyName, value }) => [propertyName, value]);
+
+  it.each(cases)("%p", async (propertyName, value) => {
     const page = await simplePageSetup(componentTagOrHTML);
+    await skipAnimations(page);
     const componentTag = getTag(componentTagOrHTML);
     const element = await page.find(componentTag);
 
-    for (const propAndValue of propsToTest) {
-      const { propertyName, value } = propAndValue;
-      const attrName = propToAttr(propertyName);
-      const componentAttributeSelector = `${componentTag}[${attrName}]`;
+    const attrName = propToAttr(propertyName);
+    const componentAttributeSelector = `${componentTag}[${attrName}]`;
+
+    element.setProperty(propertyName, value);
+    await page.waitForChanges();
+
+    expect(await page.find(componentAttributeSelector)).toBeTruthy();
+
+    if (typeof value === "boolean") {
+      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
+      const negated = !value;
+
+      element.setProperty(propertyName, negated);
+      await page.waitForChanges();
+
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
       element.setProperty(propertyName, value);
       await page.waitForChanges();
 
-      expect(await page.find(componentAttributeSelector)).toBeTruthy();
-
-      if (typeof value === "boolean") {
-        const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
-        const negated = !value;
-
-        element.setProperty(propertyName, negated);
-        await page.waitForChanges();
-
-        expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
-
-        element.setProperty(propertyName, value);
-        await page.waitForChanges();
-
-        expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
-      }
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
     }
   });
 }
@@ -204,16 +204,15 @@ export function defaults(
     defaultValue: any;
   }[]
 ): void {
-  it("has property defaults", async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    const element = await page.find(getTag(componentTagOrHTML));
-
-    for (const propAndValue of propsToTest) {
-      const { propertyName, defaultValue } = propAndValue;
+  it.each(propsToTest.map(({ propertyName, defaultValue }) => [propertyName, defaultValue]))(
+    "%p",
+    async (propertyName, defaultValue) => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      const element = await page.find(getTag(componentTagOrHTML));
       const prop = await element.getProperty(propertyName);
       expect(prop).toEqual(defaultValue);
     }
-  });
+  );
 }
 
 /**
@@ -384,10 +383,10 @@ async function assertLabelable({
   focusTargetSelector?: string;
   shadowFocusTargetSelector?: string;
 }): Promise<void> {
-  let component: E2EElement;
   let initialPropertyValue: boolean;
+  const component = await page.find(componentTag);
+
   if (propertyToToggle) {
-    component = await page.find(componentTag);
     initialPropertyValue = await component.getProperty(propertyToToggle);
   }
 
@@ -423,6 +422,12 @@ async function assertLabelable({
     await page.waitForChanges();
     expect(await component.getProperty(propertyToToggle)).toBe(toggledPropertyValue);
   }
+
+  // assert clicking on labelable keeps focus
+  await component.callMethod("click");
+  await page.waitForChanges();
+
+  expect(await isElementFocused(page, focusTargetSelector)).toBe(true);
 }
 
 interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" | "shadowFocusTargetSelector"> {
@@ -460,118 +465,146 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
   }
 
-  it("is labelable when component is wrapped in a label", async () => {
-    const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
-    const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
-    await wrappedPage.waitForChanges();
+  describe("label wraps labelables", () => {
+    it("is labelable when component is wrapped in a label", async () => {
+      const wrappedHtml = html`<calcite-label>${labelTitle} ${componentHtml}</calcite-label>`;
+      const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
+      await wrappedPage.waitForChanges();
 
-    await assertLabelable({
-      page: wrappedPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
+      await assertLabelable({
+        page: wrappedPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
+
+    it("is labelable when wrapping label is set prior to component", async () => {
+      const labelFirstWrappedPage: E2EPage = await newE2EPage();
+      await labelFirstWrappedPage.setContent(`<calcite-label></calcite-label>`);
+      await labelFirstWrappedPage.waitForChanges();
+      await labelFirstWrappedPage.evaluate((componentHtml: string) => {
+        const template = document.createElement("template");
+        template.innerHTML = `${componentHtml}`.trim();
+        const componentNode = template.content.firstChild;
+        const labelEl = document.querySelector("calcite-label");
+        labelEl.append(componentNode);
+      }, componentHtml);
+      await labelFirstWrappedPage.waitForChanges();
+
+      await assertLabelable({
+        page: labelFirstWrappedPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
+
+    it("is labelable when a component is set first before being wrapped in a label", async () => {
+      const componentFirstWrappedPage: E2EPage = await newE2EPage();
+      await componentFirstWrappedPage.setContent(`${componentHtml}`);
+      await componentFirstWrappedPage.waitForChanges();
+      await componentFirstWrappedPage.evaluate((id: string) => {
+        const componentEl = document.querySelector(`[id='${id}']`);
+        const labelEl = document.createElement("calcite-label");
+        document.body.append(labelEl);
+        labelEl.append(componentEl);
+      }, id);
+      await componentFirstWrappedPage.waitForChanges();
+
+      await assertLabelable({
+        page: componentFirstWrappedPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
+
+    it("only sets focus on the first labelable when label is clicked", async () => {
+      const firstLabelableId = `${id}`;
+      const componentFirstWrappedPage: E2EPage = await newE2EPage();
+      await componentFirstWrappedPage.setContent(html`
+        <calcite-label>
+          <!-- duplicate tags should be fine as assertion uses first match -->
+          ${componentHtml.replace(id, firstLabelableId)} ${componentHtml.replace(id, `${id}-2`)}
+          ${componentHtml.replace(id, `${id}-3`)}
+        </calcite-label>
+      `);
+      await componentFirstWrappedPage.waitForChanges();
+
+      const firstLabelableSelector = `#${firstLabelableId}`;
+
+      await assertLabelable({
+        page: componentFirstWrappedPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector:
+          focusTargetSelector === firstLabelableSelector
+            ? firstLabelableSelector
+            : `${firstLabelableSelector} ${focusTargetSelector}`,
+      });
     });
   });
 
-  it("is labelable with label set as a sibling to the component", async () => {
-    const siblingHtml = html`
-      <calcite-label for="${id}">${labelTitle}</calcite-label>
-      ${componentHtml}
-    `;
-    const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
-    await siblingPage.waitForChanges();
+  describe("label is sibling to labelables", () => {
+    it("is labelable with label set as a sibling to the component", async () => {
+      const siblingHtml = html`
+        <calcite-label for="${id}">${labelTitle}</calcite-label>
+        ${componentHtml}
+      `;
+      const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
+      await siblingPage.waitForChanges();
 
-    await assertLabelable({
-      page: siblingPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
+      await assertLabelable({
+        page: siblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
     });
-  });
 
-  it("is labelable when sibling label is set prior to component", async () => {
-    const labelFirstSiblingPage: E2EPage = await newE2EPage();
-    await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
-    await labelFirstSiblingPage.waitForChanges();
-    await labelFirstSiblingPage.evaluate((componentHtml: string) => {
-      const template = document.createElement("template");
-      template.innerHTML = `${componentHtml}`.trim();
-      const componentNode = template.content.firstChild;
-      document.body.append(componentNode);
-    }, componentHtml);
-    await labelFirstSiblingPage.waitForChanges();
+    it("is labelable when sibling label is set prior to component", async () => {
+      const labelFirstSiblingPage: E2EPage = await newE2EPage();
+      await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
+      await labelFirstSiblingPage.waitForChanges();
+      await labelFirstSiblingPage.evaluate((componentHtml: string) => {
+        const template = document.createElement("template");
+        template.innerHTML = `${componentHtml}`.trim();
+        const componentNode = template.content.firstChild;
+        document.body.append(componentNode);
+      }, componentHtml);
+      await labelFirstSiblingPage.waitForChanges();
 
-    await assertLabelable({
-      page: labelFirstSiblingPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
+      await assertLabelable({
+        page: labelFirstSiblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
     });
-  });
 
-  it("is labelable when wrapping label is set prior to component", async () => {
-    const labelFirstWrappedPage: E2EPage = await newE2EPage();
-    await labelFirstWrappedPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
-    await labelFirstWrappedPage.waitForChanges();
-    await labelFirstWrappedPage.evaluate((componentHtml: string) => {
-      const template = document.createElement("template");
-      template.innerHTML = `${componentHtml}`.trim();
-      const componentNode = template.content.firstChild;
-      const labelEl = document.querySelector("calcite-label");
-      labelEl.append(componentNode);
-    }, componentHtml);
-    await labelFirstWrappedPage.waitForChanges();
+    it("is labelable for a component set before sibling label", async () => {
+      const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
+      await componentFirstSiblingPage.waitForChanges();
+      await componentFirstSiblingPage.evaluate((id: string) => {
+        const label = document.createElement("calcite-label");
+        label.setAttribute("for", `${id}`);
+        document.body.append(label);
+      }, id);
+      await componentFirstSiblingPage.waitForChanges();
 
-    await assertLabelable({
-      page: labelFirstWrappedPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
-    });
-  });
-
-  it("is labelable for a component set before sibling label", async () => {
-    const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
-    await componentFirstSiblingPage.waitForChanges();
-    await componentFirstSiblingPage.evaluate((id: string) => {
-      const label = document.createElement("calcite-label");
-      label.setAttribute("for", `${id}`);
-      document.body.append(label);
-    }, id);
-    await componentFirstSiblingPage.waitForChanges();
-
-    await assertLabelable({
-      page: componentFirstSiblingPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
-    });
-  });
-
-  it("is labelable when a component is set first before being wrapped in a label", async () => {
-    const componentFirstWrappedPage: E2EPage = await newE2EPage();
-    await componentFirstWrappedPage.setContent(`${componentHtml}`);
-    await componentFirstWrappedPage.waitForChanges();
-    await componentFirstWrappedPage.evaluate((id: string) => {
-      const componentEl = document.querySelector(`[id='${id}']`);
-      const labelEl = document.createElement("calcite-label");
-      labelEl.setAttribute("for", `${id}`);
-      document.body.append(labelEl);
-      labelEl.append(componentEl);
-    }, id);
-    await componentFirstWrappedPage.waitForChanges();
-
-    await assertLabelable({
-      page: componentFirstWrappedPage,
-      componentTag,
-      propertyToToggle,
-      focusTargetSelector,
-      shadowFocusTargetSelector,
+      await assertLabelable({
+        page: componentFirstSiblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
     });
   });
 }
@@ -593,9 +626,14 @@ interface FormAssociatedOptions {
   inputType?: HTMLInputElement["type"];
 
   /**
-   * Specifies if the component supports submitting the form on Enter key press
+   * Specifies if the component supports submitting the form on Enter key press.
    */
   submitsOnEnter?: boolean;
+
+  /**
+   * Specifies if the component supports clearing its value (i.e., setting to null).
+   */
+  clearable?: boolean;
 }
 
 /**
@@ -759,21 +797,23 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
       await page.waitForChanges();
       expect(await submitAndGetValue()).toBe(null);
     } else {
-      component.setProperty("required", true);
-      component.setProperty("value", null);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toBe(
-        options.inputType === "color"
-          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
-            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
-            "#000000"
-          : undefined
-      );
+      if (options.clearable) {
+        component.setProperty("required", true);
+        component.setProperty("value", null);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(
+          options.inputType === "color"
+            ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+              // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+              "#000"
+            : undefined
+        );
 
-      component.setProperty("required", false);
-      component.setProperty("value", options.testValue);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+        component.setProperty("required", false);
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+      }
 
       component.setProperty("disabled", true);
       await page.waitForChanges();
@@ -884,7 +924,14 @@ interface DisabledOptions {
   /**
    *  Use this to specify whether the test should cover focusing.
    */
-  focusTarget: FocusTarget | TabAndClickTargets;
+  focusTarget?: FocusTarget | TabAndClickTargets;
+
+  /**
+   *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
+   *
+   *  Note: this should only be used for components that wrap a single component that implements disabled behavior.
+   */
+  shadowAriaAttributeTargetSelector?: string;
 }
 
 type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
@@ -918,10 +965,9 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {DisabledOptions} [options] - Disabled options.
  */
-export function disabled(
-  componentTestSetup: ComponentTestSetup,
-  options: DisabledOptions = { focusTarget: "host" }
-): void {
+export function disabled(componentTestSetup: ComponentTestSetup, options?: DisabledOptions): void {
+  options = { focusTarget: "host", ...options };
+
   const addRedirectPrevention = async (page: E2EPage, tag: string): Promise<void> => {
     await page.$eval(tag, (el) => {
       el.addEventListener(
@@ -997,12 +1043,15 @@ export function disabled(
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
+    const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
+      ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
+      : component;
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
-    expect(component.getAttribute("aria-disabled")).toBeNull();
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBeNull();
 
     if (options.focusTarget === "none") {
       await page.click(tag);
@@ -1014,7 +1063,7 @@ export function disabled(
       component.setProperty("disabled", true);
       await page.waitForChanges();
 
-      expect(component.getAttribute("aria-disabled")).toBe("true");
+      expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
       await page.click(tag);
       await page.waitForChanges();
@@ -1072,7 +1121,7 @@ export function disabled(
     component.setProperty("disabled", true);
     await page.waitForChanges();
 
-    expect(component.getAttribute("aria-disabled")).toBe("true");
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await resetFocusOrder();
     await page.keyboard.press("Tab");
@@ -1096,6 +1145,10 @@ export function disabled(
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
+    const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
+      ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
+      : component;
+
     await skipAnimations(page);
     await addRedirectPrevention(page, tag);
 
@@ -1104,7 +1157,7 @@ export function disabled(
     component.setProperty("disabled", true);
     await page.waitForChanges();
 
-    expect(component.getAttribute("aria-disabled")).toBe("true");
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
     await page.waitForChanges();

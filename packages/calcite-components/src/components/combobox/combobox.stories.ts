@@ -416,7 +416,7 @@ export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnl
   </div>
 `;
 
-export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
+export const mediumIconForLargeComboboxItem_TestOnly = (): string => html`
   <calcite-combobox open scale="l">
     <calcite-combobox-item
       icon="altitude"
@@ -449,17 +449,31 @@ export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
   </calcite-combobox>
 `;
 
-export const nestedGroups_TestOnly =
-  (): string => html`<calcite-combobox open selection-mode="single" style="width:400px" placeholder="Type to filter">
-<calcite-combobox-item-group label="Level 1">
-  <calcite-combobox-item-group label="Level 2">
-    <calcite-combobox-item-group label="Level 3">
-      <calcite-combobox-item value="Item 1" text-label="Item 1">
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Item 2" text-label="Item 2">
+export const nestedGroups_TestOnly = (): string => html`
+  <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m" open>
+    <calcite-combobox-item-group label="First item group">
+      <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
+      <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+
+      <calcite-combobox-item-group label="Cutest Pokémon">
+        <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
+        <calcite-combobox-item-group label="No Pokémon 🙃"></calcite-combobox-item-group>
+
+        <calcite-combobox-item-group label="Cutest Pokémon">
+          <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+            <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox-item-group>
+    </calcite-combobox-item-group>
+
+    <calcite-combobox-item-group label="Last item group">
+      <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+        <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
       </calcite-combobox-item>
     </calcite-combobox-item-group>
-</calcite-combobox>`;
+  </calcite-combobox>
+`;
 
 export const clearDisabled_TestOnly = (): string => html`
   <calcite-combobox clear-disabled selection-mode="single" style="width:400px">
@@ -474,10 +488,30 @@ export const clearDisabled_TestOnly = (): string => html`
     <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
   </calcite-combobox>
   <br />
-  <calcite-combobox clear-disabled selection-mode="ancestors">
-    <calcite-combobox-item value="parent" text-label="parent" style="width:400px">
+  <calcite-combobox clear-disabled selection-mode="ancestors" style="width:400px">
+    <calcite-combobox-item value="parent" text-label="parent">
       <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
       <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
     </calcite-combobox-item>
+  </calcite-combobox>
+`;
+
+export const openInAllScales_TestOnly = (): string => html`
+  <calcite-combobox open scale="s">
+    <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+  <br />
+  <calcite-combobox open scale="m">
+    <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+  <br />
+  <calcite-combobox open scale="l">
+    <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
   </calcite-combobox>
 `;

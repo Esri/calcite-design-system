@@ -52,10 +52,9 @@
   flex-direction: column;
   cursor: pointer;
   color: theme("borderColor.color.input");
-}
-
-.focused {
-  @apply focus-outset;
+  &:focus {
+    @apply focus-outset;
+  }
 }
 
 .average,
@@ -100,3 +99,4 @@ calcite-chip {
 }
 
 @include hidden-form-input();
+@include base-component();

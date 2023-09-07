@@ -26,6 +26,48 @@ export const simple = (): string => html`
   </calcite-input-time-picker>
 `;
 
+export const deciSeconds_TestOnly = (): string => html`
+  <calcite-input-time-picker
+    ${boolean("disabled", false)}
+    ${boolean("hidden", false)}
+    name="${text("name", "simple")}"
+    ${boolean("open", true)}
+    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    step="${number("step", 0.1)}"
+    value="${text("value", "10:37:09.5")}"
+  >
+  </calcite-input-time-picker>
+`;
+
+export const centiseconds_TestOnly = (): string => html`
+  <calcite-input-time-picker
+    ${boolean("disabled", false)}
+    ${boolean("hidden", false)}
+    name="${text("name", "simple")}"
+    ${boolean("open", true)}
+    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    step="${number("step", 0.01)}"
+    value="${text("value", "10:37:09.06")}"
+  >
+  </calcite-input-time-picker>
+`;
+
+export const milliseconds_TestOnly = (): string => html`
+  <calcite-input-time-picker
+    ${boolean("disabled", false)}
+    ${boolean("hidden", false)}
+    name="${text("name", "simple")}"
+    ${boolean("open", true)}
+    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    step="${number("step", 0.001)}"
+    value="${text("value", "10:37:09.023")}"
+  >
+  </calcite-input-time-picker>
+`;
+
 export const disabled_TestOnly = (): string =>
   html`<calcite-input-time-picker disabled scale="l" icon step="1" value="01:02"></calcite-input-time-picker>`;
 
@@ -83,4 +125,8 @@ export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
     open
   >
   </calcite-input-time-picker>
+`;
+
+export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
+  <calcite-input-time-picker read-only value="10:37"></calcite-input-time-picker>
 `;

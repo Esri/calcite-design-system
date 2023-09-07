@@ -102,3 +102,5 @@
 .ellipsis {
   @apply text-color-3 flex items-end;
 }
+
+@include base-component();

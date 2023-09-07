@@ -8,7 +8,6 @@ export const CSS = {
   close: "close",
   secondary: "secondary",
   primary: "primary",
-  overflowHidden: "overflow-hidden",
   container: "container",
   containerOpen: "container--open",
   content: "content",

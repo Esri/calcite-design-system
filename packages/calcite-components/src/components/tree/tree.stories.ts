@@ -296,8 +296,8 @@ export const OverflowingSubtree = (): string =>
     <script>
       window.addEventListener("load", () => {
         setTimeout(() => {
-          const dorpdownTriggerEl = document.querySelector("calcite-button#trigger");
-          dorpdownTriggerEl.click();
+          const dropdownTriggerEl = document.querySelector("calcite-button#trigger");
+          dropdownTriggerEl.click();
         }, 1000);
       });
     </script>`;

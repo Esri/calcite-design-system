@@ -52,8 +52,7 @@ export class ColorPickerSwatch {
   //
   //--------------------------------------------------------------------------
 
-  @Element()
-  el: HTMLCalciteColorPickerSwatchElement;
+  @Element() el: HTMLCalciteColorPickerSwatchElement;
 
   private internalColor: Color;
 

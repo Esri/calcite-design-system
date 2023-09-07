@@ -14,14 +14,6 @@ import { StatusIconDefaults } from "./interfaces";
 export class InputMessage {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteInputMessageElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -69,6 +61,8 @@ export class InputMessage {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInputMessageElement;
 
   /** the computed icon to render */
   private requestedIcon?: string;

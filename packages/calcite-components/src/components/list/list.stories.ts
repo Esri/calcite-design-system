@@ -27,14 +27,14 @@ const knobsHTML = (): string => html`selection-mode="${select(
 )}"
 selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
 ${boolean("closable", false)} ${boolean("closed", false)} ${boolean("filter-enabled", false)}
-${boolean("disabled", false)} ${text("label", "My List")}`;
+${boolean("drag-enabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
 
 export const simple = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item
       selected
       label="Cras iaculis ultricies nulla."
-      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     ></calcite-list-item>
     <calcite-list-item
       label="Ut aliquam sollicitudin leo."
@@ -69,53 +69,53 @@ export const nestedItems = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item
       label="Level 1 item 1"
-      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     ></calcite-list-item>
-    <calcite-list-item label="Level 1 item 2" description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit.">
-      <calcite-list-item label="Level 2 item 1" description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit.">
+    <calcite-list-item label="Level 1 item 2" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+      <calcite-list-item label="Level 2 item 1" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
         <calcite-list-item
           label="Level 3 item 1"
-          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         ></calcite-list-item>
         <calcite-list-item
           label="Level 3 item 2"
-          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         >
           <calcite-list-item
             label="Level 4 item 1"
-            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           >
             <calcite-list-item
               label="Level 5 item 1"
-              description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
             ></calcite-list-item>
           </calcite-list-item>
           <calcite-list-item
             label="Level 4 item 2"
-            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           ></calcite-list-item>
           <calcite-list-item
             label="Level 4 item 3"
-            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           ></calcite-list-item>
         </calcite-list-item>
         <calcite-list-item
           label="Level 3 item 3"
-          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         ></calcite-list-item>
       </calcite-list-item>
       <calcite-list-item
         label="Level 2 item 2"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
       <calcite-list-item
         label="Level 2 item 3"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
     </calcite-list-item>
     <calcite-list-item
       label="Level 1 item 3"
-      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     ></calcite-list-item>
   </calcite-list>
 `;
@@ -130,7 +130,7 @@ export const groupedItems = (): string => html`
       <calcite-list-item
         expanded
         label="Cras iaculis ultricies nulla."
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       >
         <calcite-list-item
           expanded
@@ -146,7 +146,7 @@ export const groupedItems = (): string => html`
     <calcite-list-item-group heading="Digits">
       <calcite-list-item
         label="One"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
       <calcite-list-item label="Two" description="Aliquam tincidunt mauris eu risus."></calcite-list-item>
       <calcite-list-item label="Three" description="Vestibulum auctor dapibus neque."></calcite-list-item>
@@ -154,12 +154,12 @@ export const groupedItems = (): string => html`
     <calcite-list-item-group heading="Letters">
       <calcite-list-item
         label="A"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
       <calcite-list-item label="B" description="Aliquam tincidunt mauris eu risus."></calcite-list-item>
       <calcite-list-item
         label="C"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       ></calcite-list-item>
     </calcite-list-item-group>
   </calcite-list>
@@ -200,7 +200,7 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
 export const richContent = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
@@ -208,7 +208,7 @@ export const richContent = (): string => html`
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
     <calcite-list-item label="Finn Mertens" description="Part owner of the Tree House">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Finn Mertens website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
@@ -216,7 +216,7 @@ export const richContent = (): string => html`
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
     <calcite-list-item label="Jake T. Dog" description="Part owner of the Tree House">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Jake T. Dog website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon
@@ -233,7 +233,7 @@ export const richContent = (): string => html`
 export const richContentFilterEnabled = (): string => html`
   <calcite-list filter-enabled>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
@@ -241,7 +241,7 @@ export const richContentFilterEnabled = (): string => html`
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
     <calcite-list-item label="Finn Mertens" description="Part owner of the Tree House">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Finn Mertens website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
@@ -249,7 +249,7 @@ export const richContentFilterEnabled = (): string => html`
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
     <calcite-list-item label="Jake T. Dog" description="Part owner of the Tree House">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Jake T. Dog website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon
@@ -267,7 +267,7 @@ export const richContentFilterEnabled = (): string => html`
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-list class="calcite-mode-dark" dir="rtl" ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
@@ -275,7 +275,7 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
     <calcite-list-item label="Finn Mertens" description="Part owner of the Tree House">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Finn Mertens website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
@@ -283,7 +283,7 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
     <calcite-list-item label="Jake T. Dog" description="Part owner of the Tree House">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-action icon="web" label="Jake T. Dog website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
       <calcite-icon
@@ -303,7 +303,7 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 export const disabled_TestOnly = (): string => html`<calcite-list disabled>
   <calcite-list-item
     label="Cras iaculis ultricies nulla."
-    description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   ></calcite-list-item>
   <calcite-list-item
     disabled
@@ -322,19 +322,19 @@ export const customContent_TestOnly = (): string => html`<calcite-list disabled>
   <calcite-list-item>
     <div slot="content">
       <strong>Cras iaculis ultricies nulla.</strong>
-      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
     </div></calcite-list-item
   >
   <calcite-list-item disabled>
     <div slot="content">
       <strong>Cras iaculis ultricies nulla.</strong>
-      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
     </div></calcite-list-item
   >
   <calcite-list-item
     ><div slot="content">
       <strong>Cras iaculis ultricies nulla.</strong>
-      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+      <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
     </div></calcite-list-item
   >
 </calcite-list>`;
@@ -589,4 +589,75 @@ export const filterActions_TestOnly = (): string => html`<calcite-list
   <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
     <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
   </calcite-list-item>
+</calcite-list>`;
+
+export const sortableList_TestOnly = (): string => html`<calcite-list
+  drag-enabled
+  selection-mode="single"
+  label="test"
+  filter-enabled
+>
+  <calcite-action
+    appearance="transparent"
+    icon="banana"
+    text="menu"
+    label="menu"
+    slot="filter-actions-start"
+  ></calcite-action>
+  <calcite-action
+    appearance="transparent"
+    icon="ellipsis"
+    text="menu"
+    label="menu"
+    slot="filter-actions-start"
+  ></calcite-action>
+  <calcite-action
+    appearance="transparent"
+    icon="filter"
+    text="menu"
+    label="menu"
+    slot="filter-actions-end"
+  ></calcite-action>
+  <calcite-action
+    appearance="transparent"
+    icon="sort-ascending"
+    text="menu"
+    label="menu"
+    slot="filter-actions-end"
+  ></calcite-action>
+  <calcite-list-item label="test1" value="test1" description="hello world 1">
+    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item label="test2" value="test2" description="hello world 2">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item label="test3" value="test3" description="hello world 3">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+</calcite-list>`;
+
+export const sortableNestedList_TestOnly = (): string => html`<calcite-list
+  drag-enabled
+  group="nested"
+  label="test"
+  selection-mode="multiple"
+>
+  <calcite-list-item open label="Hi! 1" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="multiple">
+      <calcite-list-item open label="Hi! 2" description="hello world">
+        <calcite-list drag-enabled group="nested" selection-mode="multiple">
+          <calcite-list-item label="Hi! 3" description="hello world">
+            <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+          </calcite-list-item>
+          <calcite-list-item label="Hi! 4" description="hello world"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+      <calcite-list-item label="Hi! 5" description="hello world"></calcite-list-item>
+    </calcite-list>
+  </calcite-list-item>
+  <calcite-list-item label="Hi! 6" description="hello world"></calcite-list-item>
+  <calcite-list-item label="Hi! 7" description="hello world"></calcite-list-item>
 </calcite-list>`;

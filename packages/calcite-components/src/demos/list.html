@@ -576,6 +576,79 @@
           </calcite-list>
         </div>
       </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">simple list drag enabled</div>
+
+        <div class="child">
+          <calcite-list drag-enabled selection-mode="single" label="test" filter-enabled>
+            <calcite-action
+              appearance="transparent"
+              icon="banana"
+              text="menu"
+              label="menu"
+              slot="filter-actions-start"
+            ></calcite-action>
+            <calcite-action
+              appearance="transparent"
+              icon="ellipsis"
+              text="menu"
+              label="menu"
+              slot="filter-actions-start"
+            ></calcite-action>
+            <calcite-action
+              appearance="transparent"
+              icon="filter"
+              text="menu"
+              label="menu"
+              slot="filter-actions-end"
+            ></calcite-action>
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              slot="filter-actions-end"
+            ></calcite-action>
+            <calcite-list-item label="test1" value="test1" description="hello world 1">
+              <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item label="test2" value="test2" description="hello world 2">
+              <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item label="test3" value="test3" description="hello world 3">
+              <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
+              <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+          </calcite-list>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">nested & draggable</div>
+
+        <div class="child">
+          <calcite-list drag-enabled group="nested" label="test" selection-mode="multiple">
+            <calcite-list-item open label="Hi! 1" description="hello world">
+              <calcite-list drag-enabled group="nested" selection-mode="multiple">
+                <calcite-list-item open label="Hi! 2" description="hello world">
+                  <calcite-list drag-enabled group="nested" selection-mode="multiple">
+                    <calcite-list-item label="Hi! 3" description="hello world">
+                      <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+                    </calcite-list-item>
+                    <calcite-list-item label="Hi! 4" description="hello world"></calcite-list-item>
+                  </calcite-list>
+                </calcite-list-item>
+                <calcite-list-item label="Hi! 5" description="hello world"></calcite-list-item>
+              </calcite-list>
+            </calcite-list-item>
+            <calcite-list-item label="Hi! 6" description="hello world"></calcite-list-item>
+            <calcite-list-item label="Hi! 7" description="hello world"></calcite-list-item>
+          </calcite-list>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>

@@ -24,11 +24,6 @@ simple_NoTest.parameters = {
 };
 
 export const simple_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -50,11 +45,6 @@ inline_NoTest.parameters = {
 };
 
 export const inline_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
   <calcite-loader
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -80,11 +70,6 @@ customTheme_NoTest.parameters = {
 };
 
 export const customTheme_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
   <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"

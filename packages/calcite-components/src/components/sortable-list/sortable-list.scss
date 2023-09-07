@@ -15,3 +15,5 @@
 .container--horizontal {
   @apply flex-row;
 }
+
+@include base-component();

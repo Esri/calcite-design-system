@@ -103,14 +103,27 @@ export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string => html`<d
   <calcite-color-picker value="#04006e"></calcite-color-picker>
 </div>`;
 
-export const ArabicLocale_TestOnly = (): string => html` <calcite-color-picker lang="ar"></calcite-color-picker> `;
+export const ArabicLocale_TestOnly = (): string => html`<calcite-color-picker lang="ar"></calcite-color-picker>`;
 
-export const NorwegianLocale_TestOnly = (): string => html` <calcite-color-picker lang="no"></calcite-color-picker> `;
+export const NorwegianLocale_TestOnly = (): string => html`<calcite-color-picker lang="no"></calcite-color-picker>`;
 
-export const SpanishLocale_TestOnly = (): string => html` <calcite-color-picker lang="es"></calcite-color-picker> `;
+export const SpanishLocale_TestOnly = (): string => html`<calcite-color-picker lang="es"></calcite-color-picker>`;
 
-export const JapaneseLocale_TestOnly = (): string => html` <calcite-color-picker lang="ja"></calcite-color-picker> `;
+export const JapaneseLocale_TestOnly = (): string => html`<calcite-color-picker lang="ja"></calcite-color-picker>`;
 
-export const RussianLocale_TestOnly = (): string => html` <calcite-color-picker lang="ru"></calcite-color-picker> `;
+export const RussianLocale_TestOnly = (): string => html`<calcite-color-picker lang="ru"></calcite-color-picker>`;
 
-export const ThaiLocale_TestOnly = (): string => html` <calcite-color-picker lang="th"></calcite-color-picker> `;
+export const ThaiLocale_TestOnly = (): string => html`<calcite-color-picker lang="th"></calcite-color-picker>`;
+
+export const Focus_TestOnly = (): string => html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-color-picker");
+      const colorPicker = await document.querySelector("calcite-color-picker").componentOnReady();
+      await colorPicker.setFocus();
+    })();
+  </script>`;
+
+Focus_TestOnly.parameters = {
+  chromatic: { delay: 2000 },
+};

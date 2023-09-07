@@ -40,6 +40,8 @@
   @extend %type-vars;
   @include calcite-theme-headless();
   @include calcite-mode-light-extended();
+  @include floating-ui-base();
+  @include animation-base();
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -74,6 +76,8 @@
   }
 }
 
-.overflow-hidden {
-  overflow: hidden;
-}
+@include animation-reduced-motion();
+
+@include animation-helper-classes();
+
+@include sortable-helper-classes();

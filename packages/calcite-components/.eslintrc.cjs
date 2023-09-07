@@ -4,6 +4,7 @@ module.exports = {
     "jest/globals": true
   },
   extends: [
+    "plugin:@cspell/recommended",
     "plugin:@esri/calcite-components/recommended",
     "plugin:@stencil-community/recommended",
     "plugin:@typescript-eslint/recommended",
@@ -88,6 +89,7 @@ module.exports = {
     ],
     "no-new-func": "error",
     "no-unneeded-ternary": "error",
+    "one-var": ["error", "never"],
     "react/forbid-component-props": [
       "warn",
       {

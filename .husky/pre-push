@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # from https://riptutorial.com/git/example/16164/pre-push
 
-protected_branch="master"
+protected_branch="main"
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 if [ "$protected_branch" = "$current_branch" ] && bash -c ': >/dev/tty'; then

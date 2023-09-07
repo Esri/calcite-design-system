@@ -5,6 +5,7 @@ export const CSS = {
   stack: "stack",
   tableContainer: "table-container",
   sticky: "sticky-pos",
+  assistiveText: "assistive-text",
 };
 
 export const debounceTimeout = 0;

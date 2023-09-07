@@ -129,13 +129,15 @@ export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as con
 
 export type NumberingSystem = (typeof numberingSystems)[number];
 
-export type SupportedLocales = (typeof supportedLocales)[number];
+export type SupportedLocale = (typeof supportedLocales)[number];
 
 const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
   numberingSystems.includes(numberingSystem as NumberingSystem);
 
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
+// for consistent browser behavior, we normalize numberingSystem to prevent the browser-inferred value
+// see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
 export const defaultNumberingSystem =
   browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
     ? "latn"
@@ -150,7 +152,7 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  * @param locale – the BCP 47 locale code
  * @param context - specifies whether the locale code should match in the context of CLDR or T9N (translation)
  */
-export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): SupportedLocales {
+export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): SupportedLocale {
   const contextualLocales = context === "cldr" ? locales : t9nLocales;
 
   if (!locale) {
@@ -322,7 +324,7 @@ export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
 export class NumberStringFormat {
   /**
    * The actual group separator for the specified locale.
-   * Some white space group separators don't render correctly in the browser,
+   * White-space group separators are changed to the non-breaking space (nbsp) unicode character.
    * so we replace them with a normal <SPACE>.
    */
   private _actualGroup: string;
@@ -409,8 +411,8 @@ export class NumberStringFormat {
     } as Intl.NumberFormatOptions).formatToParts(-12345678.9);
 
     this._actualGroup = parts.find((d) => d.type === "group").value;
-    // change whitespace group characters that don't render correctly
-    this._group = this._actualGroup.trim().length === 0 ? " " : this._actualGroup;
+    // change whitespace group separators to the unicode non-breaking space (nbsp)
+    this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
     this._decimal = parts.find((d) => d.type === "decimal").value;
     this._minusSign = parts.find((d) => d.type === "minusSign").value;
     this._getDigitIndex = (d: string) => index.get(d);

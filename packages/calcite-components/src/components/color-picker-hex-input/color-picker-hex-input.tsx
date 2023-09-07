@@ -45,14 +45,6 @@ const DEFAULT_COLOR = Color();
 export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteColorPickerHexInputElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -282,7 +274,6 @@ export class ColorPickerHexInput implements LoadableComponent {
     if (isValidHex(hex)) {
       event.preventDefault();
       this.hexInputNode.value = hex.slice(1);
-      this.hexInputNode.internalSyncChildElValue();
     }
   };
 
@@ -292,14 +283,16 @@ export class ColorPickerHexInput implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private hexInputNode: HTMLCalciteInputElement;
+  @Element() el: HTMLCalciteColorPickerHexInputElement;
+
+  private hexInputNode: HTMLCalciteInputTextElement;
 
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
   @State() internalColor: Color | null = DEFAULT_COLOR;
 
-  private opacityInputNode: HTMLCalciteInputElement;
+  private opacityInputNode: HTMLCalciteInputNumberElement;
 
   private previousNonNullValue: string = this.value;
 
@@ -317,19 +310,18 @@ export class ColorPickerHexInput implements LoadableComponent {
 
     return (
       <div class={CSS.container}>
-        <calcite-input
+        <calcite-input-text
           class={CSS.hexInput}
           label={messages?.hex || hexLabel}
           maxLength={6}
-          numberingSystem={this.numberingSystem}
-          onCalciteInputChange={this.onHexInputChange}
-          onCalciteInternalInputBlur={this.onHexInputBlur}
+          onCalciteInputTextChange={this.onHexInputChange}
+          onCalciteInternalInputTextBlur={this.onHexInputBlur}
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}
           prefixText="#"
           scale={inputScale}
           value={hexInputValue}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.storeHexInputRef}
         />
         {alphaChannel ? (
@@ -348,7 +340,7 @@ export class ColorPickerHexInput implements LoadableComponent {
             scale={inputScale}
             suffixText="%"
             value={opacityInputValue}
-            // eslint-disable-next-line react/jsx-sort-props
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeOpacityInputRef}
           />
         ) : null}
@@ -414,11 +406,11 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.value = oldValue;
   }
 
-  private storeHexInputRef = (node: HTMLCalciteInputElement): void => {
+  private storeHexInputRef = (node: HTMLCalciteInputTextElement): void => {
     this.hexInputNode = node;
   };
 
-  private storeOpacityInputRef = (node: HTMLCalciteInputElement): void => {
+  private storeOpacityInputRef = (node: HTMLCalciteInputNumberElement): void => {
     this.opacityInputNode = node;
   };
 

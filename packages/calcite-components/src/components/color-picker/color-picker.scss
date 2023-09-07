@@ -78,11 +78,15 @@
   @apply text-n1
     focus-base
     absolute
-    z-default;
-
+    z-default
+    rounded-full
+    bg-transparent
+    w-px
+    h-px
+    pointer-events-none;
   &:focus {
     @apply focus-outset;
-    outline-offset: 16px;
+    outline-offset: 11px;
   }
 }
 
@@ -189,3 +193,5 @@
     outline-offset: 2px;
   }
 }
+
+@include base-component();

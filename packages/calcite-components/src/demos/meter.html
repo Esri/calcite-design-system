@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Meter</title>
+    <style>
+      .parent {
+        display: flex;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 20px 0;
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .child {
+        display: block;
+        width: 80%;
+        padding: 40px;
+      }
+
+      .themed-example {
+        --calcite-ui-brand: orange;
+        --calcite-ui-success: #8ed1c8;
+        --calcite-ui-warning: #8ebad1;
+        --calcite-ui-danger: #35c4b1;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <div class="parent">
+        <h3>Interactive Example</h3>
+      </div>
+      <div class="parent">
+        <div class="child">
+          <calcite-label>
+            Example 1
+            <calcite-meter
+              group-separator
+              unit-label="GB"
+              value-label
+              range-labels
+              min="0"
+              max="12400"
+              low="4600"
+              high="7600"
+              value="-2200"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label>
+            Example 2
+            <calcite-meter
+              group-separator
+              unit-label="GB"
+              value-label
+              range-labels
+              range-label-type="units"
+              value-label-type="units"
+              min="0"
+              max="12400"
+              low="4600"
+              high="7600"
+              value="244200"
+            ></calcite-meter>
+          </calcite-label>
+        </div>
+      </div>
+      <div class="parent">
+        <div class="child">
+          <calcite-label>
+            Meter
+            <calcite-meter
+              unit-label="GB"
+              group-separator
+              id="example-meter"
+              min="0"
+              max="100"
+              low="25"
+              high="75"
+              value="50"
+            ></calcite-meter>
+          </calcite-label>
+          <div style="display: flex; flex-direction: row; gap: 1rem">
+            <calcite-label
+              >themed
+              <calcite-switch id="switch-themed"></calcite-switch>
+            </calcite-label>
+            <calcite-label
+              >valueLabel
+              <calcite-switch id="switch-label"></calcite-switch>
+            </calcite-label>
+            <calcite-label
+              >rangeLabels
+              <calcite-switch id="switch-step-labels"></calcite-switch>
+            </calcite-label>
+            <calcite-label>min <calcite-input-number id="input-min" value="0"></calcite-input-number></calcite-label>
+            <calcite-label>low <calcite-input-number id="input-low" value="25"></calcite-input-number></calcite-label>
+            <calcite-label>high <calcite-input-number id="input-high" value="75"></calcite-input-number></calcite-label>
+            <calcite-label>max <calcite-input-number id="input-max" value="100"></calcite-input-number></calcite-label>
+            <calcite-label
+              >value <calcite-input-number id="input-value" value="50"></calcite-input-number
+            ></calcite-label>
+          </div>
+          <div style="display: flex; flex-direction: row; gap: 1rem">
+            <calcite-label
+              >unit-label
+              <calcite-input id="input-unit-label" value="GB"></calcite-input>
+            </calcite-label>
+            <calcite-label
+              >fillType
+              <calcite-segmented-control id="control-type">
+                <calcite-segmented-control-item value="range" checked>Range</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="single">Single</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >valueLabelType
+              <calcite-segmented-control id="control-value-label-type">
+                <calcite-segmented-control-item value="percent" checked>Percent</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="units"> Units</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >rangeLabelType
+              <calcite-segmented-control id="control-range-label-type">
+                <calcite-segmented-control-item value="percent" checked>Percent</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="units"> Units</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >appearance
+              <calcite-segmented-control id="control-appearance">
+                <calcite-segmented-control-item value="solid" checked>solid</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="outline">outline</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="outline-fill">outline-fill</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >scale
+              <calcite-segmented-control id="control-scale">
+                <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="m" checked> m</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="l"> l</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+          </div>
+        </div>
+      </div>
+      <div class="parent">
+        <div class="child">
+          <h3>fillType: step</h3>
+          <calcite-label
+            >value=0
+            <calcite-meter value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter low="10" high="90" value="5" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter low="65" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter low="40" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter low="10" high="90" value="95" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter low="25" high="75" value="200" label="Example label"></calcite-meter>
+          </calcite-label>
+
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter display-step-lines low="10" high="90" value="5" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter display-step-lines low="65" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter display-step-lines low="40" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter display-step-lines low="10" high="90" value="95" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter display-step-lines low="25" high="75" value="200" label="Example label"></calcite-meter>
+          </calcite-label>
+          <h5>valueLabel</h5>
+          <calcite-label
+            >value=0
+            <calcite-meter value-label display-step-lines value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter value-label low="10" high="90" value="5" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter value-label low="65" high="80" value="80" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter value-label low="40" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter value-label low="10" high="90" value="95" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter value-label low="25" high="75" value="200" label="Example label"></calcite-meter>
+          </calcite-label>
+          <h5>label type and display</h5>
+          <calcite-label
+            >value=0
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              fill-type="single"
+              value="0"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              low="10"
+              high="90"
+              value="5"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              low="65"
+              high="80"
+              value="80"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              low="40"
+              high="80"
+              value="60"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              low="10"
+              high="90"
+              value="95"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              low="25"
+              high="75"
+              value="200"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+        </div>
+        <div class="child">
+          <h3>fillType: single</h3>
+          <calcite-label
+            >value=0
+            <calcite-meter fill-type="single" value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter fill-type="single" low="10" high="90" value="5" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter fill-type="single" low="65" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter fill-type="single" low="40" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter fill-type="single" low="10" high="90" value="95" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter fill-type="single" low="25" high="75" value="200" label="Example label"></calcite-meter>
+          </calcite-label>
+          <h5>valueLabel</h5>
+          <calcite-label
+            >value=0
+            <calcite-meter value-label fill-type="single" value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="10"
+              high="90"
+              value="5"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="65"
+              high="80"
+              value="80"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="40"
+              high="80"
+              value="60"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="10"
+              high="90"
+              value="95"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="25"
+              high="75"
+              value="200"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <h5>label type and display</h5>
+          <calcite-label
+            >value=0
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              fill-type="single"
+              value="0"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              fill-type="single"
+              low="10"
+              high="90"
+              value="5"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              fill-type="single"
+              low="65"
+              high="80"
+              value="80"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              fill-type="single"
+              low="40"
+              high="80"
+              value="60"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              fill-type="single"
+              low="10"
+              high="90"
+              value="95"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter
+              value-label-type="units"
+              range-labels
+              unit-label="credits"
+              value-label
+              fill-type="single"
+              low="25"
+              high="75"
+              value="200"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+        </div>
+      </div>
+
+      <div class="parent themed-example">
+        <h3>Theming</h3>
+        <div class="child">
+          <h3>fillType: step</h3>
+          <calcite-label
+            >value=0
+            <calcite-meter value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter low="10" high="90" value="5" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter low="65" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter low="40" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter low="10" high="90" value="95" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter low="25" high="75" value="200" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >value=0
+            <calcite-meter display-step-lines value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter display-step-lines low="10" high="90" value="5" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter display-step-lines low="65" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter display-step-lines low="40" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter display-step-lines low="10" high="90" value="95" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter display-step-lines low="25" high="75" value="200" label="Example label"></calcite-meter>
+          </calcite-label>
+          <h5>valueLabel</h5>
+          <calcite-label
+            >value=0
+            <calcite-meter value-label display-step-lines value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter value-label low="10" high="90" value="5" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter value-label low="65" high="80" value="80" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter value-label low="40" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter value-label low="10" high="90" value="95" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter value-label low="25" high="75" value="200" label="Example label"></calcite-meter>
+          </calcite-label>
+        </div>
+        <div class="child">
+          <h3>fillType: single</h3>
+          <calcite-label
+            >value=0
+            <calcite-meter fill-type="single" value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter fill-type="single" low="10" high="90" value="5" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter fill-type="single" low="65" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter fill-type="single" low="40" high="80" value="60" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter fill-type="single" low="10" high="90" value="95" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter fill-type="single" low="25" high="75" value="200" label="Example label"></calcite-meter>
+          </calcite-label>
+          <h5>valueLabel</h5>
+          <calcite-label
+            >value=0
+            <calcite-meter value-label fill-type="single" value="0" label="Example label"></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=5
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="10"
+              high="90"
+              value="5"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=65, high=80, value=60
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="65"
+              high="80"
+              value="80"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=15, high=40, value=60
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="40"
+              high="80"
+              value="60"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=10, high=90, value=95
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="10"
+              high="90"
+              value="95"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+          <calcite-label
+            >low=25, high=75, value=200
+            <calcite-meter
+              value-label
+              fill-type="single"
+              low="25"
+              high="75"
+              value="200"
+              label="Example label"
+            ></calcite-meter>
+          </calcite-label>
+        </div>
+      </div>
+      <calcite-shell style="position: relative">
+        <calcite-shell-panel
+          slot="panel-start"
+          position="start"
+          id="shell-panel-start"
+          resizable
+          style="--calcite-shell-panel-min-width: 100px"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action text="Save" icon="save" indicator></calcite-action>
+            <calcite-action active icon="map" text="Map"></calcite-action>
+            <calcite-action icon="layer" text="Layer"></calcite-action>
+          </calcite-action-bar>
+          <calcite-panel heading="Map" id="panel-start">
+            <calcite-block heading="Block 1" collapsible open>
+              <calcite-label
+                >value=0
+                <calcite-meter range-labels fill-type="single" value="0" label="Example label"></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=10, high=90, value=5
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="10"
+                  high="90"
+                  value="5"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=65, high=80, value=60
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="65"
+                  high="80"
+                  value="60"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=15, high=40, value=60
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="40"
+                  high="80"
+                  value="60"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=10, high=90, value=95
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="10"
+                  high="90"
+                  value="95"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=25, high=75, value=200
+                <calcite-meter
+                  range-labels
+                  fill-type="single"
+                  low="25"
+                  high="75"
+                  value="200"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <h5>valueLabel</h5>
+              <calcite-label
+                >value=0
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  value="0"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=10, high=90, value=5
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="10"
+                  high="90"
+                  value="5"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=65, high=80, value=60
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="65"
+                  high="80"
+                  value="80"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=15, high=40, value=60
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="40"
+                  high="80"
+                  value="60"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=10, high=90, value=95
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="10"
+                  high="90"
+                  value="95"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+              <calcite-label
+                >low=25, high=75, value=200
+                <calcite-meter
+                  range-labels
+                  value-label
+                  fill-type="single"
+                  low="25"
+                  high="75"
+                  value="200"
+                  label="Example label"
+                ></calcite-meter>
+              </calcite-label>
+            </calcite-block>
+          </calcite-panel>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="panel-end" position="end" id="shell-panel-end" collapsed>
+          <calcite-action-bar slot="action-bar">
+            <calcite-action text="Layer" icon="sliders-horizontal"></calcite-action>
+            <calcite-action text="Styles" icon="shapes"></calcite-action>
+            <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+            <calcite-action text="Configure" icon="popup"></calcite-action>
+          </calcite-action-bar>
+          <calcite-panel heading id="panel-end" closable closed>
+            <calcite-block heading="Block 1" collapsible></calcite-block>
+          </calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel heading="Content"></calcite-panel>
+      </calcite-shell>
+      <script>
+        const meter = document.getElementById("example-meter");
+
+        const inputMin = document.getElementById("input-min");
+        const inputMax = document.getElementById("input-max");
+        const inputLow = document.getElementById("input-low");
+        const inputHigh = document.getElementById("input-high");
+        const inputValue = document.getElementById("input-value");
+        const inputUnitLabel = document.getElementById("input-unit-label");
+        const switchThemed = document.getElementById("switch-themed");
+        const switchvalueLabel = document.getElementById("switch-label");
+        const switchStepLabels = document.getElementById("switch-step-labels");
+
+        const controlType = document.getElementById("control-type");
+        const controlScale = document.getElementById("control-scale");
+        const controlValueLabelType = document.getElementById("control-value-label-type");
+        const controlValueRangeType = document.getElementById("control-range-label-type");
+
+        const controlAppearance = document.getElementById("control-appearance");
+
+        inputMin.addEventListener("calciteInputNumberInput", function (event) {
+          meter.min = event.target.value;
+        });
+
+        inputMax.addEventListener("calciteInputNumberInput", function (event) {
+          meter.max = event.target.value;
+        });
+
+        inputLow.addEventListener("calciteInputNumberInput", function (event) {
+          meter.low = event.target.value;
+        });
+
+        inputHigh.addEventListener("calciteInputNumberInput", function (event) {
+          meter.high = event.target.value;
+        });
+
+        inputValue.addEventListener("calciteInputNumberInput", function (event) {
+          meter.value = event.target.value;
+        });
+
+        inputUnitLabel.addEventListener("calciteInputInput", function (event) {
+          meter.unitLabel = event.target.value;
+        });
+
+        switchThemed.addEventListener("calciteSwitchChange", function (event) {
+          meter.classList.toggle("themed-example");
+        });
+
+        switchvalueLabel.addEventListener("calciteSwitchChange", function (event) {
+          meter.valueLabel = event.target.checked;
+        });
+
+        switchStepLabels.addEventListener("calciteSwitchChange", function (event) {
+          meter.rangeLabels = event.target.checked;
+        });
+
+        controlType.addEventListener("calciteSegmentedControlChange", function (event) {
+          meter.fillType = event.target.value;
+        });
+
+        controlScale.addEventListener("calciteSegmentedControlChange", function (event) {
+          meter.scale = event.target.value;
+        });
+
+        controlValueLabelType.addEventListener("calciteSegmentedControlChange", function (event) {
+          meter.valueLabelType = event.target.value;
+        });
+
+        controlValueRangeType.addEventListener("calciteSegmentedControlChange", function (event) {
+          meter.rangeLabelType = event.target.value;
+        });
+
+        controlAppearance.addEventListener("calciteSegmentedControlChange", function (event) {
+          meter.appearance = event.target.value;
+        });
+      </script>
+    </demo-dom-swapper>
+  </body>
+</html>

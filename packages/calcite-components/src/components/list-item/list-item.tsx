@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Listen,
   Method,
   Prop,
   State,
@@ -105,6 +106,13 @@ export class ListItem
   handleDisabledChange(): void {
     this.emitCalciteInternalListItemChange();
   }
+
+  /**
+   * When `true`, the component displays a draggable button.
+   *
+   * @internal
+   */
+  @Prop() dragHandle = false;
 
   /**
    * The label text of the component. Displays above the description text.
@@ -226,6 +234,13 @@ export class ListItem
    */
   @Event({ cancelable: false }) calciteInternalListItemChange: EventEmitter<void>;
 
+  @Listen("calciteInternalListItemGroupDefaultSlotChange")
+  @Listen("calciteInternalListDefaultSlotChange")
+  handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.handleOpenableChange(this.defaultSlotEl);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -268,6 +283,14 @@ export class ListItem
   actionsStartEl: HTMLTableCellElement;
 
   actionsEndEl: HTMLTableCellElement;
+
+  defaultSlotEl: HTMLSlotElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
 
   connectedCallback(): void {
     connectInteractive(this);
@@ -354,6 +377,14 @@ export class ListItem
     );
   }
 
+  renderDragHandle(): VNode {
+    return this.dragHandle ? (
+      <td class={CSS.dragContainer} key="drag-handle-container">
+        <calcite-handle label={this.label} setPosition={this.setPosition} setSize={this.setSize} />
+      </td>
+    ) : null;
+  }
+
   renderOpen(): VNode {
     const { el, open, openable, parentListEl } = this;
     const dir = getElementDir(el);
@@ -381,7 +412,7 @@ export class ListItem
         hidden={!hasActionsStart}
         key="actions-start-container"
         role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsStartEl = el)}
       >
         <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
@@ -398,7 +429,7 @@ export class ListItem
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsEndEl = el)}
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
@@ -483,7 +514,7 @@ export class ListItem
         key="content-container"
         onClick={this.itemClicked}
         role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.contentEl = el)}
       >
         {content}
@@ -530,9 +561,10 @@ export class ListItem
           role="row"
           style={{ "--calcite-list-item-spacing-indent-multiplier": `${this.visualLevel}` }}
           tabIndex={active ? 0 : -1}
-          // eslint-disable-next-line react/jsx-sort-props
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >
+          {this.renderDragHandle()}
           {this.renderSelected()}
           {this.renderOpen()}
           {this.renderActionsStart()}
@@ -545,7 +577,10 @@ export class ListItem
             [CSS.nestedContainerHidden]: openable && !open,
           }}
         >
-          <slot onSlotchange={this.handleDefaultSlotChange} />
+          <slot
+            onSlotchange={this.handleDefaultSlotChange}
+            ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
+          />
         </div>
       </Host>
     );
@@ -602,9 +637,13 @@ export class ListItem
     }
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
+  handleOpenableChange(slotEl: HTMLSlotElement): void {
+    if (!slotEl) {
+      return;
+    }
+
     const { parentListEl } = this;
-    const listItemChildren = getListItemChildren(event);
+    const listItemChildren = getListItemChildren(slotEl);
     updateListItemChildren(listItemChildren);
     const openable = !!listItemChildren.length;
 
@@ -617,6 +656,10 @@ export class ListItem
     if (!openable) {
       this.open = false;
     }
+  }
+
+  handleDefaultSlotChange = (event: Event): void => {
+    this.handleOpenableChange(event.target as HTMLSlotElement);
   };
 
   toggleOpen = (): void => {
@@ -660,7 +703,11 @@ export class ListItem
     const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
-    if (key === "Enter") {
+    if (
+      key === "Enter" &&
+      !composedPath.includes(actionsStartEl) &&
+      !composedPath.includes(actionsEndEl)
+    ) {
       event.preventDefault();
       this.toggleSelected();
     } else if (key === "ArrowRight") {

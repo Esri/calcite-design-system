@@ -104,7 +104,7 @@ describe("calcite-action-bar", () => {
 
       const bar = await page.find("calcite-action-bar");
 
-      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
       const button = await buttonGroup.find("calcite-action");
 
@@ -152,7 +152,7 @@ describe("calcite-action-bar", () => {
 
       await page.setContent("<calcite-action-bar expanded></calcite-action-bar>");
 
-      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
       const button = await buttonGroup.find("calcite-action");
 
@@ -165,10 +165,12 @@ describe("calcite-action-bar", () => {
       const page = await newE2EPage();
 
       await page.setContent(html`<calcite-action-bar expand-disabled></calcite-action-bar>`);
+      await page.waitForChanges();
 
-      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+      const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
-      expect(buttonGroup).toBeNull();
+      expect(await buttonGroup.getProperty("hidden")).toBe(true);
+      expect(await buttonGroup.isVisible()).toBe(false);
     });
 
     it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
@@ -315,7 +317,7 @@ describe("calcite-action-bar", () => {
   it("should honor scale of expand icon", async () => {
     const page = await newE2EPage({ html: html`<calcite-action-bar scale="l"></calcite-action-bar>` });
 
-    const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+    const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
 
     const button = await buttonGroup.find("calcite-action");
 
@@ -338,9 +340,7 @@ describe("calcite-action-bar", () => {
               <calcite-action text="Save" icon="save" disabled></calcite-action>
               <calcite-action icon="layers" text="Layers"></calcite-action>
             </calcite-action-group>
-            <calcite-action-group slot="bottom-actions">
-              <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-            </calcite-action-group>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
       });
@@ -386,9 +386,7 @@ describe("calcite-action-bar", () => {
               <calcite-action text="Save" icon="save" disabled></calcite-action>
               <calcite-action icon="layers" text="Layers"></calcite-action>
             </calcite-action-group>
-            <calcite-action-group slot="bottom-actions">
-              <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-            </calcite-action-group>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
       });

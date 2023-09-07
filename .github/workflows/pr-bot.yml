@@ -2,76 +2,27 @@ name: PR Bot
 on:
   pull_request:
     branches: [main]
+permissions:
+  pull-requests: write
+  issues: write
 jobs:
   assign-author:
-    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/github-script@v6
         with:
           script: |
-            const {
-              assignees,
-              number,
-              user: { login: author },
-            } = context.payload.pull_request;
-
-            const updatedAssignees =
-              assignees && assignees.length
-                ? [...assignees.map((a) => a.login).filter(a => a !== author), author]
-                : [author];
-
-            await github.rest.issues.addAssignees({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: number,
-              assignees: updatedAssignees,
-            });
+            const action = require('${{ github.workspace }}/.github/scripts/assignPullRequestAuthor.js')
+            await action({github, context, core})
   label-type:
-    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/github-script@v6
         with:
           script: |
-            const { title, number } = context.payload.pull_request;
-
-            const conventionalCommitRegex =
-              /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w ,-]+\))?(!?:\s+)([\w ]+[\s\S]*)/i;
-
-            if (!title) {
-              console.log("No title found, ending run.");
-              return;
-            }
-
-            const match = title.match(conventionalCommitRegex);
-            if (match && match.length > 1) {
-              // commit type is in the first match group
-              const typeLabel = getLabelName(match[1]);
-
-              await github.rest.issues.addLabels({
-                issue_number: number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                labels: [typeLabel],
-              });
-
-              function getLabelName(type) {
-                switch (type) {
-                  case "feat":
-                    return "enhancement";
-                  case "fix":
-                    return "bug";
-                  case "docs":
-                    return "docs";
-                  case "test":
-                    return "testing";
-                  case "refactor":
-                    return "refactor";
-                  case "tooling":
-                    return "tooling";
-                  default:
-                    return "chore";
-                }
-              }
-            }
+            const action = require('${{ github.workspace }}/.github/scripts/labelPullRequestWithCommitType.js')
+            await action({github, context, core})

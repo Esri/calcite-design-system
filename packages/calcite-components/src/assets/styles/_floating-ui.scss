@@ -3,7 +3,7 @@ $floating-ui-transform-top: translateY(5px);
 $floating-ui-transform-left: translateX(5px);
 $floating-ui-transform-right: translateX(-5px);
 
-:root {
+@mixin floating-ui-base {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
 }

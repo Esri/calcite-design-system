@@ -32,23 +32,30 @@ describe("parseNumberString", () => {
     expect(parseNumberString(null)).toBe("");
     expect(parseNumberString(undefined)).toBe("");
     expect(parseNumberString("")).toBe("");
-    expect(parseNumberString("only nums")).toBe("");
+    expect(parseNumberString("only numbers")).toBe("");
 
+    // eslint-disable-next-line @cspell/spellchecker
     const lettersAndSymbols = "kjas;lkjwo;aij(*&,asd;flkj-";
+    // eslint-disable-next-line @cspell/spellchecker
     const lettersAndSymbolsWithLeadingNegativeSign = "-ASDF(*^LKJihsdf*&^";
 
     expect(parseNumberString(lettersAndSymbols)).toBe("");
     expect(parseNumberString(lettersAndSymbolsWithLeadingNegativeSign)).toBe("");
+    expect(parseNumberString("123test")).toBe("123e");
   });
 
   it("returns valid number string for string values that compute to a valid number", () => {
     const stringWithLettersAndDigits = "lkj2323lkj";
     const frenchNumber = "1 2345,67";
     const positiveInteger = "123345345";
+    // eslint-disable-next-line @cspell/spellchecker
     const stringWithLettersDigitsAndSymbols = "123sdfa34345klndfsi8*&(^asdf5345";
     const decimal = "123123.234234";
+    // eslint-disable-next-line @cspell/spellchecker
     const stringWithLettersAndDecimal = "12asdfas$%@$3123.23asdf2a4234";
+    // eslint-disable-next-line @cspell/spellchecker
     const stringWithLettersDecimalAndNonLeadingNegativeSign = "12a-sdfas$%@$3123.23asdf2a4234";
+    // eslint-disable-next-line @cspell/spellchecker
     const stringWithLettersDecimalAndLeadingNegativeSign = "-12a-sdfas$%@$3123.23asdf2a4234";
 
     expect(parseNumberString(stringWithLettersAndDigits)).toBe("2323");
@@ -140,7 +147,9 @@ describe("BigDecimal", () => {
 
       const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
       const groupPart = parts.find((part) => part.type === "group").value;
-      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(numberStringFormatter.group);
+      expect(groupPart.trim().length === 0 || groupPart === " " ? "\u00A0" : groupPart).toBe(
+        numberStringFormatter.group
+      );
       expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
       expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
     });
@@ -174,7 +183,7 @@ describe("expandExponentialNumberString", () => {
 });
 
 describe("addLocalizedTrailingDecimalZeros", () => {
-  function getLocalizedDeimalValue(value: string, trailingZeros: number): string {
+  function getLocalizedDecimalValue(value: string, trailingZeros: number): string {
     const localizedValue = numberStringFormatter.localize(value);
     const localizedZeroValue = numberStringFormatter.localize("0");
     return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
@@ -200,14 +209,14 @@ describe("addLocalizedTrailingDecimalZeros", () => {
           stringWithTrailingZeros,
           numberStringFormatter
         )
-      ).toBe(getLocalizedDeimalValue(stringWithTrailingZeros, 3));
+      ).toBe(getLocalizedDecimalValue(stringWithTrailingZeros, 3));
       expect(
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(bigDecimalWithTrailingZeros),
           bigDecimalWithTrailingZeros,
           numberStringFormatter
         )
-      ).toBe(getLocalizedDeimalValue(bigDecimalWithTrailingZeros, 24));
+      ).toBe(getLocalizedDecimalValue(bigDecimalWithTrailingZeros, 24));
       expect(
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(negativeExponentialString),

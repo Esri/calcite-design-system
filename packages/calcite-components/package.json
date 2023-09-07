@@ -1,6 +1,7 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.5.0-next.22",
+  "version": "1.8.0",
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -25,8 +26,8 @@
     "build-storybook": "npm run util:build-docs && build-storybook --output-dir ./docs --quiet",
     "clean": "npm run util:clean-js-files && rimraf node_modules dist www hydrate docs .turbo src/components.d.ts",
     "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer @whitespace/storybook-addon-html && npm audit fix",
-    "docs": "concurrently --kill-others --raw \"npm run build-storybook\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
-    "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
+    "docs": "build-storybook",
+    "docs:preview": "npm run util:build-docs && STORYBOOK_SCREENSHOT_LOCAL_BUILD=true start-storybook",
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --write \"**/*.html\" >/dev/null",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
@@ -58,10 +59,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Esri/calcite-design-system.git"
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/calcite-components"
   },
   "dependencies": {
-    "@floating-ui/dom": "1.4.5",
+    "@floating-ui/dom": "1.5.1",
     "@stencil/core": "2.22.3",
     "@types/color": "3.0.3",
     "color": "4.2.3",
@@ -74,12 +76,12 @@
   },
   "devDependencies": {
     "@esri/calcite-design-tokens": "1.0.0",
-    "@esri/calcite-ui-icons": "3.23.1",
-    "@esri/eslint-plugin-calcite-components": "^0.2.3-next.0",
+    "@esri/calcite-ui-icons": "3.24.1",
+    "@esri/eslint-plugin-calcite-components": "^0.2.3-next.4",
     "@stencil-community/eslint-plugin": "0.5.0",
     "@stencil/postcss": "2.1.0",
     "@stencil/react-output-target": "0.5.3",
-    "@stencil/sass": "3.0.4",
+    "@stencil/sass": "3.0.5",
     "@stencil/state-tunnel": "1.0.1"
   },
   "license": "SEE LICENSE.md",
