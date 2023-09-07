@@ -10,7 +10,7 @@ import {
   Watch,
   State,
   Listen,
-  Method
+  Method,
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { numberKeys } from "../../utils/key";
@@ -21,7 +21,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  submitForm
+  submitForm,
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
@@ -37,17 +37,15 @@ import {
   localizeTimePart,
   Meridiem,
   getLocaleHourCycle,
-  getLocaleHourSuffix,
-  getLocaleMinuteSuffix,
-  getLocaleSecondSuffix,
-  getTimeParts
+  getTimeParts,
+  getLocalizedTimePartSuffix,
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
 import { NumberingSystem } from "../../utils/locale";
 import {
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 function capitalize(str: string): string {
@@ -57,7 +55,7 @@ function capitalize(str: string): string {
 @Component({
   tag: "calcite-input-time",
   styleUrl: "input-time.scss",
-  shadow: true
+  shadow: true,
 })
 export class InputTime
   implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
@@ -84,8 +82,7 @@ export class InputTime
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** When true, the icon is flipped in RTL. */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -123,7 +120,7 @@ export class InputTime
    *
    * @internal
    */
-  @Prop({ attribute: "lang", mutable: true }) locale: string =
+  @Prop({ attribute: "lang" }) locale: string =
     document.documentElement.lang || navigator.language || "en";
 
   @Watch("locale")
@@ -625,7 +622,7 @@ export class InputTime
 
   private setValue = ({
     context = "user",
-    newValue
+    newValue,
   }: {
     context?: "connected" | "direct" | "lang" | "user";
     newValue: string;
@@ -645,15 +642,15 @@ export class InputTime
     if (context !== "user") {
       this.hour = hour;
       this.localizedHour = localizedHour;
-      this.localizedHourSuffix = getLocaleHourSuffix(this.locale);
+      this.localizedHourSuffix = getLocalizedTimePartSuffix("hour", this.locale);
 
       this.minute = minute;
       this.localizedMinute = localizedMinute;
-      this.localizedMinuteSuffix = getLocaleMinuteSuffix(this.locale);
+      this.localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", this.locale);
 
       this.second = second;
       this.localizedSecond = localizedSecond;
-      this.localizedSecondSuffix = getLocaleSecondSuffix(this.locale);
+      this.localizedSecondSuffix = getLocalizedTimePartSuffix("second", this.locale);
 
       this.meridiem = getMeridiem(this.hour);
       this.localizedMeridiem = localizedMeridiem;
@@ -700,7 +697,7 @@ export class InputTime
         this.localizedHour = localizeTimePart({
           value: this.hour,
           part: "hour",
-          locale
+          locale,
         });
       }
     } else {
@@ -708,13 +705,13 @@ export class InputTime
       this[`localized${capitalize(key)}`] = localizeTimePart({
         value: this[key],
         part: key,
-        locale
+        locale,
       });
     }
     if (this.hour && this.minute) {
       const showSeconds = this.second && this.showSecond;
       this.setValue({
-        newValue: `${this.hour}:${this.minute}:${showSeconds ? this.second : "00"}`
+        newValue: `${this.hour}:${this.minute}:${showSeconds ? this.second : "00"}`,
       });
     } else {
       if (this.value) {
@@ -781,7 +778,7 @@ export class InputTime
             [CSS.readonly]: this.readonly,
             [CSS[`scale-${this.scale}`]]: true,
             [CSS.showMeridiem]: showMeridiem,
-            [CSS.showSecond]: this.showSecond
+            [CSS.showSecond]: this.showSecond,
           }}
           dir="ltr"
         >
@@ -795,7 +792,7 @@ export class InputTime
             class={{
               [CSS.empty]: !Boolean(this.localizedHour),
               [CSS.hour]: true,
-              [CSS.input]: true
+              [CSS.input]: true,
             }}
             onFocus={this.timePartFocusHandler}
             onKeyDown={this.hourKeyDownHandler}
@@ -815,7 +812,7 @@ export class InputTime
             class={{
               [CSS.empty]: !Boolean(this.localizedMinute),
               [CSS.input]: true,
-              [CSS.minute]: true
+              [CSS.minute]: true,
             }}
             onFocus={this.timePartFocusHandler}
             onKeyDown={this.minuteKeyDownHandler}
@@ -836,7 +833,7 @@ export class InputTime
               class={{
                 [CSS.empty]: !Boolean(this.localizedSecond),
                 [CSS.input]: true,
-                [CSS.second]: true
+                [CSS.second]: true,
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.secondKeyDownHandler}
@@ -861,7 +858,7 @@ export class InputTime
                 [CSS.empty]: !Boolean(this.localizedMeridiem),
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
-                [CSS.meridiemStart]: this.meridiemOrder === 0
+                [CSS.meridiemStart]: this.meridiemOrder === 0,
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
