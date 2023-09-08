@@ -113,7 +113,7 @@ export class Stepper {
 
   render(): VNode {
     return (
-      <Host aria-label="progress step indicator">
+      <Host aria-label="progress step indicator" role="group">
         <slot
           onSlotchange={(event: Event) => {
             const items = (event.currentTarget as HTMLSlotElement)

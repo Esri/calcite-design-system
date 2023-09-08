@@ -207,9 +207,12 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   }
 
   render(): VNode {
+    const hostAttributes = {
+      "aria-current": "step",
+    };
     return (
       <Host
-        aria-current={this.selected ? "step" : "false"}
+        {...(this.selected ? hostAttributes : {})}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
       >
