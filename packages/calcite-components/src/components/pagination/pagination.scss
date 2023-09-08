@@ -40,6 +40,19 @@
 :host {
   @apply flex;
   writing-mode: horizontal-tb;
+  container: pagination / inline-size;
+}
+
+@container pagination (max-width: #{$breakpoint-width-xs}) {
+  button {
+    background-color: red;
+    border: 1px solid red;
+  }
+  .page--inner {
+    background-color: red;
+    border: 1px solid red;
+    @apply hidden;
+  }
 }
 
 // focus styles
