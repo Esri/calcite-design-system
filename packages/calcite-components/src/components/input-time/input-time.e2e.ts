@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { localizeTimeString, localizeTimeStringToParts } from "../../utils/time";
+import { localizeTimeStringToParts } from "../../utils/time";
 import {
   accessible,
   defaults,
@@ -8,7 +8,8 @@ import {
   formAssociated,
   labelable,
   reflects,
-  renders
+  renders,
+  t9n,
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
@@ -26,7 +27,7 @@ describe("calcite-input-time", () => {
   it("has defaults", async () =>
     defaults("calcite-input-time", [
       { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "step", defaultValue: 60 }
+      { propertyName: "step", defaultValue: 60 },
     ]));
 
   it("reflects", async () =>
@@ -34,17 +35,21 @@ describe("calcite-input-time", () => {
       { propertyName: "disabled", value: true },
       { propertyName: "iconFlipRtl", value: true },
       { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" }
+      { propertyName: "scale", value: "m" },
     ]));
 
   it("is labelable", async () => labelable("calcite-input-time"));
 
   it("should focus the hour input when setFocus is called", async () =>
     focusable(`calcite-input-time`, {
-      shadowFocusTargetSelector: "span.hour"
+      shadowFocusTargetSelector: "span.hour",
     }));
 
   it("can be disabled", () => disabled("calcite-input-time"));
+
+  describe("translation support", () => {
+    t9n("<calcite-input-time></calcite-input-time>");
+  });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
@@ -71,7 +76,7 @@ describe("calcite-input-time", () => {
   it("directly changing the value reflects in the UI for da lang (24-hour with period delimiter)", async () => {
     const lang = "da";
     const page = await newE2EPage({
-      html: `<calcite-input-time lang="${lang}"" step="1"></calcite-input-time>`
+      html: `<calcite-input-time lang="${lang}"" step="1"></calcite-input-time>`,
     });
 
     const inputTimeEl = await page.find("calcite-input-time");
@@ -105,7 +110,7 @@ describe("calcite-input-time", () => {
     const defaultSecond = "30";
     const defaultValue = `${defaultHour}:${defaultMinute}:${defaultSecond}`;
     const page = await newE2EPage({
-      html: `<calcite-input-time lang="${lang}"" step="1" value=${defaultValue}></calcite-input-time>`
+      html: `<calcite-input-time lang="${lang}"" step="1" value=${defaultValue}></calcite-input-time>`,
     });
 
     const inputTimeEl = await page.find("calcite-input-time");
@@ -135,7 +140,7 @@ describe("calcite-input-time", () => {
   it("directly changing the value reflects in the UI for en lang (12-hour)", async () => {
     const lang = "en";
     const page = await newE2EPage({
-      html: `<calcite-input-time lang=${lang} step="1"></calcite-input-time>`
+      html: `<calcite-input-time lang=${lang} step="1"></calcite-input-time>`,
     });
 
     const inputTimeEl = await page.find("calcite-input-time");
@@ -169,7 +174,7 @@ describe("calcite-input-time", () => {
     const defaultSecond = "30";
     const defaultValue = `${defaultHour}:${defaultMinute}:${defaultSecond}`;
     const page = await newE2EPage({
-      html: `<calcite-input-time lang=${lang} step="1" value="${defaultValue}"></calcite-input-time>`
+      html: `<calcite-input-time lang=${lang} step="1" value="${defaultValue}"></calcite-input-time>`,
     });
 
     const inputTimeEl = await page.find("calcite-input-time");
@@ -326,7 +331,7 @@ describe("calcite-input-time", () => {
 
   it("resets to previous value when the calciteInputTimeInput event's default behavior is prevented", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input-time value="14:59"></calcite-input-time>`
+      html: `<calcite-input-time value="14:59"></calcite-input-time>`,
     });
     const inputTime = await page.find("calcite-input-time");
 
@@ -349,7 +354,7 @@ describe("calcite-input-time", () => {
 
   it("sets initial value to null when it is not a valid time value", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input-time value="invalid"></calcite-input-time>`
+      html: `<calcite-input-time value="invalid"></calcite-input-time>`,
     });
     const inputTime = await page.find("calcite-input-time");
 

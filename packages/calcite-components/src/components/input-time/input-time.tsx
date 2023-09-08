@@ -52,7 +52,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { T9nComponent } from "../../utils/t9n";
+import { T9nComponent, connectMessages, disconnectMessages, setUpMessages } from "../../utils/t9n";
 import { InputTimeMessages } from "./assets/input-time/t9n";
 
 function capitalize(str: string): string {
@@ -63,6 +63,7 @@ function capitalize(str: string): string {
   tag: "calcite-input-time",
   styleUrl: "input-time.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
 export class InputTime
   implements
@@ -786,6 +787,7 @@ export class InputTime
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
     this.setValue({ newValue: this.value, context: "connected" });
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
     this.previousEmittedValue = this.value;
@@ -793,8 +795,9 @@ export class InputTime
     connectForm(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -807,6 +810,7 @@ export class InputTime
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectLabel(this);
     disconnectForm(this);
   }
