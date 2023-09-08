@@ -268,23 +268,16 @@ export class Pagination
     }
 
     const pageLen = pages.length;
-    const innerMostIndex = Math.ceil(pageLen / 2);
+    const centerIndex = Math.ceil((pageLen - 1) / 2);
+    const hasNoLeftEllipsis = !this.showLeftEllipsis();
 
     return pages.map((page, index) => {
-      const innerMost = pageLen === 1 || index === innerMostIndex;
-      return this.renderPage(page, { inner: !innerMost, innerMost });
+      const optional = hasNoLeftEllipsis ? index !== 0 : pageLen !== 1 && index !== centerIndex;
+      return this.renderPage(page, optional);
     });
   }
 
-  renderPage(
-    start: number,
-    options: {
-      inner?: boolean;
-      innerMost?: boolean;
-      first?: boolean;
-      last?: boolean;
-    }
-  ): VNode {
+  renderPage(start: number, optional = false): VNode {
     const page = Math.floor(start / this.pageSize) + (this.pageSize === 1 ? 0 : 1);
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
@@ -301,10 +294,7 @@ export class Pagination
         class={{
           [CSS.page]: true,
           [CSS.selected]: selected,
-          [CSS.pageFirst]: options.first,
-          [CSS.pageInner]: options.inner,
-          [CSS.pageInnermost]: options.innerMost,
-          [CSS.pageLast]: options.last,
+          [CSS.pageOptional]: optional,
         }}
         onClick={() => {
           this.startItem = start;
@@ -346,11 +336,11 @@ export class Pagination
         >
           <calcite-icon flipRtl icon="chevronLeft" scale={this.scale === "l" ? "m" : "s"} />
         </button>
-        {totalItems > pageSize ? this.renderPage(1, { first: true }) : null}
+        {totalItems > pageSize ? this.renderPage(1) : null}
         {this.renderLeftEllipsis()}
         {this.renderPages()}
         {this.renderRightEllipsis()}
-        {this.renderPage(this.getLastStart(), { last: true })}
+        {this.renderPage(this.getLastStart())}
         <button
           aria-label={this.messages.next}
           class={{

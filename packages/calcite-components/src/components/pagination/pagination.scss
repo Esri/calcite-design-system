@@ -105,7 +105,7 @@
 }
 
 @container pagination (max-width: #{$breakpoint-width-xs}) {
-  .page--inner {
+  .page--optional {
     @apply hidden;
   }
 }

@@ -1,9 +1,6 @@
 export const CSS = {
   page: "page",
-  pageFirst: "page--first",
-  pageLast: "page--last",
-  pageInner: "page--inner",
-  pageInnermost: "page--innermost",
+  pageOptional: "page--optional",
   selected: "is-selected",
   previous: "previous",
   next: "next",
