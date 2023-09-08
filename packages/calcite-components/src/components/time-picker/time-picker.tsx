@@ -68,9 +68,7 @@ function capitalize(str: string): string {
   },
   assetsDirs: ["assets"],
 })
-export class TimePicker
-  implements LocalizedComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class TimePicker implements LoadableComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
