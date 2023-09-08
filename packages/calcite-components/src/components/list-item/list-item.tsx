@@ -703,7 +703,11 @@ export class ListItem
     const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
-    if (key === "Enter") {
+    if (
+      key === "Enter" &&
+      !composedPath.includes(actionsStartEl) &&
+      !composedPath.includes(actionsEndEl)
+    ) {
       event.preventDefault();
       this.toggleSelected();
     } else if (key === "ArrowRight") {

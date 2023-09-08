@@ -53,3 +53,5 @@
 ::slotted(calcite-combobox-item-group:not([after-empty-group])) {
   padding-block-start: var(--calcite-combobox-item-spacing-unit-l);
 }
+
+@include base-component();
