@@ -52,6 +52,8 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { T9nComponent } from "../../utils/t9n";
+import { InputTimeMessages } from "./assets/input-time/t9n";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -68,7 +70,8 @@ export class InputTime
     InteractiveComponent,
     LabelableComponent,
     LoadableComponent,
-    LocalizedComponent
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -124,6 +127,25 @@ export class InputTime
    * @default "Second"
    */
   @Prop() intlSecond = TEXT.second;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<InputTimeMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: InputTimeMessages;
 
   /** The name of the time input */
   @Prop() name: string;
@@ -199,6 +221,8 @@ export class InputTime
   //  State
   //
   // --------------------------------------------------------------------------
+
+  @State() defaultMessages: InputTimeMessages;
 
   @State() effectiveLocale = "";
 
