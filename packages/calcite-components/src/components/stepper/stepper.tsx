@@ -12,7 +12,7 @@ import {
   Watch,
 } from "@stencil/core";
 
-import { focusElementInGroup } from "../../utils/dom";
+import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
@@ -114,17 +114,7 @@ export class Stepper {
   render(): VNode {
     return (
       <Host aria-label={"Progress steps"} role="region">
-        <slot
-          onSlotchange={(event: Event) => {
-            const items = (event.currentTarget as HTMLSlotElement)
-              .assignedElements()
-              .filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
-            const spacing = Array(items.length).fill("1fr").join(" ");
-            this.el.style.gridTemplateAreas = spacing;
-            this.el.style.gridTemplateColumns = spacing;
-            this.setStepperItemNumberingSystem();
-          }}
-        />
+        <slot onSlotchange={this.handleDefaultSlotChange} />
       </Host>
     );
   }
@@ -334,4 +324,13 @@ export class Stepper {
       item.numberingSystem = this.numberingSystem;
     });
   }
+
+  private handleDefaultSlotChange = (event: Event): void => {
+    const slottedItems = slotChangeGetAssignedElements(event);
+    const items = slottedItems.filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
+    const spacing = Array(items.length).fill("1fr").join(" ");
+    this.el.style.gridTemplateAreas = spacing;
+    this.el.style.gridTemplateColumns = spacing;
+    this.setStepperItemNumberingSystem();
+  };
 }
