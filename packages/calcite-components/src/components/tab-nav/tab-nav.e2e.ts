@@ -78,62 +78,56 @@ describe("calcite-tab-nav", () => {
     });
   });
 
+  const navWithTabTitleSetHtml = html`
+    <calcite-tab-nav>
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+  `;
+
   describe("scale property", () => {
     describe("default", () => {
-      it("should render without scale", async () => {
+      it("should inherit parent scale", async () => {
         const page = await newE2EPage({
-          html: `${tabNavHtml}`,
+          html: `<calcite-tabs>${navWithTabTitleSetHtml}<calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-nav");
-        expect(element).not.toHaveAttribute("scale");
+        expect(await element.getProperty("scale")).toBe("m");
       });
     });
 
     describe("when scale is small", () => {
       it("should render with small scale", async () => {
         const page = await newE2EPage({
-          html: `<calcite-tab-nav scale='s'>
-            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`,
+          html: html`<calcite-tabs scale="s">${navWithTabTitleSetHtml}</calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-nav");
         expect(await (await element.getComputedStyle())["minHeight"]).toEqual("24px");
-        expect(element).toEqualAttribute("scale", "s");
+        expect(await element.getProperty("scale")).toBe("s");
       });
     });
 
     describe("when scale is medium", () => {
       it("should render with medium scale", async () => {
         const page = await newE2EPage({
-          html: `<calcite-tab-nav scale='m'>
-            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`,
+          html: html`<calcite-tabs scale="m">${navWithTabTitleSetHtml}</calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-nav");
         expect(await (await element.getComputedStyle())["minHeight"]).toEqual("32px");
-        expect(element).toEqualAttribute("scale", "m");
+        expect(await element.getProperty("scale")).toBe("m");
       });
     });
 
     describe("when scale is large", () => {
-      it("should render with medium scale", async () => {
+      it("should render with large scale", async () => {
         const page = await newE2EPage({
-          html: `<calcite-tab-nav scale='l'>
-            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`,
+          html: html`<calcite-tabs scale="l">${tabNavHtml}</calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-nav");
         expect(await (await element.getComputedStyle())["minHeight"]).toEqual("44px");
-        expect(element).toEqualAttribute("scale", "l");
+        expect(await element.getProperty("scale")).toBe("l");
       });
     });
 
