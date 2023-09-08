@@ -25,7 +25,6 @@ import { createObserver } from "../../utils/observers";
   tag: "calcite-stepper",
   styleUrl: "stepper.scss",
   shadow: true,
-  assetsDirs: ["assets"],
 })
 export class Stepper {
   //--------------------------------------------------------------------------

@@ -45,7 +45,6 @@ import {
   tag: "calcite-stepper-item",
   styleUrl: "stepper-item.scss",
   shadow: true,
-  assetsDirs: ["assets"],
 })
 export class StepperItem implements InteractiveComponent, LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
