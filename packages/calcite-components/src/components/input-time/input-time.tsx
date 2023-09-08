@@ -41,7 +41,12 @@ import {
   getLocalizedTimePartSuffix,
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
-import { NumberingSystem } from "../../utils/locale";
+import {
+  LocalizedComponent,
+  NumberingSystem,
+  connectLocalized,
+  disconnectLocalized,
+} from "../../utils/locale";
 import {
   LoadableComponent,
   setComponentLoaded,
@@ -58,7 +63,12 @@ function capitalize(str: string): string {
   shadow: true,
 })
 export class InputTime
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements
+    FormComponent,
+    InteractiveComponent,
+    LabelableComponent,
+    LoadableComponent,
+    LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -114,20 +124,6 @@ export class InputTime
    * @default "Second"
    */
   @Prop() intlSecond = TEXT.second;
-
-  /**
-   * BCP 47 language tag for desired language and country format
-   *
-   * @internal
-   */
-  @Prop({ attribute: "lang" }) locale: string =
-    document.documentElement.lang || navigator.language || "en";
-
-  @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.hourCycle = getLocaleHourCycle(newLocale);
-    this.setValue({ newValue: this.value, context: "lang" });
-  }
 
   /** The name of the time input */
   @Prop() name: string;
@@ -203,6 +199,14 @@ export class InputTime
   //  State
   //
   // --------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(newLocale: string): void {
+    this.hourCycle = getLocaleHourCycle(newLocale);
+    this.setValue({ newValue: this.value, context: "lang" });
+  }
 
   @State() hour: string;
 
@@ -405,7 +409,7 @@ export class InputTime
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const isRTLKind = this.locale === "ar" || this.locale === "he";
+    const isRTLKind = this.effectiveLocale === "ar" || this.effectiveLocale === "he";
     if (formatParts && !isRTLKind) {
       const index = formatParts.findIndex((parts: { type: string; value: string }) => {
         return parts.value === this.localizedMeridiem;
@@ -631,7 +635,7 @@ export class InputTime
     const oldValue = this.value;
     const { hour, minute, second } = parseTimeString(formattedNewValue);
     const { localizedHour, localizedMinute, localizedSecond, localizedMeridiem } =
-      localizeTimeStringToParts({ value: formattedNewValue, locale: this.locale });
+      localizeTimeStringToParts({ value: formattedNewValue, locale: this.effectiveLocale });
 
     this.userChangedValue = context === "user";
 
@@ -642,19 +646,19 @@ export class InputTime
     if (context !== "user") {
       this.hour = hour;
       this.localizedHour = localizedHour;
-      this.localizedHourSuffix = getLocalizedTimePartSuffix("hour", this.locale);
+      this.localizedHourSuffix = getLocalizedTimePartSuffix("hour", this.effectiveLocale);
 
       this.minute = minute;
       this.localizedMinute = localizedMinute;
-      this.localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", this.locale);
+      this.localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", this.effectiveLocale);
 
       this.second = second;
       this.localizedSecond = localizedSecond;
-      this.localizedSecondSuffix = getLocalizedTimePartSuffix("second", this.locale);
+      this.localizedSecondSuffix = getLocalizedTimePartSuffix("second", this.effectiveLocale);
 
       this.meridiem = getMeridiem(this.hour);
       this.localizedMeridiem = localizedMeridiem;
-      const formatParts = getTimeParts({ value: newValue, locale: this.locale });
+      const formatParts = getTimeParts({ value: newValue, locale: this.effectiveLocale });
       this.meridiemOrder = this.getMeridiemOrder(formatParts);
     }
 
@@ -677,7 +681,7 @@ export class InputTime
     key: "hour" | "minute" | "second" | "meridiem",
     value: number | string | Meridiem
   ): void => {
-    const { locale } = this;
+    const { effectiveLocale: locale } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -734,8 +738,9 @@ export class InputTime
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     this.setValue({ newValue: this.value, context: "connected" });
-    this.hourCycle = getLocaleHourCycle(this.locale);
+    this.hourCycle = getLocaleHourCycle(this.effectiveLocale);
     this.previousEmittedValue = this.value;
     connectLabel(this);
     connectForm(this);
@@ -754,6 +759,7 @@ export class InputTime
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
     disconnectLabel(this);
     disconnectForm(this);
   }
