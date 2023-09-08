@@ -39,7 +39,8 @@
       &:focus,
       &:hover:focus {
         @apply outline-none;
-        background-color: var(--calcite-ui-text-highlight);
+        // background-color: var(--calcite-ui-text-highlight);
+        background-color: #bbd5fa;
       }
     }
 
