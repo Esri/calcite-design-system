@@ -43,18 +43,6 @@
   container: pagination / inline-size;
 }
 
-@container pagination (max-width: #{$breakpoint-width-xs}) {
-  button {
-    background-color: red;
-    border: 1px solid red;
-  }
-  .page--inner {
-    background-color: red;
-    border: 1px solid red;
-    @apply hidden;
-  }
-}
-
 // focus styles
 :host button {
   @apply focus-base;
@@ -114,6 +102,12 @@
 }
 .ellipsis {
   @apply text-color-3 flex items-end;
+}
+
+@container pagination (max-width: #{$breakpoint-width-xs}) {
+  .page--inner {
+    @apply hidden;
+  }
 }
 
 @include base-component();
