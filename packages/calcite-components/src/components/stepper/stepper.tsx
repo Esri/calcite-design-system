@@ -8,23 +8,15 @@ import {
   Listen,
   Method,
   Prop,
-  State,
   VNode,
   Watch,
 } from "@stencil/core";
 
 import { focusElementInGroup } from "../../utils/dom";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-} from "../../utils/locale";
+import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
-import { connectMessages, disconnectMessages, T9nComponent, updateMessages } from "../../utils/t9n";
-import { StepperMessages } from "./assets/stepper/t9n";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -35,7 +27,7 @@ import { StepperMessages } from "./assets/stepper/t9n";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class Stepper implements T9nComponent, LocalizedComponent {
+export class Stepper {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -47,25 +39,6 @@ export class Stepper implements T9nComponent, LocalizedComponent {
 
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: StepperMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: StepperMessages;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    // wired up by t9n util
-  }
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
@@ -128,8 +101,6 @@ export class Stepper implements T9nComponent, LocalizedComponent {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateItems();
-    connectMessages(this);
-    connectLocalized(this);
   }
 
   componentDidLoad(): void {
@@ -141,14 +112,9 @@ export class Stepper implements T9nComponent, LocalizedComponent {
     }
   }
 
-  disconnectedCallback(): void {
-    disconnectMessages(this);
-    disconnectLocalized(this);
-  }
-
   render(): VNode {
     return (
-      <Host aria-label={this.messages?.label} role="region">
+      <Host aria-label={"Progress steps"} role="region">
         <slot
           onSlotchange={(event: Event) => {
             const items = (event.currentTarget as HTMLSlotElement)
@@ -299,15 +265,6 @@ export class Stepper implements T9nComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteStepperElement;
-
-  @State() defaultMessages: StepperMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
 
   private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
 
