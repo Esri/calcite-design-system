@@ -54,8 +54,8 @@
           await customElements.whenDefined("calcite-label");
           await customElements.whenDefined("calcite-input-time");
 
-          document.addEventListener("calciteInputTimePickerChange", (event) => {
-            console.log("calciteInputTimePickerChange", event.target.value);
+          document.addEventListener("calciteInputTimeChange", (event) => {
+            console.log("calciteInputTimeChange", event.target.value);
           });
 
           const mainEl = document.querySelector("main");
@@ -64,15 +64,15 @@
 
           locales.forEach(({ locale, name, numberingSystem, hourCycle }) => {
             let labelEl = document.createElement("calcite-label");
-            let inputTimePickerEl = document.createElement("calcite-input-time");
+            let inputTimeEl = document.createElement("calcite-input-time");
 
-            inputTimePickerEl.setAttribute("lang", locale);
+            inputTimeEl.setAttribute("lang", locale);
             if (numberingSystem) {
-              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+              inputTimeEl.setAttribute("numbering-system", numberingSystem);
             }
-            inputTimePickerEl.setAttribute("value", "10:00:00");
+            inputTimeEl.setAttribute("value", "10:00:00");
             labelEl.append(document.createTextNode(`${name} (${locale})`));
-            labelEl.append(inputTimePickerEl);
+            labelEl.append(inputTimeEl);
             mainEl.append(labelEl);
 
             const localeObject = new Intl.Locale(locale);
@@ -83,16 +83,35 @@
             }
 
             labelEl = document.createElement("calcite-label");
-            inputTimePickerEl = document.createElement("calcite-input-time");
+            inputTimeEl = document.createElement("calcite-input-time");
 
-            inputTimePickerEl.setAttribute("lang", locale);
+            inputTimeEl.setAttribute("lang", locale);
             if (numberingSystem) {
-              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+              inputTimeEl.setAttribute("numbering-system", numberingSystem);
             }
-            inputTimePickerEl.setAttribute("step", 1);
-            inputTimePickerEl.setAttribute("value", "10:00");
+            inputTimeEl.setAttribute("step", 1);
+            inputTimeEl.setAttribute("value", "10:00");
             labelEl.append(document.createTextNode(`${name} (${locale}) (seconds)`));
-            labelEl.append(inputTimePickerEl);
+            labelEl.append(inputTimeEl);
+            mainEl.append(labelEl);
+
+            if (localeObject.hourCycles[0] === "h12") {
+              h12.append(labelEl);
+            } else {
+              h23.append(labelEl);
+            }
+
+            labelEl = document.createElement("calcite-label");
+            inputTimeEl = document.createElement("calcite-input-time");
+
+            inputTimeEl.setAttribute("lang", locale);
+            if (numberingSystem) {
+              inputTimeEl.setAttribute("numbering-system", numberingSystem);
+            }
+            inputTimeEl.setAttribute("step", 0.001);
+            inputTimeEl.setAttribute("value", "10:00:00.001");
+            labelEl.append(document.createTextNode(`${name} (${locale}) (milliseconds)`));
+            labelEl.append(inputTimeEl);
             mainEl.append(labelEl);
 
             if (localeObject.hourCycles[0] === "h12") {
