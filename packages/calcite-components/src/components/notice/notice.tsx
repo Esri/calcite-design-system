@@ -34,6 +34,8 @@ import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { NoticeMessages } from "./assets/notice/t9n";
 import { CSS, SLOTS } from "./resources";
+import { createObserver } from "../../utils/observers";
+import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -125,18 +127,21 @@ export class Notice
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    this.resizeObserver?.observe(this.el);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-    await setUpMessages(this);
+    const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
+    this.breakpoints = breakpoints;
   }
 
   componentDidLoad(): void {
@@ -159,28 +164,50 @@ export class Notice
 
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
+    console.log(this.breakpoints.width.xsmall, this.elWidth);
+
     return (
       <div class={CSS.container}>
-        {this.requestedIcon ? (
-          <div class={CSS.icon}>
-            <calcite-icon
-              flipRtl={this.iconFlipRtl}
-              icon={this.requestedIcon}
-              scale={this.scale === "l" ? "m" : "s"}
-            />
+        <div class="main">
+          {this.elWidth > this.breakpoints.width.xsmall && this.requestedIcon ? (
+            <div class={CSS.icon}>
+              <calcite-icon
+                flipRtl={this.iconFlipRtl}
+                icon={this.requestedIcon}
+                scale={this.scale === "l" ? "m" : "s"}
+              />
+            </div>
+          ) : null}
+          <div class={CSS.content}>
+            {this.elWidth <= this.breakpoints.width.xsmall && this.requestedIcon ? (
+              <div class={CSS.icon}>
+                <calcite-icon
+                  flipRtl={this.iconFlipRtl}
+                  icon={this.requestedIcon}
+                  scale={this.scale === "l" ? "m" : "s"}
+                />
+              </div>
+            ) : null}
+            <slot name={SLOTS.title} />
+            <slot name={SLOTS.message} />
+            <slot name={SLOTS.link} />
           </div>
-        ) : null}
-        <div class={CSS.content}>
-          <slot name={SLOTS.title} />
-          <slot name={SLOTS.message} />
-          <slot name={SLOTS.link} />
+          {this.elWidth > this.breakpoints.width.medium && hasActionEnd ? (
+            <div class={CSS.actionsEnd}>
+              <slot name={SLOTS.actionsEnd} />
+            </div>
+          ) : null}
+          {this.closable ? closeButton : null}
         </div>
-        {hasActionEnd ? (
-          <div class={CSS.actionsEnd}>
-            <slot name={SLOTS.actionsEnd} />
+        {this.elWidth <= this.breakpoints.width.medium && (
+          <div class="footer">
+            {hasActionEnd ? (
+              <div class={CSS.actionsEnd}>
+                <slot name={SLOTS.actionsEnd} />
+              </div>
+            ) : null}
           </div>
-        ) : null}
-        {this.closable ? closeButton : null}
+        )}
       </div>
     );
   }
@@ -238,6 +265,8 @@ export class Notice
 
   @Element() el: HTMLCalciteNoticeElement;
 
+  private breakpoints: Breakpoints;
+
   /** The close button element. */
   private closeButton?: HTMLButtonElement;
 
@@ -252,4 +281,11 @@ export class Notice
   }
 
   @State() defaultMessages: NoticeMessages;
+
+  @State() elWidth: number;
+
+  private resizeObserver = createObserver(
+    "resize",
+    (entries) => (this.elWidth = entries[0].contentRect.width)
+  );
 }

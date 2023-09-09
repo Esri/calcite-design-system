@@ -68,6 +68,7 @@
 :host {
   @apply mx-auto hidden max-w-full items-center;
   inline-size: var(--calcite-notice-width);
+  container: host / inline-size;
 }
 
 .container {
@@ -81,7 +82,7 @@
     transition-default;
   max-block-size: 0;
   text-align: start;
-  border-inline-start: 0px solid;
+  border-inline-start: 0 solid;
   box-shadow: 0 0 0 0 transparent;
 }
 
@@ -175,6 +176,59 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
     & .notice-icon {
       color: $kind;
     }
+  }
+}
+
+.container {
+  flex-wrap: wrap;
+}
+
+.notice-icon {
+  margin-block-end: var(--calcite-notice-spacing-token-large);
+  margin-inline-end: auto;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 0;
+}
+
+.notice-close {
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.notice-content {
+  padding: var(--calcite-notice-spacing-token-large);
+}
+
+.main {
+  display: flex;
+  inline-size: 100%;
+}
+
+.footer {
+  border-block-start: 1px solid var(--calcite-ui-border-3);
+  display: flex;
+  flex-grow: 1;
+  inline-size: 100%;
+  justify-content: flex-end;
+  max-block-size: 64px;
+}
+
+@container (min-width: #{$breakpoint-width-xs}) {
+  .notice-close {
+    align-items: center;
+  }
+
+  .notice-icon {
+    justify-content: center;
+    padding: 20px;
+    margin-block-end: 0;
+  }
+
+  // TODO: use proper utils, tokens and vars for styling
+
+  .notice-content {
+    padding-inline-start: 0;
   }
 }
 
