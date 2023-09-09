@@ -34,6 +34,8 @@ import {
 import { Scale } from "../interfaces";
 import { PaginationMessages } from "./assets/pagination/t9n";
 import { CSS } from "./resources";
+import { createObserver } from "../../utils/observers";
+import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 
 const maxPagesDisplayed = 5;
 export interface PaginationDetail {
@@ -97,7 +99,14 @@ export class Pagination
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
   @Element() el: HTMLCalcitePaginationElement;
+
+  private resizeObserver = createObserver("resize", (entries) =>
+    entries.forEach(this.resizeHandler)
+  );
+
+  private breakpoints: Breakpoints;
 
   //--------------------------------------------------------------------------
   //
@@ -151,20 +160,24 @@ export class Pagination
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    this.resizeObserver?.observe(this.el);
   }
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
     setUpLoadableComponent(this);
+    this.breakpoints = await getBreakpoints();
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.resize(this.el.clientWidth);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -197,6 +210,22 @@ export class Pagination
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private resize(width: number): void {
+    const { breakpoints } = this;
+
+    if (!breakpoints || width) {
+      return;
+    }
+
+    if (width < breakpoints.width.xsmall) {
+      console.log("minimize", { width });
+    }
+  }
+
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
+    this.resize(width);
+  };
 
   private getLastStart(): number {
     const { totalItems, pageSize } = this;
@@ -261,7 +290,7 @@ export class Pagination
       }
     }
 
-    const pages = [];
+    const pages: number[] = [];
     while (nextStart <= end) {
       pages.push(nextStart);
       nextStart = nextStart + this.pageSize;
