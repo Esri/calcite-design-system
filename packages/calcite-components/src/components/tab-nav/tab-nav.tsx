@@ -125,10 +125,6 @@ export class TabNav {
     this.resizeObserver?.observe(this.el);
   }
 
-  disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
-  }
-
   componentWillLoad(): void {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
@@ -161,6 +157,10 @@ export class TabNav {
         });
       });
     }
+  }
+
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
   }
 
   render(): VNode {

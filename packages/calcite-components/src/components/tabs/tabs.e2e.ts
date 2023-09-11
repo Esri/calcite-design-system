@@ -127,9 +127,10 @@ describe("calcite-tabs", () => {
 
   describe("when no scale is provided", () => {
     it("should render itself and child tab elements with default medium scale", async () => {
-      const page = await newE2EPage({
-        html: tabsSnippet,
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`${tabsSnippet}`);
+      await page.waitForChanges();
+
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
       expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("m");
       expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe("m");
@@ -139,9 +140,9 @@ describe("calcite-tabs", () => {
 
   describe("when scale is provided", () => {
     it("should render itself and child tab elements with corresponding scale (small)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`,
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`);
+      await page.waitForChanges();
 
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
       expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("s");
@@ -150,9 +151,9 @@ describe("calcite-tabs", () => {
     });
 
     it("should render itself and child tab elements with corresponding scale (medium)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`,
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`);
+      await page.waitForChanges();
 
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
       console.log((await page.find("calcite-tab-nav")).getProperty("scale"));
@@ -162,9 +163,9 @@ describe("calcite-tabs", () => {
     });
 
     it("should render itself and child tab elements with corresponding scale (large)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`,
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`);
+      await page.waitForChanges();
 
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "l");
       expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("l");
