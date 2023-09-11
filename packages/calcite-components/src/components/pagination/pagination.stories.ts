@@ -31,13 +31,25 @@ export const simple = (): string => html`
 const breakpoints = [475, 476, 768, 1152];
 
 const getResponsiveTemplate = (width: number, scale: Scale) => {
+  const totalItems = 150000;
+  const pageSize = 100;
   return html`<strong>Width: ${width}px</strong>
     <div style="width: ${width}px; margin: 1em 0;">
-      <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="${scale}"></calcite-pagination>
-      <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="${scale}"></calcite-pagination>
       <calcite-pagination
-        total-items="150000"
-        page-size="100"
+        total-items="${totalItems}"
+        page-size="${pageSize}"
+        start-item="1"
+        scale="${scale}"
+      ></calcite-pagination>
+      <calcite-pagination
+        total-items="${totalItems}"
+        page-size="${pageSize}"
+        start-item="5400"
+        scale="${scale}"
+      ></calcite-pagination>
+      <calcite-pagination
+        total-items="${totalItems}"
+        page-size="${pageSize}"
         start-item="149901"
         scale="${scale}"
       ></calcite-pagination>
