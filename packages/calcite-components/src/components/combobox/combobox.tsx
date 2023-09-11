@@ -796,7 +796,7 @@ export class Combobox
   };
 
   private getMaxScrollerHeight(): number {
-    const items = this.getCombinedItems().filter((item) => !item.hidden);
+    const items = this.getItemsAndGroups().filter((item) => !item.hidden);
 
     const { maxItems } = this;
 
@@ -843,36 +843,30 @@ export class Combobox
     }
   };
 
-  getCombinedItems(): ComboboxChildElement[] {
+  getItemsAndGroups(): ComboboxChildElement[] {
     return [...this.groupItems, ...this.items];
   }
 
   private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item &&
-      filteredData.some(({ label, value }) => {
-        if (isGroup(item)) {
-          return value === item.label;
-        }
-
-        return (
-          value === item.textLabel ||
-          value === item.value ||
-          label === item.textLabel ||
-          label === item.value
-        );
-      });
+      filteredData.some(({ label, value }) =>
+        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel
+      );
 
     return debounce((text: string): void => {
       const filteredData = filter(this.data, text);
-      const items = this.getCombinedItems();
-      items.forEach((item) => {
+      const itemsAndGroups = this.getItemsAndGroups();
+
+      itemsAndGroups.forEach((item) => {
         const hidden = !find(item, filteredData);
         item.hidden = hidden;
         const [parent, grandparent] = item.ancestors;
+
         if (find(parent, filteredData) || find(grandparent, filteredData)) {
           item.hidden = false;
         }
+
         if (!hidden) {
           item.ancestors.forEach((ancestor) => (ancestor.hidden = false));
         }

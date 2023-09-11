@@ -3,7 +3,14 @@ import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, SCOPE_SIZE 
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
-import { GlobalTestProps, selectText, getElementXY, newProgrammaticE2EPage } from "../../tests/utils";
+import {
+  GlobalTestProps,
+  selectText,
+  getElementXY,
+  newProgrammaticE2EPage,
+  toBeNumber,
+  toBeInteger,
+} from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 describe("calcite-color-picker", () => {
@@ -787,31 +794,6 @@ describe("calcite-color-picker", () => {
   });
 
   describe("color inputs", () => {
-    // see https://jasmine.github.io/tutorials/custom_argument_matchers for more info
-    function toBeInteger(): any {
-      return {
-        asymmetricMatch(abc: string): boolean {
-          return Number.isInteger(abc);
-        },
-
-        jasmineToString(): string {
-          return `Expected value to be an integer.`;
-        },
-      };
-    }
-
-    function toBeNumber(): any {
-      return {
-        asymmetricMatch(expected: string): boolean {
-          return !isNaN(parseFloat(expected)) && isFinite(Number(expected));
-        },
-
-        jasmineToString(): string {
-          return `Expected value to be an number.`;
-        },
-      };
-    }
-
     it("numbering system does not revert to latn when clamping RGB channels", async () => {
       const page = await newE2EPage();
       await page.setContent(
