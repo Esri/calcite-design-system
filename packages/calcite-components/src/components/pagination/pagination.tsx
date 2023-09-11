@@ -250,7 +250,7 @@ export class Pagination
   }
 
   private showRightEllipsis() {
-    return (this.totalItems - this.startItem) / this.pageSize > this.maxPagesDisplayed;
+    return (this.totalItems - this.startItem) / this.pageSize > this.maxPagesDisplayed - 2;
   }
 
   private emitUpdate() {
