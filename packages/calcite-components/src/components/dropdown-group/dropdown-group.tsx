@@ -76,7 +76,6 @@ export class DropdownGroup {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.el.setAttribute("id", this.el.getAttribute("id") || `dropdown-group-${guid()}`);
     this.updateItems();
   }
 
@@ -95,14 +94,7 @@ export class DropdownGroup {
       this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
 
     return (
-      <Host
-        {...{
-          "aria-label": this.groupTitle,
-          role: "menu",
-          id: "demo-menu-list",
-          tabindex: "-1",
-        }}
-      >
+      <Host aria-label={this.groupTitle} id={this.el.id || this.guid} role="menu" tabindex="-1">
         <div
           class={{
             [CSS.container]: true,
@@ -143,6 +135,9 @@ export class DropdownGroup {
 
   /** position of group within a dropdown */
   private groupPosition: number;
+
+  /** Generated unique ID */
+  private guid = `dropdown-group-${guid()}`;
 
   /** the requested group */
   private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;

@@ -135,7 +135,6 @@ export class DropdownItem implements LoadableComponent {
 
   connectedCallback(): void {
     this.initialize();
-    this.el.setAttribute("id", this.el.getAttribute("id") || `dropdown-item-${guid()}`);
   }
 
   render(): VNode {
@@ -200,7 +199,13 @@ export class DropdownItem implements LoadableComponent {
     const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
 
     return (
-      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole} tabindex="-1">
+      <Host
+        aria-checked={itemAria}
+        aria-label={!href ? label : ""}
+        id={this.el.id || this.guid}
+        role={itemRole}
+        tabindex="-1"
+      >
         <div
           class={{
             [CSS.container]: true,
@@ -282,6 +287,12 @@ export class DropdownItem implements LoadableComponent {
 
   @Element() el: HTMLCalciteDropdownItemElement;
 
+  /** if href is requested, track the rendered child link*/
+  private childLink: HTMLAnchorElement;
+
+  /** Generated unique ID */
+  private guid = `dropdown-item-${guid()}`;
+
   /** id of containing group */
   private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
 
@@ -290,9 +301,6 @@ export class DropdownItem implements LoadableComponent {
 
   /** requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
-
-  /** if href is requested, track the rendered child link*/
-  private childLink: HTMLAnchorElement;
 
   //--------------------------------------------------------------------------
   //

@@ -394,9 +394,9 @@ export class Dropdown
     }
 
     if (focusTarget) {
-      this.triggers.forEach((trigger) => {
-        trigger.setAttribute("aria-activedescendant", focusTarget.id);
-      });
+      this.triggers.forEach((trigger) =>
+        trigger.setAttribute("aria-activedescendant", focusTarget.id)
+      );
     }
 
     event.stopPropagation();
@@ -405,40 +405,24 @@ export class Dropdown
   @Listen("calciteInternalDropdownItemSelect")
   handleItemSelect(event: CustomEvent<RequestedItem>): void {
     const { selectionMode } = event.detail.requestedDropdownItem;
-    const selectionArray = [
-      event.detail.requestedDropdownGroup.id,
-      event.detail.requestedDropdownItem.id,
-    ];
-    let newSelection = [];
 
     this.updateSelectedItems();
+    this.triggers.forEach(
+      this._setSemanticAriaAssociation(
+        selectionMode,
+        event.detail.requestedDropdownItem.id,
+        event.detail.requestedDropdownGroup.id
+      )
+    );
 
-    this.triggers.forEach((trigger) => {
-      if (selectionMode === "multiple") {
-        const currentSelection = trigger.getAttribute("aria-labeledby")?.split(" ") || [];
-        newSelection = currentSelection.includes(event.detail.requestedDropdownItem.id)
-          ? currentSelection.filter((id) => id !== event.detail.requestedDropdownItem.id)
-          : [].concat(
-              currentSelection,
-              selectionArray.filter((id) => !currentSelection.includes(id))
-            );
-      } else if (selectionMode === "single") {
-        newSelection = selectionArray;
-      }
-
-      newSelection = newSelection.filter((id) => id);
-      newSelection = newSelection.length > 1 ? newSelection : [];
-
-      trigger.setAttribute("aria-labeledby", newSelection.join(" "));
-    });
-    event.stopPropagation();
-    this.calciteDropdownSelect.emit();
     if (
       !this.closeOnSelectDisabled ||
       event.detail.requestedDropdownGroup.selectionMode === "none"
     ) {
       this.closeCalciteDropdown();
     }
+
+    this.calciteDropdownSelect.emit();
     event.stopPropagation();
   }
 
@@ -484,6 +468,38 @@ export class Dropdown
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+  private _setSemanticAriaAssociation(
+    selectionMode,
+    selectedDropdownItemID,
+    selectedDropdownGroupID
+  ) {
+    let newSelection = [];
+
+    return (trigger) => {
+      if (selectionMode === "multiple") {
+        const currentSelection = trigger.getAttribute("aria-labeledby")?.split(" ") || [];
+        newSelection = currentSelection.includes(selectedDropdownItemID)
+          ? currentSelection.filter((id) => id !== selectedDropdownItemID)
+          : [].concat(
+              currentSelection,
+              [
+                !currentSelection.includes(selectedDropdownGroupID)
+                  ? selectedDropdownGroupID
+                  : null,
+              ],
+              [!currentSelection.includes(selectedDropdownItemID) ? selectedDropdownItemID : null]
+            );
+      } else if (selectionMode === "single") {
+        newSelection = [selectedDropdownGroupID, selectedDropdownItemID];
+      }
+
+      newSelection = newSelection.filter((id) => id);
+      newSelection = newSelection.length > 1 ? newSelection : [];
+
+      trigger.setAttribute("aria-labeledby", newSelection.join(" "));
+    };
+  }
+
   slotChangeHandler = (event: Event): void => {
     this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
       flatten: true,
@@ -653,8 +669,7 @@ export class Dropdown
     this.selectedItems = this.items.filter((item) => item.selected);
     this.label = this.selectedItems
       .reduce((acc, item, idx) => {
-        // @ts-expect-error TODO: write special type for selectedItems which includes the parentElement as a DropDownGroup
-        const group = item.parentElement.groupTitle;
+        const group = item.closest("calcite-dropdown-group")?.groupTitle;
         let groupIdx = acc[0].indexOf(group);
 
         if (groupIdx !== -1) {
