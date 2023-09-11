@@ -34,7 +34,7 @@ function getTag(tagOrHTML: string): ComponentTag {
     const trimmedTag = tagOrHTML.trim();
     const calciteTagMatchResult = trimmedTag.match(calciteTagRegex);
     if (calciteTagMatchResult) {
-      return calciteTagMatchResult[1] as ComponentTag;
+      return calciteTagMatchResult[0].substring(1) as ComponentTag;
     }
     throw new Error(`Could not extract tag from HTML: ${trimmedTag}`);
   }
