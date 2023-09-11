@@ -667,36 +667,36 @@ export class InputTime
         this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
-      this.hour = null;
-      // this.fractionalSecond = null;
-      this.localizedHour = null;
+      this.hour = undefined;
+      // this.fractionalSecond = undefined;
+      this.localizedHour = undefined;
       this.localizedHourSuffix = getLocalizedTimePartSuffix(
         "hour",
         this.effectiveLocale,
         this.numberingSystem
       );
-      this.localizedMeridiem = null;
-      this.localizedMinute = null;
+      this.localizedMeridiem = undefined;
+      this.localizedMinute = undefined;
       this.localizedMinuteSuffix = getLocalizedTimePartSuffix(
         "minute",
         this.effectiveLocale,
         this.numberingSystem
       );
-      this.localizedSecond = null;
+      this.localizedSecond = undefined;
       // this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       //   this.effectiveLocale,
       //   this.numberingSystem
       // );
-      // this.localizedFractionalSecond = null;
+      // this.localizedFractionalSecond = undefined;
       this.localizedSecondSuffix = getLocalizedTimePartSuffix(
         "second",
         this.effectiveLocale,
         this.numberingSystem
       );
-      this.meridiem = null;
-      this.minute = null;
-      this.second = null;
-      this.value = null;
+      this.meridiem = undefined;
+      this.minute = undefined;
+      this.second = undefined;
+      this.value = "";
     }
   };
 
@@ -749,7 +749,7 @@ export class InputTime
         // }
       }
     } else {
-      newValue = null;
+      newValue = "";
     }
     if (this.value !== newValue) {
       emit = true;
