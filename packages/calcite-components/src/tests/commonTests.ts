@@ -1211,13 +1211,13 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
  * });
  *
  * @param {TagOrHTML} componentTagOrHTML - The component tag or HTML markup to test against.
- * @param {string} togglePropName - The component property that toggles the floating-ui.
+ * @param {string} openPropName - The component property that toggles the floating-ui.
  * @param [options] - additional options for asserting focus
  * @param {string} [options.shadowSelector] - The selector in the shadow DOM for the floating-ui element.
  */
 export function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
-  togglePropName: string,
+  openPropName: string,
   options?: {
     /**
      * Use this to specify the selector in the shadow DOM for the floating-ui element.
@@ -1259,7 +1259,7 @@ export function floatingUIOwner(
       await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
     }
 
-    component.setProperty(togglePropName, false);
+    component.setProperty(openPropName, false);
     await page.waitForChanges();
 
     const initialClosedTransform = await getTransform();
@@ -1274,7 +1274,7 @@ export function floatingUIOwner(
 
     expect(await getTransform()).toBe(initialClosedTransform);
 
-    component.setProperty(togglePropName, true);
+    component.setProperty(openPropName, true);
     await page.waitForChanges();
 
     const initialOpenTransform = await getTransform();
