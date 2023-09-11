@@ -206,8 +206,6 @@ export class InputTime
 
   private minuteEl: HTMLSpanElement;
 
-  private previousEmittedValue: string;
-
   previousValue: string;
 
   private secondEl: HTMLSpanElement;
@@ -290,7 +288,6 @@ export class InputTime
   blurHandler(): void {
     this.activeEl = undefined;
     this.calciteInternalInputTimeBlur.emit();
-    this.emitChangeIfUserModified();
   }
 
   @Listen("click")
@@ -319,7 +316,6 @@ export class InputTime
   @Listen("keydown")
   keyDownHandler({ defaultPrevented, key }: KeyboardEvent): void {
     if (key === "Enter" && !defaultPrevented && !this.disabled) {
-      this.emitChangeIfUserModified();
       submitForm(this);
       return;
     }
@@ -419,13 +415,6 @@ export class InputTime
 
   private decrementSecond = (): void => {
     this.decrementMinuteOrSecond("second");
-  };
-
-  private emitChangeIfUserModified = (): void => {
-    if (this.value !== this.previousEmittedValue) {
-      this.calciteInputTimeChange.emit();
-    }
-    this.previousEmittedValue = this.value;
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
@@ -790,7 +779,6 @@ export class InputTime
     connectMessages(this);
     this.setValue(this.value);
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
-    this.previousEmittedValue = this.value;
     connectLabel(this);
     connectForm(this);
   }
