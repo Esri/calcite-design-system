@@ -131,9 +131,9 @@ describe("calcite-tabs", () => {
         html: tabsSnippet,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
-      expect((await page.find("calcite-tab-nav")).getProperty("scale")).toBe("m");
-      expect((await page.find("calcite-tab-title")).getProperty("scale")).toBe("m");
-      expect((await page.find("calcite-tab")).getProperty("scale")).toBe("m");
+      expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("m");
+      expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe("m");
+      expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe("m");
     });
   });
 
@@ -144,9 +144,9 @@ describe("calcite-tabs", () => {
       });
 
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
-      expect((await page.find("calcite-tab-nav")).getProperty("scale")).toBe("s");
-      expect((await page.find("calcite-tab-title")).getProperty("scale")).toBe("s");
-      expect((await page.find("calcite-tab")).getProperty("scale")).toBe("s");
+      expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("s");
+      expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe("s");
+      expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe("s");
     });
 
     it("should render itself and child tab elements with corresponding scale (medium)", async () => {

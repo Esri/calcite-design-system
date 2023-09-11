@@ -154,22 +154,23 @@ export class Tabs {
   private updateItems = (): void => {
     const { position, scale } = this;
 
-    const nav = this.el.querySelector("calcite-tab-nav") as HTMLCalciteTabNavElement;
-    if (nav) {
-      nav.position = position;
-    }
+    Array.from(this.el.querySelectorAll("calcite-tab-nav")).forEach(
+      (nav: HTMLCalciteTabNavElement) => {
+        nav.position = position;
+        nav.scale = scale;
+      }
+    );
 
-    const tab = this.el.querySelector("calcite-tab") as HTMLCalciteTabElement;
-    if (tab) {
+    Array.from(this.el.querySelectorAll("calcite-tab")).forEach((tab: HTMLCalciteTabElement) => {
       tab.scale = scale;
-    }
+    });
 
-    this.el
-      .querySelectorAll("calcite-tab-title-item")
-      .forEach((title: HTMLCalciteTabTitleElement) => {
+    Array.from(this.el.querySelectorAll("calcite-tab-title-item")).forEach(
+      (title: HTMLCalciteTabTitleElement) => {
         title.position = position;
         title.scale = scale;
-      });
+      }
+    );
   };
 
   //--------------------------------------------------------------------------
