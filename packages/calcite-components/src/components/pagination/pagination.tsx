@@ -37,7 +37,6 @@ import { CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 
-const maxPagesDisplayed = 5;
 export interface PaginationDetail {
   start: number;
   totalItems: number;
@@ -101,6 +100,8 @@ export class Pagination
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalcitePaginationElement;
+
+  @State() maxPagesDisplayed = 5;
 
   private resizeObserver = createObserver("resize", (entries) =>
     entries.forEach(this.resizeHandler)
@@ -214,13 +215,11 @@ export class Pagination
   private resize(width: number): void {
     const { breakpoints } = this;
 
-    if (!breakpoints || width) {
+    if (!breakpoints || !width) {
       return;
     }
 
-    if (width < breakpoints.width.xsmall) {
-      console.log("minimize", { width });
-    }
+    this.maxPagesDisplayed = width < breakpoints.width.xsmall ? 3 : 5;
   }
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
@@ -247,11 +246,11 @@ export class Pagination
   };
 
   private showLeftEllipsis() {
-    return Math.floor(this.startItem / this.pageSize) > 3;
+    return Math.floor(this.startItem / this.pageSize) > this.maxPagesDisplayed - 2;
   }
 
   private showRightEllipsis() {
-    return (this.totalItems - this.startItem) / this.pageSize > 3;
+    return (this.totalItems - this.startItem) / this.pageSize > this.maxPagesDisplayed;
   }
 
   private emitUpdate() {
@@ -265,9 +264,11 @@ export class Pagination
   //--------------------------------------------------------------------------
 
   renderPages(): VNode[] {
+    const { maxPagesDisplayed } = this;
     const lastStart = this.getLastStart();
     let end: number;
     let nextStart: number;
+    const singleCenterPage = maxPagesDisplayed < 5;
 
     // if we don't need ellipses render the whole set
     if (this.totalItems / this.pageSize <= maxPagesDisplayed) {
@@ -277,20 +278,21 @@ export class Pagination
       // if we're within max pages of page 1
       if (this.startItem / this.pageSize < maxPagesDisplayed - 1) {
         nextStart = 1 + this.pageSize;
-        end = 1 + 4 * this.pageSize;
+        end = 1 + (maxPagesDisplayed - 1) * this.pageSize;
       } else {
         // if we're within max pages of last page
         if (this.startItem + 3 * this.pageSize >= this.totalItems) {
-          nextStart = lastStart - 4 * this.pageSize;
+          nextStart = lastStart - (maxPagesDisplayed - 1) * this.pageSize;
           end = lastStart - this.pageSize;
         } else {
-          nextStart = this.startItem - this.pageSize;
-          end = this.startItem + this.pageSize;
+          nextStart = this.startItem - (singleCenterPage ? 0 : this.pageSize);
+          end = this.startItem + (singleCenterPage ? 0 : this.pageSize);
         }
       }
     }
 
     const pages: number[] = [];
+
     while (nextStart <= end) {
       pages.push(nextStart);
       nextStart = nextStart + this.pageSize;
@@ -328,13 +330,13 @@ export class Pagination
   }
 
   renderLeftEllipsis(): VNode {
-    if (this.totalItems / this.pageSize > maxPagesDisplayed && this.showLeftEllipsis()) {
+    if (this.totalItems / this.pageSize > this.maxPagesDisplayed && this.showLeftEllipsis()) {
       return <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>&hellip;</span>;
     }
   }
 
   renderRightEllipsis(): VNode {
-    if (this.totalItems / this.pageSize > maxPagesDisplayed && this.showRightEllipsis()) {
+    if (this.totalItems / this.pageSize > this.maxPagesDisplayed && this.showRightEllipsis()) {
       return <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>&hellip;</span>;
     }
   }
