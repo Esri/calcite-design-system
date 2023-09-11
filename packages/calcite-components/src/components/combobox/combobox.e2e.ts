@@ -143,6 +143,53 @@ describe("calcite-combobox", () => {
     disabled("calcite-combobox");
   });
 
+  it("filter properly when items have duplicate values with parents", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`
+        <calcite-combobox>
+          <calcite-combobox-item-group label="arcgis-app-identity">
+            <calcite-combobox-item
+              value="./html/arcgis-app-identity/index.html"
+              text-label="index.html"
+            ></calcite-combobox-item>
+          </calcite-combobox-item-group>
+          <calcite-combobox-item-group label="arcgis-configuration-editor">
+            <calcite-combobox-item
+              value="./html/arcgis-configuration-editor/composite-field-editor.html"
+              text-label="composite-field-editor.html"
+            ></calcite-combobox-item>
+            <calcite-combobox-item
+              value="./html/arcgis-configuration-editor/index.html"
+              text-label="index.html"
+            ></calcite-combobox-item>
+            <calcite-combobox-item
+              value="./html/arcgis-configuration-editor/rule-editor.html"
+              text-label="rule-editor.html"
+            ></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox>
+      `
+    );
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.click();
+    await page.waitForChanges();
+    await combobox.type("conf");
+    await page.waitForChanges();
+
+    const items = await page.findAll("calcite-combobox-item");
+    const groups = await page.findAll("calcite-combobox-item-group");
+
+    expect(await groups[0].isVisible()).toBe(false);
+    expect(await items[0].isVisible()).toBe(false);
+
+    expect(await groups[1].isVisible()).toBe(true);
+    expect(await items[1].isVisible()).toBe(true);
+    expect(await items[2].isVisible()).toBe(true);
+    expect(await items[3].isVisible()).toBe(true);
+  });
+
   it("filtering does not match property with value of undefined", async () => {
     const page = await newE2EPage({
       html: html`
