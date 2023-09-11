@@ -27,6 +27,125 @@ export const simple = (): string => html`
   </calcite-pagination>
 `;
 
+export const responsiveSmall = (): string => html`
+  <div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="s"></calcite-pagination>
+  </div>
+
+  <div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="s"></calcite-pagination>
+  </div>
+
+  <div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="s"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="s"></calcite-pagination>
+  </div>
+`;
+
+export const responsiveMedium = (): string => html`<div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="m"></calcite-pagination>
+  </div>
+
+  <div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="m"></calcite-pagination>
+  </div>
+
+  <div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="m"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="m"></calcite-pagination>
+  </div>`;
+
+export const responsiveLarge = (): string => html`<div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="l"></calcite-pagination>
+  </div>
+
+  <div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="1" scale="l"></calcite-pagination>
+  </div>
+
+  <div style="width: 475px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 476px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 768px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="l"></calcite-pagination>
+  </div>
+  <div style="width: 1152px">
+    <calcite-pagination total-items="150000" page-size="100" start-item="149901" scale="l"></calcite-pagination>
+  </div>`;
+
 export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
   <calcite-pagination
     class="calcite-mode-dark"
