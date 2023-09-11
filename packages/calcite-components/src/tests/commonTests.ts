@@ -1381,7 +1381,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   }
 }
 
-interface UserInputDevice {
+interface InputOptions {
   /**
    * Function argument to simulate user input (mouse or keyboard), to open the component.
    */
@@ -1407,7 +1407,7 @@ interface OpenCloseOptions {
   /**
    * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
    */
-  userInputDevice?: UserInputDevice;
+  inputOptions?: InputOptions;
 }
 
 /**
@@ -1490,8 +1490,8 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
       eventSequence.map(async (event) => await element.spyOnEvent(event))
     );
 
-    if (customizedOptions.userInputDevice) {
-      await customizedOptions.userInputDevice.open(page);
+    if (customizedOptions.inputOptions) {
+      await customizedOptions.inputOptions.open(page);
     } else {
       element.setProperty(customizedOptions.openPropName, true);
     }
@@ -1506,8 +1506,8 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
     expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
     expect(closeSpy).toHaveReceivedEventTimes(0);
 
-    if (customizedOptions.userInputDevice) {
-      await customizedOptions.userInputDevice.close(page);
+    if (customizedOptions.inputOptions) {
+      await customizedOptions.inputOptions.close(page);
     } else {
       element.setProperty(customizedOptions.openPropName, false);
     }
