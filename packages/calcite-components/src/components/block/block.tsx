@@ -190,7 +190,7 @@ export class Block
 
   openTransitionProp = "opacity";
 
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLElement;
 
   // --------------------------------------------------------------------------
   //
@@ -265,7 +265,7 @@ export class Block
     this.calciteBlockToggle.emit();
   };
 
-  private setTransitionEl = (el: HTMLDivElement): void => {
+  private setTransitionEl = (el: HTMLElement): void => {
     this.transitionEl = el;
   };
 

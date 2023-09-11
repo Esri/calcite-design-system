@@ -261,7 +261,7 @@ export class Notice
     this.calciteNoticeOpen.emit();
   }
 
-  private setTransitionEl = (el: HTMLDivElement): void => {
+  private setTransitionEl = (el: HTMLElement): void => {
     this.transitionEl = el;
   };
 
@@ -299,5 +299,5 @@ export class Notice
 
   openTransitionProp = "opacity";
 
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLElement;
 }
