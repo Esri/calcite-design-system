@@ -759,21 +759,19 @@ export class Combobox
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
 
+    if (this.textInput) {
+      this.textInput.value = "";
+    }
+    this.text = "";
+    this.filterItems("");
+    this.updateActiveItemIndex(-1);
+
     if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
     if (this.allowCustomValues && this.text.trim().length) {
       this.addCustomChip(this.text);
-    }
-
-    if (isSingleLike(this.selectionMode)) {
-      if (this.textInput) {
-        this.textInput.value = "";
-      }
-      this.text = "";
-      this.filterItems("");
-      this.updateActiveItemIndex(-1);
     }
 
     this.open = false;
