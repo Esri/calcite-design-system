@@ -396,7 +396,7 @@ describe("calcite-tab-title", () => {
       `;
 
       const scaleStyles = [
-        { scale: null, styles: { fontSize: "14px", lineHeight: "16px" } }, //default
+        { scale: "", styles: { fontSize: "14px", lineHeight: "16px" } }, //default
         { scale: "s", styles: { fontSize: "12px", lineHeight: "16px" } }, // n2h: ["var(--calcite-font-size--2)", { lineHeight: "1rem" }], // 12px (0.75rem)
         { scale: "m", styles: { fontSize: "14px", lineHeight: "16px" } }, // n1h: ["var(--calcite-font-size--1)", { lineHeight: "1rem" }], // 14px (0.875rem)
         { scale: "l", styles: { fontSize: "16px", lineHeight: "20px" } }, // "0h": ["var(--calcite-font-size-0)", { lineHeight: "1.25rem" }], // 16px (1rem)
@@ -415,8 +415,8 @@ describe("calcite-tab-title", () => {
 
             expect(await tabTitleEl.getProperty("scale")).toBe(`${testCase.scale}` || "m");
 
-            expect(contentStyles.fontSize).toEqual(testCase.styles.fontSize);
-            expect(contentStyles.lineHeight).toEqual(testCase.styles.lineHeight);
+            expect(contentStyles.fontSize).toEqual(testCase.scale ? testCase.styles.fontSize : "m");
+            expect(contentStyles.lineHeight).toEqual(testCase.scale ? testCase.styles.lineHeight : "16px");
           });
         });
 
@@ -432,8 +432,8 @@ describe("calcite-tab-title", () => {
 
             expect(await tabTitleEl.getProperty("scale")).toBe(`${testCase.scale}` || "m");
 
-            expect(contentStyles.fontSize).toEqual(testCase.styles.fontSize);
-            expect(contentStyles.lineHeight).toEqual(testCase.styles.lineHeight);
+            expect(contentStyles.fontSize).toEqual(testCase.scale ? testCase.styles.fontSize : "m");
+            expect(contentStyles.lineHeight).toEqual(testCase.scale ? testCase.styles.lineHeight : "16px");
           });
         });
       }
