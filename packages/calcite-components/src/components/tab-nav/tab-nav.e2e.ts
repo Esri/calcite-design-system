@@ -137,7 +137,7 @@ describe("calcite-tab-nav", () => {
           html: `<calcite-tabs>${tabNavHtml}</calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-nav");
-        expect(element).toEqualAttribute("scale", "m");
+        expect(await element.getProperty("scale")).toBe("m");
       });
 
       describe("when tabs scale is small", () => {
@@ -146,7 +146,7 @@ describe("calcite-tab-nav", () => {
             html: `<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`,
           });
           const element = await page.find("calcite-tab-nav");
-          expect(element).toEqualAttribute("scale", "s");
+          expect(await element.getProperty("scale")).toBe("s");
         });
       });
 
@@ -156,7 +156,7 @@ describe("calcite-tab-nav", () => {
             html: `<calcite-tabs scale="l">${tabNavHtml}</calcite-tabs>`,
           });
           const element = await page.find("calcite-tab-nav");
-          expect(element).toEqualAttribute("scale", "l");
+          expect(await element.getProperty("scale")).toBe("l");
         });
       });
     });

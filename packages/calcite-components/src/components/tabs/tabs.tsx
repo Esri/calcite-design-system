@@ -54,6 +54,11 @@ export class Tabs {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.updateItems();
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -159,10 +164,12 @@ export class Tabs {
       tab.scale = scale;
     }
 
-    this.titles.forEach((title) => {
-      title.position = position;
-      title.scale = scale;
-    });
+    this.el
+      .querySelectorAll("calcite-tab-title-item")
+      .forEach((title: HTMLCalciteTabTitleElement) => {
+        title.position = position;
+        title.scale = scale;
+      });
   };
 
   //--------------------------------------------------------------------------
