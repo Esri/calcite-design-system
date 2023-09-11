@@ -1211,13 +1211,13 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
  * });
  *
  * @param {TagOrHTML} componentTagOrHTML - The component tag or HTML markup to test against.
- * @param {string} openPropName - The component property that toggles the floating-ui.
+ * @param {string} togglePropName - The component property that toggles the floating-ui.
  * @param [options] - additional options for asserting focus
  * @param {string} [options.shadowSelector] - The selector in the shadow DOM for the floating-ui element.
  */
 export function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
-  openPropName: string,
+  togglePropName: string,
   options?: {
     /**
      * Use this to specify the selector in the shadow DOM for the floating-ui element.
@@ -1259,7 +1259,7 @@ export function floatingUIOwner(
       await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
     }
 
-    component.setProperty(openPropName, false);
+    component.setProperty(togglePropName, false);
     await page.waitForChanges();
 
     const initialClosedTransform = await getTransform();
@@ -1274,7 +1274,7 @@ export function floatingUIOwner(
 
     expect(await getTransform()).toBe(initialClosedTransform);
 
-    component.setProperty(openPropName, true);
+    component.setProperty(togglePropName, true);
     await page.waitForChanges();
 
     const initialOpenTransform = await getTransform();
@@ -1402,7 +1402,7 @@ interface OpenCloseOptions {
   /**
    * Toggle property to test. Currently, either "open" or "expanded".
    */
-  toggleProp?: string;
+  openPropName?: string;
 
   /**
    * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
@@ -1437,7 +1437,7 @@ interface OpenCloseOptions {
 export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): Promise<void> {
   const defaultOptions: OpenCloseOptions = {
     initialToggleValue: false,
-    toggleProp: "open",
+    openPropName: "open",
   };
   const customizedOptions = { ...defaultOptions, ...options };
 
@@ -1469,7 +1469,7 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
           addEventListeners();
 
           const component = document.createElement(componentTagOrHTML);
-          component[customizedOptions.toggleProp] = true;
+          component[customizedOptions.openPropName] = true;
 
           document.body.append(component);
         })
@@ -1493,7 +1493,7 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
     if (customizedOptions.userInputDevice) {
       await customizedOptions.userInputDevice.open(page);
     } else {
-      element.setProperty(customizedOptions.toggleProp, true);
+      element.setProperty(customizedOptions.openPropName, true);
     }
 
     await page.waitForChanges();
@@ -1509,7 +1509,7 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
     if (customizedOptions.userInputDevice) {
       await customizedOptions.userInputDevice.close(page);
     } else {
-      element.setProperty(customizedOptions.toggleProp, false);
+      element.setProperty(customizedOptions.openPropName, false);
     }
 
     await page.waitForChanges();
