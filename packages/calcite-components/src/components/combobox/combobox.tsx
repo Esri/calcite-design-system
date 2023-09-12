@@ -535,6 +535,11 @@ export class Combobox
     this.setFocus();
   }
 
+  private clearInputValue(): void {
+    this.textInput.value = "";
+    this.text = "";
+  }
+
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
 
@@ -759,21 +764,18 @@ export class Combobox
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
 
+    if (!this.allowCustomValues && this.textInput.value) {
+      this.clearInputValue();
+      this.filterItems("");
+      this.updateActiveItemIndex(-1);
+    }
+
     if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
     if (this.allowCustomValues && this.text.trim().length) {
       this.addCustomChip(this.text);
-    }
-
-    if (isSingleLike(this.selectionMode)) {
-      if (this.textInput) {
-        this.textInput.value = "";
-      }
-      this.text = "";
-      this.filterItems("");
-      this.updateActiveItemIndex(-1);
     }
 
     this.open = false;
