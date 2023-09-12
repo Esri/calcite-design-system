@@ -1879,19 +1879,19 @@ describe("calcite-combobox", () => {
       }
     }
 
-    it("should clear input value in single selection-mode", async () => {
+    it("should clear input value in single selectionMode", async () => {
       await assertClickOutside("single");
     });
 
-    it("should keep input value single selection-mode with allowCustomValues", async () => {
+    it("should not clear input value in single selectionMode with allowCustomValues", async () => {
       await assertClickOutside("single", true);
     });
 
-    it("should clear input value in multiple selection-mode", async () => {
+    it("should clear input value in multiple selectionMode", async () => {
       await assertClickOutside();
     });
 
-    it("should not clear input value in multiple selection-mode with allowCustomValues", async () => {
+    it("should not clear input value in multiple selectionMode with allowCustomValues", async () => {
       await assertClickOutside("multiple", true);
     });
   });
