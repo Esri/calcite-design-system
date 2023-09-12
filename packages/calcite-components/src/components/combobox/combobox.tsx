@@ -763,19 +763,15 @@ export class Combobox
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    const hasCustomInputValue = !this.allowCustomValues && this.textInput.value;
 
-    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      if (hasCustomInputValue) {
-        this.clearInputValue();
-      }
-      return;
-    }
-
-    if (hasCustomInputValue) {
+    if (!this.allowCustomValues && this.textInput.value) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
+    }
+
+    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+      return;
     }
 
     if (this.allowCustomValues && this.text.trim().length) {
