@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.1-next.0...@esri/calcite-components@1.8.1-next.1) (2023-09-12)
+
+### Bug Fixes
+
+- **combobox:** clears input value on blur ([#7721](https://github.com/Esri/calcite-design-system/issues/7721)) ([e04cc4e](https://github.com/Esri/calcite-design-system/commit/e04cc4e1015b4c4d335b243fa4e689b5451f3089)), closes [#2162](https://github.com/Esri/calcite-design-system/issues/2162)
+
 ## [1.8.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0...@esri/calcite-components@1.8.1-next.0) (2023-09-08)
 
 ### Bug Fixes
