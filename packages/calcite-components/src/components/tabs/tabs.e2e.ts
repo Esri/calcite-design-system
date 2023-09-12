@@ -156,7 +156,6 @@ describe("calcite-tabs", () => {
       await page.waitForChanges();
 
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
-      console.log((await page.find("calcite-tab-nav")).getProperty("scale"));
       expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("m");
       expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe("m");
       expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe("m");

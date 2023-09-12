@@ -157,21 +157,17 @@ export class Tabs {
 
   private updateItems = (): void => {
     const { position, scale } = this;
-    console.log("position", position);
 
     Array.from(this.el.querySelectorAll(TabNav)).forEach((nav: HTMLCalciteTabNavElement) => {
-      console.log("nav", nav);
       nav.position = position;
       nav.scale = scale;
     });
 
     Array.from(this.el.querySelectorAll(Tab)).forEach((tab: HTMLCalciteTabElement) => {
-      console.log("tab", tab);
       tab.scale = scale;
     });
 
     Array.from(this.el.querySelectorAll(TabTitle)).forEach((title: HTMLCalciteTabTitleElement) => {
-      console.log("title", title);
       title.position = position;
       title.scale = scale;
     });
