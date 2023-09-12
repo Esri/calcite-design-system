@@ -386,14 +386,7 @@ describe("calcite-tab-title", () => {
         <calcite-tab-title>Tab 4 Title</calcite-tab-title>
       `;
 
-      const navWithTabTitleSetHtml = html`
-        <calcite-tab-nav>
-          <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        </calcite-tab-nav>
-      `;
+      const navWithTabTitleSetHtml = html` <calcite-tab-nav> ${tabTitleSetHtml} </calcite-tab-nav> `;
 
       const scaleStyles = [
         { scale: "", styles: { fontSize: "14px", lineHeight: "16px" } }, //default
@@ -411,28 +404,29 @@ describe("calcite-tab-title", () => {
 
             const tabTitleEl = await page.find("calcite-tab-title");
             const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
+
             const contentStyles = await content.getComputedStyle();
 
-            expect(await tabTitleEl.getProperty("scale")).toBe(`${testCase.scale}` || "m");
+            expect(await tabTitleEl.getProperty("scale")).toBe(testCase.scale ? `${testCase.scale}` : "");
 
-            expect(contentStyles.fontSize).toEqual(testCase.scale ? testCase.styles.fontSize : "m");
+            expect(contentStyles.fontSize).toEqual(testCase.scale ? testCase.styles.fontSize : "14px");
             expect(contentStyles.lineHeight).toEqual(testCase.scale ? testCase.styles.lineHeight : "16px");
           });
         });
 
         describe("when immediate parent element is `tab-nav`", () => {
           it(`should inherit ${testCase.scale || "default medium"} scale down from 'tabs' parent`, async () => {
-            const page = await newE2EPage({
-              html: html`<calcite-tabs scale="${testCase.scale}">${navWithTabTitleSetHtml}</calcite-tabs>`,
-            });
+            const page = await newE2EPage();
+            await page.setContent(`<calcite-tabs scale="${testCase.scale}">${navWithTabTitleSetHtml}</calcite-tabs>`);
 
-            const tabTitleEl = await page.find("calcite-tab-title");
+            const tabTitleEl = await page.find(`calcite-tab-title`);
             const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
+
             const contentStyles = await content.getComputedStyle();
 
-            expect(await tabTitleEl.getProperty("scale")).toBe(`${testCase.scale}` || "m");
+            expect(await tabTitleEl.getProperty("scale")).toBe(testCase.scale ? `${testCase.scale}` : "");
 
-            expect(contentStyles.fontSize).toEqual(testCase.scale ? testCase.styles.fontSize : "m");
+            expect(contentStyles.fontSize).toEqual(testCase.scale ? testCase.styles.fontSize : "14px");
             expect(contentStyles.lineHeight).toEqual(testCase.scale ? testCase.styles.lineHeight : "16px");
           });
         });

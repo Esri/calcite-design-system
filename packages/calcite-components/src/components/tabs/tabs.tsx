@@ -1,7 +1,7 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { TabLayout, TabPosition } from "./interfaces";
-import { SLOTS } from "./resources";
+import { SLOTS, Tab, TabNav, TabTitle } from "./resources";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -54,6 +54,10 @@ export class Tabs {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.updateItems();
+  }
+
+  async componentWillLoad(): Promise<void> {
     this.updateItems();
   }
 
@@ -153,22 +157,24 @@ export class Tabs {
 
   private updateItems = (): void => {
     const { position, scale } = this;
+    console.log("position", position);
 
-    this.el.querySelectorAll("calcite-tab-nav").forEach((nav: HTMLCalciteTabNavElement) => {
+    Array.from(this.el.querySelectorAll(TabNav)).forEach((nav: HTMLCalciteTabNavElement) => {
+      console.log("nav", nav);
       nav.position = position;
       nav.scale = scale;
     });
 
-    this.el.querySelectorAll("calcite-tab").forEach((tab: HTMLCalciteTabElement) => {
+    Array.from(this.el.querySelectorAll(Tab)).forEach((tab: HTMLCalciteTabElement) => {
+      console.log("tab", tab);
       tab.scale = scale;
     });
 
-    this.el
-      .querySelectorAll("calcite-tab-title-item")
-      .forEach((title: HTMLCalciteTabTitleElement) => {
-        title.position = position;
-        title.scale = scale;
-      });
+    Array.from(this.el.querySelectorAll(TabTitle)).forEach((title: HTMLCalciteTabTitleElement) => {
+      console.log("title", title);
+      title.position = position;
+      title.scale = scale;
+    });
   };
 
   //--------------------------------------------------------------------------
