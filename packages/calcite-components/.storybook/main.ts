@@ -1,3 +1,5 @@
+import { html } from "../support/formatting";
+
 module.exports = {
   addons: [
     "@storybook/addon-a11y",
@@ -41,24 +43,30 @@ module.exports = {
       return head;
     }
 
-    return `
+    return html`
       <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
       <link rel="stylesheet" href="./build/calcite.css" />
       <script type="module" src="./build/calcite.esm.js"></script>
 
       <template id="internalStorybookNotice">
-        <calcite-notice open icon="exclamation-mark-triangle" closable kind="warning" scale="l" style="font-family: var(--calcite-sans-family)">
-          <div slot="title">This storybook is on the current @next version and is meant for internal, testing purposes only.</div>
+        <calcite-notice
+          open
+          icon="exclamation-mark-triangle"
+          closable
+          kind="warning"
+          scale="l"
+          style="font-family: var(--calcite-sans-family)"
+        >
+          <div slot="title">
+            This storybook is on the current @next version and is meant for internal, testing purposes only.
+          </div>
           <div slot="link">
-            Please refer to the
-            <calcite-link
-              slot="link"
+            Please refer to the&#32;<calcite-link
               title="my action"
               href="https://developers.arcgis.com/calcite-design-system/components/"
             >
-              Calcite Components documentation site
-            </calcite-link>
-            to browse and interact with components.
+              Calcite Components documentation site </calcite-link
+            >&#32;to browse and interact with components.
           </div>
         </calcite-notice>
       </template>
