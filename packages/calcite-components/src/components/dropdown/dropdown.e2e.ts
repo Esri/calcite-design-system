@@ -1034,9 +1034,9 @@ describe("calcite-dropdown", () => {
       const item6 = await element.find("calcite-dropdown-item[id='item-6']");
       const item7 = await element.find("calcite-dropdown-item[id='item-7']");
 
-      expect(group1).toEqualAttribute("role", "group");
-      expect(group2).toEqualAttribute("role", "group");
-      expect(group3).toEqualAttribute("role", "group");
+      expect(group1).toEqualAttribute("role", "menu");
+      expect(group2).toEqualAttribute("role", "menu");
+      expect(group3).toEqualAttribute("role", "menu");
 
       expect(item1).toEqualAttribute("role", "menuitemcheckbox");
       expect(item1).toEqualAttribute("aria-checked", "false");
