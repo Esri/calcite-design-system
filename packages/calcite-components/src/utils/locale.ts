@@ -136,6 +136,8 @@ const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is
 
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
+// for consistent browser behavior, we normalize numberingSystem to prevent the browser-inferred value
+// see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
 export const defaultNumberingSystem =
   browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
     ? "latn"
