@@ -39,6 +39,7 @@ import {
   getTimeParts,
   getLocalizedTimePartSuffix,
   isValidTime,
+  getLocalizedDecimalSeparator,
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
 import {
@@ -54,6 +55,7 @@ import {
 } from "../../utils/loadable";
 import { T9nComponent, connectMessages, disconnectMessages, setUpMessages } from "../../utils/t9n";
 import { InputTimeMessages } from "./assets/input-time/t9n";
+import { decimalPlaces, getDecimals } from "../../utils/math";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -196,6 +198,8 @@ export class InputTime
 
   formEl: HTMLFormElement;
 
+  private fractionalSecondEl: HTMLSpanElement;
+
   private hourEl: HTMLSpanElement;
 
   labelEl: HTMLCalciteLabelElement;
@@ -226,9 +230,15 @@ export class InputTime
     this.setValue(this.value);
   }
 
+  @State() fractionalSecond: string;
+
   @State() hour: string;
 
   @State() hourCycle: HourCycle;
+
+  @State() localizedDecimalSeparator = ".";
+
+  @State() localizedFractionalSecond: string;
 
   @State() localizedHour: string;
 
@@ -249,6 +259,8 @@ export class InputTime
   @State() minute: string;
 
   @State() second: string;
+
+  @State() showFractionalSecond: boolean;
 
   @State() showSecond: boolean = this.step < 60;
 
@@ -302,6 +314,9 @@ export class InputTime
     if (composedEventPath.includes(this.secondEl)) {
       return;
     }
+    if (composedEventPath.includes(this.fractionalSecondEl)) {
+      return;
+    }
     if (composedEventPath.includes(this.meridiemEl)) {
       return;
     }
@@ -344,6 +359,20 @@ export class InputTime
         switch (key) {
           case "ArrowLeft":
             this.setFocus("minute");
+            break;
+          case "ArrowRight":
+            if (this.showFractionalSecond) {
+              this.setFocus("fractionalSecond");
+            } else if (this.hourCycle === "12") {
+              this.setFocus("meridiem");
+            }
+            break;
+        }
+        break;
+      case this.fractionalSecondEl:
+        switch (key) {
+          case "ArrowLeft":
+            this.setFocus("second");
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
@@ -415,6 +444,46 @@ export class InputTime
 
   private decrementSecond = (): void => {
     this.decrementMinuteOrSecond("second");
+  };
+
+  private fractionalSecondKeyDownHandler = (event: KeyboardEvent): void => {
+    const { key } = event;
+    if (numberKeys.includes(key)) {
+      const stepPrecision = decimalPlaces(this.step);
+      const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+      const fractionalSecondAsIntegerLength = fractionalSecondAsInteger.toString().length;
+
+      let newFractionalSecondAsIntegerString;
+
+      if (fractionalSecondAsIntegerLength >= stepPrecision) {
+        newFractionalSecondAsIntegerString = key.padStart(stepPrecision, "0");
+      } else if (fractionalSecondAsIntegerLength < stepPrecision) {
+        newFractionalSecondAsIntegerString = `${fractionalSecondAsInteger}${key}`.padStart(
+          stepPrecision,
+          "0"
+        );
+      }
+
+      this.setValuePart("fractionalSecond", parseFloat(`0.${newFractionalSecondAsIntegerString}`));
+    } else {
+      switch (key) {
+        case "Backspace":
+        case "Delete":
+          this.setValuePart("fractionalSecond", null);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          this.nudgeFractionalSecond("down");
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.nudgeFractionalSecond("up");
+          break;
+        case " ":
+          event.preventDefault();
+          break;
+      }
+    }
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
@@ -581,9 +650,49 @@ export class InputTime
     }
   };
 
+  private nudgeFractionalSecond = (direction: "up" | "down"): void => {
+    const stepDecimal = getDecimals(this.step);
+    const stepPrecision = decimalPlaces(this.step);
+    const fractionalSecondAsInteger = parseInt(this.fractionalSecond);
+    const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
+    let nudgedValue;
+    let nudgedValueRounded;
+    let nudgedValueRoundedDecimals;
+    let newFractionalSecond;
+    if (direction === "up") {
+      nudgedValue = isNaN(fractionalSecondAsInteger) ? 0 : fractionalSecondAsFloat + stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 && decimalPlaces(nudgedValueRoundedDecimals) > 0
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    if (direction === "down") {
+      nudgedValue =
+        isNaN(fractionalSecondAsInteger) || fractionalSecondAsInteger === 0
+          ? 1 - stepDecimal
+          : fractionalSecondAsFloat - stepDecimal;
+      nudgedValueRounded = parseFloat(nudgedValue.toFixed(stepPrecision));
+      nudgedValueRoundedDecimals = getDecimals(nudgedValueRounded);
+      newFractionalSecond =
+        nudgedValueRounded < 1 &&
+        decimalPlaces(nudgedValueRoundedDecimals) > 0 &&
+        Math.sign(nudgedValueRoundedDecimals) === 1
+          ? formatTimePart(nudgedValueRoundedDecimals, stepPrecision)
+          : "".padStart(stepPrecision, "0");
+    }
+    this.setValuePart("fractionalSecond", newFractionalSecond);
+  };
+
   onLabelClick(): void {
     this.setFocus();
   }
+
+  private sanitizeFractionalSecond = (fractionalSecond: string): string =>
+    fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
+      ? parseFloat(`0.${fractionalSecond}`).toFixed(decimalPlaces(this.step)).replace("0.", "")
+      : fractionalSecond;
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.disabled || this.readonly) {
@@ -625,6 +734,8 @@ export class InputTime
     }
   };
 
+  private setFractionalSecondEl = (el: HTMLSpanElement) => (this.fractionalSecondEl = el);
+
   private setHourEl = (el: HTMLSpanElement) => (this.hourEl = el);
 
   private setMeridiemEl = (el: HTMLSpanElement) => (this.meridiemEl = el);
@@ -635,7 +746,7 @@ export class InputTime
 
   private setValue = (value: string): void => {
     if (isValidTime(value)) {
-      const { hour, minute, second } = parseTimeString(value);
+      const { hour, minute, second, fractionalSecond } = parseTimeString(value);
       const { effectiveLocale: locale, numberingSystem } = this;
       const {
         localizedHour,
@@ -643,22 +754,22 @@ export class InputTime
         localizedMinute,
         localizedMinuteSuffix,
         localizedSecond,
-        // localizedDecimalSeparator,
-        // localizedFractionalSecond,
+        localizedDecimalSeparator,
+        localizedFractionalSecond,
         localizedSecondSuffix,
         localizedMeridiem,
       } = localizeTimeStringToParts({ value, locale, numberingSystem });
       this.hour = hour;
       this.minute = minute;
       this.second = second;
-      // this.fractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
+      this.fractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
       this.localizedMinuteSuffix = localizedMinuteSuffix;
       this.localizedSecond = localizedSecond;
-      // this.localizedDecimalSeparator = localizedDecimalSeparator;
-      // this.localizedFractionalSecond = localizedFractionalSecond;
+      this.localizedDecimalSeparator = localizedDecimalSeparator;
+      this.localizedFractionalSecond = localizedFractionalSecond;
       this.localizedSecondSuffix = localizedSecondSuffix;
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
@@ -668,7 +779,7 @@ export class InputTime
       }
     } else {
       this.hour = undefined;
-      // this.fractionalSecond = undefined;
+      this.fractionalSecond = undefined;
       this.localizedHour = undefined;
       this.localizedHourSuffix = getLocalizedTimePartSuffix(
         "hour",
@@ -683,11 +794,11 @@ export class InputTime
         this.numberingSystem
       );
       this.localizedSecond = undefined;
-      // this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
-      //   this.effectiveLocale,
-      //   this.numberingSystem
-      // );
-      // this.localizedFractionalSecond = undefined;
+      this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
+        this.effectiveLocale,
+        this.numberingSystem
+      );
+      this.localizedFractionalSecond = undefined;
       this.localizedSecondSuffix = getLocalizedTimePartSuffix(
         "second",
         this.effectiveLocale,
@@ -700,10 +811,7 @@ export class InputTime
     }
   };
 
-  private setValuePart = (
-    key: "hour" | "minute" | "second" | "meridiem",
-    value: number | string | Meridiem
-  ): void => {
+  private setValuePart = (key: TimePart, value: number | string | Meridiem): void => {
     const { effectiveLocale: locale, numberingSystem } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
@@ -744,9 +852,9 @@ export class InputTime
       newValue = `${this.hour}:${this.minute}`;
       if (this.showSecond) {
         newValue = `${newValue}:${this.second ?? "00"}`;
-        // if (this.showFractionalSecond && this.fractionalSecond) {
-        //   newValue = `${newValue}.${this.fractionalSecond}`;
-        // }
+        if (this.showFractionalSecond && this.fractionalSecond) {
+          newValue = `${newValue}.${this.fractionalSecond}`;
+        }
       }
     } else {
       newValue = "";
@@ -768,6 +876,11 @@ export class InputTime
     this.activeEl = event.currentTarget as HTMLSpanElement;
   };
 
+  private toggleSecond(): void {
+    this.showSecond = this.step < 60;
+    this.showFractionalSecond = decimalPlaces(this.step) > 0;
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -781,6 +894,7 @@ export class InputTime
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
     connectLabel(this);
     connectForm(this);
+    this.toggleSecond();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -810,6 +924,7 @@ export class InputTime
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
     const hourIsNumber = isValidNumber(this.hour);
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
@@ -822,8 +937,6 @@ export class InputTime
             [CSS.container]: true,
             [CSS.readonly]: this.readonly,
             [CSS[`scale-${this.scale}`]]: true,
-            [CSS.showMeridiem]: showMeridiem,
-            [CSS.showSecond]: this.showSecond,
           }}
           dir="ltr"
         >
@@ -836,7 +949,6 @@ export class InputTime
             aria-valuetext={this.hour}
             class={{
               [CSS.empty]: !Boolean(this.localizedHour),
-              [CSS.hour]: true,
               [CSS.input]: true,
             }}
             onFocus={this.timePartFocusHandler}
@@ -847,7 +959,7 @@ export class InputTime
           >
             {this.localizedHour || emptyValue}
           </span>
-          <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
+          <span>{this.localizedHourSuffix}</span>
           <span
             aria-label={this.intlMinute}
             aria-valuemax="12"
@@ -857,7 +969,6 @@ export class InputTime
             class={{
               [CSS.empty]: !Boolean(this.localizedMinute),
               [CSS.input]: true,
-              [CSS.minute]: true,
             }}
             onFocus={this.timePartFocusHandler}
             onKeyDown={this.minuteKeyDownHandler}
@@ -867,7 +978,7 @@ export class InputTime
           >
             {this.localizedMinute || emptyValue}
           </span>
-          {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
+          {this.showSecond && <span>{this.localizedMinuteSuffix}</span>}
           {this.showSecond && (
             <span
               aria-label={this.intlSecond}
@@ -878,7 +989,6 @@ export class InputTime
               class={{
                 [CSS.empty]: !Boolean(this.localizedSecond),
                 [CSS.input]: true,
-                [CSS.second]: true,
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.secondKeyDownHandler}
@@ -889,9 +999,28 @@ export class InputTime
               {this.localizedSecond || emptyValue}
             </span>
           )}
-          {this.localizedSecondSuffix && (
-            <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
+          {this.showFractionalSecond && <span>{this.localizedDecimalSeparator}</span>}
+          {this.showFractionalSecond && (
+            <span
+              aria-label={this.messages.fractionalSecond}
+              aria-valuemax="999"
+              aria-valuemin="1"
+              aria-valuenow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
+              aria-valuetext={this.localizedFractionalSecond}
+              class={{
+                [CSS.empty]: !Boolean(this.localizedFractionalSecond),
+                [CSS.input]: true,
+              }}
+              onFocus={this.timePartFocusHandler}
+              onKeyDown={this.fractionalSecondKeyDownHandler}
+              ref={this.setFractionalSecondEl}
+              role="spinbutton"
+              tabIndex={0}
+            >
+              {this.localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
+            </span>
           )}
+          {this.localizedSecondSuffix && <span>{this.localizedSecondSuffix}</span>}
           {showMeridiem && (
             <span
               aria-label={this.intlMeridiem}
@@ -903,7 +1032,6 @@ export class InputTime
                 [CSS.empty]: !Boolean(this.localizedMeridiem),
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
-                [CSS.meridiemStart]: this.meridiemOrder === 0,
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
