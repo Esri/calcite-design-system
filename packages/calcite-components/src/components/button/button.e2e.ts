@@ -644,4 +644,27 @@ describe("calcite-button", () => {
     expect(button1.textContent.length).toBeLessThan(longText.length);
     expect(button1.getAttribute("title")).toEqual(longText);
   });
+
+  it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-button id="test-category-filter-button" label="Info">Info</calcite-button>
+      <calcite-popover
+        id="popover-content"
+        positioning="fixed"
+        heading="About this data"
+        reference-element="test-category-filter-button"
+      >
+        <p>Information</p>
+      </calcite-popover>`);
+
+    const calciteButton = await page.find("calcite-button");
+    const button = await page.find("calcite-button >>> button");
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+    expect(calciteButton.getAttribute("aria-expanded")).toBe("false");
+
+    await calciteButton.click();
+    await page.waitForChanges();
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    expect(calciteButton.getAttribute("aria-expanded")).toBe("true");
+  });
 });
