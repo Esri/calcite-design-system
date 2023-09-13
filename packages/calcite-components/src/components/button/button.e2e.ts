@@ -647,12 +647,12 @@ describe("calcite-button", () => {
 
   it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-button id="test-category-filter-button" label="Info">Info</calcite-button>
+    await page.setContent(html`<calcite-button id="test-button" label="Info">Info</calcite-button>
       <calcite-popover
         id="popover-content"
         positioning="fixed"
         heading="About this data"
-        reference-element="test-category-filter-button"
+        reference-element="test-button"
       >
         <p>Information</p>
       </calcite-popover>`);
