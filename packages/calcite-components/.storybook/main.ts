@@ -1,5 +1,3 @@
-import { html } from "../support/formatting";
-
 module.exports = {
   addons: [
     "@storybook/addon-a11y",
@@ -43,7 +41,7 @@ module.exports = {
       return head;
     }
 
-    return html`
+    return `
       <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
       <link rel="stylesheet" href="./build/calcite.css" />
       <script type="module" src="./build/calcite.esm.js"></script>
