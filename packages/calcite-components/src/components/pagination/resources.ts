@@ -8,3 +8,8 @@ export const CSS = {
   ellipsisStart: "ellipsis--start",
   ellipsisEnd: "ellipsis--end",
 };
+
+export const ICONS = {
+  next: "chevronRight",
+  previous: "chevronLeft",
+};

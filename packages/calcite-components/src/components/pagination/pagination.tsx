@@ -33,7 +33,7 @@ import {
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { PaginationMessages } from "./assets/pagination/t9n";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 
@@ -389,8 +389,11 @@ export class Pagination
     const { totalItems, pageSize, startItem, messages, scale } = this;
 
     const prevDisabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
+
     const nextDisabled =
       pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
+
+    const iconScale = scale === "l" ? "m" : "s";
 
     return (
       <Fragment>
@@ -403,7 +406,7 @@ export class Pagination
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon flipRtl icon="chevronLeft" scale={scale === "l" ? "m" : "s"} />
+          <calcite-icon flipRtl icon={ICONS.previous} scale={iconScale} />
         </button>
         {this.renderItems()}
         <button
@@ -415,7 +418,7 @@ export class Pagination
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon flipRtl icon="chevronRight" scale={scale === "l" ? "m" : "s"} />
+          <calcite-icon flipRtl icon={ICONS.next} scale={iconScale} />
         </button>
       </Fragment>
     );
