@@ -44,6 +44,7 @@ export interface PaginationDetail {
 }
 
 const firstAndLastPageCount = 2;
+const ellipsisCount = 2;
 
 @Component({
   tag: "calcite-pagination",
@@ -265,14 +266,16 @@ export class Pagination
   private showStartEllipsis() {
     return (
       this.totalPages > this.maxItems &&
-      Math.floor(this.startItem / this.pageSize) > this.maxItems - firstAndLastPageCount - 2
+      Math.floor(this.startItem / this.pageSize) >
+        this.maxItems - firstAndLastPageCount - ellipsisCount
     );
   }
 
   private showEndEllipsis() {
     return (
       this.totalPages > this.maxItems &&
-      (this.totalItems - this.startItem) / this.pageSize > this.maxItems - firstAndLastPageCount - 1
+      (this.totalItems - this.startItem) / this.pageSize >
+        this.maxItems - firstAndLastPageCount - (ellipsisCount - 1)
     );
   }
 
@@ -342,17 +345,14 @@ export class Pagination
       if (startItem / pageSize < remainingItems) {
         nextStart = 1 + pageSize;
         end = 1 + remainingItems * pageSize;
-        console.log({ area: 2, nextStart, end });
       } else {
         // if we're within max pages of last page
         if (startItem + remainingItems * pageSize >= totalItems) {
           nextStart = lastStart - remainingItems * pageSize;
           end = lastStart - pageSize;
-          console.log({ area: 3, nextStart, end });
         } else {
           nextStart = startItem - pageSize * ((remainingItems - 1) / 2);
           end = startItem + pageSize * ((remainingItems - 1) / 2);
-          console.log({ area: 4, nextStart, end, remainingItems, maxItems });
         }
       }
     }
