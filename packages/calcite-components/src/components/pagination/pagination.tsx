@@ -344,7 +344,7 @@ export class Pagination
     let nextStart: number;
 
     // if we don't need ellipses render the whole set
-    if (totalPages <= remainingItems) {
+    if (totalPages - 1 <= remainingItems) {
       nextStart = 1 + pageSize;
       end = lastStart - pageSize;
     } else {
@@ -358,6 +358,7 @@ export class Pagination
           nextStart = lastStart - remainingItems * pageSize;
           end = lastStart - pageSize;
         } else {
+          // if we're within the center pages
           nextStart = startItem - pageSize * ((remainingItems - 1) / 2);
           end = startItem + pageSize * ((remainingItems - 1) / 2);
         }
