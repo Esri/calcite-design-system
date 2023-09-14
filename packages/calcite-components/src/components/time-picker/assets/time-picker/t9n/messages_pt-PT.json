@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Segundo fracionado",
+  "fractionalSecondDown": "Diminuir segundo fracionado",
+  "fractionalSecondUp": "Aumentar segundo fracionado",
   "hour": "Hora",
   "hourDown": "Diminuir hora",
   "hourUp": "Aumentar hora",

@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Radera",
+  "hiddenSelected": "Rader har valts men ligger utanför vyn",
+  "page": "Sida",
+  "row": "Rad",
+  "selected": "Valt"
 }

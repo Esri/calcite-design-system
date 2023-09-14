@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Sekundės dalis",
+  "fractionalSecondDown": "Sumažinti sekundės dalimi",
+  "fractionalSecondUp": "Padidinti sekundės dalimi",
   "hour": "Valanda",
   "hourDown": "Mažinti valandą",
   "hourUp": "Didinti valandą",

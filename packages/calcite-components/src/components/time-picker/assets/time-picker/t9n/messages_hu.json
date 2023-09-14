@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Másodperc tört része",
+  "fractionalSecondDown": "Másodperc tört részének csökkentése",
+  "fractionalSecondUp": "Másodperc tört részének növelése",
   "hour": "óra",
   "hourDown": "Óra csökkentése",
   "hourUp": "Óra növelése",

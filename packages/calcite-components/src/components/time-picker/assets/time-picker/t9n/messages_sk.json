@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Frakčná sekunda",
+  "fractionalSecondDown": "Znížiť frakčnú sekundu",
+  "fractionalSecondUp": "Zvýšiť frakčnú sekundu",
   "hour": "Hodina",
   "hourDown": "Znížiť hodinu",
   "hourUp": "Zvýšiť hodinu",

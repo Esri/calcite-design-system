@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "秒の小数",
+  "fractionalSecondDown": "秒の小数を減らす",
+  "fractionalSecondUp": "秒の小数を増やす",
   "hour": "時間",
   "hourDown": "時間を減らす",
   "hourUp": "時間を増やす",

@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Pritisnite taster Enter ili Razmak da poništite izbor reda",
+  "keyboardSelect": "Pritisnite taster Enter ili razmak da biste izabrali red",
+  "row": "red",
+  "selected": "selektovano",
+  "unselected": "nije izabrano"
 }

@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Доля секунды",
+  "fractionalSecondDown": "Уменьшить долю секунды",
+  "fractionalSecondUp": "Увеличить долю секунды",
   "hour": "Час",
   "hourDown": "Уменьшить часы",
   "hourUp": "Увеличить часы",

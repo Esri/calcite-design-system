@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Brøksekund",
+  "fractionalSecondDown": "Reduser brøksekund",
+  "fractionalSecondUp": "Øk brøksekund",
   "hour": "Time",
   "hourDown": "Reduser time",
   "hourUp": "Øk time",

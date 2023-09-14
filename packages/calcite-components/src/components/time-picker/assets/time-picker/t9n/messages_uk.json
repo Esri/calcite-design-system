@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Дробова частка секунди",
+  "fractionalSecondDown": "Зменшити дробову частку секунди",
+  "fractionalSecondUp": "Збільшити дробову частку секунди",
   "hour": "Година",
   "hourDown": "Зменшити години",
   "hourUp": "Збільшити години",

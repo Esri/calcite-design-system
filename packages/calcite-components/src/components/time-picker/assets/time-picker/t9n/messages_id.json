@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Fraksional detik",
+  "fractionalSecondDown": "Kurangi fraksional detik",
+  "fractionalSecondUp": "Tambah fraksional detik",
   "hour": "Jam",
   "hourDown": "Kurangi jam",
   "hourUp": "Tambah jam",

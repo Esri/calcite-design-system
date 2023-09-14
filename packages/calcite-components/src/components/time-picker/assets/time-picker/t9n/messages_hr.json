@@ -1,7 +1,7 @@
 {
-  "fractionalSecond": "Fractional second",
-  "fractionalSecondDown": "Decrease fractional second",
-  "fractionalSecondUp": "Increase fractional second",
+  "fractionalSecond": "Djelić sekunde",
+  "fractionalSecondDown": "Smanji djelić sekunde",
+  "fractionalSecondUp": "Povećaj djelić sekunde",
   "hour": "Sat",
   "hourDown": "Smanji sat",
   "hourUp": "Povećaj sat",
