@@ -2,54 +2,70 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "type": "chrome",
       "request": "launch",
-      "name": "Debug all Stencil tests",
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/node_modules/.bin/stencil",
-      "args": ["test", "--spec", "--e2e", "--devtools"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Watch Debug: Spec Test Current File",
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/node_modules/.bin/stencil",
-      "args": ["test", "--spec", "${fileBasename}", "--devtools", "--watch"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "env": {
-        "waitForDebugger": false
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:3333",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "*": "${webRoot}/*"
       },
-      "name": "Watch Debug: E2E Test Current File",
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/node_modules/.bin/stencil",
-      "args": ["test", "--no-docs", "--no-build", "--e2e", "${fileBasename}", "--devtools", "--watch"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "autoAttachChildProcesses": false,
-      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "<node_internals>/**/*.js"]
+      "webRoot": "${workspaceFolder}/packages/calcite-components"
     },
     {
       "type": "node",
       "request": "launch",
-      "env": {
-        "waitForDebugger": false
-      },
-      "name": "Watch: E2E Test Current File",
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/node_modules/.bin/stencil",
-      "args": ["test", "--no-docs", "--no-build", "--e2e", "${fileBasename}", "--watch"],
-      "console": "integratedTerminal",
+      "name": "Stencil Prerender",
+      "args": [
+        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
+        "prerender",
+        "${workspaceFolder}/dist/hydrate/index.js",
+        "--max-workers=0",
+        "--config=${workspaceFolder}/stencil.config.ts"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Stencil --e2e {currentFile}",
+      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "sourceMaps": true,
+      "args": [
+        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
+        "test",
+        "--no-docs",
+        "--no-build",
+        "--no-cache",
+        "--e2e",
+        "--devtools",
+        "--",
+        "--max-workers=0",
+        "${file}"
+      ],
       "internalConsoleOptions": "neverOpen",
-      "autoAttachChildProcesses": false,
-      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "<node_internals>/**/*.js"]
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Stencil --spec {currentFile}",
+      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "sourceMaps": true,
+      "args": [
+        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
+        "test",
+        "--no-docs",
+        "--no-build",
+        "--no-cache",
+        "--spec",
+        "--devtools",
+        "--",
+        "--max-workers=0",
+        "${file}"
+      ],
+      "skipFiles": ["<node_internals>/**"],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal"
     }
   ]
 }
