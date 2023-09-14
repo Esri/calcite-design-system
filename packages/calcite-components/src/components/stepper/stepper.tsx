@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -11,11 +12,16 @@ import {
   Watch,
 } from "@stencil/core";
 
-import { focusElementInGroup } from "../../utils/dom";
+import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
+import {
+  Breakpoints,
+  // Breakpoints,
+  getBreakpoints,
+} from "../../utils/responsive";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -99,6 +105,12 @@ export class Stepper {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateItems();
+    this.resizeObserver?.observe(document.body);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    const breakpoints = await getBreakpoints();
+    this.breakpoints = breakpoints;
   }
 
   componentDidLoad(): void {
@@ -110,19 +122,18 @@ export class Stepper {
     }
   }
 
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
+  }
+
   render(): VNode {
     return (
-      <slot
-        onSlotchange={(event: Event) => {
-          const items = (event.currentTarget as HTMLSlotElement)
-            .assignedElements()
-            .filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
-          const spacing = Array(items.length).fill("1fr").join(" ");
-          this.el.style.gridTemplateAreas = spacing;
-          this.el.style.gridTemplateColumns = spacing;
-          this.setStepperItemNumberingSystem();
-        }}
-      />
+      <Host>
+        {/* <div class="container" ref={this.setContainerEl}> */}
+
+        <slot onSlotchange={this.handleDefaultSlotChange} />
+        {/* </div> */}
+      </Host>
     );
   }
 
@@ -284,11 +295,31 @@ export class Stepper {
     });
   }
 
+  containerEl: HTMLDivElement;
+
+  breakpoints: Breakpoints;
+
+  private resizeObserver = createObserver("resize", (entries: ResizeObserverEntry[]) => {
+    entries.forEach(this.resizeHandler);
+  });
+
+  displayOneStepperOnly = false;
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private resizeHandler(entry: ResizeObserverEntry): void {
+    const { width } = entry.contentRect;
+    this.determineActiveStepper(width);
+  }
+
+  private determineActiveStepper(width: number): void {
+    if (width) {
+      return;
+    }
+  }
 
   private getEnabledStepIndex(
     startIndex: number,
@@ -331,4 +362,19 @@ export class Stepper {
       item.numberingSystem = this.numberingSystem;
     });
   }
+
+  setContainerEl = (el: HTMLDivElement): void => {
+    this.containerEl = el;
+  };
+
+  handleDefaultSlotChange = (event: Event): void => {
+    const items = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.tagName === "CALCITE-STEPPER-ITEM"
+    );
+    console.log("items", items);
+    const spacing = Array(items.length).fill("1fr").join(" ");
+    this.el.style.gridTemplateAreas = spacing;
+    this.el.style.gridTemplateColumns = spacing;
+    this.setStepperItemNumberingSystem();
+  };
 }

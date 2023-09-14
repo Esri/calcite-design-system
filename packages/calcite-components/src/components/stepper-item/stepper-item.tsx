@@ -224,12 +224,14 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.headerEl = el)}
           >
+            {this.renderNavigationIcon("start")}
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? <div class="stepper-item-number">{this.renderNumbers()}.</div> : null}
             <div class="stepper-item-header-text">
               <span class="stepper-item-heading">{this.heading}</span>
               <span class="stepper-item-description">{this.description}</span>
             </div>
+            {this.renderNavigationIcon("end")}
           </div>
           <div class="stepper-item-content">
             <slot />
@@ -326,6 +328,18 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     return (
       <calcite-icon class="stepper-item-icon" flipRtl={this.iconFlipRtl} icon={path} scale="s" />
     );
+  }
+
+  private renderNavigationIcon(orientation: "start" | "end"): VNode {
+    const path = orientation === "start" ? "chevron-left" : "chevron-right";
+    return this.layout === "horizontal" ? (
+      <calcite-icon
+        class="stepper-item-icon--navigation"
+        flipRtl={this.iconFlipRtl}
+        icon={path}
+        scale="s"
+      />
+    ) : null;
   }
 
   private determineSelectedItem(): void {
