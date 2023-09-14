@@ -80,7 +80,7 @@ export class InputTimeZone
    */
   @Prop({ reflect: true }) form: string;
 
-  /** Specifies the maximum number of input time zone options to display before displaying a scrollbar. */
+  /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @Prop({ reflect: true }) maxItems = 0;
 
   /**
