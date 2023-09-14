@@ -30,9 +30,17 @@ export const simple = (): string => html`
 
 const breakpoints = [475, 476, 768, 1152];
 
-const getResponsiveTemplate = (width: number, scale: Scale) => {
-  const totalItems = 150000;
-  const pageSize = 100;
+const getResponsiveTemplate = ({
+  width,
+  scale,
+  totalItems,
+  pageSize,
+}: {
+  width: number;
+  scale: Scale;
+  totalItems: number;
+  pageSize: number;
+}) => {
   return html`<strong>Width: ${width}px</strong>
     <div style="width: ${width}px; margin: 1em 0;">
       <calcite-pagination
@@ -44,23 +52,32 @@ const getResponsiveTemplate = (width: number, scale: Scale) => {
       <calcite-pagination
         total-items="${totalItems}"
         page-size="${pageSize}"
-        start-item="5400"
+        start-item="${totalItems / 2 - Math.max(pageSize / 2, 1) + 1}"
         scale="${scale}"
       ></calcite-pagination>
       <calcite-pagination
         total-items="${totalItems}"
         page-size="${pageSize}"
-        start-item="149901"
+        start-item="${totalItems - pageSize + 1}"
         scale="${scale}"
       ></calcite-pagination>
     </div>`;
 };
 
-export const responsiveSmall = (): string => breakpoints.map((width) => getResponsiveTemplate(width, "s")).join("");
+export const responsiveSmall = (): string =>
+  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "s", totalItems: 150000, pageSize: 100 })).join("");
 
-export const responsiveMedium = (): string => breakpoints.map((width) => getResponsiveTemplate(width, "m")).join("");
+export const responsiveSmall2 = (): string =>
+  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "s", totalItems: 50, pageSize: 10 })).join("");
 
-export const responsiveLarge = (): string => breakpoints.map((width) => getResponsiveTemplate(width, "l")).join("");
+export const responsiveSmall3 = (): string =>
+  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "s", totalItems: 12, pageSize: 1 })).join("");
+
+export const responsiveMedium = (): string =>
+  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "m", totalItems: 150000, pageSize: 100 })).join("");
+
+export const responsiveLarge = (): string =>
+  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "l", totalItems: 150000, pageSize: 100 })).join("");
 
 export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
   <calcite-pagination
