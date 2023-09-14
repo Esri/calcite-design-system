@@ -115,11 +115,9 @@ export class Pagination
   //
   // --------------------------------------------------------------------------
 
+  private breakpoints: Breakpoints;
+
   @Element() el: HTMLCalcitePaginationElement;
-
-  @State() maxItems = 7;
-
-  @State() totalPages: number;
 
   @State() defaultMessages: PaginationMessages;
 
@@ -139,11 +137,13 @@ export class Pagination
     };
   }
 
+  @State() maxItems = 7;
+
+  @State() totalPages: number;
+
   private resizeObserver = createObserver("resize", (entries) =>
     entries.forEach(this.resizeHandler)
   );
-
-  private breakpoints: Breakpoints;
 
   //--------------------------------------------------------------------------
   //
@@ -224,8 +224,22 @@ export class Pagination
       return;
     }
 
-    // todo: responsive more
-    this.maxItems = width < breakpoints.width.xsmall ? 5 : 7;
+    if (width < breakpoints.width.xsmall) {
+      this.maxItems = 5;
+      return;
+    }
+
+    if (width < breakpoints.width.small) {
+      this.maxItems = 7;
+      return;
+    }
+
+    if (width < breakpoints.width.medium) {
+      this.maxItems = 9;
+      return;
+    }
+
+    this.maxItems = 11;
   }
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
@@ -251,14 +265,14 @@ export class Pagination
   private showStartEllipsis() {
     return (
       this.totalPages > this.maxItems &&
-      Math.floor(this.startItem / this.pageSize) > firstAndLastPageCount
+      Math.floor(this.startItem / this.pageSize) > this.maxItems - firstAndLastPageCount - 2
     );
   }
 
   private showEndEllipsis() {
     return (
       this.totalPages > this.maxItems &&
-      (this.totalItems - this.startItem) / this.pageSize > firstAndLastPageCount
+      (this.totalItems - this.startItem) / this.pageSize > this.maxItems - firstAndLastPageCount - 1
     );
   }
 
@@ -328,17 +342,17 @@ export class Pagination
       if (startItem / pageSize < remainingItems) {
         nextStart = 1 + pageSize;
         end = 1 + remainingItems * pageSize;
+        console.log({ area: 2, nextStart, end });
       } else {
         // if we're within max pages of last page
-        if (startItem + 3 * pageSize >= totalItems) {
+        if (startItem + remainingItems * pageSize >= totalItems) {
           nextStart = lastStart - remainingItems * pageSize;
           end = lastStart - pageSize;
+          console.log({ area: 3, nextStart, end });
         } else {
-          nextStart = startItem - pageSize * Math.max(remainingItems - firstAndLastPageCount, 0);
-          end = startItem + pageSize * Math.max(remainingItems - firstAndLastPageCount, 0);
-
-          // todo
-          console.log({ remainingItems, nextStart, end, startItem });
+          nextStart = startItem - pageSize * ((remainingItems - 1) / 2);
+          end = startItem + pageSize * ((remainingItems - 1) / 2);
+          console.log({ area: 4, nextStart, end, remainingItems, maxItems });
         }
       }
     }
