@@ -65,7 +65,7 @@ describe("calcite-dropdown", () => {
       hidden("calcite-dropdown");
     });
 
-    describe.skip("disabled", () => {
+    describe("disabled", () => {
       disabled(simpleDropdownHTML, {
         focusTarget: {
           tab: "calcite-button",
@@ -1060,7 +1060,7 @@ describe("calcite-dropdown", () => {
       expect(item7).not.toHaveAttribute("aria-checked");
     });
 
-    it("item selection should work when placed inside shadow DOM (#992)", async () => {
+    it.skip("item selection should work when placed inside shadow DOM (#992)", async () => {
       const wrappedDropdownTemplateHTML = html`
         <calcite-dropdown close-on-select-disabled>
           <calcite-button slot="trigger">Open</calcite-button>
@@ -1099,7 +1099,9 @@ describe("calcite-dropdown", () => {
           document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
           const wrapper = document.querySelector(wrapperName);
-          wrapper.shadowRoot.querySelector<HTMLCalciteDropdownItemElement>("#item-3").click();
+          const item = wrapper.shadowRoot.querySelector<HTMLCalciteDropdownItemElement>("#item-3");
+          debugger;
+          item.click();
         },
         wrappedDropdownTemplateHTML,
         wrapperName
@@ -1107,15 +1109,12 @@ describe("calcite-dropdown", () => {
 
       await page.waitForChanges();
 
-      const finalSelectedItem = await page.evaluate(async (wrapperName: string): Promise<string> => {
-        const wrapper = document.querySelector(wrapperName);
-        return wrapper.shadowRoot.querySelector("calcite-dropdown-item[selected]").id;
-      }, wrapperName);
+      const finalSelectedItem = await page.find(`${wrapperName} >>> calcite-dropdown-item[selected]`);
 
-      await expect(finalSelectedItem).toBe("item-3");
+      await expect(finalSelectedItem.id).toBe("item-3");
     });
 
-    it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+    it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
       const page = await newE2EPage({
         html: html`<calcite-tabs>
           <calcite-tab-nav slot="title-group">
