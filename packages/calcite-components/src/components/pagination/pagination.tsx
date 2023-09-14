@@ -225,22 +225,22 @@ export class Pagination
       return;
     }
 
-    if (width < breakpoints.width.xsmall) {
-      this.maxItems = 5;
+    if (width >= breakpoints.width.medium) {
+      this.maxItems = 19;
       return;
     }
 
-    if (width < breakpoints.width.small) {
-      this.maxItems = 7;
+    if (width >= breakpoints.width.small) {
+      this.maxItems = 13;
       return;
     }
 
-    if (width < breakpoints.width.medium) {
+    if (width >= breakpoints.width.xsmall) {
       this.maxItems = 9;
       return;
     }
 
-    this.maxItems = 11;
+    this.maxItems = 5;
   }
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>

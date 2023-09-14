@@ -2,7 +2,8 @@
   --calcite-pagination-spacing-internal: theme("spacing.1") theme("spacing.2");
   & .previous,
   & .next,
-  & .page {
+  & .page,
+  & .ellipsis {
     @apply text-n2h h-6;
   }
   .previous,
@@ -15,7 +16,8 @@
   --calcite-pagination-spacing-internal: theme("spacing.2") theme("spacing.3");
   & .previous,
   & .next,
-  & .page {
+  & .page,
+  & .ellipsis {
     @apply text-n1h h-8;
   }
   .previous,
@@ -28,7 +30,8 @@
   --calcite-pagination-spacing-internal: theme("spacing.3") theme("spacing.4");
   & .previous,
   & .next,
-  & .page {
+  & .page,
+  & .ellipsis {
     @apply text-0h h-11;
   }
   .previous,
@@ -38,7 +41,7 @@
 }
 
 :host {
-  @apply flex;
+  @apply flex flex-1;
   writing-mode: horizontal-tb;
 }
 
@@ -52,22 +55,32 @@
 
 .previous,
 .next,
-.page {
+.page,
+.ellipsis {
   @apply text-0h
     text-color-3
     font-inherit
     box-border
     flex
-    cursor-pointer
+    flex-1
     items-center
     border-none
     border-opacity-0
+    justify-center
+    align-baseline
     bg-transparent;
   border-block: 2px solid transparent;
   &:hover {
     @apply text-color-1 transition-default;
   }
 }
+
+.previous,
+.next,
+.page {
+  @apply cursor-pointer;
+}
+
 .page {
   &:hover {
     @apply border-b-color-2;
@@ -98,9 +111,6 @@
 .page,
 .ellipsis {
   padding: var(--calcite-pagination-spacing-internal);
-}
-.ellipsis {
-  @apply text-color-3 flex items-end;
 }
 
 @include base-component();
