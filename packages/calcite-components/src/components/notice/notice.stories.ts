@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -86,102 +86,19 @@ export const darkModeRTL_TestOnly = (): string => html`
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const breakpoints_TestOnly = (): string => html`
-  <style>
-    calcite-notice {
-      /* cleared to have all notices align */
-      margin-inline: unset;
-    }
-  </style>
-  <div style="display: flex; flex-direction: column; gap: 10px; justify-content: flex-start;">
-    <h3>scale=s</h3>
-    <calcite-notice icon width="full" open closable scale="s" style="width:475px">
-      <div slot="title">xsmall</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="s" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="s" slot="actions-end" title="Get info" icon="attachment">
+export const breakpoints_TestOnly = (): string =>
+  createBreakpointStories(
+    html`<calcite-notice icon width="full" open closable scale="{scale}">
+      <div slot="title">title</div>
+      <div slot="message">message</div>
+      <calcite-action
+        id="retry-action-s"
+        scale="{scale}"
+        slot="actions-end"
+        title="Retry"
+        icon="reset"
+      ></calcite-action>
+      <calcite-action id="info-action-s" scale="{scale}" slot="actions-end" title="Get info" icon="attachment">
       </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="s" style="width:767px">
-      <div slot="title">small</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="s" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="s" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="s" style="width:1151px">
-      <div slot="title">medium</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="s" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="s" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="s" style="width:1440px">
-      <div slot="title">large (same as medium)</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="s" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="s" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-
-    <h3>scale=m</h3>
-    <calcite-notice icon width="full" open closable scale="m" style="width:475px">
-      <div slot="title">xsmall</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="m" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="m" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="m" style="width:767px">
-      <div slot="title">small</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="m" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="m" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="m" style="width:1151px">
-      <div slot="title">medium</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="m" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="m" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="m" style="width:1440px">
-      <div slot="title">large (same as medium)</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="m" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="m" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-
-    <h3>scale=l</h3>
-    <calcite-notice icon width="full" open closable scale="l" style="width:475px">
-      <div slot="title">xsmall</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="l" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="l" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="l" style="width:767px">
-      <div slot="title">small</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="l" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="l" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="l" style="width:1151px">
-      <div slot="title">medium</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="l" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="l" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-    <calcite-notice icon width="full" open closable scale="l" style="width:1440px">
-      <div slot="title">large (same as medium)</div>
-      <div slot="message">lorem ispum</div>
-      <calcite-action id="retry-action-s" scale="l" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-      <calcite-action id="info-action-s" scale="l" slot="actions-end" title="Get info" icon="attachment">
-      </calcite-action>
-    </calcite-notice>
-  </div>
-`;
+    </calcite-notice>`
+  );
