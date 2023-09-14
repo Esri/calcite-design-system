@@ -17,9 +17,9 @@
   display: grid;
   // grid-templates-columns are dynamically generated
   // grid-templates-rows are dynamically generated
-  grid-template-areas:
-    "items"
-    "content";
+  // grid-template-areas:
+  //   "items"
+  //   "content";
 }
 
 @include base-component();

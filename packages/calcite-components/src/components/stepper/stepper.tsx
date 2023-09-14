@@ -373,7 +373,7 @@ export class Stepper {
     );
     console.log("items", items);
     const spacing = Array(items.length).fill("1fr").join(" ");
-    this.el.style.gridTemplateAreas = spacing;
+    // this.el.style.gridTemplateAreas = spacing;
     this.el.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
   };
