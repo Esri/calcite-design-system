@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { TabNav } from "../tabs/resources";
@@ -91,23 +91,16 @@ describe("calcite-tab-nav", () => {
       l: "44px",
     };
 
-    Object.entries(scaleMinHeightPairs).forEach(([scale, minHeight]) => {
-      it(`${scale} scale`, async () => {
-        let page: E2EPage;
-        const immediateParent = ["tabs", "tab-nav"];
-
-        for (const parent in immediateParent) {
-          page = await newE2EPage();
-          await page.setContent(
-            parent === "tabs" ? html`<calcite-tabs scale="${scale}">${tabNavHtml}</calcite-tabs>` : html`${tabNavHtml}`
-          );
-        }
+    for (const [key, value] of Object.entries(scaleMinHeightPairs)) {
+      it(`${key} scale`, async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-tabs scale="${key}">${tabNavHtml}</calcite-tabs>`);
 
         const element = await page.find(TabNav);
-        expect((await element.getComputedStyle())["minHeight"]).toEqual(minHeight);
-        expect(await element.getProperty("scale")).toBe(`${scale}`);
+        expect((await element.getComputedStyle())["height"]).toEqual(value);
+        expect(await element.getProperty("scale")).toBe(`${key}`);
       });
-    });
+    }
   });
 
   it("focuses on keyboard interaction", async () => {
