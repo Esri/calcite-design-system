@@ -9,7 +9,10 @@
 // scale variables
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: theme("spacing.2");
+  --calcite-notice-spacing-token-medium: theme("spacing[2.5]");
   --calcite-notice-spacing-token-large: theme("spacing.3");
+  --calcite-notice-footer-height: theme("height.8");
+
   @include slotted("title", "*", ".container") {
     @apply text-n1-wrap my-0.5;
   }
@@ -27,7 +30,10 @@
 
 :host([scale="m"]) {
   --calcite-notice-spacing-token-small: theme("spacing.3");
+  --calcite-notice-spacing-token-medium: theme("spacing[3.5]");
   --calcite-notice-spacing-token-large: theme("spacing.4");
+  --calcite-notice-footer-height: theme("height.12");
+
   @include slotted("title", "*", ".container") {
     @apply text-0-wrap my-0.5;
   }
@@ -41,7 +47,10 @@
 
 :host([scale="l"]) {
   --calcite-notice-spacing-token-small: theme("spacing.4");
+  --calcite-notice-spacing-token-medium: theme("spacing[4.5]");
   --calcite-notice-spacing-token-large: theme("spacing.5");
+  --calcite-notice-footer-height: theme("height.16");
+
   @include slotted("title", "*", ".container") {
     @apply text-1-wrap my-0.5;
   }
@@ -73,15 +82,16 @@
 
 .container {
   @apply bg-foreground-1
-    pointer-events-none
-    my-0
     box-border
+    flex-wrap
     hidden
-    w-full
+    my-0
     opacity-0
-    transition-default;
+    pointer-events-none
+    text-start
+    transition-default
+    w-full;
   max-block-size: 0;
-  text-align: start;
   border-inline-start: 0 solid;
   box-shadow: 0 0 0 0 transparent;
 }
@@ -117,38 +127,24 @@
   margin-inline-end: var(--calcite-notice-spacing-token-small);
 }
 
-@mixin notice-element-base() {
-  @apply transition-default box-border;
-  padding-block: var(--calcite-notice-spacing-token-small);
-  padding-inline: var(--calcite-notice-spacing-token-large);
-  flex: 0 0 auto;
+.notice-content {
+  @apply box-border flex flex-auto flex-col transition-default;
+  padding-block: var(--calcite-notice-spacing-token-medium);
+  padding-inline: var(--calcite-notice-spacing-token-large) var(--calcite-notice-spacing-token-small);
 }
 
-.notice-content {
-  @include notice-element-base;
-  @apply flex min-w-0 flex-col break-words;
-  flex: 1 1 0;
-  padding-block: var(--calcite-notice-spacing-token-small);
-  padding-inline: 0 var(--calcite-notice-spacing-token-small);
-
-  &:first-of-type:not(:only-child) {
-    padding-inline-start: var(--calcite-notice-spacing-token-large);
-  }
-  &:only-of-type {
-    padding-block: var(--calcite-notice-spacing-token-small);
-    padding-inline: var(--calcite-notice-spacing-token-large);
-  }
+.text-container {
+  @apply flex flex-1 min-w-0 flex-col break-words;
 }
 
 .notice-icon {
   @apply flex items-center;
-  @include notice-element-base;
 }
 
 .notice-close {
   @apply text-color-3 flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
-  @include notice-element-base;
   -webkit-appearance: none;
+  padding: var(--calcite-notice-spacing-token-large);
 
   &:hover,
   &:focus {
@@ -179,56 +175,46 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
   }
 }
 
-.container {
-  flex-wrap: wrap;
-}
-
 .notice-icon {
+  @apply justify-start flex-col p-0;
   margin-block-end: var(--calcite-notice-spacing-token-large);
   margin-inline-end: auto;
-  justify-content: flex-start;
-  flex-direction: column;
-  padding: 0;
 }
 
 .notice-close {
-  justify-content: flex-end;
-  align-items: flex-start;
+  @apply justify-end items-start;
 }
 
-.notice-content {
-  padding: var(--calcite-notice-spacing-token-large);
-}
-
-.main {
-  display: flex;
-  inline-size: 100%;
+.content-container {
+  @apply flex flex-1;
 }
 
 .footer {
+  @apply flex flex-grow justify-end w-full;
   border-block-start: 1px solid var(--calcite-ui-border-3);
-  display: flex;
-  flex-grow: 1;
-  inline-size: 100%;
-  justify-content: flex-end;
-  max-block-size: 64px;
+  block-size: var(--calcite-notice-footer-height);
 }
 
-@container (min-width: #{$breakpoint-width-xs}) {
+@container host (min-width: #{$breakpoint-width-xs}) {
+  .notice-content {
+    @apply flex-row;
+  }
+
   .notice-close {
-    align-items: center;
+    @apply items-center;
   }
 
   .notice-icon {
-    justify-content: center;
-    padding: 20px;
-    margin-block-end: 0;
+    @apply justify-center;
+    margin-inline-end: 0;
+    margin-block: 0;
+    padding-inline-end: var(--calcite-notice-spacing-token-large);
   }
+}
 
-  // TODO: use proper utils, tokens and vars for styling
-
-  .notice-content {
-    padding-inline-start: 0;
+@container host (min-width: #{$breakpoint-width-sm}) {
+  .notice-icon {
+    padding-inline: var(--calcite-notice-spacing-token-large) 0;
   }
 }
 

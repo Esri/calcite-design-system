@@ -111,12 +111,6 @@ export class Notice
     /* wired up by t9n util */
   }
 
-  @Watch("icon")
-  @Watch("kind")
-  updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -139,7 +133,6 @@ export class Notice
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
     this.breakpoints = breakpoints;
   }
@@ -154,6 +147,7 @@ export class Notice
       <button
         aria-label={this.messages.close}
         class={CSS.close}
+        key="close"
         onClick={this.close}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButton = el)}
@@ -163,51 +157,52 @@ export class Notice
     );
 
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
-
-    console.log(this.breakpoints.width.xsmall, this.elWidth);
+    const widthBreakpoints = this.breakpoints.width;
+    const { elWidth } = this;
+    const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
 
     return (
       <div class={CSS.container}>
-        <div class="main">
-          {this.elWidth > this.breakpoints.width.xsmall && this.requestedIcon ? (
-            <div class={CSS.icon}>
-              <calcite-icon
-                flipRtl={this.iconFlipRtl}
-                icon={this.requestedIcon}
-                scale={this.scale === "l" ? "m" : "s"}
-              />
-            </div>
-          ) : null}
+        <div class={CSS.contentContainer}>
+          {effectiveIcon && elWidth >= widthBreakpoints.small
+            ? this.renderIcon(effectiveIcon)
+            : null}
           <div class={CSS.content}>
-            {this.elWidth <= this.breakpoints.width.xsmall && this.requestedIcon ? (
-              <div class={CSS.icon}>
-                <calcite-icon
-                  flipRtl={this.iconFlipRtl}
-                  icon={this.requestedIcon}
-                  scale={this.scale === "l" ? "m" : "s"}
-                />
-              </div>
-            ) : null}
-            <slot name={SLOTS.title} />
-            <slot name={SLOTS.message} />
-            <slot name={SLOTS.link} />
-          </div>
-          {this.elWidth > this.breakpoints.width.medium && hasActionEnd ? (
-            <div class={CSS.actionsEnd}>
-              <slot name={SLOTS.actionsEnd} />
+            {effectiveIcon && elWidth < widthBreakpoints.small
+              ? this.renderIcon(effectiveIcon)
+              : null}
+            <div class={CSS.textContainer}>
+              <slot name={SLOTS.title} />
+              <slot name={SLOTS.message} />
+              <slot name={SLOTS.link} />
             </div>
-          ) : null}
-          {this.closable ? closeButton : null}
-        </div>
-        {this.elWidth <= this.breakpoints.width.medium && (
-          <div class="footer">
-            {hasActionEnd ? (
-              <div class={CSS.actionsEnd}>
-                <slot name={SLOTS.actionsEnd} />
-              </div>
-            ) : null}
           </div>
-        )}
+        </div>
+        {hasActionEnd && elWidth > widthBreakpoints.small ? this.renderActionsEnd() : null}
+        {this.closable ? closeButton : null}
+        {hasActionEnd && elWidth <= widthBreakpoints.small ? (
+          <div class={CSS.footer}>{this.renderActionsEnd()}</div>
+        ) : null}
+      </div>
+    );
+  }
+
+  private renderActionsEnd(): VNode {
+    return (
+      <div class={CSS.actionsEnd}>
+        <slot name={SLOTS.actionsEnd} />
+      </div>
+    );
+  }
+
+  private renderIcon(icon: string): VNode {
+    return (
+      <div class={CSS.icon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={icon}
+          scale={this.scale === "l" ? "m" : "s"}
+        />
       </div>
     );
   }
@@ -269,9 +264,6 @@ export class Notice
 
   /** The close button element. */
   private closeButton?: HTMLButtonElement;
-
-  /** The computed icon to render. */
-  private requestedIcon?: string;
 
   @State() effectiveLocale: string;
 

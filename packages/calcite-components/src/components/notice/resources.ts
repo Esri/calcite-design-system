@@ -10,5 +10,8 @@ export const CSS = {
   close: "notice-close",
   container: "container",
   content: "notice-content",
+  contentContainer: "content-container",
+  footer: "footer",
   icon: "notice-icon",
+  textContainer: "text-container",
 };
