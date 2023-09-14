@@ -1148,35 +1148,53 @@ describe("calcite-dropdown", () => {
       ).toBe(false);
     });
 
-    it("dropdown wrapper should have height when filter results empty and combined with a PickList in Panel  #3048", async () => {
+    it("Dropdown wrapper should not extend the height of the Picklist filter input when filter results are empty in Panel  #3048", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-panel heading="Issue #3048">
-          <calcite-pick-list filter-enabled>
-            <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
-              <calcite-action slot="trigger" title="Sort" icon="sort-descending"> </calcite-action>
-              <calcite-dropdown-group selection-mode="single">
-                <calcite-dropdown-item>Display name</calcite-dropdown-item>
-                <calcite-dropdown-item>Type</calcite-dropdown-item>
-              </calcite-dropdown-group>
-            </calcite-dropdown>
-            <calcite-pick-list-item label="calcite" description="calcite!"> </calcite-pick-list-item>
-            <calcite-pick-list-item label="calcite" description="calcite"> </calcite-pick-list-item>
-          </calcite-pick-list>
-        </calcite-panel>`,
+        html: html`<style>
+            html,
+            body {
+              background-size: cover;
+              background-
+              width: 100%;
+              height: 100%;
+              padding: 0;
+              margin: 0;
+            }
+
+            .container {
+              width: 25vw;
+              padding: 1rem;
+            }
+          </style>
+          <div class="container">
+            <calcite-panel heading="Issue #3048">
+              <calcite-pick-list filter-enabled>
+                <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
+                  <calcite-action slot="trigger" title="Sort" icon="sort-descending"> </calcite-action>
+                  <calcite-dropdown-group selection-mode="single">
+                    <calcite-dropdown-item>Display name</calcite-dropdown-item>
+                    <calcite-dropdown-item>Type</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+                <calcite-pick-list-item label="calcite" description="calcite!"> </calcite-pick-list-item>
+                <calcite-pick-list-item label="calcite" description="calcite"> </calcite-pick-list-item>
+              </calcite-pick-list>
+            </calcite-panel>
+          </div>`,
       });
+      const picklistInput = await page.find("calcite-pick-list >>> calcite-filter >>> calcite-input");
+      const dropdown = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+
+      await picklistInput.click();
+      await page.keyboard.type("numbers");
       await page.waitForChanges();
 
-      const dropdownContentHeight = await (
-        await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper")
-      ).getComputedStyle();
-
-      await page.evaluate(() => {
-        const filter = document.querySelector(`calcite-pick-list`).shadowRoot.querySelector("calcite-filter");
-        const filterInput = filter.shadowRoot.querySelector("calcite-input");
-        filterInput.value = "numbers";
-      });
-
-      expect(dropdownContentHeight.height).toBe("72px");
+      const [dropdownWrapperHeight, picklistFilterHeight] = await Promise.all(
+        [dropdown, picklistInput].map((el) =>
+          el.getComputedStyle().then((elStyle) => Number(/\d+/.exec(`${elStyle.height}`)[0]))
+        )
+      );
+      expect(dropdownWrapperHeight).toBeLessThan(picklistFilterHeight);
     });
 
     describe("owns a floating-ui", () => {
