@@ -46,6 +46,13 @@ export interface PaginationDetail {
 const firstAndLastPageCount = 2;
 const ellipsisCount = 2;
 
+const maxItemBreakpoints = {
+  large: 17,
+  medium: 13,
+  small: 9,
+  xsmall: 5,
+};
+
 @Component({
   tag: "calcite-pagination",
   styleUrl: "pagination.scss",
@@ -138,7 +145,7 @@ export class Pagination
     };
   }
 
-  @State() maxItems = 7;
+  @State() maxItems = maxItemBreakpoints.xsmall;
 
   @State() totalPages: number;
 
@@ -226,21 +233,21 @@ export class Pagination
     }
 
     if (width >= breakpoints.width.medium) {
-      this.maxItems = 19;
+      this.maxItems = maxItemBreakpoints.large;
       return;
     }
 
     if (width >= breakpoints.width.small) {
-      this.maxItems = 13;
+      this.maxItems = maxItemBreakpoints.medium;
       return;
     }
 
     if (width >= breakpoints.width.xsmall) {
-      this.maxItems = 9;
+      this.maxItems = maxItemBreakpoints.small;
       return;
     }
 
-    this.maxItems = 5;
+    this.maxItems = maxItemBreakpoints.xsmall;
   }
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
