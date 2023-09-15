@@ -13,5 +13,5 @@
     "resolveJsonModule": true,
     "target": "ES2018"
   },
-  "exclude": ["node_modules", "tokens", "dist"]
+  "exclude": ["node_modules", "src", "dist"]
 }

@@ -15,4 +15,4 @@ node_modules
 dist
 
 # Transformation Directory
-tools/token-transformer/**/*.js
+support/token-transformer/**/*.js

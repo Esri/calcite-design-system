@@ -1,4 +1,4 @@
-import { expandToken, shouldExpand } from "./compositeTokens";
+import { expandToken, shouldExpand } from "./compositeTokens.js";
 
 const mockHandleValue = jest.fn((val) => val);
 

@@ -1,8 +1,8 @@
-import { ExpandFilter } from "../utils/transformOptions";
-import { matchPlaceholderElement } from "./regex.js";
 import { DesignToken } from "style-dictionary/types/DesignToken";
 import { SingleToken } from "@tokens-studio/types";
 import { paramCase } from "change-case";
+import { ExpandFilter } from "./transformOptions.js";
+import { matchPlaceholderElement } from "./regex.js";
 
 // A customized type map based off Token Studio.
 // This determines the applied "type" associated with each Style Dictionary token value

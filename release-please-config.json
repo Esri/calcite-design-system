@@ -8,6 +8,9 @@
       "component": "@esri/calcite-components",
       "extra-files": ["readme.md"]
     },
+    "packages/calcite-design-tokens": {
+      "component": "@esri/calcite-design-tokens"
+    },
     "packages/calcite-components-react": {
       "component": "@esri/calcite-components-react"
     },

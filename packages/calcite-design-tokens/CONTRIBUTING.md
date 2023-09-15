@@ -11,21 +11,6 @@ Found a problem? Want a new feature?
 
 ## Contributing to tokens
 
-### Clone the repo
-
-To begin, [fork this project](fork), clone your fork, and add our upstream.
-
-```bash
-# Clone your fork of the repo into the current directory
-git clone https://github.com/<your-user>/calcite-design-tokens
-# Navigate to the newly cloned directory
-cd calcite-design-tokens
-# Assign the original repo to a remote called "upstream"
-git remote add upstream https://github.com/esri/calcite-design-tokens
-# Install the tools necessary for development
-npm install
-```
-
 ### Create a branch for your feature or fix
 
 If you are a designer setting up a branch for Figma Tokens Plugin, make sure your branch name starts with `designer/`.
@@ -56,27 +41,27 @@ Build the tokens to platform assets
 
 All token files may be updated by the Figma Token Studio plugin. These can also be updated in the code directly. Any changes to token files must be reviewed by the Calcite Design Team.
 
-### tokens/$metadata.json
+### src/$metadata.json
 
 This file is used by Figma Token Studio but is not used to determine final token asset output.
 
-### tokens/$themes.json
+### src/$themes.json
 
 Each theme defined in this file will output a token asset in each format defined in the token transformer config.
 
-### tokens/core.json
+### src/core.json
 
 The core design tokens upon which the rest of the tokens are built.
 
-### tokens/semantic.json
+### src/semantic.json
 
 The semantic design tokens used by theme files and components.
 
-### tokens/component/
+### src/component/
 
 The component design tokens. These are used by themes.
 
-### tokens/calcite/
+### src/calcite/
 
 The Calcite themes. This currently consists of a light and dark theme.
 

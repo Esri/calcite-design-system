@@ -10,8 +10,7 @@ node_modules
 .DS_Store
 
 # Pre-build Folders
-tokens
-tools
+src
 support
 
 # token-transformer runner
