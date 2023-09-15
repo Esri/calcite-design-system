@@ -37,6 +37,8 @@ import {
   LoadableComponent,
   componentFocusable,
 } from "../../utils/loadable";
+import { connectMessages, disconnectMessages, T9nComponent, updateMessages } from "../../utils/t9n";
+import { StepperItemMessages } from "./assets/stepper-item/t9n";
 import { CSS } from "./resources";
 
 /**
@@ -46,8 +48,11 @@ import { CSS } from "./resources";
   tag: "calcite-stepper-item",
   styleUrl: "stepper-item.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class StepperItem implements InteractiveComponent, LocalizedComponent, LoadableComponent {
+export class StepperItem
+  implements InteractiveComponent, LocalizedComponent, LoadableComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -110,6 +115,25 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout>;
 
   /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: StepperItemMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: StepperItemMessages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    // wired up by t9n util
+  }
+
+  /**
    * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
    *
    * @internal
@@ -129,10 +153,13 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //
   //--------------------------------------------------------------------------
 
+  @State() defaultMessages: StepperItemMessages;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(locale: string): void {
+    updateMessages(this, this.effectiveLocale);
     numberStringFormatter.numberFormatOptions = {
       locale,
       numberingSystem: this.numberingSystem,
@@ -181,6 +208,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   connectedCallback(): void {
     connectInteractive(this);
     connectLocalized(this);
+    connectMessages(this);
   }
 
   componentWillLoad(): void {
@@ -205,6 +233,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   render(): VNode {
@@ -217,7 +246,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         <div class={CSS.container}>
           {this.complete && (
             <span aria-live="polite" class={CSS.visuallyHidden}>
-              {"Completed step"}
+              {this.messages?.complete}
             </span>
           )}
           <div
