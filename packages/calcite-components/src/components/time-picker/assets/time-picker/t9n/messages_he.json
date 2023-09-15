@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "שבר שנייה",
+  "fractionalSecondDown": "הקטן שבר שנייה",
+  "fractionalSecondUp": "הגדל שבר שנייה",
   "hour": "שעה",
   "hourDown": "הקטן שעה",
   "hourUp": "הגדל שעה",
