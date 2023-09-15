@@ -868,6 +868,7 @@ describe("calcite-dropdown", () => {
         expect(await dropdownWrapper.isVisible()).toBe(false);
 
         await page.$eval("calcite-button[slot='trigger']", (triggerEl: HTMLCalciteButtonElement) => {
+          // intentionally not pressing to avoid emitting `click`
           triggerEl.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
         });
 
