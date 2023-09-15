@@ -18,6 +18,12 @@ export default {
 };
 
 export const simple = (): string => html`
+  <style>
+    .sb-show-main.sb-main-centered #root {
+      padding: 0 !important;
+      flex: 1;
+    }
+  </style>
   <calcite-pagination
     scale="${select("scale", ["s", "m", "l"], "m")}"
     start-item="${number("start-item", 1)}"
