@@ -69,16 +69,17 @@
     justify-center
     align-baseline
     bg-transparent;
-  border-block: 2px solid transparent;
-  &:hover {
-    @apply text-color-1 transition-default;
-  }
 }
 
 .previous,
 .next,
 .page {
   @apply cursor-pointer;
+  border-block: 2px solid transparent;
+
+  &:hover {
+    @apply text-color-1 transition-default;
+  }
 }
 
 .page {
