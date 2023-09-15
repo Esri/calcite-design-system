@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "すべて",
+  "keyboardDeselectAll": "すべての行を選択解除するには Enter キーまたは Space キーを押します",
+  "keyboardSelectAll": "すべての行を選択するには Enter キーまたは Space キーを押します",
+  "rowNumber": "行番号",
+  "selected": "選択行",
+  "selectionColumn": "選択列"
 }

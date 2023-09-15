@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Obriši",
+  "hiddenSelected": "Redovi su izabrani ali van pregleda",
+  "page": "Stranica",
+  "row": "Red",
+  "selected": "Selektovano"
 }

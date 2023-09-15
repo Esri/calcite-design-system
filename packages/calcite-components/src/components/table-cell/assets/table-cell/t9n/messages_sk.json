@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Stlačením Enter alebo medzerníka zrušíte výber riadku",
+  "keyboardSelect": "Stlačením Enter alebo medzerníka vyberte riadok",
+  "row": "riadok",
+  "selected": "vybrané",
+  "unselected": "nevybrané"
 }
