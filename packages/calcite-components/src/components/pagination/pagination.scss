@@ -41,7 +41,7 @@
 }
 
 :host {
-  @apply flex flex-1;
+  @apply flex;
   writing-mode: horizontal-tb;
 }
 
@@ -62,7 +62,6 @@
     font-inherit
     box-border
     flex
-    flex-1
     items-center
     border-none
     border-opacity-0
