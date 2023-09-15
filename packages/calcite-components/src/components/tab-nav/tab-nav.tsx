@@ -17,6 +17,7 @@ import {
   FocusElementInGroupDestination,
   getElementDir,
 } from "../../utils/dom";
+import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
@@ -125,12 +126,13 @@ export class TabNav {
     this.resizeObserver?.disconnect();
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTabId = storedTab;
     }
+    this.breakpoints = await getBreakpoints();
   }
 
   componentWillRender(): void {
@@ -166,6 +168,10 @@ export class TabNav {
     const width = `${this.indicatorWidth}px`;
     const offset = `${this.indicatorOffset}px`;
     const indicatorStyle = dir !== "rtl" ? { width, left: offset } : { width, right: offset };
+
+    // const widthBreakpoints = this.breakpoints.width;
+    // const { elWidth } = this;
+
     return (
       <Host role="tablist">
         <div
@@ -305,7 +311,11 @@ export class TabNav {
 
   animationActiveDuration = 0.3;
 
-  resizeObserver = createObserver("resize", () => {
+  private breakpoints: Breakpoints;
+
+  @State() elWidth: number;
+
+  resizeObserver = createObserver("resize", (entries) => {
     if (!this.activeIndicatorEl) {
       return;
     }
@@ -314,6 +324,8 @@ export class TabNav {
     this.activeIndicatorEl.style.transitionDuration = "0s";
     this.updateActiveWidth();
     this.updateOffsetPosition();
+
+    this.elWidth = entries[0].contentRect.width;
   });
 
   //--------------------------------------------------------------------------
