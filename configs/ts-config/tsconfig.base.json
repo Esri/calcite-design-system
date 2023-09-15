@@ -5,13 +5,13 @@
     "declaration": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "lib": ["dom", "dom.iterable", "ES2018"],
+    "lib": ["dom", "dom.iterable", "ES2021"],
     "module": "esnext",
     "moduleResolution": "node",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "resolveJsonModule": true,
-    "target": "ES2018"
+    "target": "ES2021"
   },
   "exclude": ["node_modules", "src", "dist"]
 }

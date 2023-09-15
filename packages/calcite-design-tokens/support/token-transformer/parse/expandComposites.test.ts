@@ -94,7 +94,7 @@ describe("expand token dictionary", () => {
   });
 
   it("should not add placeholder elements", () => {
-    const placeolderToken = {
+    const placeholderToken = {
       "[placeholder-component]": {
         type: "other",
         value: "#333"
@@ -107,9 +107,9 @@ describe("expand token dictionary", () => {
       }
     };
 
-    // @ts-expect-error - it's fine.
-    const testExpandPlaceholderKey = expandComposites.expandComposites(placeolderToken, "./fakePath");
-    // @ts-expect-error - it's fine.
+    // @ts-expect-error - These placeholder tokens are not a deep match to the DeepTokenMap type but it's close enough for the purposes of this test
+    const testExpandPlaceholderKey = expandComposites.expandComposites(placeholderToken, "./fakePath");
+    // @ts-expect-error - These placeholder tokens are not a deep match to the DeepTokenMap type but it's close enough for the purposes of this test
     const testExpandPlaceholderValue = expandComposites.expandComposites(placeholderValue, "./fakePath");
 
     expect(testExpandPlaceholderKey).toMatchObject({});
@@ -117,7 +117,7 @@ describe("expand token dictionary", () => {
   });
 
   it('should loop through a dictionary and run "shouldExpand" and  "expandToken" on each composite token', () => {
-    // @ts-expect-error - it's fine.
+    // @ts-expect-error - These placeholder tokens are not a deep match to the DeepTokenMap type but it's close enough for the purposes of this test
     const testExpandComposite = expandComposites.expandComposites(mockCorrectTypeCompoundToken, "./fakePath");
     expect(handleTokenStudioVariables).toHaveBeenCalledTimes(1);
     expect(shouldExpand).toHaveBeenCalledTimes(1);

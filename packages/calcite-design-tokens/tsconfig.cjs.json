@@ -1,9 +1,8 @@
 {
-  "extends": "./tsconfig",
+  "extends": "./tsconfig-base",
   "compilerOptions": {
-    "target": "ES2018",
     "outDir": "./support/dist",
     "sourceMap": true
   },
-  "exclude": ["**/*.test.*"]
+  "exclude": ["**/*.test.*", "*.cjs"]
 }

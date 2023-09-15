@@ -13,8 +13,8 @@ import {
 
 export type Expandables = SingleCompositionToken | SingleTypographyToken | SingleBorderToken | SingleBoxShadowToken;
 
-export const expandablesAsStringsArr = ["composition", "typography", "border", "boxShadow"];
-export type ExpandablesAsStrings = (typeof expandablesAsStringsArr)[number];
+export const expandablesAsStringsArray = ["composition", "typography", "border", "boxShadow"];
+export type ExpandablesAsStrings = (typeof expandablesAsStringsArray)[number];
 
 export type ExpandFilter<T extends SingleToken> = (token: T, filePath: string) => boolean;
 

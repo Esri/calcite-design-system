@@ -10,27 +10,10 @@
     "tokens"
   ],
   "main": "./dist/js/calcite-headless.js",
-  "type": "module",
-  "exports": {
-    ".": "./dist/js/calcite-headless.js",
-    "./css": "./dist/css/calcite-headless.css",
-    "./css/brand/dark": "./dist/css/brand-dark.css",
-    "./css/brand/light": "./dist/css/brand-light.css",
-    "./css/calcite/dark": "./dist/css/calcite-dark.css",
-    "./css/calcite/light": "./dist/css/calcite-light.css",
-    "./css/headless": "./dist/css/calcite-headless.css",
-    "./scss": "./dist/scss/calcite-headless.scss",
-    "./scss/brand/dark": "./dist/scss/brand-dark.scss",
-    "./scss/brand/light": "./dist/scss/brand-light.scss",
-    "./scss/calcite/dark": "./dist/scss/calcite-dark.scss",
-    "./scss/calcite/light": "./dist/scss/calcite-light.scss",
-    "./scss/headless": "./dist/scss/calcite-headless.scss",
-    "./js/brand/dark": "./dist/js/brand-dark.js",
-    "./js/brand/light": "./dist/js/brand-light.js",
-    "./js/calcite/dark": "./dist/js/calcite-dark.js",
-    "./js/calcite/light": "./dist/js/calcite-light.js",
-    "./js/headless": "./dist/js/calcite-headless.js"
-  },
+  "files": [
+    "./dist",
+    "./src"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/Esri/calcite-design-tokens.git"

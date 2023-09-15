@@ -11,6 +11,7 @@ import { Theme } from "./getThemes.js";
 
 /**
  * Style Dictionary runner configuration overrides.
+ *
  * @param {string} tokenDir the directory containing design token files
  * @param {string} buildPath the directory to write generated assets to
  * @param {Theme} theme the theme configuration to use to generate the platform asset files
@@ -124,15 +125,10 @@ export const run = async (
     parsers: [
       {
         pattern: /\.json$/,
-        parse: (file) => {
-          if (matchList(file.filePath, [...include, ...theme.source, ...theme.enabled], matchExclusions)) {
-            const obj = JSON.parse(file.contents);
-            const expanded = expandComposites(obj, file.filePath);
-            return expanded;
-          }
-
-          return {};
-        }
+        parse: (file) =>
+          matchList(file.filePath, [...include, ...theme.source, ...theme.enabled], matchExclusions)
+            ? expandComposites(JSON.parse(file.contents), file.filePath)
+            : {}
       }
     ]
   });
