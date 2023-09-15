@@ -1,0 +1,4 @@
+bin/
+dist/
+tools/dist/
+node_modules/
