@@ -273,6 +273,9 @@
     padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
     text-align: start;
   }
+  .stepper-item-icon--navigation {
+    display: none;
+  }
 }
 
 :host([layout="horizontal"][disabled]) {

@@ -8,6 +8,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch,
 } from "@stencil/core";
@@ -297,11 +298,19 @@ export class Stepper {
 
   containerEl: HTMLDivElement;
 
+  @State() documentWidth: number;
+
+  @Watch("documentWidth")
+  handleDocumentWidthChange(): void {
+    this.determineActiveStepper();
+  }
+
   breakpoints: Breakpoints;
 
-  private resizeObserver = createObserver("resize", (entries: ResizeObserverEntry[]) => {
-    entries.forEach(this.resizeHandler);
-  });
+  private resizeObserver = createObserver(
+    "resize",
+    (entries) => (this.documentWidth = entries[0].contentRect.width)
+  );
 
   displayOneStepperOnly = false;
   //--------------------------------------------------------------------------
@@ -310,14 +319,25 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  private resizeHandler(entry: ResizeObserverEntry): void {
-    const { width } = entry.contentRect;
-    this.determineActiveStepper(width);
-  }
-
-  private determineActiveStepper(width: number): void {
-    if (width) {
+  private determineActiveStepper(): void {
+    if (!this.breakpoints || !this.documentWidth) {
       return;
+    }
+    //hide all other stepper items
+    //show only active/selected one
+    //display chevrons
+    if (this.documentWidth < this.breakpoints.width.xsmall) {
+      this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
+        if (index !== this.currentPosition) {
+          item.style.display = "none";
+        }
+      });
+    } else if (this.documentWidth > this.breakpoints.width.xsmall) {
+      this.items.forEach((item: HTMLCalciteStepperItemElement) => {
+        if (item.style.display === "none") {
+          item.style.display = "contents";
+        }
+      });
     }
   }
 
@@ -371,10 +391,10 @@ export class Stepper {
     const items = slotChangeGetAssignedElements(event).filter(
       (el) => el?.tagName === "CALCITE-STEPPER-ITEM"
     );
-    console.log("items", items);
     const spacing = Array(items.length).fill("1fr").join(" ");
     // this.el.style.gridTemplateAreas = spacing;
     this.el.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
+    this.determineActiveStepper();
   };
 }
