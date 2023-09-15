@@ -41,7 +41,7 @@
 }
 
 :host {
-  @apply flex;
+  @apply flex flex-1;
   writing-mode: horizontal-tb;
 }
 

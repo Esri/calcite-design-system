@@ -22,6 +22,7 @@ export const simple = (): string => html`
     .sb-show-main.sb-main-centered #root {
       padding: 0 !important;
       flex: 1;
+      width: 100%;
     }
   </style>
   <calcite-pagination
