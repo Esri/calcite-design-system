@@ -36,6 +36,7 @@ Steffen
 signifiers
 stringifying
 uppercased
+xsmall
 
 ## GIS
 ArcGISOnline
