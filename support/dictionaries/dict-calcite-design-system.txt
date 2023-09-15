@@ -36,7 +36,6 @@ Steffen
 signifiers
 stringifying
 uppercased
-xsmall
 
 ## GIS
 ArcGISOnline
@@ -71,6 +70,9 @@ tamldec
 telu
 thai
 tibt
+
+## sizing
+xsmall
 
 ## svg
 svgs
