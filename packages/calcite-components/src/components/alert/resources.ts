@@ -13,7 +13,15 @@ export const SLOTS = {
 
 export const CSS = {
   actionsEnd: "actions-end",
-  container: "container",
   close: "alert-close",
+  container: "container",
+  content: "content",
+  contentContainer: "content-container",
+  dismissProgress: "dismiss-progress",
+  footer: "footer",
+  icon: "icon",
   slottedInShell: "slotted-in-shell",
+  queueCount: "queue-count",
+  queueCountActive: "queue-count--active",
+  textContainer: "text-container",
 };

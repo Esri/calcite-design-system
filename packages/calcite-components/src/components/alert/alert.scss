@@ -20,13 +20,13 @@
   @include slotted("link", "*") {
     @apply text-n2-wrap;
   }
-  .alert-queue-count {
+  .queue-count {
     @apply mx-2;
   }
   .container {
     --calcite-alert-min-height: 3.5rem;
   }
-  .alert-close {
+  .close {
     // specific padding for close button to align with calcite-action small-scale spacing
     @apply p-2;
   }
@@ -45,7 +45,7 @@
   @include slotted("link", "*") {
     @apply text-n1-wrap;
   }
-  .alert-queue-count {
+  .queue-count {
     @apply mx-3;
   }
   .container {
@@ -66,7 +66,7 @@
   @include slotted("link", "*") {
     @apply text-0-wrap;
   }
-  .alert-queue-count {
+  .queue-count {
     @apply mx-4;
   }
   .container {
@@ -90,7 +90,7 @@
       opacity-0
       z-toast;
     border-radius: var(--calcite-border-radius);
-    border-block-start: 0px solid transparent;
+    border-block-start: 0 solid transparent;
     border-inline: 1px solid var(--calcite-ui-border-3);
     border-block-end: 1px solid var(--calcite-ui-border-3);
     min-block-size: var(--calcite-alert-min-height);
@@ -134,7 +134,7 @@
 }
 
 // focus styles
-.alert-close {
+.close {
   @apply focus-base;
   &:focus {
     @apply focus-inset;
@@ -180,7 +180,7 @@
   flex: 0 0 auto;
 }
 
-.alert-content {
+.content {
   @include alert-element-base;
   @apply bg-foreground-1 break-words flex flex-col;
   flex: 1 1 0;
@@ -197,7 +197,7 @@
   }
 }
 
-.alert-icon {
+.icon {
   @include alert-element-base;
   @apply bg-foreground-1
     flex
@@ -208,7 +208,7 @@
   border-end-start-radius: var(--calcite-border-radius);
 }
 
-.alert-close {
+.close {
   @include alert-element-base;
   @apply bg-foreground-1
     text-color-3
@@ -231,7 +231,7 @@
   }
 }
 
-.alert-queue-count {
+.queue-count {
   @apply text-color-2
     bg-foreground-1
     transition-default
@@ -245,7 +245,7 @@
     text-center
     font-medium
     opacity-0;
-  border-inline: 0px solid transparent;
+  border-inline: 0 solid transparent;
   border-start-end-radius: 0;
 
   &.active {
@@ -253,11 +253,11 @@
   }
 }
 
-:host([auto-close]) > .alert-queue-count {
-  border-inline-end: 0px solid transparent;
+:host([auto-close]) > .queue-count {
+  border-inline-end: 0 solid transparent;
 }
 
-.alert-dismiss-progress {
+.dismiss-progress {
   @apply absolute
     block
     w-full
@@ -292,7 +292,7 @@ $alertKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "da
     .container {
       border-block-start-color: $kind;
 
-      & .alert-icon {
+      & .icon {
         color: $kind;
       }
     }
@@ -305,10 +305,10 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   $name: nth($alertDuration, 1);
   $duration: nth($alertDuration, 2);
 
-  :host([auto-close-duration="#{$name}"]) .alert-dismiss-progress:after {
+  :host([auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
   }
-  :host(:hover[auto-close-duration="#{$name}"]) .alert-dismiss-progress:after {
+  :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation-play-state: paused;
   }
 }

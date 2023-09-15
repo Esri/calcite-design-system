@@ -218,3 +218,49 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
     <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
   </calcite-alert>
 `;
+
+// we use individual stories since we can't display multiple open alerts at the same time
+
+export const breakpointsXsmall_TestOnly = (): string => html`
+  <div style="width:465px;">
+    <calcite-alert label="xsmall" icon open>
+      <div slot="title">xsmall</div>
+      <div slot="message">lorem ipsum</div>
+      <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+      <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    </calcite-alert>
+  </div>
+`;
+
+export const breakpointsSmall_TestOnly = (): string => html`
+  <div style="width:767px;">
+    <calcite-alert label="xsmall" icon open>
+      <div slot="title">xsmall</div>
+      <div slot="message">lorem ipsum</div>
+      <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+      <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    </calcite-alert>
+  </div>
+`;
+
+export const breakpointsMedium_TestOnly = (): string => html`
+  <div style="width:1151px;">
+    <calcite-alert label="xsmall" icon open>
+      <div slot="title">xsmall</div>
+      <div slot="message">lorem ipsum</div>
+      <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+      <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    </calcite-alert>
+  </div>
+`;
+
+export const breakpointsLarge_TestOnly = (): string => html`
+  <div style="width:1440px;">
+    <calcite-alert label="xsmall" icon open>
+      <div slot="title">xsmall</div>
+      <div slot="message">lorem ipsum</div>
+      <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+      <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    </calcite-alert>
+  </div>
+`;

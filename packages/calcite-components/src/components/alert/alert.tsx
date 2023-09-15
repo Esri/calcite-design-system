@@ -147,12 +147,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ mutable: true }) slottedInShell: boolean;
 
-  @Watch("icon")
-  @Watch("kind")
-  updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-  }
-
   @Watch("autoCloseDuration")
   updateDuration(): void {
     if (this.autoClose && this.autoCloseTimeoutId) {
@@ -183,7 +177,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
   }
 
@@ -209,7 +202,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     const closeButton = (
       <button
         aria-label={this.messages.close}
-        class="alert-close"
+        class={CSS.close}
         onClick={this.closeAlert}
         type="button"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
@@ -229,24 +222,22 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
 
     const queueCount = (
-      <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
+      <div
+        class={{
+          [CSS.queueCount]: true,
+          [CSS.queueCountActive]: this.queueLength > 1,
+        }}
+      >
         <calcite-chip scale={this.scale} value={queueText}>
           {queueText}
         </calcite-chip>
       </div>
     );
 
-    const { open, autoClose, label, placement, queued, requestedIcon, iconFlipRtl } = this;
+    const { open, autoClose, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
-
-    const slotNode = (
-      <slot
-        key="actionsEndSlot"
-        name={SLOTS.actionsEnd}
-        onSlotchange={this.actionsEndSlotChangeHandler}
-      />
-    );
+    const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
 
     return (
       <Host
@@ -267,28 +258,38 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
-          {requestedIcon ? (
-            <div class="alert-icon">
-              <calcite-icon
-                flipRtl={iconFlipRtl}
-                icon={requestedIcon}
-                scale={this.scale === "l" ? "m" : "s"}
-              />
-            </div>
-          ) : null}
-          <div class="alert-content">
+          {effectiveIcon ? this.renderIcon(effectiveIcon) : null}
+          <div class={CSS.content}>
             <slot name={SLOTS.title} />
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
           </div>
-          <div class={CSS.actionsEnd} hidden={!hasEndActions}>
-            {slotNode}
-          </div>
+          {hasEndActions ? this.renderActionsEnd() : null}
           {this.queueLength > 1 ? queueCount : null}
           {closeButton}
-          {open && !queued && autoClose ? <div class="alert-dismiss-progress" /> : null}
+          {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>
+    );
+  }
+
+  private renderActionsEnd(): VNode {
+    return (
+      <div class={CSS.actionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.actionsEndSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  private renderIcon(icon: string): VNode {
+    return (
+      <div class={CSS.icon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={icon}
+          scale={this.scale === "l" ? "m" : "s"}
+        />
+      </div>
     );
   }
 
@@ -423,10 +424,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   private totalOpenTime = 0;
 
   private totalHoverTime = 0;
-
-  /** the computed icon to render */
-  /* @internal */
-  @State() requestedIcon?: string;
 
   openTransitionProp = "opacity";
 
