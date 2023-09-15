@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Premeu la tecla Intro o la tecla d'espai per anul·lar la selecció de la fila",
+  "keyboardSelect": "Premeu la tecla Intro o la tecla d'espai per seleccionar la fila",
+  "row": "fila",
+  "selected": "seleccionat",
+  "unselected": "no seleccionat"
 }

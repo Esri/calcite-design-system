@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Giây phân đoạn",
+  "fractionalSecondDown": "Giảm giây phân đoạn",
+  "fractionalSecondUp": "Tăng giây phân đoạn",
   "hour": "Giờ",
   "hourDown": "Giảm giờ",
   "hourUp": "Tăng giờ",

@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "tots",
+  "keyboardDeselectAll": "Premeu la tecla Intro o la tecla d'espai per anul·lar la selecció de totes les files",
+  "keyboardSelectAll": "Premeu la tecla Intro o la tecla d'espai per seleccionar totes les files",
+  "rowNumber": "Número de fila",
+  "selected": "files seleccionades",
+  "selectionColumn": "Columna de selecció"
 }
