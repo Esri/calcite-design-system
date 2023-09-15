@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
@@ -218,3 +218,51 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
     <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
   </calcite-alert>
 `;
+
+// we use individual stories since we can't display multiple open alerts at the same time
+
+const breakpointsStoryTemplate = html` <style>
+    .breakpoint-stories-container {
+      /* force fixed container placement on the breakpoint-sized stories container */
+      contain: layout;
+    }
+  </style>
+  <calcite-alert icon open scale="{scale}">
+    <div slot="title">title</div>
+    <div slot="message">message</div>
+    <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+  </calcite-alert>
+  <calcite-alert icon open scale="{scale}">
+    <div slot="title">title</div>
+    <div slot="message">message</div>
+    <calcite-action scale="{scale}" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+  </calcite-alert>`;
+
+export const breakpointsXsmallScaleS_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "s" });
+export const breakpointsSmallScaleS_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "s" });
+export const breakpointsMediumScaleS_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "s" });
+export const breakpointsLargeScaleS_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "s" });
+
+export const breakpointsXsmallScaleM_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "m" });
+export const breakpointsSmallScaleM_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "m" });
+export const breakpointsMediumScaleM_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "m" });
+export const breakpointsLargeScaleM_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "m" });
+
+export const breakpointsXsmallScaleL_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "l" });
+export const breakpointsSmallScaleL_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "l" });
+export const breakpointsMediumScaleL_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "l" });
+export const breakpointsLargeScaleL_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "l" });

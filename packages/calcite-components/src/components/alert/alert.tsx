@@ -44,6 +44,8 @@ import { KindIcons } from "../resources";
 import { AlertMessages } from "./assets/alert/t9n";
 import { AlertDuration, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
+import { Breakpoints, getBreakpoints } from "../../utils/responsive";
+import { createObserver } from "../../utils/observers";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -147,12 +149,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ mutable: true }) slottedInShell: boolean;
 
-  @Watch("icon")
-  @Watch("kind")
-  updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-  }
-
   @Watch("autoCloseDuration")
   updateDuration(): void {
     if (this.autoClose && this.autoCloseTimeoutId) {
@@ -179,16 +175,20 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       this.calciteInternalAlertRegister.emit();
       onToggleOpenCloseComponent(this);
     }
+    if (this.transitionEl) {
+      this.resizeObserver?.observe(this.transitionEl);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-    await setUpMessages(this);
+    const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
+    this.breakpoints = breakpoints;
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.resizeObserver?.observe(this.transitionEl);
   }
 
   disconnectedCallback(): void {
@@ -202,51 +202,23 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     disconnectLocalized(this);
     disconnectMessages(this);
     this.slottedInShell = false;
+    this.resizeObserver?.disconnect();
   }
 
   render(): VNode {
-    const { hasEndActions } = this;
-    const closeButton = (
-      <button
-        aria-label={this.messages.close}
-        class="alert-close"
-        onClick={this.closeAlert}
-        type="button"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.closeButton = el)}
-      >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
-      </button>
-    );
-
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       signDisplay: "always",
     };
 
-    const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
-    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
-
-    const queueCount = (
-      <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
-        <calcite-chip scale={this.scale} value={queueText}>
-          {queueText}
-        </calcite-chip>
-      </div>
-    );
-
-    const { open, autoClose, label, placement, queued, requestedIcon, iconFlipRtl } = this;
+    const { hasEndActions } = this;
+    const { open, autoClose, elWidth, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
+    const widthBreakpoints = this.breakpoints.width;
     const hidden = !open;
-
-    const slotNode = (
-      <slot
-        key="actionsEndSlot"
-        name={SLOTS.actionsEnd}
-        onSlotchange={this.actionsEndSlotChangeHandler}
-      />
-    );
+    const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    const hasQueuedAlerts = this.queueLength > 1;
 
     return (
       <Host
@@ -257,38 +229,97 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       >
         <div
           class={{
-            container: true,
-            queued,
-            [placement]: true,
-            [CSS.slottedInShell]: this.slottedInShell,
+            [CSS.container]: true,
+            [CSS.containerQueued]: queued,
+            [`${CSS.container}--${placement}`]: true,
+            [CSS.containerSlottedInShell]: this.slottedInShell,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
-          {requestedIcon ? (
-            <div class="alert-icon">
-              <calcite-icon
-                flipRtl={iconFlipRtl}
-                icon={requestedIcon}
-                scale={this.scale === "l" ? "m" : "s"}
-              />
+          <div class={CSS.contentContainer}>
+            {effectiveIcon && elWidth >= widthBreakpoints.small
+              ? this.renderIcon(effectiveIcon)
+              : null}
+            <div class={CSS.content}>
+              {effectiveIcon && elWidth < widthBreakpoints.small
+                ? this.renderIcon(effectiveIcon)
+                : null}
+              <div class={CSS.textContainer}>
+                <slot name={SLOTS.title} />
+                <slot name={SLOTS.message} />
+                <slot name={SLOTS.link} />
+              </div>
+            </div>
+          </div>
+          {hasEndActions && elWidth >= widthBreakpoints.small ? this.renderActionsEnd() : null}
+          {hasQueuedAlerts && elWidth >= widthBreakpoints.small ? this.renderQueueCount() : null}
+          {this.renderCloseButton()}
+          {(hasEndActions || hasQueuedAlerts) && elWidth < widthBreakpoints.small ? (
+            <div class={CSS.footer}>
+              {this.renderActionsEnd()}
+              {hasQueuedAlerts && elWidth < widthBreakpoints.small ? this.renderQueueCount() : null}
             </div>
           ) : null}
-          <div class="alert-content">
-            <slot name={SLOTS.title} />
-            <slot name={SLOTS.message} />
-            <slot name={SLOTS.link} />
-          </div>
-          <div class={CSS.actionsEnd} hidden={!hasEndActions}>
-            {slotNode}
-          </div>
-          {this.queueLength > 1 ? queueCount : null}
-          {closeButton}
-          {open && !queued && autoClose ? <div class="alert-dismiss-progress" /> : null}
+          {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>
+    );
+  }
+
+  private renderCloseButton(): VNode {
+    return (
+      <button
+        aria-label={this.messages.close}
+        class={CSS.close}
+        onClick={this.closeAlert}
+        type="button"
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={(el) => (this.closeButton = el)}
+      >
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+      </button>
+    );
+  }
+
+  private renderQueueCount(): VNode {
+    const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
+    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
+
+    return (
+      <div
+        class={{
+          [CSS.queueCount]: true,
+          [CSS.queueCountActive]: this.queueLength > 1,
+        }}
+        key="queue-count"
+      >
+        <calcite-chip scale={this.scale} value={queueText}>
+          {queueText}
+        </calcite-chip>
+      </div>
+    );
+  }
+
+  private renderActionsEnd(): VNode {
+    return (
+      <div class={CSS.actionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.actionsEndSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  private renderIcon(icon: string): VNode {
+    return (
+      <div class={CSS.icon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={icon}
+          scale={this.scale === "l" ? "m" : "s"}
+        />
+      </div>
     );
   }
 
@@ -389,6 +420,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @Element() el: HTMLCalciteAlertElement;
 
+  @State() defaultMessages: AlertMessages;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -396,7 +429,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: AlertMessages;
+  @State() elWidth: number;
 
   @State() hasEndActions = false;
 
@@ -409,24 +442,26 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** is the alert queued */
   @State() queued = false;
 
-  /** the close button element */
-  private closeButton: HTMLButtonElement;
-
   private autoCloseTimeoutId: number = null;
 
-  private queueTimeout: number;
+  private breakpoints: Breakpoints;
+
+  private closeButton: HTMLButtonElement;
 
   private initialOpenTime: number;
 
   private lastMouseOverBegin: number;
 
+  private queueTimeout: number;
+
+  private resizeObserver = createObserver(
+    "resize",
+    (entries) => (this.elWidth = entries[0].contentRect.width)
+  );
+
   private totalOpenTime = 0;
 
   private totalHoverTime = 0;
-
-  /** the computed icon to render */
-  /* @internal */
-  @State() requestedIcon?: string;
 
   openTransitionProp = "opacity";
 
@@ -438,7 +473,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
