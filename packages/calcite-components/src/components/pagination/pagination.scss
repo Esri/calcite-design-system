@@ -1,42 +1,30 @@
 :host([scale="s"]) {
-  --calcite-pagination-spacing-internal: theme("spacing.1") theme("spacing.2");
   & .previous,
   & .next,
   & .page,
   & .ellipsis {
-    @apply text-n2h h-6;
-  }
-  .previous,
-  .next {
-    @apply px-1;
+    @apply text-n2h h-6 px-1;
+    min-inline-size: theme("width.6");
   }
 }
 
 :host([scale="m"]) {
-  --calcite-pagination-spacing-internal: theme("spacing.2") theme("spacing.3");
   & .previous,
   & .next,
   & .page,
   & .ellipsis {
-    @apply text-n1h h-8;
-  }
-  .previous,
-  .next {
-    @apply px-2;
+    @apply text-n1h h-8 px-2;
+    min-inline-size: theme("width.8");
   }
 }
 
 :host([scale="l"]) {
-  --calcite-pagination-spacing-internal: theme("spacing.3") theme("spacing.4");
   & .previous,
   & .next,
   & .page,
   & .ellipsis {
-    @apply text-0h h-11;
-  }
-  .previous,
-  .next {
-    @apply px-4;
+    @apply text-0h h-11 px-3;
+    min-inline-size: theme("width.11");
   }
 }
 
@@ -105,12 +93,9 @@
     }
   }
 }
+
 .next {
   margin-inline-end: theme("spacing.0");
-}
-.page,
-.ellipsis {
-  padding: var(--calcite-pagination-spacing-internal);
 }
 
 @include base-component();
