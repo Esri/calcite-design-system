@@ -1,4 +1,4 @@
 {
-  "extends": "./tsconfig-base",
+  "extends": "tsconfig/base",
   "include": ["src/demos", "src/components.d.ts"]
 }
