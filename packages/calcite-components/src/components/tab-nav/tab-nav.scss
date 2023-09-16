@@ -42,6 +42,19 @@
     ease-out;
 }
 
+calcite-icon {
+  @apply absolute;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+}
+calcite-icon[icon="chevron-right"] {
+  inset-inline-end: 0;
+}
+
+calcite-icon[icon="chevron-left"] {
+  inset-inline-start: 0;
+}
+
 :host([layout="center"]) .tab-nav {
   @apply justify-evenly;
 }

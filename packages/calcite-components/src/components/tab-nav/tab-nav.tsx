@@ -19,6 +19,7 @@ import {
 } from "../../utils/dom";
 import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { createObserver } from "../../utils/observers";
+import { ICONS } from "./resources";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
@@ -193,6 +194,7 @@ export class TabNav {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
+          {this.getOverflowIcons()}
         </div>
       </Host>
     );
@@ -326,6 +328,8 @@ export class TabNav {
     this.updateOffsetPosition();
 
     this.elWidth = entries[0].contentRect.width;
+
+    this.getOverflowIcons();
   });
 
   //--------------------------------------------------------------------------
@@ -333,6 +337,30 @@ export class TabNav {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private getOverflowIcons() {
+    const tabNavWidth = this.el.offsetWidth;
+
+    const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
+
+    const firstTitle = tabTitles[0].getBoundingClientRect();
+    const lastTitle = tabTitles[tabTitles.length - 1].getBoundingClientRect();
+
+    const isOverflowingRight = lastTitle.right > tabNavWidth;
+    const isOverflowingLeft = firstTitle.left < 0;
+    const rightArrow = (
+      <calcite-icon icon={ICONS.arrowRight} scale={this.scale === "l" ? "m" : "s"} />
+    );
+    const leftArrow = (
+      <calcite-icon icon={ICONS.arrowLeft} scale={this.scale === "l" ? "m" : "s"} />
+    );
+
+    return isOverflowingRight && !isOverflowingLeft
+      ? rightArrow
+      : isOverflowingLeft && !isOverflowingRight
+      ? leftArrow
+      : [rightArrow, leftArrow];
+  }
 
   handleTabFocus = (
     event: CustomEvent,
