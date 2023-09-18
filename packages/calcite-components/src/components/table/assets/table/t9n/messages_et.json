@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Tühista",
+  "hiddenSelected": "Read on valitud, kuid vaatest väljas",
+  "page": "Lehekülg",
+  "row": "Rida",
+  "selected": "Valitud"
 }
