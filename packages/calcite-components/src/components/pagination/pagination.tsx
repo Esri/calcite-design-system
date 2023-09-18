@@ -123,8 +123,6 @@ export class Pagination
   //
   // --------------------------------------------------------------------------
 
-  private breakpoints: Breakpoints;
-
   @Element() el: HTMLCalcitePaginationElement;
 
   @State() defaultMessages: PaginationMessages;
@@ -148,6 +146,8 @@ export class Pagination
   @State() maxItems = maxItemBreakpoints.xsmall;
 
   @State() totalPages: number;
+
+  private breakpoints: Breakpoints;
 
   private resizeObserver = createObserver("resize", (entries) =>
     entries.forEach(this.resizeHandler)
@@ -185,7 +185,7 @@ export class Pagination
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.resize(this.el.clientWidth);
+    this.setMaxItemsToBreakpoint(this.el.clientWidth);
   }
 
   disconnectedCallback(): void {
@@ -225,7 +225,7 @@ export class Pagination
   //
   // --------------------------------------------------------------------------
 
-  private resize(width: number): void {
+  private setMaxItemsToBreakpoint(width: number): void {
     const { breakpoints } = this;
 
     if (!breakpoints || !width) {
@@ -251,7 +251,7 @@ export class Pagination
   }
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
-    this.resize(width);
+    this.setMaxItemsToBreakpoint(width);
 
   private getLastStart(): number {
     const { totalItems, pageSize, totalPages } = this;
