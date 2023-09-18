@@ -77,7 +77,7 @@
 :host {
   @apply mx-auto hidden max-w-full items-center;
   inline-size: var(--calcite-notice-width);
-  container: host / inline-size;
+  container: responsive-container / inline-size;
 }
 
 .container {
@@ -195,7 +195,7 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
   block-size: var(--calcite-notice-footer-height);
 }
 
-@container host (min-width: #{$breakpoint-width-xs}) {
+@container responsive-container (min-width: #{$breakpoint-width-xs}) {
   .content {
     @apply flex-row;
   }
@@ -212,7 +212,7 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
   }
 }
 
-@container host (min-width: #{$breakpoint-width-sm}) {
+@container responsive-container (min-width: #{$breakpoint-width-sm}) {
   .icon {
     padding-inline: var(--calcite-notice-spacing-token-large) 0;
   }
