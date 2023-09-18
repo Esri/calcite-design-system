@@ -573,11 +573,10 @@ export class Dropdown
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
-    const target = event.target as HTMLElement;
-
-    if (target !== this.referenceEl) {
+    if (!event.composedPath().includes(this.referenceEl)) {
       return;
     }
+
     const { defaultPrevented, key } = event;
 
     if (defaultPrevented) {
