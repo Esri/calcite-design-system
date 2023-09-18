@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   env: {
-    "jest/globals": true
+    "jest/globals": true,
   },
   extends: [
     "plugin:@cspell/recommended",
@@ -10,7 +10,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
     "plugin:jsdoc/recommended",
-    "prettier"
+    "prettier",
   ],
   ignorePatterns: ["dist", "docs", "hydrate", "www"],
   parser: "@typescript-eslint/parser",
@@ -18,7 +18,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ["tsconfig-eslint.json"],
     ecmaVersion: 2021,
-    sourceType: "module"
+    sourceType: "module",
   },
   plugins: [
     "@esri/calcite-components",
@@ -28,19 +28,19 @@ module.exports = {
     "jest",
     "jsdoc",
     "prettier",
-    "unicorn"
+    "unicorn",
   ],
   rules: {
     "@esri/calcite-components/ban-events": [
       "warn",
       {
         event: "keyup",
-        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
       },
       {
         event: "keypress",
-        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
-      }
+        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
+      },
     ],
     "@stencil-community/decorators-context": "off",
     "@stencil-community/decorators-style": "warn",
@@ -64,9 +64,9 @@ module.exports = {
           "componentDidLoad",
           "componentWillUpdate",
           "componentDidUpdate",
-          "render"
-        ]
-      }
+          "render",
+        ],
+      },
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "error",
@@ -77,6 +77,8 @@ module.exports = {
     "jsdoc/check-tag-names": "off",
     "jsdoc/require-jsdoc": "off",
     "jsdoc/require-param-type": "off",
+    "jsdoc/require-property-type": "off",
+    "jsdoc/require-returns-type": "off",
     "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
     "lines-between-class-members": ["error", "always"],
     "no-eval": "error",
@@ -84,8 +86,8 @@ module.exports = {
     "no-multiple-empty-lines": [
       "error",
       {
-        max: 1
-      }
+        max: 1,
+      },
     ],
     "no-new-func": "error",
     "no-unneeded-ternary": "error",
@@ -96,14 +98,14 @@ module.exports = {
         forbid: [
           {
             propName: "onKeyPress",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
           },
           {
             propName: "onKeyUp",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
-          }
-        ]
-      }
+            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
+          },
+        ],
+      },
     ],
     "react/forbid-dom-props": [
       "warn",
@@ -111,14 +113,14 @@ module.exports = {
         forbid: [
           {
             propName: "onKeyPress",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
           },
           {
             propName: "onKeyUp",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc)."
-          }
-        ]
-      }
+            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc).",
+          },
+        ],
+      },
     ],
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
@@ -129,27 +131,27 @@ module.exports = {
       "error",
       {
         allowList: {
-          e2ePage: true
+          e2ePage: true,
         },
         extendDefaultReplacements: false,
         replacements: {
           e: {
             error: true,
-            event: true
-          }
+            event: true,
+          },
         },
         checkProperties: false,
-        checkFilenames: false
-      }
-    ]
+        checkFilenames: false,
+      },
+    ],
   },
   settings: {
     react: {
-      pragma: "h"
+      pragma: "h",
     },
     jsdoc: {
       ignoreInternal: true,
-      ignorePrivate: true
-    }
-  }
+      ignorePrivate: true,
+    },
+  },
 };

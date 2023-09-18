@@ -1,4 +1,4 @@
-interface Breakpoints {
+export interface Breakpoints {
   width: {
     large: number;
     medium: number;
