@@ -17,7 +17,7 @@ import {
   FocusElementInGroupDestination,
   getElementDir,
 } from "../../utils/dom";
-import { Breakpoints, getBreakpoints } from "../../utils/responsive";
+// import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { createObserver } from "../../utils/observers";
 import { ICONS } from "./resources";
 import { Scale } from "../interfaces";
@@ -133,7 +133,7 @@ export class TabNav {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTabId = storedTab;
     }
-    this.breakpoints = await getBreakpoints();
+    // this.breakpoints = await getBreakpoints();
   }
 
   componentWillRender(): void {
@@ -313,7 +313,7 @@ export class TabNav {
 
   animationActiveDuration = 0.3;
 
-  private breakpoints: Breakpoints;
+  // private breakpoints: Breakpoints;
 
   @State() elWidth: number;
 
@@ -349,7 +349,11 @@ export class TabNav {
     const isOverflowingRight = lastTitle.right > tabNavWidth;
     const isOverflowingLeft = firstTitle.left < 0;
     const rightArrow = (
-      <calcite-icon icon={ICONS.arrowRight} scale={this.scale === "l" ? "m" : "s"} />
+      <calcite-icon
+        icon={ICONS.arrowRight}
+        onClick={this.scrollToNextTabTitles}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
     );
     const leftArrow = (
       <calcite-icon icon={ICONS.arrowLeft} scale={this.scale === "l" ? "m" : "s"} />
@@ -361,6 +365,40 @@ export class TabNav {
       ? leftArrow
       : [rightArrow, leftArrow];
   }
+
+  private scrollToNextTabTitles = (): void => {
+    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
+    const mobilePageWidth = window.innerWidth;
+
+    let lastVisibleTabTitleIndex = -1;
+    let scrollAmount = 0;
+
+    // Find the index of the last tab title visible within the mobile-sized tab nav
+    for (let i = 0; i < tabTitles.length; i++) {
+      const tabTitle = tabTitles[i];
+      const tabTitleRect = tabTitle.getBoundingClientRect();
+
+      if (tabTitleRect.right <= mobilePageWidth) {
+        lastVisibleTabTitleIndex = i;
+      } else {
+        break;
+      }
+    }
+
+    // Calculate the scroll amount to bring the next set of tab titles into view
+    if (lastVisibleTabTitleIndex !== -1) {
+      const nextTabTitleIndex = lastVisibleTabTitleIndex + 1;
+      const nextTabTitle = tabTitles[nextTabTitleIndex];
+      if (nextTabTitle) {
+        const nextTabTitleRect = nextTabTitle.getBoundingClientRect();
+        scrollAmount = nextTabTitleRect.left - this.el.getBoundingClientRect().left;
+      }
+    }
+
+    requestAnimationFrame(() => {
+      this.tabNavEl.scrollLeft += scrollAmount;
+    });
+  };
 
   handleTabFocus = (
     event: CustomEvent,
