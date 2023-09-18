@@ -147,8 +147,13 @@ export const filterComponentAttributes = (
  * This helper creates a story that captures all breakpoints across all scales for testing.
  *
  * @param singleStoryHtml – HTML story template with placeholders for `scale` attributes (e.g., `{scale}`).
+ * @param [focused] – when specified, creates a single story for the provided breakpoint and scale.
+ *   This should only be used if multiple stories cannot be displayed side-by-side.
  */
-export function createBreakpointStories(singleStoryHtml: string): string {
+export function createBreakpointStories(
+  singleStoryHtml: string,
+  focused?: { breakpoint: keyof Breakpoints["width"]; scale: Scale }
+): string {
   // we hard-code breakpoint values because we can't read them directly from the page when setting up a story
   // based on https://github.com/Esri/calcite-design-tokens/blob/2e8fc1b8f410b5443fa53ca1c12ceef71e651b9a/tokens/core.json#L1533-L1553
   const widthBreakpoints: { name: keyof Breakpoints["width"]; maxWidth: number }[] = [
@@ -158,7 +163,7 @@ export function createBreakpointStories(singleStoryHtml: string): string {
     { name: "large", maxWidth: 1440 },
   ];
   const scales: Scale[] = ["s", "m", "l"];
-  const placeholderPattern = /\{([^}]+)\}(?!\$)/g;
+  const placeholderPattern = /"\{([^}]+)\}"/g;
   const css = {
     storiesContainer: "breakpoint-stories-container",
     storyContainer: "breakpoint-story-container",
@@ -166,18 +171,22 @@ export function createBreakpointStories(singleStoryHtml: string): string {
 
   let storyHTML = "";
 
-  scales.forEach((scale): void => {
-    storyHTML += html`<strong>scale = ${scale}</strong>`;
+  scales
+    .filter((scale): boolean => !focused || focused.scale === scale)
+    .forEach((scale): void => {
+      storyHTML += html`<strong>scale = ${scale}</strong>`;
 
-    widthBreakpoints.forEach(({ name, maxWidth }): void => {
-      storyHTML += html`<strong>breakpoint = ${name}</strong>`;
-      storyHTML += html`<div class="${css.storyContainer}" style="width:${maxWidth - 1}px">
-        ${singleStoryHtml.replace(placeholderPattern, (_match, placeholder: string) =>
-          placeholder === "scale" ? scale : placeholder
-        )}
-      </div>`;
+      widthBreakpoints
+        .filter(({ name }): boolean => !focused || focused.breakpoint === name)
+        .forEach(({ name, maxWidth }): void => {
+          storyHTML += html`<strong>breakpoint = ${name}</strong>`;
+          storyHTML += html`<div class="${css.storyContainer}" style="width:${maxWidth - 1}px">
+            ${singleStoryHtml.replace(placeholderPattern, (_match, placeholder: string) =>
+              placeholder === "scale" ? scale : placeholder
+            )}
+          </div>`;
+        });
     });
-  });
 
   return html`<div class="${css.storiesContainer}">
     <style>

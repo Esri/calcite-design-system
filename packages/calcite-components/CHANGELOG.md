@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.0...@esri/calcite-components@1.9.0-next.1) (2023-09-18)
+
+### Bug Fixes
+
+- **dropdown:** support dispatching enter key event on dropdown trigger ([#7752](https://github.com/Esri/calcite-design-system/issues/7752)) ([ba92463](https://github.com/Esri/calcite-design-system/commit/ba92463b5221e4e10967be9560e8be59024d2d1c)), closes [#5689](https://github.com/Esri/calcite-design-system/issues/5689)
+
+## [1.9.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.1-next.1...@esri/calcite-components@1.9.0-next.0) (2023-09-16)
+
+### Features
+
+- **input-time-zone:** add max-items support ([#7705](https://github.com/Esri/calcite-design-system/issues/7705)) ([c698c27](https://github.com/Esri/calcite-design-system/commit/c698c278e591b9456e542ab414185d6f532008dd)), closes [#7738](https://github.com/Esri/calcite-design-system/issues/7738)
+
+## [1.8.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.1-next.0...@esri/calcite-components@1.8.1-next.1) (2023-09-12)
+
+### Bug Fixes
+
+- **combobox:** clears input value on blur ([#7721](https://github.com/Esri/calcite-design-system/issues/7721)) ([e04cc4e](https://github.com/Esri/calcite-design-system/commit/e04cc4e1015b4c4d335b243fa4e689b5451f3089)), closes [#2162](https://github.com/Esri/calcite-design-system/issues/2162)
+
+## [1.8.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0...@esri/calcite-components@1.8.1-next.0) (2023-09-08)
+
+### Bug Fixes
+
+- **combobox:** fix filtering to avoid showing unrelated items ([#7704](https://github.com/Esri/calcite-design-system/issues/7704)) ([b6d32f3](https://github.com/Esri/calcite-design-system/commit/b6d32f30a26f0dca784052c9a478f89c3c47a28a)), closes [#6814](https://github.com/Esri/calcite-design-system/issues/6814)
+
 ## [1.8.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.7.0...@esri/calcite-components@1.8.0) (2023-09-06)
 
 ### Features

@@ -143,6 +143,53 @@ describe("calcite-combobox", () => {
     disabled("calcite-combobox");
   });
 
+  it("filter properly when items have duplicate values with parents", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`
+        <calcite-combobox>
+          <calcite-combobox-item-group label="arcgis-app-identity">
+            <calcite-combobox-item
+              value="./html/arcgis-app-identity/index.html"
+              text-label="index.html"
+            ></calcite-combobox-item>
+          </calcite-combobox-item-group>
+          <calcite-combobox-item-group label="arcgis-configuration-editor">
+            <calcite-combobox-item
+              value="./html/arcgis-configuration-editor/composite-field-editor.html"
+              text-label="composite-field-editor.html"
+            ></calcite-combobox-item>
+            <calcite-combobox-item
+              value="./html/arcgis-configuration-editor/index.html"
+              text-label="index.html"
+            ></calcite-combobox-item>
+            <calcite-combobox-item
+              value="./html/arcgis-configuration-editor/rule-editor.html"
+              text-label="rule-editor.html"
+            ></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox>
+      `
+    );
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.click();
+    await page.waitForChanges();
+    await combobox.type("conf");
+    await page.waitForChanges();
+
+    const items = await page.findAll("calcite-combobox-item");
+    const groups = await page.findAll("calcite-combobox-item-group");
+
+    expect(await groups[0].isVisible()).toBe(false);
+    expect(await items[0].isVisible()).toBe(false);
+
+    expect(await groups[1].isVisible()).toBe(true);
+    expect(await items[1].isVisible()).toBe(true);
+    expect(await items[2].isVisible()).toBe(true);
+    expect(await items[3].isVisible()).toBe(true);
+  });
+
   it("filtering does not match property with value of undefined", async () => {
     const page = await newE2EPage({
       html: html`
@@ -1040,6 +1087,31 @@ describe("calcite-combobox", () => {
       expect(eventSpy).toHaveReceivedEventTimes(2);
     });
 
+    it("should clear the input on blur when filtered items are empty", async () => {
+      await page.waitForChanges();
+      const combobox = await page.find("calcite-combobox");
+      const inputEl = await page.find(`#myCombobox >>> input`);
+
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+      await page.keyboard.type("asdf");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await combobox.getProperty("value")).toBe("");
+
+      combobox.setProperty("selectionMode", "single");
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+      await page.keyboard.type("asdf");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await combobox.getProperty("value")).toBe("");
+    });
+
     describe("keyboard interaction with chips", () => {
       let element;
       let chips;
@@ -1761,6 +1833,66 @@ describe("calcite-combobox", () => {
     comboboxItems.forEach(async (item) => {
       expect(await item.getProperty("selectionMode")).toBe("single");
       expect(await item.getProperty("scale")).toBe("l");
+    });
+  });
+
+  describe("clicked outside", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox id="myCombobox">
+            <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
+          </calcite-combobox>
+          <calcite-button id="button">click me</calcite-button>
+        `
+      );
+    });
+
+    async function assertClickOutside(selectionMode = "multiple", allowCustomValues = false): Promise<void> {
+      const combobox = await page.find("calcite-combobox");
+      combobox.setProperty("selectionMode", selectionMode);
+      combobox.setProperty("allowCustomValues", allowCustomValues);
+      const inputEl = await page.find(`#myCombobox >>> input`);
+      const buttonEl = await page.find("calcite-button");
+
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+      await inputEl.type("asdf");
+      await page.waitForChanges();
+
+      if (allowCustomValues) {
+        await inputEl.press("Enter");
+        await buttonEl.click();
+        await page.waitForChanges();
+        expect(await page.evaluate(() => document.activeElement.id)).toBe("button");
+        expect(await combobox.getProperty("value")).toBe("asdf");
+      } else {
+        await buttonEl.click();
+        await page.waitForChanges();
+        expect(await page.evaluate(() => document.activeElement.id)).toBe("button");
+        expect(await combobox.getProperty("value")).toBe("");
+      }
+    }
+
+    it("should clear input value in single selectionMode", async () => {
+      await assertClickOutside("single");
+    });
+
+    it("should not clear input value in single selectionMode with allowCustomValues", async () => {
+      await assertClickOutside("single", true);
+    });
+
+    it("should clear input value in multiple selectionMode", async () => {
+      await assertClickOutside();
+    });
+
+    it("should not clear input value in multiple selectionMode with allowCustomValues", async () => {
+      await assertClickOutside("multiple", true);
     });
   });
 });

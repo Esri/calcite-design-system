@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "alla",
+  "keyboardDeselectAll": "Tryck på retur eller blanksteg om du vill avmarkera alla rader",
+  "keyboardSelectAll": "Tryck på retur eller blanksteg om du vill markera alla rader",
+  "rowNumber": "Radnummer",
+  "selected": "markerade rader",
+  "selectionColumn": "Urvalskolumn"
 }
