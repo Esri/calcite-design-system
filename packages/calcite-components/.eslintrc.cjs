@@ -77,6 +77,7 @@ module.exports = {
     "jsdoc/check-tag-names": "off",
     "jsdoc/require-jsdoc": "off",
     "jsdoc/require-param-type": "off",
+    "jsdoc/require-property-type": "off",
     "jsdoc/require-returns-type": "off",
     "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
     "lines-between-class-members": ["error", "always"],
