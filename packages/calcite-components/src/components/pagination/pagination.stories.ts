@@ -60,31 +60,31 @@ const getResponsiveTemplate = ({
   `;
 };
 
-export const responsiveLargeNumberFirstPage = (): string =>
+export const responsiveLargeNumberFirstPage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "first" }));
 
-export const responsiveLargeNumberMiddlePage = (): string =>
+export const responsiveLargeNumberMiddlePage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "middle" }));
 
-export const responsiveLargeNumberLastPage = (): string =>
+export const responsiveLargeNumberLastPage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "last" }));
 
-export const responsiveSmallNumberFirstPage = (): string =>
+export const responsiveSmallNumberFirstPage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "first" }));
 
-export const responsiveSmallNumberMiddlePage = (): string =>
+export const responsiveSmallNumberMiddlePage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "middle" }));
 
-export const responsiveSmallNumberLastPage = (): string =>
+export const responsiveSmallNumberLastPage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "last" }));
 
-export const responsiveTinyNumberFirstPage = (): string =>
+export const responsiveTinyNumberFirstPage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "first" }));
 
-export const responsiveTinyNumberMiddlePage = (): string =>
+export const responsiveTinyNumberMiddlePage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "middle" }));
 
-export const responsiveTinyNumberLastPage = (): string =>
+export const responsiveTinyNumberLastPage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "last" }));
 
 export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
