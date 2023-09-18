@@ -60,31 +60,31 @@ const getResponsiveTemplate = ({
   `;
 };
 
-export const responsiveLargeNumberFirst = (): string =>
+export const responsiveLargeNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "first" }));
 
-export const responsiveLargeNumberMiddle = (): string =>
+export const responsiveLargeNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "middle" }));
 
-export const responsiveLargeNumberEnd = (): string =>
+export const responsiveLargeNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "last" }));
 
-export const responsiveSmallNumberFirst = (): string =>
+export const responsiveSmallNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "first" }));
 
-export const responsiveSmallNumberMiddle = (): string =>
+export const responsiveSmallNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "middle" }));
 
-export const responsiveSmallNumberLast = (): string =>
+export const responsiveSmallNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "last" }));
 
-export const responsiveTinyNumberFirst = (): string =>
+export const responsiveTinyNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "first" }));
 
-export const responsiveTinyNumberMiddle = (): string =>
+export const responsiveTinyNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "middle" }));
 
-export const responsiveTinyNumberLast = (): string =>
+export const responsiveTinyNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "last" }));
 
 export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
