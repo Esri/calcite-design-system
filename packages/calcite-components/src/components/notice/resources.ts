@@ -7,11 +7,11 @@ export const SLOTS = {
 
 export const CSS = {
   actionsEnd: "actions-end",
-  close: "notice-close",
+  close: "close",
   container: "container",
-  content: "notice-content",
+  content: "content",
   contentContainer: "content-container",
   footer: "footer",
-  icon: "notice-icon",
+  icon: "icon",
   textContainer: "text-container",
 };
