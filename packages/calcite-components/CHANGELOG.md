@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.1-next.1...@esri/calcite-components@1.9.0-next.0) (2023-09-16)
+
+### Features
+
+- **input-time-zone:** add max-items support ([#7705](https://github.com/Esri/calcite-design-system/issues/7705)) ([c698c27](https://github.com/Esri/calcite-design-system/commit/c698c278e591b9456e542ab414185d6f532008dd)), closes [#7738](https://github.com/Esri/calcite-design-system/issues/7738)
+
 ## [1.8.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.1-next.0...@esri/calcite-components@1.8.1-next.1) (2023-09-12)
 
 ### Bug Fixes
