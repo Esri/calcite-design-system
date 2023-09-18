@@ -213,7 +213,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     };
 
     const { hasEndActions } = this;
-    const { open, autoClose, elWidth, label, placement, queued } = this;
+    const { open, autoClose, responsiveContainerWidth, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const widthBreakpoints = this.breakpoints.width;
     const hidden = !open;
@@ -240,11 +240,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           ref={this.setTransitionEl}
         >
           <div class={CSS.contentContainer}>
-            {effectiveIcon && elWidth >= widthBreakpoints.small
+            {effectiveIcon && responsiveContainerWidth >= widthBreakpoints.small
               ? this.renderIcon(effectiveIcon)
               : null}
             <div class={CSS.content}>
-              {effectiveIcon && elWidth < widthBreakpoints.small
+              {effectiveIcon && responsiveContainerWidth < widthBreakpoints.small
                 ? this.renderIcon(effectiveIcon)
                 : null}
               <div class={CSS.textContainer}>
@@ -254,13 +254,20 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
               </div>
             </div>
           </div>
-          {hasEndActions && elWidth >= widthBreakpoints.small ? this.renderActionsEnd() : null}
-          {hasQueuedAlerts && elWidth >= widthBreakpoints.small ? this.renderQueueCount() : null}
+          {hasEndActions && responsiveContainerWidth >= widthBreakpoints.small
+            ? this.renderActionsEnd()
+            : null}
+          {hasQueuedAlerts && responsiveContainerWidth >= widthBreakpoints.small
+            ? this.renderQueueCount()
+            : null}
           {this.renderCloseButton()}
-          {(hasEndActions || hasQueuedAlerts) && elWidth < widthBreakpoints.small ? (
+          {(hasEndActions || hasQueuedAlerts) &&
+          responsiveContainerWidth < widthBreakpoints.small ? (
             <div class={CSS.footer}>
               {this.renderActionsEnd()}
-              {hasQueuedAlerts && elWidth < widthBreakpoints.small ? this.renderQueueCount() : null}
+              {hasQueuedAlerts && responsiveContainerWidth < widthBreakpoints.small
+                ? this.renderQueueCount()
+                : null}
             </div>
           ) : null}
           {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
@@ -429,8 +436,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() elWidth: number;
-
   @State() hasEndActions = false;
 
   /** the list of queued alerts */
@@ -441,6 +446,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   /** is the alert queued */
   @State() queued = false;
+
+  @State() responsiveContainerWidth: number;
 
   private autoCloseTimeoutId: number = null;
 
@@ -456,7 +463,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private resizeObserver = createObserver(
     "resize",
-    (entries) => (this.elWidth = entries[0].contentRect.width)
+    (entries) => (this.responsiveContainerWidth = entries[0].contentRect.width)
   );
 
   private totalOpenTime = 0;
