@@ -45,7 +45,9 @@
 .next,
 .page,
 .ellipsis {
-  @apply text-0h
+  @apply p-0
+    m-0
+    text-0h
     text-color-3
     font-inherit
     box-border

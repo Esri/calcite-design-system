@@ -47,9 +47,9 @@ const firstAndLastPageCount = 2;
 const ellipsisCount = 2;
 
 const maxItemBreakpoints = {
-  large: 17,
-  medium: 13,
-  small: 9,
+  large: 11,
+  medium: 9,
+  small: 7,
   xsmall: 5,
 };
 
