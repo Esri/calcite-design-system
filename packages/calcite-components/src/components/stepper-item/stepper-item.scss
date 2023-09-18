@@ -273,9 +273,6 @@
     padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
     text-align: start;
   }
-  .stepper-item-icon--navigation {
-    display: none;
-  }
 }
 
 :host([layout="horizontal"][disabled]) {
@@ -323,6 +320,10 @@
 :host([layout="horizontal"][error]:hover:not([disabled]):not([selected])) .stepper-item-header,
 :host([layout="horizontal"][error]:focus:not([disabled]):not([selected])) .stepper-item-header {
   @apply border-color-danger-hover;
+}
+
+:host([layout="horizontal"][responsive-mode]) .stepper-item-header {
+  inline-size: 100%;
 }
 
 @media (forced-colors: active) {

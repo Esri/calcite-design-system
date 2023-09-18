@@ -198,6 +198,16 @@ export class Stepper {
     this.calciteStepperItemChange.emit();
   }
 
+  @Listen("calciteInternalStepperItemNext")
+  handleUserRequestedStepperItemNext(): void {
+    this.nextStep();
+  }
+
+  @Listen("calciteInternalStepperItemPrevious")
+  handleUserRequestedStepperItemPrevious(): void {
+    this.prevStep();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -283,7 +293,12 @@ export class Stepper {
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
   /** keep track of the currently active item position */
-  private currentPosition: number;
+  @State() currentPosition: number;
+
+  @Watch("currentPosition")
+  handlePositionChange(): void {
+    this.determineActiveStepper();
+  }
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -320,22 +335,39 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   private determineActiveStepper(): void {
-    if (!this.breakpoints || !this.documentWidth) {
+    if (
+      !this.breakpoints ||
+      !this.documentWidth ||
+      !this.items.length ||
+      this.layout !== "horizontal"
+    ) {
       return;
     }
     //hide all other stepper items
     //show only active/selected one
     //display chevrons
+    console.log("activePosition", this.currentPosition);
     if (this.documentWidth < this.breakpoints.width.xsmall) {
+      this.el.style.gridTemplateColumns = "none";
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
+        this.el.style.display = "flex";
         if (index !== this.currentPosition) {
           item.style.display = "none";
+        } else {
+          item.style.display = "flex";
+          item.responsiveMode = true;
         }
       });
     } else if (this.documentWidth > this.breakpoints.width.xsmall) {
+      this.el.style.display = "grid";
+
+      if (this.items.length) {
+        this.setGridTemplateColumns(this.items);
+      }
       this.items.forEach((item: HTMLCalciteStepperItemElement) => {
         if (item.style.display === "none") {
           item.style.display = "contents";
+          item.responsiveMode = false;
         }
       });
     }
@@ -391,10 +423,14 @@ export class Stepper {
     const items = slotChangeGetAssignedElements(event).filter(
       (el) => el?.tagName === "CALCITE-STEPPER-ITEM"
     );
+    this.setGridTemplateColumns(items);
+    this.setStepperItemNumberingSystem();
+    this.determineActiveStepper();
+  };
+
+  setGridTemplateColumns = (items: Element[]): void => {
     const spacing = Array(items.length).fill("1fr").join(" ");
     // this.el.style.gridTemplateAreas = spacing;
     this.el.style.gridTemplateColumns = spacing;
-    this.setStepperItemNumberingSystem();
-    this.determineActiveStepper();
   };
 }

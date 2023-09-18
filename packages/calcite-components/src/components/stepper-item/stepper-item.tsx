@@ -123,6 +123,11 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * @internal
+   */
+  @Prop({ reflect: true }) responsiveMode = false;
+
   //--------------------------------------------------------------------------
   //
   //  Internal State/Props
@@ -171,6 +176,18 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
    */
   @Event({ cancelable: false })
   calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false })
+  calciteInternalStepperItemNext: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false })
+  calciteInternalStepperItemPrevious: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -332,14 +349,25 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   private renderNavigationIcon(orientation: "start" | "end"): VNode {
     const path = orientation === "start" ? "chevron-left" : "chevron-right";
-    return this.layout === "horizontal" ? (
+    return this.layout === "horizontal" && this.responsiveMode ? (
       <calcite-icon
-        class="stepper-item-icon--navigation"
         flipRtl={this.iconFlipRtl}
         icon={path}
+        // eslint-disable-next-line react/jsx-no-bind
+        onClick={(event) => this.handleNavigationClick(event, orientation)}
         scale="s"
       />
     ) : null;
+  }
+
+  private handleNavigationClick(event: MouseEvent, orientation: "start" | "end"): void {
+    console.log("clicked");
+    event.stopPropagation();
+    if (orientation === "start") {
+      this.calciteInternalStepperItemPrevious.emit();
+    } else {
+      this.calciteInternalStepperItemNext.emit();
+    }
   }
 
   private determineSelectedItem(): void {
