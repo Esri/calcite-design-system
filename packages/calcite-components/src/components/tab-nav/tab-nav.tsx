@@ -356,7 +356,11 @@ export class TabNav {
       />
     );
     const leftArrow = (
-      <calcite-icon icon={ICONS.arrowLeft} scale={this.scale === "l" ? "m" : "s"} />
+      <calcite-icon
+        icon={ICONS.arrowLeft}
+        onClick={this.scrollToPreviousTabTitles}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
     );
 
     return isOverflowingRight && !isOverflowingLeft
@@ -392,6 +396,39 @@ export class TabNav {
       if (nextTabTitle) {
         const nextTabTitleRect = nextTabTitle.getBoundingClientRect();
         scrollAmount = nextTabTitleRect.left - this.el.getBoundingClientRect().left;
+      }
+    }
+
+    requestAnimationFrame(() => {
+      this.tabNavEl.scrollLeft += scrollAmount;
+    });
+  };
+
+  private scrollToPreviousTabTitles = (): void => {
+    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
+    const mobilePageWidth = window.innerWidth;
+
+    let firstVisibleTabTitleIndex = -1;
+    let scrollAmount = 0;
+
+    // Find the index of the first tab title visible within the mobile-sized tab nav
+    for (let i = 0; i < tabTitles.length; i++) {
+      const tabTitle = tabTitles[i];
+      const tabTitleRect = tabTitle.getBoundingClientRect();
+
+      if (tabTitleRect.left >= 0) {
+        firstVisibleTabTitleIndex = i;
+        break;
+      }
+    }
+
+    // Calculate the scroll amount to bring the previous set of tab titles into view
+    if (firstVisibleTabTitleIndex !== 0) {
+      const previousTabTitleIndex = firstVisibleTabTitleIndex - 1;
+      const previousTabTitle = tabTitles[previousTabTitleIndex];
+      if (previousTabTitle) {
+        const previousTabTitleRect = previousTabTitle.getBoundingClientRect();
+        scrollAmount = previousTabTitleRect.right - mobilePageWidth;
       }
     }
 
