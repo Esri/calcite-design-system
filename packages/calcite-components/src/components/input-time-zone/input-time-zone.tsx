@@ -80,6 +80,9 @@ export class InputTimeZone
    */
   @Prop({ reflect: true }) form: string;
 
+  /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
+  @Prop({ reflect: true }) maxItems = 0;
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -301,6 +304,7 @@ export class InputTimeZone
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
           lang={this.effectiveLocale}
+          maxItems={this.maxItems}
           onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
           onCalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
           onCalciteComboboxChange={this.onComboboxChange}
