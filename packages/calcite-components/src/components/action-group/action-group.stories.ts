@@ -22,6 +22,32 @@ export const honorsFlexGrow = (): string => html`<style>
     <calcite-action icon="bluetooth" alignment="center"></calcite-action>
   </calcite-action-group>`;
 
+export const withoutDefinedGridGap = (): string => html` <calcite-action-group layout="grid">
+  <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
+  <calcite-action text="Save" icon="chevron-up"></calcite-action>
+  <calcite-action text="Layers" icon="arrow-up-right"></calcite-action>
+  <calcite-action text="Basemaps" icon="chevron-left"></calcite-action>
+  <calcite-action text="Layers" icon="layers"></calcite-action>
+  <calcite-action text="Basemaps" icon="chevron-right"></calcite-action>
+  <calcite-action text="Basemaps" icon="arrow-down-left"></calcite-action>
+  <calcite-action text="Layers" icon="chevron-down"></calcite-action>
+  <calcite-action text="Basemaps" icon="arrow-down-right"></calcite-action>
+</calcite-action-group>`;
+
+export const withDefinedGridGap = (): string => html`
+  <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0; --calcite-action-group-padding:0;">
+    <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
+    <calcite-action text="Save" icon="chevron-up"></calcite-action>
+    <calcite-action text="Layers" icon="arrow-up-right"></calcite-action>
+    <calcite-action text="Basemaps" icon="chevron-left"></calcite-action>
+    <calcite-action text="Layers" icon="layers"></calcite-action>
+    <calcite-action text="Basemaps" icon="chevron-right"></calcite-action>
+    <calcite-action text="Basemaps" icon="arrow-down-left"></calcite-action>
+    <calcite-action text="Layers" icon="chevron-down"></calcite-action>
+    <calcite-action text="Basemaps" icon="arrow-down-right"></calcite-action>
+  </calcite-action-group>
+`;
+
 export const gridCenteringOfActionsInAGroup = (): string => html`
   <div style="width:400px">
     <calcite-action-group layout="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
