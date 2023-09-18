@@ -1,3 +1,8 @@
+:host {
+  @apply flex flex-1;
+  writing-mode: horizontal-tb;
+}
+
 :host([scale="s"]) {
   & .previous,
   & .next,
@@ -26,11 +31,6 @@
     @apply text-0h h-11 px-3;
     min-inline-size: theme("width.11");
   }
-}
-
-:host {
-  @apply flex flex-1;
-  writing-mode: horizontal-tb;
 }
 
 // focus styles
@@ -77,6 +77,7 @@
     @apply text-color-1 border-b-color-brand font-medium;
   }
 }
+
 .previous,
 .next {
   &:hover {
@@ -92,10 +93,6 @@
       @apply opacity-disabled;
     }
   }
-}
-
-.next {
-  margin-inline-end: theme("spacing.0");
 }
 
 @include base-component();
