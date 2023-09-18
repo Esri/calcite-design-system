@@ -1,5 +1,8 @@
 {
   "extends": "tsconfig/base",
+  "compilerOptions": {
+    "jsxFactory": "h"
+  },
   "include": ["src"],
   "exclude": ["src/demos/**/*", "src/tests/**/*", "src/**/shared-list-tests.ts", "src/**/*.stories.ts"]
 }

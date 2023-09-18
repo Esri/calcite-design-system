@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   root: true,
   env: {
     "jest/globals": true,
@@ -12,14 +12,8 @@ export default {
     "plugin:jsdoc/recommended",
     "prettier",
   ],
-  ignorePatterns: ["dist", "bin", "node_modules", "docs", "hydrate", "www"],
+  ignorePatterns: ["bin", "dist", "docs", "hydrate", "node_modules", "www"],
   parser: "@typescript-eslint/parser",
-  parserOptions: {
-    tsconfigRootDir: __dirname,
-    project: ["tsconfig-eslint.json"],
-    ecmaVersion: 2021,
-    sourceType: "module",
-  },
   plugins: [
     "@esri/calcite-components",
     "@typescript-eslint",

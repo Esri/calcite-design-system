@@ -421,7 +421,7 @@ For such cases, the following pattern will enable developers to create custom ch
 - Must provide a `customItemSelectors` property to allow querying for custom elements in addition to their expected children.
 - An interface for the class (used by custom item classes) and element (used by parent component APIs) must be created in the parent's `interfaces.d.ts` file, where the necessary child APIs must be extracted.
 
-**Example**
+##### Example
 
 **`parent/interfaces.d.ts`**
 
@@ -474,4 +474,4 @@ export class CustomItem implements ChildComponentLike {
 - This pattern should be applied sparingly and on a case-by-case basis.
 - We can refine this pattern as we go on, but additional modifications needed to handle the custom items workflow will be considered out-of-scope and thus not supported.
 - Until we have documentation covering creating custom elements, `customItemSelectors` must be made internal and any `ChildComponentLike` types must be excluded from the doc.
-- Please refer to https://github.com/Esri/calcite-design-system/pull/7608/ as an example on how this pattern is applied.
+- Please refer to <https://github.com/Esri/calcite-design-system/pull/7608/> as an example on how this pattern is applied.

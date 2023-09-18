@@ -3,6 +3,7 @@
   "license": "MIT",
   "version": "0.0.0",
   "private": true,
+  "main": "./base.js",
   "dependencies": {
     "stencil-eslint-core": "0.3.1",
     "eslint-config-prettier": "8.8.0",

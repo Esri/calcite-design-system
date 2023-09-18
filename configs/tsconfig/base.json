@@ -6,15 +6,14 @@
     "allowUnreachableCode": false,
     "declaration": false,
     "experimentalDecorators": true,
+    "jsx": "react",
     "lib": ["dom", "es2021"],
-    "moduleResolution": "node",
     "module": "esnext",
-    "target": "es2020",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "jsx": "react",
-    "jsxFactory": "h"
+    "target": "es2020"
   },
   "exclude": ["node_modules"]
 }
