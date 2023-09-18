@@ -1,10 +1,9 @@
 import { number, select } from "@storybook/addon-knobs";
-import { locales } from "../../utils/locale";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { locales, numberingSystems } from "../../utils/locale";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
-import { Scale } from "../interfaces";
 
 export default {
   title: "Components/Pagination",
@@ -29,62 +28,64 @@ export const simple = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     start-item="${number("start-item", 1)}"
     lang="${select("lang", locales, "en")}"
+    numbering-system="${select("numbering-system", numberingSystems, "latn")}"
     total-items="${number("total-items", 123456789)}"
     page-size="${number("page-size", 10)}"
   >
   </calcite-pagination>
 `;
 
-const breakpoints = [475, 476, 768, 1152];
-
 const getResponsiveTemplate = ({
-  width,
-  scale,
   totalItems,
   pageSize,
+  type,
 }: {
-  width: number;
-  scale: Scale;
   totalItems: number;
   pageSize: number;
+  type: "first" | "last" | "middle";
 }) => {
-  return html`<strong>Width: ${width}px</strong>
-    <div style="width: ${width}px; margin: 1em 0;">
-      <calcite-pagination
-        total-items="${totalItems}"
-        page-size="${pageSize}"
-        start-item="1"
-        scale="${scale}"
-      ></calcite-pagination>
-      <calcite-pagination
-        total-items="${totalItems}"
-        page-size="${pageSize}"
-        start-item="${totalItems / 2 - Math.max(pageSize / 2, 1) + 1}"
-        scale="${scale}"
-      ></calcite-pagination>
-      <calcite-pagination
-        total-items="${totalItems}"
-        page-size="${pageSize}"
-        start-item="${totalItems - pageSize + 1}"
-        scale="${scale}"
-      ></calcite-pagination>
-    </div>`;
+  return html`
+    <calcite-pagination
+      lang="${select("locale", locales, "en")}"
+      numbering-system="${select("numbering-system", numberingSystems, "latn")}"
+      total-items="${totalItems}"
+      page-size="${pageSize}"
+      start-item="${type === "last"
+        ? totalItems - pageSize + 1
+        : type === "middle"
+        ? totalItems / 2 - Math.max(pageSize / 2, 1) + 1
+        : 1}"
+      scale="{scale}"
+    ></calcite-pagination>
+  `;
 };
 
-export const responsiveSmall = (): string =>
-  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "s", totalItems: 150000, pageSize: 100 })).join("");
+export const responsiveLargeNumberFirst = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "first" }));
 
-export const responsiveSmall2 = (): string =>
-  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "s", totalItems: 50, pageSize: 10 })).join("");
+export const responsiveLargeNumberMiddle = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "middle" }));
 
-export const responsiveSmall3 = (): string =>
-  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "s", totalItems: 12, pageSize: 1 })).join("");
+export const responsiveLargeNumberEnd = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "last" }));
 
-export const responsiveMedium = (): string =>
-  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "m", totalItems: 150000, pageSize: 100 })).join("");
+export const responsiveSmallNumberFirst = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "first" }));
 
-export const responsiveLarge = (): string =>
-  breakpoints.map((width) => getResponsiveTemplate({ width, scale: "l", totalItems: 150000, pageSize: 100 })).join("");
+export const responsiveSmallNumberMiddle = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "middle" }));
+
+export const responsiveSmallNumberLast = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "last" }));
+
+export const responsiveTinyNumberFirst = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "first" }));
+
+export const responsiveTinyNumberMiddle = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "middle" }));
+
+export const responsiveTinyNumberLast = (): string =>
+  createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "last" }));
 
 export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
   <calcite-pagination
