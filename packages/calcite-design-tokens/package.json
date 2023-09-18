@@ -48,7 +48,7 @@
     "url": "https://github.com/Esri/calcite-design-tokens/issues"
   },
   "scripts": {
-    "build:tokens": "node bin/run.js",
+    "build:tokens": "node support/run.js",
     "build:ts": "tsc --project tsconfig.prod.json",
     "build": "npm run build:ts && npm run build:tokens",
     "clean": "rimraf dist",

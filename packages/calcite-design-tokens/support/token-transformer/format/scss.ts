@@ -1,6 +1,6 @@
-import { pascalCase, sentenceCase } from "change-case";
+import * as changeCase from "change-case";
 import sd, { Dictionary, File, Platform, Options } from "style-dictionary";
-
+const { pascalCase, sentenceCase } = changeCase;
 const { formatHelpers } = sd;
 
 const regexThemeGroup = /calcite|brand/gi;
@@ -8,6 +8,7 @@ const regexFileNameWithoutExtension = /\w+(?=\.\w+$)/gi;
 
 /**
  * Exports SCSS style formats
+ *
  * @param {object} fileInfo the file object
  * @param {Dictionary} fileInfo.dictionary the Style Dictionary object
  * @param {File} fileInfo.file information about the file to be generated
@@ -23,16 +24,22 @@ export function formatSCSS(fileInfo: {
 }): string {
   const { dictionary, file, options } = fileInfo;
   const { outputReferences } = options;
-  const themeName = pascalCase(
-    sentenceCase(file.destination.match(regexFileNameWithoutExtension)[0])
-      .split(" ")
-      .filter((n) => !regexThemeGroup.test(n))
-      .join(" ")
-  ).toLowerCase();
-  return (
-    formatHelpers.fileHeader({ file }) +
-    `@mixin calcite-theme-${themeName}() {\n` +
-    formatHelpers.formattedVariables({ format: "css", dictionary, outputReferences }) +
-    `\n}\n`
-  );
+  const fileRegexMatch = file.destination.match(regexFileNameWithoutExtension);
+
+  if (fileRegexMatch) {
+    const themeName = pascalCase(
+      sentenceCase(fileRegexMatch ? fileRegexMatch[0] : "")
+        .split(" ")
+        .filter((n) => !regexThemeGroup.test(n))
+        .join(" ")
+    ).toLowerCase();
+    return (
+      formatHelpers.fileHeader({ file }) +
+      `@mixin calcite-theme-${themeName}() {\n` +
+      formatHelpers.formattedVariables({ format: "css", dictionary, outputReferences }) +
+      `\n}\n`
+    );
+  }
+
+  return "";
 }
