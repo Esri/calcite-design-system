@@ -22,7 +22,7 @@
   ::slotted(calcite-link) {
     @apply text-n2-wrap my-0.5;
   }
-  .notice-close {
+  .close {
     // specific padding for close button to align with calcite-action small-scale spacing
     @apply p-2;
   }
@@ -97,7 +97,7 @@
 }
 
 // focus styles
-.notice-close {
+.close {
   @apply focus-base;
   &:focus {
     @apply focus-inset;
@@ -127,7 +127,7 @@
   margin-inline-end: var(--calcite-notice-spacing-token-small);
 }
 
-.notice-content {
+.content {
   @apply box-border flex flex-auto flex-col transition-default;
   padding-block: var(--calcite-notice-spacing-token-medium);
   padding-inline: var(--calcite-notice-spacing-token-large) var(--calcite-notice-spacing-token-small);
@@ -137,11 +137,11 @@
   @apply flex flex-1 min-w-0 flex-col break-words;
 }
 
-.notice-icon {
+.icon {
   @apply flex items-center;
 }
 
-.notice-close {
+.close {
   @apply text-color-3 flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
   -webkit-appearance: none;
   padding: var(--calcite-notice-spacing-token-large);
@@ -169,19 +169,19 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
 
   :host([kind="#{$name}"]) .container {
     border-color: $kind;
-    & .notice-icon {
+    & .icon {
       color: $kind;
     }
   }
 }
 
-.notice-icon {
+.icon {
   @apply justify-start flex-col p-0;
   margin-block-end: var(--calcite-notice-spacing-token-large);
   margin-inline-end: auto;
 }
 
-.notice-close {
+.close {
   @apply justify-end items-start;
 }
 
@@ -196,15 +196,15 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
 }
 
 @container host (min-width: #{$breakpoint-width-xs}) {
-  .notice-content {
+  .content {
     @apply flex-row;
   }
 
-  .notice-close {
+  .close {
     @apply items-center;
   }
 
-  .notice-icon {
+  .icon {
     @apply justify-center;
     margin-inline-end: 0;
     margin-block: 0;
@@ -213,7 +213,7 @@ $noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "d
 }
 
 @container host (min-width: #{$breakpoint-width-sm}) {
-  .notice-icon {
+  .icon {
     padding-inline: var(--calcite-notice-spacing-token-large) 0;
   }
 }

@@ -139,6 +139,7 @@ export class Notice
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.resizeObserver?.observe(this.el);
   }
 
   render(): VNode {
@@ -158,17 +159,17 @@ export class Notice
 
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
     const widthBreakpoints = this.breakpoints.width;
-    const { elWidth } = this;
+    const { responsiveContainerWidth } = this;
     const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
 
     return (
       <div class={CSS.container}>
         <div class={CSS.contentContainer}>
-          {effectiveIcon && elWidth >= widthBreakpoints.small
+          {effectiveIcon && responsiveContainerWidth >= widthBreakpoints.small
             ? this.renderIcon(effectiveIcon)
             : null}
           <div class={CSS.content}>
-            {effectiveIcon && elWidth < widthBreakpoints.small
+            {effectiveIcon && responsiveContainerWidth < widthBreakpoints.small
               ? this.renderIcon(effectiveIcon)
               : null}
             <div class={CSS.textContainer}>
@@ -178,9 +179,11 @@ export class Notice
             </div>
           </div>
         </div>
-        {hasActionEnd && elWidth > widthBreakpoints.small ? this.renderActionsEnd() : null}
+        {hasActionEnd && responsiveContainerWidth > widthBreakpoints.small
+          ? this.renderActionsEnd()
+          : null}
         {this.closable ? closeButton : null}
-        {hasActionEnd && elWidth <= widthBreakpoints.small ? (
+        {hasActionEnd && responsiveContainerWidth <= widthBreakpoints.small ? (
           <div class={CSS.footer}>{this.renderActionsEnd()}</div>
         ) : null}
       </div>
@@ -260,10 +263,7 @@ export class Notice
 
   @Element() el: HTMLCalciteNoticeElement;
 
-  private breakpoints: Breakpoints;
-
-  /** The close button element. */
-  private closeButton?: HTMLButtonElement;
+  @State() defaultMessages: NoticeMessages;
 
   @State() effectiveLocale: string;
 
@@ -272,12 +272,14 @@ export class Notice
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: NoticeMessages;
+  @State() responsiveContainerWidth: number;
 
-  @State() elWidth: number;
+  private breakpoints: Breakpoints;
+
+  private closeButton?: HTMLButtonElement;
 
   private resizeObserver = createObserver(
     "resize",
-    (entries) => (this.elWidth = entries[0].contentRect.width)
+    (entries) => (this.responsiveContainerWidth = entries[0].contentRect.width)
   );
 }
