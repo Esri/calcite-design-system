@@ -28,8 +28,18 @@
   & .next,
   & .page,
   & .ellipsis {
-    @apply text-0h h-11 px-3;
+    @apply text-0h h-11;
     min-inline-size: theme("width.11");
+  }
+
+  & .previous,
+  & .next {
+    @apply px-2.5;
+  }
+
+  & .page,
+  & .ellipsis {
+    @apply px-3;
   }
 }
 
