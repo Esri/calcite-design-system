@@ -82,7 +82,7 @@
     "markdownlint-cli": "0.34.0",
     "postcss": "8.4.28",
     "prettier": "2.8.8",
-    "puppeteer": "10.0.0",
+    "puppeteer": "21.2.1",
     "quicktype-core": "23.0.75",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
