@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Norėdami atžymėti eilutę, paspauskite Enter arba tarpo klavišą",
+  "keyboardSelect": "Norėdami pažymėti eilutę, paspauskite Enter arba tarpo klavišą",
+  "row": "eilutė",
+  "selected": "pažymėta",
+  "unselected": "atžymėta"
 }

@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Golire",
+  "hiddenSelected": "Rândurile sunt selectate dar nu pot fi vizualizate",
+  "page": "Pagina",
+  "row": "Rând",
+  "selected": "Selectat"
 }

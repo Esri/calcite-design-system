@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Borrar",
+  "hiddenSelected": "Filas seleccionadas pero fuera de vista",
+  "page": "Página",
+  "row": "Fila",
+  "selected": "Seleccionado"
 }

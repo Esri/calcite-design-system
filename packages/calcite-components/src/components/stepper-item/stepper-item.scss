@@ -348,4 +348,8 @@
   }
 }
 
+.visually-hidden {
+  @apply sr-only;
+}
+
 @include base-component();

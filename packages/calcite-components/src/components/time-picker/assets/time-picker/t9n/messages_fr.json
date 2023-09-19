@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Fractions de seconde",
+  "fractionalSecondDown": "Diminuer les fractions de seconde",
+  "fractionalSecondUp": "Augmenter les fractions de seconde",
   "hour": "Heure",
   "hourDown": "Diminuer l’heure",
   "hourUp": "Augmenter l’heure",

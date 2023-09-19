@@ -407,8 +407,8 @@ export class ActionBar
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
-        label={actionsEndGroupLabel}
         hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
+        label={actionsEndGroupLabel}
         layout={layout}
         scale={scale}
       >
