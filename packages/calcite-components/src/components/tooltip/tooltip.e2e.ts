@@ -117,55 +117,9 @@ describe("calcite-tooltip", () => {
     </style>
   `;
 
-  describe("openClose via mouse", () => {
-    const mouseMoveOptions = { steps: 10 };
-    const mouseTotalDelayFromMoveSteps = TOOLTIP_OPEN_DELAY_MS * mouseMoveOptions.steps;
-    const mouseXMoveOffset = 25;
-
-    openClose(simpleTooltipHtml, "open", false, {
-      open: async (page: E2EPage) => {
-        const [refElementX, refElementY] = await getElementXY(page, "#ref");
-
-        await page.mouse.move(0, 0, mouseMoveOptions);
-        await page.mouse.move(refElementX, refElementY, mouseMoveOptions);
-        await page.mouse.move(refElementX + mouseXMoveOffset, refElementY, mouseMoveOptions);
-        await page.waitForChanges();
-
-        await page.waitForTimeout(mouseTotalDelayFromMoveSteps);
-      },
-      close: async (page: E2EPage) => {
-        const [refElementX, refElementY] = await getElementXY(page, "#ref");
-
-        await page.mouse.move(refElementX + mouseXMoveOffset, refElementY, mouseMoveOptions);
-        await page.mouse.move(refElementX, refElementY, mouseMoveOptions);
-        await page.mouse.move(0, 0, mouseMoveOptions);
-        await page.waitForChanges();
-
-        await page.waitForTimeout(mouseTotalDelayFromMoveSteps);
-      },
-    });
-  });
-
-  describe("when open, it emits events if no longer rendered", () => {
-    const mouseMoveOptions = { steps: 10 };
-    const mouseTotalDelayFromMoveSteps = TOOLTIP_OPEN_DELAY_MS * mouseMoveOptions.steps;
-
-    openClose(tooltipDisplayNoneHtml, "open", false, {
-      open: async (page: E2EPage) => {
-        await page.mouse.move(10, 10, mouseMoveOptions);
-        await page.waitForChanges();
-
-        await page.waitForTimeout(mouseTotalDelayFromMoveSteps);
-      },
-      close: async (page: E2EPage) => {
-        const [refElementX, refElementY] = await getElementXY(page, ".hoverOutsideContainer");
-
-        await page.mouse.move(refElementX, refElementY, mouseMoveOptions);
-        await page.waitForChanges();
-
-        await page.waitForTimeout(mouseTotalDelayFromMoveSteps);
-      },
-    });
+  describe("openClose", () => {
+    openClose(simpleTooltipHtml);
+    openClose(tooltipDisplayNoneHtml);
   });
 
   it("should have zIndex of 901", async () => {

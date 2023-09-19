@@ -1381,7 +1381,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   }
 }
 
-interface InputOptions {
+interface BeforeToggle {
   /**
    * Function argument to simulate user input (mouse or keyboard), to open the component.
    */
@@ -1395,19 +1395,19 @@ interface InputOptions {
 
 interface OpenCloseOptions {
   /**
-   * Indicates the initial value of the toggle property to determine whether to configure a `simplePageSetup` or `newProgrammaticE2EPage`.
-   */
-  initialToggleValue?: boolean;
-
-  /**
    * Toggle property to test. Currently, either "open" or "expanded".
    */
   openPropName?: string;
 
   /**
+   * Indicates the initial value of the toggle property to determine whether to configure a `simplePageSetup` or `newProgrammaticE2EPage`.
+   */
+  initialToggleValue?: boolean;
+
+  /**
    * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
    */
-  inputOptions?: InputOptions;
+  beforeToggle?: BeforeToggle;
 }
 
 /**
@@ -1418,16 +1418,28 @@ interface OpenCloseOptions {
  * @example
  *
  * describe("openClose", () => {
- *  openClose("calcite-tooltip", "open", false, {
- *     open: async (page) => {
- *       await page.keyboard.press("Tab");
- *       await page.waitForChanges();
- *     },
- *      close: async (page) => {
- *       await page.keyboard.press("Tab");
- *       await page.waitForChanges();
- *    },
- *  });
+ *   openClose("calcite-combobox opened with a tab", {
+ *     beforeToggle: {
+ *        open: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *        close: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *      }
+ *   });
+ *
+ *  openClose("open calcite-combobox closed with a tab", {
+ *        initialToggleValue: true,
+ *        beforeToggle: {
+ *          close: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *      }
+ *    }
  * })
  *
  * @param componentTagOrHTML - The component tag or HTML markup to test against.
@@ -1490,8 +1502,8 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
       eventSequence.map(async (event) => await element.spyOnEvent(event))
     );
 
-    if (customizedOptions.inputOptions) {
-      await customizedOptions.inputOptions.open(page);
+    if (customizedOptions.beforeToggle) {
+      await customizedOptions.beforeToggle.open(page);
     } else {
       element.setProperty(customizedOptions.openPropName, true);
     }
@@ -1506,8 +1518,8 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
     expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
     expect(closeSpy).toHaveReceivedEventTimes(0);
 
-    if (customizedOptions.inputOptions) {
-      await customizedOptions.inputOptions.close(page);
+    if (customizedOptions.beforeToggle) {
+      await customizedOptions.beforeToggle.close(page);
     } else {
       element.setProperty(customizedOptions.openPropName, false);
     }
