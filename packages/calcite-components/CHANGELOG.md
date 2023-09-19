@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.4...@esri/calcite-components@1.9.0-next.5) (2023-09-19)
+
+### Bug Fixes
+
+- **alert:** regression fix to restore `calciteAlertBeforeOpen` and `calciteAlertOpen` event emitting ([#7767](https://github.com/Esri/calcite-design-system/issues/7767)) ([6bbae35](https://github.com/Esri/calcite-design-system/commit/6bbae35436beb8329da1a53a7dcd408c63d529b4)), closes [#7757](https://github.com/Esri/calcite-design-system/issues/7757)
+
 ## [1.9.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.3...@esri/calcite-components@1.9.0-next.4) (2023-09-19)
 
 ### Features
