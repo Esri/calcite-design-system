@@ -70,8 +70,8 @@
     content: "";
     inset-block-start: 50%;
     inset-inline-start: 50%;
-    min-block-size: 24px;
-    min-inline-size: 24px;
+    min-block-size: theme("width.6");
+    min-inline-size: theme("width.6");
     position: absolute;
     transform: translateX(-50%) translateY(-50%);
   }
