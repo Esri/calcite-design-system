@@ -1,7 +1,6 @@
 import * as changeCase from "change-case";
-import sd, { Dictionary, File, Platform, Options } from "style-dictionary";
+import { formatHelpers, Dictionary, File, Platform, Options } from "style-dictionary";
 const { pascalCase, sentenceCase } = changeCase;
-const { formatHelpers } = sd;
 
 const regexThemeGroup = /calcite|brand/gi;
 const regexFileNameWithoutExtension = /\w+(?=\.\w+$)/gi;
@@ -33,6 +32,7 @@ export function formatSCSS(fileInfo: {
         .filter((n) => !regexThemeGroup.test(n))
         .join(" ")
     ).toLowerCase();
+
     return (
       formatHelpers.fileHeader({ file }) +
       `@mixin calcite-theme-${themeName}() {\n` +

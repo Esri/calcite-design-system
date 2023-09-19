@@ -36,5 +36,10 @@
     "lint:prettier": "prettier --write .",
     "lint": "npm run lint:eslint && npm run lint:markdown && npm run lint:prettier",
     "test": "jest"
+  },
+  "devDependencies": {
+    "@tokens-studio/sd-transforms": "0.8.2",
+    "change-case": "4.1.2",
+    "style-dictionary": "3.7.1"
   }
 }

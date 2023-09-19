@@ -2,8 +2,8 @@ const mockCorrectTypeCompoundToken = {
   core: {
     1: {
       type: "sizing",
-      value: "10"
-    }
+      value: "10",
+    },
   },
   compound: {
     value: {
@@ -14,52 +14,52 @@ const mockCorrectTypeCompoundToken = {
       letterSpacing: "$core.font.letter-spacing.normal",
       paragraphSpacing: "$core.font.paragraph-spacing.normal",
       textDecoration: "$core.font.text-decoration.none",
-      textCase: "$core.font.text-case.none"
+      textCase: "$core.font.text-case.none",
     },
-    type: "typography"
-  }
+    type: "typography",
+  },
 };
 const mockTransformedCompoundTokens = {
   core: {
     1: {
       type: "sizing",
-      value: "10"
-    }
+      value: "10",
+    },
   },
   compound: {
     "font-family": {
       value: "$core.font.font-family.primary",
-      type: "font-family"
+      type: "font-family",
     },
     "font-weight": {
       value: "$core.font.font-weight.light",
-      type: "font-weights"
+      type: "font-weights",
     },
     "line-height": {
       value: "$core.font.line-height.fixed.0",
-      type: "line-heights"
+      type: "line-heights",
     },
     "font-size": {
       value: "$core.font.font-size.0",
-      type: "font-size"
+      type: "font-size",
     },
     "letter-spacing": {
       value: "$core.font.letter-spacing.normal",
-      type: "letter-spacing"
+      type: "letter-spacing",
     },
     "paragraph-spacing": {
       value: "$core.font.paragraph-spacing.normal",
-      type: "paragraph-spacing"
+      type: "paragraph-spacing",
     },
     "text-decoration": {
       value: "$core.font.text-decoration.none",
-      type: "font-style"
+      type: "font-style",
     },
     "text-case": {
       value: "$core.font.text-case.none",
-      type: "text-case"
-    }
-  }
+      type: "text-case",
+    },
+  },
 };
 
 const handleTokenStudioVariables = jest.fn((token) => (token.includes("$") ? `{${token.replace(/\$/g, "")}}` : token));
@@ -73,7 +73,7 @@ jest.mock("../utils/compositeTokens.js", () => {
     __esModule: false,
     ...originalModule,
     shouldExpand,
-    expandToken
+    expandToken,
   };
 });
 
@@ -82,7 +82,7 @@ jest.mock("../utils/convertTokenToStyleDictionaryFormat.js", () => {
   return {
     __esModule: false,
     ...originalModule,
-    convertTokenToStyleDictionaryFormat
+    convertTokenToStyleDictionaryFormat,
   };
 });
 
@@ -97,14 +97,14 @@ describe("expand token dictionary", () => {
     const placeholderToken = {
       "[placeholder-component]": {
         type: "other",
-        value: "#333"
-      }
+        value: "#333",
+      },
     };
     const placeholderValue = {
       compoonent: {
         type: "other",
-        value: "[placholder-value]"
-      }
+        value: "[placholder-value]",
+      },
     };
 
     // @ts-expect-error - These placeholder tokens are not a deep match to the DeepTokenMap type but it's close enough for the purposes of this test
@@ -131,9 +131,9 @@ describe("expand token dictionary", () => {
         type: "customType",
         value: {
           fontFamily: "Avanir",
-          fontSize: "12px"
-        }
-      }
+          fontSize: "12px",
+        },
+      },
     };
     // @ts-expect-error - it's fine this is a test
     const testExpandComposite = expandComposites.expandComposites(mockDictionary, "./fakePath");

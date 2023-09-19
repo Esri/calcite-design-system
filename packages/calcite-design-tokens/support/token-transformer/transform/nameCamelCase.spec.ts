@@ -9,9 +9,9 @@ describe("transform names to camel case", () => {
       filePath: "./fakePath.json",
       original: {
         value: "fake-value",
-        type: "composite"
+        type: "composite",
       },
-      isSource: true
+      isSource: true,
     };
     expect(nameCamelCase(mockToken, {})).toBe("testTokenName");
   });
@@ -24,12 +24,12 @@ describe("transform names to camel case", () => {
       filePath: "./fakePath.json",
       original: {
         value: "fake-value",
-        type: "composite"
+        type: "composite",
       },
-      isSource: true
+      isSource: true,
     };
     const mockOptions = {
-      prefix: "calcite"
+      prefix: "calcite",
     };
     expect(nameCamelCase(mockToken, mockOptions)).toBe("calciteTestTokenName");
   });

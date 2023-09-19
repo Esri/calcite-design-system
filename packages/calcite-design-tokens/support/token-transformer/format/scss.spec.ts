@@ -1,16 +1,17 @@
 const createPropertyFormatterCallback = jest.fn((token) => `--${token.name}: blue;`);
 const formattedVariables = jest.fn((tokens) => tokens.dictionary.allTokens.map(createPropertyFormatterCallback));
 const fileHeader = jest.fn(({}) => "");
+const formatHelpers = {
+  formattedVariables,
+  fileHeader,
+};
 
 jest.mock("style-dictionary", () => {
   const originalModule = jest.requireActual("style-dictionary");
   return {
     __esModule: false,
     ...originalModule,
-    formatHelpers: {
-      formattedVariables,
-      fileHeader
-    }
+    formatHelpers,
   };
 });
 
@@ -22,11 +23,11 @@ const mockTokens = [
     value: "blue",
     path: ["core", "token", "example"],
     original: {
-      value: "blue"
+      value: "blue",
     },
     filePath: "core.json",
-    isSource: true
-  }
+    isSource: true,
+  },
 ];
 const transformedTokens = mockTokens.reduce((acc, v) => {
   acc[v.name] = v;
@@ -40,13 +41,13 @@ const mock = {
     allProperties: mockTokens,
     properties: transformedTokens,
     usesReference: () => true,
-    getReferences: () => mockTokens
+    getReferences: () => mockTokens,
   },
   file: {
-    destination: "calciteLight.scss"
+    destination: "calciteLight.scss",
   },
   formattedTokenSet: [`@mixin calcite-theme-light() {`, "--core-token-example: blue"],
-  options: {}
+  options: {},
 };
 
 describe("formatting CSS Variable output", () => {

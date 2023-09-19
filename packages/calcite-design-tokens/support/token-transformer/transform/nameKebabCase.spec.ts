@@ -9,9 +9,9 @@ describe("transform names to kebab case", () => {
       filePath: "./fakePath.json",
       original: {
         value: "fake-value",
-        type: "composite"
+        type: "composite",
       },
-      isSource: true
+      isSource: true,
     };
     expect(nameKebabCase(mockToken, {})).toBe("test-token-name");
   });
@@ -24,12 +24,12 @@ describe("transform names to kebab case", () => {
       filePath: "./fakePath.json",
       original: {
         value: "fake-value",
-        type: "composite"
+        type: "composite",
       },
-      isSource: true
+      isSource: true,
     };
     const mockOptions = {
-      prefix: "calcite"
+      prefix: "calcite",
     };
     expect(nameKebabCase(mockToken, mockOptions)).toBe("calcite-test-token-name");
   });
