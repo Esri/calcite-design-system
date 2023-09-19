@@ -351,12 +351,12 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     this.userChangedValue = true;
   }
 
-  iconClickHandler = (event: MouseEvent): void => {
+  private iconClickHandler = (event: MouseEvent): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
   };
 
-  childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
+  private childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {

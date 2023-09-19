@@ -130,7 +130,7 @@ export class Tree {
   }
 
   @Listen("calciteInternalTreeItemSelect")
-  onClick(event: CustomEvent<TreeItemSelectDetail>): void {
+  onInternalTreeItemSelect(event: CustomEvent<TreeItemSelectDetail>): void {
     const target = event.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")
@@ -140,12 +140,14 @@ export class Tree {
       return;
     }
 
-    if (!this.child) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+    event.preventDefault();
+    event.stopPropagation();
 
-    if (this.selectionMode === "ancestors" && !this.child) {
+    if (this.selectionMode === "ancestors") {
+      if (event.detail.updateItem) {
+        target.expanded = !target.expanded;
+      }
+
       this.updateAncestorTree(event);
       return;
     }
@@ -157,8 +159,6 @@ export class Tree {
       (!target.hasChildren ||
         (target.hasChildren &&
           (this.selectionMode === "children" || this.selectionMode === "multichildren")));
-
-    const shouldDeselectAllChildren = this.selectionMode === "multichildren" && target.hasChildren;
 
     const shouldModifyToCurrentSelection =
       !isNoneSelectionMode &&
@@ -174,64 +174,56 @@ export class Tree {
 
     const shouldUpdateExpand =
       ["children", "multichildren"].includes(this.selectionMode) ||
-      (["single", "multiple"].includes(this.selectionMode) &&
+      (["ancestors", "multiple", "none", "single", "single-persist"].includes(this.selectionMode) &&
         target.hasChildren &&
         !event.detail.forceToggle);
 
-    if (!this.child) {
-      const targetItems: HTMLCalciteTreeItemElement[] = [];
+    const targetItems: HTMLCalciteTreeItemElement[] = [];
 
-      if (shouldSelect) {
-        targetItems.push(target);
-      }
+    if (shouldSelect) {
+      targetItems.push(target);
+    }
 
-      if (shouldClearCurrentSelection) {
-        const selectedItems = nodeListToArray(
-          this.el.querySelectorAll("calcite-tree-item[selected]")
-        ) as HTMLCalciteTreeItemElement[];
+    if (shouldClearCurrentSelection) {
+      const selectedItems = nodeListToArray(
+        this.el.querySelectorAll("calcite-tree-item[selected]")
+      ) as HTMLCalciteTreeItemElement[];
 
-        selectedItems.forEach((treeItem) => {
-          if (!targetItems.includes(treeItem)) {
-            treeItem.selected = false;
-          }
-        });
-      }
-
-      if (shouldUpdateExpand) {
-        if (["single", "multiple"].includes(this.selectionMode)) {
-          target.expanded = !target.expanded;
-        } else if (this.selectionMode === "multichildren") {
-          target.expanded = !target.selected;
-        } else if (this.selectionMode === "children") {
-          target.expanded = target.selected ? !target.expanded : true;
+      selectedItems.forEach((treeItem) => {
+        if (!targetItems.includes(treeItem)) {
+          treeItem.selected = false;
         }
-      }
+      });
+    }
 
-      if (shouldDeselectAllChildren) {
-        childItems.forEach((item) => {
-          item.selected = false;
-          if (item.hasChildren) {
-            item.expanded = false;
-          }
-        });
+    if (shouldUpdateExpand) {
+      if (
+        ["ancestors", "multiple", "none", "single", "single-persist"].includes(this.selectionMode)
+      ) {
+        target.expanded = !target.expanded;
+      } else if (this.selectionMode === "multichildren") {
+        target.expanded = !target.selected;
+      } else if (this.selectionMode === "children") {
+        target.expanded = target.selected ? !target.expanded : true;
       }
+    }
 
-      if (shouldModifyToCurrentSelection) {
-        window.getSelection().removeAllRanges();
-      }
-      if ((shouldModifyToCurrentSelection && target.selected) || event.detail.forceToggle) {
-        targetItems.forEach((treeItem) => {
-          if (!treeItem.disabled) {
-            treeItem.selected = false;
-          }
-        });
-      } else if (!isNoneSelectionMode) {
-        targetItems.forEach((treeItem) => {
-          if (!treeItem.disabled) {
-            treeItem.selected = true;
-          }
-        });
-      }
+    if (shouldModifyToCurrentSelection) {
+      window.getSelection().removeAllRanges();
+    }
+
+    if ((shouldModifyToCurrentSelection && target.selected) || event.detail.forceToggle) {
+      targetItems.forEach((treeItem) => {
+        if (!treeItem.disabled) {
+          treeItem.selected = false;
+        }
+      });
+    } else if (!isNoneSelectionMode) {
+      targetItems.forEach((treeItem) => {
+        if (!treeItem.disabled) {
+          treeItem.selected = true;
+        }
+      });
     }
 
     this.selectedItems = isNoneSelectionMode
