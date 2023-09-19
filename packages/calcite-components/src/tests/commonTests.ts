@@ -1400,7 +1400,7 @@ interface OpenCloseOptions {
   openPropName?: string;
 
   /**
-   * Indicates the initial value of the toggle property to determine whether to configure a `simplePageSetup` or `newProgrammaticE2EPage`.
+   * Indicates the initial value of the toggle property.
    */
   initialToggleValue?: boolean;
 
