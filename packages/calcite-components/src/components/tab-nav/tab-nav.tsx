@@ -267,6 +267,7 @@ export class TabNav {
   @Listen("calciteInternalTabIconChanged")
   iconStartChangeHandler(): void {
     this.updateActiveWidth();
+    this.updateOffsetPosition();
   }
 
   //--------------------------------------------------------------------------

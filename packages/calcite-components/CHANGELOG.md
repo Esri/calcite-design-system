@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.2...@esri/calcite-components@1.9.0-next.3) (2023-09-19)
+
+### Bug Fixes
+
+- **tab-nav:** update indicator position when tab icon changes ([#7768](https://github.com/Esri/calcite-design-system/issues/7768)) ([cb877b3](https://github.com/Esri/calcite-design-system/commit/cb877b33a1209de9b7b499e1efc7c888f61b57a9)), closes [#6821](https://github.com/Esri/calcite-design-system/issues/6821)
+
 ## [1.9.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.1...@esri/calcite-components@1.9.0-next.2) (2023-09-19)
 
 ### Features
