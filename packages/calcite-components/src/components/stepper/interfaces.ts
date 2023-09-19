@@ -8,4 +8,5 @@ export interface StepperItemKeyEventDetail {
 
 export interface StepperItemChangeEventDetail {
   position: number;
+  totalItems?: number;
 }

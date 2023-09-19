@@ -324,6 +324,7 @@
 
 :host([layout="horizontal"][responsive-mode]) .stepper-item-header {
   inline-size: 100%;
+  @apply border-none;
 }
 
 @media (forced-colors: active) {
@@ -350,6 +351,22 @@
   :host([layout="vertical"][selected]) .container {
     border-color: highlight;
   }
+}
+
+.svgborder {
+  fill: var(--calcite-ui-brand);
+  stroke-width: 5;
+  fill-opacity: 1;
+  stroke-opacity: 1;
+}
+
+.svg-container {
+  display: flex;
+  position: absolute;
+}
+
+.svg-canvas {
+  margin: 5px;
 }
 
 @include base-component();

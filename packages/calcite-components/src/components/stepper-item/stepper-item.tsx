@@ -231,6 +231,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
       >
+        <div class="svg-container">{this.renderBorderTopSvg()}</div>
+
         <div class="container">
           <div
             class="stepper-item-header"
@@ -272,6 +274,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     ) {
       this.selectedPosition = event.detail.position;
       this.determineSelectedItem();
+      this.totalItems = event.detail.totalItems;
     }
   }
 
@@ -305,6 +308,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
+
+  @State() totalItems: number;
 
   //--------------------------------------------------------------------------
   //
@@ -357,6 +362,14 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         onClick={(event) => this.handleNavigationClick(event, orientation)}
         scale="s"
       />
+    ) : null;
+  }
+
+  private renderBorderTopSvg(): VNode {
+    return this.layout === "horizontal" && this.responsiveMode && this.totalItems > 0 ? (
+      <svg class="svg-canvas" height="2" width="20%">
+        <rect class="svgborder" height="2" width="100%" x="0" y="0" />
+      </svg>
     ) : null;
   }
 

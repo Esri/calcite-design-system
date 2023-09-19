@@ -119,6 +119,7 @@ export class Stepper {
     if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
         position: 0,
+        totalItems: this.items.length,
       });
     }
   }
@@ -365,10 +366,11 @@ export class Stepper {
         this.setGridTemplateColumns(this.items);
       }
       this.items.forEach((item: HTMLCalciteStepperItemElement) => {
-        if (item.style.display === "none") {
-          item.style.display = "contents";
-          item.responsiveMode = false;
-        }
+        item.style.display = "contents";
+
+        // item.style.display = "";
+
+        item.responsiveMode = false;
       });
     }
   }
@@ -394,6 +396,7 @@ export class Stepper {
     this.currentPosition = position;
     this.calciteInternalStepperItemChange.emit({
       position,
+      totalItems: this.items.length,
     });
   }
 
