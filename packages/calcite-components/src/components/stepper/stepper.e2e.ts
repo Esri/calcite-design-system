@@ -3,6 +3,11 @@ import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 
+// we use browser-context function to click on items to workaround `E2EElement#click` error
+async function itemClicker(item: HTMLCalciteStepperItemElement) {
+  item.click();
+}
+
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
   describe("defaults", () => {
@@ -482,11 +487,6 @@ describe("calcite-stepper", () => {
       await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
 
-      // we use browser-context function to click on items to workaround `E2EElement#click` error
-      async function itemClicker(item: HTMLCalciteStepperItemElement) {
-        item.click();
-      }
-
       await page.$eval("#step-2", itemClicker);
       expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
       expect(await getSelectedItemId()).toBe("step-2");
@@ -639,5 +639,28 @@ describe("calcite-stepper", () => {
       1
     );
     expect(stepper2Number.textContent).toBe(`${thaiNumeral1}.`);
+  });
+
+  it("should have correct ARIA attributes", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item heading="Step 1" id="step-1">
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>`);
+
+    const stepper = await page.find("calcite-stepper");
+    const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+    const messages = await import(`./assets/stepper/t9n/messages.json`);
+
+    expect(stepper.getAttribute("aria-label")).toEqual(messages.label);
+    expect(stepperItem1.getAttribute("aria-current")).toEqual("step");
+
+    await page.$eval("#step-2", itemClicker);
+    await page.waitForChanges();
+    expect(stepperItem2.getAttribute("aria-current")).toEqual("step");
   });
 });
