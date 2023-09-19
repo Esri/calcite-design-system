@@ -1,55 +1,25 @@
 module.exports = {
   root: true,
   env: {
-    "jest/globals": true
+    "jest/globals": true,
   },
   extends: [
     "plugin:@cspell/recommended",
-    "plugin:@esri/calcite-components/recommended",
-    "plugin:@stencil-community/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
     "plugin:jsdoc/recommended",
-    "prettier"
+    "prettier",
   ],
-  ignorePatterns: ["dist", "docs", "hydrate", "www"],
+  ignorePatterns: ["dist"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: ["tsconfig-eslint.json"],
     ecmaVersion: 2021,
-    sourceType: "module"
+    sourceType: "module",
   },
-  plugins: [
-    "@esri/calcite-components",
-    "@typescript-eslint",
-    "eslint-plugin-react",
-    "import",
-    "jest",
-    "jsdoc",
-    "prettier",
-    "unicorn"
-  ],
+  plugins: ["@typescript-eslint", "import", "jest", "jsdoc", "prettier", "unicorn"],
   rules: {
-    "@esri/calcite-components/ban-events": [
-      "warn",
-      {
-        event: "keyup",
-        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
-      },
-      {
-        event: "keypress",
-        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
-      }
-    ],
-    "@stencil-community/decorators-context": "off",
-    "@stencil-community/decorators-style": "warn",
-    "@stencil-community/no-unused-watch": "off",
-    "@stencil-community/own-methods-must-be-private": "off",
-    "@stencil-community/own-props-must-be-private": "off",
-    "@stencil-community/prefer-vdom-listener": "warn",
-    "@stencil-community/required-jsdoc": "off",
-    "@stencil-community/strict-boolean-conditions": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
@@ -64,9 +34,9 @@ module.exports = {
           "componentDidLoad",
           "componentWillUpdate",
           "componentDidUpdate",
-          "render"
-        ]
-      }
+          "render",
+        ],
+      },
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "error",
@@ -85,72 +55,35 @@ module.exports = {
     "no-multiple-empty-lines": [
       "error",
       {
-        max: 1
-      }
+        max: 1,
+      },
     ],
     "no-new-func": "error",
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],
-    "react/forbid-component-props": [
-      "warn",
-      {
-        forbid: [
-          {
-            propName: "onKeyPress",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
-          },
-          {
-            propName: "onKeyUp",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
-          }
-        ]
-      }
-    ],
-    "react/forbid-dom-props": [
-      "warn",
-      {
-        forbid: [
-          {
-            propName: "onKeyPress",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
-          },
-          {
-            propName: "onKeyUp",
-            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc)."
-          }
-        ]
-      }
-    ],
-    "react/jsx-sort-props": "error",
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error",
-    "react/self-closing-comp": "error",
     "unicorn/prefer-ternary": "error",
     "unicorn/prevent-abbreviations": [
       "error",
       {
         allowList: {
-          e2ePage: true
+          e2ePage: true,
         },
         extendDefaultReplacements: false,
         replacements: {
           e: {
             error: true,
-            event: true
-          }
+            event: true,
+          },
         },
         checkProperties: false,
-        checkFilenames: false
-      }
-    ]
+        checkFilenames: false,
+      },
+    ],
   },
   settings: {
-    react: {
-      pragma: "h"
-    },
     jsdoc: {
       ignoreInternal: true,
-      ignorePrivate: true
-    }
-  }
+      ignorePrivate: true,
+    },
+  },
 };

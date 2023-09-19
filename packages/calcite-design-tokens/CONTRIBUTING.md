@@ -1,25 +1,12 @@
-# Contributing to calcite-design-tokens
+# Contributing to `calcite-design-tokens`
 
-You want to contribute? Nice! Below are some guidelines for ensuring that your contribution makes sense for everybody.
+This document contains information about contributing to the `calcite-design-tokens` package. Please read the general [CONTRIBUTING](../../CONTRIBUTING.md) document first, which includes initial setup, commit message conventions, and more.
 
-## Reporting Issues
+## Project scripts
 
-Found a problem? Want a new feature?
+### Build
 
-- See if your issue or idea has [already been reported](issues).
-- Provide detailed reproduction instructions as well as what behavior is expected.
-
-## Contributing to tokens
-
-### Read [<root>/CONTRIBUTING.md](../../CONTRIBUTING.md)
-
-These docs include initial setup, commit message format guidelines and more.
-
-### Project scripts
-
-#### Build
-
-Build the tokens to platform assets
+Build the tokens to platform asset formats like CSS, SCSS, and JavaScript.
 
 `npm --workspace=packages/calcite-design-tokens run build`
 
@@ -36,28 +23,12 @@ All token files may be updated by the Figma Token Studio plugin. These can also 
 | `src/component/`     | The component design tokens. These are used by themes.                                                            |
 | `src/calcite/`       | The Calcite themes. This currently consists of a light and dark theme.                                            |
 
-## Submitting Pull Requests
-
-Pull requests are the greatest contributions, so be sure they are focused in scope.
-
 ### Be sure your code passes our integration and unit tests
 
 ```bash
 # Test current code
 npm --workspace=packages/calcite-design-tokens run test
 ```
-
-### Open the pull request back to the token repo
-
-Make sure to use a clear title and description. See [open a pull request](https://help.github.com/articles/using-pull-requests/) for more information.
-
-## Bumping the Version
-
-1. Following the rules of [SemVer](https://semver.org/), change the version number in `package.json` to the appropriate version number.
-2. Write a description of the changes, additions, and bug fixes in `CHANGELOG.md`.
-3. Run `npm run build` to make sure the `dist/` files are updated.
-4. Make sure `Esri/calcite-design-tokens` is up-to-date with your changes (via Pull Request).
-5. Run `npm run release`. If prompted enter your GitHub credentials.
 
 ### Open a PR
 
