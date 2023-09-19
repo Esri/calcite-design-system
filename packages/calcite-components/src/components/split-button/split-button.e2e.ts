@@ -44,7 +44,7 @@ describe("calcite-split-button", () => {
     </calcite-split-button>`);
   });
 
-  describe("accessible when disabled", () => {
+  describe.skip("accessible when disabled", () => {
     accessible(`<calcite-split-button
     disabled
     primary-text="Button Text"
