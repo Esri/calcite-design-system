@@ -65,6 +65,17 @@
   &:focus-visible {
     @apply focus-outset;
   }
+
+  &::after {
+    background-color: rgba(1, 2, 3, 0.05);
+    content: "";
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    min-block-size: 24px;
+    min-inline-size: 24px;
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+  }
 }
 
 @include disabled();
