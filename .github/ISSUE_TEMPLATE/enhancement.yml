@@ -66,6 +66,7 @@ body:
       options:
         - label: "@esri/calcite-components"
         - label: "@esri/calcite-components-react"
+        - label: "@esri/eslint-plugin-calcite-components"
     validations:
       required: false
   - type: dropdown
