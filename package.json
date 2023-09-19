@@ -73,7 +73,6 @@
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-unicorn": "46.0.1",
     "eslint": "8.44.0",
-    "gh-release": "7.0.2",
     "husky": "8.0.3",
     "jest-axe": "7.0.1",
     "jest-cli": "27.4.5",
