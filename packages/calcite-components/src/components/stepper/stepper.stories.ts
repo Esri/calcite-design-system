@@ -9,6 +9,9 @@ export default {
   title: "Components/Stepper",
   parameters: {
     notes: [readme1, readme2],
+    chromatic: {
+      delay: 500,
+    },
   },
   ...storyFilters(),
 };
