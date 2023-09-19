@@ -36,7 +36,12 @@ export const simpleDarkModeRTL_TestOnly = (): string => html`
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
-simpleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+simpleDarkModeRTL_TestOnly.parameters = {
+  modes: modesDarkDefault,
+  chromatic: {
+    delay: 500,
+  },
+};
 
 export const bordered = (): string => html`
   <calcite-tabs
