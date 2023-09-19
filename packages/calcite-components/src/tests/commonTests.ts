@@ -8,7 +8,7 @@ import { html } from "../../support/formatting";
 import { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
-import { GlobalTestProps, isElementFocused, skipAnimations } from "./utils";
+import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "./utils";
 import { InteractiveHTMLElement } from "../utils/interactive";
 
 expect.extend(toHaveNoViolations);
@@ -30,9 +30,13 @@ function isHTML(tagOrHTML: string): boolean {
 
 function getTag(tagOrHTML: string): ComponentTag {
   if (isHTML(tagOrHTML)) {
-    const regex = /[>\s]/;
+    const calciteTagRegex = /<calcite-[a-z0-9-]+/i;
     const trimmedTag = tagOrHTML.trim();
-    return trimmedTag.substring(1, trimmedTag.search(regex)) as ComponentTag;
+    const calciteTagMatchResult = trimmedTag.match(calciteTagRegex);
+    if (calciteTagMatchResult) {
+      return calciteTagMatchResult[0].substring(1) as ComponentTag;
+    }
+    throw new Error(`Could not extract tag from HTML: ${trimmedTag}`);
   }
 
   return tagOrHTML as ComponentTag;
@@ -416,7 +420,7 @@ async function assertLabelable({
     expect(await component.getProperty(propertyToToggle)).toBe(toggledPropertyValue);
 
     // assert that direct clicks on component toggle property correctly
-    await component.setProperty(propertyToToggle, initialPropertyValue); // we reset as not all components toggle when clicked
+    component.setProperty(propertyToToggle, initialPropertyValue); // we reset as not all components toggle when clicked
     await page.waitForChanges();
     await component.click();
     await page.waitForChanges();
@@ -904,7 +908,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
 
     const stringifiedTestValue = stringifyTestValue(options.testValue);
 
-    await component.setProperty("value", stringifiedTestValue);
+    component.setProperty("value", stringifiedTestValue);
     await component.callMethod("setFocus");
     await page.keyboard.press("Enter");
     const called = await page.evaluate(() => (window as TestWindow).called);
@@ -1375,4 +1379,205 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     component.removeAttribute("lang");
     await page.waitForChanges();
   }
+}
+
+interface BeforeToggle {
+  /**
+   * Function argument to simulate user input (mouse or keyboard), to open the component.
+   */
+  open: (page: E2EPage) => Promise<void>;
+
+  /**
+   * Function argument to simulate user input (mouse or keyboard), to close the component.
+   */
+  close: (page: E2EPage) => Promise<void>;
+}
+
+interface OpenCloseOptions {
+  /**
+   * Toggle property to test. Currently, either "open" or "expanded".
+   */
+  openPropName?: string;
+
+  /**
+   * Indicates the initial value of the toggle property.
+   */
+  initialToggleValue?: boolean;
+
+  /**
+   * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
+   */
+  beforeToggle?: BeforeToggle;
+}
+
+/**
+ * Helper to test openClose component setup.
+ *
+ * Note that this helper should be used within a `describe` block.
+ *
+ * @example
+ *
+ * describe("openClose", () => {
+ *   openClose("calcite-combobox opened with a tab", {
+ *     beforeToggle: {
+ *        open: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *        close: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *      }
+ *   });
+ *
+ *  openClose("open calcite-combobox closed with a tab", {
+ *        initialToggleValue: true,
+ *        beforeToggle: {
+ *          close: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *      }
+ *    }
+ * })
+ *
+ * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param {object} [options] - Additional options to assert.
+ */
+
+export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): Promise<void> {
+  const defaultOptions: OpenCloseOptions = {
+    initialToggleValue: false,
+    openPropName: "open",
+  };
+  const customizedOptions = { ...defaultOptions, ...options };
+
+  type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
+  const eventSequence = await setUpEventSequence(componentTagOrHTML);
+
+  async function setUpEventSequence(componentTagOrHTML: TagOrHTML): Promise<string[]> {
+    const tag = getTag(componentTagOrHTML);
+
+    const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
+    const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
+
+    return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
+  }
+
+  const addEventListeners = async (): Promise<void> => {
+    const receivedEvents: string[] = [];
+
+    (window as EventOrderWindow).events = receivedEvents;
+
+    eventSequence.forEach((eventType) => {
+      document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+    });
+  };
+
+  async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
+    customizedOptions.initialToggleValue
+      ? await page.evaluate(() => {
+          addEventListeners();
+
+          const component = document.createElement(componentTagOrHTML);
+          component[customizedOptions.openPropName] = true;
+
+          document.body.append(component);
+        })
+      : await page.evaluate(() => {
+          addEventListeners();
+        });
+  }
+
+  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
+    const tag = getTag(componentTagOrHTML);
+    const element = await page.find(tag);
+
+    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) =>
+      page.waitForEvent(event)
+    );
+
+    const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
+      eventSequence.map(async (event) => await element.spyOnEvent(event))
+    );
+
+    if (customizedOptions.beforeToggle) {
+      await customizedOptions.beforeToggle.open(page);
+    } else {
+      element.setProperty(customizedOptions.openPropName, true);
+    }
+
+    await page.waitForChanges();
+
+    await beforeOpenEvent;
+    await openEvent;
+
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+    expect(closeSpy).toHaveReceivedEventTimes(0);
+
+    if (customizedOptions.beforeToggle) {
+      await customizedOptions.beforeToggle.close(page);
+    } else {
+      element.setProperty(customizedOptions.openPropName, false);
+    }
+
+    await page.waitForChanges();
+
+    await beforeCloseEvent;
+    await closeEvent;
+
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(closeSpy).toHaveReceivedEventTimes(1);
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
+
+    expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
+  }
+
+  /**
+   * `skipAnimations` utility sets the animation duration to 0.01. This is a workaround for an issue with the animation utility.
+   * Because this still leaves a very small duration, we can still test the animation events, but faster.
+   */
+  it(`emits with animations enabled`, async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    await skipAnimations(page);
+    setUpPage(componentTagOrHTML, page);
+    await testOpenCloseEvents(componentTagOrHTML, page);
+  });
+
+  it(`emits with animations disabled`, async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    await page.addStyleTag({
+      content: `
+        :root {
+          --calcite-animation-duration: 0s;
+        }
+      `,
+    });
+    setUpPage(componentTagOrHTML, page);
+    await testOpenCloseEvents(componentTagOrHTML, page);
+  });
+
+  it("emits on initialization with animations enabled", async () => {
+    const page = await newProgrammaticE2EPage();
+    await skipAnimations(page);
+    setUpPage(componentTagOrHTML, page);
+    await testOpenCloseEvents(componentTagOrHTML, page);
+  });
+
+  it("emits on initialization with animations disabled", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.addStyleTag({
+      content: `
+        :root {
+          --calcite-animation-duration: 0s;
+        }
+      `,
+    });
+    setUpPage(componentTagOrHTML, page);
+    await testOpenCloseEvents(componentTagOrHTML, page);
+  });
 }

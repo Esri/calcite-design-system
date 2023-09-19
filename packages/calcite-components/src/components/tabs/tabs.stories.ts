@@ -36,7 +36,12 @@ export const simpleDarkModeRTL_TestOnly = (): string => html`
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
-simpleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+simpleDarkModeRTL_TestOnly.parameters = {
+  modes: modesDarkDefault,
+  chromatic: {
+    delay: 500,
+  },
+};
 
 export const bordered = (): string => html`
   <calcite-tabs
@@ -274,5 +279,24 @@ export const TabChildrenWithPercentageHeights = (): string => html`
   </calcite-tabs>
 `;
 TabChildrenWithPercentageHeights.parameters = {
+  chromatic: { delay: 1000 },
+};
+
+export const updateIndicatorOffset_TestOnly = (): string => html`<calcite-tabs>
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title id="tab-title">Boats</calcite-tab-title>
+      <calcite-tab-title selected>Ships</calcite-tab-title>
+      <calcite-tab-title>Yachts</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab>Tab 1 content</calcite-tab>
+    <calcite-tab>Tab 2 content</calcite-tab>
+    <calcite-tab>Tab 3 content</calcite-tab>
+  </calcite-tabs>
+  <script>
+    const tabTitle = document.getElementById("tab-title");
+    setTimeout(() => (tabTitle.iconStart = "bullet-point"), 300);
+  </script>`;
+
+updateIndicatorOffset_TestOnly.parameters = {
   chromatic: { delay: 1000 },
 };

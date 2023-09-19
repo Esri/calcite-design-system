@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Κλάσμα δευτερολέπτου",
+  "fractionalSecondDown": "Μείωση κλάσματος δευτερολέπτου",
+  "fractionalSecondUp": "Αύξηση κλάσματος δευτερολέπτου",
   "hour": "Ωρών",
   "hourDown": "Μείωση ώρας",
   "hourUp": "Αύξηση ώρας",

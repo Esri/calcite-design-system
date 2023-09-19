@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Vymazat",
+  "hiddenSelected": "Vybrané, ale nezobrazené řádky",
+  "page": "Stránka",
+  "row": "Řádek",
+  "selected": "Vybrané"
 }

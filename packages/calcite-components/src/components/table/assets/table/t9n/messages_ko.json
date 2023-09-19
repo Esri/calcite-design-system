@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "선택 해제",
+  "hiddenSelected": "행이 선택되었지만 보이지 않음",
+  "page": "페이지",
+  "row": "행",
+  "selected": "선택됨"
 }

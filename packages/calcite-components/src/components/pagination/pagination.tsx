@@ -33,14 +33,25 @@ import {
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { PaginationMessages } from "./assets/pagination/t9n";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
+import { createObserver } from "../../utils/observers";
+import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 
-const maxPagesDisplayed = 5;
 export interface PaginationDetail {
   start: number;
   totalItems: number;
   startItem: number;
 }
+
+const firstAndLastPageCount = 2;
+const ellipsisCount = 2;
+
+const maxItemBreakpoints = {
+  large: 11,
+  medium: 9,
+  small: 7,
+  xsmall: 5,
+};
 
 @Component({
   tag: "calcite-pagination",
@@ -65,6 +76,14 @@ export class Pagination
   @Prop({ reflect: true }) groupSeparator = false;
 
   /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: PaginationMessages;
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -75,13 +94,16 @@ export class Pagination
     /* wired up by t9n util */
   }
 
-  /** Specifies the number of items per page. */
-  @Prop({ reflect: true }) pageSize = 20;
-
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
   @Prop() numberingSystem: NumberingSystem;
+
+  /** Specifies the number of items per page. */
+  @Prop({ reflect: true }) pageSize = 20;
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the starting item number. */
   @Prop({ mutable: true, reflect: true }) startItem = 1;
@@ -89,21 +111,19 @@ export class Pagination
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) totalItems = 0;
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Watch("pageSize")
+  @Watch("totalItems")
+  handleTotalPages(): void {
+    this.totalPages = this.totalItems / this.pageSize;
+  }
 
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
-  @Element() el: HTMLCalcitePaginationElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  State
-  //
-  //--------------------------------------------------------------------------
+  @Element() el: HTMLCalcitePaginationElement;
 
   @State() defaultMessages: PaginationMessages;
 
@@ -123,13 +143,15 @@ export class Pagination
     };
   }
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: PaginationMessages;
+  @State() maxItems = maxItemBreakpoints.xsmall;
+
+  @State() totalPages: number;
+
+  private breakpoints: Breakpoints;
+
+  private resizeObserver = createObserver("resize", (entries) =>
+    entries.forEach(this.resizeHandler)
+  );
 
   //--------------------------------------------------------------------------
   //
@@ -151,20 +173,25 @@ export class Pagination
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    this.resizeObserver?.observe(this.el);
   }
 
   async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
+    const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
+    this.breakpoints = breakpoints;
     setUpLoadableComponent(this);
+    this.handleTotalPages();
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.setMaxItemsToBreakpoint(this.el.clientWidth);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -198,36 +225,76 @@ export class Pagination
   //
   // --------------------------------------------------------------------------
 
+  private setMaxItemsToBreakpoint(width: number): void {
+    const { breakpoints } = this;
+
+    if (!breakpoints || !width) {
+      return;
+    }
+
+    if (width >= breakpoints.width.medium) {
+      this.maxItems = maxItemBreakpoints.large;
+      return;
+    }
+
+    if (width >= breakpoints.width.small) {
+      this.maxItems = maxItemBreakpoints.medium;
+      return;
+    }
+
+    if (width >= breakpoints.width.xsmall) {
+      this.maxItems = maxItemBreakpoints.small;
+      return;
+    }
+
+    this.maxItems = maxItemBreakpoints.xsmall;
+  }
+
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
+    this.setMaxItemsToBreakpoint(width);
+
   private getLastStart(): number {
-    const { totalItems, pageSize } = this;
+    const { totalItems, pageSize, totalPages } = this;
     const lastStart =
-      totalItems % pageSize === 0
-        ? totalItems - pageSize
-        : Math.floor(totalItems / pageSize) * pageSize;
+      totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize;
     return lastStart + 1;
   }
 
-  private previousClicked = (): void => {
-    this.previousPage().then();
+  private previousClicked = async (): Promise<void> => {
+    await this.previousPage();
     this.emitUpdate();
   };
 
-  private nextClicked = (): void => {
-    this.nextPage();
+  private nextClicked = async (): Promise<void> => {
+    await this.nextPage();
     this.emitUpdate();
   };
 
-  private showLeftEllipsis() {
-    return Math.floor(this.startItem / this.pageSize) > 3;
+  private showStartEllipsis() {
+    return (
+      this.totalPages > this.maxItems &&
+      Math.floor(this.startItem / this.pageSize) >
+        this.maxItems - firstAndLastPageCount - ellipsisCount
+    );
   }
 
-  private showRightEllipsis() {
-    return (this.totalItems - this.startItem) / this.pageSize > 3;
+  private showEndEllipsis() {
+    return (
+      this.totalPages > this.maxItems &&
+      (this.totalItems - this.startItem) / this.pageSize >
+        this.maxItems - firstAndLastPageCount - (ellipsisCount - 1)
+    );
   }
 
   private emitUpdate() {
     this.calcitePaginationChange.emit();
   }
+
+  private handlePageClick = (event: Event) => {
+    const target = event.target as HTMLButtonElement;
+    this.startItem = parseInt(target.value, 10);
+    this.emitUpdate();
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -235,43 +302,87 @@ export class Pagination
   //
   //--------------------------------------------------------------------------
 
-  renderPages(): VNode[] {
+  renderEllipsis(type: "start" | "end"): VNode {
+    return (
+      <span
+        class={{
+          [CSS.ellipsis]: true,
+          [CSS.ellipsisStart]: type === "start",
+          [CSS.ellipsisEnd]: type === "end",
+        }}
+        key={type}
+      >
+        &hellip;
+      </span>
+    );
+  }
+
+  renderItems(): VNode[] {
+    const { totalItems, pageSize, startItem, maxItems, totalPages } = this;
+    const items: VNode[] = [];
+
+    const renderFirstPage = totalItems > pageSize;
+    const renderStartEllipsis = this.showStartEllipsis();
+    const renderEndEllipsis = this.showEndEllipsis();
     const lastStart = this.getLastStart();
+
+    if (renderFirstPage) {
+      items.push(this.renderPage(1));
+    }
+
+    if (renderStartEllipsis) {
+      items.push(this.renderEllipsis("start"));
+    }
+
+    const remainingItems =
+      maxItems -
+      firstAndLastPageCount -
+      (renderEndEllipsis ? 1 : 0) -
+      (renderStartEllipsis ? 1 : 0);
+
     let end: number;
     let nextStart: number;
 
     // if we don't need ellipses render the whole set
-    if (this.totalItems / this.pageSize <= maxPagesDisplayed) {
-      nextStart = 1 + this.pageSize;
-      end = lastStart - this.pageSize;
+    if (totalPages - 1 <= remainingItems) {
+      nextStart = 1 + pageSize;
+      end = lastStart - pageSize;
     } else {
       // if we're within max pages of page 1
-      if (this.startItem / this.pageSize < maxPagesDisplayed - 1) {
-        nextStart = 1 + this.pageSize;
-        end = 1 + 4 * this.pageSize;
+      if (startItem / pageSize < remainingItems) {
+        nextStart = 1 + pageSize;
+        end = 1 + remainingItems * pageSize;
       } else {
         // if we're within max pages of last page
-        if (this.startItem + 3 * this.pageSize >= this.totalItems) {
-          nextStart = lastStart - 4 * this.pageSize;
-          end = lastStart - this.pageSize;
+        if (startItem + remainingItems * pageSize >= totalItems) {
+          nextStart = lastStart - remainingItems * pageSize;
+          end = lastStart - pageSize;
         } else {
-          nextStart = this.startItem - this.pageSize;
-          end = this.startItem + this.pageSize;
+          // if we're within the center pages
+          nextStart = startItem - pageSize * ((remainingItems - 1) / 2);
+          end = startItem + pageSize * ((remainingItems - 1) / 2);
         }
       }
     }
 
-    const pages = [];
-    while (nextStart <= end) {
-      pages.push(nextStart);
-      nextStart = nextStart + this.pageSize;
+    for (let i = 0; i < remainingItems && nextStart <= end; i++) {
+      items.push(this.renderPage(nextStart));
+      nextStart = nextStart + pageSize;
     }
 
-    return pages.map((page) => this.renderPage(page));
+    if (renderEndEllipsis) {
+      items.push(this.renderEllipsis("end"));
+    }
+
+    items.push(this.renderPage(lastStart));
+
+    return items;
   }
 
   renderPage(start: number): VNode {
-    const page = Math.floor(start / this.pageSize) + (this.pageSize === 1 ? 0 : 1);
+    const { pageSize } = this;
+    const page = Math.floor(start / pageSize) + (pageSize === 1 ? 0 : 1);
+
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
@@ -288,37 +399,28 @@ export class Pagination
           [CSS.page]: true,
           [CSS.selected]: selected,
         }}
-        onClick={() => {
-          this.startItem = start;
-          this.emitUpdate();
-        }}
+        onClick={this.handlePageClick}
+        value={start}
       >
         {displayedPage}
       </button>
     );
   }
 
-  renderLeftEllipsis(): VNode {
-    if (this.totalItems / this.pageSize > maxPagesDisplayed && this.showLeftEllipsis()) {
-      return <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>&hellip;</span>;
-    }
-  }
-
-  renderRightEllipsis(): VNode {
-    if (this.totalItems / this.pageSize > maxPagesDisplayed && this.showRightEllipsis()) {
-      return <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>&hellip;</span>;
-    }
-  }
-
   render(): VNode {
-    const { totalItems, pageSize, startItem } = this;
+    const { totalItems, pageSize, startItem, messages, scale } = this;
+
     const prevDisabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
+
     const nextDisabled =
       pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
+
+    const iconScale = scale === "l" ? "m" : "s";
+
     return (
       <Fragment>
         <button
-          aria-label={this.messages.previous}
+          aria-label={messages.previous}
           class={{
             [CSS.previous]: true,
             [CSS.disabled]: prevDisabled,
@@ -326,15 +428,11 @@ export class Pagination
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon flipRtl icon="chevronLeft" scale={this.scale === "l" ? "m" : "s"} />
+          <calcite-icon flipRtl icon={ICONS.previous} scale={iconScale} />
         </button>
-        {totalItems > pageSize ? this.renderPage(1) : null}
-        {this.renderLeftEllipsis()}
-        {this.renderPages()}
-        {this.renderRightEllipsis()}
-        {this.renderPage(this.getLastStart())}
+        {this.renderItems()}
         <button
-          aria-label={this.messages.next}
+          aria-label={messages.next}
           class={{
             [CSS.next]: true,
             [CSS.disabled]: nextDisabled,
@@ -342,7 +440,7 @@ export class Pagination
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon flipRtl icon="chevronRight" scale={this.scale === "l" ? "m" : "s"} />
+          <calcite-icon flipRtl icon={ICONS.next} scale={iconScale} />
         </button>
       </Fragment>
     );
