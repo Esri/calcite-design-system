@@ -85,7 +85,9 @@
 
 :host([scale="m"]) {
   .button {
-    @apply text-n1h px-4 py-3 font-normal;
+    @apply text-n1h font-normal;
+    padding-inline: var(--calcite-action-internal-padding-inline-m, 1rem);
+    padding-block: var(--calcite-action-internal-padding-block-m, 0.75rem);
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");

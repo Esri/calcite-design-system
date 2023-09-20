@@ -324,7 +324,14 @@
 
 :host([layout="horizontal"][responsive-mode]) .stepper-item-header {
   inline-size: 100%;
-  @apply border-none;
+  @apply border-none p-0;
+  margin-inline-end: 0px;
+
+  .stepper-item-header-text,
+  .stepper-item-number,
+  .stepper-item-icon {
+    padding-block: 20px;
+  }
 }
 
 @media (forced-colors: active) {
@@ -353,20 +360,11 @@
   }
 }
 
-.svgborder {
-  fill: var(--calcite-ui-brand);
-  stroke-width: 5;
-  fill-opacity: 1;
-  stroke-opacity: 1;
-}
-
-.svg-container {
-  display: flex;
-  position: absolute;
-}
-
-.svg-canvas {
-  margin: 5px;
+.action-icon {
+  min-inline-size: 16px;
+  @apply flex shrink-0 py-1.5;
+  --calcite-action-internal-padding-inline-m: 0px;
+  padding-inline: 12px;
 }
 
 @include base-component();

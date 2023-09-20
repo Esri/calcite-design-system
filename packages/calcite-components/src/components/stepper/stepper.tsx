@@ -353,33 +353,27 @@ export class Stepper {
     ) {
       return;
     }
-    //hide all other stepper items
-    //show only active/selected one
-    //display chevrons
 
     if (this.documentWidth < this.breakpoints.width.xsmall) {
       this.el.style.gridTemplateColumns = "none";
       this.responsiveMode = true;
+      this.el.style.display = "flex";
+
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
-        this.el.style.display = "flex";
         if (index !== this.currentPosition) {
           item.style.display = "none";
         } else {
-          item.style.display = "flex";
+          item.style.display = "contents";
           item.responsiveMode = true;
         }
       });
     } else if (this.documentWidth > this.breakpoints.width.xsmall) {
       this.el.style.display = "grid";
       this.responsiveMode = false;
-      if (this.items.length) {
-        this.setGridTemplateColumns(this.items);
-      }
+      this.setGridTemplateColumns(this.items);
+
       this.items.forEach((item: HTMLCalciteStepperItemElement) => {
         item.style.display = "contents";
-
-        // item.style.display = "";
-
         item.responsiveMode = false;
       });
     }

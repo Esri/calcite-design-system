@@ -241,14 +241,14 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.headerEl = el)}
           >
-            {this.renderNavigationIcon("start")}
+            {this.renderActionIcon("start")}
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? <div class="stepper-item-number">{this.renderNumbers()}.</div> : null}
             <div class="stepper-item-header-text">
               <span class="stepper-item-heading">{this.heading}</span>
               <span class="stepper-item-description">{this.description}</span>
             </div>
-            {this.renderNavigationIcon("end")}
+            {this.renderActionIcon("end")}
           </div>
           <div class="stepper-item-content">
             <slot />
@@ -347,20 +347,21 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     );
   }
 
-  private renderNavigationIcon(orientation: "start" | "end"): VNode {
+  private renderActionIcon(orientation: "start" | "end"): VNode {
     const path = orientation === "start" ? "chevron-left" : "chevron-right";
     return this.layout === "horizontal" && this.responsiveMode ? (
-      <calcite-icon
-        flipRtl={this.iconFlipRtl}
+      <calcite-action
+        appearance="transparent"
+        class="action-icon"
         icon={path}
-        // eslint-disable-next-line react/jsx-no-bind
-        onClick={(event) => this.handleNavigationClick(event, orientation)}
-        scale="s"
+        iconFlipRtl={this.iconFlipRtl}
+        onClick={(event) => this.handleActionClick(event, orientation)}
+        text="next Step"
       />
     ) : null;
   }
 
-  private handleNavigationClick(event: MouseEvent, orientation: "start" | "end"): void {
+  private handleActionClick(event: MouseEvent, orientation: "start" | "end"): void {
     event.stopPropagation();
     if (orientation === "start") {
       this.calciteInternalStepperItemPrevious.emit();
