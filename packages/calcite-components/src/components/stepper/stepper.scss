@@ -22,4 +22,35 @@
   //   "content";
 }
 
+.step-bar-svg {
+  fill: var(--light-ui-border-3, #dfdfdf);
+  stroke-width: 5;
+  fill-opacity: 1;
+  stroke-opacity: 1;
+}
+
+.step-bar-svg--active {
+  fill: var(--calcite-ui-brand);
+}
+
+.step-bar-container {
+  display: flex;
+  position: absolute;
+  margin-block-end: 10px;
+  justify-content: space-between;
+}
+
+.step-bar {
+  margin-block-end: 5px;
+  margin-inline: 5px;
+}
+
+.step-bar--start {
+  margin-inline-start: 0px;
+}
+
+.step-bar--end {
+  margin-inline-end: 0px;
+}
+
 @include base-component();

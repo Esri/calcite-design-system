@@ -231,8 +231,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
       >
-        <div class="svg-container">{this.renderBorderTopSvg()}</div>
-
         <div class="container">
           <div
             class="stepper-item-header"
@@ -365,16 +363,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     ) : null;
   }
 
-  private renderBorderTopSvg(): VNode {
-    return this.layout === "horizontal" && this.responsiveMode && this.totalItems > 0 ? (
-      <svg class="svg-canvas" height="2" width="20%">
-        <rect class="svgborder" height="2" width="100%" x="0" y="0" />
-      </svg>
-    ) : null;
-  }
-
   private handleNavigationClick(event: MouseEvent, orientation: "start" | "end"): void {
-    console.log("clicked");
     event.stopPropagation();
     if (orientation === "start") {
       this.calciteInternalStepperItemPrevious.emit();

@@ -23,6 +23,7 @@ import {
   // Breakpoints,
   getBreakpoints,
 } from "../../utils/responsive";
+import { StepBar } from "./step-bar";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -132,6 +133,17 @@ export class Stepper {
     return (
       <Host>
         {/* <div class="container" ref={this.setContainerEl}> */}
+        {this.responsiveMode && (
+          <div class="step-bar-container">
+            {this.items.map((item, index) => (
+              <StepBar
+                isActive={index === this.currentPosition}
+                isEnd={index === this.items.length - 1}
+                isStart={index === 0}
+              />
+            ))}
+          </div>
+        )}
 
         <slot onSlotchange={this.handleDefaultSlotChange} />
         {/* </div> */}
@@ -288,7 +300,7 @@ export class Stepper {
   private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
 
   /** list of sorted Stepper items */
-  private items: HTMLCalciteStepperItemElement[] = [];
+  @State() items: HTMLCalciteStepperItemElement[] = [];
 
   /** list of enabled Stepper items */
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
@@ -328,7 +340,7 @@ export class Stepper {
     (entries) => (this.documentWidth = entries[0].contentRect.width)
   );
 
-  displayOneStepperOnly = false;
+  responsiveMode = false;
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -347,9 +359,10 @@ export class Stepper {
     //hide all other stepper items
     //show only active/selected one
     //display chevrons
-    console.log("activePosition", this.currentPosition);
+
     if (this.documentWidth < this.breakpoints.width.xsmall) {
       this.el.style.gridTemplateColumns = "none";
+      this.responsiveMode = true;
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
         this.el.style.display = "flex";
         if (index !== this.currentPosition) {
@@ -361,7 +374,7 @@ export class Stepper {
       });
     } else if (this.documentWidth > this.breakpoints.width.xsmall) {
       this.el.style.display = "grid";
-
+      this.responsiveMode = false;
       if (this.items.length) {
         this.setGridTemplateColumns(this.items);
       }
