@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Delček sekunde",
+  "fractionalSecondDown": "Zmanjšaj delček sekunde",
+  "fractionalSecondUp": "Povečaj delček sekunde",
   "hour": "Ura",
   "hourDown": "Zmanjšaj uro",
   "hourUp": "Povečaj uro",

@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "الكل",
+  "keyboardDeselectAll": "اضغط على مفتاح \"دخول\" أو \"المسافة\" لإلغاء تحديد جميع الصفوف",
+  "keyboardSelectAll": "اضغط على مفتاح \"دخول\" أو \"المسافة\" لتحديد جميع الصفوف",
+  "rowNumber": "رقم الصف",
+  "selected": "الصفوف المحددة",
+  "selectionColumn": "عمود التحديد"
 }

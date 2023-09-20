@@ -367,4 +367,8 @@
   padding-inline: 12px;
 }
 
+.visually-hidden {
+  @apply sr-only;
+}
+
 @include base-component();

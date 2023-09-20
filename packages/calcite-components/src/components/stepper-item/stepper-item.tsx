@@ -12,7 +12,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale } from "../interfaces";
 import {
   connectInteractive,
@@ -38,6 +37,7 @@ import {
   LoadableComponent,
   componentFocusable,
 } from "../../utils/loadable";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -227,13 +227,18 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   render(): VNode {
     return (
       <Host
-        aria-expanded={toAriaBoolean(this.selected)}
+        aria-current={this.selected ? "step" : "false"}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
       >
-        <div class="container">
+        <div class={CSS.container}>
+          {this.complete && (
+            <span aria-live="polite" class={CSS.visuallyHidden}>
+              {"Completed step"}
+            </span>
+          )}
           <div
-            class="stepper-item-header"
+            class={CSS.stepperItemHeader}
             tabIndex={
               /* additional tab index logic needed because of display: contents */
               this.layout === "horizontal" && !this.disabled ? 0 : null
@@ -243,14 +248,16 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
           >
             {this.renderActionIcon("start")}
             {this.icon ? this.renderIcon() : null}
-            {this.numbered ? <div class="stepper-item-number">{this.renderNumbers()}.</div> : null}
-            <div class="stepper-item-header-text">
-              <span class="stepper-item-heading">{this.heading}</span>
-              <span class="stepper-item-description">{this.description}</span>
+            {this.numbered ? (
+              <div class={CSS.stepperItemNumber}>{this.renderNumbers()}.</div>
+            ) : null}
+            <div class={CSS.stepperItemHeaderText}>
+              <span class={CSS.stepperItemHeading}>{this.heading}</span>
+              <span class={CSS.stepperItemDescription}>{this.description}</span>
             </div>
             {this.renderActionIcon("end")}
           </div>
-          <div class="stepper-item-content">
+          <div class={CSS.stepperItemContent}>
             <slot />
           </div>
         </div>

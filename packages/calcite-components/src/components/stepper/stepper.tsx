@@ -131,7 +131,7 @@ export class Stepper {
   render(): VNode {
     const totalItems = this.items?.length;
     return (
-      <Host>
+      <Host aria-label={"Progress steps"} role="region">
         {this.responsiveMode && (
           <div class="step-bar-container">
             {this.items.map((item, index) => (
@@ -144,7 +144,6 @@ export class Stepper {
             ))}
           </div>
         )}
-
         <slot onSlotchange={this.handleDefaultSlotChange} />
       </Host>
     );

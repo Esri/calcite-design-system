@@ -1,7 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
-import { accessible, defaults, hidden, renders, floatingUIOwner, focusable, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  floatingUIOwner,
+  focusable,
+  hidden,
+  openClose,
+  renders,
+  t9n,
+} from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -91,6 +100,13 @@ describe("calcite-popover", () => {
         defaultValue: "absolute",
       },
     ]);
+  });
+
+  describe("openClose", () => {
+    openClose(html`
+      <calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
+      <div id="ref">referenceElement</div>
+    `);
   });
 
   it("popover positions when referenceElement is set", async () => {
@@ -296,64 +312,6 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
-  });
-
-  it("should emit open and beforeOpen events", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
-    );
-    const popover = await page.find("calcite-popover");
-
-    const openEvent = await popover.spyOnEvent("calcitePopoverOpen");
-    const beforeOpenEvent = await popover.spyOnEvent("calcitePopoverBeforeOpen");
-
-    expect(openEvent).toHaveReceivedEventTimes(0);
-    expect(beforeOpenEvent).toHaveReceivedEventTimes(0);
-
-    const popoverOpenEvent = page.waitForEvent("calcitePopoverOpen");
-    const popoverBeforeOpenEvent = page.waitForEvent("calcitePopoverBeforeOpen");
-
-    await popover.setProperty("open", true);
-    await page.waitForChanges();
-
-    await popoverOpenEvent;
-    await popoverBeforeOpenEvent;
-
-    expect(openEvent).toHaveReceivedEventTimes(1);
-    expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
-  });
-
-  it("should emit close and beforeClose events", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
-    );
-
-    await page.waitForChanges();
-
-    const popover = await page.find("calcite-popover");
-
-    const closeEvent = await popover.spyOnEvent("calcitePopoverClose");
-    const beforeCloseEvent = await popover.spyOnEvent("calcitePopoverBeforeClose");
-
-    expect(closeEvent).toHaveReceivedEventTimes(0);
-    expect(beforeCloseEvent).toHaveReceivedEventTimes(0);
-
-    const popoverCloseEvent = page.waitForEvent("calcitePopoverClose");
-    const popoverBeforeCloseEvent = page.waitForEvent("calcitePopoverBeforeClose");
-
-    await page.evaluate(() => {
-      const popover = document.querySelector("calcite-popover");
-      popover.open = false;
-    });
-
-    await popoverBeforeCloseEvent;
-    await popoverCloseEvent;
-
-    expect(closeEvent).toHaveReceivedEventTimes(1);
-    expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
   });
 
   it("should open popovers", async () => {

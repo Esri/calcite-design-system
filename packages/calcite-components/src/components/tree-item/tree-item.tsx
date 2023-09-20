@@ -399,7 +399,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           });
         }
         event.preventDefault();
-      }
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -508,4 +508,3 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 }
-

@@ -92,14 +92,21 @@ export class Option {
   private ensureTextContentDependentProps(): void {
     const {
       el: { textContent },
+      internallySetLabel,
+      internallySetValue,
+      label,
+      value,
     } = this;
 
-    if (!this.label || this.label === this.internallySetLabel) {
+    if (!label || label === internallySetLabel) {
       this.label = textContent;
       this.internallySetLabel = textContent;
     }
 
-    if (!this.value || this.value === this.internallySetValue) {
+    if (
+      value == null /* intentional loose equals to handle both undefined & null */ ||
+      value === internallySetValue
+    ) {
       this.value = textContent;
       this.internallySetValue = textContent;
     }

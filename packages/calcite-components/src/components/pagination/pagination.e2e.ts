@@ -54,7 +54,7 @@ describe("calcite-pagination", () => {
     it("should render start ellipsis when total pages is over 5 and the selected page more than 4 from the starting page", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-pagination start-item="101" total-items="140" page-size="20"></calcite-pagination>`
+        `<calcite-pagination style="width:400px;" start-item="101" total-items="140" page-size="20"></calcite-pagination>`
       );
 
       const startEllipsis = await page.find(`calcite-pagination >>> .${CSS.ellipsis}.${CSS.ellipsisStart}`);
@@ -63,7 +63,7 @@ describe("calcite-pagination", () => {
     it("should render end ellipsis when total pages is over 5 and the selected page more than 3 from the final page", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-pagination start-item="801" total-items="1200" page-size="100"></calcite-pagination>`
+        `<calcite-pagination style="width:400px;" start-item="801" total-items="1200" page-size="100"></calcite-pagination>`
       );
       const endEllipsis = await page.find(`calcite-pagination >>> .${CSS.ellipsis}.${CSS.ellipsisEnd}`);
       expect(endEllipsis).not.toBeNull();
