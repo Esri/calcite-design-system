@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "tất cả",
+  "keyboardDeselectAll": "Nhấn Enter hoặc Phím cách để bỏ chọn tất cả các dòng",
+  "keyboardSelectAll": "Nhấn Enter hoặc Phím cách để chọn tất cả các dòng",
+  "rowNumber": "Số dòng",
+  "selected": "các dòng đã chọn",
+  "selectionColumn": "Cột lựa chọn"
 }

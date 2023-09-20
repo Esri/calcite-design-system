@@ -42,6 +42,7 @@ describe("calcite-input-time-zone", () => {
   describe("reflects", () => {
     reflects("calcite-input-time-zone", [
       { propertyName: "disabled", value: true },
+      { propertyName: "maxItems", value: 0 },
       { propertyName: "open", value: true },
       { propertyName: "scale", value: "m" },
       { propertyName: "overlayPositioning", value: "absolute" },
@@ -51,6 +52,7 @@ describe("calcite-input-time-zone", () => {
   describe("defaults", () => {
     defaults("calcite-input-time-zone", [
       { propertyName: "disabled", defaultValue: false },
+      { propertyName: "maxItems", defaultValue: 0 },
       { propertyName: "messageOverrides", defaultValue: undefined },
       { propertyName: "open", defaultValue: false },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
@@ -119,5 +121,15 @@ describe("calcite-input-time-zone", () => {
 
     expect(await input.getProperty("value")).toBe("-360");
     expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch("GMT-6");
+  });
+
+  it("supports setting maxItems to display", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-time-zone max-items="7"></calcite-input-time-zone>`);
+
+    const internalCombobox = await page.find("calcite-input-time-zone >>> calcite-combobox");
+
+    // we assume maxItems works properly on combobox
+    expect(await internalCombobox.getProperty("maxItems")).toBe(7);
   });
 });
