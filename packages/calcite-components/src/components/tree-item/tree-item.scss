@@ -222,13 +222,6 @@
   }
 }
 
-// dropdown expanded and not selected
-:host([has-children][expanded]:not([selected]):not([selection-mode="none"])) .node-container {
-  ::slotted(*) {
-    @apply text-color-1 font-medium;
-  }
-}
-
 .chevron {
   @apply transition-default
     text-color-3
