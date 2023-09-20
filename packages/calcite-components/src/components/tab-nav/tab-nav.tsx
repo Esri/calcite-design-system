@@ -202,22 +202,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
-  renderOverflowIcons(overflowDirection: string): VNode {
-    const { messages } = this;
-    const dirChevron: string = overflowDirection === "right" ? "chevron-right" : "chevron-left";
-    const dirText: string =
-      overflowDirection === "right" ? messages.nextTabTitles : messages.previousTabsTitles;
-
-    return (
-      <calcite-action
-        icon={dirChevron}
-        onClick={this.scrollToNextTabTitles}
-        onKeyDown={this.scrollToNextTabTitles}
-        text={dirText}
-      />
-    );
-  }
-
   render(): VNode {
     const dir = getElementDir(this.el);
     const width = `${this.indicatorWidth}px`;
@@ -248,7 +232,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          {this.layout === "inline" && this.getOverflowIcons()}
+          {console.log(this.renderOverflowIcons())}
+          {this.layout === "inline" && this.renderOverflowIcons()}
         </div>
       </Host>
     );
@@ -391,7 +376,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     this.elWidth = entries[0].contentRect.width;
 
-    this.getOverflowIcons();
+    this.renderOverflowIcons();
   });
 
   //--------------------------------------------------------------------------
@@ -399,29 +384,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private getOverflowIcons() {
-    const tabNavWidth = this.el.offsetWidth;
-
-    const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
-
-    const firstTitle = tabTitles[0].getBoundingClientRect();
-    const lastTitle = tabTitles[tabTitles.length - 1].getBoundingClientRect();
-
-    const isOverflowingRight = lastTitle.right > tabNavWidth;
-    const isOverflowingLeft = firstTitle.left < 0;
-
-    const rightArrow: VNode = this.renderOverflowIcons("right");
-    const leftArrow: VNode = this.renderOverflowIcons("left");
-
-    return !isOverflowingRight && !isOverflowingLeft
-      ? null
-      : isOverflowingRight && !isOverflowingLeft
-      ? rightArrow
-      : !isOverflowingRight && isOverflowingLeft
-      ? leftArrow
-      : [rightArrow, leftArrow];
-  }
 
   private scrollToNextTabTitles = (): void => {
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
@@ -572,5 +534,57 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       this.updateActiveWidth();
       tabTitles[this.selectedTabId].focus();
     });
+  }
+
+  private renderOverflowIcons(): VNode | VNode[] {
+    const { messages } = this;
+    console.log("getOverflowIcons function is running");
+    const tabNavWidth = this.el.offsetWidth;
+
+    const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
+
+    const firstTitle = tabTitles[0].getBoundingClientRect();
+    const lastTitle = tabTitles[tabTitles.length - 1].getBoundingClientRect();
+
+    const isOverflowingRight = lastTitle.right > tabNavWidth;
+    const isOverflowingLeft = firstTitle.left < 0;
+
+    const getActionChevronDirection = (): VNode => {
+      const dirChevronIcon: string = isOverflowingRight ? "chevron-right" : "chevron-left";
+
+      const dirText: string = isOverflowingRight
+        ? messages.nextTabTitles
+        : messages.previousTabsTitles;
+
+      const dirScroll = isOverflowingRight
+        ? this.scrollToNextTabTitles
+        : this.scrollToPreviousTabTitles;
+
+      return (
+        <calcite-action
+          icon={dirChevronIcon}
+          onClick={() => dirScroll}
+          onKeyDown={() => dirScroll}
+          text={dirText}
+        />
+      );
+    };
+
+    const showRightArrow: VNode = getActionChevronDirection();
+    const showLeftArrow: VNode = getActionChevronDirection();
+
+    console.log("isOverflowingRight", isOverflowingRight);
+
+    const action =
+      !isOverflowingRight && !isOverflowingLeft
+        ? null
+        : isOverflowingRight && !isOverflowingLeft
+        ? showRightArrow
+        : !isOverflowingRight && isOverflowingLeft
+        ? showLeftArrow
+        : [showRightArrow, showLeftArrow];
+
+    console.log("action returned from getOverflowIcons", action);
+    return action;
   }
 }
