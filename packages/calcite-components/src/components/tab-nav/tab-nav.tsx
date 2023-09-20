@@ -12,6 +12,13 @@ import {
   Watch,
 } from "@stencil/core";
 import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import {
   filterDirectChildren,
   focusElementInGroup,
   FocusElementInGroupDestination,
@@ -19,10 +26,11 @@ import {
 } from "../../utils/dom";
 // import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { createObserver } from "../../utils/observers";
-import { ICONS } from "./resources";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { TabNavMessages } from "./assets/tab-nav/t9n";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -31,8 +39,9 @@ import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
   tag: "calcite-tab-nav",
   styleUrl: "tab-nav.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class TabNav {
+export class TabNav implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -86,6 +95,25 @@ export class TabNav {
    */
   @Prop({ mutable: true }) indicatorWidth: number;
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<TabNavMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: TabNavMessages;
+
   @Watch("selectedTabId")
   async selectedTabIdChanged(): Promise<void> {
     if (
@@ -121,10 +149,8 @@ export class TabNav {
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
     this.resizeObserver?.observe(this.el);
-  }
-
-  disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -133,7 +159,7 @@ export class TabNav {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTabId = storedTab;
     }
-    // this.breakpoints = await getBreakpoints();
+    await setUpMessages(this);
   }
 
   componentWillRender(): void {
@@ -162,6 +188,34 @@ export class TabNav {
         });
       });
     }
+  }
+
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  //--------------------------------------------------------------------------
+
+  renderOverflowIcons(overflowDirection: string): VNode {
+    const { messages } = this;
+    const dirChevron: string = overflowDirection === "right" ? "chevron-right" : "chevron-left";
+    const dirText: string =
+      overflowDirection === "right" ? messages.nextTabTitles : messages.previousTabsTitles;
+
+    return (
+      <calcite-action
+        icon={dirChevron}
+        onClick={this.scrollToNextTabTitles}
+        onKeyDown={this.scrollToNextTabTitles}
+        text={dirText}
+      />
+    );
   }
 
   render(): VNode {
@@ -314,7 +368,14 @@ export class TabNav {
 
   animationActiveDuration = 0.3;
 
-  // private breakpoints: Breakpoints;
+  @State() defaultMessages: TabNavMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   @State() elWidth: number;
 
@@ -349,20 +410,9 @@ export class TabNav {
 
     const isOverflowingRight = lastTitle.right > tabNavWidth;
     const isOverflowingLeft = firstTitle.left < 0;
-    const rightArrow = (
-      <calcite-icon
-        icon={ICONS.arrowRight}
-        onClick={this.scrollToNextTabTitles}
-        scale={this.scale === "l" ? "m" : "s"}
-      />
-    );
-    const leftArrow = (
-      <calcite-icon
-        icon={ICONS.arrowLeft}
-        onClick={this.scrollToPreviousTabTitles}
-        scale={this.scale === "l" ? "m" : "s"}
-      />
-    );
+
+    const rightArrow: VNode = this.renderOverflowIcons("right");
+    const leftArrow: VNode = this.renderOverflowIcons("left");
 
     return !isOverflowingRight && !isOverflowingLeft
       ? null
