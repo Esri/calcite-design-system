@@ -214,8 +214,6 @@ describe("calcite-checkbox", () => {
         document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON()
       );
 
-      console.log(left, top, right, bottom);
-
       const maxExtraPixels = 4;
 
       await page.mouse.click(left - maxExtraPixels, top - maxExtraPixels);
@@ -251,8 +249,6 @@ describe("calcite-checkbox", () => {
       const { left, top, right, bottom } = await page.evaluate(() =>
         document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON()
       );
-
-      console.log(left, top, right, bottom);
 
       const maxExtraPixels = 3;
 
