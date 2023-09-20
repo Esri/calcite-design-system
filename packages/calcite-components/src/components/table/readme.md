@@ -22,13 +22,13 @@
 
 ## Slots
 
-| Slot                                                                                            | Description                                                                                                                            |
-| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-|                                                                                                 | A slot for adding `calcite-table-row` or nested `calcite-table` elements. Content placed here will be rendered in a `table-body` tag.  |
-| `"selection-actions"`                                                                           | A slot for adding a `calcite-action` or other element to display when `selectionMode !== "none"` and `calcite-table-row` are selected. |
-| `"selection-actions"`                                                                           | A slot for adding a `calcite-action` or other element to display when `selectionMode !== "none"` and `calcite-table-row` are selected. |
-| `"table-foot- A slot for adding `calcite-table-row`and nested`calcite-table-header` elements."` |                                                                                                                                        |
-| `"table-head- A slot for adding `calcite-table-row`and nested`calcite-table-header` elements."` |                                                                                                                                        |
+| Slot                                                                                          | Description                                                                                                                            |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+|                                                                                               | A slot for adding `calcite-table-row` or nested `calcite-table` elements. Content placed here will be rendered in a `table-body` tag.  |
+| `"selection-actions"`                                                                         | A slot for adding a `calcite-action` or other element to display when `selectionMode !== "none"` and `calcite-table-row` are selected. |
+| `"selection-actions"`                                                                         | A slot for adding a `calcite-action` or other element to display when `selectionMode !== "none"` and `calcite-table-row` are selected. |
+| `"table-foot- A slot for adding`calcite-table-row`and nested`calcite-table-header`elements."` |                                                                                                                                        |
+| `"table-head- A slot for adding`calcite-table-row`and nested`calcite-table-header`elements."` |                                                                                                                                        |
 
 ## Dependencies
 
