@@ -12,45 +12,44 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html } from "../../../support/formatting";
 
-describe("calcite-input-time", () => {
-  it("renders", async () => renders("calcite-input-time", { display: "inline-block" }));
-
-  it("is accessible", async () =>
-    accessible(`
+describe("common tests", () => {
+  accessible(html`
     <calcite-label>
       Input Time
       <calcite-input-time name="test"></calcite-input-time>
     </calcite-label>
-  `));
+  `);
 
-  it("has defaults", async () =>
-    defaults("calcite-input-time", [
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "step", defaultValue: 60 },
-    ]));
+  defaults("calcite-input-time", [
+    { propertyName: "scale", defaultValue: "m" },
+    { propertyName: "step", defaultValue: 60 },
+  ]);
 
-  it("reflects", async () =>
-    reflects(`calcite-input-time`, [
-      { propertyName: "disabled", value: true },
-      { propertyName: "iconFlipRtl", value: true },
-      { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-    ]));
+  disabled("calcite-input-time");
 
-  it("is labelable", async () => labelable("calcite-input-time"));
-
-  it("should focus the hour input when setFocus is called", async () =>
-    focusable(`calcite-input-time`, {
-      shadowFocusTargetSelector: "span.hour",
-    }));
-
-  it("can be disabled", () => disabled("calcite-input-time"));
-
-  describe("translation support", () => {
-    t9n("<calcite-input-time></calcite-input-time>");
+  focusable(`calcite-input-time`, {
+    shadowFocusTargetSelector: "span.hour",
   });
 
+  formAssociated("calcite-input-time", { testValue: "03:23", submitsOnEnter: true });
+
+  labelable("calcite-input-time");
+
+  reflects(`calcite-input-time`, [
+    { propertyName: "disabled", value: true },
+    { propertyName: "iconFlipRtl", value: true },
+    { propertyName: "required", value: true },
+    { propertyName: "scale", value: "m" },
+  ]);
+
+  renders("calcite-input-time", { display: "inline-block" });
+
+  t9n("<calcite-input-time></calcite-input-time>");
+});
+
+describe("input-time", () => {
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time id="canReadOnly" readonly></calcite-input-time>`);
@@ -360,6 +359,4 @@ describe("calcite-input-time", () => {
 
     expect(await inputTime.getProperty("value")).toBeNull();
   });
-
-  it("is form-associated", () => formAssociated("calcite-input-time", { testValue: "03:23", submitsOnEnter: true }));
 });
