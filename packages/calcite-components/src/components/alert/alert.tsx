@@ -171,9 +171,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     connectMessages(this);
     const open = this.open;
     if (open && !this.queued) {
-      this.openHandler();
       this.calciteInternalAlertRegister.emit();
-      onToggleOpenCloseComponent(this);
     }
     if (this.transitionEl) {
       this.resizeObserver?.observe(this.transitionEl);
@@ -184,6 +182,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     setUpLoadableComponent(this);
     const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
     this.breakpoints = breakpoints;
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {

@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS, DURATIONS } from "./resources";
+import { openClose } from "../../tests/commonTests";
 
 describe("defaults", () => {
   defaults("calcite-alert", [
@@ -36,6 +37,10 @@ describe("calcite-alert", () => {
     accessible(html`
       <calcite-alert open auto-close auto-close-duration="slow" label="test"> ${alertContent} </calcite-alert>
     `);
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-alert");
   });
 
   it("renders default props when none are provided", async () => {
@@ -278,54 +283,6 @@ describe("calcite-alert", () => {
       progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
       expect(await progressBarStyles.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
-  });
-
-  it("should emit component status for transition-chained events: 'calciteAlertBeforeOpen', 'calciteAlertOpen', 'calciteAlertBeforeClose', 'calciteAlertClose'", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-alert> ${alertContent} </calcite-alert>`);
-
-    const element = await page.find("calcite-alert");
-    const container = await page.find(`calcite-alert >>> .${CSS.container}`);
-
-    expect(await container.isVisible()).toBe(false);
-
-    const calciteAlertBeforeOpenEvent = page.waitForEvent("calciteAlertBeforeOpen");
-    const calciteAlertOpenEvent = page.waitForEvent("calciteAlertOpen");
-
-    const calciteAlertBeforeOpenSpy = await element.spyOnEvent("calciteAlertBeforeOpen");
-    const calciteAlertOpenSpy = await element.spyOnEvent("calciteAlertOpen");
-
-    await element.setProperty("open", true);
-    await page.waitForChanges();
-
-    await calciteAlertBeforeOpenEvent;
-    await calciteAlertOpenEvent;
-
-    expect(await element.getProperty("open")).toBe(true);
-
-    expect(calciteAlertBeforeOpenSpy).toHaveReceivedEventTimes(1);
-    expect(calciteAlertOpenSpy).toHaveReceivedEventTimes(1);
-
-    expect(await container.isVisible()).toBe(true);
-
-    const calciteAlertBeforeCloseEvent = page.waitForEvent("calciteAlertBeforeClose");
-    const calciteAlertCloseEvent = page.waitForEvent("calciteAlertClose");
-
-    const calciteAlertBeforeCloseSpy = await element.spyOnEvent("calciteAlertBeforeClose");
-    const calciteAlertClose = await element.spyOnEvent("calciteAlertClose");
-
-    await element.setProperty("open", false);
-    await page.waitForChanges();
-
-    await calciteAlertBeforeCloseEvent;
-    await calciteAlertCloseEvent;
-
-    expect(await element.getProperty("open")).toBe(false);
-
-    expect(calciteAlertBeforeCloseSpy).toHaveReceivedEventTimes(1);
-    expect(calciteAlertClose).toHaveReceivedEventTimes(1);
-
-    expect(await container.isVisible()).toBe(false);
   });
 
   it("should update number of queued alerts with a calcite-chip when removing an alert", async () => {

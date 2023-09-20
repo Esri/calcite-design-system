@@ -60,6 +60,20 @@ describe("calcite-option", () => {
     expect(await option.getProperty("label")).toBe(optionText);
     expect(await option.getProperty("value")).toBe(optionText);
 
+    option.setProperty("label", "");
+    option.setProperty("value", "");
+    await page.waitForChanges();
+
+    expect(await option.getProperty("label")).toBe(optionText);
+    expect(await option.getProperty("value")).toBe("");
+
+    option.setProperty("label", null);
+    option.setProperty("value", null);
+    await page.waitForChanges();
+
+    expect(await option.getProperty("label")).toBe(optionText);
+    expect(await option.getProperty("value")).toBe(optionText);
+
     const alternateLabel = "dos";
     await option.setProperty("innerText", alternateLabel);
     await page.waitForChanges();

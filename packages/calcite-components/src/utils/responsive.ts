@@ -17,6 +17,8 @@ function breakpointTokenToNumericalValue(style: CSSStyleDeclaration, tokenName: 
  * This util will return a breakpoints lookup object.
  *
  * Note that the breakpoints will be evaluated at the root and cached for reuse.
+ *
+ * @returns {Promise<Breakpoints>} The Breakpoints object.
  */
 export async function getBreakpoints(): Promise<Breakpoints> {
   if (getBreakpointsPromise) {
