@@ -272,7 +272,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     ) {
       this.selectedPosition = event.detail.position;
       this.determineSelectedItem();
-      this.totalItems = event.detail.totalItems;
     }
   }
 
@@ -306,8 +305,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
-
-  @State() totalItems: number;
 
   //--------------------------------------------------------------------------
   //

@@ -120,7 +120,6 @@ export class Stepper {
     if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
         position: 0,
-        totalItems: this.items.length,
       });
     }
   }
@@ -130,23 +129,23 @@ export class Stepper {
   }
 
   render(): VNode {
+    const totalItems = this.items?.length;
     return (
       <Host>
-        {/* <div class="container" ref={this.setContainerEl}> */}
         {this.responsiveMode && (
           <div class="step-bar-container">
             {this.items.map((item, index) => (
               <StepBar
                 isActive={index === this.currentPosition}
-                isEnd={index === this.items.length - 1}
+                isEnd={index === totalItems - 1}
                 isStart={index === 0}
+                width={(this.documentWidth - 8 * totalItems) / totalItems}
               />
             ))}
           </div>
         )}
 
         <slot onSlotchange={this.handleDefaultSlotChange} />
-        {/* </div> */}
       </Host>
     );
   }
@@ -324,8 +323,6 @@ export class Stepper {
     });
   }
 
-  containerEl: HTMLDivElement;
-
   @State() documentWidth: number;
 
   @Watch("documentWidth")
@@ -409,7 +406,6 @@ export class Stepper {
     this.currentPosition = position;
     this.calciteInternalStepperItemChange.emit({
       position,
-      totalItems: this.items.length,
     });
   }
 
@@ -430,10 +426,6 @@ export class Stepper {
       item.numberingSystem = this.numberingSystem;
     });
   }
-
-  setContainerEl = (el: HTMLDivElement): void => {
-    this.containerEl = el;
-  };
 
   handleDefaultSlotChange = (event: Event): void => {
     const items = slotChangeGetAssignedElements(event).filter(
