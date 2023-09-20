@@ -31,6 +31,7 @@ import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { TabNavMessages } from "./assets/tab-nav/t9n";
+import { ICON, CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -232,8 +233,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          {console.log(this.renderOverflowIcons())}
-          {this.layout === "inline" && this.renderOverflowIcons()}
+          {console.log(this.getOverflowIcons())}
+          {this.layout === "inline" && this.getOverflowIcons()}
         </div>
       </Host>
     );
@@ -376,7 +377,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     this.elWidth = entries[0].contentRect.width;
 
-    this.renderOverflowIcons();
+    this.getOverflowIcons();
   });
 
   //--------------------------------------------------------------------------
@@ -536,7 +537,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     });
   }
 
-  private renderOverflowIcons(): VNode | VNode[] {
+  private getOverflowIcons(): VNode | VNode[] {
     const { messages } = this;
     console.log("getOverflowIcons function is running");
     const tabNavWidth = this.el.offsetWidth;
@@ -549,19 +550,20 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const isOverflowingRight = lastTitle.right > tabNavWidth;
     const isOverflowingLeft = firstTitle.left < 0;
 
-    const getActionChevronDirection = (): VNode => {
-      const dirChevronIcon: string = isOverflowingRight ? "chevron-right" : "chevron-left";
+    const getActionChevronDirection = (overflowDirection: string): VNode => {
+      const dirActionClass: string = overflowDirection === "right" ? CSS.arrowRight : CSS.arrowLeft;
+      const dirChevronIcon: string =
+        overflowDirection === "right" ? ICON.arrowRight : ICON.arrowLeft;
 
-      const dirText: string = isOverflowingRight
-        ? messages.nextTabTitles
-        : messages.previousTabsTitles;
+      const dirText: string =
+        overflowDirection === "right" ? messages.nextTabTitles : messages.previousTabsTitles;
 
-      const dirScroll = isOverflowingRight
-        ? this.scrollToNextTabTitles
-        : this.scrollToPreviousTabTitles;
+      const dirScroll =
+        overflowDirection === "right" ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles;
 
       return (
         <calcite-action
+          class={dirActionClass}
           icon={dirChevronIcon}
           onClick={() => dirScroll}
           onKeyDown={() => dirScroll}
@@ -570,8 +572,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       );
     };
 
-    const showRightArrow: VNode = getActionChevronDirection();
-    const showLeftArrow: VNode = getActionChevronDirection();
+    const showRightArrow: VNode = getActionChevronDirection("right");
+    const showLeftArrow: VNode = getActionChevronDirection("left");
 
     console.log("isOverflowingRight", isOverflowingRight);
 

@@ -42,16 +42,16 @@
     ease-out;
 }
 
-calcite-icon {
+calcite-action {
   @apply absolute;
   inset-block-start: 50%;
   transform: translateY(-50%);
 }
-calcite-icon[icon="chevron-right"] {
+.chevron-right {
   inset-inline-end: 0;
 }
 
-calcite-icon[icon="chevron-left"] {
+.chevron-left {
   inset-inline-start: 0;
 }
 
