@@ -31,6 +31,18 @@ describe("calcite-panel", () => {
         propertyName: "headingLevel",
         defaultValue: undefined,
       },
+      {
+        propertyName: "collapsible",
+        defaultValue: false,
+      },
+      {
+        propertyName: "collapseDirection",
+        defaultValue: "down",
+      },
+      {
+        propertyName: "collapsed",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -67,6 +79,29 @@ describe("calcite-panel", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
+  it("honors collapsed & collapsible properties", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-panel collapsed>test</calcite-panel>");
+
+    const element = await page.find("calcite-panel");
+    const container = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
+    const collapseButtonSelector = `calcite-panel >>> [data-test="collapse"]`;
+    expect(await page.find(collapseButtonSelector)).toBeNull();
+
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(true);
+
+    element.setProperty("collapsible", true);
+
+    await page.waitForChanges();
+
+    expect(await element.getProperty("collapsible")).toBe(true);
+    expect(await page.find(collapseButtonSelector)).not.toBeNull();
+    expect(await container.isVisible()).toBe(false);
+  });
+
   it("close event should fire when closed", async () => {
     const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
 
@@ -82,6 +117,24 @@ describe("calcite-panel", () => {
   describe("accessible", () => {
     accessible(html`
       <calcite-panel>
+        <calcite-action-bar slot="${SLOTS.actionBar}">
+          <calcite-action-group>
+            <calcite-action text="Add" icon="plus"> </calcite-action>
+            <calcite-action text="Save" icon="save"> </calcite-action>
+            <calcite-action text="Layers" icon="layers"> </calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+        <div slot="${SLOTS.headerActionsStart}">test start</div>
+        <div slot="${SLOTS.headerContent}">test content</div>
+        <div slot="${SLOTS.headerActionsEnd}">test end</div>
+        <p>Content</p>
+        <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
+        <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
+      </calcite-panel>
+    `);
+
+    accessible(html`
+      <calcite-panel collapsible closable>
         <calcite-action-bar slot="${SLOTS.actionBar}">
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"> </calcite-action>

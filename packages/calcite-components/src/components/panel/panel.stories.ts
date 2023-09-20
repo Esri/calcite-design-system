@@ -50,6 +50,22 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
+        name: "collapsed",
+        commit(): Attribute {
+          this.value = boolean("collapsed", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "collapsible",
+        commit(): Attribute {
+          this.value = boolean("collapsible", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
         name: "height-scale",
         commit(): Attribute {
           this.value = select("heightScale", scale.values, scale.defaultValue);
@@ -161,6 +177,8 @@ export const darkModeRTL_TestOnly = (): string =>
     panelContent
   );
 
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
 export const closableWithActions_TestOnly = (): string => html`
   <calcite-panel
     style="height: 100%;"
@@ -176,7 +194,50 @@ export const closableWithActions_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+export const collapsibleWithoutActions_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    collapsible
+    heading="Collapsible without actions"
+    description="A panel that can be collapsed"
+  >
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const collapsibleWithActions_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const collapsedWithActions_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    collapsed
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
 
 export const withActionBar_TestOnly = (): string => html`<div style="width: 300px;">
   <calcite-panel height-scale="s">

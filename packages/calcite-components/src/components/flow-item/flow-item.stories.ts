@@ -50,6 +50,22 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
+        name: "collapsible",
+        commit(): Attribute {
+          this.value = boolean("collapsible", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "collapsed",
+        commit(): Attribute {
+          this.value = boolean("collapsed", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
         name: "height-scale",
         commit(): Attribute {
           this.value = select("heightScale", scale.values, scale.defaultValue);
@@ -137,6 +153,10 @@ export const onlyProps = (): string => html`
       )}"
     />
   </div>
+`;
+
+export const collapsed_TestOnly = (): string => html`
+  <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`
