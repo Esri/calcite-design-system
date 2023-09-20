@@ -18,11 +18,7 @@ import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
-import {
-  Breakpoints,
-  // Breakpoints,
-  getBreakpoints,
-} from "../../utils/responsive";
+import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { StepBar } from "./step-bar";
 
 /**
@@ -295,31 +291,12 @@ export class Stepper {
 
   @Element() el: HTMLCalciteStepperElement;
 
-  private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
-
-  /** list of sorted Stepper items */
-  @State() items: HTMLCalciteStepperItemElement[] = [];
-
-  /** list of enabled Stepper items */
-  private enabledItems: HTMLCalciteStepperItemElement[] = [];
-
   /** keep track of the currently active item position */
   @State() currentPosition: number;
 
   @Watch("currentPosition")
   handlePositionChange(): void {
     this.determineActiveStepper();
-  }
-
-  private mutationObserver = createObserver("mutation", () => this.updateItems());
-
-  private updateItems(): void {
-    this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
-      item.icon = this.icon;
-      item.numbered = this.numbered;
-      item.layout = this.layout;
-      item.scale = this.scale;
-    });
   }
 
   @State() documentWidth: number;
@@ -329,12 +306,17 @@ export class Stepper {
     this.determineActiveStepper();
   }
 
-  breakpoints: Breakpoints;
+  /** list of enabled Stepper items */
+  private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
-  private resizeObserver = createObserver(
-    "resize",
-    (entries) => (this.documentWidth = entries[0].contentRect.width)
-  );
+  private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
+
+  /** list of sorted Stepper items */
+  private items: HTMLCalciteStepperItemElement[] = [];
+
+  private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  breakpoints: Breakpoints;
 
   responsiveMode = false;
   //--------------------------------------------------------------------------
@@ -342,6 +324,20 @@ export class Stepper {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private resizeObserver = createObserver(
+    "resize",
+    (entries) => (this.documentWidth = entries[0].contentRect.width)
+  );
+
+  private updateItems(): void {
+    this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
+      item.icon = this.icon;
+      item.numbered = this.numbered;
+      item.layout = this.layout;
+      item.scale = this.scale;
+    });
+  }
 
   private determineActiveStepper(): void {
     if (
@@ -426,7 +422,6 @@ export class Stepper {
     );
     this.setGridTemplateColumns(items);
     this.setStepperItemNumberingSystem();
-    this.determineActiveStepper();
   };
 
   setGridTemplateColumns = (items: Element[]): void => {
