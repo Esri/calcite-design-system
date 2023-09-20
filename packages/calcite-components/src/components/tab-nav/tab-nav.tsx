@@ -194,7 +194,7 @@ export class TabNav {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          {this.getOverflowIcons()}
+          {this.layout === "inline" && this.getOverflowIcons()}
         </div>
       </Host>
     );
@@ -364,9 +364,11 @@ export class TabNav {
       />
     );
 
-    return isOverflowingRight && !isOverflowingLeft
+    return !isOverflowingRight && !isOverflowingLeft
+      ? null
+      : isOverflowingRight && !isOverflowingLeft
       ? rightArrow
-      : isOverflowingLeft && !isOverflowingRight
+      : !isOverflowingRight && isOverflowingLeft
       ? leftArrow
       : [rightArrow, leftArrow];
   }
