@@ -111,7 +111,19 @@ describe("calcite-panel", () => {
 
     await closeButton.click();
 
-    expect(calcitePanelClose).toHaveReceivedEvent();
+    expect(calcitePanelClose).toHaveReceivedEventTimes(1);
+  });
+
+  it("toggle event should fire when collapsed", async () => {
+    const page = await newE2EPage({ html: "<calcite-panel collapsible>test</calcite-panel>" });
+
+    const calcitePanelToggle = await page.spyOnEvent("calcitePanelToggle", "window");
+
+    const toggleButton = await page.find("calcite-panel >>> calcite-action[data-test=collapse]");
+
+    await toggleButton.click();
+
+    expect(calcitePanelToggle).toHaveReceivedEventTimes(1);
   });
 
   describe("accessible", () => {

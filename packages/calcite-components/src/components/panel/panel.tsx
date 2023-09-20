@@ -227,7 +227,7 @@ export class Panel
   /**
    * Fires when the collapse button is clicked.
    */
-  @Event({ cancelable: false }) calcitePanelCollapseToggle: EventEmitter<void>; // todo: event name?
+  @Event({ cancelable: false }) calcitePanelToggle: EventEmitter<void>;
 
   /**
    * Fires when the content is scrolled.
@@ -272,7 +272,7 @@ export class Panel
 
   collapse = (): void => {
     this.collapsed = !this.collapsed;
-    this.calcitePanelCollapseToggle.emit();
+    this.calcitePanelToggle.emit();
   };
 
   panelScrollHandler = (): void => {
