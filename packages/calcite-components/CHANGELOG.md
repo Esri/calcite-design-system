@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.5...@esri/calcite-components@1.9.0-next.6) (2023-09-20)
+
+### Features
+
+- **checkbox:** add WCAG AA recommended minimum 24px square hotspot optimized for touch users ([#7773](https://github.com/Esri/calcite-design-system/issues/7773)) ([f13e2c4](https://github.com/Esri/calcite-design-system/commit/f13e2c4b901f84f296612817b79a9fd49cdbc18a)), closes [#6692](https://github.com/Esri/calcite-design-system/issues/6692)
+
 ## [1.9.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.4...@esri/calcite-components@1.9.0-next.5) (2023-09-19)
 
 ### Bug Fixes
