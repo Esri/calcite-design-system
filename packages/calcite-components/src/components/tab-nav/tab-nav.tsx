@@ -209,9 +209,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const offset = `${this.indicatorOffset}px`;
     const indicatorStyle = dir !== "rtl" ? { width, left: offset } : { width, right: offset };
 
-    // const widthBreakpoints = this.breakpoints.width;
-    // const { elWidth } = this;
-
     return (
       <Host role="tablist">
         <div
