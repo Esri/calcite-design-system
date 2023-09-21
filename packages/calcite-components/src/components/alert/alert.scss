@@ -149,9 +149,15 @@
 }
 
 .footer {
-  @apply flex flex-grow justify-end w-full;
-  border-block-start: 1px solid var(--calcite-ui-border-3);
+  @apply flex flex-grow justify-end relative w-full;
   block-size: var(--calcite-alert-footer-height);
+
+  &:before {
+    content: "";
+    @apply absolute -top-px;
+    inset-inline: var(--calcite-alert-footer-divider-gap);
+    border-block-start: 1px solid var(--calcite-ui-border-3);
+  }
 }
 
 // scale variables
@@ -161,6 +167,7 @@
   --calcite-alert-spacing-token-medium: theme("spacing[2.5]");
   --calcite-alert-spacing-token-large: theme("spacing.3");
   --calcite-alert-footer-height: theme("height.8");
+  --calcite-alert-footer-divider-gap: theme("spacing[0.5]");
 
   @include slotted("title", "*") {
     @apply text-n1-wrap;
@@ -185,6 +192,7 @@
   --calcite-alert-spacing-token-medium: theme("spacing[3.5]");
   --calcite-alert-spacing-token-large: theme("spacing.4");
   --calcite-alert-footer-height: theme("height.12");
+  --calcite-alert-footer-divider-gap: theme("spacing.1");
 
   @include slotted("title", "*") {
     @apply text-0-wrap;
@@ -209,6 +217,7 @@
   --calcite-alert-spacing-token-medium: theme("spacing[4.5]");
   --calcite-alert-spacing-token-large: theme("spacing.5");
   --calcite-alert-footer-height: theme("height.16");
+  --calcite-alert-footer-divider-gap: theme("spacing.2");
 
   @include slotted("title", "*") {
     @apply text-1-wrap mb-1;
