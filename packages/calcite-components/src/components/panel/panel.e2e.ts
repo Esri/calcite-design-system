@@ -115,11 +115,13 @@ describe("calcite-panel", () => {
   });
 
   it("toggle event should fire when collapsed", async () => {
-    const page = await newE2EPage({ html: "<calcite-panel collapsible>test</calcite-panel>" });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-panel collapsible>Hello World!</calcite-panel>");
+    await page.waitForChanges();
 
     const calcitePanelToggle = await page.spyOnEvent("calcitePanelToggle", "window");
 
-    const toggleButton = await page.find("calcite-panel >>> calcite-action[data-test=collapse]");
+    const toggleButton = await page.find("calcite-panel >>> [data-test=collapse]");
 
     await toggleButton.click();
 

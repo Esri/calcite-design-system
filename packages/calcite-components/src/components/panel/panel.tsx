@@ -498,6 +498,7 @@ export class Panel
       hasStartActions,
       hasEndActions,
       closable,
+      collapsible,
       hasMenuItems,
       hasActionBar,
     } = this;
@@ -509,6 +510,7 @@ export class Panel
       !!headerContentNode ||
       hasStartActions ||
       hasEndActions ||
+      collapsible ||
       closable ||
       hasMenuItems;
 
