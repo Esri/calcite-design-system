@@ -558,15 +558,17 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       const dirText: string =
         overflowDirection === "right" ? messages.nextTabTitles : messages.previousTabsTitles;
 
-      const dirScroll =
-        overflowDirection === "right" ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles;
+      const dirScroll = (overflowDirection: string) =>
+        overflowDirection === "right"
+          ? this.scrollToNextTabTitles()
+          : this.scrollToPreviousTabTitles();
 
       return (
         <calcite-action
           class={dirActionClass}
           icon={dirChevronIcon}
-          onClick={() => dirScroll}
-          onKeyDown={() => dirScroll}
+          onClick={() => dirScroll(overflowDirection)}
+          onKeyDown={() => dirScroll(overflowDirection)}
           text={dirText}
         />
       );
