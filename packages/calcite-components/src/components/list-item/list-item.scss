@@ -104,8 +104,12 @@ td:focus {
 }
 
 .selection-container {
-  @apply flex px-3;
+  @apply px-3;
   color: var(--calcite-list-item-icon-color);
+}
+
+.open-container {
+  @apply px-3;
 }
 
 .actions-start,
