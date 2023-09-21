@@ -65,7 +65,7 @@
   "dependencies": {
     "@floating-ui/dom": "1.5.3",
     "@stencil/core": "2.22.3",
-    "@types/color": "3.0.3",
+    "@types/color": "3.0.4",
     "color": "4.2.3",
     "composed-offset-position": "0.0.4",
     "dayjs": "1.11.9",
