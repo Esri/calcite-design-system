@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-flow-item-footer-padding: Specifies the padding of the component's footer.
+ * @prop --calcite-flow-item-header-border-block-end: Specifies the border-block-end of the component's header.
  */
 
 :host {
@@ -22,7 +23,7 @@
 
 calcite-panel {
   --calcite-panel-footer-padding: var(--calcite-flow-item-footer-padding);
-  --calcite-internal-panel-header-border-block-end: var(--calcite-internal-flow-item-header-border-block-end);
+  --calcite-panel-header-border-block-end: var(--calcite-flow-item-header-border-block-end);
 }
 
 @include base-component();
