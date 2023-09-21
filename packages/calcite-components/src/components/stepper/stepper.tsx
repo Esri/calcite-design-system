@@ -306,6 +306,8 @@ export class Stepper {
     this.determineActiveStepper();
   }
 
+  private breakpoints: Breakpoints;
+
   /** list of enabled Stepper items */
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
@@ -316,9 +318,7 @@ export class Stepper {
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  breakpoints: Breakpoints;
-
-  responsiveMode = false;
+  private responsiveMode = false;
   //--------------------------------------------------------------------------
   //
   //  Private Methods

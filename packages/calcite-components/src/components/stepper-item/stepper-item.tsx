@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { Layout, Scale } from "../interfaces";
+import { Layout, Position, Scale } from "../interfaces";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -203,7 +203,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   componentWillLoad(): void {
     setUpLoadableComponent(this);
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
-    this.itemPosition = this.getItemPosition();
+    this.getItemPositionAndTotalItems();
     this.registerStepperItem();
 
     if (this.selected) {
@@ -310,6 +310,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** the latest requested item position*/
   private selectedPosition: number;
 
+  /** total number of stepper-item elements slotted in parent stepper element*/
+  private totalItems: number;
+
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
 
@@ -354,23 +357,31 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     );
   }
 
-  private renderActionIcon(orientation: "start" | "end"): VNode {
-    const path = orientation === "start" ? "chevron-left" : "chevron-right";
-    return this.layout === "horizontal" && this.responsiveMode ? (
+  private renderActionIcon(position: Position): VNode {
+    const isPositionStart = position === "start";
+    const path = isPositionStart ? "chevron-left" : "chevron-right";
+    const { itemPosition, totalItems, responsiveMode, layout, iconFlipRtl } = this;
+
+    return layout === "horizontal" && responsiveMode ? (
       <calcite-action
         appearance="transparent"
-        class="action-icon"
+        class={CSS.actionIcon}
+        disabled={
+          (itemPosition === 0 && isPositionStart) ||
+          (itemPosition === totalItems - 1 && !isPositionStart)
+        }
         icon={path}
-        iconFlipRtl={this.iconFlipRtl}
-        onClick={(event) => this.handleActionClick(event, orientation)}
+        iconFlipRtl={iconFlipRtl}
+        // eslint-disable-next-line react/jsx-no-bind
+        onClick={(event) => this.handleActionClick(event, position)}
         text="next Step"
       />
     ) : null;
   }
 
-  private handleActionClick(event: MouseEvent, orientation: "start" | "end"): void {
+  private handleActionClick(event: MouseEvent, position: Position): void {
     event.stopPropagation();
-    if (orientation === "start") {
+    if (position === "start") {
       this.calciteInternalStepperItemPrevious.emit();
     } else {
       this.calciteInternalStepperItemNext.emit();
@@ -422,10 +433,10 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     }
   };
 
-  private getItemPosition(): number {
-    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
-      this.el
-    );
+  private getItemPositionAndTotalItems(): void {
+    const items = Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item"));
+    this.itemPosition = items.indexOf(this.el);
+    this.totalItems = items.length;
   }
 
   renderNumbers(): string {
