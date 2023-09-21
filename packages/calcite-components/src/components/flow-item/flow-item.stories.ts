@@ -251,3 +251,11 @@ export const footerPadding_TestOnly = (): string => html`<div style="width: 300p
     <div slot="footer">Footer!</div>
   </calcite-flow-item>
 </div>`;
+
+export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
+  html`<calcite-flow-item
+    style="--calcite-internal-flow-item-header-border-block-end:none;"
+    height-scale="s"
+    heading="My Panel"
+    >Slotted content!</calcite-flow-item
+  >`;
