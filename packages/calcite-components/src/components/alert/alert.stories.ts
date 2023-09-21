@@ -221,7 +221,8 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
 
 // we use individual stories since we can't display multiple open alerts at the same time
 
-const breakpointsStoryTemplate = html` <style>
+const breakpointsStoryTemplate = html`
+  <style>
     .breakpoint-stories-container {
       /* force fixed container placement on the breakpoint-sized stories container */
       contain: layout;
@@ -230,39 +231,89 @@ const breakpointsStoryTemplate = html` <style>
   <calcite-alert icon open scale="{scale}">
     <div slot="title">title</div>
     <div slot="message">message</div>
-    <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
-    <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
   </calcite-alert>
-  <calcite-alert icon open scale="{scale}">
+  <calcite-alert icon scale="{scale}">
     <div slot="title">title</div>
     <div slot="message">message</div>
     <calcite-action scale="{scale}" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
     <calcite-action scale="{scale}" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
-  </calcite-alert>`;
+  </calcite-alert>
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll("calcite-alert")[1].open = true;
+    }, 500);
+  </script>
+`;
 
 export const breakpointsXsmallScaleS_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "s" });
+breakpointsXsmallScaleS_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const breakpointsSmallScaleS_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "s" });
+breakpointsXsmallScaleS_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const breakpointsMediumScaleS_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "s" });
+breakpointsMediumScaleS_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const breakpointsLargeScaleS_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "s" });
+breakpointsLargeScaleS_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
 
 export const breakpointsXsmallScaleM_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "m" });
+breakpointsXsmallScaleM_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const breakpointsSmallScaleM_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "m" });
+breakpointsSmallScaleM_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const breakpointsMediumScaleM_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "m" });
+breakpointsMediumScaleM_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const breakpointsLargeScaleM_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "m" });
+breakpointsLargeScaleM_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
 
 export const breakpointsXsmallScaleL_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "l" });
+breakpointsXsmallScaleL_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const breakpointsSmallScaleL_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "l" });
+breakpointsSmallScaleL_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const breakpointsMediumScaleL_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "l" });
+breakpointsMediumScaleL_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
 export const breakpointsLargeScaleL_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "l" });
+breakpointsLargeScaleL_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
