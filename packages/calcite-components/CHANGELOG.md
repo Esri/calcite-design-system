@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.6...@esri/calcite-components@1.9.0-next.7) (2023-09-22)
+
+### Features
+
+- **flow, flow-item:** Allow calciteFlowItemBack event to be cancelled ([#7855](https://github.com/Esri/calcite-design-system/issues/7855)) ([b74b4df](https://github.com/Esri/calcite-design-system/commit/b74b4dffd72c5bed11d6964ad4bc779b1d40665f)), closes [#7869](https://github.com/Esri/calcite-design-system/issues/7869)
+
 ## [1.9.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.5...@esri/calcite-components@1.9.0-next.6) (2023-09-20)
 
 ### Features
