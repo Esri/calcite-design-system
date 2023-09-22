@@ -11,7 +11,7 @@ You can help most by:
 - Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
 - Requesting features for existing components by [creating a Enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml).
 - Reporting problems by [creating a Bug issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml).
-- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started.
+- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a [`good first issue`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+no%3Aassignee+) label if you are just getting started.
   - Comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue.
 - If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/introduction).
 
@@ -58,15 +58,15 @@ An issue can only have one of the lifecycle labels at any time. Please make sure
 
 There are three labels that mean an issue is not ready for development:
 
-- `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, the `design` label will be removed and replaced with `design-complete`, which means a developer can pick up the issue.
+- `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, an additional label, `ready for dev` will be added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
 - `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Stencil, Storybook, Jest, etc.) or a Calcite Components issue. The blocking issue should be linked to in the blocked issue's body or comment.
 
 ### Milestones
 
-Milestones are used to manage sprints, which are two weeks long. Sprint milestones are not closed until all of the issues are verified. We usually have a couple sprint milestones open at a time to help with future planning. Calcite Core team members should grab issues from the current sprint when you are looking for something to work on. External contributors should ask before working on issues in upcoming sprints, since some of them need to be completed in a timely manner. There are also two constant milestones:
+Milestones are used to organize issues targeted for a sprint in a planned release, and are not closed until all of the issues are verified. We have multiple milestones open at a time to help with future sprint planning. Calcite Core team members should grab issues from the current milestone when you are looking for something to work on. External contributors should ask before working on issues in upcoming milestones, since some of them need to be completed in a timely manner. There are also two constant milestones:
 
-- **Backburner:** Issues we want to tackle soon, but not in the immediate sprint. If you didn't find anything to work on in the current sprint, this is the second place to look.
+- **Stalled:** Issues we want to work on now, but are blocked, missing information, or require discussion to define action items. Try not to work on these issues unless an issue has a `spike` label and the research can be added to the issue for consideration in a future sprint.
 - **Freezer:** Items that we want to look into, but do not have an immediate timeline associated. Try not to work on these issues unless they have a `help wanted` label.
 
 ### Estimates
@@ -84,7 +84,7 @@ Estimates are used to determine how much work needs to go into an issue. The tot
 
 ### Epics
 
-Epics are specified by the `epic` label. Epics are changes that require a lot of work and wouldn't fit into a single milestone. An epic should be a single concept, and have child issues for individual tasks created and listed in the epic's issue body.
+Epics are specified by the `epic` label. Epics are changes that require a considerable effort and wouldn't fit into a single milestone. An epic should be a single concept, and have child issues for individual tasks created and listed in the epic's issue body.
 
 ## Code base
 
@@ -211,7 +211,9 @@ This project follows [conventional commits](https://www.conventionalcommits.org/
 
 ## Breaking changes
 
-Commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
+Calcite Core team members should be consulted prior to submitting breaking change pull requests. For stability and consistency, breaking change sprints are coordinated and communicated well in advance.
+
+When breaking changes are supported in a current sprint, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
 
 ```text
 <type>!: <descriptive summary>
@@ -233,6 +235,16 @@ You can update the PR title any time before merging the PR. This may be necessar
 
 By default, the PR body will be used for the commit message when squash merging, so make sure to add any relevant details there.
 
-Once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required for rerunning snapshots, e.g. when pushing additional updates.
+### Visual snapshots
 
-If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent rerunning Chromatic after pushing minor cleanup changes before merging.
+If the PR includes visual changes, once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
+
+If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent re-running Chromatic after pushing minor cleanup changes before merging.
+
+### Low risk issues and Maintenance releases
+
+Sometimes a maintenance release and sprint may be added to address regressions and bug fixes. During maintenance releases, besides critical changes and regressions, new features and bug fixes can be added where PRs are identified as "low risk" to ensure stability of the upcoming release. Breaking changes should not be included in maintenance releases and must be coordinated and communicated with Calcite team owners.
+
+When a maintenance release is listed as the current milestone and sprint the associated PR should have a `low risk` label added to it so the reviewers can verify if the change is low risk. There is an action that checks if the current milestone is a maintenance release, and developers can also check by [sorting the open milestones by due date](https://github.com/Esri/calcite-design-system/milestones?direction=asc&sort=due_date&state=open).
+
+Once the proposed changes are accepted and the low risk is confirmed by Calcite's reviewers, the PR can be merged into the maintenance release.
