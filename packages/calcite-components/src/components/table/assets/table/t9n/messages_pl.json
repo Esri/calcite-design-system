@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Wyczyść",
+  "hiddenSelected": "Wiersze zostały wybrane, ale nie mieszczą się w widoku",
+  "page": "Strona",
+  "row": "Wiersz",
+  "selected": "Wybrane"
 }

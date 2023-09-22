@@ -1,14 +1,14 @@
-You can combine groups in a single dropdown, with varying selection modes:
+You can combine groups in a single Dropdown, with different `selectionMode`s:
 
 ```html
 <calcite-dropdown>
-  <calcite-button slot="trigger">Open Dropdown</calcite-button>
-  <calcite-dropdown-group group-title="Select one">
+  <calcite-button slot="trigger">Add to cart</calcite-button>
+  <calcite-dropdown-group group-title="Select one fruit">
     <calcite-dropdown-item>Apple</calcite-dropdown-item>
     <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
-    <calcite-dropdown-item>Grape</calcite-dropdown-item>
+    <calcite-dropdown-item>Banana</calcite-dropdown-item>
   </calcite-dropdown-group>
-  <calcite-dropdown-group group-title="Select multi" selection-mode="multi">
+  <calcite-dropdown-group group-title="Select multiple vegetables" selection-mode="multiple">
     <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
     <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
     <calcite-dropdown-item>Yam</calcite-dropdown-item>

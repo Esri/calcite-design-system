@@ -175,9 +175,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     connectMessages(this);
     const open = this.open;
     if (open && !this.queued) {
-      this.openHandler();
       this.calciteInternalAlertRegister.emit();
-      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -185,6 +183,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {
