@@ -172,6 +172,7 @@ export class InputTimePicker
 
   @Watch("open")
   openHandler(open: boolean): void {
+    onToggleOpenCloseComponent(this);
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
@@ -180,7 +181,6 @@ export class InputTimePicker
     if (open) {
       this.reposition(true);
     }
-    onToggleOpenCloseComponent(this);
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */

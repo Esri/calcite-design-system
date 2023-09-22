@@ -136,10 +136,6 @@ export class Notice
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
-
-    if (this.open) {
-      this.openHandler();
-    }
   }
 
   disconnectedCallback(): void {
@@ -152,6 +148,9 @@ export class Notice
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {

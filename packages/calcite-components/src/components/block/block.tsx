@@ -203,10 +203,6 @@ export class Block
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-
-    if (this.open) {
-      this.openHandler();
-    }
   }
 
   disconnectedCallback(): void {
@@ -219,6 +215,10 @@ export class Block
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
     setUpLoadableComponent(this);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {
