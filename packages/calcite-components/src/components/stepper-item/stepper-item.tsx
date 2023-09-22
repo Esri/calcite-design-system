@@ -38,6 +38,7 @@ import {
   componentFocusable,
 } from "../../utils/loadable";
 import { CSS } from "./resources";
+import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding custom content.
@@ -378,19 +379,11 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         iconFlipRtl={iconFlipRtl}
         // eslint-disable-next-line react/jsx-no-bind
         onClick={(event) => this.handleActionClick(event, position)}
+        onKeyDown={(event) => this.handleActionKeyDown(event, position)}
         scale={this.scale}
-        text="next Step"
+        text={isPositionStart ? "Previous Step" : "Next Step"}
       />
     ) : null;
-  }
-
-  private handleActionClick(event: MouseEvent, position: Position): void {
-    event.stopPropagation();
-    if (position === "start") {
-      this.calciteInternalStepperItemPrevious.emit();
-    } else {
-      this.calciteInternalStepperItemNext.emit();
-    }
   }
 
   private determineSelectedItem(): void {
@@ -442,6 +435,27 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     const items = Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item"));
     this.itemPosition = items.indexOf(this.el);
     this.totalItems = items.length;
+  }
+
+  private handleActionClick(event: MouseEvent, position: Position): void {
+    event.stopPropagation();
+    this.emitActionEvents(position);
+  }
+
+  private handleActionKeyDown(event: KeyboardEvent, position: Position): void {
+    if (!isActivationKey(event.key)) {
+      return;
+    }
+    event.stopPropagation();
+    this.emitActionEvents(position);
+  }
+
+  private emitActionEvents(position: Position): void {
+    if (position === "start") {
+      this.calciteInternalStepperItemPrevious.emit();
+    } else {
+      this.calciteInternalStepperItemNext.emit();
+    }
   }
 
   renderNumbers(): string {
