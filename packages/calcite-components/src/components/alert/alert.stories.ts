@@ -4,6 +4,8 @@ import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/u
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
+const openAlertScreenshotDelay = 1500;
+
 export default {
   title: "Components/Alert",
   parameters: {
@@ -250,70 +252,71 @@ const breakpointsStoryTemplate = html`
 export const breakpointsXsmallScaleS_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "s" });
 breakpointsXsmallScaleS_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsSmallScaleS_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "s" });
-breakpointsXsmallScaleS_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+breakpointsSmallScaleS_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsMediumScaleS_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "s" });
 breakpointsMediumScaleS_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsLargeScaleS_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "s" });
 breakpointsLargeScaleS_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsXsmallScaleM_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "m" });
 breakpointsXsmallScaleM_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsSmallScaleM_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "m" });
 breakpointsSmallScaleM_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsMediumScaleM_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "m" });
 breakpointsMediumScaleM_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsLargeScaleM_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "m" });
 breakpointsLargeScaleM_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsXsmallScaleL_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "l" });
 breakpointsXsmallScaleL_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsSmallScaleL_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "l" });
 breakpointsSmallScaleL_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
 
 export const breakpointsMediumScaleL_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "l" });
 breakpointsMediumScaleL_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
+
 export const breakpointsLargeScaleL_TestOnly = (): string =>
   createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "l" });
 breakpointsLargeScaleL_TestOnly.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: openAlertScreenshotDelay },
 };
