@@ -4,7 +4,7 @@ import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/u
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
-const openAlertScreenshotDelay = 1500;
+const openAlertScreenshotDelay = 1000;
 
 export default {
   title: "Components/Alert",
@@ -226,6 +226,8 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
 const breakpointsStoryTemplate = html`
   <style>
     .breakpoint-stories-container {
+      height: 600px;
+
       /* force fixed container placement on the breakpoint-sized stories container */
       contain: layout;
     }
@@ -248,7 +250,7 @@ const breakpointsStoryTemplate = html`
       const alert2 = document.querySelectorAll("calcite-alert")[1];
       await alert2.componentOnReady();
 
-      requestAnimationFrame(() => (alert2.open = true), 1000);
+      requestAnimationFrame(() => (alert2.open = true));
     })();
   </script>
 `;
