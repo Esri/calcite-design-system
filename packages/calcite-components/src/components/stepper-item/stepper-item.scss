@@ -361,10 +361,20 @@
 }
 
 .action-icon {
-  min-inline-size: 16px;
-  @apply flex shrink-0 py-1.5;
-  --calcite-action-internal-padding-inline-m: 0px;
-  padding-inline: 12px;
+  @apply flex shrink-0;
+  --calcite-action-internal-padding-inline-l: 0.875rem;
+  --calcite-action-internal-padding-inline-m: 0.7rem;
+  --calcite-action-internal-padding-block-m: 1.125rem;
+  --calcite-action-internal-padding-block-l: 1.125rem;
+  --calcite-action-internal-padding-block-s: 1rem;
+}
+
+.action-icon--start {
+  padding-inline-end: 8px;
+}
+
+.action-icon-end {
+  padding-inline-start: 8px;
 }
 
 .visually-hidden {

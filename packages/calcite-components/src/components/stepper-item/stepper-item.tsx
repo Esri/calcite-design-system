@@ -365,7 +365,11 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     return layout === "horizontal" && responsiveMode ? (
       <calcite-action
         appearance="transparent"
-        class={CSS.actionIcon}
+        class={{
+          [CSS.actionIcon]: true,
+          [CSS.actionIconStart]: isPositionStart,
+          [CSS.actionIconEnd]: !isPositionStart,
+        }}
         disabled={
           (itemPosition === 0 && isPositionStart) ||
           (itemPosition === totalItems - 1 && !isPositionStart)
@@ -374,6 +378,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         iconFlipRtl={iconFlipRtl}
         // eslint-disable-next-line react/jsx-no-bind
         onClick={(event) => this.handleActionClick(event, position)}
+        scale={this.scale}
         text="next Step"
       />
     ) : null;

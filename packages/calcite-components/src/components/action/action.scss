@@ -51,6 +51,7 @@
       flex
       items-center
       justify-center;
+    justify-content: center;
     min-inline-size: theme("spacing.4");
     min-block-size: theme("spacing.4");
   }
@@ -76,7 +77,9 @@
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h px-2 py-1 font-normal;
+    @apply text-n2h font-normal;
+    padding-inline: var(--calcite-action-internal-padding-inline-s, 0.5rem);
+    padding-block: var(--calcite-action-internal-padding-block-s, 0.25rem);
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -96,7 +99,9 @@
 
 :host([scale="l"]) {
   .button {
-    @apply text-0h p-5 font-normal;
+    @apply text-0h font-normal;
+    padding-inline: var(--calcite-action-internal-padding-inline-l, 1.25rem);
+    padding-block: var(--calcite-action-internal-padding-block-l, 1.25rem);
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
