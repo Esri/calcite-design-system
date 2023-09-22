@@ -181,7 +181,7 @@ export class Stepper {
     const { content, position } = event.detail;
 
     this.itemMap.set(item, { position, content });
-    this.items = this.sortItems();
+    //this.items = this.sortItems();
     this.enabledItems = this.filterItems();
     event.stopPropagation();
   }
@@ -420,6 +420,7 @@ export class Stepper {
     const items = slotChangeGetAssignedElements(event).filter(
       (el) => el?.tagName === "CALCITE-STEPPER-ITEM"
     );
+    this.items = items as HTMLCalciteStepperItemElement[];
     this.setGridTemplateColumns(items);
     this.setStepperItemNumberingSystem();
   };

@@ -453,8 +453,12 @@ describe("calcite-stepper", () => {
           const wrapper = document.querySelector(wrapperName);
 
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-          wrapper.shadowRoot.querySelector<HTMLElement>("#item-2").click();
+          const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+          item2.click();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
           return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
