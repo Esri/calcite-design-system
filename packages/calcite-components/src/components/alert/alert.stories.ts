@@ -243,9 +243,13 @@ const breakpointsStoryTemplate = html`
     <calcite-action scale="{scale}" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
   </calcite-alert>
   <script>
-    setTimeout(() => {
-      document.querySelectorAll("calcite-alert")[1].open = true;
-    }, 500);
+    (async function () {
+      await customElements.whenDefined("calcite-alert");
+      const alert2 = document.querySelectorAll("calcite-alert")[1];
+      await alert2.componentOnReady();
+
+      requestAnimationFrame(() => (alert2.open = true), 1000);
+    })();
   </script>
 `;
 
