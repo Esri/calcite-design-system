@@ -255,22 +255,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
               </div>
             </div>
           </div>
-          {hasEndActions && responsiveContainerWidth >= widthBreakpoints.small
-            ? this.renderActionsEnd()
-            : null}
-          {hasQueuedAlerts && responsiveContainerWidth >= widthBreakpoints.small
-            ? this.renderQueueCount()
-            : null}
+          <div class={CSS.footer} hidden={!hasEndActions && !hasQueuedAlerts}>
+            {this.renderActionsEnd()}
+            {hasQueuedAlerts ? this.renderQueueCount() : null}
+          </div>
           {this.renderCloseButton()}
-          {(hasEndActions || hasQueuedAlerts) &&
-          responsiveContainerWidth < widthBreakpoints.small ? (
-            <div class={CSS.footer}>
-              {this.renderActionsEnd()}
-              {hasQueuedAlerts && responsiveContainerWidth < widthBreakpoints.small
-                ? this.renderQueueCount()
-                : null}
-            </div>
-          ) : null}
           {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>

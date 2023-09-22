@@ -149,7 +149,7 @@
 }
 
 .footer {
-  @apply flex flex-grow justify-end relative w-full;
+  @apply flex justify-end order-1 relative w-full;
   block-size: var(--calcite-alert-footer-height);
 
   &:before {
@@ -338,6 +338,16 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 }
 
 @container responsive-container (min-width: #{$breakpoint-width-sm}) {
+  .footer {
+    @apply self-stretch w-auto;
+    order: initial;
+    block-size: inherit;
+
+    &:before {
+      content: none;
+    }
+  }
+
   .icon {
     padding-inline: var(--calcite-alert-spacing-token-large) 0;
   }
