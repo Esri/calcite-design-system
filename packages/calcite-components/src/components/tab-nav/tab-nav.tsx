@@ -381,32 +381,42 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
-  private scrollToNextTabTitles = (): void => {
-    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
+  private findVisibleTabTitleIndex = (tabTitles: NodeListOf<Element>, isNext: boolean): number => {
     const mobilePageWidth = this.el.getBoundingClientRect().width;
+    let visibleTabTitleIndex = -1;
 
-    let lastVisibleTabTitleIndex = -1;
-    let scrollAmount = 0;
-
-    // Find the index of the last tab title visible within the mobile-sized tab nav
     for (let i = 0; i < tabTitles.length; i++) {
       const tabTitle = tabTitles[i];
       const tabTitleRect = tabTitle.getBoundingClientRect();
 
-      if (tabTitleRect.right <= mobilePageWidth) {
-        lastVisibleTabTitleIndex = i;
-      } else {
-        break;
+      if (
+        (isNext && tabTitleRect.right <= mobilePageWidth) ||
+        (!isNext && tabTitleRect.left >= 0)
+      ) {
+        visibleTabTitleIndex = i;
+        if (!isNext) {
+          break;
+        }
       }
     }
 
-    // Calculate the scroll amount to bring the next set of tab titles into view
-    if (lastVisibleTabTitleIndex !== -1) {
-      const nextTabTitleIndex = lastVisibleTabTitleIndex + 1;
-      const nextTabTitle = tabTitles[nextTabTitleIndex];
-      if (nextTabTitle) {
-        const nextTabTitleRect = nextTabTitle.getBoundingClientRect();
-        scrollAmount = nextTabTitleRect.left - this.el.getBoundingClientRect().left;
+    return visibleTabTitleIndex;
+  };
+
+  private scrollToTabTitles = (isNext: boolean): void => {
+    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
+    const visibleTabTitleIndex = this.findVisibleTabTitleIndex(tabTitles, isNext);
+    let scrollAmount = 0;
+
+    if (visibleTabTitleIndex !== -1) {
+      const targetTabTitleIndex = isNext ? visibleTabTitleIndex + 1 : visibleTabTitleIndex - 1;
+      const targetTabTitle = tabTitles[targetTabTitleIndex];
+
+      if (targetTabTitle) {
+        const targetTabTitleRect = targetTabTitle.getBoundingClientRect();
+        scrollAmount = isNext
+          ? targetTabTitleRect.left - this.el.getBoundingClientRect().left
+          : targetTabTitleRect.right - this.el.getBoundingClientRect().width;
       }
     }
 
@@ -415,37 +425,12 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     });
   };
 
+  private scrollToNextTabTitles = (): void => {
+    this.scrollToTabTitles(true);
+  };
+
   private scrollToPreviousTabTitles = (): void => {
-    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
-    const mobilePageWidth = this.el.getBoundingClientRect().width;
-
-    let firstVisibleTabTitleIndex = -1;
-    let scrollAmount = 0;
-
-    // Find the index of the first tab title visible within the mobile-sized tab nav
-    for (let i = 0; i < tabTitles.length; i++) {
-      const tabTitle = tabTitles[i];
-      const tabTitleRect = tabTitle.getBoundingClientRect();
-
-      if (tabTitleRect.left >= 0) {
-        firstVisibleTabTitleIndex = i;
-        break;
-      }
-    }
-
-    // Calculate the scroll amount to bring the previous set of tab titles into view
-    if (firstVisibleTabTitleIndex !== -1) {
-      const previousTabTitleIndex = firstVisibleTabTitleIndex - 1;
-      const previousTabTitle = tabTitles[previousTabTitleIndex];
-      if (previousTabTitle) {
-        const previousTabTitleRect = previousTabTitle.getBoundingClientRect();
-        scrollAmount = previousTabTitleRect.right - mobilePageWidth;
-      }
-    }
-
-    requestAnimationFrame(() => {
-      this.tabNavEl.scrollLeft += scrollAmount;
-    });
+    this.scrollToTabTitles(false);
   };
 
   handleTabFocus = (
