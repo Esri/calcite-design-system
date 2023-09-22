@@ -214,7 +214,7 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
   </calcite-stepper>`;
 
 const getBreakpointsStoryTemplate = ({ scale, width }): string => html` <style>
-    calcite-stepper {
+    body {
       width: ${width}px;
     }
   </style>
