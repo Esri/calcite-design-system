@@ -130,7 +130,7 @@ export class Stepper {
       <Host aria-label={"Progress steps"} role="region">
         {this.responsiveMode && (
           <div class="step-bar-container">
-            {this.items.map((item, index) => (
+            {this.items.map((_item, index) => (
               <StepBar
                 isActive={index === this.currentPosition}
                 isEnd={index === totalItems - 1}
@@ -398,13 +398,13 @@ export class Stepper {
     });
   }
 
-  private sortItems(): HTMLCalciteStepperItemElement[] {
-    const { itemMap } = this;
+  // private sortItems(): HTMLCalciteStepperItemElement[] {
+  //   const { itemMap } = this;
 
-    return Array.from(itemMap.keys()).sort(
-      (a, b) => itemMap.get(a).position - itemMap.get(b).position
-    );
-  }
+  //   return Array.from(itemMap.keys()).sort(
+  //     (a, b) => itemMap.get(a).position - itemMap.get(b).position
+  //   );
+  // }
 
   private filterItems(): HTMLCalciteStepperItemElement[] {
     return this.items.filter((item) => !item.disabled);
