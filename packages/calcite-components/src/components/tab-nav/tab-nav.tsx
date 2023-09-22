@@ -24,7 +24,6 @@ import {
   FocusElementInGroupDestination,
   getElementDir,
 } from "../../utils/dom";
-// import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
@@ -230,7 +229,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          {console.log(this.getOverflowIcons())}
           {this.layout === "inline" && this.getOverflowIcons()}
         </div>
       </Host>
@@ -385,7 +383,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private scrollToNextTabTitles = (): void => {
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
-    const mobilePageWidth = window.innerWidth;
+    const mobilePageWidth = this.el.getBoundingClientRect().width;
 
     let lastVisibleTabTitleIndex = -1;
     let scrollAmount = 0;
@@ -419,7 +417,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private scrollToPreviousTabTitles = (): void => {
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
-    const mobilePageWidth = window.innerWidth;
+    const mobilePageWidth = this.el.getBoundingClientRect().width;
 
     let firstVisibleTabTitleIndex = -1;
     let scrollAmount = 0;
@@ -436,7 +434,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     }
 
     // Calculate the scroll amount to bring the previous set of tab titles into view
-    if (firstVisibleTabTitleIndex !== 0) {
+    if (firstVisibleTabTitleIndex !== -1) {
       const previousTabTitleIndex = firstVisibleTabTitleIndex - 1;
       const previousTabTitle = tabTitles[previousTabTitleIndex];
       if (previousTabTitle) {
@@ -536,7 +534,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private getOverflowIcons(): VNode | VNode[] {
     const { messages } = this;
-    console.log("getOverflowIcons function is running");
     const tabNavWidth = this.el.offsetWidth;
 
     const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
@@ -574,8 +571,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const showRightArrow: VNode = getActionChevronDirection("right");
     const showLeftArrow: VNode = getActionChevronDirection("left");
 
-    console.log("isOverflowingRight", isOverflowingRight);
-
     const action =
       !isOverflowingRight && !isOverflowingLeft
         ? null
@@ -585,7 +580,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         ? showLeftArrow
         : [showRightArrow, showLeftArrow];
 
-    console.log("action returned from getOverflowIcons", action);
     return action;
   }
 }
