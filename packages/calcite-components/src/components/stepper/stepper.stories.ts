@@ -212,3 +212,55 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
       >Step 1 Content Goes Here</calcite-stepper-item
     >
   </calcite-stepper>`;
+
+const getBreakpointsStoryTemplate = ({ scale, width }): string => html` <style>
+    calcite-stepper {
+      width: ${width}px;
+    }
+  </style>
+
+  <calcite-stepper numbered icon layout="horizontal" scale="${scale}">
+    <calcite-stepper-item
+      heading="Choose method"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      complete
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 1 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Compile member list"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      complete
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 2 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Set member properties"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      description="Some subtext"
+      error
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 3 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Confirm and complete"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 4 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+  </calcite-stepper>`;
+
+export const responsiveLayoutXsmallScaleS_TestOnly = (): string =>
+  getBreakpointsStoryTemplate({ scale: "s", width: 475 });
+export const responsiveLayoutXsmallScaleM_TestOnly = (): string =>
+  getBreakpointsStoryTemplate({ scale: "m", width: 475 });
+export const responsiveLayoutXsmallScaleL_TestOnly = (): string =>
+  getBreakpointsStoryTemplate({ scale: "l", width: 475 });
