@@ -909,11 +909,6 @@ export class InputTimePicker
     connectInteractive(this);
     connectLocalized(this);
 
-    const { open } = this;
-    if (open) {
-      this.openHandler(open);
-    }
-
     if (isValidTime(this.value)) {
       this.setValueDirectly(this.value);
     } else {
@@ -928,6 +923,9 @@ export class InputTimePicker
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await Promise.all([setUpMessages(this), this.loadDateTimeLocaleData()]);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad() {
