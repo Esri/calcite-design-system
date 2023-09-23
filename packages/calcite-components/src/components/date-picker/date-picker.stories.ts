@@ -5,6 +5,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
   Attributes,
+  createBreakpointStories,
   createComponentHTML as create,
   filterComponentAttributes,
   modesDarkDefault,
@@ -250,3 +251,6 @@ export const thaiLangNumberingSystem_TestOnly = (): string =>
       ])
     )}
   </div>`;
+
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(html`<calcite-date-picker scale="{scale}" value="2000-11-27"></calcite-date-picker>`);
