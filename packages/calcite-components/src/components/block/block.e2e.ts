@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS } from "./resources";
 import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { skipAnimations } from "../../tests/utils";
+import { openClose } from "../../tests/commonTests";
 
 describe("calcite-block", () => {
   describe("renders", () => {
@@ -28,6 +28,10 @@ describe("calcite-block", () => {
         defaultValue: false,
       },
     ]);
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-block");
   });
 
   describe("slots", () => {
@@ -333,60 +337,5 @@ describe("calcite-block", () => {
 
   describe("translation support", () => {
     t9n("calcite-block");
-  });
-
-  it("should emit (before) open/close events", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-block heading="heading" description="description" collapsible>
-        <div class="content">content</div>
-      </calcite-block>
-    `);
-    await skipAnimations(page);
-
-    const block = await page.find("calcite-block");
-
-    const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
-    const beforeOpenEventSpy = await block.spyOnEvent("calciteBlockBeforeOpen");
-
-    expect(openEventSpy).toHaveReceivedEventTimes(0);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(0);
-
-    const blockOpenEvent = page.waitForEvent("calciteBlockOpen");
-    const blockBeforeOpenEvent = page.waitForEvent("calciteBlockBeforeOpen");
-
-    block.setProperty("open", true);
-    await page.waitForChanges();
-
-    await blockBeforeOpenEvent;
-    await blockOpenEvent;
-
-    expect(await block.getProperty("open")).toBe(true);
-
-    expect(openEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
-
-    const closeEventSpy = await block.spyOnEvent("calciteBlockClose");
-    const beforeCloseEventSpy = await block.spyOnEvent("calciteBlockBeforeClose");
-
-    expect(closeEventSpy).toHaveReceivedEventTimes(0);
-    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(0);
-
-    const blockCloseEvent = page.waitForEvent("calciteBlockClose");
-    const blockBeforeCloseEvent = page.waitForEvent("calciteBlockBeforeClose");
-
-    block.setProperty("open", false);
-    await page.waitForChanges();
-
-    await blockBeforeCloseEvent;
-    await blockCloseEvent;
-
-    expect(await block.getProperty("open")).toBe(false);
-
-    expect(openEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
-
-    expect(closeEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(1);
   });
 });

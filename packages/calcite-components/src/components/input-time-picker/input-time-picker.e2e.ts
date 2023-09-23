@@ -14,6 +14,7 @@ import {
 } from "../../tests/commonTests";
 import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { openClose } from "../../tests/commonTests";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(() => {
@@ -88,6 +89,10 @@ describe("calcite-input-time-picker", () => {
 
   describe("disabled", () => {
     disabled("calcite-input-time-picker");
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-input-time-picker");
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
@@ -942,56 +947,5 @@ describe("calcite-input-time-picker", () => {
 
       expect(await popover.isVisible()).toBe(false);
     });
-  });
-
-  it("should emit (before) open/close events", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-time-picker></calcite-input-time-picker>`);
-    await skipAnimations(page);
-
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-
-    const openEventSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerOpen");
-    const beforeOpenEventSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerBeforeOpen");
-
-    expect(openEventSpy).toHaveReceivedEventTimes(0);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(0);
-
-    const inputTimePickerOpenEvent = page.waitForEvent("calciteInputTimePickerOpen");
-    const inputTimePickerBeforeOpenEvent = page.waitForEvent("calciteInputTimePickerBeforeOpen");
-
-    inputTimePicker.setProperty("open", true);
-    await page.waitForChanges();
-
-    await inputTimePickerBeforeOpenEvent;
-    await inputTimePickerOpenEvent;
-
-    expect(await inputTimePicker.getProperty("open")).toBe(true);
-
-    expect(openEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
-
-    const closeEventSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerClose");
-    const beforeCloseEventSpy = await inputTimePicker.spyOnEvent("calciteInputTimePickerBeforeClose");
-
-    expect(closeEventSpy).toHaveReceivedEventTimes(0);
-    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(0);
-
-    const inputTimePickerCloseEvent = page.waitForEvent("calciteInputTimePickerClose");
-    const inputTimePickerBeforeCloseEvent = page.waitForEvent("calciteInputTimePickerBeforeClose");
-
-    inputTimePicker.setProperty("open", false);
-    await page.waitForChanges();
-
-    await inputTimePickerBeforeCloseEvent;
-    await inputTimePickerCloseEvent;
-
-    expect(await inputTimePicker.getProperty("open")).toBe(false);
-
-    expect(openEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
-
-    expect(closeEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(1);
   });
 });

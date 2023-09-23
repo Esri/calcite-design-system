@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
-import { skipAnimations } from "../../tests/utils";
+import { openClose } from "../../tests/commonTests";
 
 describe("calcite-notice", () => {
   const noticeContent = html`
@@ -33,6 +33,10 @@ describe("calcite-notice", () => {
 
   describe("accessible with icon and close button", () => {
     accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-notice");
   });
 
   describe("slots", () => {
@@ -121,56 +125,5 @@ describe("calcite-notice", () => {
 
   describe("translation support", () => {
     t9n("calcite-notice");
-  });
-
-  it("should emit (before) open/close events", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-notice>${noticeContent}</calcite-notice>`);
-    await skipAnimations(page);
-
-    const notice = await page.find("calcite-notice");
-
-    const openEventSpy = await notice.spyOnEvent("calciteNoticeOpen");
-    const beforeOpenEventSpy = await notice.spyOnEvent("calciteNoticeBeforeOpen");
-
-    expect(openEventSpy).toHaveReceivedEventTimes(0);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(0);
-
-    const noticeOpenEvent = page.waitForEvent("calciteNoticeOpen");
-    const noticeBeforeOpenEvent = page.waitForEvent("calciteNoticeBeforeOpen");
-
-    notice.setProperty("open", true);
-    await page.waitForChanges();
-
-    await noticeBeforeOpenEvent;
-    await noticeOpenEvent;
-
-    expect(await notice.getProperty("open")).toBe(true);
-
-    expect(openEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
-
-    const closeEventSpy = await notice.spyOnEvent("calciteNoticeClose");
-    const beforeCloseEventSpy = await notice.spyOnEvent("calciteNoticeBeforeClose");
-
-    expect(closeEventSpy).toHaveReceivedEventTimes(0);
-    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(0);
-
-    const noticeCloseEvent = page.waitForEvent("calciteNoticeClose");
-    const noticeBeforeCloseEvent = page.waitForEvent("calciteNoticeBeforeClose");
-
-    notice.setProperty("open", false);
-    await page.waitForChanges();
-
-    await noticeBeforeCloseEvent;
-    await noticeCloseEvent;
-
-    expect(await notice.getProperty("open")).toBe(false);
-
-    expect(openEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeOpenEventSpy).toHaveReceivedEventTimes(1);
-
-    expect(closeEventSpy).toHaveReceivedEventTimes(1);
-    expect(beforeCloseEventSpy).toHaveReceivedEventTimes(1);
   });
 });
