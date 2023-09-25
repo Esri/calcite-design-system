@@ -12,7 +12,6 @@ export interface StepperItemChangeEventDetail {
 
 export interface StepBarProps {
   isActive: boolean;
-  width: number;
-  isEnd?: boolean;
-  isStart?: boolean;
+  isComplete: boolean;
+  isError: boolean;
 }

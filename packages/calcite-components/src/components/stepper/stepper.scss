@@ -35,25 +35,23 @@
   fill: var(--calcite-ui-brand);
 }
 
+.step-bar-svg--complete {
+  fill: var(--calcite-ui-brand);
+  fill-opacity: 0.5;
+}
+
+.step-bar-svg--error {
+  fill: var(--calcite-ui-danger);
+}
+
 .step-bar-container {
-  display: flex;
-  position: absolute;
-  justify-content: space-between;
+  @apply flex gap-2 absolute justify-between items-start;
   block-size: 2px;
   inline-size: 100%;
-  align-items: flex-start;
 }
 
 .step-bar {
   block-size: 100%;
-}
-
-.step-bar--start {
-  margin-inline-start: 0px;
-}
-
-.step-bar--end {
-  margin-inline-end: 0px;
 }
 
 @include base-component();

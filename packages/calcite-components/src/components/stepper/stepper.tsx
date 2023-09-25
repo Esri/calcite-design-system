@@ -125,17 +125,15 @@ export class Stepper {
   }
 
   render(): VNode {
-    const totalItems = this.items?.length;
     return (
       <Host aria-label={"Progress steps"} role="region">
         {this.responsiveMode && (
           <div class="step-bar-container">
-            {this.items.map((_item, index) => (
+            {this.items.map((item, index) => (
               <StepBar
-                isActive={index === this.currentPosition}
-                isEnd={index === totalItems - 1}
-                isStart={index === 0}
-                width={(this.documentWidth - 8 * totalItems) / totalItems}
+                isActive={item.selected && index === this.currentPosition}
+                isComplete={item.complete && index !== this.selectedPosition}
+                isError={item.error && !item.selected}
               />
             ))}
           </div>
@@ -193,6 +191,7 @@ export class Stepper {
     if (typeof position === "number") {
       this.currentPosition = position;
       this.selectedItem = event.target as HTMLCalciteStepperItemElement;
+      this.selectedPosition = position;
     }
 
     this.calciteInternalStepperItemChange.emit({
@@ -207,12 +206,22 @@ export class Stepper {
 
   @Listen("calciteInternalStepperItemNext")
   handleUserRequestedStepperItemNext(): void {
-    this.nextStep();
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
+
+    if (typeof enabledStepIndex !== "number") {
+      return;
+    }
+
+    this.currentPosition = enabledStepIndex;
   }
 
   @Listen("calciteInternalStepperItemPrevious")
   handleUserRequestedStepperItemPrevious(): void {
-    this.prevStep();
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
+    if (typeof enabledStepIndex !== "number") {
+      return;
+    }
+    this.currentPosition = enabledStepIndex;
   }
 
   //--------------------------------------------------------------------------
@@ -298,6 +307,9 @@ export class Stepper {
   handlePositionChange(): void {
     this.determineActiveStepper();
   }
+
+  /** keep track of the selected item position */
+  @State() selectedPosition: number;
 
   @State() documentWidth: number;
 
