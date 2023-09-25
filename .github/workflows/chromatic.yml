@@ -17,8 +17,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
       - run: npm install
       - name: Publish to Chromatic
         uses: chromaui/action@v1
@@ -29,6 +27,7 @@ jobs:
           autoAcceptChanges: main
           workingDir: packages/calcite-components
         env:
+          NODE_OPTIONS: "--openssl-legacy-provider"
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
           CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
   skip:
