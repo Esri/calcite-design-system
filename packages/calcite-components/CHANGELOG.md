@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.7...@esri/calcite-components@1.9.0-next.8) (2023-09-23)
+
+### Features
+
+- **block, input-time-picker, notice:** adds `open`, `close`, `beforeOpen`, and `beforeClose` events for consistent event handling ([#7494](https://github.com/Esri/calcite-design-system/issues/7494)) ([04ce758](https://github.com/Esri/calcite-design-system/commit/04ce758f46d8fb7bc4b8f4004848011ac80b0444)), closes [#5056](https://github.com/Esri/calcite-design-system/issues/5056)
+
+## [1.9.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.6...@esri/calcite-components@1.9.0-next.7) (2023-09-22)
+
+### Features
+
+- **flow, flow-item:** Allow calciteFlowItemBack event to be cancelled ([#7855](https://github.com/Esri/calcite-design-system/issues/7855)) ([b74b4df](https://github.com/Esri/calcite-design-system/commit/b74b4dffd72c5bed11d6964ad4bc779b1d40665f)), closes [#7869](https://github.com/Esri/calcite-design-system/issues/7869)
+
 ## [1.9.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.5...@esri/calcite-components@1.9.0-next.6) (2023-09-20)
 
 ### Features
