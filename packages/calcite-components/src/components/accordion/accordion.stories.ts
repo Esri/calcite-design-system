@@ -187,7 +187,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault, chromatic: { disableSnapshot: false }, };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const transparentAppearance_TestOnly = (): string =>
   create(
