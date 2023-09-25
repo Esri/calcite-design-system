@@ -1,4 +1,4 @@
-To use a custom color for the icon fill, you can add a class to the `calcite-icon` component with the desired color.
+To use a custom color for the icon fill, you can supply your desired color to the `--calcite-ui-icon-color` CSS variable:
 
 ```html
 <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft"></calcite-icon>
@@ -6,6 +6,6 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 
 ```css
 .my-icon-color-class {
-  color: #007ac2;
+  --calcite-ui-icon-color: #007ac2;
 }
 ```
