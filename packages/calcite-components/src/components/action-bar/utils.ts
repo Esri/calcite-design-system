@@ -12,9 +12,10 @@ export const geActionDimensions = (
   actions: HTMLCalciteActionElement[]
 ): { actionWidth: number; actionHeight: number } => {
   const actionLen = actions?.length;
+  const filteredActions = actions.filter((action) => !action.slot);
   return {
-    actionWidth: actionLen ? getAverage(actions.map((action) => action.clientWidth || 0)) : 0,
-    actionHeight: actionLen ? getAverage(actions.map((action) => action.clientHeight || 0)) : 0,
+    actionWidth: actionLen ? getAverage(filteredActions.map((action) => action.clientWidth || 0)) : 0,
+    actionHeight: actionLen ? getAverage(filteredActions.map((action) => action.clientHeight || 0)) : 0,
   };
 };
 
