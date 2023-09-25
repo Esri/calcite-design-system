@@ -1,8 +1,11 @@
 @mixin sortable-helper-classes() {
-  .calcite-sortable--chosen,
-  .calcite-sortable--ghost,
-  .calcite-sortable--drag {
-    @apply border border-dashed;
-    border-color: var(--calcite-ui-brand);
+  // .calcite-sortable--chosen,
+  // .calcite-sortable--ghost,
+  // .calcite-sortable--drag {
+  //   @apply border border-dashed;
+  //   border-color: var(--calcite-ui-brand);
+  // }
+  .calcite-sortable--original-location {
+    @apply border-b border-solid  border-color-input;
   }
 }
