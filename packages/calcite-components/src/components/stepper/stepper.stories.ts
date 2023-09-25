@@ -213,12 +213,7 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
     >
   </calcite-stepper>`;
 
-const getBreakpointsStoryTemplate = ({ scale }): string => html` <calcite-stepper
-  numbered
-  icon
-  layout="horizontal"
-  scale="${scale}"
->
+const breakpointsStoryTemplate = html` <calcite-stepper numbered icon layout="horizontal">
   <calcite-stepper-item
     heading="Choose method"
     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
@@ -258,8 +253,8 @@ const getBreakpointsStoryTemplate = ({ scale }): string => html` <calcite-steppe
 </calcite-stepper>`;
 
 export const responsiveLayoutXsmallScaleS_TestOnly = (): string =>
-  createBreakpointStories(getBreakpointsStoryTemplate({ scale: "s" }), { breakpoint: "xsmall", scale: "s" });
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "s" });
 export const responsiveLayoutXsmallScaleM_TestOnly = (): string =>
-  createBreakpointStories(getBreakpointsStoryTemplate({ scale: "s" }), { breakpoint: "xsmall", scale: "m" });
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "m" });
 export const responsiveLayoutXsmallScaleL_TestOnly = (): string =>
-  createBreakpointStories(getBreakpointsStoryTemplate({ scale: "s" }), { breakpoint: "xsmall", scale: "l" });
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "l" });
