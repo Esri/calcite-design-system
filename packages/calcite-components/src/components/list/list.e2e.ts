@@ -6,6 +6,7 @@ import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused } from "../../tests/utils";
+import { DragDetail } from "../../utils/sortableComponent";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -474,6 +475,8 @@ describe("calcite-list", () => {
 
     type TestWindow = GlobalTestProps<{
       calledTimes: number;
+      newIndex: number;
+      oldIndex: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -482,8 +485,10 @@ describe("calcite-list", () => {
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
         (window as TestWindow).calledTimes = 0;
-        list.addEventListener("calciteListOrderChange", () => {
+        list.addEventListener("calciteListOrderChange", (event: CustomEvent<DragDetail>) => {
           (window as TestWindow).calledTimes++;
+          (window as TestWindow).newIndex = event.detail.newIndex;
+          (window as TestWindow).oldIndex = event.detail.oldIndex;
         });
       });
 
@@ -505,6 +510,8 @@ describe("calcite-list", () => {
       await page.waitForChanges();
 
       expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(1);
+      expect(await page.evaluate(() => (window as TestWindow).oldIndex)).toBe(0);
+      expect(await page.evaluate(() => (window as TestWindow).newIndex)).toBe(1);
     });
 
     it("supports dragging items between lists", async () => {
