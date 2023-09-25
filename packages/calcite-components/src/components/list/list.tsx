@@ -766,23 +766,25 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     const sameParentItems = enabledListItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
-    const startingIndex = sameParentItems.indexOf(sortItem);
+    const oldIndex = sameParentItems.indexOf(sortItem);
     let appendInstead = false;
-    let buddyIndex: number;
+    let newIndex: number;
 
     if (direction === "up") {
-      if (startingIndex === 0) {
+      if (oldIndex === 0) {
         appendInstead = true;
+        newIndex = lastIndex;
       } else {
-        buddyIndex = startingIndex - 1;
+        newIndex = oldIndex - 1;
       }
     } else {
-      if (startingIndex === lastIndex) {
-        buddyIndex = 0;
-      } else if (startingIndex === lastIndex - 1) {
+      if (oldIndex === lastIndex) {
+        newIndex = 0;
+      } else if (oldIndex === lastIndex - 1) {
         appendInstead = true;
+        newIndex = lastIndex;
       } else {
-        buddyIndex = startingIndex + 2;
+        newIndex = oldIndex + 2;
       }
     }
 
@@ -791,7 +793,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     if (appendInstead) {
       parentEl.appendChild(sortItem);
     } else {
-      parentEl.insertBefore(sortItem, sameParentItems[buddyIndex]);
+      parentEl.insertBefore(sortItem, sameParentItems[newIndex]);
     }
 
     this.updateListItems();
@@ -801,8 +803,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       dragEl: sortItem,
       fromEl: parentEl,
       toEl: parentEl,
-      newIndex: buddyIndex,
-      oldIndex: startingIndex,
+      newIndex,
+      oldIndex,
     });
 
     handle.setFocus().then(() => {
