@@ -27,7 +27,6 @@ jobs:
           autoAcceptChanges: main
           workingDir: packages/calcite-components
         env:
-          NODE_OPTIONS: "--openssl-legacy-provider"
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
           CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
   skip:
