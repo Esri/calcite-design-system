@@ -368,6 +368,43 @@ describe("calcite-action-bar", () => {
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
     });
 
+    it("should slot 'menu-actions' on sublist changes after being enabled", async () => {
+      const page = await newE2EPage({
+        html: html`<div style="width:500px; height:500px;">
+          <calcite-action-bar style="height: 290px" overflow-actions-disabled>
+            <calcite-action-group id="dynamic-group"
+              ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
+              <calcite-action text="Styles" icon="shapes"></calcite-action>
+              <calcite-action text="Styles" icon="shapes"></calcite-action>
+              <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+              <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
+              <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
+              <calcite-action text="Labels" icon="label" active></calcite-action>
+              <calcite-action text="Table" icon="table"></calcite-action
+            ></calcite-action-group>
+            <calcite-action-group>
+              <calcite-action text="Save" icon="save" disabled></calcite-action>
+              <calcite-action icon="layers" text="Layers"></calcite-action>
+            </calcite-action-group>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
+          </calcite-action-bar>
+        </div>`,
+      });
+      await page.waitForChanges();
+      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+
+      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
+
+      const actionBar = await page.find("calcite-action-bar");
+      actionBar.setProperty("overflowActionsDisabled", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+
+      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
+    });
+
     it.skip("should slot 'menu-actions' on resize of component", async () => {
       const page = await newE2EPage({
         html: html`<div style="width:500px; height:500px;">
