@@ -799,8 +799,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
     this.calciteListOrderChange.emit({
       dragEl: sortItem,
-      fromEl: null,
-      toEl: null,
+      fromEl: parentEl,
+      toEl: parentEl,
+      newIndex: buddyIndex,
+      oldIndex: startingIndex,
     });
 
     handle.setFocus().then(() => {
