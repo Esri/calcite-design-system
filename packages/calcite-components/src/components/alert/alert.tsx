@@ -255,11 +255,12 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
               </div>
             </div>
           </div>
+          {responsiveContainerWidth < widthBreakpoints.small ? this.renderCloseButton() : null}
           <div class={CSS.footer} hidden={!hasEndActions && !hasQueuedAlerts}>
             {this.renderActionsEnd()}
             {hasQueuedAlerts ? this.renderQueueCount() : null}
           </div>
-          {this.renderCloseButton()}
+          {responsiveContainerWidth >= widthBreakpoints.small ? this.renderCloseButton() : null}
           {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>
@@ -271,6 +272,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       <button
         aria-label={this.messages.close}
         class={CSS.close}
+        key="close"
         onClick={this.closeAlert}
         type="button"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)

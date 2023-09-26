@@ -75,7 +75,7 @@
 }
 
 .close {
-  @apply bg-transparent border-none cursor-pointer flex items-start justify-end outline-none self-stretch text-color-3;
+  @apply bg-transparent border-none cursor-pointer flex items-start justify-end outline-none self-start text-color-3;
   -webkit-appearance: none;
   padding: var(--calcite-alert-spacing-token-large);
 
@@ -338,6 +338,10 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 }
 
 @container responsive-container (min-width: #{$breakpoint-width-sm}) {
+  .close {
+    @apply self-stretch;
+  }
+
   .footer {
     @apply self-stretch w-auto;
     order: initial;
