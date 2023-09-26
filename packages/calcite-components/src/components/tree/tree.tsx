@@ -144,8 +144,8 @@ export class Tree {
     event.stopPropagation();
 
     if (this.selectionMode === "ancestors") {
-      if (event.detail.updateItem) {
-        target.expanded = !target.expanded;
+      if (event.detail.updateItem && !target.expanded && !target.selected) {
+        target.expanded = true;
       }
 
       this.updateAncestorTree(event);
