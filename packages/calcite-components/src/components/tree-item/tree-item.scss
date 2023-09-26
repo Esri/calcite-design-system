@@ -174,7 +174,7 @@
 
 :host([selected]) .node-container,
 :host([selected]) .node-container:hover {
-  @apply font-medium text-color-1 text-n1h;
+  @apply font-medium text-color-1;
 
   .bullet-point,
   .checkmark {
