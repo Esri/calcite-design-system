@@ -34,6 +34,7 @@ import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { NoticeMessages } from "./assets/notice/t9n";
 import { CSS, SLOTS } from "./resources";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -56,7 +57,12 @@ import { CSS, SLOTS } from "./resources";
   assetsDirs: ["assets"],
 })
 export class Notice
-  implements ConditionalSlotComponent, LoadableComponent, T9nComponent, LocalizedComponent
+  implements
+    ConditionalSlotComponent,
+    LoadableComponent,
+    T9nComponent,
+    LocalizedComponent,
+    OpenCloseComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -66,6 +72,11 @@ export class Notice
 
   /** When `true`, the component is visible. */
   @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(): void {
+    onToggleOpenCloseComponent(this);
+  }
 
   /** Specifies the kind of the component (will apply to top border and icon). */
   @Prop({ reflect: true }) kind: Extract<
@@ -137,6 +148,9 @@ export class Notice
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {
@@ -160,7 +174,11 @@ export class Notice
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
-      <div class={CSS.container}>
+      <div
+        class={CSS.container}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={this.setTransitionEl}
+      >
         {this.requestedIcon ? (
           <div class={CSS.icon}>
             <calcite-icon
@@ -191,10 +209,16 @@ export class Notice
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when the component is closed. */
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteNoticeBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteNoticeBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
   @Event({ cancelable: false }) calciteNoticeClose: EventEmitter<void>;
 
-  /** Fired when the component is opened. */
+  /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteNoticeOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
@@ -220,6 +244,26 @@ export class Notice
     }
   }
 
+  onBeforeClose(): void {
+    this.calciteNoticeBeforeClose.emit();
+  }
+
+  onBeforeOpen(): void {
+    this.calciteNoticeBeforeOpen.emit();
+  }
+
+  onClose(): void {
+    this.calciteNoticeClose.emit();
+  }
+
+  onOpen(): void {
+    this.calciteNoticeOpen.emit();
+  }
+
+  private setTransitionEl = (el: HTMLElement): void => {
+    this.transitionEl = el;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -227,7 +271,6 @@ export class Notice
   //--------------------------------------------------------------------------
   private close = (): void => {
     this.open = false;
-    this.calciteNoticeClose.emit();
   };
 
   //--------------------------------------------------------------------------
@@ -252,4 +295,8 @@ export class Notice
   }
 
   @State() defaultMessages: NoticeMessages;
+
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLElement;
 }

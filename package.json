@@ -42,7 +42,7 @@
     "@types/eslint": "8.40.2",
     "@types/estree": "1.0.1",
     "@types/jest": "27.0.3",
-    "@types/jest-axe": "3.5.5",
+    "@types/jest-axe": "3.5.6",
     "@types/lodash-es": "4.17.9",
     "@types/node": "20.4.10",
     "@types/react": "^16.7.6",
@@ -80,7 +80,7 @@
     "lerna": "7.1.5",
     "lint-staged": "13.2.3",
     "markdownlint-cli": "0.34.0",
-    "postcss": "8.4.29",
+    "postcss": "8.4.30",
     "prettier": "2.8.8",
     "puppeteer": "10.0.0",
     "quicktype-core": "23.0.75",
@@ -112,6 +112,6 @@
   },
   "packageManager": "npm@8.19.4",
   "volta": {
-    "node": "16.20.0"
+    "node": "18.18.0"
   }
 }
