@@ -217,6 +217,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     const { open, autoClose, responsiveContainerWidth, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const widthBreakpoints = this.breakpoints.width;
+    const lessThanSmall = responsiveContainerWidth < widthBreakpoints.small;
+    const greaterOrEqualThanSmall = responsiveContainerWidth >= widthBreakpoints.small;
     const hidden = !open;
     const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     const hasQueuedAlerts = this.queueLength > 1;
@@ -241,13 +243,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           ref={this.setTransitionEl}
         >
           <div class={CSS.contentContainer}>
-            {effectiveIcon && responsiveContainerWidth >= widthBreakpoints.small
-              ? this.renderIcon(effectiveIcon)
-              : null}
+            {effectiveIcon && greaterOrEqualThanSmall ? this.renderIcon(effectiveIcon) : null}
             <div class={CSS.content}>
-              {effectiveIcon && responsiveContainerWidth < widthBreakpoints.small
-                ? this.renderIcon(effectiveIcon)
-                : null}
+              {effectiveIcon && lessThanSmall ? this.renderIcon(effectiveIcon) : null}
               <div class={CSS.textContainer}>
                 <slot name={SLOTS.title} />
                 <slot name={SLOTS.message} />
@@ -255,12 +253,12 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
               </div>
             </div>
           </div>
-          {responsiveContainerWidth < widthBreakpoints.small ? this.renderCloseButton() : null}
+          {lessThanSmall ? this.renderCloseButton() : null}
           <div class={CSS.footer} hidden={!hasEndActions && !hasQueuedAlerts}>
             {this.renderActionsEnd()}
             {hasQueuedAlerts ? this.renderQueueCount() : null}
           </div>
-          {responsiveContainerWidth >= widthBreakpoints.small ? this.renderCloseButton() : null}
+          {greaterOrEqualThanSmall ? this.renderCloseButton() : null}
           {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>
