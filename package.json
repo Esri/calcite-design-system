@@ -54,7 +54,7 @@
     "@typescript-eslint/eslint-plugin": "5.60.1",
     "@typescript-eslint/parser": "5.48.2",
     "@whitespace/storybook-addon-html": "5.0.0",
-    "autoprefixer": "10.4.15",
+    "autoprefixer": "10.4.16",
     "axe-core": "4.7.2",
     "babel-loader": "8.3.0",
     "cheerio": "1.0.0-rc.10",
