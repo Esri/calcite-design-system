@@ -1,3 +1,4 @@
+<!-- markdownlint-disable no-inline-html -->
 <style>
     .check-div {
         padding: 1rem;

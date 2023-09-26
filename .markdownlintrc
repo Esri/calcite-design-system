@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/main/schema/markdownlint-config-schema.json",
+  "first-line-heading": false,
+  "line-length": { 
+    "line_length": 100000
+  },
+  "code-block-style": { "style": "fenced" },
+  "code-fence-style": { "style": "backtick" },
+  "heading-style": { "style": "atx" },
+  "no-duplicate-heading": { "siblings_only": true },
+  "emphasis-style": { "style": "underscore" },
+  "strong-style": { "style": "underscore" },
+  "ul-style": { "style": "dash" },
+  "no-inline-html": {
+    "allowed_elements": [
+      "a",
+      "b",
+      "br",
+      "code",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "img",
+      "img",
+      "ol",
+      "span",
+      "strike",
+      "style",
+      "svg",
+      "table",
+      "tbody",
+      "td",
+      "th",
+      "thead",
+      "tr",
+      "ul"
+    ]
+  }
+}
