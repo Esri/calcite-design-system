@@ -182,7 +182,6 @@ export class Stepper {
     const { content, position } = event.detail;
 
     this.itemMap.set(item, { position, content });
-    //this.items = this.sortItems();
     this.enabledItems = this.filterItems();
     event.stopPropagation();
   }
@@ -413,14 +412,6 @@ export class Stepper {
     });
   }
 
-  // private sortItems(): HTMLCalciteStepperItemElement[] {
-  //   const { itemMap } = this;
-
-  //   return Array.from(itemMap.keys()).sort(
-  //     (a, b) => itemMap.get(a).position - itemMap.get(b).position
-  //   );
-  // }
-
   private filterItems(): HTMLCalciteStepperItemElement[] {
     return this.items.filter((item) => !item.disabled);
   }
@@ -442,7 +433,7 @@ export class Stepper {
 
   setGridTemplateColumns = (items: Element[]): void => {
     const spacing = Array(items.length).fill("1fr").join(" ");
-    // this.el.style.gridTemplateAreas = spacing;
+    this.el.style.gridTemplateAreas = spacing;
     this.el.style.gridTemplateColumns = spacing;
   };
 }

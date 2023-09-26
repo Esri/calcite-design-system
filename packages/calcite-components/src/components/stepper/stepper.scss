@@ -17,12 +17,12 @@
   display: grid;
   // grid-templates-columns are dynamically generated
   // grid-templates-rows are dynamically generated
-  // grid-template-areas:
-  //   "items"
-  //   "content";
+  grid-template-areas:
+    "items"
+    "content";
 }
 
-.step-bar-svg {
+.step-bar--inactive {
   fill: var(--light-ui-border-3, #dfdfdf);
   stroke-width: 5;
   fill-opacity: 1;
@@ -31,27 +31,27 @@
   inline-size: 100%;
 }
 
-.step-bar-svg--active {
+.step-bar--active {
   fill: var(--calcite-ui-brand);
 }
 
-.step-bar-svg--complete {
+.step-bar--complete {
   fill: var(--calcite-ui-brand);
   fill-opacity: 0.5;
 }
 
-.step-bar-svg--error {
+.step-bar--error {
   fill: var(--calcite-ui-danger);
-}
-
-.step-bar-container {
-  @apply flex gap-2 absolute justify-between items-start;
-  block-size: 2px;
-  inline-size: 100%;
 }
 
 .step-bar {
   block-size: 100%;
+}
+
+.step-bar-container {
+  @apply flex gap-2 absolute justify-between items-start;
+  block-size: 0.125rem;
+  inline-size: 100%;
 }
 
 @include base-component();

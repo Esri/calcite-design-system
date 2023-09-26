@@ -324,13 +324,29 @@
 
 :host([layout="horizontal"][responsive-mode]) .stepper-item-header {
   inline-size: 100%;
-  @apply border-none p-0;
-  margin-inline-end: 0px;
+  @apply border-none p-0 me-0;
+}
 
+:host([scale="s"][layout="horizontal"][responsive-mode]) .stepper-item-header {
   .stepper-item-header-text,
   .stepper-item-number,
   .stepper-item-icon {
-    padding-block: 20px;
+    padding-block: var(--calcite-stepper-item-spacing-unit-l);
+  }
+}
+:host([scale="m"][layout="horizontal"][responsive-mode]) .stepper-item-header {
+  .stepper-item-header-text,
+  .stepper-item-number,
+  .stepper-item-icon {
+    padding-block: var(--calcite-stepper-item-spacing-unit-l);
+  }
+}
+
+:host([scale="l"][layout="horizontal"][responsive-mode]) .stepper-item-header {
+  .stepper-item-header-text,
+  .stepper-item-number,
+  .stepper-item-icon {
+    padding-block: var(--calcite-stepper-item-spacing-unit-l);
   }
 }
 
@@ -362,11 +378,11 @@
 
 .action-icon {
   @apply flex shrink-0;
-  --calcite-action-internal-padding-inline-l: 0.875rem;
   --calcite-action-internal-padding-inline-m: 0.75rem;
+  --calcite-action-internal-padding-inline-l: 0.875rem;
+  --calcite-action-internal-padding-block-s: 0.875rem;
   --calcite-action-internal-padding-block-m: 1.125rem;
-  --calcite-action-internal-padding-block-l: 1.125rem;
-  --calcite-action-internal-padding-block-s: 1rem;
+  --calcite-action-internal-padding-block-l: 1.5rem;
 }
 
 .action-icon--start {

@@ -247,7 +247,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.headerEl = el)}
           >
-            {this.renderActionIcon("start")}
+            {this.renderAction("start")}
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? (
               <div class={CSS.stepperItemNumber}>{this.renderNumbers()}.</div>
@@ -256,7 +256,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
               <span class={CSS.stepperItemHeading}>{this.heading}</span>
               <span class={CSS.stepperItemDescription}>{this.description}</span>
             </div>
-            {this.renderActionIcon("end")}
+            {this.renderAction("end")}
           </div>
           <div class={CSS.stepperItemContent}>
             <slot />
@@ -358,7 +358,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     );
   }
 
-  private renderActionIcon(position: Position): VNode {
+  private renderAction(position: Position): VNode {
     const isPositionStart = position === "start";
     const path = isPositionStart ? "chevron-left" : "chevron-right";
     const { itemPosition, totalItems, responsiveMode, layout, iconFlipRtl } = this;
