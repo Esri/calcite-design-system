@@ -132,7 +132,10 @@ export class Stepper {
             {this.items.map((item, index) => (
               <StepBar
                 isActive={item.selected && index === this.currentPosition}
-                isComplete={item.complete && index !== this.selectedPosition}
+                isComplete={
+                  item.complete &&
+                  (index !== this.selectedPosition || index !== this.currentPosition)
+                }
                 isError={item.error && !item.selected}
               />
             ))}
@@ -308,9 +311,6 @@ export class Stepper {
     this.determineActiveStepper();
   }
 
-  /** keep track of the selected item position */
-  @State() selectedPosition: number;
-
   @State() documentWidth: number;
 
   @Watch("documentWidth")
@@ -331,6 +331,9 @@ export class Stepper {
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   private responsiveMode = false;
+
+  /** keep track of the selected item position */
+  private selectedPosition: number;
   //--------------------------------------------------------------------------
   //
   //  Private Methods

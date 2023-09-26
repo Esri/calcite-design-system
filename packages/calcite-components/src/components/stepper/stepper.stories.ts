@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../stepper-item/readme.md";
 import { html } from "../../../support/formatting";
@@ -213,48 +213,62 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
     >
   </calcite-stepper>`;
 
-const breakpointsStoryTemplate = html` <calcite-stepper numbered icon layout="horizontal">
-  <calcite-stepper-item
-    heading="Choose method"
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-    complete
-  >
-    <calcite-notice open width="full">
-      <div slot="message">Step 1 Content Goes Here</div>
-    </calcite-notice>
-  </calcite-stepper-item>
-  <calcite-stepper-item
-    heading="Compile member list"
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-    complete
-  >
-    <calcite-notice open width="full">
-      <div slot="message">Step 2 Content Goes Here</div>
-    </calcite-notice>
-  </calcite-stepper-item>
-  <calcite-stepper-item
-    heading="Set member properties"
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-    description="Some subtext"
-    error
-  >
-    <calcite-notice open width="full">
-      <div slot="message">Step 3 Content Goes Here</div>
-    </calcite-notice>
-  </calcite-stepper-item>
-  <calcite-stepper-item
-    heading="Confirm and complete"
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-  >
-    <calcite-notice open width="full">
-      <div slot="message">Step 4 Content Goes Here</div>
-    </calcite-notice>
-  </calcite-stepper-item>
-</calcite-stepper>`;
+const getBreakpointsStoryTemplate = (scale: string): string => html` <style>
+    body {
+      width: 475px;
+    }
+  </style>
+  <calcite-stepper numbered icon layout="horizontal" scale="${scale}">
+    <calcite-stepper-item
+      heading="Choose method"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      complete
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 1 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Compile member list"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      complete
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 2 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Set member properties"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      description="Some subtext"
+      error
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 3 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Confirm and complete"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 4 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+  </calcite-stepper>`;
 
-export const responsiveLayoutXsmallScaleS_TestOnly = (): string =>
-  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "s" });
-export const responsiveLayoutXsmallScaleM_TestOnly = (): string =>
-  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "m" });
-export const responsiveLayoutXsmallScaleL_TestOnly = (): string =>
-  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "l" });
+export const responsiveLayoutXsmallScaleS_TestOnly = (): string => getBreakpointsStoryTemplate("s");
+export const responsiveLayoutXsmallScaleM_TestOnly = (): string => getBreakpointsStoryTemplate("m");
+export const responsiveLayoutXsmallScaleL_TestOnly = (): string => getBreakpointsStoryTemplate("l");
+
+responsiveLayoutXsmallScaleL_TestOnly.parameters = {
+  chromatic: { disableSnapshot: true },
+};
+
+responsiveLayoutXsmallScaleM_TestOnly.parameters = {
+  chromatic: { disableSnapshot: true },
+};
+
+responsiveLayoutXsmallScaleS_TestOnly.parameters = {
+  chromatic: { disableSnapshot: true },
+};
