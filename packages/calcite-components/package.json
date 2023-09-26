@@ -31,7 +31,7 @@
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --write \"**/*.html\" >/dev/null",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "markdownlint \"**/*.md\" --fix --ignore node_modules --disable MD024 MD013 MD041 MD033 && prettier --write \"**/*.md\" >/dev/null",
+    "lint:md": "markdownlint \"**/*.md\" --fix --dot --config ../../.markdownlint.json --ignore-path .gitignore && prettier --write \"**/*.md\" >/dev/null",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "posttest": "npm run test:prerender",

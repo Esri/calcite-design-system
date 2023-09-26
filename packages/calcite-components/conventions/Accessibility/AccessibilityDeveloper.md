@@ -1,8 +1,15 @@
 # Developer Quick Start Guide
 
-1. **[Shadow DOM](#1-shadow-dom)**
-2. **[Tests](#2-tests)**: [Adding a test](#adding-a-test) | [Failed test example](#failed-test-example) | [How to test](#how-to-test)
-3. **[Storybook](#3-storybook)**: [Adding a new story](#adding-a-new-story)
+<!--toc:start-->
+
+- [Developer Quick Start Guide](#developer-quick-start-guide)
+  - [1. Shadow DOM](#1-shadow-dom)
+  - [2. Tests](#2-tests)
+    - [Adding a test](#adding-a-test)
+      - [Failed test example](#failed-test-example)
+    - [How to test](#how-to-test)
+  - [3. Storybook](#3-storybook) - [Adding a new story](#adding-a-new-story)
+  <!--toc:end-->
 
 ## 1. Shadow DOM
 

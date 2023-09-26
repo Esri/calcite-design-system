@@ -1,12 +1,48 @@
 # Design Quick Start Guide
 
-1. **[Color](#1-color)**: [Color contrast](#color-contrast) | [Color and state](#color--state)
-2. **[Typography](#2-typography)**: [Text styling](#text-styling) | [Text resizing](#text-resizing)
-3. **[Information hierarchy](#3-information-hierarchy)**: [Semantic structure](#semantic-structure) | [Headings](#headings) | [Links](#links) | [Navigation](#navigation) | [Focus order](#focus-order)
-4. **[Forms](#4-forms)**: [Labels](#labels) | [Grouping controls](#grouping-controls) | [Form fields](#form-fields) | [Buttons and disabled buttons](#buttons) | [User notifications](#user-notifications) | [Touch zones](#touch-zones)
-5. **[Images](#5-images)**: [Background images](#background-images) | [Icons](#icons)
-6. **[Animation](#6-animation)**
-7. **[Writing and labels](#7-writing-and-labels)**: [Error messaging](#error-messaging)
+<!--toc:start-->
+
+- [Design Quick Start Guide](#design-quick-start-guide)
+  - [1. Color](#1-color)
+    - [Color contrast](#color-contrast)
+    - [Color and state](#color-and-state)
+    - [Who does color help?](#who-does-color-help)
+    - [Color resources](#color-resources)
+    - [WCAG Success Criteria for Color](#wcag-success-criteria-for-color)
+  - [2. Typography](#2-typography)
+    - [Text styling](#text-styling)
+    - [Text resizing](#text-resizing)
+    - [Who does typography help?](#who-does-typography-help)
+    - [Typography resources](#typography-resources)
+  - [3. Information hierarchy](#3-information-hierarchy)
+    - [Semantic structure](#semantic-structure)
+    - [Headings](#headings)
+    - [Links](#links)
+    - [Navigation](#navigation)
+    - [Focus order](#focus-order)
+    - [Who does information hierarchy help?](#who-does-information-hierarchy-help)
+    - [Information hierarchy resources](#information-hierarchy-resources)
+    - [WCAG Success Criteria for Information hierarchy](#wcag-success-criteria-for-information-hierarchy)
+  - [4. Forms](#4-forms)
+    - [Labels](#labels)
+    - [Grouping controls](#grouping-controls)
+    - [Form fields](#form-fields)
+    - [Buttons](#buttons)
+      - [Disabled buttons](#disabled-buttons)
+    - [User notifications](#user-notifications)
+    - [Touch zones](#touch-zones)
+    - [Who does form accessibility help?](#who-does-form-accessibility-help)
+    - [WCAG Success Criteria for Forms](#wcag-success-criteria-for-forms)
+  - [5. Images](#5-images)
+    - [Background images](#background-images)
+    - [Icons](#icons)
+    - [Who does image accessibility help?](#who-does-image-accessibility-help)
+    - [WCAG Success Criteria for Images](#wcag-success-criteria-for-images)
+  - [6. Animation](#6-animation)
+    - [Who does animation help?](#who-does-animation-help)
+    - [WCAG Success Criteria for Animation](#wcag-success-criteria-for-animation)
+  - [7. Writing and labels](#7-writing-and-labels) - [Error messaging](#error-messaging) - [Who does writing and labels help?](#who-does-writing-and-labels-help) - [WCAG Success Criteria for Writing and labels](#wcag-success-criteria-for-writing-and-labels)
+  <!--toc:end-->
 
 ## 1. Color
 
@@ -18,7 +54,7 @@ Large text equates 18pt or 14pt bold and greater. Regular sized text is anything
 
 > Note: Windows also provides a high contrast mode that is designed to improve text legibility and readability. It is often used by people with low-vision. High contrast mode will force a preset color palette on the browsing experience, but it also disables background images.
 
-### Color & state
+### Color and state
 
 When designing components, it is important to use a combination of color, shapes, and text to indicate states and statuses, such as keyboard focus, form validation, and alerts. Using these other elements provides a secondary indicator in the event a color cannot be seen.
 
