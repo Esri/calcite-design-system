@@ -11,7 +11,7 @@ const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.lengt
 export const geActionDimensions = (
   actions: HTMLCalciteActionElement[]
 ): { actionWidth: number; actionHeight: number } => {
-  const actionsNotSlotted = actions.filter((action) => !action.slot);
+  const actionsNotSlotted = actions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions);
   const actionLen = actionsNotSlotted?.length;
   return {
     actionWidth: actionLen ? getAverage(actionsNotSlotted.map((action) => action.clientWidth || 0)) : 0,
