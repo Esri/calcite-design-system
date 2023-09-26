@@ -258,7 +258,7 @@
     border-t-2
     focus-base;
 
-    // grid-row: items;
+    grid-row: items;
     margin-inline-end: theme("margin.2");
     margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
 
@@ -386,11 +386,11 @@
 }
 
 .action-icon--start {
-  padding-inline-end: 8px;
+  @apply pe-2;
 }
 
 .action-icon-end {
-  padding-inline-start: 8px;
+  @apply ps-2;
 }
 
 .visually-hidden {
