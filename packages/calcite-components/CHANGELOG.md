@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.8...@esri/calcite-components@1.9.0-next.9) (2023-09-26)
+
+### Features
+
+- **action-menu:** Add appearance property to configure trigger appearance ([#7867](https://github.com/Esri/calcite-design-system/issues/7867)) ([36ceaf1](https://github.com/Esri/calcite-design-system/commit/36ceaf11c5d38f6ed48e051534cfd2783604cdd3))
+
+### Bug Fixes
+
+- **action-bar:** Improve overflowing horizontal actions. ([#7877](https://github.com/Esri/calcite-design-system/issues/7877)) ([52f2d2a](https://github.com/Esri/calcite-design-system/commit/52f2d2ab1d4ef1a072098ab895c720c09862f8a9)), closes [#7881](https://github.com/Esri/calcite-design-system/issues/7881)
+
 ## [1.9.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.7...@esri/calcite-components@1.9.0-next.8) (2023-09-23)
 
 ### Features
