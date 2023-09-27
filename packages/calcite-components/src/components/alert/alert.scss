@@ -34,7 +34,7 @@
   border-inline: 1px solid var(--calcite-ui-border-3);
   border-block-end: 1px solid var(--calcite-ui-border-3);
   inline-size: var(--calcite-alert-width);
-  max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 2px));
+  max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2));
   transition: var(--calcite-internal-animation-timing-slow) $easing-function,
     opacity var(--calcite-internal-animation-timing-slow) $easing-function,
     all var(--calcite-animation-timing) ease-in-out;
