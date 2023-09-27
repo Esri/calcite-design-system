@@ -1,6 +1,6 @@
 :host {
+  @extend %component-host;
   @apply align-top
-    bg-foreground-1
     border
     border-color-1
     border-solid
@@ -11,15 +11,21 @@
 }
 
 :host([scale="s"]) {
+  inline-size: 234px;
   min-inline-size: 216px;
+  max-inline-size: 380px;
 }
 
 :host([scale="m"]) {
-  min-inline-size: 286px;
+  inline-size: 304px;
+  min-inline-size: 272px;
+  max-inline-size: 480px;
 }
 
 :host([scale="l"]) {
-  min-inline-size: 398px;
+  inline-size: 370px;
+  min-inline-size: 320px;
+  max-inline-size: 600px;
 }
 
 @include base-component();
