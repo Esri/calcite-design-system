@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig-base",
-  "compilerOptions": {
-    "outDir": "./support/dist",
-    "module": "CommonJS",
-    "sourceMap": true
-  },
-  "exclude": ["**/*.test.*"]
-}

@@ -2,9 +2,9 @@ import { DeepKeyTokenMap } from "@tokens-studio/types";
 import { DesignToken } from "style-dictionary/types/DesignToken.js";
 import {
   TransformOptions,
-  ExpandablesAsStrings,
-  Expandables,
-  expandablesAsStringsArray
+  ExpandTokensAsStrings,
+  ExpandTokens,
+  expandTokensAsStringsArray,
 } from "../utils/transformOptions.js";
 import { matchPlaceholderElement, tokenStudioCustomVariableIndicator } from "../utils/regex.js";
 import { shouldExpand, expandToken } from "../utils/compositeTokens.js";
@@ -31,8 +31,8 @@ export function expandComposites(
       typography: false,
       border: false,
       shadow: false,
-      ...transformOpts.expand
-    }
+      ...transformOpts.expand,
+    },
   };
   const returnSlice: DeepKeyTokenMap = {};
   const handleTokenStudioVariables = convertTokenToStyleDictionaryFormat(tokenStudioCustomVariableIndicator);
@@ -47,11 +47,11 @@ export function expandComposites(
     }
 
     if (token.value && type) {
-      const includesType = expandablesAsStringsArray.includes(`${type}`);
+      const includesType = expandTokensAsStringsArray.includes(`${type}`);
 
       if (includesType) {
-        const expandType = (type as ExpandablesAsStrings) === "boxShadow" ? "shadow" : type;
-        const expand = shouldExpand<Expandables>(token as Expandables, opts.expand[`${expandType}`], filePath);
+        const expandType = (type as ExpandTokensAsStrings) === "boxShadow" ? "shadow" : type;
+        const expand = shouldExpand<ExpandTokens>(token as ExpandTokens, opts.expand[`${expandType}`], filePath);
         if (expand) {
           const expandedToken = expandToken(token as DesignToken, expandType === "shadow", handleTokenStudioVariables);
           return expandedToken;

@@ -1,5 +1,5 @@
 import { registerTransforms } from "@tokens-studio/sd-transforms";
-import StyleDictionary from "style-dictionary";
+import { default as StyleDictionary } from "style-dictionary";
 import { expandComposites } from "./parse/expandComposites.js";
 import { formatSCSS } from "./format/scss.js";
 import { matchExclusions } from "./utils/regex.js";
@@ -33,7 +33,7 @@ export const run = async (
     source: theme.source,
     disabled: theme.disabled,
     outputReferences: false,
-    sourceReferencesOnly: false
+    sourceReferencesOnly: false,
   };
 
   // Here we are registering the Transforms provided by Token Studio however,
@@ -46,25 +46,25 @@ export const run = async (
   // Register custom formatter https://amzn.github.io/style-dictionary/#/formats?id=custom-formats
   StyleDictionary.registerFormat({
     name: "calcite/scss",
-    formatter: formatSCSS
+    formatter: formatSCSS,
   });
 
   // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms
   StyleDictionary.registerTransform({
     name: "name/calcite/camel",
     type: "name",
-    transformer: nameCamelCase
+    transformer: nameCamelCase,
   });
 
   StyleDictionary.registerTransform({
     name: "name/calcite/kebab",
     type: "name",
-    transformer: nameKebabCase
+    transformer: nameKebabCase,
   });
 
   StyleDictionary.registerFilter({
     name: "filterSource",
-    matcher: (token) => token.isSource
+    matcher: (token) => token.isSource,
   });
 
   // We are programmatically creating the Style Dictionary configuration here
@@ -79,23 +79,26 @@ export const run = async (
           "ts/descriptionToComment",
           "ts/size/px",
           "ts/opacity",
+          // eslint-disable-next-line @cspell/spellchecker
           "ts/size/lineheight",
           "ts/type/fontWeight",
           "ts/resolveMath",
+          // eslint-disable-next-line @cspell/spellchecker
           "ts/size/css/letterspacing",
+          // eslint-disable-next-line @cspell/spellchecker
           "ts/color/css/hexrgba",
           "ts/color/modifiers",
-          "name/calcite/kebab"
+          "name/calcite/kebab",
         ],
         buildPath: `${buildPath}/css/`,
         files: [
           {
             destination: `${fileName}.css`,
             format: "css/variables",
-            filter: /headless/gi.test(fileName) ? null : "filterSource",
-            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
-          }
-        ]
+            filter: /headless/gi.test(fileName) ? undefined : "filterSource",
+            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options,
+          },
+        ],
       },
       scss: {
         prefix: "calcite",
@@ -103,24 +106,27 @@ export const run = async (
           "ts/descriptionToComment",
           "ts/size/px",
           "ts/opacity",
+          // eslint-disable-next-line @cspell/spellchecker
           "ts/size/lineheight",
           "ts/type/fontWeight",
           "ts/resolveMath",
+          // eslint-disable-next-line @cspell/spellchecker
           "ts/size/css/letterspacing",
+          // eslint-disable-next-line @cspell/spellchecker
           "ts/color/css/hexrgba",
           "ts/color/modifiers",
-          "name/calcite/kebab"
+          "name/calcite/kebab",
         ],
         buildPath: `${buildPath}/scss/`,
         files: [
           {
             destination: `${fileName}.scss`,
             format: "calcite/scss",
-            filter: /headless/gi.test(fileName) ? null : "filterSource",
-            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
-          }
-        ]
-      }
+            filter: /headless/gi.test(fileName) ? undefined : "filterSource",
+            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options,
+          },
+        ],
+      },
     },
     parsers: [
       {
@@ -128,9 +134,9 @@ export const run = async (
         parse: (file) =>
           matchList(file.filePath, [...include, ...theme.source, ...theme.enabled], matchExclusions)
             ? expandComposites(JSON.parse(file.contents), file.filePath)
-            : {}
-      }
-    ]
+            : {},
+      },
+    ],
   });
 
   try {

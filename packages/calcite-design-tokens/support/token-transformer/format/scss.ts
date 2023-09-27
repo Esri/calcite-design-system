@@ -1,10 +1,17 @@
 import * as changeCase from "change-case";
-import { formatHelpers, Dictionary, File, Platform, Options } from "style-dictionary";
+import { default as styleDictionary } from "style-dictionary";
+import { Dictionary } from "style-dictionary/types/Dictionary";
+import { File } from "style-dictionary/types/File";
+import { Formatter } from "style-dictionary/types/Format";
+import { Options } from "style-dictionary/types/Options";
+import { Platform } from "style-dictionary/types/Platform";
+// , { Dictionary, File, Platform, Options }
+// import * as styleDictionary, { Dictionary, File, Platform, Options } from "style-dictionary";
 const { pascalCase, sentenceCase } = changeCase;
 
 const regexThemeGroup = /calcite|brand/gi;
 const regexFileNameWithoutExtension = /\w+(?=\.\w+$)/gi;
-
+const { formatHelpers } = styleDictionary;
 /**
  * Exports SCSS style formats
  *
@@ -15,12 +22,13 @@ const regexFileNameWithoutExtension = /\w+(?=\.\w+$)/gi;
  * @param {Options} fileInfo.options the Style Dictionary format options passed from the config
  * @returns {string} a string that is passed to fs.writeFileSync
  */
-export function formatSCSS(fileInfo: {
+export const formatSCSS: Formatter = (fileInfo: {
   dictionary: Dictionary;
   file: File;
   platform?: Platform;
+  // eslint-disable-next-line @cspell/spellchecker
   options: Options & { themeable?: boolean };
-}): string {
+}) => {
   const { dictionary, file, options } = fileInfo;
   const { outputReferences } = options;
   const fileRegexMatch = file.destination.match(regexFileNameWithoutExtension);
@@ -42,4 +50,4 @@ export function formatSCSS(fileInfo: {
   }
 
   return "";
-}
+};

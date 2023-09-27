@@ -1,6 +1,7 @@
 /**
  * Replaces the word "color" with "ui" when it is the first value in the path and removes the word "default" from the final token names.
  * This puts generated tokens in alignment with the theme variable names in Calcite-Colors
+ *
  * @param {string[]} path the path to each token value in the Style Dictionary token object
  * @returns {string[]} an updated token path
  */

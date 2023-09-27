@@ -101,9 +101,9 @@ describe("expand token dictionary", () => {
       },
     };
     const placeholderValue = {
-      compoonent: {
+      component: {
         type: "other",
-        value: "[placholder-value]",
+        value: "[placeholder-value]",
       },
     };
 
@@ -130,6 +130,7 @@ describe("expand token dictionary", () => {
       core: {
         type: "customType",
         value: {
+          // eslint-disable-next-line @cspell/spellchecker
           fontFamily: "Avanir",
           fontSize: "12px",
         },

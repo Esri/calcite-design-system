@@ -35,7 +35,7 @@ export async function getThemes(themes: ThemeFileInterface[]): Promise<Theme[]> 
       id,
       enabled,
       disabled,
-      source
+      source,
     };
   });
 }

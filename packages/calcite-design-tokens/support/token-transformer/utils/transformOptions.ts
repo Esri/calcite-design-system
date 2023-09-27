@@ -3,18 +3,16 @@ import {
   SingleBoxShadowToken,
   SingleCompositionToken,
   SingleToken,
-  SingleTypographyToken
+  SingleTypographyToken,
 } from "@tokens-studio/types";
 
 /**
  * Copied from https://github.com/tokens-studio/sd-transforms/blob/main/src/TransformOptions.ts
  * This is needed for correct type setting and is not exported by Token Studio SD Transforms.
  */
-
-export type Expandables = SingleCompositionToken | SingleTypographyToken | SingleBorderToken | SingleBoxShadowToken;
-
-export const expandablesAsStringsArray = ["composition", "typography", "border", "boxShadow"];
-export type ExpandablesAsStrings = (typeof expandablesAsStringsArray)[number];
+export type ExpandTokens = SingleCompositionToken | SingleTypographyToken | SingleBorderToken | SingleBoxShadowToken;
+export const expandTokensAsStringsArray = ["composition", "typography", "border", "boxShadow"];
+export type ExpandTokensAsStrings = (typeof expandTokensAsStringsArray)[number];
 
 export type ExpandFilter<T extends SingleToken> = (token: T, filePath: string) => boolean;
 
