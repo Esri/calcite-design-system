@@ -64,7 +64,7 @@
 
 .content {
   @apply box-border flex flex-auto flex-col transition-default;
-  padding-block: var(--calcite-alert-spacing-token-medium);
+  padding-block: var(--calcite-alert-spacing-token-small);
   padding-inline: var(--calcite-alert-spacing-token-large) var(--calcite-alert-spacing-token-small);
 }
 
@@ -164,7 +164,6 @@
 :host([scale="s"]) {
   --calcite-alert-width: 40em;
   --calcite-alert-spacing-token-small: theme("spacing.2");
-  --calcite-alert-spacing-token-medium: theme("spacing[2.5]");
   --calcite-alert-spacing-token-large: theme("spacing.3");
   --calcite-alert-footer-height: theme("height.8");
   --calcite-alert-footer-divider-gap: theme("spacing[0.5]");
@@ -189,7 +188,6 @@
 :host([scale="m"]) {
   --calcite-alert-width: 50em;
   --calcite-alert-spacing-token-small: theme("spacing.3");
-  --calcite-alert-spacing-token-medium: theme("spacing[3.5]");
   --calcite-alert-spacing-token-large: theme("spacing.4");
   --calcite-alert-footer-height: theme("height.12");
   --calcite-alert-footer-divider-gap: theme("spacing.1");
@@ -214,7 +212,6 @@
 :host([scale="l"]) {
   --calcite-alert-width: 60em;
   --calcite-alert-spacing-token-small: theme("spacing.4");
-  --calcite-alert-spacing-token-medium: theme("spacing[4.5]");
   --calcite-alert-spacing-token-large: theme("spacing.5");
   --calcite-alert-footer-height: theme("height.16");
   --calcite-alert-footer-divider-gap: theme("spacing.2");
