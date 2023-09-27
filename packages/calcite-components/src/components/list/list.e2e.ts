@@ -481,10 +481,10 @@ describe("calcite-list", () => {
 
     it("works using a mouse", async () => {
       const page = await createSimpleList();
-      const testWindow = window as TestWindow;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+        const testWindow = window as TestWindow;
         testWindow.calledTimes = 0;
         testWindow.newIndex = -1;
         testWindow.oldIndex = -1;
@@ -512,11 +512,10 @@ describe("calcite-list", () => {
       expect(await second.getProperty("value")).toBe("one");
       await page.waitForChanges();
 
-      const results = await page.evaluate(() => ({
-        calledTimes: testWindow.calledTimes,
-        oldIndex: testWindow.oldIndex,
-        newIndex: testWindow.newIndex,
-      }));
+      const results = await page.evaluate(() => {
+        const testWindow = window as TestWindow;
+        return { calledTimes: testWindow.calledTimes, oldIndex: testWindow.oldIndex, newIndex: testWindow.newIndex };
+      });
 
       expect(results.calledTimes).toBe(1);
       expect(results.oldIndex).toBe(0);
@@ -550,10 +549,9 @@ describe("calcite-list", () => {
 
       await page.waitForChanges();
 
-      const testWindow = window as TestWindow;
-
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.evaluate(() => {
+        const testWindow = window as TestWindow;
         testWindow.calledTimes = 0;
         const lists = document.querySelectorAll("calcite-list");
         lists.forEach((list) =>
@@ -618,7 +616,7 @@ describe("calcite-list", () => {
       expect(await eight.getProperty("value")).toBe("e");
       expect(await ninth.getProperty("value")).toBe("f");
 
-      expect(await page.evaluate(() => testWindow.calledTimes)).toBe(2);
+      expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
     });
 
     it("works using a keyboard", async () => {
@@ -633,10 +631,10 @@ describe("calcite-list", () => {
       await page.waitForChanges();
 
       let totalMoves = 0;
-      const testWindow = window as TestWindow;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+        const testWindow = window as TestWindow;
         testWindow.calledTimes = 0;
         list.addEventListener("calciteListOrderChange", () => {
           testWindow.calledTimes++;
@@ -656,7 +654,7 @@ describe("calcite-list", () => {
           expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
         }
 
-        const calledTimes = await page.evaluate(() => testWindow.calledTimes);
+        const calledTimes = await page.evaluate(() => (window as TestWindow).calledTimes);
 
         expect(calledTimes).toBe(++totalMoves);
       }
