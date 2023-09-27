@@ -3,11 +3,10 @@
     content: "";
     @apply bg-foreground-3 absolute top-0 left-0 bottom-0 right-0;
   }
-  .calcite-sortable--chosen,
   .calcite-sortable--drag {
-    @apply shadow-2 bg-foreground-1;
+    @apply shadow-2;
   }
   .calcite-sortable--original-location {
-    @apply border-b-2 border-solid  border-color-brand;
+    @apply border-b-2 border-solid border-color-brand;
   }
 }
