@@ -10,7 +10,7 @@ Build the tokens to platform asset formats like CSS, SCSS, and JavaScript.
 
 `npm --workspace=packages/calcite-design-tokens run build`
 
-## Understanding Token Files
+## Understanding token files
 
 All token files may be updated by the Figma Token Studio plugin. These can also be updated in the code directly. Any changes to token files must be reviewed by the Calcite Design Team.
 
