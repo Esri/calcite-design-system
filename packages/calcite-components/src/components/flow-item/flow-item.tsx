@@ -257,7 +257,7 @@ export class FlowItem
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise.
+   * @returns - promise that resolves once the content is scrolled to.
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {

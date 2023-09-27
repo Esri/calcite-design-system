@@ -195,13 +195,8 @@ describe("calcite-flow-item", () => {
     });
 
     const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");
-
-    await page.evaluate(() => {
-      const panel = document.querySelector("calcite-flow-item").shadowRoot.querySelector("calcite-panel");
-
-      panel.dispatchEvent(new CustomEvent("calcitePanelScroll"));
-    });
-
+    const panel = await page.find("calcite-flow-item >>> calcite-panel");
+    panel.triggerEvent("calcitePanelScroll");
     await page.waitForChanges();
 
     expect(scrollSpy).toHaveReceivedEventTimes(1);
@@ -213,13 +208,8 @@ describe("calcite-flow-item", () => {
     });
 
     const toggleSpy = await page.spyOnEvent("calciteFlowItemToggle");
-
-    await page.evaluate(() => {
-      const panel = document.querySelector("calcite-flow-item").shadowRoot.querySelector("calcite-panel");
-
-      panel.dispatchEvent(new CustomEvent("calcitePanelToggle"));
-    });
-
+    const panel = await page.find("calcite-flow-item >>> calcite-panel");
+    panel.triggerEvent("calcitePanelToggle");
     await page.waitForChanges();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
