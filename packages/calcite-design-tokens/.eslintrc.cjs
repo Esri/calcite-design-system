@@ -25,17 +25,6 @@ module.exports = {
       "error",
       {
         allowArgumentsExplicitlyTypedAsAny: true,
-        allowedNames: [
-          "connectedCallback",
-          "disconnectedCallback",
-          "componentWillRender",
-          "componentDidRender",
-          "componentWillLoad",
-          "componentDidLoad",
-          "componentWillUpdate",
-          "componentDidUpdate",
-          "render",
-        ],
       },
     ],
     "@typescript-eslint/no-explicit-any": "off",

@@ -31,14 +31,9 @@
     "build": "ts-node --esm support/run.ts",
     "clean": "rimraf dist",
     "lint:eslint": "eslint --ext .ts,.tsx --fix .",
-    "lint:markdown": "markdownlint --fix --disable MD024 MD013 MD041 MD033",
+    "lint:markdown": "markdownlint \"**/*.md\" --fix --ignore node_modules --disable MD024 MD013 MD041 MD033",
     "lint:prettier": "prettier --write .",
     "lint": "npm run lint:eslint && npm run lint:markdown && npm run lint:prettier",
     "test": "jest"
-  },
-  "devDependencies": {
-    "@tokens-studio/sd-transforms": "0.8.2",
-    "change-case": "4.1.2",
-    "style-dictionary": "3.7.1"
   }
 }

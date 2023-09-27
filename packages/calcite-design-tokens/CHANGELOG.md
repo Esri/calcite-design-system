@@ -7,6 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- uses @token-studio tokens format
-- add css platform
-- add scss platform
+- Uses @token-studio tokens format
+- Add css platform
+- Add scss platform

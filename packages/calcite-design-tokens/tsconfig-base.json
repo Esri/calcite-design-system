@@ -13,5 +13,5 @@
     "resolveJsonModule": true,
     "target": "ES2021"
   },
-  "exclude": ["node_modules", "src", "dist", "*.cjs"]
+  "exclude": ["node_modules", "dist"]
 }
