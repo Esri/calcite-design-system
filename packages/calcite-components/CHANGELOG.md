@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.10...@esri/calcite-components@1.9.0-next.11) (2023-09-27)
+
+### Features
+
+- **panel, flow-item:** add support for collapsing content ([#7857](https://github.com/Esri/calcite-design-system/issues/7857)) ([855754d](https://github.com/Esri/calcite-design-system/commit/855754d1dcaafabf5ff132183c6cd0c92e5a2d49)), closes [#7498](https://github.com/Esri/calcite-design-system/issues/7498)
+
+## [1.9.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.9...@esri/calcite-components@1.9.0-next.10) (2023-09-27)
+
+### Features
+
+- **list:** add newIndex and oldIndex event details to calciteListOrderChange event ([#7874](https://github.com/Esri/calcite-design-system/issues/7874)) ([0d5cc20](https://github.com/Esri/calcite-design-system/commit/0d5cc20c72d429287d20cb3530a2305e5fcf7ab1)), closes [#7875](https://github.com/Esri/calcite-design-system/issues/7875)
+
+### Bug Fixes
+
+- **action-bar:** overflow actions when overflowActionsDisabled is set to false ([#7873](https://github.com/Esri/calcite-design-system/issues/7873)) ([3dcceb0](https://github.com/Esri/calcite-design-system/commit/3dcceb00baa5545f279f7f98141f408def8421c4)), closes [#7891](https://github.com/Esri/calcite-design-system/issues/7891)
+
 ## [1.9.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.8...@esri/calcite-components@1.9.0-next.9) (2023-09-26)
 
 ### Features
