@@ -114,9 +114,13 @@ export class ActionBar
 
   @Watch("overflowActionsDisabled")
   overflowDisabledHandler(overflowActionsDisabled: boolean): void {
-    overflowActionsDisabled
-      ? this.resizeObserver.disconnect()
-      : this.resizeObserver.observe(this.el);
+    if (overflowActionsDisabled) {
+      this.resizeObserver?.disconnect();
+      return;
+    }
+
+    this.resizeObserver?.observe(this.el);
+    this.overflowActions();
   }
 
   /**

@@ -185,7 +185,7 @@ export class FlowItem
   /**
    * Fires when the back button is clicked.
    */
-  @Event({ cancelable: false }) calciteFlowItemBack: EventEmitter<void>;
+  @Event({ cancelable: true }) calciteFlowItemBack: EventEmitter<void>;
 
   /**
    * Fires when the content is scrolled.

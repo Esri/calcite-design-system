@@ -37,6 +37,10 @@ describe("calcite-action-menu", () => {
   describe("defaults", () => {
     defaults("calcite-action-menu", [
       {
+        propertyName: "appearance",
+        defaultValue: "solid",
+      },
+      {
         propertyName: "expanded",
         defaultValue: false,
       },
