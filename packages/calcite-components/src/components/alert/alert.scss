@@ -6,6 +6,8 @@
  * @prop --calcite-alert-width: Specifies the width of the component.
  */
 
+$border-style: 1px solid var(--calcite-ui-border-3);
+
 :host {
   --calcite-alert-edge-distance: theme("spacing.8");
   @apply block;
@@ -31,8 +33,8 @@
   container: responsive-container / inline-size;
   border-radius: var(--calcite-border-radius);
   border-block-start: 0 solid transparent;
-  border-inline: 1px solid var(--calcite-ui-border-3);
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-inline: $border-style;
+  border-block-end: $border-style;
   inline-size: var(--calcite-alert-width);
   max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2));
   transition: var(--calcite-internal-animation-timing-slow) $easing-function,
@@ -156,7 +158,7 @@
     content: "";
     @apply absolute -top-px;
     inset-inline: var(--calcite-alert-footer-divider-gap);
-    border-block-start: 1px solid var(--calcite-ui-border-3);
+    border-block-start: $border-style;
   }
 }
 
