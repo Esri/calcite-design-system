@@ -10,6 +10,15 @@ Build the tokens to platform asset formats like CSS, SCSS, and JavaScript.
 
 `npm --workspace=packages/calcite-design-tokens run build`
 
+## Test
+
+Be sure your code passes our integration and unit tests
+
+```bash
+# Test current code
+npm --workspace=packages/calcite-design-tokens run test
+```
+
 ## Understanding token files
 
 All token files may be updated by the Figma Token Studio plugin. These can also be updated in the code directly. Any changes to token files must be reviewed by the Calcite Design Team.
@@ -22,13 +31,6 @@ All token files may be updated by the Figma Token Studio plugin. These can also 
 | `src/semantic.json`  | The semantic design tokens used by theme files and components.                                                    |
 | `src/component/`     | The component design tokens. These are used by themes.                                                            |
 | `src/calcite/`       | The Calcite themes. This currently consists of a light and dark theme.                                            |
-
-### Be sure your code passes our integration and unit tests
-
-```bash
-# Test current code
-npm --workspace=packages/calcite-design-tokens run test
-```
 
 ### Open a PR
 
