@@ -214,8 +214,8 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
   </calcite-stepper>`;
 
 const getBreakpointsStoryTemplate = (scale: string): string => html` <style>
-    body {
-      width: 475px;
+    calcite-stepper {
+      width: 600px;
     }
   </style>
   <calcite-stepper numbered icon layout="horizontal" scale="${scale}">

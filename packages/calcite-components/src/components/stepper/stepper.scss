@@ -20,6 +20,17 @@
   grid-template-areas:
     "items"
     "content";
+  row-gap: theme("spacing.2");
+  column-gap: theme("margin.2");
+}
+
+:host([layout="horizontal"][scale="s"]) {
+  gap: theme("spacing.1") theme("margin.1");
+}
+
+:host([layout="horizontal"][scale="l"]) {
+  row-gap: theme("spacing.3");
+  column-gap: theme("margin.3");
 }
 
 .step-bar--inactive {

@@ -18,8 +18,9 @@ import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
-import { Breakpoints, getBreakpoints } from "../../utils/responsive";
+// import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { StepBar } from "./step-bar";
+import { ITEM_MIN_WIDTH } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -103,13 +104,13 @@ export class Stepper {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateItems();
-    this.resizeObserver?.observe(document.body);
+    this.resizeObserver?.observe(this.el);
   }
 
-  async componentWillLoad(): Promise<void> {
-    const breakpoints = await getBreakpoints();
-    this.breakpoints = breakpoints;
-  }
+  // async componentWillLoad(): Promise<void> {
+  //   const breakpoints = await getBreakpoints();
+  //   this.breakpoints = breakpoints;
+  // }
 
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
@@ -310,14 +311,14 @@ export class Stepper {
     this.determineActiveStepper();
   }
 
-  @State() documentWidth: number;
+  @State() elWidth: number;
 
-  @Watch("documentWidth")
-  handleDocumentWidthChange(): void {
+  @Watch("elWidth")
+  handleElWidthChange(): void {
     this.determineActiveStepper();
   }
 
-  private breakpoints: Breakpoints;
+  //private breakpoints: Breakpoints;
 
   /** list of enabled Stepper items */
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
@@ -341,7 +342,7 @@ export class Stepper {
 
   private resizeObserver = createObserver(
     "resize",
-    (entries) => (this.documentWidth = entries[0].contentRect.width)
+    (entries) => (this.elWidth = entries[0].contentRect.width)
   );
 
   private updateItems(): void {
@@ -354,16 +355,14 @@ export class Stepper {
   }
 
   private determineActiveStepper(): void {
-    if (
-      !this.breakpoints ||
-      !this.documentWidth ||
-      !this.items.length ||
-      this.layout !== "horizontal"
-    ) {
+    if (!this.elWidth || !this.items.length || this.layout !== "horizontal") {
       return;
     }
+    const totalMinWidthOfItems = this.items.length * this.getMinWidthOfItem();
+    const totalRowGap =
+      (this.items.length - 1) * (parseInt(window.getComputedStyle(this.el).rowGap) || 0);
 
-    if (this.documentWidth < this.breakpoints.width.xsmall) {
+    if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
       this.el.style.gridTemplateColumns = "none";
       this.responsiveMode = true;
       this.el.style.display = "flex";
@@ -376,7 +375,7 @@ export class Stepper {
           item.responsiveMode = true;
         }
       });
-    } else if (this.documentWidth > this.breakpoints.width.xsmall) {
+    } else if (this.elWidth > totalMinWidthOfItems + totalRowGap) {
       this.el.style.display = "grid";
       this.responsiveMode = false;
       this.setGridTemplateColumns(this.items);
@@ -432,8 +431,13 @@ export class Stepper {
   };
 
   setGridTemplateColumns = (items: Element[]): void => {
-    const spacing = Array(items.length).fill("1fr").join(" ");
+    const minWidth = this.getMinWidthOfItem();
+    const spacing = Array(items.length).fill(`minmax(${minWidth}px,1fr)`).join(" ");
     this.el.style.gridTemplateAreas = spacing;
     this.el.style.gridTemplateColumns = spacing;
+  };
+
+  getMinWidthOfItem = (): number => {
+    return ITEM_MIN_WIDTH[this.scale];
   };
 }

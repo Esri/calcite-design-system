@@ -259,8 +259,8 @@
     focus-base;
 
     grid-row: items;
-    margin-inline-end: theme("margin.2");
-    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+    //margin-inline-end: theme("margin.2");
+    //margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
 
     &:focus {
       @apply focus-outset;
@@ -289,14 +289,14 @@
 
 :host([layout="horizontal"][scale="s"]) {
   .stepper-item-header {
-    margin-inline-end: theme("margin.1");
-    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+    //margin-inline-end: theme("margin.1");
+    //margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
   }
 }
 :host([layout="horizontal"][scale="l"]) {
   .stepper-item-header {
-    margin-inline-end: theme("margin.3");
-    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+    //margin-inline-end: theme("margin.3");
+    //margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
   }
 }
 
