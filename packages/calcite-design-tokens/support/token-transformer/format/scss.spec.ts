@@ -48,11 +48,17 @@ const mock = {
   },
   formattedTokenSet: [`@mixin calcite-theme-light() {`, "--core-token-example: blue"],
   options: {},
+  platform: {},
 };
 
 describe("formatting CSS Variable output", () => {
   it("should format values", () => {
-    const cssFile = formatSCSS({ dictionary: mock.dictionary, file: mock.file, options: mock.options });
+    const cssFile = formatSCSS({
+      dictionary: mock.dictionary,
+      file: mock.file,
+      options: mock.options,
+      platform: mock.platform,
+    });
     expect(cssFile).toContain(mock.formattedTokenSet[0]);
     expect(cssFile).toContain(mock.formattedTokenSet[1]);
   });
