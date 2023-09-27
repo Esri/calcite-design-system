@@ -14,6 +14,7 @@ import {
 } from "../../tests/commonTests";
 import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { openClose } from "../../tests/commonTests";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(() => {
@@ -88,6 +89,10 @@ describe("calcite-input-time-picker", () => {
 
   describe("disabled", () => {
     disabled("calcite-input-time-picker");
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-input-time-picker");
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
