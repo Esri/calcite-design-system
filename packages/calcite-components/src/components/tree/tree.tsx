@@ -170,6 +170,10 @@ export class Tree {
         this.selectionMode === "children" ||
         this.selectionMode === "multichildren");
 
+    const shouldUpdateExpand =
+      ["multiple", "none", "single", "single-persist"].includes(this.selectionMode) &&
+      target.hasChildren;
+
     const targetItems: HTMLCalciteTreeItemElement[] = [];
 
     if (shouldSelect) {
@@ -186,6 +190,13 @@ export class Tree {
           treeItem.selected = false;
         }
       });
+    }
+
+    if (
+      shouldUpdateExpand &&
+      ["multiple", "none", "single", "single-persist"].includes(this.selectionMode)
+    ) {
+      target.expanded = !target.expanded;
     }
 
     if (shouldDeselectAllChildren) {

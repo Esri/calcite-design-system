@@ -373,7 +373,7 @@ describe("calcite-tree", () => {
         await page.setContent(
           html`<calcite-tree lines selection-mode="multichildren" scale="s">
             <calcite-tree-item id="1"> Child 1 </calcite-tree-item>
-            <calcite-tree-item id="2">
+            <calcite-tree-item id="2" expanded>
               Child 2
               <calcite-tree slot="children">
                 <calcite-tree-item id="3" disabled> Grandchild 1 </calcite-tree-item>
@@ -387,19 +387,19 @@ describe("calcite-tree", () => {
 
         const [item1, item2, item3, item4] = await page.findAll("calcite-tree-item");
 
-        await item1.click();
+        await directItemClick(page, item1);
 
         expect(await tree.getProperty("selectedItems")).toHaveLength(1);
 
-        await item2.click();
+        await directItemClick(page, item2);
 
         expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
-        await item3.click();
+        await directItemClick(page, item3);
 
         expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
-        await item4.click();
+        await directItemClick(page, item4);
 
         expect(await tree.getProperty("selectedItems")).toHaveLength(3);
       });
@@ -1139,7 +1139,7 @@ describe("calcite-tree", () => {
         selectionMode: "none",
         canDeselect: false,
         expandableItemClick: {
-          selectsItem: true,
+          selectsItem: false,
           selectsChildren: false,
         },
       },
@@ -1200,15 +1200,13 @@ describe("calcite-tree", () => {
 
           await directItemClick(page, expandableParentItem);
 
-          expect(await expandableParentItem.getProperty("expanded")).toBe(true);
+          expect(await expandableParentItem.getProperty("expanded")).toBe(!selectsItem);
           const expectedSelectedItemsAfterExpanding = (selectsItem ? 1 : 0) + (selectsChildren ? childItems.length : 0);
           expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterExpanding);
 
           await directItemClick(page, expandableParentItem);
 
-          const onlyExpandsWhenDeselected = selectsItem && selectsChildren;
-
-          expect(await expandableParentItem.getProperty("expanded")).toBe(onlyExpandsWhenDeselected);
+          expect(await expandableParentItem.getProperty("expanded")).toBe(false);
           const expectedSelectedItemsAfterCollapsing = canDeselect ? 0 : expectedSelectedItemsAfterExpanding;
           expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
 
@@ -1216,12 +1214,12 @@ describe("calcite-tree", () => {
 
           await directItemClick(page, expandableParentToggle);
 
-          expect(await expandableParentItem.getProperty("expanded")).toBe(!onlyExpandsWhenDeselected);
+          expect(await expandableParentItem.getProperty("expanded")).toBe(true);
           expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
 
           await directItemClick(page, expandableParentToggle);
 
-          expect(await expandableParentItem.getProperty("expanded")).toBe(onlyExpandsWhenDeselected);
+          expect(await expandableParentItem.getProperty("expanded")).toBe(false);
           expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
         });
       }
