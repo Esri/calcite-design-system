@@ -131,14 +131,14 @@ export class Tree {
 
   @Listen("calciteInternalTreeItemSelect")
   onInternalTreeItemSelect(event: CustomEvent<TreeItemSelectDetail>): void {
+    if (this.child) {
+      return;
+    }
+
     const target = event.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")
     ) as HTMLCalciteTreeItemElement[];
-
-    if (this.child) {
-      return;
-    }
 
     event.preventDefault();
     event.stopPropagation();
