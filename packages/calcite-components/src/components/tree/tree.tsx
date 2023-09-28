@@ -144,10 +144,6 @@ export class Tree {
     event.stopPropagation();
 
     if (this.selectionMode === "ancestors") {
-      if (event.detail.updateItem && !target.expanded && !target.selected) {
-        target.expanded = true;
-      }
-
       this.updateAncestorTree(event);
       return;
     }
@@ -172,12 +168,6 @@ export class Tree {
         this.selectionMode === "children" ||
         this.selectionMode === "multichildren");
 
-    const shouldUpdateExpand =
-      ["children", "multichildren"].includes(this.selectionMode) ||
-      (["ancestors", "multiple", "none", "single", "single-persist"].includes(this.selectionMode) &&
-        target.hasChildren &&
-        !event.detail.forceToggle);
-
     const targetItems: HTMLCalciteTreeItemElement[] = [];
 
     if (shouldSelect) {
@@ -196,23 +186,11 @@ export class Tree {
       });
     }
 
-    if (shouldUpdateExpand) {
-      if (
-        ["ancestors", "multiple", "none", "single", "single-persist"].includes(this.selectionMode)
-      ) {
-        target.expanded = !target.expanded;
-      } else if (this.selectionMode === "multichildren") {
-        target.expanded = !target.selected;
-      } else if (this.selectionMode === "children") {
-        target.expanded = target.selected ? !target.expanded : true;
-      }
-    }
-
     if (shouldModifyToCurrentSelection) {
       window.getSelection().removeAllRanges();
     }
 
-    if ((shouldModifyToCurrentSelection && target.selected) || event.detail.forceToggle) {
+    if (shouldModifyToCurrentSelection && target.selected) {
       targetItems.forEach((treeItem) => {
         if (!treeItem.disabled) {
           treeItem.selected = false;
