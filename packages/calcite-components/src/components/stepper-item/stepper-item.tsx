@@ -39,6 +39,7 @@ import {
 } from "../../utils/loadable";
 import { CSS } from "./resources";
 import { isActivationKey } from "../../utils/key";
+import { getElementDir } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding custom content.
@@ -361,7 +362,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   private renderAction(position: Position): VNode {
     const isPositionStart = position === "start";
     const path = isPositionStart ? "chevron-left" : "chevron-right";
-    const { itemPosition, totalItems, responsiveMode, layout, iconFlipRtl } = this;
+    const { itemPosition, totalItems, responsiveMode, layout } = this;
+    const dir = getElementDir(this.el);
 
     return layout === "horizontal" && responsiveMode ? (
       <calcite-action
@@ -376,7 +378,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
           (itemPosition === totalItems - 1 && !isPositionStart)
         }
         icon={path}
-        iconFlipRtl={iconFlipRtl}
+        iconFlipRtl={dir === "rtl"}
         // eslint-disable-next-line react/jsx-no-bind
         onClick={(event) => this.handleActionClick(event, position)}
         onKeyDown={(event) => this.handleActionKeyDown(event, position)}

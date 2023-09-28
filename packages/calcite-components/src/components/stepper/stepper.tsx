@@ -355,12 +355,14 @@ export class Stepper {
   }
 
   private determineActiveStepper(): void {
-    if (!this.elWidth || !this.items.length || this.layout !== "horizontal") {
+    const totalItems = this.items.length;
+    if (!this.elWidth || !totalItems || this.layout !== "horizontal") {
       return;
     }
-    const totalMinWidthOfItems = this.items.length * this.getMinWidthOfItem();
-    const totalRowGap =
-      (this.items.length - 1) * (parseInt(window.getComputedStyle(this.el).rowGap) || 0);
+
+    const activePosition = this.currentPosition || 0;
+    const totalMinWidthOfItems = totalItems * this.getMinWidthOfItem();
+    const totalRowGap = (totalItems - 1) * (parseInt(window.getComputedStyle(this.el).rowGap) || 0);
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
       this.el.style.gridTemplateColumns = "none";
@@ -368,7 +370,7 @@ export class Stepper {
       this.el.style.display = "flex";
 
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
-        if (index !== this.currentPosition) {
+        if (index !== activePosition) {
           item.style.display = "none";
         } else {
           item.style.display = "contents";
@@ -438,6 +440,6 @@ export class Stepper {
   };
 
   getMinWidthOfItem = (): number => {
-    return ITEM_MIN_WIDTH[this.scale];
+    return parseInt(ITEM_MIN_WIDTH[this.scale]);
   };
 }

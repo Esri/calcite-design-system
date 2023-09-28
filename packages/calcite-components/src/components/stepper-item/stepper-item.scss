@@ -276,6 +276,11 @@
 }
 
 :host([layout="horizontal"][disabled]) {
+  // .stepper-item-icon,
+  // .stepper-item-header-text,
+  // .stepper-item-number {
+  //   @extend %disabled-host-only;
+  // }
   .stepper-item-header {
     @extend %disabled-host-only;
   }
@@ -395,6 +400,12 @@
 
 .visually-hidden {
   @apply sr-only;
+}
+
+:host([layout="horizontal"][disabled]) .stepper-item-header {
+  .action-icon {
+    pointer-events: auto;
+  }
 }
 
 @include base-component();

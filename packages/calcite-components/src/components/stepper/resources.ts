@@ -1,6 +1,6 @@
-//values should be coming from tokens
+//todo : replace with design tokens
 export const ITEM_MIN_WIDTH = {
-  s: 220,
-  m: 250,
-  l: 280,
+  s: "120px",
+  m: "180px",
+  l: "200px",
 };
