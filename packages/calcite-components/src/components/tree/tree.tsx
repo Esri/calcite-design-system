@@ -156,6 +156,8 @@ export class Tree {
         (target.hasChildren &&
           (this.selectionMode === "children" || this.selectionMode === "multichildren")));
 
+    const shouldDeselectAllChildren = this.selectionMode === "multichildren" && target.hasChildren;
+
     const shouldModifyToCurrentSelection =
       !isNoneSelectionMode &&
       event.detail.modifyCurrentSelection &&
@@ -182,6 +184,15 @@ export class Tree {
       selectedItems.forEach((treeItem) => {
         if (!targetItems.includes(treeItem)) {
           treeItem.selected = false;
+        }
+      });
+    }
+
+    if (shouldDeselectAllChildren) {
+      childItems.forEach((item) => {
+        item.selected = false;
+        if (item.hasChildren) {
+          item.expanded = false;
         }
       });
     }
