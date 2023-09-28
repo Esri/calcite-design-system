@@ -358,9 +358,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() elWidth: number;
-
-  resizeObserver = createObserver("resize", (entries) => {
+  resizeObserver = createObserver("resize", () => {
     if (!this.activeIndicatorEl) {
       return;
     }
@@ -369,8 +367,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.activeIndicatorEl.style.transitionDuration = "0s";
     this.updateActiveWidth();
     this.updateOffsetPosition();
-
-    this.elWidth = entries[0].contentRect.width;
 
     this.getOverflowIcons();
   });
@@ -382,23 +378,23 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   private findVisibleTabTitleIndex = (tabTitles: NodeListOf<Element>, isNext: boolean): number => {
-    const mobilePageWidth = this.el.getBoundingClientRect().width;
+    const elWidth = this.el.clientWidth;
     let visibleTabTitleIndex = -1;
 
-    for (let i = 0; i < tabTitles.length; i++) {
-      const tabTitle = tabTitles[i];
-      const tabTitleRect = tabTitle.getBoundingClientRect();
+    function findIndex() {
+      for (const [index, tabTitle] of Array.from(tabTitles).entries()) {
+        const tabTitleRect = tabTitle.getBoundingClientRect();
 
-      if (
-        (isNext && tabTitleRect.right <= mobilePageWidth) ||
-        (!isNext && tabTitleRect.left >= 0)
-      ) {
-        visibleTabTitleIndex = i;
-        if (!isNext) {
-          break;
+        if ((isNext && tabTitleRect.right <= elWidth) || (!isNext && tabTitleRect.left >= 0)) {
+          visibleTabTitleIndex = index;
+          if (!isNext) {
+            return true;
+          }
         }
       }
     }
+
+    findIndex();
 
     return visibleTabTitleIndex;
   };
@@ -416,7 +412,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         const targetTabTitleRect = targetTabTitle.getBoundingClientRect();
         scrollAmount = isNext
           ? targetTabTitleRect.left - this.el.getBoundingClientRect().left
-          : targetTabTitleRect.right - this.el.getBoundingClientRect().width;
+          : targetTabTitleRect.right - this.el.clientWidth;
       }
     }
 
