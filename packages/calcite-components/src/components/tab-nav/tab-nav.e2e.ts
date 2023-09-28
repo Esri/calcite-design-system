@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-conditional-expect */
 import { newE2EPage, E2EPage } from "@stencil/core/testing";
 import { accessible, renders, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -257,8 +258,8 @@ describe("calcite-tab-nav", () => {
               return tabTitleRect.left >= 0 && tabTitleRect.right <= mobilePageWidth;
             });
             const firstRightOverflowItem = tabTitles[visibleTabTitles.length];
-
             const isOverflowingRight = firstRightOverflowItem.getBoundingClientRect().right > mobilePageWidth;
+
             return isOverflowingRight;
           });
           expect(isOverflowingRight).toBe(true);
@@ -268,7 +269,7 @@ describe("calcite-tab-nav", () => {
         });
       } else if (overflowScenario === "left") {
         it("should show action buttons with correct chevrons for overflow to the left", async () => {
-          const { isOverflowingLeft } = await page.evaluate(async () => {
+          const isOverflowingLeft = await page.evaluate(async () => {
             const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
             const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
 
@@ -276,15 +277,9 @@ describe("calcite-tab-nav", () => {
 
             tabNav.scrollLeft += tabTitles[tabTitles.length - 1].getBoundingClientRect().right;
 
-            const visibleTabTitles = tabTitles.filter((tabTitle) => {
-              const tabTitleRect = tabTitle.getBoundingClientRect();
-              return tabTitleRect.left >= 0 && tabTitleRect.right <= mobilePageWidth;
-            });
+            const isOverflowingLeft = tabTitles[tabTitles.length - 1].getBoundingClientRect().right < mobilePageWidth;
 
-            const firstLeftOverflowItem = tabTitles[visibleTabTitles.length];
-            const isOverflowingLeft = firstLeftOverflowItem.getBoundingClientRect().right < mobilePageWidth;
-
-            return { isOverflowingLeft };
+            return isOverflowingLeft;
           });
 
           expect(isOverflowingLeft).toBe(true);
@@ -292,14 +287,53 @@ describe("calcite-tab-nav", () => {
           expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).toBe(null);
           expect(await page.find(`#testSubjectNav >>> .${CSS.arrowLeft}`)).not.toBe(null);
         });
-      } else if (overflowScenario === "both") {
-        it("should show action buttons with correct chevrons for overflow to both sides", async () => {
-          await page.evaluate(() => {
-            const tabNav = document.querySelector("calcite-tab-nav") as HTMLElement;
-            tabNav.scrollLeft = tabNav.scrollWidth / 2;
-          });
-        });
       }
     });
+
+    // overflowScenarios.forEach(async (overflowScenario) => {
+    //   it(`should show action buttons with correct chevrons for overflow to the ${overflowScenario}`, async () => {
+    //     const isOverflowingRight = overflowScenario === "right";
+    //     const isOverflowingLeft = overflowScenario === "left";
+
+    //     await page.evaluate(
+    //       (isOverflowingRight, isOverflowingLeft) => {
+    //         const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
+    //         const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
+
+    //         tabNav.scrollLeft = isOverflowingRight ? 0 : tabTitles[tabTitles.length - 1].getBoundingClientRect().right;
+
+    //         const mobilePageWidth = tabNav.getBoundingClientRect().width;
+
+    //         const visibleTabTitles = tabTitles.filter((tabTitle) => {
+    //           const tabTitleRect = tabTitle.getBoundingClientRect();
+    //           return tabTitleRect.left >= 0 && tabTitleRect.right <= mobilePageWidth;
+    //         });
+
+    //         const firstOverflowItem = isOverflowingRight
+    //           ? tabTitles[visibleTabTitles.length]
+    //           : tabTitles[tabTitles.length - visibleTabTitles.length - 1];
+
+    //         const isOverflowing = isOverflowingRight
+    //           ? firstOverflowItem.getBoundingClientRect().right > mobilePageWidth
+    //           : firstOverflowItem.getBoundingClientRect().right < mobilePageWidth;
+
+    //         return isOverflowing;
+    //       },
+    //       isOverflowingRight,
+    //       isOverflowingLeft
+    //     );
+
+    //     expect(isOverflowingRight).toBe(true);
+    //     expect(isOverflowingLeft).toBe(true);
+
+    //     if (isOverflowingRight) {
+    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).not.toBe(null);
+    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowLeft}`)).toBe(null);
+    //     } else if (isOverflowingLeft) {
+    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).toBe(null);
+    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowLeft}`)).not.toBe(null);
+    //     }
+    //   });
+    // });
   });
 });
