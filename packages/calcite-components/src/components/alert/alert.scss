@@ -151,12 +151,12 @@ $border-style: 1px solid var(--calcite-ui-border-3);
 }
 
 .footer {
-  @apply flex justify-end order-1 relative w-full;
+  @apply flex justify-end order-1 pt-px relative w-full;
   block-size: var(--calcite-alert-footer-height);
 
   &:before {
     content: "";
-    @apply absolute -top-px;
+    @apply absolute top-0;
     inset-inline: var(--calcite-alert-footer-divider-gap);
     border-block-start: $border-style;
   }
