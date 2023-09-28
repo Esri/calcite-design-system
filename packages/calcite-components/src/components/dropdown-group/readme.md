@@ -4,11 +4,10 @@
 
 ## Properties
 
-| Property        | Attribute        | Description                                                                                                                                                                                                                                                          | Type                               | Default     |
-| --------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
-| `groupTitle`    | `group-title`    | Specifies and displays a group title.                                                                                                                                                                                                                                | `string`                           | `undefined` |
-| `scale`         | `scale`          | Specifies the size of the component.                                                                                                                                                                                                                                 | `"l" \| "m" \| "s"`                | `undefined` |
-| `selectionMode` | `selection-mode` | Specifies the component's selection mode, where `"multiple"` allows any number of (or no) selected `calcite-dropdown-item`s, `"single"` allows and requires one selected `calcite-dropdown-item`, and `"none"` does not allow selection on `calcite-dropdown-item`s. | `"multiple" \| "none" \| "single"` | `"single"`  |
+| Property        | Attribute        | Description                                                                                                                                                                                                                          | Type                               | Default     |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- | ----------- |
+| `groupTitle`    | `group-title`    | Specifies and displays a group title.                                                                                                                                                                                                | `string`                           | `undefined` |
+| `selectionMode` | `selection-mode` | Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection. | `"multiple" \| "none" \| "single"` | `"single"`  |
 
 ## Slots
 

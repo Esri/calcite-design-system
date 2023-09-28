@@ -77,6 +77,47 @@ A general purpose list that enables users to construct list items that conform t
 </calcite-list>
 ```
 
+### DragEnabled
+
+```html
+<calcite-list drag-enabled>
+  <calcite-list-item label="test1" value="test1" description="hello world 1">
+    <calcite-icon icon="banana" slot="content-start"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item label="test2" value="test2" description="hello world 2">
+    <calcite-icon icon="accessibility" slot="content-start"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item label="test3" value="test3" description="hello world 3">
+    <calcite-icon icon="article" slot="content-start"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
+    <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+  </calcite-list-item>
+</calcite-list>
+```
+
+### DragEnabledNested
+
+```html
+<calcite-list drag-enabled group="mygroup" selection-mode="multiple">
+  <calcite-list-item open label="My Item 1" description="hello world">
+    <calcite-list drag-enabled group="mygroup" selection-mode="multiple">
+      <calcite-list-item open label="My Item 2" description="hello world">
+        <calcite-list drag-enabled group="mygroup" selection-mode="multiple">
+          <calcite-list-item label="My Item 3" description="hello world">
+            <calcite-list drag-enabled group="mygroup" selection-mode="multiple"></calcite-list>
+          </calcite-list-item>
+          <calcite-list-item label="My Item 4" description="hello world"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+      <calcite-list-item label="My Item 5" description="hello world"></calcite-list-item>
+    </calcite-list>
+  </calcite-list-item>
+  <calcite-list-item label="My Item 6" description="hello world"></calcite-list-item>
+  <calcite-list-item label="My Item 7" description="hello world"></calcite-list-item>
+</calcite-list>
+```
+
 ### Grouped
 
 ```html
@@ -122,25 +163,32 @@ A general purpose list that enables users to construct list items that conform t
 
 ## Properties
 
-| Property              | Attribute              | Description                                                                                                                                                        | Type                                                                                          | Default     |
-| --------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ----------- |
-| `disabled`            | `disabled`             | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                           | `boolean`                                                                                     | `false`     |
-| `filterEnabled`       | `filter-enabled`       | When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.                                            | `boolean`                                                                                     | `false`     |
-| `filterPlaceholder`   | `filter-placeholder`   | Placeholder text for the component's filter input field.                                                                                                           | `string`                                                                                      | `undefined` |
-| `filterText`          | `filter-text`          | Text for the component's filter input field.                                                                                                                       | `string`                                                                                      | `undefined` |
-| `filteredData`        | --                     | The currently filtered `calcite-list-item` data.                                                                                                                   | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
-| `filteredItems`       | --                     | The currently filtered `calcite-list-item`s.                                                                                                                       | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
-| `label`               | `label`                | Specifies an accessible name for the component.                                                                                                                    | `string`                                                                                      | `undefined` |
-| `loading`             | `loading`              | When `true`, a busy indicator is displayed.                                                                                                                        | `boolean`                                                                                     | `false`     |
-| `selectedItems`       | --                     | The currently selected items.                                                                                                                                      | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
-| `selectionAppearance` | `selection-appearance` | Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).                                                     | `"border" \| "icon"`                                                                          | `"icon"`    |
-| `selectionMode`       | `selection-mode`       | Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items). | `"multiple" \| "none" \| "single"`                                                            | `"none"`    |
+| Property              | Attribute              | Description                                                                                                                                                                                                                     | Type                                                                                          | Default     |
+| --------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------- |
+| `canPull`             | --                     | When provided, the method will be called to determine whether the element can move from the list.                                                                                                                               | `(detail: DragDetail) => boolean`                                                             | `undefined` |
+| `canPut`              | --                     | When provided, the method will be called to determine whether the element can be added from another list.                                                                                                                       | `(detail: DragDetail) => boolean`                                                             | `undefined` |
+| `disabled`            | `disabled`             | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                        | `boolean`                                                                                     | `false`     |
+| `dragEnabled`         | `drag-enabled`         | When `true`, `calcite-list-item`s are sortable via a draggable button.                                                                                                                                                          | `boolean`                                                                                     | `false`     |
+| `filterEnabled`       | `filter-enabled`       | When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.                                                                                                         | `boolean`                                                                                     | `false`     |
+| `filterPlaceholder`   | `filter-placeholder`   | Placeholder text for the component's filter input field.                                                                                                                                                                        | `string`                                                                                      | `undefined` |
+| `filterText`          | `filter-text`          | Text for the component's filter input field.                                                                                                                                                                                    | `string`                                                                                      | `undefined` |
+| `filteredData`        | --                     | The currently filtered `calcite-list-item` data.                                                                                                                                                                                | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
+| `filteredItems`       | --                     | The currently filtered `calcite-list-item`s.                                                                                                                                                                                    | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
+| `group`               | `group`                | The list's group identifier. To drag elements from one list into another, both lists must have the same group value.                                                                                                            | `string`                                                                                      | `undefined` |
+| `label`               | `label`                | Specifies an accessible name for the component.                                                                                                                                                                                 | `string`                                                                                      | `undefined` |
+| `loading`             | `loading`              | When `true`, a busy indicator is displayed.                                                                                                                                                                                     | `boolean`                                                                                     | `false`     |
+| `selectedItems`       | --                     | The currently selected items.                                                                                                                                                                                                   | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
+| `selectionAppearance` | `selection-appearance` | Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).                                                                                                                  | `"border" \| "icon"`                                                                          | `"icon"`    |
+| `selectionMode`       | `selection-mode`       | Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items). | `"multiple" \| "none" \| "single" \| "single-persist"`                                        | `"none"`    |
 
 ## Events
 
-| Event               | Description                                    | Type                |
-| ------------------- | ---------------------------------------------- | ------------------- |
-| `calciteListFilter` | Emits when the component's filter has changed. | `CustomEvent<void>` |
+| Event                                  | Description                                                                | Type                      |
+| -------------------------------------- | -------------------------------------------------------------------------- | ------------------------- |
+| `calciteInternalListDefaultSlotChange` | Emitted when the default slot has changes in order to notify parent lists. | `CustomEvent<void>`       |
+| `calciteListChange`                    | Emits when any of the list item selections have changed.                   | `CustomEvent<void>`       |
+| `calciteListFilter`                    | Emits when the component's filter has changed.                             | `CustomEvent<void>`       |
+| `calciteListOrderChange`               | Emitted when the order of the list has changed.                            | `CustomEvent<DragDetail>` |
 
 ## Methods
 
@@ -154,15 +202,18 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot | Description                                     |
-| ---- | ----------------------------------------------- |
-|      | A slot for adding `calcite-list-item` elements. |
+| Slot                     | Description                                                                         |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+|                          | A slot for adding `calcite-list-item` elements.                                     |
+| `"filter-actions-end"`   | A slot for adding actionable `calcite-action` elements after the filter component.  |
+| `"filter-actions-start"` | A slot for adding actionable `calcite-action` elements before the filter component. |
 
 ## Dependencies
 
 ### Depends on
 
 - [calcite-scrim](../scrim)
+- [calcite-stack](../stack)
 - [calcite-filter](../filter)
 
 ### Graph
@@ -170,6 +221,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-list --> calcite-scrim
+  calcite-list --> calcite-stack
   calcite-list --> calcite-filter
   calcite-scrim --> calcite-loader
   calcite-filter --> calcite-input
