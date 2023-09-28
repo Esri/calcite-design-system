@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resources";
-import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
+import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps } from "../../tests/utils";
 
@@ -88,6 +88,38 @@ describe("calcite-tooltip", () => {
         defaultValue: "absolute",
       },
     ]);
+  });
+
+  const simpleTooltipHtml = html`
+    <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
+    ><button id="ref">referenceElement</button>
+  `;
+  const tooltipDisplayNoneHtml = html`
+    <div class="container">
+      <div class="template">
+        <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
+        ><button id="ref">referenceElement</button>
+      </div>
+    </div>
+    <button class="hoverOutsideContainer">some other content</button>
+    <style>
+      .container {
+        height: 100px;
+        width: 100px;
+        border: 1px solid red;
+      }
+      .container:hover .template {
+        display: initial;
+      }
+      .template {
+        display: none;
+      }
+    </style>
+  `;
+
+  describe("openClose", () => {
+    openClose(simpleTooltipHtml);
+    openClose(tooltipDisplayNoneHtml);
   });
 
   it("should have zIndex of 901", async () => {

@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "всички",
+  "keyboardDeselectAll": "Натиснете Enter или интервал, за да отмените селекцията на всички редове",
+  "keyboardSelectAll": "Натиснете Enter или интервал, за да селектирате всички редове",
+  "rowNumber": "Номер на ред",
+  "selected": "селектирани редове",
+  "selectionColumn": "Селектиране на колона"
 }

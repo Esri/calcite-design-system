@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "جزء عشري من الثانية",
+  "fractionalSecondDown": "تقليل الجزء العشري من الثانية",
+  "fractionalSecondUp": "زيادة الجزء العشري من الثانية",
   "hour": "ساعة",
   "hourDown": "تقليل ساعة",
   "hourUp": "زيادة ساعة",

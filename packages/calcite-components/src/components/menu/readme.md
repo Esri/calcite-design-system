@@ -2,19 +2,11 @@
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-menu> <calcite-menu-item id="Nature" text="Nature"> </calcite-menu-item></calcite-menu>
-```
-
 ## Properties
 
 | Property             | Attribute | Description                                                             | Type                         | Default        |
 | -------------------- | --------- | ----------------------------------------------------------------------- | ---------------------------- | -------------- |
-| `label` _(required)_ | `label`   | Specifies accessible label for the component.                           | `string`                     | `undefined`    |
+| `label` _(required)_ | `label`   | Accessible name for the component.                                      | `string`                     | `undefined`    |
 | `layout`             | `layout`  | Specifies the layout of the component.                                  | `"horizontal" \| "vertical"` | `"horizontal"` |
 | `messageOverrides`   | --        | Use this property to override individual strings used by the component. | `{ more?: string; }`         | `undefined`    |
 

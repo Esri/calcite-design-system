@@ -1,4 +1,6 @@
 {
   "close": "Aizvērt",
-  "options": "Opcijas"
+  "options": "Opcijas",
+  "collapse": "Sakļaut",
+  "expand": "Izvērst"
 }

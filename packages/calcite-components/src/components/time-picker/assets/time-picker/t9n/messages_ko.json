@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "소수 초",
+  "fractionalSecondDown": "소수 초 감소",
+  "fractionalSecondUp": "소수 초 증가",
   "hour": "시간",
   "hourDown": "시간 감소",
   "hourUp": "시간 증가",

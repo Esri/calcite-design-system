@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Deo sekunde",
+  "fractionalSecondDown": "Smanji deo sekunde",
+  "fractionalSecondUp": "Povećaj deo sekunde",
   "hour": "Čas",
   "hourDown": "Smanji čas",
   "hourUp": "Povećaj čas",

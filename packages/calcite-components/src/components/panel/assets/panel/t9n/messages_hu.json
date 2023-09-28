@@ -1,4 +1,6 @@
 {
   "close": "Bezárás",
-  "options": "Beállítási lehetőségek"
+  "options": "Beállítási lehetőségek",
+  "collapse": "Összecsukás",
+  "expand": "Kibontás"
 }

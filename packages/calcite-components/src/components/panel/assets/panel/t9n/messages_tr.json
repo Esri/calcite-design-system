@@ -1,4 +1,6 @@
 {
   "close": "Kapat",
-  "options": "Seçenekler"
+  "options": "Seçenekler",
+  "collapse": "Daralt",
+  "expand": "Genişlet"
 }

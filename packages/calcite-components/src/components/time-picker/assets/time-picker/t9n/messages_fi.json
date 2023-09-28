@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Sekunnin murto-osa",
+  "fractionalSecondDown": "Vähennä sekunnin murto-osa",
+  "fractionalSecondUp": "Lisää sekunnin murto-osa",
   "hour": "Tunti",
   "hourDown": "Lasku tunti",
   "hourUp": "Kasvu tunti",
