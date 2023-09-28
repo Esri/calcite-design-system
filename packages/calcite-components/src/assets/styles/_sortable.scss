@@ -1,7 +1,7 @@
 @mixin sortable-helper-classes() {
   .calcite-sortable--ghost::before {
     content: "";
-    @apply bg-foreground-3 absolute top-0 left-0 bottom-0 right-0;
+    @apply box-border border border-dashed border-color-brand bg-foreground-2 absolute top-0 left-0 bottom-0 right-0;
   }
   .calcite-sortable--drag {
     @apply shadow-2;

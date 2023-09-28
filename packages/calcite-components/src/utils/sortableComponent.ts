@@ -13,9 +13,6 @@ export const CSS = {
   dragClass: "calcite-sortable--drag",
 };
 
-const div = document.createElement("div");
-div.className = "calcite-sortable--original-location";
-
 /**
  * Defines interface for components with sorting functionality.
  */
@@ -104,13 +101,11 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     handle,
-    onStart: ({ item, from }) => {
-      from.insertBefore(div, item);
+    onStart: () => {
       dragState.active = true;
       onDragStart();
     },
-    onEnd: ({ from }) => {
-      from.removeChild(div);
+    onEnd: () => {
       dragState.active = false;
       onDragEnd();
     },
