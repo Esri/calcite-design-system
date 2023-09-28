@@ -11,31 +11,5 @@
   "emphasis-style": { "style": "underscore" },
   "strong-style": { "style": "underscore" },
   "ul-style": { "style": "dash" },
-  "no-inline-html": {
-    "allowed_elements": [
-      "a",
-      "b",
-      "br",
-      "code",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "img",
-      "img",
-      "ol",
-      "span",
-      "strike",
-      "style",
-      "svg",
-      "table",
-      "tbody",
-      "td",
-      "th",
-      "thead",
-      "tr",
-      "ul"
-    ]
-  }
+  "no-inline-html": false
 }
