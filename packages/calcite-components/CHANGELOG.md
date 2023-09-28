@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.11...@esri/calcite-components@1.9.0-next.12) (2023-09-28)
+
+### Bug Fixes
+
+- **dropdown-group:** set selectionMode on slotted dropdown-item children ([#7897](https://github.com/Esri/calcite-design-system/issues/7897)) ([aa0731a](https://github.com/Esri/calcite-design-system/commit/aa0731a10eda31af4e4621640a5b375037f2e43a)), closes [#7707](https://github.com/Esri/calcite-design-system/issues/7707)
+
 ## [1.9.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.10...@esri/calcite-components@1.9.0-next.11) (2023-09-27)
 
 ### Features
