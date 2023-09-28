@@ -216,7 +216,7 @@ export class Tree {
     }
 
     this.selectedItems = isNoneSelectionMode
-      ? [target]
+      ? []
       : (nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
           (i) => i.selected
         ) as HTMLCalciteTreeItemElement[]);
