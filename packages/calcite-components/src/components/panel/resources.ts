@@ -22,6 +22,8 @@ export const ICONS = {
   menu: "ellipsis",
   backLeft: "chevron-left",
   backRight: "chevron-right",
+  expand: "chevron-up",
+  collapse: "chevron-down",
 };
 
 export const SLOTS = {
