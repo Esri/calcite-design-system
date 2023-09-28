@@ -433,7 +433,7 @@ describe("calcite-tree", () => {
     });
 
     describe(`when tree-item selection-mode is "none"`, () => {
-      it("allows selecting items without a selection", async () => {
+      it("emits selection event without updating selection", async () => {
         const page = await newE2EPage();
         await page.setContent(html`
           <calcite-tree selection-mode="none">
@@ -448,12 +448,12 @@ describe("calcite-tree", () => {
 
         await item1.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(1);
-        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(0);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
 
         await item2.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(2);
-        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(0);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
       });
     });
