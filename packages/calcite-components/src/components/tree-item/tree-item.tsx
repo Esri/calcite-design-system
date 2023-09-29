@@ -358,15 +358,12 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    if (this.isActionEndEvent(event)) {
+    if (this.isActionEndEvent(event) || event.defaultPrevented) {
       return;
     }
 
     switch (event.key) {
       case " ":
-        if (this.selectionMode === "none") {
-          return;
-        }
         this.userChangedValue = true;
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
@@ -375,9 +372,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         event.preventDefault();
         break;
       case "Enter":
-        if (this.selectionMode === "none") {
-          return;
-        }
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
         const link = Array.from(this.el.children).find((el) =>
           el.matches("a")
