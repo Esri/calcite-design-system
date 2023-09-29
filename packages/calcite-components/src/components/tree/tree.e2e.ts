@@ -1038,7 +1038,7 @@ describe("calcite-tree", () => {
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
     });
 
-    it("does not prevent space/enter keyboard event on actions with selectionMode of none", async () => {
+    it("does prevent space/enter keyboard event on actions with selectionMode of none", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<div id="container">
         <calcite-tree selection-mode="none">
@@ -1058,12 +1058,12 @@ describe("calcite-tree", () => {
       await page.keyboard.press("Enter");
 
       expect(keydownSpy).toHaveReceivedEventTimes(1);
-      expect(keydownSpy.lastEvent.defaultPrevented).toBe(false);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
 
       await page.keyboard.press("Space");
 
       expect(keydownSpy).toHaveReceivedEventTimes(2);
-      expect(keydownSpy.lastEvent.defaultPrevented).toBe(false);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
     });
   });
 
@@ -1101,128 +1101,213 @@ describe("calcite-tree", () => {
   });
 
   describe("parent node expansion", () => {
+    describe("keyboard", () => {
+      assertSelectionModes(
+        false,
+        async (_page, item) => {
+          await item.press("Enter");
+        },
+        async (_page, item, toggle) => {
+          const itemExpanded = await item.getProperty("expanded");
+          const toggleKey = itemExpanded ? "ArrowLeft" : "ArrowRight";
+          await toggle.press(toggleKey);
+        },
+        async (_page, item) => {
+          await item.press("Enter");
+        }
+      );
+    });
+
+    describe("mouse", () => {
+      assertSelectionModes(
+        true,
+        async (page, item) => {
+          await directItemClick(page, item);
+        },
+        async (page, _item, toggle) => {
+          await directItemClick(page, toggle);
+        },
+        async (page, item) => {
+          await directItemClick(page, item);
+        }
+      );
+    });
+
     interface SelectionModeTest {
       selectionMode: SelectionMode;
-      canDeselect: boolean;
+      canDeselect: {
+        item: boolean;
+        child: boolean;
+      };
       expandableItemClick: {
         selectsItem: boolean;
         selectsChildren: boolean;
       };
     }
 
-    const selectionModesTests: SelectionModeTest[] = [
-      {
-        selectionMode: "ancestors",
-        canDeselect: true,
-        expandableItemClick: {
-          selectsItem: true,
-          selectsChildren: true,
+    async function assertSelectionModes(
+      childToggleTraversesParent: boolean,
+      selectItem: (page: E2EPage, item: E2EElement) => Promise<void>,
+      toggleItem: (page: E2EPage, item: E2EElement, toggle: E2EElement) => Promise<void>,
+      selectItemChild: (page: E2EPage, item: E2EElement) => Promise<void>
+    ): Promise<void> {
+      const selectionModesTests: SelectionModeTest[] = [
+        {
+          selectionMode: "ancestors",
+          canDeselect: { item: true, child: true },
+          expandableItemClick: {
+            selectsItem: true,
+            selectsChildren: true,
+          },
         },
-      },
-      {
-        selectionMode: "multichildren",
-        canDeselect: true,
-        expandableItemClick: {
-          selectsItem: true,
-          selectsChildren: false,
+        {
+          selectionMode: "children",
+          canDeselect: { item: false, child: false },
+          expandableItemClick: {
+            selectsItem: true,
+            selectsChildren: false,
+          },
         },
-      },
-      {
-        selectionMode: "multiple",
-        canDeselect: true,
-        expandableItemClick: {
-          selectsItem: false,
-          selectsChildren: false,
+        {
+          selectionMode: "multichildren",
+          canDeselect: { item: true, child: true },
+          expandableItemClick: {
+            selectsItem: true,
+            selectsChildren: false,
+          },
         },
-      },
-      {
-        selectionMode: "none",
-        canDeselect: false,
-        expandableItemClick: {
-          selectsItem: false,
-          selectsChildren: false,
+        {
+          selectionMode: "multiple",
+          canDeselect: { item: true, child: true },
+          expandableItemClick: {
+            selectsItem: false,
+            selectsChildren: false,
+          },
         },
-      },
-      {
-        selectionMode: "single",
-        canDeselect: true,
-        expandableItemClick: {
-          selectsItem: false,
-          selectsChildren: false,
+        {
+          selectionMode: "none",
+          canDeselect: { item: false, child: false },
+          expandableItemClick: {
+            selectsItem: false,
+            selectsChildren: false,
+          },
         },
-      },
-      {
-        selectionMode: "single-persist",
-        canDeselect: false,
-        expandableItemClick: {
-          selectsItem: false,
-          selectsChildren: false,
+        {
+          selectionMode: "single",
+          canDeselect: { item: true, child: false },
+          expandableItemClick: {
+            selectsItem: false,
+            selectsChildren: false,
+          },
         },
-      },
-    ];
+        {
+          selectionMode: "single-persist",
+          canDeselect: { item: false, child: false },
+          expandableItemClick: {
+            selectsItem: false,
+            selectsChildren: false,
+          },
+        },
+      ];
 
-    selectionModesTests.forEach(
-      ({ selectionMode, canDeselect, expandableItemClick: { selectsItem, selectsChildren } }) => {
-        it(`selection-mode = ${selectionMode}`, async () => {
-          const expandableItemId = "expandable-item";
-          const page = await newE2EPage();
-          await page.setContent(html`
-            <calcite-tree selection-mode="${selectionMode}">
-              <calcite-tree-item>Child 1</calcite-tree-item>
+      selectionModesTests.forEach(
+        ({ selectionMode, canDeselect, expandableItemClick: { selectsItem, selectsChildren } }) => {
+          it(`selection-mode = ${selectionMode}`, async () => {
+            const expandableItemId = "expandable-item";
+            const expandableItemChildId = "expandable-item-child";
+            const page = await newE2EPage();
+            await page.setContent(html`
+              <calcite-tree selection-mode="${selectionMode}">
+                <calcite-tree-item>Child 1</calcite-tree-item>
 
-              <calcite-tree-item id="${expandableItemId}">
-                Child 2
+                <calcite-tree-item id="${expandableItemId}">
+                  Child 2
 
-                <calcite-tree slot="children">
-                  <calcite-tree-item>Grandchild 1</calcite-tree-item>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item id="${expandableItemChildId}">Grandchild 1</calcite-tree-item>
 
-                  <calcite-tree-item>Grandchild 2</calcite-tree-item>
+                    <calcite-tree-item>Grandchild 2</calcite-tree-item>
 
-                  <calcite-tree-item>
-                    Grandchild 3
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>Great-Grandchild 1</calcite-tree-item>
-                      <calcite-tree-item>Great-Grandchild 2</calcite-tree-item>
-                      <calcite-tree-item>Great-Grandchild 3</calcite-tree-item>
-                    </calcite-tree>
-                  </calcite-tree-item>
-                </calcite-tree>
-              </calcite-tree-item>
-            </calcite-tree>
-          `);
+                    <calcite-tree-item>
+                      Grandchild 3
+                      <calcite-tree slot="children">
+                        <calcite-tree-item>Great-Grandchild 1</calcite-tree-item>
+                        <calcite-tree-item>Great-Grandchild 2</calcite-tree-item>
+                        <calcite-tree-item>Great-Grandchild 3</calcite-tree-item>
+                      </calcite-tree>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            `);
 
-          const tree = await page.find("calcite-tree");
-          expect(await tree.getProperty("selectedItems")).toHaveLength(0);
+            const tree = await page.find("calcite-tree");
+            expect(await tree.getProperty("selectedItems")).toHaveLength(0);
 
-          const expandableParentItem = await page.find(`#${expandableItemId}`);
-          const childItems = await expandableParentItem.findAll("calcite-tree-item");
-          expect(await expandableParentItem.getProperty("expanded")).toBe(false);
+            const expandableParentItem = await page.find(`#${expandableItemId}`);
+            const childItems = await expandableParentItem.findAll("calcite-tree-item");
+            expect(await expandableParentItem.getProperty("expanded")).toBe(false);
 
-          await directItemClick(page, expandableParentItem);
+            await selectItem(page, expandableParentItem);
 
-          expect(await expandableParentItem.getProperty("expanded")).toBe(!selectsItem);
-          const expectedSelectedItemsAfterExpanding = (selectsItem ? 1 : 0) + (selectsChildren ? childItems.length : 0);
-          expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterExpanding);
+            expect(await expandableParentItem.getProperty("expanded")).toBe(!selectsItem);
+            const expectedSelectedItemsAfterExpanding =
+              (selectsItem ? 1 : 0) + (selectsChildren ? childItems.length : 0);
+            expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterExpanding);
 
-          await directItemClick(page, expandableParentItem);
+            await selectItem(page, expandableParentItem);
 
-          expect(await expandableParentItem.getProperty("expanded")).toBe(false);
-          const expectedSelectedItemsAfterCollapsing = canDeselect ? 0 : expectedSelectedItemsAfterExpanding;
-          expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
+            expect(await expandableParentItem.getProperty("expanded")).toBe(false);
+            const expectedSelectedItemsAfterCollapsing = canDeselect.item ? 0 : expectedSelectedItemsAfterExpanding;
+            expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
 
-          const expandableParentToggle = await page.find(`#${expandableItemId} >>> .${CSS.chevron}`);
+            const expandableParentToggle = await page.find(`#${expandableItemId} >>> .${CSS.chevron}`);
 
-          await directItemClick(page, expandableParentToggle);
+            await toggleItem(page, expandableParentItem, expandableParentToggle);
 
-          expect(await expandableParentItem.getProperty("expanded")).toBe(true);
-          expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
+            expect(await expandableParentItem.getProperty("expanded")).toBe(true);
+            expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
 
-          await directItemClick(page, expandableParentToggle);
+            await toggleItem(page, expandableParentItem, expandableParentToggle);
 
-          expect(await expandableParentItem.getProperty("expanded")).toBe(false);
-          expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
-        });
-      }
-    );
+            expect(await expandableParentItem.getProperty("expanded")).toBe(false);
+            expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
+
+            const expandableChildItem = await page.find(`#${expandableItemChildId}`);
+
+            await selectItemChild(page, expandableChildItem);
+
+            expect(await expandableParentItem.getProperty("expanded")).toBe(
+              !selectsItem && !childToggleTraversesParent
+            );
+            expect(await tree.getProperty("selectedItems")).toHaveLength(
+              selectionMode === "none"
+                ? 0
+                : selectionMode === "ancestors" && !childToggleTraversesParent
+                ? 7
+                : !childToggleTraversesParent &&
+                  (selectionMode === "multiple" || selectionMode === "single" || selectionMode === "single-persist")
+                ? 0
+                : 1
+            );
+
+            await selectItemChild(page, expandableChildItem);
+
+            expect(await expandableParentItem.getProperty("expanded")).toBe(
+              !selectsItem && !childToggleTraversesParent
+            );
+            expect(await tree.getProperty("selectedItems")).toHaveLength(
+              selectionMode === "none"
+                ? 0
+                : !childToggleTraversesParent && selectionMode === "multiple"
+                ? 1
+                : canDeselect.child
+                ? 0
+                : 1
+            );
+          });
+        }
+      );
+    }
   });
 });
