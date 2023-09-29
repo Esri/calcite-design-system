@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.12...@esri/calcite-components@1.9.0-next.13) (2023-09-29)
+
+### Features
+
+- **alert:** make component responsive ([#7755](https://github.com/Esri/calcite-design-system/issues/7755)) ([66222b5](https://github.com/Esri/calcite-design-system/commit/66222b55561ea505233905fba1dd9f48f03bd027)), closes [#6673](https://github.com/Esri/calcite-design-system/issues/6673)
+
+### Bug Fixes
+
+- **tree:** update tree selection per design spec ([#7852](https://github.com/Esri/calcite-design-system/issues/7852)) ([06b3594](https://github.com/Esri/calcite-design-system/commit/06b359493feb2a978257b6617cce7f4ff62352f3)), closes [#6971](https://github.com/Esri/calcite-design-system/issues/6971)
+
 ## [1.9.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.11...@esri/calcite-components@1.9.0-next.12) (2023-09-28)
 
 ### Bug Fixes
