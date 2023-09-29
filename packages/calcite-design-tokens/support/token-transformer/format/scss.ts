@@ -43,8 +43,18 @@ export const formatSCSS: Formatter = (fileInfo: {
 
     return (
       formatHelpers.fileHeader({ file }) +
+      formatHelpers
+        .formattedVariables({ format: "sass", dictionary, outputReferences })
+        .split("\n")
+        .filter((customProp) => !customProp.includes("ui-component"))
+        .join("\n") +
+      "\n" +
       `@mixin calcite-theme-${themeName}() {\n` +
-      formatHelpers.formattedVariables({ format: "css", dictionary, outputReferences }) +
+      formatHelpers
+        .formattedVariables({ format: "css", dictionary, outputReferences })
+        .split("\n")
+        .filter((customProp) => !customProp.includes("ui-component"))
+        .join("\n") +
       `\n}\n`
     );
   }

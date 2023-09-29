@@ -6,8 +6,7 @@ import { matchExclusions } from "./utils/regex.js";
 import { matchList } from "./utils/matchList.js";
 import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
-import { parseName } from "./utils/parseName.js";
-import { Theme } from "./getThemes.js";
+import { Theme } from "./getThemes2.js";
 
 /**
  * Style Dictionary runner configuration overrides.
@@ -20,20 +19,13 @@ import { Theme } from "./getThemes.js";
  * @param {string[]} theme.disabled an array of partial file names matching the token files which should explicitly not be included in the output
  * @param {string[]} theme.source an array of partial file names matching the token files which should not always be included in the output but who's values should be used for variables references in the "enabled" files
  */
-export const run = async (
-  tokenDir = "tokens",
-  buildPath = "dist",
-  theme: Pick<Theme, "enabled" | "disabled" | "name" | "source">
-): Promise<void> => {
-  const fileName = parseName(theme.name);
+export const run = async (tokenDir = "src", buildPath = "dist", theme: Theme): Promise<void> => {
+  // const tokenDir = "src";
+  // const theme.name = theme.name;
   const include = theme.source.map((tokenFile) => `${tokenDir}/${tokenFile}.json`);
   const source = theme.enabled.map((tokenFile) => `${tokenDir}/${tokenFile}.json`);
   const options = {
-    enabled: theme.enabled,
-    source: theme.source,
-    disabled: theme.disabled,
-    outputReferences: false,
-    sourceReferencesOnly: false,
+    outputReferences: true,
   };
 
   // Here we are registering the Transforms provided by Token Studio however,
@@ -93,10 +85,10 @@ export const run = async (
         buildPath: `${buildPath}/css/`,
         files: [
           {
-            destination: `${fileName}.css`,
+            destination: `${theme.name}.css`,
             format: "css/variables",
-            filter: /headless/gi.test(fileName) ? undefined : "filterSource",
-            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options,
+            filter: "filterSource",
+            options,
           },
         ],
       },
@@ -120,10 +112,10 @@ export const run = async (
         buildPath: `${buildPath}/scss/`,
         files: [
           {
-            destination: `${fileName}.scss`,
+            destination: `${theme.name}.scss`,
             format: "calcite/scss",
-            filter: /headless/gi.test(fileName) ? undefined : "filterSource",
-            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options,
+            filter: "filterSource",
+            options,
           },
         ],
       },
@@ -132,7 +124,7 @@ export const run = async (
       {
         pattern: /\.json$/,
         parse: (file) =>
-          matchList(file.filePath, [...include, ...theme.source, ...theme.enabled], matchExclusions)
+          matchList(file.filePath, [...theme.source, ...theme.enabled], matchExclusions)
             ? expandComposites(JSON.parse(file.contents), file.filePath)
             : {},
       },
