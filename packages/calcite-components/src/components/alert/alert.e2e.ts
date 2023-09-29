@@ -50,8 +50,8 @@ describe("calcite-alert", () => {
     ${alertContent}
     </calcite-alert>`);
     const element = await page.find("calcite-alert");
-    const close = await page.find("calcite-alert >>> .alert-close");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
+    const close = await page.find(`calcite-alert >>> .${CSS.close}`);
+    const icon = await page.find(`calcite-alert >>> .${CSS.icon}`);
     expect(element).toEqualAttribute("kind", "brand");
     expect(close).not.toBeNull();
     expect(icon).toBeNull();
@@ -65,7 +65,7 @@ describe("calcite-alert", () => {
     </calcite-alert>`);
 
     const element = await page.find("calcite-alert");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
+    const icon = await page.find(`calcite-alert >>> .${CSS.icon}`);
 
     expect(element).toEqualAttribute("kind", "warning");
     expect(element).toEqualAttribute("auto-close-duration", "fast");
@@ -80,8 +80,8 @@ describe("calcite-alert", () => {
     </calcite-alert>`);
 
     const element = await page.find("calcite-alert");
-    const close = await page.find("calcite-alert >>> .alert-close");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
+    const close = await page.find(`calcite-alert >>> .${CSS.close}`);
+    const icon = await page.find(`calcite-alert >>> .${CSS.icon}`);
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(close).not.toBeNull();
     expect(icon).not.toBeNull();
@@ -129,7 +129,7 @@ describe("calcite-alert", () => {
 
     const alert1 = await page.find("#alert-1");
     const button1 = await page.find("#button-1");
-    const alertClose1 = await page.find("#alert-1 >>> .alert-close");
+    const alertClose1 = await page.find(`#alert-1 >>> .${CSS.close}`);
 
     expect(await alert1.isVisible()).not.toBe(true);
 
@@ -166,8 +166,8 @@ describe("calcite-alert", () => {
     const button1 = await page.find("#button-1");
     const button2 = await page.find("#button-2");
     const button3 = await page.find("#button-3");
-    const alertClose1 = await page.find("#alert-1 >>> .alert-close");
-    const alertClose2 = await page.find("#alert-2 >>> .alert-close");
+    const alertClose1 = await page.find(`#alert-1 >>> .${CSS.close}`);
+    const alertClose2 = await page.find(`#alert-2 >>> .${CSS.close}`);
 
     await button1.click();
     await page.waitForTimeout(animationDurationInMs);
@@ -192,8 +192,8 @@ describe("calcite-alert", () => {
     ${alertContent}
     </calcite-alert>`);
 
-    const container = await page.find("calcite-alert >>> .container");
-    expect(container).toHaveClass("bottom");
+    const container = await page.find(`calcite-alert >>> .${CSS.container}`);
+    expect(container).toHaveClass(CSS.containerBottom);
   });
 
   it("correctly assigns a requested placement class", async () => {
@@ -203,9 +203,9 @@ describe("calcite-alert", () => {
     ${alertContent}
     </calcite-alert>`);
 
-    const container = await page.find("calcite-alert >>> .container");
-    expect(container).not.toHaveClass("bottom");
-    expect(container).toHaveClass("top-end");
+    const container = await page.find(`calcite-alert >>> .${CSS.container}`);
+    expect(container).not.toHaveClass(CSS.containerBottom);
+    expect(container).toHaveClass(CSS.containerTopEnd);
   });
 
   describe("CSS properties for light/dark modes", () => {
@@ -249,7 +249,7 @@ describe("calcite-alert", () => {
       it("should render alert dismiss progress bar with default value tied to light mode", async () => {
         page = await newE2EPage({ html: alertSnippet });
         await page.waitForTimeout(animationDurationInMs);
-        alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");
+        alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
         progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
         expect(await progressBarStyles.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.8)");
       });
@@ -261,7 +261,7 @@ describe("calcite-alert", () => {
           html: `<div class="calcite-mode-dark">${alertSnippet}</div>`,
         });
         await page.waitForTimeout(animationDurationInMs);
-        alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");
+        alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
         progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
         expect(await progressBarStyles.getPropertyValue("background-color")).toEqual("rgba(43, 43, 43, 0.8)");
       });
@@ -279,7 +279,7 @@ describe("calcite-alert", () => {
         <div>${alertSnippet}</div>`,
       });
       await page.waitForTimeout(animationDurationInMs);
-      alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");
+      alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
       progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
       expect(await progressBarStyles.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
