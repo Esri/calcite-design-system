@@ -56,7 +56,7 @@ export default {
       "danger-hover": "var(--calcite-ui-danger-hover)",
       "danger-press": "var(--calcite-ui-danger-press)",
       background: {
-        background: "var(--calcite-ui-background)",
+        background: "var(--calcite-ui-background-1)",
         foreground: {
           1: "var(--calcite-ui-foreground-1)",
           2: "var(--calcite-ui-foreground-2)",

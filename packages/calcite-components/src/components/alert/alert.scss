@@ -319,7 +319,7 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   @apply absolute;
 }
 
-@container responsive-container (min-width: #{$breakpoint-width-xs}) {
+@container responsive-container (min-width: #{$calcite-breakpoint-width-xs}) {
   .content {
     @apply flex-row;
   }
@@ -336,7 +336,7 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   }
 }
 
-@container responsive-container (min-width: #{$breakpoint-width-sm}) {
+@container responsive-container (min-width: #{$calcite-breakpoint-width-sm}) {
   .close {
     @apply self-stretch;
   }
