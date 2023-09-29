@@ -23,7 +23,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Scale } from "../interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
 
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
@@ -388,7 +388,8 @@ export class ActionMenu implements LoadableComponent {
       action.id = id;
     }
 
-    action.active = index === activeMenuItemIndex;
+    // data attribute is used to style the "activeMenuItemIndex" action using token focus styling.
+    action.toggleAttribute(activeAttr, index === activeMenuItemIndex);
   };
 
   updateActions = (actions: HTMLCalciteActionElement[]): void => {
