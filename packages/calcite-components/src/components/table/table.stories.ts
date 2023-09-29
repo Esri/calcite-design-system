@@ -1014,4 +1014,4 @@ export const darkModeRTLWithSelection_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTLWithSelection_TestOnly.parameters = { modes: modesDarkDefault };
