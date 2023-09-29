@@ -66,4 +66,4 @@ export const keyDownOpen_TestOnly = (): string =>
     </script>
   `;
 
-keyDownOpen_TestOnly.parameters = { chromatic: { delay: 500 } };
+keyDownOpen_TestOnly.parameters = { chromatic: { delay: 1000 } };
