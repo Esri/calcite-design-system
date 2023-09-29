@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, activeAttr } from "./resources";
 
 describe("calcite-action-menu", () => {
   describe("renders", () => {
@@ -226,6 +226,7 @@ describe("calcite-action-menu", () => {
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
+      const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -236,18 +237,19 @@ describe("calcite-action-menu", () => {
       await page.waitForTimeout(0);
       await page.waitForChanges();
 
+      expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(await actions[0].getProperty("active")).toBe(true);
-      expect(await actions[1].getProperty("active")).toBe(false);
-      expect(await actions[2].getProperty("active")).toBe(false);
+      expect(actions[0].getAttribute(activeAttr)).toBe("");
+      expect(actions[1].getAttribute(activeAttr)).toBe(null);
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       await page.keyboard.press("ArrowDown");
       await page.waitForTimeout(0);
       await page.waitForChanges();
 
-      expect(await actions[0].getProperty("active")).toBe(false);
-      expect(await actions[1].getProperty("active")).toBe(true);
-      expect(await actions[2].getProperty("active")).toBe(false);
+      expect(actions[0].getAttribute(activeAttr)).toBe(null);
+      expect(actions[1].getAttribute(activeAttr)).toBe("");
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
     });
 
     it("should handle ArrowUp navigation", async () => {
@@ -263,8 +265,10 @@ describe("calcite-action-menu", () => {
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
+      const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
+      expect(await trigger.getProperty("active")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
@@ -273,18 +277,19 @@ describe("calcite-action-menu", () => {
       await page.waitForTimeout(0);
       await page.waitForChanges();
 
+      expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(await actions[0].getProperty("active")).toBe(false);
-      expect(await actions[1].getProperty("active")).toBe(false);
-      expect(await actions[2].getProperty("active")).toBe(true);
+      expect(actions[0].getAttribute(activeAttr)).toBe(null);
+      expect(actions[1].getAttribute(activeAttr)).toBe(null);
+      expect(actions[2].getAttribute(activeAttr)).toBe("");
 
       await page.keyboard.press("ArrowUp");
       await page.waitForTimeout(0);
       await page.waitForChanges();
 
-      expect(await actions[0].getProperty("active")).toBe(false);
-      expect(await actions[1].getProperty("active")).toBe(true);
-      expect(await actions[2].getProperty("active")).toBe(false);
+      expect(actions[0].getAttribute(activeAttr)).toBe(null);
+      expect(actions[1].getAttribute(activeAttr)).toBe("");
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
     });
 
     it("should handle Enter, Home, End and ESC navigation", async () => {
@@ -300,8 +305,10 @@ describe("calcite-action-menu", () => {
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
+      const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
+      expect(await trigger.getProperty("active")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
@@ -310,39 +317,41 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(await actions[0].getProperty("active")).toBe(true);
-      expect(await actions[1].getProperty("active")).toBe(false);
-      expect(await actions[2].getProperty("active")).toBe(false);
+      expect(await trigger.getProperty("active")).toBe(true);
+      expect(actions[0].getAttribute(activeAttr)).toBe("");
+      expect(actions[1].getAttribute(activeAttr)).toBe(null);
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       await page.keyboard.press("ArrowDown");
 
       await page.waitForChanges();
 
-      expect(await actions[0].getProperty("active")).toBe(false);
-      expect(await actions[1].getProperty("active")).toBe(true);
-      expect(await actions[2].getProperty("active")).toBe(false);
+      expect(actions[0].getAttribute(activeAttr)).toBe(null);
+      expect(actions[1].getAttribute(activeAttr)).toBe("");
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       await page.keyboard.press("Home");
 
       await page.waitForChanges();
 
-      expect(await actions[0].getProperty("active")).toBe(true);
-      expect(await actions[1].getProperty("active")).toBe(false);
-      expect(await actions[2].getProperty("active")).toBe(false);
+      expect(actions[0].getAttribute(activeAttr)).toBe("");
+      expect(actions[1].getAttribute(activeAttr)).toBe(null);
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       await page.keyboard.press("End");
 
       await page.waitForChanges();
 
-      expect(await actions[0].getProperty("active")).toBe(false);
-      expect(await actions[1].getProperty("active")).toBe(false);
-      expect(await actions[2].getProperty("active")).toBe(true);
+      expect(actions[0].getAttribute(activeAttr)).toBe(null);
+      expect(actions[1].getAttribute(activeAttr)).toBe(null);
+      expect(actions[2].getAttribute(activeAttr)).toBe("");
 
       await page.keyboard.press("Escape");
 
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(false);
+      expect(await trigger.getProperty("active")).toBe(false);
     });
 
     it("should handle TAB navigation", async () => {
@@ -368,9 +377,9 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(await actions[0].getProperty("active")).toBe(true);
-      expect(await actions[1].getProperty("active")).toBe(false);
-      expect(await actions[2].getProperty("active")).toBe(false);
+      expect(actions[0].getAttribute(activeAttr)).toBe("");
+      expect(actions[1].getAttribute(activeAttr)).toBe(null);
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       await page.keyboard.press("Tab");
 
@@ -404,9 +413,9 @@ describe("calcite-action-menu", () => {
       const clickSpy = await actions[0].spyOnEvent("click");
 
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(await actions[0].getProperty("active")).toBe(true);
-      expect(await actions[1].getProperty("active")).toBe(false);
-      expect(await actions[2].getProperty("active")).toBe(false);
+      expect(actions[0].getAttribute(activeAttr)).toBe("");
+      expect(actions[1].getAttribute(activeAttr)).toBe(null);
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       await page.keyboard.press("Enter");
 
