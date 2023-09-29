@@ -1,9 +1,9 @@
 export const ICON = {
-  arrowRight: "chevron-right",
-  arrowLeft: "chevron-left",
+  chevronRight: "chevron-right",
+  chevronLeft: "chevron-left",
 };
 
 export const CSS = {
-  arrowRight: "chevron-right",
-  arrowLeft: "chevron-left",
+  arrowEnd: "arrow-end",
+  arrowStart: "arrow-start",
 };

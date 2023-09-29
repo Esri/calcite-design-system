@@ -514,6 +514,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   }
 
   private getOverflowIcons(): VNode | VNode[] {
+    const dir = getElementDir(this.el);
     const { messages } = this;
     const tabNavWidth = this.el.offsetWidth;
 
@@ -522,19 +523,33 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const firstTitle = tabTitles[0].getBoundingClientRect();
     const lastTitle = tabTitles[tabTitles.length - 1].getBoundingClientRect();
 
-    const isOverflowingRight = lastTitle.right > tabNavWidth;
-    const isOverflowingLeft = firstTitle.left < 0;
+    let isOverflowingEnd: boolean;
+    let isOverflowingStart: boolean;
+
+    if (dir !== "rtl") {
+      isOverflowingEnd = lastTitle.right > tabNavWidth;
+      isOverflowingStart = firstTitle.left < 0;
+    } else if (dir === "rtl") {
+      isOverflowingEnd = lastTitle.right < tabNavWidth;
+      isOverflowingStart = firstTitle.left < 0;
+    }
 
     const getActionChevronDirection = (overflowDirection: string): VNode => {
-      const dirActionClass: string = overflowDirection === "right" ? CSS.arrowRight : CSS.arrowLeft;
-      const dirChevronIcon: string =
-        overflowDirection === "right" ? ICON.arrowRight : ICON.arrowLeft;
+      const dirActionClass: string = overflowDirection === "end" ? CSS.arrowEnd : CSS.arrowStart;
+
+      let dirChevronIcon: string;
+
+      if (dir !== "rtl") {
+        dirChevronIcon = overflowDirection === "end" ? ICON.chevronRight : ICON.chevronLeft;
+      } else if (dir === "rtl") {
+        dirChevronIcon = overflowDirection === "end" ? ICON.chevronLeft : ICON.chevronRight;
+      }
 
       const dirText: string =
-        overflowDirection === "right" ? messages.nextTabTitles : messages.previousTabsTitles;
+        overflowDirection === "end" ? messages.nextTabTitles : messages.previousTabsTitles;
 
       const dirScroll = (overflowDirection: string) =>
-        overflowDirection === "right"
+        overflowDirection === "end"
           ? this.scrollToNextTabTitles()
           : this.scrollToPreviousTabTitles();
 
@@ -543,23 +558,22 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           class={dirActionClass}
           icon={dirChevronIcon}
           onClick={() => dirScroll(overflowDirection)}
-          onKeyDown={() => dirScroll(overflowDirection)}
           text={dirText}
         />
       );
     };
 
-    const showRightArrow: VNode = getActionChevronDirection("right");
-    const showLeftArrow: VNode = getActionChevronDirection("left");
+    const showEndAction = getActionChevronDirection("end");
+    const showStartAction = getActionChevronDirection("start");
 
     const action =
-      !isOverflowingRight && !isOverflowingLeft
+      !isOverflowingEnd && !isOverflowingStart
         ? null
-        : isOverflowingRight && !isOverflowingLeft
-        ? showRightArrow
-        : !isOverflowingRight && isOverflowingLeft
-        ? showLeftArrow
-        : [showRightArrow, showLeftArrow];
+        : isOverflowingEnd && !isOverflowingStart
+        ? showEndAction
+        : !isOverflowingEnd && isOverflowingStart
+        ? showStartAction
+        : [showEndAction, showStartAction];
 
     return action;
   }

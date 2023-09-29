@@ -219,7 +219,7 @@ describe("calcite-tab-nav", () => {
   `;
 
   describe("responsive tabs for inline layout", () => {
-    const overflowScenarios = ["right", "left", "both"];
+    const overflowScenarios = ["end", "start", "both"];
     let page: E2EPage;
 
     beforeEach(async () => {
@@ -244,8 +244,8 @@ describe("calcite-tab-nav", () => {
     });
 
     overflowScenarios.forEach(async (overflowScenario) => {
-      if (overflowScenario === "right") {
-        it("should show action buttons with correct chevrons for overflow to the right", async () => {
+      if (overflowScenario === "end") {
+        it("should show action buttons with correct chevrons for overflow to the end", async () => {
           const isOverflowingRight = await page.evaluate(() => {
             const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
             const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
@@ -264,8 +264,8 @@ describe("calcite-tab-nav", () => {
           });
           expect(isOverflowingRight).toBe(true);
 
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).not.toBe(null);
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowLeft}`)).toBe(null);
+          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).not.toBe(null);
+          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).toBe(null);
         });
       } else if (overflowScenario === "left") {
         it("should show action buttons with correct chevrons for overflow to the left", async () => {
@@ -284,16 +284,16 @@ describe("calcite-tab-nav", () => {
 
           expect(isOverflowingLeft).toBe(true);
 
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).toBe(null);
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowLeft}`)).not.toBe(null);
+          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).toBe(null);
+          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).not.toBe(null);
         });
       }
     });
 
     // overflowScenarios.forEach(async (overflowScenario) => {
     //   it(`should show action buttons with correct chevrons for overflow to the ${overflowScenario}`, async () => {
-    //     const isOverflowingRight = overflowScenario === "right";
-    //     const isOverflowingLeft = overflowScenario === "left";
+    //     const isOverflowingRight = overflowScenario === "end";
+    //     const isOverflowingLeft = overflowScenario === "start";
 
     //     await page.evaluate(
     //       (isOverflowingRight, isOverflowingLeft) => {
@@ -327,11 +327,11 @@ describe("calcite-tab-nav", () => {
     //     expect(isOverflowingLeft).toBe(true);
 
     //     if (isOverflowingRight) {
-    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).not.toBe(null);
-    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowLeft}`)).toBe(null);
+    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).not.toBe(null);
+    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).toBe(null);
     //     } else if (isOverflowingLeft) {
-    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).toBe(null);
-    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowLeft}`)).not.toBe(null);
+    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).toBe(null);
+    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).not.toBe(null);
     //     }
     //   });
     // });
