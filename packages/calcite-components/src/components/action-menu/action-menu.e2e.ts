@@ -226,6 +226,7 @@ describe("calcite-action-menu", () => {
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
+      const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -236,6 +237,7 @@ describe("calcite-action-menu", () => {
       await page.waitForTimeout(0);
       await page.waitForChanges();
 
+      expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
       expect(actions[0].getAttribute(activeAttr)).toBe("");
       expect(actions[1].getAttribute(activeAttr)).toBe(null);
@@ -263,8 +265,10 @@ describe("calcite-action-menu", () => {
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
+      const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
+      expect(await trigger.getProperty("active")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
@@ -273,6 +277,7 @@ describe("calcite-action-menu", () => {
       await page.waitForTimeout(0);
       await page.waitForChanges();
 
+      expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
       expect(actions[0].getAttribute(activeAttr)).toBe(null);
       expect(actions[1].getAttribute(activeAttr)).toBe(null);
@@ -300,8 +305,10 @@ describe("calcite-action-menu", () => {
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
+      const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
+      expect(await trigger.getProperty("active")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
@@ -310,6 +317,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
+      expect(await trigger.getProperty("active")).toBe(true);
       expect(actions[0].getAttribute(activeAttr)).toBe("");
       expect(actions[1].getAttribute(activeAttr)).toBe(null);
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
@@ -343,6 +351,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(false);
+      expect(await trigger.getProperty("active")).toBe(false);
     });
 
     it("should handle TAB navigation", async () => {

@@ -95,7 +95,7 @@ export class ActionMenu implements LoadableComponent {
   openHandler(open: boolean): void {
     this.activeMenuItemIndex = this.open ? 0 : -1;
     if (this.menuButtonEl) {
-      this.menuButtonEl.toggleAttribute(activeAttr, open);
+      this.menuButtonEl.active = open;
     }
     this.calciteActionMenuOpen.emit();
 
@@ -388,6 +388,7 @@ export class ActionMenu implements LoadableComponent {
       action.id = id;
     }
 
+    // data attribute is used to style the "activeMenuItemIndex" action using token focus styling.
     action.toggleAttribute(activeAttr, index === activeMenuItemIndex);
   };
 
