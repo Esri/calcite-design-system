@@ -6,12 +6,10 @@
   "description": "A set of React components that wrap calcite components",
   "license": "SEE LICENSE.md",
   "scripts": {
-    "build": "rimraf dist && npm run compile",
-    "prebuild": "npm run patch:ssr",
-    "clean": "rimraf dist node_modules .turbo",
-    "compile": "npm run tsc",
+    "build": "tsc",
+    "clean": "rimraf dist",
     "patch:ssr": "ts-node support/patchSSR.ts",
-    "tsc": "tsc"
+    "prebuild": "npm run patch:ssr"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
