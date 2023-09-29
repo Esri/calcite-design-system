@@ -23,7 +23,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Scale } from "../interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
 
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
@@ -95,7 +95,7 @@ export class ActionMenu implements LoadableComponent {
   openHandler(open: boolean): void {
     this.activeMenuItemIndex = this.open ? 0 : -1;
     if (this.menuButtonEl) {
-      this.menuButtonEl.active = open;
+      this.menuButtonEl.toggleAttribute(activeAttr, open);
     }
     this.calciteActionMenuOpen.emit();
 
@@ -388,7 +388,7 @@ export class ActionMenu implements LoadableComponent {
       action.id = id;
     }
 
-    action.active = index === activeMenuItemIndex;
+    action.toggleAttribute(activeAttr, index === activeMenuItemIndex);
   };
 
   updateActions = (actions: HTMLCalciteActionElement[]): void => {
