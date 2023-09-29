@@ -36,10 +36,10 @@
 
 ## Properties
 
-| Property           | Attribute           | Description                                                             | Type            | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------- | --------------- | ----------- |
-| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                             | `boolean`       | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ScrimMessages` | `undefined` |
+| Property           | Attribute | Description                                                             | Type                    | Default     |
+| ------------------ | --------- | ----------------------------------------------------------------------- | ----------------------- | ----------- |
+| `loading`          | `loading` | When `true`, a busy indicator is displayed.                             | `boolean`               | `false`     |
+| `messageOverrides` | --        | Use this property to override individual strings used by the component. | `{ loading?: string; }` | `undefined` |
 
 ## Slots
 
@@ -62,6 +62,7 @@
 - [calcite-modal](../modal)
 - [calcite-panel](../panel)
 - [calcite-pick-list](../pick-list)
+- [calcite-sheet](../sheet)
 - [calcite-value-list](../value-list)
 
 ### Depends on
@@ -78,6 +79,7 @@ graph TD;
   calcite-modal --> calcite-scrim
   calcite-panel --> calcite-scrim
   calcite-pick-list --> calcite-scrim
+  calcite-sheet --> calcite-scrim
   calcite-value-list --> calcite-scrim
   style calcite-scrim fill:#f9f,stroke:#333,stroke-width:4px
 ```

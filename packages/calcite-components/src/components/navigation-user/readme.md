@@ -18,7 +18,7 @@
 | `fullName`     | `full-name`     | Specifies the full name of the user.                                                                                     | `string`  | `undefined` |
 | `label`        | `label`         | Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. | `string`  | `undefined` |
 | `textDisabled` | `text-disabled` | When `true`, hides the `fullName` and `username` contents.                                                               | `boolean` | `false`     |
-| `thumbnail`    | `thumbnail`     | Specifies the`src` to an image (remember to add a token if the user is private).                                         | `string`  | `undefined` |
+| `thumbnail`    | `thumbnail`     | Specifies the `src` to an image (remember to add a token if the user is private).                                        | `string`  | `undefined` |
 | `userId`       | `user-id`       | Specifies the unique id of the user.                                                                                     | `string`  | `undefined` |
 | `username`     | `username`      | Specifies the username of the user.                                                                                      | `string`  | `undefined` |
 
