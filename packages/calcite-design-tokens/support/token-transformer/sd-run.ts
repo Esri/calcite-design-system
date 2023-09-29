@@ -6,7 +6,7 @@ import { matchExclusions } from "./utils/regex.js";
 import { matchList } from "./utils/matchList.js";
 import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
-import { Theme } from "./getThemes2.js";
+import { Theme } from "./getThemes.js";
 
 /**
  * Style Dictionary runner configuration overrides.

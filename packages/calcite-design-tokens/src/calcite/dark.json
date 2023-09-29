@@ -30,7 +30,7 @@
         "type": "color"
       },
       "3": {
-        "value": "{semantic.ui.color.foreground.current.dark}",
+        "value": "{semantic.ui.color.foreground.3.dark}",
         "type": "color"
       }
     },
