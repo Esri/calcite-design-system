@@ -13,14 +13,15 @@ import {
   Watch,
 } from "@stencil/core";
 
-import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
+import { focusElementInGroup, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { NumberingSystem } from "../../utils/locale";
-import { Layout, Scale } from "../interfaces";
+import { Layout, Position, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 // import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { StepBar } from "./step-bar";
-import { ITEM_MIN_WIDTH } from "./resources";
+import { ITEM_MIN_WIDTH, CSS } from "./resources";
+import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -132,16 +133,16 @@ export class Stepper {
           <div class="step-bar-container">
             {this.items.map((item, index) => (
               <StepBar
-                isActive={item.selected && index === this.currentPosition}
-                isComplete={
-                  item.complete &&
-                  (index !== this.selectedPosition || index !== this.currentPosition)
-                }
-                isError={item.error && !item.selected}
+                isActive={index === this.currentPosition}
+                isComplete={item.complete && index !== this.currentPosition}
+                isError={item.error && index !== this.currentPosition}
               />
             ))}
           </div>
         )}
+
+        {this.renderAction("start")}
+        {this.renderAction("end")}
         <slot onSlotchange={this.handleDefaultSlotChange} />
       </Host>
     );
@@ -209,22 +210,22 @@ export class Stepper {
 
   @Listen("calciteInternalStepperItemNext")
   handleUserRequestedStepperItemNext(): void {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
-
-    if (typeof enabledStepIndex !== "number") {
-      return;
-    }
-
-    this.currentPosition = enabledStepIndex;
+    // const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
+    // if (typeof enabledStepIndex !== "number") {
+    //   return;
+    // }
+    // this.currentPosition = enabledStepIndex;
+    this.nextStep();
   }
 
   @Listen("calciteInternalStepperItemPrevious")
   handleUserRequestedStepperItemPrevious(): void {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
-    if (typeof enabledStepIndex !== "number") {
-      return;
-    }
-    this.currentPosition = enabledStepIndex;
+    // const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
+    // if (typeof enabledStepIndex !== "number") {
+    //   return;
+    // }
+    // this.currentPosition = enabledStepIndex;
+    this.prevStep();
   }
 
   //--------------------------------------------------------------------------
@@ -421,6 +422,57 @@ export class Stepper {
     this.items.forEach((item: HTMLCalciteStepperItemElement) => {
       item.numberingSystem = this.numberingSystem;
     });
+  }
+
+  private renderAction(position: Position): VNode {
+    const isPositionStart = position === "start";
+    const path = isPositionStart ? "chevron-left" : "chevron-right";
+    const { currentPosition, responsiveMode, layout } = this;
+    const dir = getElementDir(this.el);
+    const totalItems = this.items.length;
+
+    return layout === "horizontal" && responsiveMode ? (
+      <calcite-action
+        appearance="transparent"
+        class={{
+          [CSS.actionIcon]: true,
+          [CSS.actionIconStart]: isPositionStart,
+          [CSS.actionIconEnd]: !isPositionStart,
+        }}
+        disabled={
+          (currentPosition === 0 && isPositionStart) ||
+          (currentPosition === totalItems - 1 && !isPositionStart)
+        }
+        icon={path}
+        iconFlipRtl={dir === "rtl"}
+        // eslint-disable-next-line react/jsx-no-bind
+        onClick={(event) => this.handleActionClick(event, position)}
+        onKeyDown={(event) => this.handleActionKeyDown(event, position)}
+        scale={this.scale}
+        text={isPositionStart ? "Previous Step" : "Next Step"}
+      />
+    ) : null;
+  }
+
+  private handleActionClick(event: MouseEvent, position: Position): void {
+    event.stopPropagation();
+    this.emitActionEvents(position);
+  }
+
+  private handleActionKeyDown(event: KeyboardEvent, position: Position): void {
+    if (!isActivationKey(event.key)) {
+      return;
+    }
+    event.stopPropagation();
+    this.emitActionEvents(position);
+  }
+
+  private emitActionEvents(position: Position): void {
+    if (position === "start") {
+      this.prevStep();
+    } else {
+      this.nextStep();
+    }
   }
 
   handleDefaultSlotChange = (event: Event): void => {

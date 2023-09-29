@@ -65,4 +65,23 @@
   inline-size: 100%;
 }
 
+.action-icon {
+  @apply relative flex;
+  --calcite-action-internal-padding-inline-m: 0.75rem;
+  --calcite-action-internal-padding-inline-l: 0.875rem;
+  --calcite-action-internal-padding-block-s: 0.875rem;
+  --calcite-action-internal-padding-block-m: 1.125rem;
+  --calcite-action-internal-padding-block-l: 1.5rem;
+}
+
+.action-icon--start {
+  @apply pe-2;
+  order: -1;
+}
+
+.action-icon-end {
+  @apply ps-2;
+  order: 100;
+}
+
 @include base-component();

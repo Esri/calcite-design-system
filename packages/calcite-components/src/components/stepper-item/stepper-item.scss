@@ -170,7 +170,7 @@
   @apply border-t-color-danger-hover;
 }
 
-:host([selected]) .container {
+:host([selected]:not([responsive-mode])) .container {
   border-block-start-color: theme("backgroundColor.brand");
   & .stepper-item-heading {
     @apply text-color-1;
@@ -315,7 +315,7 @@
 :host([layout="horizontal"][error]) .stepper-item-header {
   @apply border-color-danger;
 }
-:host([layout="horizontal"][selected]) .stepper-item-header {
+:host([layout="horizontal"][selected]:not([responsive-mode])) .stepper-item-header {
   @apply border-color-brand;
 }
 :host([layout="horizontal"]:hover:not([disabled]):not([selected])) .stepper-item-header,
@@ -328,8 +328,11 @@
 }
 
 :host([layout="horizontal"][responsive-mode]) .stepper-item-header {
-  inline-size: 100%;
+  // inline-size: 100%;
   @apply border-none p-0 me-0;
+  order: -1;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 :host([scale="s"][layout="horizontal"][responsive-mode]) .stepper-item-header {
@@ -366,7 +369,7 @@
     outline-color: canvasText;
   }
 
-  :host([selected]) .container {
+  :host([selected]:not([responsive-mode])) .container {
     border-block-start-color: highlight;
     & .stepper-item-number {
       color: highlight;

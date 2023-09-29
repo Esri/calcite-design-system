@@ -4,3 +4,9 @@ export const ITEM_MIN_WIDTH = {
   m: "180px",
   l: "200px",
 };
+
+export const CSS = {
+  actionIcon: "action-icon",
+  actionIconStart: "action-icon--start",
+  actionIconEnd: "action-icon--end",
+};
