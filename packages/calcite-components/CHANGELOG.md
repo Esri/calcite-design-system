@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.13...@esri/calcite-components@1.9.0-next.14) (2023-09-29)
+
+### Bug Fixes
+
+- **tree:** fix tree keyboard selection issue ([#7908](https://github.com/Esri/calcite-design-system/issues/7908)) ([53d6c12](https://github.com/Esri/calcite-design-system/commit/53d6c123b9c5861d9ef7330da52e7c89d9d74fe2)), closes [#7898](https://github.com/Esri/calcite-design-system/issues/7898)
+
 ## [1.9.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.12...@esri/calcite-components@1.9.0-next.13) (2023-09-29)
 
 ### Features
