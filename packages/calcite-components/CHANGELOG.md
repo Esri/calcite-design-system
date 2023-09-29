@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.14...@esri/calcite-components@1.9.0-next.15) (2023-09-29)
+
+### Bug Fixes
+
+- **button:** provides context for AT users when used as reference element for collapsible content ([#7658](https://github.com/Esri/calcite-design-system/issues/7658)) ([50cb3a6](https://github.com/Esri/calcite-design-system/commit/50cb3a604263316ae0021486dc6afca1fe0f9a02)), closes [#6033](https://github.com/Esri/calcite-design-system/issues/6033)
+
 ## [1.9.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.13...@esri/calcite-components@1.9.0-next.14) (2023-09-29)
 
 ### Bug Fixes
