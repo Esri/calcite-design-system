@@ -72,6 +72,8 @@ interface ItemData {
   value: string;
 }
 
+type DisplayMode = "show-all" | "single" | "fit-to-line";
+
 const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
   el.tagName === ComboboxItemGroup;
 
@@ -110,6 +112,13 @@ export class Combobox
    * When `true`, the value-clearing will be disabled.
    */
   @Prop({ reflect: true }) clearDisabled = false;
+
+  /**
+   * Controls the display behavior of multiple selected items.
+   * This property does not apply when selection-mode is set to "single".
+   * - "show-all"
+   */
+  @Prop() displayMode: DisplayMode = "show-all";
 
   /**When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -277,6 +286,7 @@ export class Combobox
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
+    this.refreshDisplayMode();
   }
 
   /**
@@ -498,7 +508,10 @@ export class Combobox
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
+  resizeObserver = createObserver("resize", () => {
+    this.setMaxScrollerHeight();
+    this.refreshDisplayMode();
+  });
 
   private guid = guid();
 
@@ -508,6 +521,8 @@ export class Combobox
 
   private referenceEl: HTMLDivElement;
 
+  private inputContainerEl: HTMLDivElement;
+
   private listContainerEl: HTMLDivElement;
 
   private ignoreSelectedEventsFlag = false;
@@ -515,6 +530,8 @@ export class Combobox
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  private selectedIndicatorChipEl: HTMLCalciteChipElement;
 
   // --------------------------------------------------------------------------
   //
@@ -761,6 +778,58 @@ export class Combobox
     this.updateActiveItemIndex(targetIndex);
   }
 
+  private getComputedElementWidth(el: HTMLElement): number {
+    if (!el) {
+      return;
+    }
+    return Math.round(parseFloat(getComputedStyle(el).width.replace("px", "")));
+  }
+
+  private getRenderedTextWidth(text: string, font: string): number {
+    if (!text) {
+      return;
+    }
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.font = font;
+    return Math.ceil(context.measureText(text).width);
+  }
+
+  private refreshDisplayMode = () => {
+    if (this.textInput && !isSingleLike(this.selectionMode) && this.displayMode === "fit-to-line") {
+      const chipEls = this.el.shadowRoot.querySelectorAll("calcite-chip");
+      const computedInputStyle = getComputedStyle(this.textInput);
+      const placeholderTextWidth = this.getRenderedTextWidth(
+        this.placeholder,
+        `${computedInputStyle.fontSize} ${computedInputStyle.fontFamily}`
+      );
+      const inputContainerElWidth = this.getComputedElementWidth(this.inputContainerEl);
+      const selectedIndicatorChipElWidth = this.getComputedElementWidth(
+        this.selectedIndicatorChipEl
+      );
+      let availableHorizontalChipElSpace = Math.round(inputContainerElWidth - placeholderTextWidth);
+
+      chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
+        const chipElWidth = this.getComputedElementWidth(chipEl);
+        if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
+          availableHorizontalChipElSpace -= chipElWidth;
+          this.selectedIndicatorChipEl.style.position = "absolute";
+          this.selectedIndicatorChipEl.style.visibility = "hidden";
+        } else {
+          // TODO: Hide any overflowing chips here
+          if (
+            selectedIndicatorChipElWidth &&
+            selectedIndicatorChipElWidth < availableHorizontalChipElSpace
+          ) {
+            availableHorizontalChipElSpace -= selectedIndicatorChipElWidth;
+            this.selectedIndicatorChipEl.style.position = "static";
+            this.selectedIndicatorChipEl.style.visibility = "visible";
+          }
+        }
+      });
+    }
+  };
+
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
 
@@ -792,9 +861,18 @@ export class Combobox
     this.transitionEl = el;
   };
 
+  setInputContainerEl = (el: HTMLDivElement): void => {
+    this.resizeObserver.observe(el);
+    this.inputContainerEl = el;
+  };
+
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
+  };
+
+  setSelectedIndicatorChipEl = (el: HTMLCalciteChipElement): void => {
+    this.selectedIndicatorChipEl = el;
   };
 
   private getMaxScrollerHeight(): number {
@@ -1186,6 +1264,22 @@ export class Combobox
     });
   }
 
+  renderSelectedIndicatorChip(): VNode {
+    const label = `+${this.selectedItems.length}`;
+    return (
+      <calcite-chip
+        class="chip"
+        ref={this.setSelectedIndicatorChipEl}
+        scale={this.scale}
+        style={{ visibility: "hidden", position: "absolute" }}
+        title={label}
+        value=""
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
   renderInput(): VNode {
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = isSingleLike(selectionMode);
@@ -1319,6 +1413,7 @@ export class Combobox
     const { guid, label, open } = this;
     const single = isSingleLike(this.selectionMode);
     const isClearable = !this.clearDisabled && this.value?.length > 0;
+    const isFitToLine = !single && this.displayMode === "fit-to-line";
 
     return (
       <Host onClick={this.comboboxFocusHandler}>
@@ -1341,9 +1436,13 @@ export class Combobox
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setReferenceEl}
         >
-          <div class="grid-input">
+          <div
+            class={{ "grid-input": true, "fit-to-line": isFitToLine }}
+            ref={this.setInputContainerEl}
+          >
             {this.renderIconStart()}
             {!single && this.renderChips()}
+            {!single && this.renderSelectedIndicatorChip()}
             <label
               class="screen-readers-only"
               htmlFor={`${inputUidPrefix}${guid}`}

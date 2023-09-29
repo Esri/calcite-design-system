@@ -79,6 +79,10 @@
     items-center
     truncate
     p-0;
+
+  &.fit-to-line {
+    @apply flex-nowrap overflow-clip;
+  }
 }
 
 .input {
