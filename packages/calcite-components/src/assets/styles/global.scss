@@ -1,7 +1,7 @@
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/light";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/dark";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/global";
-@import "../../node_modules/@esri/calcite-base/dist/_index";
+@import "~@esri/calcite-base/dist/_index";
+@import "~@esri/calcite-design-tokens/dist/scss/global";
+@import "~@esri/calcite-design-tokens/dist/scss/light";
+@import "~@esri/calcite-design-tokens/dist/scss/dark";
 
 /* CSS vars (@include in global) */
 @import "type";
