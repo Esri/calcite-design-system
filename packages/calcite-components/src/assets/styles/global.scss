@@ -1,6 +1,6 @@
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-light";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-dark";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-headless";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/light";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/dark";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/global";
 @import "../../node_modules/@esri/calcite-base/dist/_index";
 
 /* CSS vars (@include in global) */
@@ -10,35 +10,35 @@
   // todo update include when calcite-colors updates to "mode" nomenclature
   @include calcite-theme-light();
   --calcite-mode-name: "light";
-  --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-light);
-  --calcite-ui-inverse: #{$blk-190};
-  --calcite-ui-inverse-hover: #{$blk-200};
-  --calcite-ui-inverse-press: #{$blk-210};
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
-  --calcite-button-transparent-hover: #{rgba($blk-240, 0.05)};
-  --calcite-button-transparent-press: #{rgba($blk-240, 0.08)};
-  --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
-  --calcite-scrim-background-internal: #{rgba($blk-000, 0.85)};
+  --calcite-ui-foreground-current: var(--calcite-ui-color-foreground-current-light);
+  --calcite-ui-inverse: #{$calcite-color-neutral-blk-190};
+  --calcite-ui-inverse-hover: #{$calcite-color-neutral-blk-200};
+  --calcite-ui-inverse-press: #{$calcite-color-neutral-blk-210};
+  --calcite-alert-dismiss-progress-background: #{rgba($calcite-color-neutral-blk-000, 0.8)};
+  --calcite-button-transparent-hover: #{rgba($calcite-color-neutral-blk-240, 0.05)};
+  --calcite-button-transparent-press: #{rgba($calcite-color-neutral-blk-240, 0.08)};
+  --calcite-link-blue-underline: #{rgba($calcite-color-palette-high-saturation-blue-h-bb-070, 0.4)};
+  --calcite-scrim-background-internal: #{rgba($calcite-color-neutral-blk-000, 0.85)};
 }
 
 @mixin calcite-mode-dark-extended {
   // todo update include when calcite-colors updates to "mode" nomenclature
   @include calcite-theme-dark();
   --calcite-mode-name: "dark";
-  --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-dark);
-  --calcite-ui-inverse: #{$blk-005};
-  --calcite-ui-inverse-hover: #{$blk-000};
-  --calcite-ui-inverse-press: #{$blk-010};
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
-  --calcite-button-transparent-hover: #{rgba($blk-000, 0.05)};
-  --calcite-button-transparent-press: #{rgba($blk-000, 0.08)};
-  --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
-  --calcite-scrim-background-internal: #{rgba($blk-240, 0.85)};
+  --calcite-ui-foreground-current: var(--calcite-ui-color-foreground-current-dark);
+  --calcite-ui-inverse: #{$calcite-color-neutral-blk-005};
+  --calcite-ui-inverse-hover: #{$calcite-color-neutral-blk-000};
+  --calcite-ui-inverse-press: #{$calcite-color-neutral-blk-010};
+  --calcite-alert-dismiss-progress-background: #{rgba($calcite-color-neutral-blk-200, 0.8)};
+  --calcite-button-transparent-hover: #{rgba($calcite-color-neutral-blk-000, 0.05)};
+  --calcite-button-transparent-press: #{rgba($calcite-color-neutral-blk-000, 0.08)};
+  --calcite-link-blue-underline: #{rgba($calcite-color-palette-dark-blue-d-bb-420, 0.4)};
+  --calcite-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, 0.85)};
 }
 
 :root {
   @extend %type-vars;
-  @include calcite-theme-headless();
+  @include calcite-theme-global();
   @include calcite-mode-light-extended();
   @include floating-ui-base();
   @include animation-base();
@@ -46,13 +46,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --calcite-popover-z-index: var(--calcite-app-z-index-popup);
-  --calcite-border-radius: var(--calcite-semantic-border-border-radius-round, 4px);
+  --calcite-popover-z-index: var(--calcite-z-index-popup);
+  --calcite-border-radius: var(--calcite-border-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-panel-width-multiplier: 1;
   --calcite-ui-focus-offset-invert: 0; // should be 0 or 1
   --calcite-ui-icon-color: currentColor;
-  --calcite-ui-opacity-disabled: var(--calcite-core-opacity-50, 0.5);
+  --calcite-ui-opacity-disabled: var(--calcite-opacity-50, 0.5);
 
   @apply font-sans;
 }

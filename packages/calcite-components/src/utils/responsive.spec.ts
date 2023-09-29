@@ -8,10 +8,10 @@ describe("getBreakpoints()", () => {
     document.head.innerHTML = `
       <style>
         :root {
-        --calcite-app-breakpoint-width-lg: 1000px;
-        --calcite-app-breakpoint-width-md: 100px;
-        --calcite-app-breakpoint-width-sm: 10px;
-        --calcite-app-breakpoint-width-xs: 1px;
+        --calcite-breakpoint-width-lg: 1000px;
+        --calcite-breakpoint-width-md: 100px;
+        --calcite-breakpoint-width-sm: 10px;
+        --calcite-breakpoint-width-xs: 1px;
       }
       </style>
     `;

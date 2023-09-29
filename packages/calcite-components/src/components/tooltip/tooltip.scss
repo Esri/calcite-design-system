@@ -7,7 +7,7 @@
  */
 
 :host {
-  --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
+  --calcite-floating-ui-z-index: calc(1 + var(--calcite-z-index-popup, theme("zIndex.popover")));
 }
 
 @include floatingUIHost();

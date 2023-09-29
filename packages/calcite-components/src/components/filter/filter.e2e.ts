@@ -273,6 +273,7 @@ describe("calcite-filter", () => {
     });
 
     it("should return matching value", async () => {
+      await page.waitForChanges();
       const filter = await page.find("calcite-filter");
       await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);

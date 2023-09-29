@@ -8,6 +8,7 @@ import plugin from "tailwindcss/plugin";
  *
  * @param {string} value - the CSS value to invert
  * @param {string} flagPropName - the boolean CSS prop (value must be 0 or 1)
+ * @returns {string} - the inverted css prop value
  */
 function invert(value: string, flagPropName: string): string {
   return `calc(
@@ -80,45 +81,45 @@ export default {
     },
     fontSize: {
       // assets/styles/_type
-      n3: "var(--calcite-font-size--3)", // 10px
-      n2: "var(--calcite-font-size--2)", // 12px
-      n1: "var(--calcite-font-size--1)", // 14px
-      0: "var(--calcite-font-size-0)", // 16px
-      1: "var(--calcite-font-size-1)", // 18px
-      2: "var(--calcite-font-size-2)", // 20px
-      3: "var(--calcite-font-size-3)", // 26px
-      4: "var(--calcite-font-size-4)", // 32px
-      5: "var(--calcite-font-size-5)", // 40px
-      6: "var(--calcite-font-size-6)", // 48px
-      7: "var(--calcite-font-size-7)", // 56px
-      8: "var(--calcite-font-size-8)", // 64px
+      n3: "var(--calcite-font-size-0)", // 10px
+      n2: "var(--calcite-font-size-1)", // 12px
+      n1: "var(--calcite-font-size-2)", // 14px
+      0: "var(--calcite-font-size-3)", // 16px
+      1: "var(--calcite-font-size-4)", // 18px
+      2: "var(--calcite-font-size-5)", // 20px
+      3: "var(--calcite-font-size-6)", // 26px
+      4: "var(--calcite-font-size-7)", // 32px
+      5: "var(--calcite-font-size-8)", // 40px
+      6: "var(--calcite-font-size-9)", // 48px
+      7: "var(--calcite-font-size-10)", // 56px
+      8: "var(--calcite-font-size-11)", // 64px
       // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-design-system/issues/1500.
       // at this point all existing instances of text-N should be replaced with either text-Nh or text-N-wrap and we
       // should be able to safely drop the "h" suffix.
-      n3h: ["var(--calcite-font-size--3)", { lineHeight: "0.75rem" }], // 10px (0.625rem)
-      n2h: ["var(--calcite-font-size--2)", { lineHeight: "1rem" }], // 12px (0.75rem)
-      n1h: ["var(--calcite-font-size--1)", { lineHeight: "1rem" }], // 14px (0.875rem)
-      "0h": ["var(--calcite-font-size-0)", { lineHeight: "1.25rem" }], // 16px (1rem)
-      "1h": ["var(--calcite-font-size-1)", { lineHeight: "1.5rem" }], // 18px (1.125rem)
-      "2h": ["var(--calcite-font-size-2)", { lineHeight: "1.5rem" }], // 20px (1.25rem)
-      "3h": ["var(--calcite-font-size-3)", { lineHeight: "2rem" }], // 26px (1.625rem)
-      "4h": ["var(--calcite-font-size-4)", { lineHeight: "2.5rem" }], // 32px (2rem)
-      "5h": ["var(--calcite-font-size-5)", { lineHeight: "3rem" }], // 40px (2.5rem)
-      "6h": ["var(--calcite-font-size-6)", { lineHeight: "4rem" }], // 48px (3rem)
-      "7h": ["var(--calcite-font-size-7)", { lineHeight: "4rem" }], // 56px (3.5rem)
-      "8h": ["var(--calcite-font-size-8)", { lineHeight: "5rem" }], // 64px (4rem)
-      "n3-wrap": ["var(--calcite-font-size--3)", { lineHeight: "1.375" }],
-      "n2-wrap": ["var(--calcite-font-size--2)", { lineHeight: "1.375" }],
-      "n1-wrap": ["var(--calcite-font-size--1)", { lineHeight: "1.375" }],
-      "0-wrap": ["var(--calcite-font-size-0)", { lineHeight: "1.375" }],
-      "1-wrap": ["var(--calcite-font-size-1)", { lineHeight: "1.375" }],
-      "2-wrap": ["var(--calcite-font-size-2)", { lineHeight: "1.375" }],
-      "3-wrap": ["var(--calcite-font-size-3)", { lineHeight: "1.25" }],
-      "4-wrap": ["var(--calcite-font-size-4)", { lineHeight: "1.25" }],
-      "5-wrap": ["var(--calcite-font-size-5)", { lineHeight: "1.25" }],
-      "6-wrap": ["var(--calcite-font-size-6)", { lineHeight: "1.25" }],
-      "7-wrap": ["var(--calcite-font-size-7)", { lineHeight: "1.25" }],
-      "8-wrap": ["var(--calcite-font-size-8)", { lineHeight: "1.25" }],
+      n3h: ["var(--calcite-font-size-0)", { lineHeight: "0.75rem" }], // 10px (0.625rem)
+      n2h: ["var(--calcite-font-size-1)", { lineHeight: "1rem" }], // 12px (0.75rem)
+      n1h: ["var(--calcite-font-size-2)", { lineHeight: "1rem" }], // 14px (0.875rem)
+      "0h": ["var(--calcite-font-size-3)", { lineHeight: "1.25rem" }], // 16px (1rem)
+      "1h": ["var(--calcite-font-size-4)", { lineHeight: "1.5rem" }], // 18px (1.125rem)
+      "2h": ["var(--calcite-font-size-5)", { lineHeight: "1.5rem" }], // 20px (1.25rem)
+      "3h": ["var(--calcite-font-size-6)", { lineHeight: "2rem" }], // 26px (1.625rem)
+      "4h": ["var(--calcite-font-size-7)", { lineHeight: "2.5rem" }], // 32px (2rem)
+      "5h": ["var(--calcite-font-size-8)", { lineHeight: "3rem" }], // 40px (2.5rem)
+      "6h": ["var(--calcite-font-size-9)", { lineHeight: "4rem" }], // 48px (3rem)
+      "7h": ["var(--calcite-font-size-10)", { lineHeight: "4rem" }], // 56px (3.5rem)
+      "8h": ["var(--calcite-font-size-11)", { lineHeight: "5rem" }], // 64px (4rem)
+      "n3-wrap": ["var(--calcite-font-size-0)", { lineHeight: "1.375" }],
+      "n2-wrap": ["var(--calcite-font-size-1)", { lineHeight: "1.375" }],
+      "n1-wrap": ["var(--calcite-font-size-2)", { lineHeight: "1.375" }],
+      "0-wrap": ["var(--calcite-font-size-3)", { lineHeight: "1.375" }],
+      "1-wrap": ["var(--calcite-font-size-4)", { lineHeight: "1.375" }],
+      "2-wrap": ["var(--calcite-font-size-5)", { lineHeight: "1.375" }],
+      "3-wrap": ["var(--calcite-font-size-6)", { lineHeight: "1.25" }],
+      "4-wrap": ["var(--calcite-font-size-7)", { lineHeight: "1.25" }],
+      "5-wrap": ["var(--calcite-font-size-8)", { lineHeight: "1.25" }],
+      "6-wrap": ["var(--calcite-font-size-9)", { lineHeight: "1.25" }],
+      "7-wrap": ["var(--calcite-font-size-10)", { lineHeight: "1.25" }],
+      "8-wrap": ["var(--calcite-font-size-11)", { lineHeight: "1.25" }],
     },
     fontWeight: {
       // assets/styles/_type
@@ -232,16 +233,16 @@ export default {
         menu: "45vh",
       },
       zIndex: {
-        deep: "var(--calcite-app-z-index-deep)",
-        default: "var(--calcite-app-z-index)",
-        sticky: "var(--calcite-app-z-index-sticky)",
-        header: "var(--calcite-app-z-index-header)",
-        toast: "var(--calcite-app-z-index-toast)",
-        dropdown: "var(--calcite-app-z-index-dropdown)",
-        overlay: "var(--calcite-app-z-index-overlay)",
-        modal: "var(--calcite-app-z-index-modal)",
-        popover: "var(--calcite-app-z-index-popup)",
-        tooltip: "var(--calcite-app-z-index-tooltip)",
+        deep: "var(--calcite-z-index-deep)",
+        default: "var(--calcite-z-index)",
+        sticky: "var(--calcite-z-index-sticky)",
+        header: "var(--calcite-z-index-header)",
+        toast: "var(--calcite-z-index-toast)",
+        dropdown: "var(--calcite-z-index-dropdown)",
+        overlay: "var(--calcite-z-index-overlay)",
+        modal: "var(--calcite-z-index-modal)",
+        popover: "var(--calcite-z-index-popup)",
+        tooltip: "calc(var(--calcite-z-index-tooltip) + 1)",
       },
     },
   },
