@@ -81,7 +81,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       }
       this.calciteInternalTreeItemSelect.emit({
         modifyCurrentSelection: true,
-        forceToggle: false,
         updateItem: false,
       });
     }
@@ -345,18 +344,17 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     }
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
-      forceToggle: false,
       updateItem: true,
     });
     this.userChangedValue = true;
   }
 
-  iconClickHandler = (event: MouseEvent): void => {
+  private iconClickHandler = (event: MouseEvent): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
   };
 
-  childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
+  private childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
@@ -372,7 +370,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         this.userChangedValue = true;
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
-          forceToggle: false,
           updateItem: true,
         });
         event.preventDefault();
@@ -394,7 +391,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         } else {
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
-            forceToggle: false,
             updateItem: true,
           });
         }
