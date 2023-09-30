@@ -49,11 +49,15 @@ calcite-action {
 }
 
 .arrow-end {
+  @apply h-full overflow-hidden;
   inset-inline-end: 0;
+  box-shadow: -10px 0 10px -2px white;
 }
 
 .arrow-start {
+  @apply h-full overflow-hidden;
   inset-inline-start: 0;
+  box-shadow: 10px 0 10px -2px white;
 }
 
 :host([layout="center"]) .tab-nav {

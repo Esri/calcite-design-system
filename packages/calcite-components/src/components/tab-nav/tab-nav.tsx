@@ -557,7 +557,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         <calcite-action
           class={dirActionClass}
           icon={dirChevronIcon}
+          // eslint-disable-next-line react/jsx-no-bind
           onClick={() => dirScroll(overflowDirection)}
+          scale={this.scale}
           text={dirText}
         />
       );
