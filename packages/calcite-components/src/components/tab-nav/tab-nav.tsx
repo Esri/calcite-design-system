@@ -402,7 +402,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   private scrollToTabTitles = (isNext: boolean): void => {
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
     const visibleTabTitleIndex = this.findVisibleTabTitleIndex(tabTitles, isNext);
-    let scrollAmount = 0;
 
     if (visibleTabTitleIndex !== -1) {
       const targetTabTitleIndex = isNext ? visibleTabTitleIndex + 1 : visibleTabTitleIndex - 1;
@@ -410,15 +409,16 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
       if (targetTabTitle) {
         const targetTabTitleRect = targetTabTitle.getBoundingClientRect();
-        scrollAmount = isNext
+
+        const scrollAmount = isNext
           ? targetTabTitleRect.left - this.el.getBoundingClientRect().left
           : targetTabTitleRect.right - this.el.clientWidth;
+
+        requestAnimationFrame(() => {
+          this.tabNavEl.scrollLeft += scrollAmount;
+        });
       }
     }
-
-    requestAnimationFrame(() => {
-      this.tabNavEl.scrollLeft += scrollAmount;
-    });
   };
 
   private scrollToNextTabTitles = (): void => {
@@ -485,11 +485,10 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   private handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
 
-    const visibleTabTitlesIndices = tabTitles.reduce(
-      (tabTitleIndices, tabTitle, index) =>
-        !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
-      []
-    );
+    const visibleTabTitlesIndices = tabTitles
+      .filter((tabTitle) => !tabTitle.closed)
+      .map((_, index) => index);
+
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
@@ -497,13 +496,13 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       this.selectedTabId = visibleTabTitlesIndices[0];
     } else if (totalVisibleTabTitles > 1) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
+
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
         (value) => value > closedTabTitleIndex
       );
 
-      if (this.selectedTabId === closedTabTitleIndex) {
-        this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
-      }
+      this.selectedTabId =
+        nextTabTitleIndex !== undefined ? nextTabTitleIndex : totalVisibleTabTitles - 1;
     }
 
     requestAnimationFrame(() => {
@@ -513,52 +512,32 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     });
   }
 
-  private getOverflowIcons(): VNode | VNode[] {
+  private getOverflowIcons(): (VNode | VNode[]) | null {
     const dir = getElementDir(this.el);
     const { messages } = this;
     const tabNavWidth = this.el.offsetWidth;
-
     const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
-
     const firstTitle = tabTitles[0].getBoundingClientRect();
     const lastTitle = tabTitles[tabTitles.length - 1].getBoundingClientRect();
 
-    let isOverflowingEnd: boolean;
-    let isOverflowingStart: boolean;
-
-    if (dir !== "rtl") {
-      isOverflowingEnd = lastTitle.right > tabNavWidth;
-      isOverflowingStart = firstTitle.left < 0;
-    } else if (dir === "rtl") {
-      isOverflowingEnd = lastTitle.right < tabNavWidth;
-      isOverflowingStart = firstTitle.left < 0;
-    }
+    const isOverflowingEnd =
+      dir !== "rtl" ? lastTitle.right > tabNavWidth : lastTitle.right < tabNavWidth;
+    const isOverflowingStart = firstTitle.left < 0;
 
     const getActionChevronDirection = (overflowDirection: string): VNode => {
-      const dirActionClass: string = overflowDirection === "end" ? CSS.arrowEnd : CSS.arrowStart;
+      const isEnd = overflowDirection === "end";
+      const dirActionClass: string = isEnd ? CSS.arrowEnd : CSS.arrowStart;
+      const dirChevronIcon: string = isEnd && dir !== "rtl" ? ICON.chevronRight : ICON.chevronLeft;
+      const dirText: string = isEnd ? messages.nextTabTitles : messages.previousTabsTitles;
 
-      let dirChevronIcon: string;
-
-      if (dir !== "rtl") {
-        dirChevronIcon = overflowDirection === "end" ? ICON.chevronRight : ICON.chevronLeft;
-      } else if (dir === "rtl") {
-        dirChevronIcon = overflowDirection === "end" ? ICON.chevronLeft : ICON.chevronRight;
-      }
-
-      const dirText: string =
-        overflowDirection === "end" ? messages.nextTabTitles : messages.previousTabsTitles;
-
-      const dirScroll = (overflowDirection: string) =>
-        overflowDirection === "end"
-          ? this.scrollToNextTabTitles()
-          : this.scrollToPreviousTabTitles();
+      const dirScroll = () =>
+        isEnd ? this.scrollToNextTabTitles() : this.scrollToPreviousTabTitles();
 
       return (
         <calcite-action
           class={dirActionClass}
           icon={dirChevronIcon}
-          // eslint-disable-next-line react/jsx-no-bind
-          onClick={() => dirScroll(overflowDirection)}
+          onClick={() => dirScroll()}
           scale={this.scale}
           text={dirText}
         />
@@ -568,15 +547,10 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const showEndAction = getActionChevronDirection("end");
     const showStartAction = getActionChevronDirection("start");
 
-    const action =
-      !isOverflowingEnd && !isOverflowingStart
-        ? null
-        : isOverflowingEnd && !isOverflowingStart
-        ? showEndAction
-        : !isOverflowingEnd && isOverflowingStart
-        ? showStartAction
-        : [showEndAction, showStartAction];
+    const action = (isOverflowingEnd ? [showEndAction] : []).concat(
+      isOverflowingStart ? [showStartAction] : []
+    );
 
-    return action;
+    return action.length > 0 ? action : null;
   }
 }
