@@ -69,6 +69,11 @@ td {
     color: var(--calcite-ui-brand);
   }
 }
+
+.calcite--rtl.selection-cell.selected-cell {
+  box-shadow: inset -0.25rem 0 0 0 var(--calcite-ui-brand);
+}
+
 .selection-cell {
   @apply align-middle;
   & ::slotted(calcite-icon) {
