@@ -402,19 +402,10 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     return tabTitlesMap;
   };
 
-  private flipScrollDirection(direction: "forward" | "backward"): "forward" | "backward" {
-    const dir = getElementDir(this.el);
-    const isRtl = dir === "rtl";
-    const updatedDirection = isRtl ? (direction === "forward" ? "backward" : "forward") : direction;
-    return updatedDirection;
-  }
-
   private scrollToTabTitles = (direction: "forward" | "backward"): void => {
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
-    const updatedDirection = this.flipScrollDirection(direction);
 
-    const visibleTabTitleIndices = this.findVisibleTabTitleIndices(tabTitles, updatedDirection);
-    console.log("visibleTabTitleIndices", visibleTabTitleIndices);
+    const visibleTabTitleIndices = this.findVisibleTabTitleIndices(tabTitles, direction);
 
     let lastValue: number;
     const tabTitlesArray = Array.from(tabTitles);
@@ -425,8 +416,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     const valuesIterator = visibleTabTitleIndices.values();
     const firstValue: number = valuesIterator.next().value;
-
-    console.log("last value", lastValue);
 
     requestAnimationFrame(() => {
       const targetIndex = direction === "forward" ? lastValue + 1 : firstValue - 1;
@@ -537,19 +526,17 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const { messages } = this;
     const tabNavWidth = this.el.offsetWidth;
     const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
-    console.log("tabTitles", tabTitles);
+
     const firstTitle = tabTitles[0].getBoundingClientRect();
     const lastTitle = tabTitles[tabTitles.length - 1].getBoundingClientRect();
 
-    // const visibleTabTitleIndices = this.findVisibleTabTitleIndices(tabTitles, updatedDirection);
-
-    const isOverflowingEnd = dir === "ltr" ? lastTitle.right > tabNavWidth : lastTitle.left < 0;
-    const isOverflowingStart = dir === "ltr" ? firstTitle.left < 0 : lastTitle.right > tabNavWidth;
+    const isOverflowingEnd = dir === "ltr" ? lastTitle.right > tabNavWidth : null;
+    const isOverflowingStart = dir === "ltr" ? firstTitle.left < 0 : null;
 
     const getActionChevronDirection = (overflowDirection: string): VNode => {
       const isEnd = overflowDirection === "end";
       const dirActionClass: string = isEnd ? CSS.arrowEnd : CSS.arrowStart;
-      const dirChevronIcon: string = isEnd && dir !== "rtl" ? ICON.chevronRight : ICON.chevronLeft;
+      const dirChevronIcon: string = isEnd ? ICON.chevronRight : ICON.chevronLeft;
       const dirText: string = isEnd ? messages.previousTabTitles : messages.nextTabTitles;
 
       const dirScroll = () =>
