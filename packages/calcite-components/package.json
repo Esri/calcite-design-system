@@ -19,6 +19,8 @@
     "hydrate/"
   ],
   "scripts": {
+    "build": "npm run util:prep-build-reqs && stencil build",
+    "postbuild": "npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
     "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider build-storybook --output-dir ./docs --quiet",
