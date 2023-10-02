@@ -1,5 +1,0 @@
-{
-  "*.{json,html,yml}": ["prettier --write"],
-  "*.{ts,tsx}": ["eslint --ext .ts,.tsx --fix", "prettier --write"],
-  "*.md": ["markdownlint --fix --disable MD024 MD013 MD041 MD033", "prettier --write"]
-}
