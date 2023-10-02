@@ -52,8 +52,8 @@ export const open_TestOnly = (): string => html`
   <calcite-input-time-picker value="10:37" step="1" open> </calcite-input-time-picker>
 `;
 
-export const koreanLocaleInvalidStatus_TestOnly = (): string => html`
-  <calcite-input-time-picker lang="ko" status="invalid" value="10:37" step="1" open> </calcite-input-time-picker>
+export const koreanLocale_TestOnly = (): string => html`
+  <calcite-input-time-picker lang="ko" value="10:37" step="1" open> </calcite-input-time-picker>
 `;
 
 export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
@@ -63,4 +63,8 @@ export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
 
 export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
   <calcite-input-time-picker read-only value="10:37"></calcite-input-time-picker>
+`;
+
+export const invalidStatus_TestOnly = (): string => html`
+  <calcite-input-time-picker value="12:34" step="1" status="invalid" open> </calcite-input-time-picker>
 `;

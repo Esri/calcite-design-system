@@ -151,3 +151,6 @@ export const hebrewNumberingSystemAndMediumIconForLargeInputStyling_TestOnly = (
 
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html`<calcite-input-number lang="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;
+
+export const invalidStatus_TestOnly = (): string =>
+  html`<calcite-input-number status="invalid" value="54321"></calcite-input-number>`;

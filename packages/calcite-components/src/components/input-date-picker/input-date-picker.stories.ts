@@ -46,7 +46,7 @@ export const range = (): string => html`
 
 export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
-export const flipPlacementsInvalidStatus_TestOnly = (): string => html`
+export const flipPlacements_TestOnly = (): string => html`
   <style>
     .my-input-date-picker-div {
       margin-top: 50px;
@@ -58,12 +58,7 @@ export const flipPlacementsInvalidStatus_TestOnly = (): string => html`
   </style>
   <div style="height: 100px; overflow:scroll;">
     <div class="my-input-date-picker-div">
-      <calcite-input-date-picker
-        open
-        class="my-input-date-picker"
-        status="invalid"
-        value="2020-02-12"
-      ></calcite-input-date-picker>
+      <calcite-input-date-picker open class="my-input-date-picker" value="2020-02-12"></calcite-input-date-picker>
     </div>
   </div>
   <script>
@@ -90,6 +85,12 @@ export const laoNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string 
 export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
+  </div>
+`;
+
+export const invalidStatus_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-input-date-picker status="invalid" value="2020-12-12"></calcite-input-date-picker>
   </div>
 `;
 
