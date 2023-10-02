@@ -655,7 +655,7 @@ export class Slider
     );
 
     return (
-      <Host id={id} onTouchStart={this.handleTouchStart}>
+      <Host id={id} onKeyDown={this.handleKeyDown} onTouchStart={this.handleTouchStart}>
         <div
           aria-label={getLabelText(this)}
           class={{
@@ -834,8 +834,7 @@ export class Slider
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  private handleKeyDown = (event: KeyboardEvent): void => {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
@@ -867,14 +866,30 @@ export class Slider
     } else if (key === "End") {
       adjustment = max;
     }
+
     if (isNaN(adjustment)) {
       return;
     }
+
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
     this.setValue({
-      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp),
+      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp, true),
     });
+  };
+
+  /**
+   * Returns the max allowed value according to the W3C spec
+   *
+   * @param min
+   * @param max
+   * @param step
+   * @private
+   */
+  private getMaxAllowedValue(min: number, max: number, step: number): number {
+    const range = max - min;
+    const quotient = Math.floor(range / step);
+    return min + quotient * step;
   }
 
   @Listen("pointerdown")
@@ -1213,8 +1228,12 @@ export class Slider
    * @param prop
    * @internal
    */
-  private clamp(value: number, prop?: ActiveSliderProperty): number {
-    value = clamp(value, this.min, this.max);
+  private clamp(value: number, prop?: ActiveSliderProperty, bla = false): number {
+    value = clamp(
+      value,
+      this.min,
+      bla ? this.getMaxAllowedValue(this.min, this.max, this.step) : this.max
+    );
 
     // ensure that maxValue and minValue don't swap positions
     if (prop === "maxValue") {
@@ -1237,12 +1256,14 @@ export class Slider
     const { left, width } = this.trackEl.getBoundingClientRect();
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
-    const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
-    let value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
-    if (this.snap && this.step) {
-      value = this.getClosestStep(value);
-    }
-    return value;
+    const clampedValue = this.clamp(
+      this.min + range * (mirror ? 1 - percent : percent),
+      undefined,
+      true
+    );
+    const value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
+
+    return this.snap && this.step ? this.getClosestStep(value) : value;
   }
 
   /**
@@ -1252,12 +1273,9 @@ export class Slider
    * @internal
    */
   private getClosestStep(num: number): number {
-    num = Number(this.clamp(num).toFixed(decimalPlaces(this.step)));
-    if (this.step) {
-      const step = Math.round(num / this.step) * this.step;
-      num = Number(this.clamp(step).toFixed(decimalPlaces(this.step)));
-    }
-    return num;
+    const { max, min, step } = this;
+    const snappedValue = Math.floor((num - min) / step) * step + min;
+    return clamp(snappedValue, min, max);
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {

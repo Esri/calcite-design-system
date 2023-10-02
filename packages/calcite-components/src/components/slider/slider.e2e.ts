@@ -864,4 +864,42 @@ describe("calcite-slider", () => {
       }
     });
   });
+
+  describe("snapping fixes", () => {
+    it("honors snap value with step on initialization", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-slider max="10" min="1" snap step="2" ticks="2"></calcite-slider>`);
+
+      const slider = await page.find("calcite-slider");
+      expect(await slider.getProperty("value")).toBe(1);
+    });
+
+    it("honors snap value with step on initialization (fractional)", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-slider max="10" min="1.5" snap step="1" ticks="1"></calcite-slider>`);
+
+      const slider = await page.find("calcite-slider");
+      expect(await slider.getProperty("value")).toBe(1.5);
+    });
+
+    it("snaps to max limit on initialization at bounds", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-slider max="10.5" min="0" snap step="1" ticks="1" value="10.5"></calcite-slider>`
+      );
+
+      const slider = await page.find("calcite-slider");
+      expect(await slider.getProperty("value")).toBe(10);
+    });
+
+    it("snaps to max limit on initialization beyond bounds", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-slider max="10.4" min="0" snap step="1" ticks="1" value="10.4"></calcite-slider>`
+      );
+
+      const slider = await page.find("calcite-slider");
+      expect(await slider.getProperty("value")).toBe(10);
+    });
+  });
 });
