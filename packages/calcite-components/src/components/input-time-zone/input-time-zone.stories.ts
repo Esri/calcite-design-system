@@ -4,7 +4,7 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
-const storyDelayInMs = 250;
+const storyDelayInMs = 1000;
 
 export default {
   title: "Components/Controls/InputTimeZone",
