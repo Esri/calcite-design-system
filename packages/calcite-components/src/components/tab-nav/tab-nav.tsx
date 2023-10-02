@@ -96,6 +96,14 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @Prop({ mutable: true }) indicatorWidth: number;
 
   /**
+   * Made into a prop for testing purposes only.
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: TabNavMessages;
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -105,14 +113,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
-
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TabNavMessages;
 
   @Watch("selectedTabId")
   async selectedTabIdChanged(): Promise<void> {
@@ -528,7 +528,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       const isEnd = overflowDirection === "end";
       const dirActionClass: string = isEnd ? CSS.arrowEnd : CSS.arrowStart;
       const dirChevronIcon: string = isEnd && dir !== "rtl" ? ICON.chevronRight : ICON.chevronLeft;
-      const dirText: string = isEnd ? messages.nextTabTitles : messages.previousTabsTitles;
+      const dirText: string = isEnd ? messages.previousTabTitles : messages.nextTabTitles;
 
       const dirScroll = () =>
         isEnd ? this.scrollToNextTabTitles() : this.scrollToPreviousTabTitles();

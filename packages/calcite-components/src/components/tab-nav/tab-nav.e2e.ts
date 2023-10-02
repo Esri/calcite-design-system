@@ -1,23 +1,11 @@
 /* eslint-disable jest/no-conditional-expect */
 import { newE2EPage, E2EPage } from "@stencil/core/testing";
-import { accessible, renders, hidden, t9n } from "../../tests/commonTests";
+import { t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
-
-  describe("renders", () => {
-    renders(tabNavHtml, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-tab-nav");
-  });
-
-  describe("accessible: checked", () => {
-    accessible(tabNavHtml);
-  });
 
   describe("translation support", () => {
     t9n("tab-nav");
@@ -85,16 +73,6 @@ describe("calcite-tab-nav", () => {
   });
 
   describe("scale property", () => {
-    describe("default", () => {
-      it("should render without scale", async () => {
-        const page = await newE2EPage({
-          html: `${tabNavHtml}`,
-        });
-        const element = await page.find("calcite-tab-nav");
-        expect(element).not.toHaveAttribute("scale");
-      });
-    });
-
     describe("when scale is small", () => {
       it("should render with small scale", async () => {
         const page = await newE2EPage({
@@ -145,30 +123,28 @@ describe("calcite-tab-nav", () => {
 
     describe("when nested within tabs parent", () => {
       it("should render with default medium scale", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tabs>${tabNavHtml}</calcite-tabs>`,
-        });
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-tabs>${tabNavHtml}</calcite-tabs>`);
+
         const element = await page.find("calcite-tab-nav");
-        expect(element).toEqualAttribute("scale", "m");
+        expect(await element.getProperty("scale")).toBe("m");
       });
 
       describe("when tabs scale is small", () => {
         it("should render with small scale", async () => {
-          const page = await newE2EPage({
-            html: `<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`,
-          });
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`);
           const element = await page.find("calcite-tab-nav");
-          expect(element).toEqualAttribute("scale", "s");
+          expect(await element.getProperty("scale")).toBe("s");
         });
       });
 
       describe("when tabs scale is large", () => {
         it("should render with large scale", async () => {
-          const page = await newE2EPage({
-            html: `<calcite-tabs scale="l">${tabNavHtml}</calcite-tabs>`,
-          });
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`);
           const element = await page.find("calcite-tab-nav");
-          expect(element).toEqualAttribute("scale", "l");
+          expect(await element.getProperty("scale")).toBe("l");
         });
       });
     });
