@@ -289,51 +289,5 @@ describe("calcite-tab-nav", () => {
         });
       }
     });
-
-    // overflowScenarios.forEach(async (overflowScenario) => {
-    //   it(`should show action buttons with correct chevrons for overflow to the ${overflowScenario}`, async () => {
-    //     const isOverflowingRight = overflowScenario === "end";
-    //     const isOverflowingLeft = overflowScenario === "start";
-
-    //     await page.evaluate(
-    //       (isOverflowingRight, isOverflowingLeft) => {
-    //         const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
-    //         const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
-
-    //         tabNav.scrollLeft = isOverflowingRight ? 0 : tabTitles[tabTitles.length - 1].getBoundingClientRect().right;
-
-    //         const mobilePageWidth = tabNav.getBoundingClientRect().width;
-
-    //         const visibleTabTitles = tabTitles.filter((tabTitle) => {
-    //           const tabTitleRect = tabTitle.getBoundingClientRect();
-    //           return tabTitleRect.left >= 0 && tabTitleRect.right <= mobilePageWidth;
-    //         });
-
-    //         const firstOverflowItem = isOverflowingRight
-    //           ? tabTitles[visibleTabTitles.length]
-    //           : tabTitles[tabTitles.length - visibleTabTitles.length - 1];
-
-    //         const isOverflowing = isOverflowingRight
-    //           ? firstOverflowItem.getBoundingClientRect().right > mobilePageWidth
-    //           : firstOverflowItem.getBoundingClientRect().right < mobilePageWidth;
-
-    //         return isOverflowing;
-    //       },
-    //       isOverflowingRight,
-    //       isOverflowingLeft
-    //     );
-
-    //     expect(isOverflowingRight).toBe(true);
-    //     expect(isOverflowingLeft).toBe(true);
-
-    //     if (isOverflowingRight) {
-    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).not.toBe(null);
-    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).toBe(null);
-    //     } else if (isOverflowingLeft) {
-    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).toBe(null);
-    //       expect(await page.find(`#testSubjectNav >>> .${CSS.arrowRight}`)).not.toBe(null);
-    //     }
-    //   });
-    // });
   });
 });
