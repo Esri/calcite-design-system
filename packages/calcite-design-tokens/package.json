@@ -74,8 +74,6 @@
     "lint:prettier": "prettier --write .",
     "lint:staged": "lint-staged",
     "lint": "npm run lint:eslint && npm run lint:markdown && npm run lint:prettier",
-    "prepare": "husky install",
-    "release": "echo 'release is still TBD. Please message Ali Stump for more information.",
     "test": "jest"
   },
   "devDependencies": {
