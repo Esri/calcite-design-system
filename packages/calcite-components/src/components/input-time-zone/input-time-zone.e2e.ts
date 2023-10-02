@@ -226,6 +226,7 @@ describe("calcite-input-time-zone", () => {
 
   it("supports setting maxItems to display", async () => {
     const page = await newE2EPage();
+    await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
     await page.setContent(
       addTimeZoneNamePolyfill(html` <calcite-input-time-zone max-items="7"></calcite-input-time-zone>`)
     );
