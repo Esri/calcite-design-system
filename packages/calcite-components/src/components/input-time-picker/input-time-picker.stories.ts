@@ -49,7 +49,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const open_TestOnly = (): string => html`
-  <calcite-input-time-picker value="10:37" step="1" open> </calcite-input-time-picker>
+  <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker>
 `;
 
 export const koreanLocale_TestOnly = (): string => html`
