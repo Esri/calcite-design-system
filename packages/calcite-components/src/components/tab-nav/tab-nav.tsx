@@ -377,56 +377,67 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
-  private findVisibleTabTitleIndex = (tabTitles: NodeListOf<Element>, isNext: boolean): number => {
+  private findVisibleTabTitleIndices = (
+    tabTitles: NodeListOf<Element>,
+    direction: "forward" | "backward"
+  ): Map<object, number> => {
     const elWidth = this.el.clientWidth;
-    let visibleTabTitleIndex = -1;
+    const tabTitlesMap = new Map<object, number>();
 
     function findIndex() {
       for (const [index, tabTitle] of Array.from(tabTitles).entries()) {
         const tabTitleRect = tabTitle.getBoundingClientRect();
 
-        if ((isNext && tabTitleRect.right <= elWidth) || (!isNext && tabTitleRect.left >= 0)) {
-          visibleTabTitleIndex = index;
-          if (!isNext) {
-            return true;
-          }
+        if (
+          (direction === "forward" && tabTitleRect.right <= elWidth) ||
+          (direction === "backward" && tabTitleRect.left >= 0)
+        ) {
+          tabTitlesMap.set(tabTitle, index);
         }
       }
     }
 
     findIndex();
 
-    return visibleTabTitleIndex;
+    return tabTitlesMap;
   };
 
-  private scrollToTabTitles = (isNext: boolean): void => {
+  private scrollToTabTitles = (direction: "forward" | "backward"): void => {
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
-    const visibleTabTitleIndex = this.findVisibleTabTitleIndex(tabTitles, isNext);
+    const visibleTabTitleIndices = this.findVisibleTabTitleIndices(tabTitles, direction);
 
-    if (visibleTabTitleIndex !== -1) {
-      const targetTabTitleIndex = isNext ? visibleTabTitleIndex + 1 : visibleTabTitleIndex - 1;
-      const targetTabTitle = tabTitles[targetTabTitleIndex];
+    let lastValue: number;
+    const tabTitlesArray = Array.from(tabTitles);
 
-      if (targetTabTitle) {
-        const targetTabTitleRect = targetTabTitle.getBoundingClientRect();
+    for (const value of visibleTabTitleIndices.values()) {
+      lastValue = value;
+    }
 
-        const scrollAmount = isNext
-          ? targetTabTitleRect.left - this.el.getBoundingClientRect().left
-          : targetTabTitleRect.right - this.el.clientWidth;
+    const valuesIterator = visibleTabTitleIndices.values();
+    const firstValue: number = valuesIterator.next().value;
 
-        requestAnimationFrame(() => {
-          this.tabNavEl.scrollLeft += scrollAmount;
+    requestAnimationFrame(() => {
+      if (direction === "forward") {
+        tabTitlesArray[lastValue + 1].scrollIntoView({
+          behavior: "smooth",
+          inline: "start",
         });
       }
-    }
+      if (direction === "backward") {
+        tabTitlesArray[firstValue - 1].scrollIntoView({
+          behavior: "smooth",
+          inline: "end",
+        });
+      }
+    });
   };
 
   private scrollToNextTabTitles = (): void => {
-    this.scrollToTabTitles(true);
+    this.scrollToTabTitles("forward");
   };
 
   private scrollToPreviousTabTitles = (): void => {
-    this.scrollToTabTitles(false);
+    this.scrollToTabTitles("backward");
   };
 
   handleTabFocus = (
