@@ -18,6 +18,7 @@ export const simple = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       value="${text("value", "2020-12-12")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
@@ -31,6 +32,7 @@ export const range = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       lang="${select("locale", locales, "en")}"
@@ -44,7 +46,7 @@ export const range = (): string => html`
 
 export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
-export const flipPlacements_TestOnly = (): string => html`
+export const flipPlacementsInvalidStatus_TestOnly = (): string => html`
   <style>
     .my-input-date-picker-div {
       margin-top: 50px;
@@ -56,7 +58,12 @@ export const flipPlacements_TestOnly = (): string => html`
   </style>
   <div style="height: 100px; overflow:scroll;">
     <div class="my-input-date-picker-div">
-      <calcite-input-date-picker open class="my-input-date-picker" value="2020-02-12"></calcite-input-date-picker>
+      <calcite-input-date-picker
+        open
+        class="my-input-date-picker"
+        status="invalid"
+        value="2020-02-12"
+      ></calcite-input-date-picker>
     </div>
   </div>
   <script>

@@ -16,7 +16,6 @@ export const simple = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-number
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"

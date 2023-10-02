@@ -20,6 +20,7 @@ export const simple = (): string => html`
     name="${text("name", "simple")}"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     step="${number("step", 1)}"
     value="${text("value", "10:37")}"
   >
@@ -27,103 +28,36 @@ export const simple = (): string => html`
 `;
 
 export const deciSeconds_TestOnly = (): string => html`
-  <calcite-input-time-picker
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    name="${text("name", "simple")}"
-    ${boolean("open", true)}
-    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    step="${number("step", 0.1)}"
-    value="${text("value", "10:37:09.5")}"
-  >
-  </calcite-input-time-picker>
+  <calcite-input-time-picker step="0.1" value="10:37:09.5" open> </calcite-input-time-picker>
 `;
 
 export const centiseconds_TestOnly = (): string => html`
-  <calcite-input-time-picker
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    name="${text("name", "simple")}"
-    ${boolean("open", true)}
-    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    step="${number("step", 0.01)}"
-    value="${text("value", "10:37:09.06")}"
-  >
-  </calcite-input-time-picker>
+  <calcite-input-time-picker step="0.01" value="10:37:09.06" open> </calcite-input-time-picker>
 `;
 
 export const milliseconds_TestOnly = (): string => html`
-  <calcite-input-time-picker
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    name="${text("name", "simple")}"
-    ${boolean("open", true)}
-    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    step="${number("step", 0.001)}"
-    value="${text("value", "10:37:09.023")}"
-  >
-  </calcite-input-time-picker>
+  <calcite-input-time-picker step="0.001" value="10:37:09.023" open> </calcite-input-time-picker>
 `;
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-input-time-picker disabled scale="l" icon step="1" value="01:02"></calcite-input-time-picker>`;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-input-time-picker
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    class="calcite-mode-dark"
-    name="${text("name", "dark")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    step="${number("step", 1)}"
-    value="${text("value", "22:37")}"
-  >
-  </calcite-input-time-picker>
+  <calcite-input-time-picker class="calcite-mode-dark" value="22:37" step="1"> </calcite-input-time-picker>
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const open_TestOnly = (): string => html`
-  <calcite-input-time-picker
-    name="${text("name", "placement-top")}"
-    value="${text("value", "10:37")}"
-    ${boolean("open", true)}
-  >
-  </calcite-input-time-picker>
+  <calcite-input-time-picker value="10:37" step="1" open> </calcite-input-time-picker>
 `;
 
-export const koreanLocale_TestOnly = (): string => html`
-  <calcite-input-time-picker
-    id="reference-element"
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    name="${text("name", "light")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    step="${number("step", 1)}"
-    value="${text("value", "10:37")}"
-    lang="ko"
-    open
-  >
-  </calcite-input-time-picker>
+export const koreanLocaleInvalidStatus_TestOnly = (): string => html`
+  <calcite-input-time-picker lang="ko" status="invalid" value="10:37" step="1" open> </calcite-input-time-picker>
 `;
 
 export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
-  <calcite-input-time-picker
-    id="reference-element"
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    name="${text("name", "light")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    step="${number("step", 1)}"
-    value="${text("value", "1:33:7")}"
-    lang="ar"
-    numbering-system="arab"
-    dir="rtl"
-    open
-  >
+  <calcite-input-time-picker dir="rtl" lang="ar" numbering-system="arab" step="1" value="1:33:7" open>
   </calcite-input-time-picker>
 `;
 
