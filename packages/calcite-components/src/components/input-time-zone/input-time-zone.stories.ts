@@ -48,6 +48,11 @@ export const offsetAndGroupLabelsAreLocalized_TestOnly = (): string => html`
   <calcite-input-time-zone lang="zh"></calcite-input-time-zone>
 `;
 
+export const offsetAndGroupLabelsBasedOnReferenceDate_TestOnly = (): string => html`
+  <calcite-input-time-zone></calcite-input-time-zone>
+  <calcite-input-time-zone reference-date="2023-11-28T06:31:19.129Z"></calcite-input-time-zone>
+`;
+
 export const displayingTimeZoneOffsets_TestOnly = (): string => html`
   <div style="width: 450px; height: 500px;">
     <calcite-input-time-zone open></calcite-input-time-zone>
