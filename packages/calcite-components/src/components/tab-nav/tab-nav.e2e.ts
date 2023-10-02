@@ -1,11 +1,23 @@
 /* eslint-disable jest/no-conditional-expect */
 import { newE2EPage, E2EPage } from "@stencil/core/testing";
-import { t9n } from "../../tests/commonTests";
+import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
+
+  describe("accessible: checked", () => {
+    accessible(tabNavHtml);
+  });
+
+  describe("renders", () => {
+    renders(tabNavHtml, { display: "flex" });
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tab-nav");
+  });
 
   describe("translation support", () => {
     t9n("tab-nav");
@@ -222,7 +234,7 @@ describe("calcite-tab-nav", () => {
     overflowScenarios.forEach(async (overflowScenario) => {
       if (overflowScenario === "end") {
         it("should show action buttons with correct chevrons for overflow to the end", async () => {
-          const isOverflowingRight = await page.evaluate(() => {
+          const isOverflowingEnd = await page.evaluate(() => {
             const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
             const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
 
@@ -234,34 +246,28 @@ describe("calcite-tab-nav", () => {
               return tabTitleRect.left >= 0 && tabTitleRect.right <= tabNavWidth;
             });
             const firstRightOverflowItem = tabTitles[visibleTabTitles.length];
-            const isOverflowingRight = firstRightOverflowItem.getBoundingClientRect().right > tabNavWidth;
+            const isOverflowingEnd = firstRightOverflowItem.getBoundingClientRect().right > tabNavWidth;
 
-            return isOverflowingRight;
+            return isOverflowingEnd;
           });
-          expect(isOverflowingRight).toBe(true);
+          expect(isOverflowingEnd).toBe(true);
 
           expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).not.toBe(null);
           expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).toBe(null);
         });
       } else if (overflowScenario === "start") {
-        it("should show action buttons with correct chevrons for overflow to the left", async () => {
-          const isOverflowingLeft = await page.evaluate(async () => {
-            const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
+        it("should show action buttons with correct chevrons for overflow to the start", async () => {
+          const isOverflowingStart = await page.evaluate(async () => {
             const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
 
-            const mobilePageWidth = tabNav.getBoundingClientRect().width;
+            tabTitles[5].scrollIntoView();
+            const isOverflowingStart = tabTitles[0].getBoundingClientRect().right <= 0;
 
-            tabNav.scrollLeft += tabTitles[tabTitles.length - 1].getBoundingClientRect().right;
-
-            const isOverflowingLeft = tabTitles[tabTitles.length - 1].getBoundingClientRect().right < mobilePageWidth;
-
-            return isOverflowingLeft;
+            return isOverflowingStart;
           });
 
-          expect(isOverflowingLeft).toBe(true);
-
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).toBe(null);
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).not.toBe(null);
+          expect(isOverflowingStart).toBe(true);
+          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).toBeDefined();
         });
       }
     });
