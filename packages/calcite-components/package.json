@@ -46,7 +46,7 @@
     "test": "stencil test --no-docs --no-build --spec --e2e",
     "util:build-docs": "npm run util:prep-build-reqs && stencil build --docs --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
-    "util:copy-assets": "npm run npm:util:copy-icons",
+    "util:copy-assets": "npm run util:copy-icons",
     "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:generate-t9n-docs-json": "ts-node --esm support/generateT9nDocsJSON.ts",
     "util:generate-t9n-types": "ts-node --esm support/generateT9nTypes.ts",
