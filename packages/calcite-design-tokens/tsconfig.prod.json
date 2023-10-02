@@ -2,7 +2,7 @@
   "extends": "./tsconfig",
   "compilerOptions": {
     "target": "ES2018",
-    "outDir": "./tools/dist",
+    "outDir": "./support/dist",
     "sourceMap": true
   },
   "exclude": ["**/*.test.*", "support/**"]
