@@ -138,7 +138,6 @@ export const create: () => Config = () => ({
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
-    testRegex: "(/__tests__/.*|(\\.|/)input-time-zone.e2e)\\.[jt]sx?$",
   },
   hydratedFlag: {
     selector: "attribute",
