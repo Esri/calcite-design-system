@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "build": "turbo run build --log-order=stream",
-    "clean:node": "rimraf node_modules --glob ./packages/**/node_modules",
+    "clean:node": "rimraf node_modules --glob ./packages/*/node_modules",
     "clean": "turbo run clean --log-order=stream",
     "lint": "turbo run lint --log-order=stream",
     "publish:next": "lerna publish from-package --dist-tag next --yes",
