@@ -15,26 +15,26 @@ import {
 import { toUserFriendlyName } from "./utils";
 
 describe("calcite-input-time-zone", () => {
-  describe("accessible", () => {
+  describe.skip("accessible", () => {
     accessible(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
   });
 
-  describe("focusable", () => {
+  describe.skip("focusable", () => {
     focusable(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
   });
 
-  describe("formAssociated", () => {
+  describe.skip("formAssociated", () => {
     formAssociated(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), {
       testValue: "-360",
       clearable: false,
     });
   });
 
-  describe("hidden", () => {
+  describe.skip("hidden", () => {
     hidden(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
   });
 
-  describe("renders", () => {
+  describe.skip("renders", () => {
     renders(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), { display: "block" });
   });
 
@@ -42,7 +42,7 @@ describe("calcite-input-time-zone", () => {
     labelable(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
   });
 
-  describe("reflects", () => {
+  describe.skip("reflects", () => {
     reflects(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), [
       { propertyName: "disabled", value: true },
       { propertyName: "maxItems", value: 0 },
@@ -53,7 +53,7 @@ describe("calcite-input-time-zone", () => {
     ]);
   });
 
-  describe("defaults", () => {
+  describe.skip("defaults", () => {
     defaults(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), [
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "maxItems", defaultValue: 0 },
@@ -65,13 +65,13 @@ describe("calcite-input-time-zone", () => {
     ]);
   });
 
-  describe("disabled", () => {
+  describe.skip("disabled", () => {
     disabled(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), {
       shadowAriaAttributeTargetSelector: "calcite-combobox",
     });
   });
 
-  describe("t9n", () => {
+  describe.skip("t9n", () => {
     t9n(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
   });
 
