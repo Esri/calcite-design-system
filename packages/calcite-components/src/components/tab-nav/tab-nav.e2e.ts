@@ -195,7 +195,7 @@ describe("calcite-tab-nav", () => {
   `;
 
   describe("responsive tabs for inline layout", () => {
-    const overflowScenarios = ["end", "start", "both"];
+    const overflowScenarios: string[] = ["end", "start", "both"];
     let page: E2EPage;
 
     beforeEach(async () => {
@@ -227,14 +227,14 @@ describe("calcite-tab-nav", () => {
             const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
 
             tabNav.scrollLeft = 0;
-            const mobilePageWidth = tabNav.getBoundingClientRect().width;
+            const tabNavWidth = tabNav.getBoundingClientRect().width;
 
             const visibleTabTitles = tabTitles.filter((tabTitle) => {
               const tabTitleRect = tabTitle.getBoundingClientRect();
-              return tabTitleRect.left >= 0 && tabTitleRect.right <= mobilePageWidth;
+              return tabTitleRect.left >= 0 && tabTitleRect.right <= tabNavWidth;
             });
             const firstRightOverflowItem = tabTitles[visibleTabTitles.length];
-            const isOverflowingRight = firstRightOverflowItem.getBoundingClientRect().right > mobilePageWidth;
+            const isOverflowingRight = firstRightOverflowItem.getBoundingClientRect().right > tabNavWidth;
 
             return isOverflowingRight;
           });
@@ -243,7 +243,7 @@ describe("calcite-tab-nav", () => {
           expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).not.toBe(null);
           expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).toBe(null);
         });
-      } else if (overflowScenario === "left") {
+      } else if (overflowScenario === "start") {
         it("should show action buttons with correct chevrons for overflow to the left", async () => {
           const isOverflowingLeft = await page.evaluate(async () => {
             const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;

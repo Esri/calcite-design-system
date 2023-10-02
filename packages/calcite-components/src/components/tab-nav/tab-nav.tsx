@@ -417,16 +417,13 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const firstValue: number = valuesIterator.next().value;
 
     requestAnimationFrame(() => {
-      if (direction === "forward") {
-        tabTitlesArray[lastValue + 1].scrollIntoView({
+      const targetIndex = direction === "forward" ? lastValue + 1 : firstValue - 1;
+      const scrollInline = direction === "forward" ? "start" : "end";
+
+      if (tabTitlesArray[targetIndex]) {
+        tabTitlesArray[targetIndex].scrollIntoView({
           behavior: "smooth",
-          inline: "start",
-        });
-      }
-      if (direction === "backward") {
-        tabTitlesArray[firstValue - 1].scrollIntoView({
-          behavior: "smooth",
-          inline: "end",
+          inline: scrollInline,
         });
       }
     });
@@ -541,14 +538,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       const dirChevronIcon: string = isEnd && dir !== "rtl" ? ICON.chevronRight : ICON.chevronLeft;
       const dirText: string = isEnd ? messages.previousTabTitles : messages.nextTabTitles;
 
-      const dirScroll = () =>
-        isEnd ? this.scrollToNextTabTitles() : this.scrollToPreviousTabTitles();
-
       return (
         <calcite-action
           class={dirActionClass}
           icon={dirChevronIcon}
-          onClick={() => dirScroll()}
+          onClick={dirText ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
           scale={this.scale}
           text={dirText}
         />
