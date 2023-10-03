@@ -57,13 +57,13 @@ export async function createTimeZoneItems(
   if (mode === "offset") {
     if (!timeZoneGroups) {
       timeZoneGroups = Promise.all([
-        import("timezone-groups/dist/index.mjs"),
-        import("timezone-groups/dist/strategy/native/index.mjs"),
+        import("timezone-groups/dist/index.js"),
+        import("timezone-groups/dist/strategy/native/index.js"),
       ]);
     }
 
     return timeZoneGroups.then(async ([{ groupTimeZones }, { DateEngine }]) => {
-      const timeZoneGroups: { labelTZIndices: number[]; tzs: TimeZoneName[] }[] = await groupTimeZones({
+      const timeZoneGroups: { labelTzIndices: number[]; tzs: TimeZoneName[] }[] = await groupTimeZones({
         dateEngine: new DateEngine(),
         groupDateRange: 1,
         startDate: new Date(referenceDateInMs).toISOString(),
@@ -72,14 +72,14 @@ export async function createTimeZoneItems(
       const listFormatter = new Intl.ListFormat(locale, { style: "long", type: "conjunction" });
 
       return timeZoneGroups
-        .map<TimeZoneItem<number>>(({ labelTZIndices, tzs }) => {
+        .map<TimeZoneItem<number>>(({ labelTzIndices, tzs }) => {
           const groupRepTz = tzs[0];
           const decimalOffset = timeZoneOffsetToDecimal(getTimeZoneShortOffset(groupRepTz, locale, referenceDateInMs));
           const value = toOffsetValue(groupRepTz, referenceDateInMs);
           const label = createTimeZoneOffsetLabel(
             messages,
             decimalOffset,
-            listFormatter.format(labelTZIndices.map((index: number) => messages[tzs[index]]))
+            listFormatter.format(labelTzIndices.map((index: number) => messages[tzs[index]]))
           );
 
           return {
