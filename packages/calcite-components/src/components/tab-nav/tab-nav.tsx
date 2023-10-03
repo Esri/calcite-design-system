@@ -11,13 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
+
 import {
   filterDirectChildren,
   focusElementInGroup,
@@ -28,8 +22,6 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
-import { TabNavMessages } from "./assets/tab-nav/t9n";
 import { ICON, CSS } from "./resources";
 
 /**
@@ -41,7 +33,7 @@ import { ICON, CSS } from "./resources";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class TabNav implements LocalizedComponent, T9nComponent {
+export class TabNav {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -95,25 +87,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) indicatorWidth: number;
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TabNavMessages;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<TabNavMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
   @Watch("selectedTabId")
   async selectedTabIdChanged(): Promise<void> {
     if (
@@ -149,8 +122,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
     this.resizeObserver?.observe(this.el);
-    connectLocalized(this);
-    connectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -159,7 +130,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTabId = storedTab;
     }
-    await setUpMessages(this);
   }
 
   componentWillRender(): void {
@@ -192,8 +162,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
-    disconnectLocalized(this);
-    disconnectMessages(this);
   }
 
   //--------------------------------------------------------------------------
@@ -348,15 +316,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   activeIndicatorContainerEl: HTMLDivElement;
 
   animationActiveDuration = 0.3;
-
-  @State() defaultMessages: TabNavMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
 
   resizeObserver = createObserver("resize", () => {
     if (!this.activeIndicatorEl) {
@@ -523,7 +482,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private getOverflowIcons(): (VNode | VNode[]) | null {
     const dir = getElementDir(this.el);
-    const { messages } = this;
     const tabNavWidth = this.el.offsetWidth;
     const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
 
@@ -537,7 +495,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       const isEnd = overflowDirection === "end";
       const dirActionClass: string = isEnd ? CSS.arrowEnd : CSS.arrowStart;
       const dirChevronIcon: string = isEnd ? ICON.chevronRight : ICON.chevronLeft;
-      const dirText: string = isEnd ? messages.previousTabTitles : messages.nextTabTitles;
 
       const dirScroll = () =>
         isEnd ? this.scrollToNextTabTitles() : this.scrollToPreviousTabTitles();
@@ -548,7 +505,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           icon={dirChevronIcon}
           onClick={() => dirScroll()}
           scale={this.scale}
-          text={dirText}
+          text="" // add this line to fix the error
         />
       );
     };

@@ -1,6 +1,6 @@
 /* eslint-disable jest/no-conditional-expect */
 import { newE2EPage, E2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -17,10 +17,6 @@ describe("calcite-tab-nav", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-tab-nav");
-  });
-
-  describe("translation support", () => {
-    t9n("tab-nav");
   });
 
   it("emits on user interaction", async () => {
