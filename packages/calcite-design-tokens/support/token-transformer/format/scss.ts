@@ -33,11 +33,7 @@ export function formatSCSS(fileInfo: {
     formatHelpers.fileHeader({ file }) +
     formatHelpers.formattedVariables({ format: "sass", dictionary, outputReferences }) + '\n' + '\n' +
     `@mixin calcite-theme-${themeName}() {\n` +
-      formatHelpers
-        .formattedVariables({ format: "css", dictionary, outputReferences })
-        .split('\n')
-        .map((token) => token.replaceAll('--', `--${fileInfo.platform.prefix}-`))
-        .join('\n') +
+      formatHelpers.formattedVariables({ format: "css", dictionary, outputReferences }) +
     `\n}\n`
   );
 }

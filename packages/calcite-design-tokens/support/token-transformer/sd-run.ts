@@ -8,7 +8,6 @@ import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
 import { parseName } from "./utils/parseName.js";
 import { Theme } from "./getThemes.js";
-import { nameCalciteSCSS } from "./transform/nameCalciteSCSS.js";
 
 /**
  * Style Dictionary runner configuration overrides.
@@ -53,12 +52,6 @@ export const run = async (
     type: "name",
     transformer: nameKebabCase
   });
-
-  StyleDictionary.registerTransform({
-    name: "name/calcite/scss",
-    type: "name",
-    transformer: nameCalciteSCSS,
-  })
 
   StyleDictionary.registerFilter({
     name: "filterSource",
@@ -107,7 +100,7 @@ export const run = async (
           "ts/size/css/letterspacing",
           "ts/color/css/hexrgba",
           "ts/color/modifiers",
-          "name/calcite/scss"
+          "name/calcite/kebab"
         ],
         buildPath: `${buildPath}/scss/`,
         files: [

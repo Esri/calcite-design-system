@@ -11,7 +11,7 @@ export const parseTokenPath = (path: string[]): string[] =>
     } else if (p.includes(acc[acc.length - 1])) {
       // transforms tokens like `font-font-size...` into `font-size...`
       acc[acc.length - 1] = p;
-    } else if (['default', 'core', 'semantic'].includes(p)) {
+    } else if (['default'].includes(p)) {
       return acc;
     } else {
       acc.push(p);
