@@ -281,17 +281,19 @@ export class Stepper {
 
   @Watch("currentPosition")
   handlePositionChange(): void {
-    this.determineActiveStepper();
+    requestAnimationFrame(() => {
+      this.determineActiveStepper();
+    });
   }
 
   @State() elWidth: number;
 
   @Watch("elWidth")
   handleElWidthChange(): void {
-    this.determineActiveStepper();
+    requestAnimationFrame(() => {
+      this.determineActiveStepper();
+    });
   }
-
-  //private breakpoints: Breakpoints;
 
   /** list of enabled Stepper items */
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
