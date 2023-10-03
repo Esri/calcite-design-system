@@ -403,12 +403,14 @@ export class Stepper {
 
     return layout === "horizontal" && singleViewMode ? (
       <calcite-action
+        alignment="center"
         appearance="transparent"
         class={{
           [CSS.actionIcon]: true,
           [CSS.actionIconStart]: isPositionStart,
           [CSS.actionIconEnd]: !isPositionStart,
         }}
+        compact={true}
         disabled={
           (currentPosition === 0 && isPositionStart) ||
           (currentPosition === totalItems - 1 && !isPositionStart)

@@ -308,8 +308,8 @@
 
 :host([layout="horizontal"][single-view-mode]) .stepper-item-header {
   @apply border-none 
-  me-0 
-  grow 
+  me-0
+  grow
   shrink;
   order: -1;
 }

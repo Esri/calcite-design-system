@@ -1,13 +1,19 @@
 :host([scale="s"]) {
   --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-stepper-action-block-size: 52px;
+  --calcite-internal-stepper-action-inline-size: 32px;
 }
 
 :host([scale="m"]) {
   --calcite-stepper-item-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-stepper-action-block-size: 60px;
+  --calcite-internal-stepper-action-inline-size: 40px;
 }
 
 :host([scale="l"]) {
   --calcite-stepper-item-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-stepper-action-block-size: 72px;
+  --calcite-internal-stepper-action-inline-size: 48px;
 }
 
 :host {
@@ -76,21 +82,16 @@
 }
 
 .action-icon {
-  @apply flex relative;
-  --calcite-action-internal-padding-inline-m: 0.75rem;
-  --calcite-action-internal-padding-inline-l: 0.875rem;
-  --calcite-action-internal-padding-block-s: 0.875rem;
-  --calcite-action-internal-padding-block-m: 1.125rem;
-  --calcite-action-internal-padding-block-l: 1.5rem;
+  @apply flex relative grow-0;
+  block-size: var(--calcite-internal-stepper-action-block-size);
+  inline-size: var(--calcite-internal-stepper-action-inline-size);
 }
 
 .action-icon--start {
-  @apply pe-2;
   order: -1;
 }
 
 .action-icon-end {
-  @apply ps-2;
   order: 100;
 }
 
