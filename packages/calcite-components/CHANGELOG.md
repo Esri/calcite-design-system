@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.16...@esri/calcite-components@1.9.0-next.17) (2023-10-03)
+
+### Features
+
+- **input-date-picker, input-time-picker:** add status property ([#7915](https://github.com/Esri/calcite-design-system/issues/7915)) ([4d53346](https://github.com/Esri/calcite-design-system/commit/4d53346c8048599d07bc7c078d7fa6654e147ce7)), closes [#5723](https://github.com/Esri/calcite-design-system/issues/5723) [#4276](https://github.com/Esri/calcite-design-system/issues/4276)
+
+## [1.9.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.15...@esri/calcite-components@1.9.0-next.16) (2023-10-02)
+
+### Bug Fixes
+
+- **action-menu:** update active selection to not use the action's active property ([#7911](https://github.com/Esri/calcite-design-system/issues/7911)) ([50f85f1](https://github.com/Esri/calcite-design-system/commit/50f85f157e372ef0db35051c3436d4b9989cd78e)), closes [#7910](https://github.com/Esri/calcite-design-system/issues/7910)
+- **table:** Fix selection display in RTL ([#7907](https://github.com/Esri/calcite-design-system/issues/7907)) ([b4c8508](https://github.com/Esri/calcite-design-system/commit/b4c850857d506dbf11c872afe25c2963d798db57)), closes [#7903](https://github.com/Esri/calcite-design-system/issues/7903)
+
 ## [1.9.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0-next.14...@esri/calcite-components@1.9.0-next.15) (2023-09-29)
 
 ### Bug Fixes
