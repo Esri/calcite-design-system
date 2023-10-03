@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.9.0-next.16",
+  "version": "1.9.0",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -20,11 +20,11 @@
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && stencil build",
-    "postbuild": "npm run util:patch && npm run util:generate-t9n-docs-json && git restore src/components/*/readme.md",
+    "postbuild": "npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
     "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider build-storybook --output-dir ./docs --quiet",
-    "clean": "npm run util:clean-js-files && rimraf node_modules dist www hydrate docs .turbo src/components.d.ts",
+    "clean": "npm run util:clean-js-files && npm run util:clean-readmes && rimraf node_modules dist www hydrate docs .turbo src/components.d.ts",
     "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer @whitespace/storybook-addon-html && npm audit fix",
     "docs": "build-storybook",
     "docs:preview": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true start-storybook",
@@ -55,6 +55,7 @@
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
     "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types=' && npm run util:clean-js-files",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**.js",
+    "util:clean-readmes": "git restore src/components/*/readme.md",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]"
   },
   "repository": {
@@ -72,11 +73,12 @@
     "focus-trap": "7.5.2",
     "form-request-submit-polyfill": "2.0.0",
     "lodash-es": "4.17.21",
-    "sortablejs": "1.15.0"
+    "sortablejs": "1.15.0",
+    "timezone-groups": "0.5.0"
   },
   "devDependencies": {
     "@esri/calcite-design-tokens": "1.0.0",
-    "@esri/calcite-ui-icons": "3.24.4",
+    "@esri/calcite-ui-icons": "3.24.6",
     "@esri/eslint-plugin-calcite-components": "^0.2.3-next.4",
     "@stencil-community/eslint-plugin": "0.5.0",
     "@stencil/postcss": "2.1.0",

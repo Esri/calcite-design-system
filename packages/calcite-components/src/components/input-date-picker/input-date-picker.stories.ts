@@ -18,6 +18,7 @@ export const simple = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       value="${text("value", "2020-12-12")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
@@ -31,6 +32,7 @@ export const range = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       lang="${select("locale", locales, "en")}"
@@ -83,6 +85,12 @@ export const laoNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string 
 export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
+  </div>
+`;
+
+export const invalidStatus_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-input-date-picker status="invalid" value="2020-12-12"></calcite-input-date-picker>
   </div>
 `;
 
