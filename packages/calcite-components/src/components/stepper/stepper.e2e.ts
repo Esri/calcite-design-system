@@ -404,8 +404,7 @@ describe("calcite-stepper", () => {
       expect(await step4Content.isVisible()).toBe(false);
     });
 
-    // eslint-disable-next-line jest/no-focused-tests
-    it.only("next/previous methods work when placed inside shadow DOM (#992)", async () => {
+    it("next/previous methods work when placed inside shadow DOM (#992)", async () => {
       const templateHTML = html`
         <calcite-stepper id="stepper">
           <calcite-stepper-item id="item-1" selected heading="Add info" description="Subtitle lorem ipsum" complete
@@ -460,7 +459,7 @@ describe("calcite-stepper", () => {
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-          // await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
           return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
         },

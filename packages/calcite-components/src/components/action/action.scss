@@ -76,9 +76,7 @@
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h font-normal;
-    padding-inline: 0.5rem;
-    padding-block: 0.25rem;
+    @apply text-n2h px-2 py-1 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -87,9 +85,7 @@
 
 :host([scale="m"]) {
   .button {
-    @apply text-n1h font-normal;
-    padding-inline: 1rem;
-    padding-block: 0.75rem;
+    @apply text-n1h px-4 py-3 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -98,9 +94,7 @@
 
 :host([scale="l"]) {
   .button {
-    @apply text-0h font-normal;
-    padding-inline: 1.25rem;
-    padding-block: 1.25rem;
+    @apply text-0h p-5 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
