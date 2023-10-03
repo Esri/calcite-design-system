@@ -1270,7 +1270,17 @@ export class Combobox
   }
 
   renderSelectedIndicatorChip(): VNode {
-    const label = `+${this.selectedItems.length}`;
+    const chipEls = this.el.shadowRoot.querySelectorAll(`calcite-chip`);
+    let selectedVisibleChipEls = 0;
+    chipEls.forEach((chipEl) => {
+      if (chipEl === this.selectedIndicatorChipEl) {
+        return;
+      }
+      if (chipEl.selected && chipEl.style.visibility === "visible") {
+        selectedVisibleChipEls++;
+      }
+    });
+    const label = `+${this.selectedItems.length - selectedVisibleChipEls}`;
     return (
       <calcite-chip
         class="chip"
