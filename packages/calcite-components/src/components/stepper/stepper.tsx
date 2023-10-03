@@ -108,16 +108,11 @@ export class Stepper {
     this.resizeObserver?.observe(this.el);
   }
 
-  // async componentWillLoad(): Promise<void> {
-  //   const breakpoints = await getBreakpoints();
-  //   this.breakpoints = breakpoints;
-  // }
-
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
     if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
-        position: 0,
+        position: this.getFirstEnabledStepperPosition(),
       });
     }
   }
@@ -129,7 +124,7 @@ export class Stepper {
   render(): VNode {
     return (
       <Host aria-label={"Progress steps"} role="region">
-        {this.responsiveMode && (
+        {this.singleViewMode && (
           <div class="step-bar-container">
             {this.items.map((item, index) => (
               <StepBar
@@ -195,7 +190,6 @@ export class Stepper {
     if (typeof position === "number") {
       this.currentPosition = position;
       this.selectedItem = event.target as HTMLCalciteStepperItemElement;
-      this.selectedPosition = position;
     }
 
     this.calciteInternalStepperItemChange.emit({
@@ -206,26 +200,6 @@ export class Stepper {
   @Listen("calciteInternalUserRequestedStepperItemSelect")
   handleUserRequestedStepperItemSelect(): void {
     this.calciteStepperItemChange.emit();
-  }
-
-  @Listen("calciteInternalStepperItemNext")
-  handleUserRequestedStepperItemNext(): void {
-    // const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
-    // if (typeof enabledStepIndex !== "number") {
-    //   return;
-    // }
-    // this.currentPosition = enabledStepIndex;
-    this.nextStep();
-  }
-
-  @Listen("calciteInternalStepperItemPrevious")
-  handleUserRequestedStepperItemPrevious(): void {
-    // const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
-    // if (typeof enabledStepIndex !== "number") {
-    //   return;
-    // }
-    // this.currentPosition = enabledStepIndex;
-    this.prevStep();
   }
 
   //--------------------------------------------------------------------------
@@ -331,10 +305,8 @@ export class Stepper {
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  private responsiveMode = false;
+  private singleViewMode = false;
 
-  /** keep track of the selected item position */
-  private selectedPosition: number;
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -367,7 +339,7 @@ export class Stepper {
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
       this.el.style.gridTemplateColumns = "none";
-      this.responsiveMode = true;
+      this.singleViewMode = true;
       this.el.style.display = "flex";
 
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
@@ -375,17 +347,17 @@ export class Stepper {
           item.style.display = "none";
         } else {
           item.style.display = "contents";
-          item.responsiveMode = true;
+          item.singleViewMode = true;
         }
       });
     } else if (this.elWidth > totalMinWidthOfItems + totalRowGap) {
       this.el.style.display = "grid";
-      this.responsiveMode = false;
+      this.singleViewMode = false;
       this.setGridTemplateColumns(this.items);
 
       this.items.forEach((item: HTMLCalciteStepperItemElement) => {
         item.style.display = "contents";
-        item.responsiveMode = false;
+        item.singleViewMode = false;
       });
     }
   }
@@ -398,7 +370,7 @@ export class Stepper {
 
     let newIndex = startIndex;
 
-    while (items[newIndex]?.disabled) {
+    while (items[newIndex]?.disabled && !this.singleViewMode) {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
@@ -427,11 +399,11 @@ export class Stepper {
   private renderAction(position: Position): VNode {
     const isPositionStart = position === "start";
     const path = isPositionStart ? "chevron-left" : "chevron-right";
-    const { currentPosition, responsiveMode, layout } = this;
+    const { currentPosition, singleViewMode, layout } = this;
     const dir = getElementDir(this.el);
     const totalItems = this.items.length;
 
-    return layout === "horizontal" && responsiveMode ? (
+    return layout === "horizontal" && singleViewMode ? (
       <calcite-action
         appearance="transparent"
         class={{
@@ -473,6 +445,17 @@ export class Stepper {
     } else {
       this.nextStep();
     }
+  }
+
+  private getFirstEnabledStepperPosition(): number {
+    let index = 0;
+    while (index < this.items.length) {
+      if (!this.items[index].disabled) {
+        return index;
+      }
+      index++;
+    }
+    return 0;
   }
 
   handleDefaultSlotChange = (event: Event): void => {

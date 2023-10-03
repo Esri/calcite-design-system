@@ -1,7 +1,4 @@
 export const CSS = {
-  actionIcon: "action-icon",
-  actionIconStart: "action-icon--start",
-  actionIconEnd: "action-icon--end",
   container: "container",
   stepperItemContent: "stepper-item-content",
   stepperItemDescription: "stepper-item-description",
