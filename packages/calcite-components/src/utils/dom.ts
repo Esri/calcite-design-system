@@ -54,6 +54,19 @@ export function getModeName(el: HTMLElement): "light" | "dark" {
 }
 
 /**
+ * This helper returns the computed width in pixels of a rendered HTMLElement.
+ *
+ * @param {HTMLElement} el An element.
+ * @returns {number} The element's width.
+ */
+export function getElementWidth(el: HTMLElement): number {
+  if (!el) {
+    return;
+  }
+  return Math.round(parseFloat(getComputedStyle(el).width.replace("px", "")));
+}
+
+/**
  * This helper returns the direction of a HTML element.
  *
  * @param {HTMLElement} el An element.
@@ -102,6 +115,23 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
   return "host" in rootNode ? rootNode : null;
 }
 
+/**
+ * This helper returns the computed width in pixels a given text string takes up on screen.
+ *
+ * See https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript
+ *
+ * @param {string} text The string of text to measure.
+ * @param {string} font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
+ */
+export function getTextWidth(text: string, font: string): number {
+  if (!text) {
+    return;
+  }
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  context.font = font;
+  return Math.ceil(context.measureText(text).width);
+}
 /**
  * This helper returns the host of a ShadowRoot.
  *

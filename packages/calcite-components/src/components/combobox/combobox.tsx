@@ -15,7 +15,12 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 
-import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import {
+  getElementWidth,
+  getTextWidth,
+  isPrimaryPointerButton,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -286,6 +291,9 @@ export class Combobox
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
+    // this.selectedItems?.forEach((item, i) => {
+    //   console.log(item.value, i);
+    // });
   }
 
   /**
@@ -781,35 +789,16 @@ export class Combobox
     this.updateActiveItemIndex(targetIndex);
   }
 
-  private getComputedElementWidth(el: HTMLElement): number {
-    if (!el) {
-      return;
-    }
-    return Math.round(parseFloat(getComputedStyle(el).width.replace("px", "")));
-  }
-
-  private getRenderedTextWidth(text: string, font: string): number {
-    if (!text) {
-      return;
-    }
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    context.font = font;
-    return Math.ceil(context.measureText(text).width);
-  }
-
   private refreshDisplayMode = () => {
     if (this.textInput && !isSingleLike(this.selectionMode) && this.displayMode === "fit-to-line") {
       const chipEls = this.el.shadowRoot.querySelectorAll(`calcite-chip`);
       const computedInputStyle = getComputedStyle(this.textInput);
-      const placeholderTextWidth = this.getRenderedTextWidth(
+      const placeholderTextWidth = getTextWidth(
         this.placeholder,
         `${computedInputStyle.fontSize} ${computedInputStyle.fontFamily}`
       );
-      const inputContainerElWidth = this.getComputedElementWidth(this.inputContainerEl);
-      const selectedIndicatorChipElWidth = this.getComputedElementWidth(
-        this.selectedIndicatorChipEl
-      );
+      const inputContainerElWidth = getElementWidth(this.inputContainerEl);
+      const selectedIndicatorChipElWidth = getElementWidth(this.selectedIndicatorChipEl);
       let availableHorizontalChipElSpace = Math.round(inputContainerElWidth - placeholderTextWidth);
 
       chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
@@ -817,7 +806,7 @@ export class Combobox
           return;
         }
         if (chipEl.selected) {
-          const chipElWidth = this.getComputedElementWidth(chipEl);
+          const chipElWidth = getElementWidth(chipEl);
           if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
             availableHorizontalChipElSpace -= chipElWidth;
             this.selectedIndicatorChipEl.style.position = "absolute";
