@@ -286,7 +286,6 @@ export class Combobox
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
-    this.refreshDisplayMode();
   }
 
   /**
@@ -440,6 +439,10 @@ export class Combobox
     }
 
     updateHostInteraction(this);
+  }
+
+  componentDidUpdate(): void {
+    this.refreshDisplayMode();
   }
 
   disconnectedCallback(): void {
@@ -797,7 +800,7 @@ export class Combobox
 
   private refreshDisplayMode = () => {
     if (this.textInput && !isSingleLike(this.selectionMode) && this.displayMode === "fit-to-line") {
-      const chipEls = this.el.shadowRoot.querySelectorAll("calcite-chip");
+      const chipEls = this.el.shadowRoot.querySelectorAll(`calcite-chip`);
       const computedInputStyle = getComputedStyle(this.textInput);
       const placeholderTextWidth = this.getRenderedTextWidth(
         this.placeholder,
@@ -810,21 +813,32 @@ export class Combobox
       let availableHorizontalChipElSpace = Math.round(inputContainerElWidth - placeholderTextWidth);
 
       chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
-        const chipElWidth = this.getComputedElementWidth(chipEl);
-        if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
-          availableHorizontalChipElSpace -= chipElWidth;
-          this.selectedIndicatorChipEl.style.position = "absolute";
-          this.selectedIndicatorChipEl.style.visibility = "hidden";
-        } else {
-          // TODO: Hide any overflowing chips here
-          if (
-            selectedIndicatorChipElWidth &&
-            selectedIndicatorChipElWidth < availableHorizontalChipElSpace
-          ) {
-            availableHorizontalChipElSpace -= selectedIndicatorChipElWidth;
-            this.selectedIndicatorChipEl.style.position = "static";
-            this.selectedIndicatorChipEl.style.visibility = "visible";
+        if (chipEl === this.selectedIndicatorChipEl) {
+          return;
+        }
+        if (chipEl.selected) {
+          const chipElWidth = this.getComputedElementWidth(chipEl);
+          if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
+            availableHorizontalChipElSpace -= chipElWidth;
+            this.selectedIndicatorChipEl.style.position = "absolute";
+            this.selectedIndicatorChipEl.style.visibility = "hidden";
+            chipEl.style.position = "static";
+            chipEl.style.visibility = "visible";
+          } else {
+            chipEl.style.position = "absolute";
+            chipEl.style.visibility = "hidden";
+            if (
+              selectedIndicatorChipElWidth &&
+              selectedIndicatorChipElWidth < availableHorizontalChipElSpace
+            ) {
+              availableHorizontalChipElSpace -= selectedIndicatorChipElWidth;
+              this.selectedIndicatorChipEl.style.position = "static";
+              this.selectedIndicatorChipEl.style.visibility = "visible";
+            }
           }
+        } else {
+          chipEl.style.position = "absolute";
+          chipEl.style.visibility = "hidden";
         }
       });
     }
@@ -1236,7 +1250,7 @@ export class Combobox
 
   renderChips(): VNode[] {
     const { activeChipIndex, scale, selectionMode, messages } = this;
-    return this.selectedItems.map((item, i) => {
+    return this.items.map((item, i) => {
       const chipClasses = {
         chip: true,
         "chip--active": activeChipIndex === i,
@@ -1255,6 +1269,8 @@ export class Combobox
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
+          selected={item.selected}
+          style={{ position: "absolute", visibility: "hidden" }}
           title={label}
           value={item.value}
         >

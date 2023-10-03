@@ -21,7 +21,7 @@
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
 
   .x-button {
-    margin-inline-end: theme("spacing.2");
+    margin-inline: theme("spacing.2");
   }
 }
 
@@ -80,8 +80,10 @@
     truncate
     p-0;
 
+  gap: var(--calcite-combobox-item-spacing-unit-s);
+
   &.fit-to-line {
-    @apply flex-nowrap overflow-clip;
+    @apply flex-nowrap overflow-hidden;
   }
 }
 
@@ -91,12 +93,12 @@
   flex-grow
   appearance-none
   border-none
-  bg-transparent
+  bg-background
   p-0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
-  min-inline-size: 120px;
+  inline-size: 100%;
   margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
   &:focus {
     @apply outline-none;
@@ -203,7 +205,6 @@
 
 .chip {
   margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
-  margin-inline: 0 var(--calcite-combobox-item-spacing-unit-s);
   max-inline-size: 100%;
 }
 
