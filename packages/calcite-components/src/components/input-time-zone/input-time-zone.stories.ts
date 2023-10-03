@@ -7,7 +7,7 @@ import readme from "./readme.md";
 export default {
   title: "Components/Controls/InputTimeZone",
   parameters: {
-    chromatic: { delay: 1500 },
+    chromatic: { delay: 3000 },
     notes: readme,
     options: {
       timezone: "America/Los_Angeles",
