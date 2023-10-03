@@ -1,6 +1,6 @@
 {
   "close": "Κλείσιμο",
   "options": "Επιλογές",
-  "collapse": "Σύμπτυξη",
-  "expand": "Ανάπτυξη"
+  "collapse": "Collapse",
+  "expand": "Expand"
 }

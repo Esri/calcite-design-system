@@ -1,6 +1,6 @@
 {
   "close": "Bezárás",
   "options": "Beállítási lehetőségek",
-  "collapse": "Összecsukás",
-  "expand": "Kibontás"
+  "collapse": "Collapse",
+  "expand": "Expand"
 }
