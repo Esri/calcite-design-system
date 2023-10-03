@@ -10,6 +10,9 @@ export const parseTokenPath = (path: string[]): string[] =>
       acc.push("ui");
     } else if (p === "default") {
       return acc;
+    } else if (p.includes(acc[acc.length - 1])) {
+      // transforms tokens like `font-font-size...` into `font-size...`
+      acc[acc.length - 1] = p;
     } else {
       acc.push(p);
     }
