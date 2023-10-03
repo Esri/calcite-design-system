@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tab-nav", () => {
@@ -15,6 +15,10 @@ describe("calcite-tab-nav", () => {
 
   describe("accessible: checked", () => {
     accessible(tabNavHtml);
+  });
+
+  describe("translation support", () => {
+    t9n("tab-nav");
   });
 
   it("emits on user interaction", async () => {
