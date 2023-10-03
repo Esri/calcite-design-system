@@ -75,11 +75,10 @@ export class FlowItem
   @Prop({ reflect: true }) collapsed = false;
 
   /**
-   * Specifies the direction of the collapse.
+   * When `true`, inverts the collapse icon.
    *
-   * @internal
    */
-  @Prop() collapseDirection: "down" | "up" = "down";
+  @Prop() collapseInverted = false;
 
   /**
    * When `true`, the component is collapsible.
@@ -331,7 +330,7 @@ export class FlowItem
   render(): VNode {
     const {
       collapsed,
-      collapseDirection,
+      collapseInverted,
       collapsible,
       closable,
       closed,
@@ -348,7 +347,7 @@ export class FlowItem
         <calcite-panel
           closable={closable}
           closed={closed}
-          collapseDirection={collapseDirection}
+          collapseInverted={collapseInverted}
           collapsed={collapsed}
           collapsible={collapsible}
           description={description}

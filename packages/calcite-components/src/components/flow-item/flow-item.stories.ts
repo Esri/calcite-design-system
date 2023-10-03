@@ -66,6 +66,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
+        name: "collapse-inverted",
+        commit(): Attribute {
+          this.value = boolean("collapseInverted", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
         name: "height-scale",
         commit(): Attribute {
           this.value = select("heightScale", scale.values, scale.defaultValue);
@@ -157,6 +165,10 @@ export const onlyProps = (): string => html`
 
 export const collapsed_TestOnly = (): string => html`
   <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
+`;
+
+export const collapsedInverted_TestOnly = (): string => html`
+  <calcite-flow-item collapsed collapsible collapse-inverted closable> Hello World! </calcite-flow-item>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`

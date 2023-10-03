@@ -27,8 +27,8 @@ describe("calcite-flow-item", () => {
         defaultValue: false,
       },
       {
-        propertyName: "collapseDirection",
-        defaultValue: "down",
+        propertyName: "collapseInverted",
+        defaultValue: false,
       },
       {
         propertyName: "collapsed",
