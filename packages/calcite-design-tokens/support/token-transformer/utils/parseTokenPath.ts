@@ -8,11 +8,11 @@ export const parseTokenPath = (path: string[]): string[] =>
   path.reduce((acc, p, idx) => {
     if (idx === 0 && p === "color") {
       acc.push("ui");
-    } else if (p === "default") {
-      return acc;
     } else if (p.includes(acc[acc.length - 1])) {
       // transforms tokens like `font-font-size...` into `font-size...`
       acc[acc.length - 1] = p;
+    } else if (['default', 'core', 'semantic'].includes(p)) {
+      return acc;
     } else {
       acc.push(p);
     }
