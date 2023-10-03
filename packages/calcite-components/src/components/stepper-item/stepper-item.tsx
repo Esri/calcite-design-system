@@ -177,18 +177,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   @Event({ cancelable: false })
   calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false })
-  calciteInternalStepperItemNext: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false })
-  calciteInternalStepperItemPrevious: EventEmitter<void>;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle

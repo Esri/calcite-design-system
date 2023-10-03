@@ -18,7 +18,6 @@ import { NumberingSystem } from "../../utils/locale";
 import { Layout, Position, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
-// import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { StepBar } from "./step-bar";
 import { ITEM_MIN_WIDTH, CSS } from "./resources";
 import { isActivationKey } from "../../utils/key";
@@ -135,7 +134,6 @@ export class Stepper {
             ))}
           </div>
         )}
-
         {this.renderAction("start")}
         {this.renderAction("end")}
         <slot onSlotchange={this.handleDefaultSlotChange} />
@@ -334,7 +332,7 @@ export class Stepper {
     }
 
     const activePosition = this.currentPosition || 0;
-    const totalMinWidthOfItems = totalItems * this.getMinWidthOfItem();
+    const totalMinWidthOfItems = totalItems * this.getMinWidthOfStepperItem();
     const totalRowGap = (totalItems - 1) * (parseInt(window.getComputedStyle(this.el).rowGap) || 0);
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
@@ -428,7 +426,7 @@ export class Stepper {
 
   private handleActionClick(event: MouseEvent, position: Position): void {
     event.stopPropagation();
-    this.emitActionEvents(position);
+    this.getStepFromActions(position);
   }
 
   private handleActionKeyDown(event: KeyboardEvent, position: Position): void {
@@ -436,10 +434,10 @@ export class Stepper {
       return;
     }
     event.stopPropagation();
-    this.emitActionEvents(position);
+    this.getStepFromActions(position);
   }
 
-  private emitActionEvents(position: Position): void {
+  private getStepFromActions(position: Position): void {
     if (position === "start") {
       this.prevStep();
     } else {
@@ -468,13 +466,13 @@ export class Stepper {
   };
 
   setGridTemplateColumns = (items: Element[]): void => {
-    const minWidth = this.getMinWidthOfItem();
+    const minWidth = this.getMinWidthOfStepperItem();
     const spacing = Array(items.length).fill(`minmax(${minWidth}px,1fr)`).join(" ");
     this.el.style.gridTemplateAreas = spacing;
     this.el.style.gridTemplateColumns = spacing;
   };
 
-  getMinWidthOfItem = (): number => {
+  getMinWidthOfStepperItem = (): number => {
     return parseInt(ITEM_MIN_WIDTH[this.scale]);
   };
 }
