@@ -67,14 +67,14 @@
   "scripts": {
     "build": "ts-node --esm support/run.ts",
     "clean": "rimraf dist",
-    "lint:eslint": "eslint --ext .ts,.tsx --fix .",
-    "lint:markdown": "markdownlint --fix --disable MD024 MD013 MD041 MD033",
-    "lint:prettier": "prettier --write .",
-    "lint:staged": "lint-staged",
-    "lint": "npm run lint:eslint && npm run lint:markdown && npm run lint:prettier",
+    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
+    "lint:md": "markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore && prettier --write \"**/*.md\" >/dev/null",
+    "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
+    "lint": "concurrently npm:lint:*",
     "test": "jest"
   },
   "devDependencies": {
+    "concurrently": "^8.2.1",
     "@tokens-studio/sd-transforms": "^0.8.2",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.11",
