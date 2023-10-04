@@ -1,5 +1,5 @@
 import { registerTransforms } from "@tokens-studio/sd-transforms";
-import StyleDictionary from "style-dictionary";
+import { default as StyleDictionary } from "style-dictionary";
 import { formatSCSS } from "./format/scss.js";
 import { formatCSS } from "./format/css.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
