@@ -1,5 +1,5 @@
-import { tokens as mockTokens } from "../../_mocks_/mockStyleDictionaryTokens";
-import * as platformMocks from "../../_mocks_/mockPlatformTokens";
+import { tokens as mockTokens } from "../../../_mocks/mockStyleDictionaryTokens";
+import * as platformMocks from "../../../_mocks/mockPlatformTokens";
 /**
  * Test Setup
  */
