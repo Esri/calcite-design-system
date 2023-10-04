@@ -512,15 +512,16 @@ export class TabNav {
 
     const showEndAction = getActionChevronDirection("end");
     const showStartAction = getActionChevronDirection("start");
+    let action: VNode | VNode[];
 
-    const action =
-      isOverflowingEnd && isOverflowingStart
-        ? [showEndAction, showStartAction]
-        : isOverflowingEnd
-        ? showEndAction
-        : showStartAction;
-
-    console.log("action", action);
+    if (dir === "ltr") {
+      action =
+        isOverflowingEnd && isOverflowingStart
+          ? [showEndAction, showStartAction]
+          : isOverflowingEnd
+          ? showEndAction
+          : showStartAction;
+    }
 
     return (action as VNode) !== null || (action as VNode[]).length > 0 ? action : null;
   }

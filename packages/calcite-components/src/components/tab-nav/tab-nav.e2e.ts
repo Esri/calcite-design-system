@@ -150,7 +150,7 @@ describe("calcite-tab-nav", () => {
       describe("when tabs scale is large", () => {
         it("should render with large scale", async () => {
           const page = await newE2EPage();
-          await page.setContent(html`<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`);
+          await page.setContent(html`<calcite-tabs scale="l">${tabNavHtml}</calcite-tabs>`);
           const element = await page.find("calcite-tab-nav");
           expect(await element.getProperty("scale")).toBe("l");
         });
