@@ -87,12 +87,9 @@
   inline-size: var(--calcite-internal-stepper-action-inline-size);
 }
 
-.action-icon--start {
-  order: -1;
-}
-
-.action-icon-end {
-  order: 100;
+.action-container {
+  @apply absolute flex justify-between;
+  inline-size: 100%;
 }
 
 @include base-component();

@@ -134,8 +134,10 @@ export class Stepper {
             ))}
           </div>
         )}
-        {this.renderAction("start")}
-        {this.renderAction("end")}
+        <div class="action-container">
+          {this.renderAction("start")}
+          {this.renderAction("end")}
+        </div>
         <slot onSlotchange={this.handleDefaultSlotChange} />
       </Host>
     );
@@ -341,7 +343,7 @@ export class Stepper {
       this.el.style.gridTemplateColumns = "none";
       this.singleViewMode = true;
       this.el.style.display = "flex";
-
+      this.el.style.flexDirection = "columns";
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
         if (index !== activePosition) {
           item.style.display = "none";
