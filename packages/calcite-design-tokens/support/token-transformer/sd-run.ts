@@ -1,9 +1,7 @@
 import { registerTransforms } from "@tokens-studio/sd-transforms";
 import StyleDictionary from "style-dictionary";
-import { expandComposites } from "./parse/expandComposites.js";
 import { formatSCSS } from "./format/scss.js";
-import { matchExclusions } from "./utils/regex.js";
-import { matchList } from "./utils/matchList.js";
+import { formatCSS } from "./format/css.js";
 import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
 import { parseName } from "./utils/parseName.js";
@@ -32,12 +30,23 @@ export const run = async (
   // we need to pass "expand: false" so that we can use our own custom JSON file parser.
   // any references to "ts/..." below are references to these Token Studio transformers
   // https://github.com/tokens-studio/sd-transforms
-  await registerTransforms(StyleDictionary, { expand: false });
+  await registerTransforms(StyleDictionary, {
+    expand: {
+      composition: true,
+      typography: false,
+      border: true,
+      shadow: true,
+    }
+  });
 
   // Register custom formatter https://amzn.github.io/style-dictionary/#/formats?id=custom-formats
   StyleDictionary.registerFormat({
     name: "calcite/scss",
     formatter: formatSCSS
+  });
+  StyleDictionary.registerFormat({
+    name: "calcite/css",
+    formatter: formatCSS
   });
 
   // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms
@@ -82,7 +91,7 @@ export const run = async (
         files: [
           {
             destination: `${fileName}.css`,
-            format: "css/variables",
+            format: "calcite/css",
             filter: "filterSource",
             options,
           }
@@ -112,21 +121,7 @@ export const run = async (
           }
         ]
       }
-    },
-    parsers: [
-      {
-        pattern: /\.json$/,
-        parse: (file) => {
-          if (matchList(file.filePath, [...include, ...theme.source, ...theme.enabled], matchExclusions)) {
-            const obj = JSON.parse(file.contents);
-            const expanded = expandComposites(obj, file.filePath);
-            return expanded;
-          }
-
-          return {};
-        }
-      }
-    ]
+    }
   });
 
   try {

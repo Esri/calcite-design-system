@@ -31,9 +31,9 @@ export function formatSCSS(fileInfo: {
     ).toLowerCase();
   return (
     formatHelpers.fileHeader({ file }) +
-    formatHelpers.formattedVariables({ format: "sass", dictionary, outputReferences }) + '\n' + '\n' +
+    formatHelpers.formattedVariables({ format: "sass", dictionary, outputReferences }).split('\n').filter((variable) => !variable.includes('[object Object]')).join('\n') + '\n' + '\n' +
     `@mixin calcite-theme-${themeName}() {\n` +
-      formatHelpers.formattedVariables({ format: "css", dictionary, outputReferences }) +
+      formatHelpers.formattedVariables({ format: "css", dictionary, outputReferences }).split('\n').filter((variable) => !variable.includes('[object Object]')).join('\n') +
     `\n}\n`
   );
 }
