@@ -5,7 +5,14 @@ import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
-  const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
+  const tabNavHtml = html`<calcite-tab-nav></calcite-tab-nav>`;
+  const tabTitles = html`
+    <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+  `;
+  const nestedTabTitles = html`<calcite-tab-nav>${tabTitles}</calcite-tab-nav>`;
 
   describe("accessible: checked", () => {
     accessible(tabNavHtml);
@@ -39,13 +46,6 @@ describe("calcite-tab-nav", () => {
   });
 
   describe("selected indicator", () => {
-    const tabTitles = html`
-      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-    `;
-
     it("has its active indicator positioned from left if LTR", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-tab-nav>${tabTitles}</calcite-tab-nav>`);
@@ -132,8 +132,7 @@ describe("calcite-tab-nav", () => {
     describe("when nested within tabs parent", () => {
       it("should render with default medium scale", async () => {
         const page = await newE2EPage();
-        await page.setContent(html`<calcite-tabs>${tabNavHtml}</calcite-tabs>`);
-
+        await page.setContent(html`<calcite-tabs>${nestedTabTitles}</calcite-tabs>`);
         const element = await page.find("calcite-tab-nav");
         expect(await element.getProperty("scale")).toBe("m");
       });
@@ -141,7 +140,7 @@ describe("calcite-tab-nav", () => {
       describe("when tabs scale is small", () => {
         it("should render with small scale", async () => {
           const page = await newE2EPage();
-          await page.setContent(html`<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`);
+          await page.setContent(html`<calcite-tabs scale="s">${nestedTabTitles}</calcite-tabs>`);
           const element = await page.find("calcite-tab-nav");
           expect(await element.getProperty("scale")).toBe("s");
         });
@@ -150,7 +149,7 @@ describe("calcite-tab-nav", () => {
       describe("when tabs scale is large", () => {
         it("should render with large scale", async () => {
           const page = await newE2EPage();
-          await page.setContent(html`<calcite-tabs scale="l">${tabNavHtml}</calcite-tabs>`);
+          await page.setContent(html`<calcite-tabs scale="l">${nestedTabTitles}</calcite-tabs>`);
           const element = await page.find("calcite-tab-nav");
           expect(await element.getProperty("scale")).toBe("l");
         });
@@ -234,8 +233,11 @@ describe("calcite-tab-nav", () => {
             const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
             const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
 
-            tabNav.scrollLeft = 0;
-            const tabNavWidth = tabNav.getBoundingClientRect().width;
+            let tabNavWidth: number;
+            if (tabNav) {
+              tabNav.scrollLeft = 0;
+              tabNavWidth = tabNav.getBoundingClientRect().width;
+            }
 
             const visibleTabTitles = tabTitles.filter((tabTitle) => {
               const tabTitleRect = tabTitle.getBoundingClientRect();
@@ -255,8 +257,9 @@ describe("calcite-tab-nav", () => {
         it("should show action buttons with correct chevrons for overflow to the start", async () => {
           const isOverflowingStart = await page.evaluate(async () => {
             const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
-
-            tabTitles[5].scrollIntoView();
+            if (tabTitles && tabTitles.length > 5) {
+              tabTitles[5].scrollIntoView();
+            }
             const isOverflowingStart = tabTitles[0].getBoundingClientRect().right <= 0;
 
             return isOverflowingStart;
