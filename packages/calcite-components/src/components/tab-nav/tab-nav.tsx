@@ -483,13 +483,15 @@ export class TabNav {
   private getOverflowIcons(): (VNode | VNode[]) | null {
     const dir = getElementDir(this.el);
     const tabNavWidth = this.el.offsetWidth;
-    const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
+    const tabTitles = Array.from<HTMLCalciteTabTitleElement>(
+      this.el.querySelectorAll("calcite-tab-title")
+    );
 
-    const firstTitle = tabTitles[0].getBoundingClientRect();
-    const lastTitle = tabTitles[tabTitles.length - 1].getBoundingClientRect();
+    const firstTitleRect = tabTitles?.[0]?.getBoundingClientRect();
+    const lastTitleRect = tabTitles?.[tabTitles.length - 1]?.getBoundingClientRect();
 
-    const isOverflowingEnd = dir === "ltr" ? lastTitle.right > tabNavWidth : null;
-    const isOverflowingStart = dir === "ltr" ? firstTitle.left < 0 : null;
+    const isOverflowingEnd = lastTitleRect?.right ?? 0 > tabNavWidth;
+    const isOverflowingStart = firstTitleRect?.left ?? 0 < 0;
 
     const getActionChevronDirection = (overflowDirection: string): VNode => {
       const isEnd = overflowDirection === "end";
