@@ -309,11 +309,6 @@
   @apply border-color-danger-hover;
 }
 
-:host([layout="horizontal"][single-view-mode]) .stepper-item-header {
-  @apply border-none 
-  me-0;
-}
-
 @media (forced-colors: active) {
   :host .container {
     outline-width: 0;
@@ -345,6 +340,9 @@
 }
 
 :host([layout="horizontal"][single-view-mode]) .stepper-item-header {
+  @apply border-none 
+  me-0;
+  inline-size: 100%;
   padding-inline: calc(var(--calcite-internal-stepper-action-inline-size) + 0.5rem);
 }
 

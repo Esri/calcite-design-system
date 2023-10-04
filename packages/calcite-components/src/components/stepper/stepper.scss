@@ -55,7 +55,6 @@
   fill-opacity: 1;
   stroke-opacity: 1;
   block-size: 100%;
-  inline-size: 100%;
 }
 
 .step-bar--active {
@@ -72,6 +71,7 @@
 }
 
 .step-bar {
+  @apply flex;
   block-size: 100%;
 }
 

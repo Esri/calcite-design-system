@@ -22,6 +22,7 @@ export const StepBar: FunctionalComponent<StepBarProps> = ({ isActive, isComplet
         [CSS.stepBarComplete]: isComplete,
         [CSS.stepBarError]: isError,
       }}
+      width="100%"
       x="0"
       y="0"
     />

@@ -12,7 +12,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-
 import { focusElementInGroup, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { NumberingSystem } from "../../utils/locale";
 import { Layout, Position, Scale } from "../interfaces";
@@ -20,7 +19,6 @@ import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./inter
 import { createObserver } from "../../utils/observers";
 import { StepBar } from "./step-bar";
 import { ITEM_MIN_WIDTH, CSS } from "./resources";
-import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -128,7 +126,7 @@ export class Stepper {
             {this.items.map((item, index) => (
               <StepBar
                 isActive={index === this.currentPosition}
-                isComplete={item.complete && index !== this.currentPosition}
+                isComplete={item.complete && index !== this.currentPosition && !item.error}
                 isError={item.error && index !== this.currentPosition}
               />
             ))}
@@ -421,7 +419,6 @@ export class Stepper {
         iconFlipRtl={dir === "rtl"}
         // eslint-disable-next-line react/jsx-no-bind
         onClick={(event) => this.handleActionClick(event, position)}
-        onKeyDown={(event) => this.handleActionKeyDown(event, position)}
         scale={this.scale}
         text={isPositionStart ? "Previous Step" : "Next Step"}
       />
@@ -430,18 +427,6 @@ export class Stepper {
 
   private handleActionClick(event: MouseEvent, position: Position): void {
     event.stopPropagation();
-    this.getStepFromActions(position);
-  }
-
-  private handleActionKeyDown(event: KeyboardEvent, position: Position): void {
-    if (!isActivationKey(event.key)) {
-      return;
-    }
-    event.stopPropagation();
-    this.getStepFromActions(position);
-  }
-
-  private getStepFromActions(position: Position): void {
     if (position === "start") {
       this.prevStep();
     } else {
