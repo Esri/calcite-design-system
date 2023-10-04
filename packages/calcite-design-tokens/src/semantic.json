@@ -1699,24 +1699,26 @@
             }
           }
         },
-        "transparent-hover": {
-          "light": {
-            "value": "{core.color.neutral.blk-240}, {core.opacity.4}",
-            "type": "color"
+        "transparent": {
+          "hover": {
+            "light": {
+              "value": "rgba(0, 0, 0, 0.4)",
+              "type": "color"
+            },
+            "dark": {
+              "value": "rgba(255, 255, 255, 0.4)",
+              "type": "color"
+            }
           },
-          "dark": {
-            "value": "{core.color.neutral.blk-000}, {core.opacity.4}",
-            "type": "color"
-          }
-        },
-        "transparent-press": {
-          "light": {
-            "value": "{core.color.neutral.blk-240}, {core.opacity.8}",
-            "type": "color"
-          },
-          "dark": {
-            "value": "{core.color.neutral.blk-000}, {core.opacity.8}",
-            "type": "color"
+          "press": {
+            "light": {
+              "value": "rgba(0, 0, 0, 0.8)",
+              "type": "color"
+            },
+            "dark": {
+              "value": "rgba(255, 255, 255, 0.8)",
+              "type": "color"
+            }
           }
         },
         "ui-text-highlight": {

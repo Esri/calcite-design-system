@@ -32,14 +32,6 @@
       "value": "{semantic.ui.color.brand.press.light}",
       "type": "color"
     },
-    "button-transparent-hover": {
-      "value": "{semantic.ui.color.transparent-hover.light}",
-      "type": "color"
-    },
-    "button-transparent-press": {
-      "value": "{semantic.ui.color.transparent-press.light}",
-      "type": "color"
-    },
     "component": {
       "accordion-item": {
         "font": {
@@ -184,6 +176,14 @@
           "red": {
             "value": "{alert.highlight.red.light}",
             "type": "color"
+          }
+        },
+        "dismiss": {
+          "progress": {
+            "background": {
+              "value": "rgba(255, 255, 255, 0.8)",
+              "type": "color"
+            }
           }
         }
       },
@@ -455,6 +455,16 @@
             "outline-fill": {
               "value": "{button.background.brand.outline-fill.light}",
               "type": "color"
+            },
+            "transparent": {
+              "hover": {
+                "value": "{semantic.ui.color.transparent.hover.light}",
+                "type": "color"
+              },
+              "press": {
+                "value": "{semantic.ui.color.transparent.press.light}",
+                "type": "color"
+              }
             }
           },
           "inverse": {
