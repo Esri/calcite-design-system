@@ -2,8 +2,14 @@
   "tab-title": {
     "font": {
       "default": {
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       },
       "sm": {
         "value": "{semantic.font.default.regular.-2h}",
@@ -18,37 +24,59 @@
         "type": "typography"
       },
       "active": {
-        "value": "{ui.text.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
+          "type": "color"
+        }
       }
     },
     "icon": {
       "default": {
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       },
       "active": {
-        "value": "{ui.text.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
+          "type": "color"
+        }
       }
     },
     "bordered": {
       "border": {
-        "value": "{ui.border.3}",
-        "type": "color"
-      },
-      "background": {
-        "default": {
-          "value": "{ui.component.tab-title.bordered.background}",
-          "type": "color"
-        },
         "light": {
-          "value": "{semantic.ui.color.foreground.1.light}",
+          "value": "{semantic.ui.color.border.3.light}",
           "type": "color"
         },
         "dark": {
-          "value": "{semantic.ui.color.background.dark}",
+          "value": "{semantic.ui.color.border.3.dark}",
           "type": "color"
+        }
+      },
+      "background": {
+        "default": {
+          "light": {
+            "value": "{semantic.ui.color.foreground.1.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.background.dark}",
+            "type": "color"
+          }
         }
       },
       "space-around": {
@@ -186,8 +214,14 @@
     },
     "border": {
       "active": {
-        "value": "{ui.brand.default}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.brand.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.brand.default.dark}",
+          "type": "color"
+        }
       }
     }
   }

@@ -34,8 +34,8 @@ export const run = async (
     expand: {
       composition: true,
       typography: false,
-      border: true,
-      shadow: true,
+      border: false,
+      shadow: false,
     }
   });
 

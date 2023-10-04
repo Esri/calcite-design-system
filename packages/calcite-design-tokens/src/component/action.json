@@ -14,32 +14,68 @@
         "type": "typography"
       },
       "default": {
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       },
       "active": {
-        "value": "{ui.text.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
+          "type": "color"
+        }
       }
     },
     "icon": {
       "default": {
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       },
       "active": {
-        "value": "{ui.text.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
+          "type": "color"
+        }
       }
     },
     "background": {
       "default": {
-        "value": "{ui.foreground.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.foreground.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.foreground.1.dark}",
+          "type": "color"
+        }
       },
       "active": {
-        "value": "{ui.foreground.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.foreground.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.foreground.3.dark}",
+          "type": "color"
+        }
       }
     },
     "icon-size": {
@@ -99,12 +135,24 @@
       }
     },
     "indicator": {
-      "value": "{ui.brand.default}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.brand.default.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.brand.default.dark}",
+        "type": "color"
+      }
     },
     "loader-icon": {
-      "value": "{ui.text.3}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.text.3.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.3.dark}",
+        "type": "color"
+      }
     }
   }
 }

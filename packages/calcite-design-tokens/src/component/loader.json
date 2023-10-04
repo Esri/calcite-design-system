@@ -1,8 +1,12 @@
 {
   "loader": {
     "font": {
-      "default": {
-        "value": "{ui.text.1}",
+      "light": {
+        "value": "{semantic.ui.color.text.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.1.dark}",
         "type": "color"
       },
       "text": {
@@ -46,8 +50,14 @@
         }
       },
       "foreground": {
-        "value": "{ui.brand.default}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.brand.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.brand.default.dark}",
+          "type": "color"
+        }
       }
     },
     "inline": {
@@ -95,12 +105,24 @@
       },
       "foreground": {
         "indeterminate": {
-          "type": "color",
-          "value": "{ui.text.1}"
+          "light": {
+            "value": "{semantic.ui.color.text.1.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.1.dark}",
+            "type": "color"
+          }
         },
         "determinate": {
-          "type": "color",
-          "value": "{ui.brand.default}"
+          "light": {
+            "value": "{semantic.ui.color.brand.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.brand.default.dark}",
+            "type": "color"
+          }
         }
       }
     }

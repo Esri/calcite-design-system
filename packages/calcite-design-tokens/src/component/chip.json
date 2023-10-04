@@ -2,8 +2,14 @@
   "chip": {
     "font": {
       "clear": {
-        "value": "{ui.text.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
+          "type": "color"
+        }
       },
       "sm": {
         "value": "{semantic.font.default.medium.-2h}",
@@ -19,22 +25,36 @@
       },
       "solid": {
         "grey": {
-          "type": "color",
-          "value": "{ui.text.1}"
-        },
-        "blue": {
-          "type": "color",
-          "value": "{ui.inverse.default}"
-        },
-        "red": {
-          "type": "color",
-          "value": "{ui.inverse.default}"
-        },
-        "yellow": {
-          "default": {
-            "value": "{ui.component.chip.font.solid.yellow}",
+          "light": {
+            "value": "{semantic.ui.color.text.1.light}",
             "type": "color"
           },
+          "dark": {
+            "value": "{semantic.ui.color.text.1.dark}",
+            "type": "color"
+          }
+        },
+        "blue": {
+          "light": {
+            "value": "{semantic.ui.color.text.inverse.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.inverse.dark}",
+            "type": "color"
+          }
+        },
+        "red": {
+          "light": {
+            "value": "{semantic.ui.color.text.inverse.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.inverse.dark}",
+            "type": "color"
+          }
+        },
+        "yellow": {
           "light": {
             "value": "{semantic.ui.color.text.1.light}",
             "type": "color"
@@ -45,10 +65,6 @@
           }
         },
         "green": {
-          "default": {
-            "value": "{ui.component.chip.font.solid.green}",
-            "type": "color"
-          },
           "light": {
             "value": "{semantic.ui.color.text.1.light}",
             "type": "color"
@@ -63,22 +79,36 @@
     "icon": {
       "solid": {
         "grey": {
-          "type": "color",
-          "value": "{ui.text.1}"
-        },
-        "blue": {
-          "type": "color",
-          "value": "{ui.inverse.default}"
-        },
-        "red": {
-          "type": "color",
-          "value": "{ui.inverse.default}"
-        },
-        "yellow": {
-          "default": {
-            "value": "{ui.component.chip.icon.solid.yellow}",
+          "light": {
+            "value": "{semantic.ui.color.text.1.light}",
             "type": "color"
           },
+          "dark": {
+            "value": "{semantic.ui.color.text.1.dark}",
+            "type": "color"
+          }
+        },
+        "blue": {
+          "light": {
+            "value": "{semantic.ui.color.text.inverse.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.inverse.dark}",
+            "type": "color"
+          }
+        },
+        "red": {
+          "light": {
+            "value": "{semantic.ui.color.text.inverse.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.inverse.dark}",
+            "type": "color"
+          }
+        },
+        "yellow": {
           "light": {
             "value": "{semantic.ui.color.text.1.light}",
             "type": "color"
@@ -89,10 +119,6 @@
           }
         },
         "green": {
-          "default": {
-            "value": "{ui.component.chip.icon.solid.green}",
-            "type": "color"
-          },
           "light": {
             "value": "{semantic.ui.color.text.1.light}",
             "type": "color"
@@ -104,8 +130,14 @@
         }
       },
       "clear": {
-        "value": "{ui.text.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
+          "type": "color"
+        }
       },
       "space-around": {
         "right": {
@@ -141,24 +173,54 @@
     "background": {
       "solid": {
         "grey": {
-          "value": "{ui.foreground.2}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.foreground.2.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.foreground.2.dark}",
+            "type": "color"
+          }
         },
         "red": {
-          "type": "color",
-          "value": "{ui.danger.default}"
+          "light": {
+            "value": "{semantic.ui.color.danger.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.danger.default.dark}",
+            "type": "color"
+          }
         },
         "blue": {
-          "value": "{ui.info}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.info.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.info.default.dark}",
+            "type": "color"
+          }
         },
         "green": {
-          "value": "{ui.success}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.success.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.success.default.dark}",
+            "type": "color"
+          }
         },
         "yellow": {
-          "value": "{ui.warning}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.warning.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.warning.default.dark}",
+            "type": "color"
+          }
         }
       }
     },
@@ -191,8 +253,12 @@
       }
     },
     "closable-icon": {
-      "default": {
-        "value": "{ui.text.3}",
+      "light": {
+        "value": "{semantic.ui.color.text.3.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.3.dark}",
         "type": "color"
       },
       "space-around": {
@@ -213,24 +279,54 @@
     "border": {
       "clear": {
         "grey": {
-          "value": "{ui.border.1}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.border.1.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.border.1.dark}",
+            "type": "color"
+          }
         },
         "red": {
-          "type": "color",
-          "value": "{ui.danger.default}"
+          "light": {
+            "value": "{semantic.ui.color.danger.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.danger.default.dark}",
+            "type": "color"
+          }
         },
         "blue": {
-          "value": "{ui.info}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.info.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.info.default.dark}",
+            "type": "color"
+          }
         },
         "green": {
-          "value": "{ui.success}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.success.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.success.default.dark}",
+            "type": "color"
+          }
         },
         "yellow": {
-          "value": "{ui.warning}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.warning.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.warning.default.dark}",
+            "type": "color"
+          }
         }
       }
     },

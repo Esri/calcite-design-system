@@ -2,8 +2,12 @@
   "block": {
     "font": {
       "heading": {
-        "default": {
-          "value": "{ui.text.2}",
+        "light": {
+          "value": "{semantic.ui.color.text.2.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.2.dark}",
           "type": "color"
         },
         "md": {
@@ -12,8 +16,12 @@
         }
       },
       "description": {
-        "default": {
-          "value": "{ui.text.3}",
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
           "type": "color"
         },
         "md": {
@@ -22,8 +30,12 @@
         }
       },
       "content": {
-        "default": {
-          "value": "{ui.text.2}",
+        "light": {
+          "value": "{semantic.ui.color.text.2.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.2.dark}",
           "type": "color"
         },
         "md": {
@@ -34,33 +46,75 @@
     },
     "icon": {
       "idle": {
-        "value": "{ui.text.2}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.2.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.2.dark}",
+          "type": "color"
+        }
       },
       "valid": {
-        "value": "{ui.success}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.success.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.success.default.dark}",
+          "type": "color"
+        }
       },
       "invalid": {
-        "value": "{ui.danger.default}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.danger.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.danger.default.dark}",
+          "type": "color"
+        }
       },
       "drag-handle": {
-        "value": "{ui.border.input}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.border.input.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.border.input.dark}",
+          "type": "color"
+        }
       },
       "chevron": {
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       }
     },
     "border": {
-      "value": "{ui.border.3}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.border.3.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.border.3.dark}",
+        "type": "color"
+      }
     },
     "background": {
-      "value": "{ui.background}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.foreground.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.background.dark}",
+        "type": "color"
+      }
     },
     "border-radius": {
       "md": {

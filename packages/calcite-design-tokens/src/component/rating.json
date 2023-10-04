@@ -19,89 +19,71 @@
         "value": "{semantic.border.border-radius.pill}",
         "type": "borderRadius"
       },
-      "value-text": {
-        "default": {
-          "value": "{ui.text.1}",
-          "type": "color"
-        },
+      "text": {
         "font": {
-          "font-family": {
-            "value": "{core.font.font-family.primary}",
-            "type": "fontFamilies"
+          "sm": {
+            "value": "{core.font.font-size.1}",
+            "type": "fontSizes"
           },
-          "font-weight": {
-            "value": "{core.font.font-weight.demi}",
-            "type": "fontWeights"
+          "md": {
+            "value": "{core.font.font-size.2}",
+            "type": "fontSizes"
           },
-          "line-height": {
-            "value": "{core.font.line-height.fixed.1}",
-            "type": "lineHeights"
+          "lg": {
+            "value": "{core.font.font-size.3}",
+            "type": "fontSizes"
           },
-          "font-size": {
-            "sm": {
-              "value": "{core.font.font-size.1}",
-              "type": "fontSizes"
-            },
-            "md": {
-              "value": "{core.font.font-size.2}",
-              "type": "fontSizes"
-            },
-            "lg": {
-              "value": "{core.font.font-size.3}",
-              "type": "fontSizes"
-            }
+          "light": {
+            "value": "{semantic.ui.color.text.2.light}",
+            "type": "color"
           },
-          "letter-spacing": {
-            "value": "{core.font.letter-spacing.normal}",
-            "type": "letterSpacing"
-          },
-          "paragraph-spacing": {
-            "type": "paragraphSpacing",
-            "value": "{core.font.paragraph-spacing.normal}"
-          },
-          "text-decoration": {
-            "type": "textDecoration",
-            "value": "{core.font.text-decoration.none}"
-          },
-          "text-case": {
-            "type": "textCase",
-            "value": "{core.font.text-case.none}"
+          "dark": {
+            "value": "{semantic.ui.color.text.2.dark}",
+            "type": "color"
           }
         }
       },
       "count": {
         "font": {
-          "font-style": {
-            "value": "{core.font.font-style.emphasis}",
-            "type": "fontStyles"
+          "sm": {
+            "value": "{core.font.font-size.1}",
+            "type": "fontSizes"
+          },
+          "md": {
+            "value": "{core.font.font-size.2}",
+            "type": "fontSizes"
+          },
+          "lg": {
+            "value": "{core.font.font-size.3}",
+            "type": "fontSizes"
           },
           "font-weight": {
             "value": "{core.font.font-weight.medium}",
             "type": "fontWeights"
           },
-          "font-size": {
-            "sm": {
-              "value": "{core.font.font-size.1}",
-              "type": "fontSizes"
-            },
-            "md": {
-              "value": "{core.font.font-size.2}",
-              "type": "fontSizes"
-            },
-            "lg": {
-              "value": "{core.font.font-size.3}",
-              "type": "fontSizes"
-            }
+          "font-style": {
+            "value": "{core.font.font-style.emphasis}",
+            "type": "fontStyles"
+          },
+          "light": {
+            "value": "{semantic.ui.color.text.2.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.2.dark}",
+            "type": "color"
           }
-        },
-        "default": {
-          "type": "color",
-          "value": "{ui.text.2}"
         }
       },
       "foreground": {
-        "value": "{ui.foreground.2}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.foreground.2.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.foreground.2.dark}",
+          "type": "color"
+        }
       }
     },
     "star": {
@@ -121,17 +103,34 @@
       },
       "background": {
         "default": {
-          "value": "{ui.border.input}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.border.input.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.border.input.dark}",
+            "type": "color"
+          }
         },
         "active": {
-          "value": "{ui.brand.default}",
-          "type": "color"
-          
+          "light": {
+            "value": "{semantic.ui.color.brand.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.brand.default.dark}",
+            "type": "color"
+          }
         },
         "average": {
-          "value": "{ui.warning}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.warning.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.warning.default.dark}",
+            "type": "color"
+          }
         }
       }
     },

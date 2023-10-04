@@ -3,22 +3,46 @@
     "font": {
       "solid": {
         "default": {
-          "value": "{ui.text.3}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.text.3.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.3.dark}",
+            "type": "color"
+          }
         },
         "checked": {
-          "value": "{ui.background}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.background.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.background.dark}",
+            "type": "color"
+          }
         }
       },
       "outline": {
         "default": {
-          "value": "{ui.text.3}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.text.3.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.3.dark}",
+            "type": "color"
+          }
         },
         "checked": {
-          "value": "{ui.brand.default}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.brand.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.brand.default.dark}",
+            "type": "color"
+          }
         }
       },
       "sm": {
@@ -37,38 +61,74 @@
     "icon": {
       "solid": {
         "default": {
-          "value": "{ui.text.3}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.text.3.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.3.dark}",
+            "type": "color"
+          }
         },
         "checked": {
-          "value": "{ui.foreground.1}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.foreground.1.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.foreground.1.dark}",
+            "type": "color"
+          }
         }
       },
       "outline": {
         "checked": {
-          "value": "{ui.brand.default}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.brand.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.brand.default.dark}",
+            "type": "color"
+          }
         },
         "default": {
-          "value": "{ui.text.3}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.text.3.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.text.3.dark}",
+            "type": "color"
+          }
         }
       }
     },
     "border": {
       "outline": {
         "checked": {
-          "value": "{ui.brand.default}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.brand.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.brand.default.dark}",
+            "type": "color"
+          }
         }
       }
     },
     "background": {
       "solid": {
         "checked": {
-          "value": "{ui.brand.default}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.brand.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.brand.default.dark}",
+            "type": "color"
+          }
         }
       }
     },

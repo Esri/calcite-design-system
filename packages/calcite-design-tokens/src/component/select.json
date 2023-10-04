@@ -13,18 +13,34 @@
         "value": "{semantic.font.default.regular.0h}",
         "type": "typography"
       },
-      "default": {
-        "value": "{ui.text.2}",
+      "light": {
+        "value": "{semantic.ui.color.text.2.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.2.dark}",
         "type": "color"
       }
     },
     "icon": {
-      "value": "{ui.text.3}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.text.3.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.3.dark}",
+        "type": "color"
+      }
     },
     "border": {
-      "value": "{ui.border.input}",
-      "type": "color",
+      "light": {
+        "value": "{semantic.ui.color.border.input.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.border.input.dark}",
+        "type": "color"
+      },
       "sm": {
         "value": "{core.border.border-width.0}",
         "type": "borderWidth"
@@ -39,8 +55,14 @@
       }
     },
     "background": {
-      "value": "{ui.foreground.1}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.foreground.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.foreground.1.dark}",
+        "type": "color"
+      }
     },
     "icon-size": {
       "sm": {

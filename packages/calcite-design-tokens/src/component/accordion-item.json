@@ -2,8 +2,12 @@
   "accordion-item": {
     "font": {
       "heading": {
-        "default": {
-          "value": "{ui.text.1}",
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
           "type": "color"
         },
         "sm": {
@@ -20,10 +24,16 @@
         }
       },
       "description": {
-        "default": {
-          "value": "{ui.text.3}",
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
           "type": "color"
         },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
+      },
+      "descrition": {
         "sm": {
           "value": "{semantic.font.default.regular.-2h}",
           "type": "typography"
@@ -40,18 +50,36 @@
     },
     "icon": {
       "default": {
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       },
       "expanded": {
-        "value": "{ui.text.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
+          "type": "color"
+        }
       }
     },
     "background": {
       "default": {
-        "value": "{ui.foreground.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.foreground.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.foreground.1.dark}",
+          "type": "color"
+        }
       }
     },
     "icon-size": {
@@ -135,8 +163,14 @@
       "type": "borderWidth"
     },
     "border": {
-      "value": "{ui.border.2}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.border.2.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.border.2.dark}",
+        "type": "color"
+      }
     }
   }
 }

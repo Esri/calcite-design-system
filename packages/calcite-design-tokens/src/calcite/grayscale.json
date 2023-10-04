@@ -1,7 +1,7 @@
 {
   "color": {
     "blk-000": {
-      "value": "{core.color.neutral.blk-000.default}",
+      "value": "{core.color.neutral.blk-000}",
       "type": "color"
     },
     "blk-005": {
@@ -105,7 +105,7 @@
       "type": "color"
     },
     "blk-240": {
-      "value": "{core.color.neutral.blk-240.default}",
+      "value": "{core.color.neutral.blk-240}",
       "type": "color"
     }
   }
