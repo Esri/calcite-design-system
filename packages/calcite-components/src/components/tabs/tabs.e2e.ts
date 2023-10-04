@@ -259,6 +259,9 @@ describe("calcite-tabs", () => {
 
         const wrapper = document.querySelector(wrapperName);
         wrapper.shadowRoot.querySelector<HTMLElement>("#title-2").click();
+
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
@@ -268,6 +271,7 @@ describe("calcite-tabs", () => {
       },
       [wrappedTabTemplateHTML]
     );
+
     expect(finalSelectedItem.tabTitle).toBe("title-2");
     expect(finalSelectedItem.tab).toBe("tab-2");
   });

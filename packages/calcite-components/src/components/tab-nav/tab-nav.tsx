@@ -505,7 +505,7 @@ export class TabNav {
           icon={dirChevronIcon}
           onClick={() => dirScroll()}
           scale={this.scale}
-          text="" // add this line to fix the error
+          text="Placeholder"
         />
       );
     };
