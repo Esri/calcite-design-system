@@ -38,29 +38,6 @@
   "author": {
     "name": "Esri"
   },
-  "contributors": [
-    {
-      "name": "Ali Stump",
-      "email": "astump@esri.com"
-    },
-    {
-      "name": "Erik Harper-Dicianno",
-      "email": "eharperdicianno@esri.com"
-    },
-    {
-      "name": "Bruno Aires",
-      "email": "baires@esri.com"
-    },
-    {
-      "name": "Jacques Keet",
-      "email": "jkeet@esri.com"
-    },
-    {
-      "name": "Manuela Costa",
-      "email": "mcosta@esri.com"
-    }
-  ],
-  "license": "SEE LICENSE IN README.md",
   "bugs": {
     "url": "https://github.com/Esri/calcite-design-tokens/issues"
   },
