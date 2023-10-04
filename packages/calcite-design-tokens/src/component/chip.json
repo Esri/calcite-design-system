@@ -104,7 +104,7 @@
         }
       },
       "clear": {
-        "value": "$ui.text.1",
+        "value": "{ui.text.1}",
         "type": "color"
       },
       "space-around": {
