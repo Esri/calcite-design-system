@@ -792,14 +792,13 @@ export class Combobox
   private refreshDisplayMode = () => {
     if (this.textInput && !isSingleLike(this.selectionMode) && this.displayMode === "fit-to-line") {
       const chipEls = this.el.shadowRoot.querySelectorAll(`calcite-chip`);
-      const computedInputStyle = getComputedStyle(this.textInput);
-      const placeholderTextWidth = getTextWidth(
-        this.placeholder,
-        `${computedInputStyle.fontSize} ${computedInputStyle.fontFamily}`
-      );
+      const { fontSize, fontFamily } = getComputedStyle(this.textInput);
+      const placeholderTextWidth = getTextWidth(this.placeholder, `${fontSize} ${fontFamily}`);
       const inputContainerElWidth = getElementWidth(this.inputContainerEl);
       const selectedIndicatorChipElWidth = getElementWidth(this.selectedIndicatorChipEl);
-      let availableHorizontalChipElSpace = Math.round(inputContainerElWidth - placeholderTextWidth);
+      let availableHorizontalChipElSpace = Math.round(
+        inputContainerElWidth - (placeholderTextWidth + selectedIndicatorChipElWidth)
+      );
 
       chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
         if (chipEl === this.selectedIndicatorChipEl) {
@@ -809,27 +808,32 @@ export class Combobox
           const chipElWidth = getElementWidth(chipEl);
           if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
             availableHorizontalChipElSpace -= chipElWidth;
-            this.selectedIndicatorChipEl.style.position = "absolute";
-            this.selectedIndicatorChipEl.style.visibility = "hidden";
             chipEl.style.position = "static";
             chipEl.style.visibility = "visible";
           } else {
             chipEl.style.position = "absolute";
             chipEl.style.visibility = "hidden";
-            if (
-              selectedIndicatorChipElWidth &&
-              selectedIndicatorChipElWidth < availableHorizontalChipElSpace
-            ) {
-              availableHorizontalChipElSpace -= selectedIndicatorChipElWidth;
-              this.selectedIndicatorChipEl.style.position = "static";
-              this.selectedIndicatorChipEl.style.visibility = "visible";
-            }
           }
         } else {
           chipEl.style.position = "absolute";
           chipEl.style.visibility = "hidden";
         }
+
+        // The browser for some reason sets display to "none" when its visibility is directly changed.
+        // This ensures we can always get the width in pixels instead of "auto".
+        chipEl.style.display = "inline-block";
       });
+
+      const hasHiddenSelectedChips = Array.from(chipEls).some(
+        (chipEl) => chipEl.selected && chipEl.style.visibility === "hidden"
+      );
+      if (hasHiddenSelectedChips) {
+        this.selectedIndicatorChipEl.style.position = "static";
+        this.selectedIndicatorChipEl.style.visibility = "visible";
+      } else {
+        this.selectedIndicatorChipEl.style.position = "absolute";
+        this.selectedIndicatorChipEl.style.visibility = "hidden";
+      }
     }
   };
 
