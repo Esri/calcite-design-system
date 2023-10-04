@@ -28,6 +28,7 @@ export const run = async (
 
   // Here we are registering the Transforms provided by Token Studio
   // https://github.com/tokens-studio/sd-transforms
+  // @ts-expect-error - @token-studio does not keep their types up to date.
   await registerTransforms(StyleDictionary, {
     expand: {
       composition: true,
