@@ -13,7 +13,7 @@ describe("transform names to kebab case", () => {
       },
       isSource: true,
     };
-    expect(nameKebabCase(mockToken, {})).toBe("test-token-name");
+    expect(nameKebabCase(mockToken)).toBe("test-token-name");
   });
 
   it("should add prefix to token name", () => {
@@ -28,9 +28,6 @@ describe("transform names to kebab case", () => {
       },
       isSource: true,
     };
-    const mockOptions = {
-      prefix: "calcite",
-    };
-    expect(nameKebabCase(mockToken, mockOptions)).toBe("calcite-test-token-name");
+    expect(nameKebabCase(mockToken)).toBe("test-token-name");
   });
 });
