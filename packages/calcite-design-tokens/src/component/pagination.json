@@ -1,8 +1,12 @@
 {
   "pagination": {
     "font": {
-      "default": {
-        "value": "{ui.text.3}",
+      "light": {
+        "value": "{semantic.ui.color.text.3.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.3.dark}",
         "type": "color"
       },
       "sm": {
@@ -19,22 +23,46 @@
       }
     },
     "icon": {
-      "value": "{ui.text.3}",
-      "type": "color"
-    },
-    "border": {
-      "value": "{ui.border.1}",
-      "type": "color"
-    },
-    "background": {
-      "default": {
-        "value": "{ui.background}",
+      "light": {
+        "value": "{semantic.ui.color.text.3.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.3.dark}",
         "type": "color"
       }
     },
+    "border": {
+      "light": {
+        "value": "{semantic.ui.color.border.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.border.1.dark}",
+        "type": "color"
+      }
+    },
+    "background": {
+      "default": {
+        "light": {
+          "value": "{semantic.ui.color.background.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.background.dark}",
+          "type": "color"
+        }
+      }
+    },
     "foreground": {
-      "value": "{ui.foreground.2}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.foreground.2.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.foreground.2.dark}",
+        "type": "color"
+      }
     },
     "border-radius": {
       "sm": {

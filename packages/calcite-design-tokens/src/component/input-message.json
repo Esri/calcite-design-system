@@ -1,8 +1,12 @@
 {
   "input-message": {
     "font": {
-      "default": {
-        "value": "{ui.text.1}",
+      "light": {
+        "value": "{semantic.ui.color.text.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.1.dark}",
         "type": "color"
       },
       "sm": {
@@ -20,16 +24,34 @@
     },
     "icon": {
       "idle": {
-        "value": "{ui.brand.default}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.brand.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.brand.default.dark}",
+          "type": "color"
+        }
       },
       "invalid": {
-        "value": "{ui.danger.default}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.danger.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.danger.default.dark}",
+          "type": "color"
+        }
       },
       "valid": {
-        "value": "{ui.success}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.success.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.success.default.dark}",
+          "type": "color"
+        }
       }
     },
     "icon-size": {

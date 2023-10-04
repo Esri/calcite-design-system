@@ -1,10 +1,6 @@
 {
   "label": {
     "font": {
-      "default": {
-        "value": "{ui.text.1}",
-        "type": "color"
-      },
       "sm": {
         "value": "{semantic.font.default.regular.-2h}",
         "type": "typography"
@@ -16,6 +12,14 @@
       "lg": {
         "value": "{semantic.font.default.regular.0h}",
         "type": "typography"
+      },
+      "light": {
+        "value": "{semantic.ui.color.text.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.1.dark}",
+        "type": "color"
       }
     }
   }

@@ -2,12 +2,24 @@
   "switch": {
     "background": {
       "default": {
-        "value": "{ui.foreground.2}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.foreground.2.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.foreground.2.dark}",
+          "type": "color"
+        }
       },
       "checked": {
-        "value": "{ui.brand.default}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.brand.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.brand.default.dark}",
+          "type": "color"
+        }
       }
     },
     "border-radius": {
@@ -54,33 +66,69 @@
     },
     "border": {
       "default": {
-        "value": "{ui.border.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.border.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.border.1.dark}",
+          "type": "color"
+        }
       },
       "checked": {
-        "value": "{ui.brand.hover}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.brand.hover.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.brand.hover.dark}",
+          "type": "color"
+        }
       }
     },
     "handle": {
       "background": {
         "default": {
-          "type": "color",
-          "value": "{ui.foreground.1}"
+          "light": {
+            "value": "{semantic.ui.color.foreground.1.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.foreground.1.dark}",
+            "type": "color"
+          }
         },
         "checked": {
-          "type": "color",
-          "value": "{ui.foreground.1}"
+          "light": {
+            "value": "{semantic.ui.color.foreground.1.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.foreground.1.dark}",
+            "type": "color"
+          }
         }
       },
       "border": {
         "default": {
-          "value": "{ui.border.input}",
-          "type": "color"
+          "light": {
+            "value": "{semantic.ui.color.border.input.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.border.input.dark}",
+            "type": "color"
+          }
         },
         "checked": {
-          "type": "color",
-          "value": "{ui.brand.default}"
+          "light": {
+            "value": "{semantic.ui.color.brand.default.light}",
+            "type": "color"
+          },
+          "dark": {
+            "value": "{semantic.ui.color.brand.default.dark}",
+            "type": "color"
+          }
         }
       },
       "border-radius": {

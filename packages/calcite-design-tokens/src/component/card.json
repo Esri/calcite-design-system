@@ -2,8 +2,12 @@
   "card": {
     "font": {
       "title": {
-        "default": {
-          "value": "{ui.text.1}",
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
           "type": "color"
         },
         "md": {
@@ -22,28 +26,58 @@
           "value": "{semantic.font.default.regular.-2h}",
           "type": "typography"
         },
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       },
       "subtitle": {
-        "value": "{ui.text.2}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.2.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.2.dark}",
+          "type": "color"
+        }
       }
     },
     "border": {
       "default": {
-        "value": "{ui.border.2}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.border.2.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.border.2.dark}",
+          "type": "color"
+        }
       },
       "active": {
-        "value": "{ui.brand.default}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.brand.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.brand.default.dark}",
+          "type": "color"
+        }
       }
     },
     "background": {
       "default": {
-        "value": "{ui.foreground.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.foreground.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.foreground.1.dark}",
+          "type": "color"
+        }
       }
     },
     "space-around": {

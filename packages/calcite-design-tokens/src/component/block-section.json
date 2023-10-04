@@ -1,8 +1,12 @@
 {
   "block-section": {
     "font": {
-      "default": {
-        "value": "{ui.text.2}",
+      "light": {
+        "value": "{semantic.ui.color.text.2.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.2.dark}",
         "type": "color"
       },
       "md": {
@@ -12,21 +16,45 @@
     },
     "icon": {
       "valid": {
-        "value": "{ui.success}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.success.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.success.default.dark}",
+          "type": "color"
+        }
       },
       "invalid": {
-        "value": "{ui.danger.default}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.danger.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.danger.default.dark}",
+          "type": "color"
+        }
       },
       "chevron": {
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       }
     },
     "background": {
-      "value": "{ui.background}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.foreground.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.background.dark}",
+        "type": "color"
+      }
     },
     "border-radius": {
       "md": {

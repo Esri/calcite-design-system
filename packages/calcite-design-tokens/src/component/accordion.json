@@ -1,27 +1,57 @@
 {
   "accordion": {
     "heading": {
-      "value": "{ui.text.1}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.text.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.1.dark}",
+        "type": "color"
+      }
     },
     "description": {
-      "value": "{ui.text.3}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.text.3.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.3.dark}",
+        "type": "color"
+      }
     },
     "icon": {
       "default": {
-        "value": "{ui.text.3}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.3.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
       },
       "expanded": {
-        "value": "{ui.text.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
+          "type": "color"
+        }
       }
     },
     "background": {
       "default": {
-        "value": "{ui.foreground.1}",
-        "type": "color"
+        "light": {
+          "value": "{semantic.ui.color.foreground.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.foreground.1.dark}",
+          "type": "color"
+        }
       }
     },
     "default": {
@@ -149,8 +179,14 @@
       }
     },
     "border": {
-      "value": "{ui.border.2}",
-      "type": "color"
+      "light": {
+        "value": "{semantic.ui.color.border.2.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.border.2.dark}",
+        "type": "color"
+      }
     }
   }
 }
