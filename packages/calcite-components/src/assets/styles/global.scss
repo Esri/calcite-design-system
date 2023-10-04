@@ -1,6 +1,6 @@
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-light";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-dark";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-headless";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/light";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/dark";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/headless";
 @import "../../node_modules/@esri/calcite-base/dist/_index";
 
 /* CSS vars (@include in global) */
@@ -46,7 +46,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --calcite-popover-z-index: var(--calcite-app-z-index-popup);
+  --calcite-popover-z-index: var(--calcite-core-z-index-popup);
   --calcite-border-radius: var(--calcite-semantic-border-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-panel-width-multiplier: 1;

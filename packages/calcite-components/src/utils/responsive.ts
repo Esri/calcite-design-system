@@ -31,10 +31,10 @@ export async function getBreakpoints(): Promise<Breakpoints> {
 
       resolve({
         width: {
-          large: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-lg"),
-          medium: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-md"),
-          small: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-sm"),
-          xsmall: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-xs"),
+          large: breakpointTokenToNumericalValue(rootStyles, "--calcite-core-breakpoint-width-lg"),
+          medium: breakpointTokenToNumericalValue(rootStyles, "--calcite-core-breakpoint-width-md"),
+          small: breakpointTokenToNumericalValue(rootStyles, "--calcite-core-breakpoint-width-sm"),
+          xsmall: breakpointTokenToNumericalValue(rootStyles, "--calcite-core-breakpoint-width-xs"),
         },
       });
     });
