@@ -49,27 +49,5 @@
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "lint": "concurrently npm:lint:*",
     "test": "jest"
-  },
-  "devDependencies": {
-    "@tokens-studio/sd-transforms": "0.8.7",
-    "@types/jest": "29.5.5",
-    "@types/node": "18.18.3",
-    "@typescript-eslint/eslint-plugin": "5.62.0",
-    "change-case": "4.1.2",
-    "concurrently": "8.2.1",
-    "eslint": "8.50.0",
-    "eslint-config-prettier": "8.10.0",
-    "eslint-plugin-jest": "27.4.2",
-    "eslint-plugin-jsdoc": "43.2.0",
-    "eslint-plugin-prettier": "4.2.1",
-    "eslint-plugin-unicorn": "46.0.1",
-    "jest": "29.7.0",
-    "markdownlint-cli": "0.34.0",
-    "prettier": "2.8.8",
-    "rimraf": "5.0.5",
-    "style-dictionary": "3.8.0",
-    "ts-jest": "29.1.1",
-    "ts-node": "10.9.1",
-    "typescript": "5.2.2"
   }
 }

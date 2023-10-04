@@ -30,6 +30,7 @@ export const run = async (
   // we need to pass "expand: false" so that we can use our own custom JSON file parser.
   // any references to "ts/..." below are references to these Token Studio transformers
   // https://github.com/tokens-studio/sd-transforms
+  // @ts-expect-error - @token-studio does not keep their types up to date.
   await registerTransforms(StyleDictionary, {
     expand: {
       composition: true,
