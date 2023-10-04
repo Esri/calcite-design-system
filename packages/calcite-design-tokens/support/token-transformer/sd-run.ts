@@ -1,5 +1,5 @@
 import { registerTransforms } from "@tokens-studio/sd-transforms";
-import StyleDictionary from "style-dictionary";
+import { default as StyleDictionary } from "style-dictionary";
 import { formatSCSS } from "./format/scss.js";
 import { formatCSS } from "./format/css.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
@@ -8,6 +8,7 @@ import { Theme } from "./getThemes.js";
 
 /**
  * Style Dictionary runner configuration overrides.
+ *
  * @param {string} tokenDir the directory containing design token files
  * @param {string} buildPath the directory to write generated assets to
  * @param {Theme} theme the theme configuration to use to generate the platform asset files
