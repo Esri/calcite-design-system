@@ -33,6 +33,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { adjustIconScale } from "../../utils/iconScaleAdjuster";
 
 /**
  * @slot - A slot for adding text.
@@ -217,7 +218,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         data-test-id="icon"
         icon={ICONS.chevronRight}
         onClick={this.iconClickHandler}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={adjustIconScale(this.scale)}
       />
     ) : null;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
@@ -251,7 +252,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           [CSS_UTILITY.rtl]: rtl,
         }}
         icon={selectedIcon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={adjustIconScale(this.scale)}
       />
     ) : null;
 
@@ -271,7 +272,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         class={CSS.iconStart}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={adjustIconScale(this.scale)}
       />
     );
 

@@ -35,6 +35,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { Scale, Width } from "../interfaces";
 import { CSS } from "./resources";
+import { adjustIconScale } from "../../utils/iconScaleAdjuster";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -369,7 +370,7 @@ export class Select
   renderChevron(): VNode {
     return (
       <div class={CSS.iconContainer}>
-        <calcite-icon class={CSS.icon} icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale={adjustIconScale(this.scale)} />
       </div>
     );
   }

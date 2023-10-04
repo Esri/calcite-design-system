@@ -45,6 +45,7 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { createObserver } from "../../utils/observers";
 import { isActivationKey } from "../../utils/key";
 import { ChipMessages } from "./assets/chip/t9n";
+import { adjustIconScale } from "../../utils/iconScaleAdjuster";
 
 /**
  * @slot - A slot for adding text.
@@ -338,7 +339,7 @@ export class Chip
           [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected,
         }}
       >
-        <calcite-icon icon={icon} scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon={icon} scale={adjustIconScale(this.scale)} />
       </div>
     );
   }
@@ -354,7 +355,7 @@ export class Chip
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
-        <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon={ICONS.close} scale={adjustIconScale(this.scale)} />
       </button>
     );
   }
@@ -365,7 +366,7 @@ export class Chip
         class={CSS.chipIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={adjustIconScale(this.scale)}
       />
     );
   }

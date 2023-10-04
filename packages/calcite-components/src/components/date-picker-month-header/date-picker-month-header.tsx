@@ -27,6 +27,7 @@ import { DateLocaleData } from "../date-picker/utils";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { CSS, ICON } from "./resources";
+import { adjustIconScale } from "../../utils/iconScaleAdjuster";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -126,8 +127,6 @@ export class DatePickerMonthHeader {
     const { months, unitOrder } = localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
     const localizedYear = this.formatCalendarYear(activeDate.getFullYear());
-    const iconScale = this.scale === "l" ? "m" : "s";
-
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
     const suffix = localeData.year?.suffix;
@@ -143,7 +142,7 @@ export class DatePickerMonthHeader {
           role="button"
           tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
         >
-          <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={iconScale} />
+          <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={adjustIconScale(this.scale)} />
         </a>
         <div class={{ text: true, [CSS.textReverse]: reverse }}>
           <Heading class={CSS.month} level={this.headingLevel}>
@@ -181,7 +180,7 @@ export class DatePickerMonthHeader {
           role="button"
           tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
         >
-          <calcite-icon flip-rtl icon={ICON.chevronRight} scale={iconScale} />
+          <calcite-icon flip-rtl icon={ICON.chevronRight} scale={adjustIconScale(this.scale)} />
         </a>
       </Fragment>
     );

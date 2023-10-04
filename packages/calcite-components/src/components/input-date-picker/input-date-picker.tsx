@@ -80,7 +80,7 @@ import {
 import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
-
+import { adjustIconScale } from "../../utils/iconScaleAdjuster";
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
@@ -603,13 +603,13 @@ export class InputDatePicker
                 <calcite-icon
                   flipRtl={true}
                   icon="arrow-right"
-                  scale={this.scale === "l" ? "m" : "s"}
+                  scale={adjustIconScale(this.scale)}
                 />
               </div>
             )}
             {this.range && this.layout === "vertical" && this.scale !== "s" && (
               <div class="vertical-arrow-container">
-                <calcite-icon icon="arrow-down" scale={this.scale === "l" ? "m" : "s"} />
+                <calcite-icon icon="arrow-down" scale={adjustIconScale(this.scale)} />
               </div>
             )}
             {this.range && (
