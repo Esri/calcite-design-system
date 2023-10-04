@@ -1,76 +1,48 @@
 {
   "block-section": {
     "font": {
-      "light": {
-        "value": "$semantic.ui.color.text.2.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.2.dark",
+      "default": {
+        "value": "{ui.text.2}",
         "type": "color"
       },
       "md": {
-        "value": "$semantic.font.wrap.medium.-1",
+        "value": "{semantic.font.wrap.medium.-1}",
         "type": "typography"
       }
     },
     "icon": {
       "valid": {
-        "light": {
-          "value": "$semantic.ui.color.success.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.success.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.success}",
+        "type": "color"
       },
       "invalid": {
-        "light": {
-          "value": "$semantic.ui.color.danger.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.danger.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.danger.default}",
+        "type": "color"
       },
       "chevron": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "{semantic.ui.color.text.3.dark}",
-          "type": "color"
-        }
+        "value": "{ui.text.3}",
+        "type": "color"
       }
     },
     "background": {
-      "light": {
-        "value": "$semantic.ui.color.foreground.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.background.dark",
-        "type": "color"
-      }
+      "value": "{ui.background}",
+      "type": "color"
     },
     "border-radius": {
       "md": {
-        "value": "$core.border.border-radius.none",
+        "value": "{core.border.border-radius.none}",
         "type": "borderRadius"
       }
     },
     "icon-size": {
       "md": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       }
     },
     "space-between": {
       "md": {
-        "value": "$core.spacing.none",
+        "value": "{core.spacing.none}",
         "type": "spacing"
       }
     },
@@ -78,21 +50,21 @@
       "block-text": {
         "right-left": {
           "md": {
-            "value": "$core.spacing.5",
+            "value": "{core.spacing.5}",
             "type": "spacing"
           }
         }
       },
       "block-content": {
         "md": {
-          "value": "$core.spacing.none",
+          "value": "{core.spacing.none}",
           "type": "spacing"
         }
       },
       "block-section": {
         "top-bottom": {
           "md": {
-            "value": "$core.spacing.5",
+            "value": "{core.spacing.5}",
             "type": "spacing"
           }
         }
@@ -100,7 +72,7 @@
       "icon": {
         "left": {
           "md": {
-            "value": "$core.spacing.3",
+            "value": "{core.spacing.3}",
             "type": "spacing"
           }
         }
@@ -108,7 +80,7 @@
       "switch": {
         "left": {
           "md": {
-            "value": "$core.spacing.1",
+            "value": "{core.spacing.1}",
             "type": "spacing"
           }
         }
@@ -116,7 +88,7 @@
     },
     "chevron-size": {
       "md": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       }
     }

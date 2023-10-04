@@ -2,180 +2,112 @@
   "alert": {
     "font": {
       "title": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
+        "default": {
+          "value": "{ui.text.1}",
           "type": "color"
         },
         "sm": {
-          "value": "$semantic.font.default.medium.-1h",
+          "value": "{semantic.font.default.medium.-1h}",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.medium.0h",
+          "value": "{semantic.font.default.medium.0h}",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.medium.1h",
+          "value": "{semantic.font.default.medium.1h}",
           "type": "typography"
         }
       },
       "message": {
+        "default": {
+          "value": "{ui.text.3}",
+          "type": "color"
+        },
         "sm": {
-          "value": "$semantic.font.default.regular.-2h",
+          "value": "{semantic.font.default.regular.-2h}",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.regular.-1h",
+          "value": "{semantic.font.default.regular.-1h}",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.regular.0h",
+          "value": "{semantic.font.default.regular.0h}",
           "type": "typography"
-        },
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
         }
       }
     },
     "background": {
-      "light": {
-        "value": "$semantic.ui.color.foreground.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.foreground.2.dark",
-        "type": "color"
-      }
+      "value": "{ui.foreground.2}",
+      "type": "color"
     },
     "border": {
-      "light": {
-        "value": "$semantic.ui.color.border.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.border.3.dark",
-        "type": "color"
-      }
+      "value": "{ui.border.3}",
+      "type": "color"
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.1",
+        "value": "{core.border.border-radius.1}",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.1",
+        "value": "{core.border.border-radius.1}",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.1",
+        "value": "{core.border.border-radius.1}",
         "type": "borderRadius"
       }
     },
     "icon-size": {
       "sm": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       }
     },
     "icon": {
       "blue": {
-        "light": {
-          "value": "$semantic.ui.color.info.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.info.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.info}",
+        "type": "color"
       },
       "green": {
-        "light": {
-          "value": "$semantic.ui.color.success.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.success.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.success}",
+        "type": "color"
       },
       "yellow": {
-        "light": {
-          "value": "$semantic.ui.color.warning.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.warning.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.warning}",
+        "type": "color"
       },
       "red": {
-        "light": {
-          "value": "$semantic.ui.color.danger.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.danger.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.danger.default}",
+        "type": "color"
       }
     },
     "highlight": {
       "blue": {
-        "light": {
-          "value": "$semantic.ui.color.info.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.info.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.info}",
+        "type": "color"
       },
       "green": {
-        "light": {
-          "value": "$semantic.ui.color.success.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.success.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.success}",
+        "type": "color"
       },
       "yellow": {
-        "light": {
-          "value": "$semantic.ui.color.warning.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.warning.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.warning}",
+        "type": "color"
       },
       "red": {
-        "light": {
-          "value": "$semantic.ui.color.danger.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.danger.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.danger.default}",
+        "type": "color"
       }
     },
     "space-between": {

@@ -1,138 +1,142 @@
 {
   "avatar": {
     "font": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
+      "default": {
+        "value": "{ui.text.3}",
         "type": "color"
       },
       "sm": {
-        "value": "$semantic.font.default.bold.-3h",
+        "value": "{semantic.font.default.bold.-3h}",
         "type": "typography"
       },
       "md": {
-        "value": "$semantic.font.default.bold.-1h",
+        "value": "{semantic.font.default.bold.-1h}",
         "type": "typography"
       },
       "lg": {
-        "value": "$semantic.font.default.bold.0h",
+        "value": "{semantic.font.default.bold.0h}",
         "type": "typography"
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
-      }
+      "value": "{ui.text.3}",
+      "type": "color"
     },
     "background": {
       "default": {
-        "light": {
-          "value": "$semantic.ui.color.foreground.2.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.foreground.2.dark",
-          "type": "color"
-        }
+        "value": "{ui.foreground.2}",
+        "type": "color"
       },
       "red": {
+        "default": {
+          "value": "{ui.component.avatar.background.red}",
+          "type": "color"
+        },
         "light": {
-          "value": "$core.color.palette.high-saturation.red.h-rr-010",
+          "value": "{core.color.palette.high-saturation.red.h-rr-010}",
           "type": "color"
         },
         "dark": {
-          "value": "$core.color.palette.high-saturation.red.h-rr-090",
+          "value": "{core.color.palette.high-saturation.red.h-rr-090}",
           "type": "color"
         }
       },
       "teal": {
+        "default": {
+          "value": "{ui.component.avatar.background.teal}",
+          "type": "color"
+        },
         "light": {
-          "value": "$core.color.palette.high-saturation.green-blue.h-gb-010",
+          "value": "{core.color.palette.high-saturation.green-blue.h-gb-010}",
           "type": "color"
         },
         "dark": {
-          "value": "$core.color.palette.high-saturation.green-blue.h-gb-090",
+          "value": "{core.color.palette.high-saturation.green-blue.h-gb-090}",
           "type": "color"
         }
       },
       "blue": {
+        "default": {
+          "value": "{ui.component.avatar.background.blue}",
+          "type": "color"
+        },
         "light": {
-          "value": "$core.color.palette.high-saturation.blue.h-bb-010",
+          "value": "{core.color.palette.high-saturation.blue.h-bb-010}",
           "type": "color"
         },
         "dark": {
-          "value": "$core.color.palette.high-saturation.blue.h-bb-090",
+          "value": "{core.color.palette.high-saturation.blue.h-bb-090}",
           "type": "color"
         }
       },
       "green": {
+        "default": {
+          "value": "{ui.component.avatar.background.green}",
+          "type": "color"
+        },
         "light": {
-          "value": "$core.color.palette.high-saturation.yellow-green.h-yg-010",
+          "value": "{core.color.palette.high-saturation.yellow-green.h-yg-010}",
           "type": "color"
         },
         "dark": {
-          "value": "$core.color.palette.high-saturation.yellow-green.h-yg-090",
+          "value": "{core.color.palette.high-saturation.yellow-green.h-yg-090}",
           "type": "color"
         }
       },
       "yellow": {
+        "default": {
+          "value": "{ui.component.avatar.background.yellow}",
+          "type": "color"
+        },
         "light": {
-          "value": "$core.color.palette.high-saturation.yellow.h-yy-010",
+          "value": "{core.color.palette.high-saturation.yellow.h-yy-010}",
           "type": "color"
         },
         "dark": {
-          "value": "$core.color.palette.high-saturation.yellow.h-yy-100",
+          "value": "{core.color.palette.high-saturation.yellow.h-yy-100}",
           "type": "color"
         }
       }
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.4",
+        "value": "{core.border.border-radius.4}",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.5",
+        "value": "{core.border.border-radius.5}",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.6",
+        "value": "{core.border.border-radius.6}",
         "type": "borderRadius"
       }
     },
     "comp-size": {
       "sm": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.11",
+        "value": "{core.sizing.11}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.14",
+        "value": "{core.sizing.14}",
         "type": "sizing"
       }
     },
     "icon-size": {
       "sm": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.11",
+        "value": "{core.sizing.11}",
         "type": "sizing"
       }
     }

@@ -1,64 +1,52 @@
 {
   "action-bar-grid": {
     "border": {
-      "light": {
-        "value": "$semantic.ui.color.border.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.border.1.dark",
-        "type": "color"
-      }
+      "value": "{ui.border.1}",
+      "type": "color"
     },
     "background": {
-      "light": {
-        "value": "$semantic.ui.color.foreground.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.foreground.1.dark",
-        "type": "color"
-      }
+      "value": "{ui.foreground.1}",
+      "type": "color"
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.none",
+        "value": "{core.border.border-radius.none}",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.none",
+        "value": "{core.border.border-radius.none}",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.none",
+        "value": "{core.border.border-radius.none}",
         "type": "borderRadius"
       }
     },
     "space-between": {
       "sm": {
-        "value": "$core.spacing.none",
+        "value": "{core.spacing.none}",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.none",
+        "value": "{core.spacing.none}",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.spacing.none",
+        "value": "{core.spacing.none}",
         "type": "spacing"
       }
     },
     "space-around": {
       "sm": {
-        "value": "$core.spacing.none",
+        "value": "{core.spacing.none}",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.none",
+        "value": "{core.spacing.none}",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.spacing.none",
+        "value": "{core.spacing.none}",
         "type": "spacing"
       }
     }

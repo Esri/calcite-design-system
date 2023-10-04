@@ -1,48 +1,32 @@
 {
   "link": {
     "font": {
-      "light": {
-        "value": "$semantic.ui.color.text.link.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.link.dark",
+      "default": {
+        "value": "{ui.text.link}",
         "type": "color"
       },
       "regular": {
-        "value": "$semantic.font.wrap.regular.0",
+        "value": "{semantic.font.wrap.regular.0}",
         "type": "typography"
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.link.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.link.dark",
-        "type": "color"
-      }
+      "value": "{ui.text.link}",
+      "type": "color"
     },
     "border": {
-      "light": {
-        "value": "$semantic.ui.color.text.link.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.link.dark",
-        "type": "color"
-      }
+      "value": "{ui.text.link}",
+      "type": "color"
     },
     "bottom": {
       "border-width": {
-        "value": "$core.border.border-width.0",
+        "value": "{core.border.border-width.0}",
         "type": "borderWidth"
       }
     },
     "opacity": {
       "underline": {
-        "value": "$core.opacity.40",
+        "value": "{core.opacity.40}",
         "type": "opacity"
       }
     }

@@ -1,57 +1,27 @@
 {
   "accordion": {
     "heading": {
-      "light": {
-        "value": "$semantic.ui.color.text.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.1.dark",
-        "type": "color"
-      }
+      "value": "{ui.text.1}",
+      "type": "color"
     },
     "description": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
-      }
+      "value": "{ui.text.3}",
+      "type": "color"
     },
     "icon": {
       "default": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
+        "value": "{ui.text.3}",
+        "type": "color"
       },
       "expanded": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
-          "type": "color"
-        }
+        "value": "{ui.text.1}",
+        "type": "color"
       }
     },
     "background": {
       "default": {
-        "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
-          "type": "color"
-        }
+        "value": "{ui.foreground.1}",
+        "type": "color"
       }
     },
     "default": {
@@ -179,14 +149,8 @@
       }
     },
     "border": {
-      "light": {
-        "value": "$semantic.ui.color.border.2.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.border.2.dark",
-        "type": "color"
-      }
+      "value": "{ui.border.2}",
+      "type": "color"
     }
   }
 }

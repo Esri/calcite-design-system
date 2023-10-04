@@ -1,17 +1,11 @@
 {
   "scrim": {
     "background": {
-      "light": {
-        "value": "$semantic.ui.color.foreground.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.foreground.1.dark",
-        "type": "color"
-      }
+      "value": "{ui.foreground.1}",
+      "type": "color"
     },
     "opacity": {
-      "value": "$core.opacity.85",
+      "value": "{core.opacity.85}",
       "type": "opacity"
     }
   }

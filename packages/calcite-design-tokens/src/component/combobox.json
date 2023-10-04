@@ -1,190 +1,136 @@
 {
   "combobox": {
     "border": {
-      "light": {
-        "value": "$semantic.ui.color.border.input.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.border.input.dark",
-        "type": "color"
-      },
+      "value": "{ui.border.input}",
+      "type": "color",
       "sm": {
-        "value": "$core.border.border-width.0",
+        "value": "{core.border.border-width.0}",
         "type": "borderWidth"
       },
       "md": {
-        "value": "$core.border.border-width.0",
+        "value": "{core.border.border-width.0}",
         "type": "borderWidth"
       },
       "lg": {
-        "value": "$core.border.border-width.0",
+        "value": "{core.border.border-width.0}",
         "type": "borderWidth"
       }
     },
     "background": {
       "default": {
-        "light": {
-          "value": "$semantic.ui.color.background.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.background.dark",
-          "type": "color"
-        }
+        "value": "{ui.background}",
+        "type": "color"
       },
       "item-container": {
-        "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
-          "type": "color"
-        }
+        "value": "{ui.foreground.1}",
+        "type": "color"
       }
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.4",
+        "value": "{core.border.border-radius.4}",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.5",
+        "value": "{core.border.border-radius.5}",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.6",
+        "value": "{core.border.border-radius.6}",
         "type": "borderRadius"
       }
     },
     "border-width": {
       "sm": {
-        "value": "$core.border.border-width.1",
+        "value": "{core.border.border-width.1}",
         "type": "borderWidth"
       },
       "md": {
-        "value": "$core.border.border-width.2",
+        "value": "{core.border.border-width.2}",
         "type": "borderWidth"
       },
       "lg": {
-        "value": "$core.border.border-width.4",
+        "value": "{core.border.border-width.4}",
         "type": "borderWidth"
       }
     },
     "comp-size": {
       "sm": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.11",
+        "value": "{core.sizing.11}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.14",
+        "value": "{core.sizing.14}",
         "type": "sizing"
       }
     },
     "dropdown": {
-      "light": {
-        "value": "$semantic.ui.color.background.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.background.dark",
-        "type": "color"
-      }
+      "value": "{ui.background}",
+      "type": "color"
     },
     "font": {
       "placeholder": {
         "sm": {
-          "value": "$semantic.font.default.regular.-2h",
+          "value": "{semantic.font.default.regular.-2h}",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.light.-1h",
+          "value": "{semantic.font.default.light.-1h}",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.regular.0h",
+          "value": "{semantic.font.default.regular.0h}",
           "type": "typography"
         },
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
+        "value": "{ui.text.3}",
+        "type": "color"
       },
       "default": {
-        "light": {
-          "type": "color",
-          "value": "$chip.font.solid.grey.light"
-        },
-        "dark": {
-          "type": "color",
-          "value": "$chip.font.solid.grey.light"
-        }
+        "type": "color",
+        "value": "{chip.font.solid.grey}"
       },
       "sm": {
         "type": "typography",
-        "value": "$chip.font.sm"
+        "value": "{chip.font.sm}"
       },
       "md": {
         "type": "typography",
-        "value": "$chip.font.md"
+        "value": "{chip.font.md}"
       },
       "lg": {
         "type": "typography",
-        "value": "$chip.font.lg"
+        "value": "{chip.font.lg}"
       }
     },
     "foreground": {
-      "light": {
-        "value": "$semantic.ui.color.foreground.2.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.foreground.2.dark",
-        "type": "color"
-      }
+      "value": "{ui.foreground.2}",
+      "type": "color"
     },
     "icon": {
       "default": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
-          "type": "color"
-        }
+        "value": "{ui.text.1}",
+        "type": "color"
       },
       "dropdown": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
+        "value": "{ui.text.3}",
+        "type": "color"
       }
     },
     "icon-size": {
       "sm": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       }
     },
@@ -196,44 +142,44 @@
     },
     "space-between": {
       "sm": {
-        "value": "$core.spacing.3",
+        "value": "{core.spacing.3}",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.5",
+        "value": "{core.spacing.5}",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.spacing.7",
+        "value": "{core.spacing.7}",
         "type": "spacing"
       }
     },
     "space-around": {
       "left-right": {
         "sm": {
-          "value": "$core.spacing.1",
+          "value": "{core.spacing.1}",
           "type": "spacing"
         },
         "md": {
-          "value": "$core.spacing.5",
+          "value": "{core.spacing.5}",
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.7",
+          "value": "{core.spacing.7}",
           "type": "spacing"
         }
       },
       "top-bottom": {
         "sm": {
-          "value": "$core.spacing.3",
+          "value": "{core.spacing.3}",
           "type": "spacing"
         },
         "md": {
-          "value": "$core.spacing.2",
+          "value": "{core.spacing.2}",
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.4",
+          "value": "{core.spacing.4}",
           "type": "spacing"
         }
       }

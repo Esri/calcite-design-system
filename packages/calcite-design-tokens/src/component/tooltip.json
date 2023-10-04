@@ -2,63 +2,47 @@
   "tooltip": {
     "space-arround": {
       "top-bottom": {
-        "value": "$core.spacing.5",
+        "value": "{core.spacing.5}",
         "type": "spacing"
       },
       "left-right": {
-        "value": "$core.spacing.7",
+        "value": "{core.spacing.7}",
         "type": "spacing"
       }
     },
     "foreground": {
-      "light": {
-        "value": "$semantic.ui.color.foreground.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.foreground.1.dark",
-        "type": "color"
-      }
+      "value": "{ui.foreground.1}",
+      "type": "color"
     },
     "font": {
-      "light": {
-        "value": "$semantic.ui.color.text.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.1.dark",
+      "default": {
+        "value": "{ui.text.1}",
         "type": "color"
       },
       "standard": {
-        "value": "$semantic.font.wrap.medium.-2",
+        "value": "{semantic.font.wrap.medium.-2}",
         "type": "typography"
       }
     },
     "border": {
-      "light": {
-        "value": "$semantic.ui.color.border.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.border.3.dark",
-        "type": "color"
-      }
+      "value": "{ui.border.3}",
+      "type": "color"
     },
     "border-radius": {
-      "value": "$core.border.border-radius.1",
+      "value": "{core.border.border-radius.1}",
       "type": "borderRadius"
     },
     "border-width": {
-      "value": "$core.border.border-width.0",
+      "value": "{core.border.border-width.0}",
       "type": "borderWidth"
     },
     "arrow": {
       "width": {
-        "value": "$core.sizing.6",
+        "value": "{core.sizing.6}",
         "type": "sizing"
       },
       "height": {
-        "value": "$core.sizing.2",
+        "value": "{core.sizing.2}",
         "type": "sizing"
       }
     }

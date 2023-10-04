@@ -2,223 +2,167 @@
   "slider": {
     "font": {
       "label": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
+        "default": {
+          "value": "{ui.text.1}",
           "type": "color"
         },
         "sm": {
-          "value": "$semantic.font.default.regular.-2h",
+          "value": "{semantic.font.default.regular.-2h}",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.regular.-1h",
+          "value": "{semantic.font.default.regular.-1h}",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.regular.0h",
+          "value": "{semantic.font.default.regular.0h}",
           "type": "typography"
         }
       },
       "tick-label": {
-        "light": {
-          "value": "$semantic.ui.color.text.2.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.2.dark",
+        "default": {
+          "value": "{ui.text.2}",
           "type": "color"
         },
         "sm": {
-          "value": "$semantic.font.default.medium.-3h",
+          "value": "{semantic.font.default.medium.-3h}",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.medium.-2h",
+          "value": "{semantic.font.default.medium.-2h}",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.medium.-1h",
+          "value": "{semantic.font.default.medium.-1h}",
           "type": "typography"
         }
       }
     },
     "handle": {
       "background": {
-        "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
-          "type": "color"
-        }
+        "value": "{ui.foreground.1}",
+        "type": "color"
       },
       "border": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.border.input.dark",
-          "type": "color"
-        }
+        "value": "{ui.text.3}",
+        "type": "color"
       }
     },
     "border": {
       "default": {
-        "light": {
-          "value": "$semantic.ui.color.border.2.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.border.2.dark",
-          "type": "color"
-        }
+        "value": "{ui.border.2}",
+        "type": "color"
       },
       "active": {
-        "light": {
-          "value": "$semantic.ui.color.brand.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.brand.default.dark",
-          "type": "color"
-        }
+        "value": "{ui.brand.default}",
+        "type": "color"
       }
     },
     "border-width": {
       "sm": {
-        "value": "$core.border.border-width.1",
+        "value": "{core.border.border-width.1}",
         "type": "borderWidth"
       },
       "md": {
-        "value": "$core.border.border-width.1",
+        "value": "{core.border.border-width.1}",
         "type": "borderWidth"
       },
       "lg": {
-        "value": "$core.border.border-width.1",
+        "value": "{core.border.border-width.1}",
         "type": "borderWidth"
       }
     },
     "tick-size": {
       "width": {
         "sm": {
-          "value": "$core.sizing.1",
+          "value": "{core.sizing.1}",
           "type": "sizing"
         },
         "md": {
-          "value": "$core.sizing.1",
+          "value": "{core.sizing.1}",
           "type": "sizing"
         },
         "lg": {
-          "value": "$core.sizing.1",
+          "value": "{core.sizing.1}",
           "type": "sizing"
         }
       },
       "height": {
         "sm": {
-          "value": "$core.sizing.2",
+          "value": "{core.sizing.2}",
           "type": "sizing"
         },
         "md": {
-          "value": "$core.sizing.2",
+          "value": "{core.sizing.2}",
           "type": "sizing"
         },
         "lg": {
-          "value": "$core.sizing.2",
+          "value": "{core.sizing.2}",
           "type": "sizing"
         }
       }
     },
     "handle-size": {
       "sm": {
-        "value": "$core.sizing.4",
+        "value": "{core.sizing.4}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.6",
+        "value": "{core.sizing.6}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       }
     },
     "space-between": {
       "sm": {
-        "value": "$core.spacing.1",
+        "value": "{core.spacing.1}",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.3",
+        "value": "{core.spacing.3}",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.spacing.3",
+        "value": "{core.spacing.3}",
         "type": "spacing"
       }
     },
     "space-around": {
       "sm": {
-        "value": "$core.spacing.1",
+        "value": "{core.spacing.1}",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.2",
+        "value": "{core.spacing.2}",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.spacing.3",
+        "value": "{core.spacing.3}",
         "type": "spacing"
       }
     },
     "tick": {
       "default": {
         "background": {
-          "light": {
-            "value": "$semantic.ui.color.border.input.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.border.input.dark",
-            "type": "color"
-          }
+          "value": "{ui.border.input}",
+          "type": "color"
         },
         "border": {
-          "light": {
-            "value": "$semantic.ui.color.foreground.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.foreground.1.dark",
-            "type": "color"
-          }
+          "type": "color",
+          "value": "{ui.foreground.1}"
         }
       },
       "active": {
         "background": {
-          "light": {
-            "value": "$semantic.ui.color.brand.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.brand.default.dark",
-            "type": "color"
-          }
+          "type": "color",
+          "value": "{ui.brand.default}"
         },
         "border": {
-          "light": {
-            "value": "$semantic.ui.color.foreground.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.foreground.1.dark",
-            "type": "color"
-          }
+          "type": "color",
+          "value": "{ui.foreground.1}"
         }
       }
     }

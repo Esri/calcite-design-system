@@ -2,15 +2,15 @@
   "stepper": {
     "space-between": {
       "sm": {
-        "value": "$core.spacing.1",
+        "value": "{core.spacing.1}",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.3",
+        "value": "{core.spacing.3}",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.spacing.5",
+        "value": "{core.spacing.5}",
         "type": "spacing"
       }
     }
