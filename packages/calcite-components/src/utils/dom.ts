@@ -54,19 +54,6 @@ export function getModeName(el: HTMLElement): "light" | "dark" {
 }
 
 /**
- * This helper returns the computed width in pixels of a rendered HTMLElement.
- *
- * @param {HTMLElement} el An element.
- * @returns {number} The element's width.
- */
-export function getElementWidth(el: HTMLElement): number {
-  if (!el) {
-    return;
-  }
-  return Math.round(parseFloat(getComputedStyle(el).width.replace("px", "")));
-}
-
-/**
  * This helper returns the direction of a HTML element.
  *
  * @param {HTMLElement} el An element.
@@ -92,6 +79,19 @@ export function getElementProp(el: Element, attribute: string, fallbackValue: an
   const selector = `[${attribute}]`;
   const closest = el.closest(selector);
   return closest ? closest.getAttribute(attribute) : fallbackValue;
+}
+
+/**
+ * This helper returns the computed width in pixels of a rendered HTMLElement.
+ *
+ * @param {HTMLElement} el An element.
+ * @returns {number} The element's width.
+ */
+export function getElementWidth(el: HTMLElement): number {
+  if (!el) {
+    return;
+  }
+  return Math.round(parseFloat(getComputedStyle(el).width.replace("px", "")));
 }
 
 /**
