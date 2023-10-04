@@ -35,9 +35,7 @@ export const run = async (
     sourceReferencesOnly: false
   };
 
-  // Here we are registering the Transforms provided by Token Studio however,
-  // we need to pass "expand: false" so that we can use our own custom JSON file parser.
-  // any references to "ts/..." below are references to these Token Studio transformers
+  // Here we are registering the Transforms provided by Token Studio
   // https://github.com/tokens-studio/sd-transforms
   await registerTransforms(StyleDictionary, { expand: false });
 
