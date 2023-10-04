@@ -1,0 +1,188 @@
+{
+  "combobox": {
+    "border": {
+      "value": "{ui.border.input}",
+      "type": "color",
+      "sm": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
+      },
+      "md": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
+      },
+      "lg": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
+      }
+    },
+    "background": {
+      "default": {
+        "value": "{ui.background}",
+        "type": "color"
+      },
+      "item-container": {
+        "value": "{ui.foreground.1}",
+        "type": "color"
+      }
+    },
+    "border-radius": {
+      "sm": {
+        "value": "{core.border.border-radius.4}",
+        "type": "borderRadius"
+      },
+      "md": {
+        "value": "{core.border.border-radius.5}",
+        "type": "borderRadius"
+      },
+      "lg": {
+        "value": "{core.border.border-radius.6}",
+        "type": "borderRadius"
+      }
+    },
+    "border-width": {
+      "sm": {
+        "value": "{core.border.border-width.1}",
+        "type": "borderWidth"
+      },
+      "md": {
+        "value": "{core.border.border-width.2}",
+        "type": "borderWidth"
+      },
+      "lg": {
+        "value": "{core.border.border-width.4}",
+        "type": "borderWidth"
+      }
+    },
+    "comp-size": {
+      "sm": {
+        "value": "{core.sizing.9}",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "{core.sizing.11}",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "{core.sizing.14}",
+        "type": "sizing"
+      }
+    },
+    "dropdown": {
+      "value": "{ui.background}",
+      "type": "color"
+    },
+    "font": {
+      "placeholder": {
+        "sm": {
+          "value": "{semantic.font.default.regular.-2h}",
+          "type": "typography"
+        },
+        "md": {
+          "value": "{semantic.font.default.light.-1h}",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "{semantic.font.default.regular.0h}",
+          "type": "typography"
+        },
+        "value": "{ui.text.3}",
+        "type": "color"
+      },
+      "default": {
+        "type": "color",
+        "value": "{chip.font.solid.grey}"
+      },
+      "sm": {
+        "type": "typography",
+        "value": "{chip.font.sm}"
+      },
+      "md": {
+        "type": "typography",
+        "value": "{chip.font.md}"
+      },
+      "lg": {
+        "type": "typography",
+        "value": "{chip.font.lg}"
+      }
+    },
+    "foreground": {
+      "value": "{ui.foreground.2}",
+      "type": "color"
+    },
+    "icon": {
+      "default": {
+        "value": "{ui.text.1}",
+        "type": "color"
+      },
+      "dropdown": {
+        "value": "{ui.text.3}",
+        "type": "color"
+      }
+    },
+    "icon-size": {
+      "sm": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "{core.sizing.9}",
+        "type": "sizing"
+      }
+    },
+    "item-container": {
+      "shadow": {
+        "value": "{core.box-shadow.2}",
+        "type": "boxShadow"
+      }
+    },
+    "space-between": {
+      "sm": {
+        "value": "{core.spacing.3}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.spacing.5}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.spacing.7}",
+        "type": "spacing"
+      }
+    },
+    "space-around": {
+      "left-right": {
+        "sm": {
+          "value": "{core.spacing.1}",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "{core.spacing.5}",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "{core.spacing.7}",
+          "type": "spacing"
+        }
+      },
+      "top-bottom": {
+        "sm": {
+          "value": "{core.spacing.3}",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "{core.spacing.2}",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "{core.spacing.4}",
+          "type": "spacing"
+        }
+      }
+    }
+  }
+}

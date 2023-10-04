@@ -1,0 +1,34 @@
+{
+  "link": {
+    "font": {
+      "default": {
+        "value": "{ui.text.link}",
+        "type": "color"
+      },
+      "regular": {
+        "value": "{semantic.font.wrap.regular.0}",
+        "type": "typography"
+      }
+    },
+    "icon": {
+      "value": "{ui.text.link}",
+      "type": "color"
+    },
+    "border": {
+      "value": "{ui.text.link}",
+      "type": "color"
+    },
+    "bottom": {
+      "border-width": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
+      }
+    },
+    "opacity": {
+      "underline": {
+        "value": "{core.opacity.40}",
+        "type": "opacity"
+      }
+    }
+  }
+}

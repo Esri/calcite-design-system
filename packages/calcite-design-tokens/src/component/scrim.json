@@ -1,0 +1,12 @@
+{
+  "scrim": {
+    "background": {
+      "value": "{ui.foreground.1}",
+      "type": "color"
+    },
+    "opacity": {
+      "value": "{core.opacity.85}",
+      "type": "opacity"
+    }
+  }
+}

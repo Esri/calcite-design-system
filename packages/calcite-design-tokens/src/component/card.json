@@ -1,0 +1,82 @@
+{
+  "card": {
+    "font": {
+      "title": {
+        "default": {
+          "value": "{ui.text.1}",
+          "type": "color"
+        },
+        "md": {
+          "value": "{semantic.font.default.medium.-1h}",
+          "type": "typography"
+        }
+      },
+      "subtile": {
+        "md": {
+          "value": "{semantic.font.default.regular.-2h}",
+          "type": "typography"
+        }
+      },
+      "description": {
+        "md": {
+          "value": "{semantic.font.default.regular.-2h}",
+          "type": "typography"
+        },
+        "value": "{ui.text.3}",
+        "type": "color"
+      },
+      "subtitle": {
+        "value": "{ui.text.2}",
+        "type": "color"
+      }
+    },
+    "border": {
+      "default": {
+        "value": "{ui.border.2}",
+        "type": "color"
+      },
+      "active": {
+        "value": "{ui.brand.default}",
+        "type": "color"
+      }
+    },
+    "background": {
+      "default": {
+        "value": "{ui.foreground.1}",
+        "type": "color"
+      }
+    },
+    "space-around": {
+      "md": {
+        "value": "{core.spacing.5}",
+        "type": "spacing"
+      }
+    },
+    "space-between": {
+      "card": {
+        "md": {
+          "value": "{core.spacing.7}",
+          "type": "spacing"
+        }
+      },
+      "title": {
+        "md": {
+          "value": "{core.spacing.3}",
+          "type": "spacing"
+        }
+      }
+    },
+    "border-radius": {
+      "md": {
+        "value": "{core.border.border-radius.none}",
+        "type": "borderRadius"
+      }
+    },
+    "border-width": {
+      "md": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
+      }
+    }
+  }
+}

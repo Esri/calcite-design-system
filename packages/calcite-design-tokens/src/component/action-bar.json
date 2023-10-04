@@ -1,0 +1,54 @@
+{
+  "action-bar": {
+    "border": {
+      "value": "{ui.border.1}",
+      "type": "color"
+    },
+    "background": {
+      "value": "{ui.foreground.1}",
+      "type": "color"
+    },
+    "border-radius": {
+      "sm": {
+        "value": "{core.border.border-radius.none}",
+        "type": "borderRadius"
+      },
+      "md": {
+        "value": "{core.border.border-radius.none}",
+        "type": "borderRadius"
+      },
+      "lg": {
+        "value": "{core.border.border-radius.none}",
+        "type": "borderRadius"
+      }
+    },
+    "space-between": {
+      "sm": {
+        "value": "{core.spacing.none}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.spacing.none}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.spacing.none}",
+        "type": "spacing"
+      }
+    },
+    "space-around": {
+      "sm": {
+        "value": "{core.spacing.none}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.spacing.none}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.spacing.none}",
+        "type": "spacing"
+      }
+    }
+  }
+}

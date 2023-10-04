@@ -1,0 +1,204 @@
+{
+  "notice": {
+    "font": {
+      "title": {
+        "default": {
+          "value": "{ui.text.1}",
+          "type": "color"
+        },
+        "sm": {
+          "value": "{semantic.font.wrap.medium.-1}",
+          "type": "typography"
+        },
+        "md": {
+          "value": "{semantic.font.wrap.medium.0}",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "{semantic.font.wrap.medium.1}",
+          "type": "typography"
+        }
+      },
+      "message": {
+        "sm": {
+          "value": "{semantic.font.wrap.regular.-2}",
+          "type": "typography"
+        },
+        "md": {
+          "value": "{semantic.font.wrap.regular.-1}",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "{semantic.font.wrap.regular.0}",
+          "type": "typography"
+        },
+        "value": "{ui.text.3}",
+        "type": "color"
+      }
+    },
+    "background": {
+      "value": "{ui.foreground.2}",
+      "type": "color"
+    },
+    "border-radius": {
+      "sm": {
+        "value": "{core.border.border-radius.none}",
+        "type": "borderRadius"
+      },
+      "md": {
+        "value": "{core.border.border-radius.none}",
+        "type": "borderRadius"
+      },
+      "lg": {
+        "value": "{core.border.border-radius.none}",
+        "type": "borderRadius"
+      }
+    },
+    "icon-size": {
+      "sm": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "{core.sizing.9}",
+        "type": "sizing"
+      }
+    },
+    "icon": {
+      "info": {
+        "value": "{ui.info}",
+        "type": "color"
+      },
+      "success": {
+        "value": "{ui.success}",
+        "type": "color"
+      },
+      "warning": {
+        "value": "{ui.warning}",
+        "type": "color"
+      },
+      "danger": {
+        "value": "{ui.danger.default}",
+        "type": "color"
+      },
+      "brand": {
+        "value": "{ui.brand.default}",
+        "type": "color"
+      }
+    },
+    "highlight": {
+      "info": {
+        "value": "{ui.info}",
+        "type": "color"
+      },
+      "success": {
+        "value": "{ui.success}",
+        "type": "color"
+      },
+      "warning": {
+        "value": "{ui.warning}",
+        "type": "color"
+      },
+      "danger": {
+        "value": "{ui.danger.default}",
+        "type": "color"
+      },
+      "brand": {
+        "value": "{ui.brand.default}",
+        "type": "color"
+      },
+      "border": {
+        "sm": {
+          "value": "{core.border.border-width.1}",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "{core.border.border-width.1}",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "{core.border.border-width.1}",
+          "type": "borderWidth"
+        }
+      }
+    },
+    "content": {
+      "space-between": {
+        "sm": {
+          "value": "{core.spacing.1}",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "{core.spacing.1}",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "{core.spacing.1}",
+          "type": "spacing"
+        }
+      }
+    },
+    "space-around": {
+      "top-bottom": {
+        "sm": {
+          "value": "{core.spacing.4}",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "{core.spacing.6}",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "{core.spacing.7}",
+          "type": "spacing"
+        }
+      },
+      "left": {
+        "sm": {
+          "value": "{core.spacing.5}",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "{core.spacing.7}",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "{core.spacing.8}",
+          "type": "spacing"
+        }
+      },
+      "right": {
+        "sm": {
+          "value": "{core.spacing.3}",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "{core.spacing.5}",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "{core.spacing.7}",
+          "type": "spacing"
+        }
+      }
+    },
+    "shadow": {
+      "sm": {
+        "value": "{core.box-shadow.1}",
+        "type": "boxShadow"
+      },
+      "md": {
+        "value": "{core.box-shadow.1}",
+        "type": "boxShadow"
+      },
+      "lg": {
+        "value": "{core.box-shadow.1}",
+        "type": "boxShadow"
+      }
+    }
+  }
+}

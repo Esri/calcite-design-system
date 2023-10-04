@@ -1,0 +1,52 @@
+{
+  "dropdown": {
+    "background": {
+      "default": {
+        "value": "{ui.foreground.1}",
+        "type": "color"
+      }
+    },
+    "border-radius": {
+      "sm": {
+        "value": "{core.border.border-radius.1}",
+        "type": "borderRadius"
+      },
+      "md": {
+        "value": "{core.border.border-radius.1}",
+        "type": "borderRadius"
+      },
+      "lg": {
+        "value": "{core.border.border-radius.1}",
+        "type": "borderRadius"
+      }
+    },
+    "comp-size": {
+      "sm": {
+        "value": "{core.sizing.9}",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "{core.sizing.11}",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "{core.sizing.14}",
+        "type": "sizing"
+      }
+    },
+    "box-shadow": {
+      "sm": {
+        "value": "{core.box-shadow.2}",
+        "type": "boxShadow"
+      },
+      "md": {
+        "value": "{core.box-shadow.2}",
+        "type": "boxShadow"
+      },
+      "lg": {
+        "value": "{core.box-shadow.2}",
+        "type": "boxShadow"
+      }
+    }
+  }
+}

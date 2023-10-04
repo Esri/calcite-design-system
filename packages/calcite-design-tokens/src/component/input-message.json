@@ -1,0 +1,50 @@
+{
+  "input-message": {
+    "font": {
+      "default": {
+        "value": "{ui.text.1}",
+        "type": "color"
+      },
+      "sm": {
+        "value": "{semantic.font.default.medium.-3h}",
+        "type": "typography"
+      },
+      "md": {
+        "value": "{semantic.font.default.medium.-2h}",
+        "type": "typography"
+      },
+      "lg": {
+        "value": "{semantic.font.default.medium.-1h}",
+        "type": "typography"
+      }
+    },
+    "icon": {
+      "idle": {
+        "value": "{ui.brand.default}",
+        "type": "color"
+      },
+      "invalid": {
+        "value": "{ui.danger.default}",
+        "type": "color"
+      },
+      "valid": {
+        "value": "{ui.success}",
+        "type": "color"
+      }
+    },
+    "icon-size": {
+      "sm": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      }
+    }
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "radio": {
+    "comp-size": {
+      "sm": {
+        "value": "{core.sizing.5}",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "{core.sizing.6}",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      }
+    },
+    "space-between": {
+      "sm": {
+        "value": "{core.sizing.3}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.sizing.3}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.sizing.3}",
+        "type": "spacing"
+      }
+    },
+    "background": {
+      "value": "{ui.foreground.1}",
+      "type": "color"
+    },
+    "border-radius": {
+      "value": "{semantic.border.border-radius.pill}",
+      "type": "borderRadius"
+    },
+    "border-width": {
+      "unchecked": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
+      },
+      "checked": {
+        "sm": {
+          "value": "{core.border.border-width.2}",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "{core.border.border-width.2}",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "{core.border.border-width.3}",
+          "type": "borderWidth"
+        }
+      }
+    },
+    "border": {
+      "unchecked": {
+        "value": "{ui.text.3}",
+        "type": "color"
+      },
+      "checked": {
+        "value": "{ui.brand.default}",
+        "type": "color"
+      }
+    },
+    "font": {
+      "sm": {
+        "value": "{semantic.font.default.regular.-2h}",
+        "type": "typography"
+      },
+      "md": {
+        "value": "{semantic.font.default.regular.-1h}",
+        "type": "typography"
+      },
+      "lg": {
+        "value": "{semantic.font.default.regular.0h}",
+        "type": "typography"
+      },
+      "default": {
+        "value": "{ui.text.1}",
+        "type": "color"
+      }
+    },
+    "space-around": {
+      "sm": {
+        "value": "{core.sizing.3}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.sizing.5}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.sizing.7}",
+        "type": "spacing"
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "time-picker": {
+    "font": {
+      "default": {
+        "value": "{ui.text.3}",
+        "type": "color"
+      },
+      "sm": {
+        "value": "{semantic.font.default.bold.-2h}",
+        "type": "typography"
+      },
+      "md": {
+        "value": "{semantic.font.default.bold.-1h}",
+        "type": "typography"
+      },
+      "lg": {
+        "value": "{semantic.font.default.bold.0h}",
+        "type": "typography"
+      }
+    },
+    "icon": {
+      "value": "{ui.text.3}",
+      "type": "color"
+    },
+    "border": {
+      "value": "{ui.border.1}",
+      "type": "color"
+    },
+    "background": {
+      "default": {
+        "value": "{ui.background}",
+        "type": "color"
+      }
+    },
+    "foreground": {
+      "value": "{ui.foreground.2}",
+      "type": "color"
+    },
+    "border-radius": {
+      "sm": {
+        "value": "{core.border.border-radius.4}",
+        "type": "borderRadius"
+      },
+      "md": {
+        "value": "{core.border.border-radius.5}",
+        "type": "borderRadius"
+      },
+      "lg": {
+        "value": "{core.border.border-radius.6}",
+        "type": "borderRadius"
+      }
+    },
+    "border-width": {
+      "sm": {
+        "value": "{core.border.border-width.1}",
+        "type": "borderWidth"
+      },
+      "md": {
+        "value": "{core.border.border-width.2}",
+        "type": "borderWidth"
+      },
+      "lg": {
+        "value": "{core.border.border-width.4}",
+        "type": "borderWidth"
+      }
+    },
+    "icon-size": {
+      "sm": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "{core.sizing.7}",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "{core.sizing.9}",
+        "type": "sizing"
+      }
+    },
+    "space-between": {
+      "sm": {
+        "value": "{core.spacing.9}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.spacing.11}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.spacing.14}",
+        "type": "spacing"
+      }
+    },
+    "space-around": {
+      "sm": {
+        "value": "{core.spacing.7}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.spacing.9}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.spacing.11}",
+        "type": "spacing"
+      }
+    }
+  }
+}
