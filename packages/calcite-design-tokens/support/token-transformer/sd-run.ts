@@ -2,7 +2,6 @@ import { registerTransforms } from "@tokens-studio/sd-transforms";
 import StyleDictionary from "style-dictionary";
 import { formatSCSS } from "./format/scss.js";
 import { formatCSS } from "./format/css.js";
-import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
 import { parseName } from "./utils/parseName.js";
 import { Theme } from "./getThemes.js";
@@ -50,12 +49,6 @@ export const run = async (
   });
 
   // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms
-  StyleDictionary.registerTransform({
-    name: "name/calcite/camel",
-    type: "name",
-    transformer: nameCamelCase
-  });
-
   StyleDictionary.registerTransform({
     name: "name/calcite/kebab",
     type: "name",
