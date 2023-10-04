@@ -67,17 +67,17 @@ Renders a panel with a header and a footer.
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                              | Type                         | Default     |
-| ------------------ | ------------------- | ---------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the header.                 | `boolean`                    | `false`     |
-| `closed`           | `closed`            | When `true`, the component will be hidden.                                               | `boolean`                    | `false`     |
-| `description`      | `description`       | A description for the component.                                                         | `string`                     | `undefined` |
-| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
-| `heading`          | `heading`           | The component header text.                                                               | `string`                     | `undefined` |
-| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                    | `false`     |
-| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                    | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `PanelMessages`              | `undefined` |
+| Property           | Attribute       | Description                                                                              | Type                                    | Default     |
+| ------------------ | --------------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | ----------- |
+| `closable`         | `closable`      | When `true`, displays a close button in the trailing side of the header.                 | `boolean`                               | `false`     |
+| `closed`           | `closed`        | When `true`, the component will be hidden.                                               | `boolean`                               | `false`     |
+| `description`      | `description`   | A description for the component.                                                         | `string`                                | `undefined` |
+| `disabled`         | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                               | `false`     |
+| `heading`          | `heading`       | The component header text.                                                               | `string`                                | `undefined` |
+| `headingLevel`     | `heading-level` | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6`            | `undefined` |
+| `loading`          | `loading`       | When `true`, a busy indicator is displayed.                                              | `boolean`                               | `false`     |
+| `menuOpen`         | `menu-open`     | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                               | `false`     |
+| `messageOverrides` | --              | Use this property to override individual strings used by the component.                  | `{ close?: string; options?: string; }` | `undefined` |
 
 ## Events
 
@@ -106,16 +106,23 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                     | Description                                                                      |
-| ------------------------ | -------------------------------------------------------------------------------- |
-|                          | A slot for adding custom content.                                                |
-| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action. |
-| `"footer"`               | A slot for adding custom content to the footer.                                  |
-| `"footer-actions"`       | A slot for adding buttons to the footer.                                         |
-| `"header-actions-end"`   | A slot for adding actions or content to the end side of the header.              |
-| `"header-actions-start"` | A slot for adding actions or content to the start side of the header.            |
-| `"header-content"`       | A slot for adding custom content to the header.                                  |
-| `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a `calcite-dropdown`.     |
+| Slot                     | Description                                                                                                  |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------ |
+|                          | A slot for adding custom content.                                                                            |
+| `"action-bar"`           | A slot for adding a `calcite-action-bar` to the component.                                                   |
+| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action.                             |
+| `"footer"`               | A slot for adding custom content to the footer.                                                              |
+| `"footer-actions"`       | [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer. |
+| `"header-actions-end"`   | A slot for adding actions or content to the end side of the header.                                          |
+| `"header-actions-start"` | A slot for adding actions or content to the start side of the header.                                        |
+| `"header-content"`       | A slot for adding custom content to the header.                                                              |
+| `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a `calcite-dropdown`.                                 |
+
+## CSS Custom Properties
+
+| Name                             | Description                                      |
+| -------------------------------- | ------------------------------------------------ |
+| `--calcite-panel-footer-padding` | Specifies the padding of the component's footer. |
 
 ## Dependencies
 

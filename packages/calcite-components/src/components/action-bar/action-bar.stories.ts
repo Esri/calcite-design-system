@@ -108,6 +108,36 @@ export const horizontalSmall = (): string => html`
   </div>
 `;
 
+export const horizontalOverflow_TestOnly = (): string => html`
+  <div style="width: 500px; display:flex;">
+    <calcite-action-bar layout="horizontal" expand-disabled style="flex:1;">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Help" icon="question"></calcite-action>
+        <calcite-action
+          style="width:400px"
+          text="Wide action with a super long title that is unreasonable in my opinion"
+          icon="banana"
+        ></calcite-action>
+        <calcite-action
+          style="width:400px"
+          text="Wide action with a super long title that is unreasonable in my opinion"
+          icon="banana"
+        ></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>
+`;
+
 export const withDefinedWidths = (): string =>
   html`
     <style>

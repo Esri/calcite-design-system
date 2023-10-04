@@ -17,9 +17,11 @@ A child component of `calcite-accordion`, where some behavior is inherited from 
 
 ## Slots
 
-| Slot | Description                                                                   |
-| ---- | ----------------------------------------------------------------------------- |
-|      | A slot for adding custom content, including nested `calcite-accordion-item`s. |
+| Slot              | Description                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+|                   | A slot for adding custom content, including nested `calcite-accordion-item`s.               |
+| `"actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component's header.   |
+| `"actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component's header. |
 
 ## Dependencies
 

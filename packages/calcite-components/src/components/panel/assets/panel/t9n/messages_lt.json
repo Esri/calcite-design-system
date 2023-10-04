@@ -1,4 +1,6 @@
 {
   "close": "Uždaryti",
-  "options": "Parinktys"
+  "options": "Parinktys",
+  "collapse": "Suskleisti",
+  "expand": "Išskleisti"
 }

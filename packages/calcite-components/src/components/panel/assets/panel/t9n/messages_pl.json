@@ -1,4 +1,6 @@
 {
   "close": "Zamknij",
-  "options": "Opcje"
+  "options": "Opcje",
+  "collapse": "Zwiń",
+  "expand": "Rozwiń"
 }
