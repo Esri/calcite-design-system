@@ -38,29 +38,6 @@
   "author": {
     "name": "Esri"
   },
-  "contributors": [
-    {
-      "name": "Ali Stump",
-      "email": "astump@esri.com"
-    },
-    {
-      "name": "Erik Harper-Dicianno",
-      "email": "eharperdicianno@esri.com"
-    },
-    {
-      "name": "Bruno Aires",
-      "email": "baires@esri.com"
-    },
-    {
-      "name": "Jacques Keet",
-      "email": "jkeet@esri.com"
-    },
-    {
-      "name": "Manuela Costa",
-      "email": "mcosta@esri.com"
-    }
-  ],
-  "license": "SEE LICENSE IN README.md",
   "bugs": {
     "url": "https://github.com/Esri/calcite-design-tokens/issues"
   },
@@ -74,31 +51,25 @@
     "test": "jest"
   },
   "devDependencies": {
-    "concurrently": "^8.2.1",
-    "@tokens-studio/sd-transforms": "^0.8.2",
-    "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
-    "change-case": "^4.1.2",
-    "eslint": "^8.39.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-jest": "^27.2.1",
-    "eslint-plugin-jsdoc": "^43.1.1",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-unicorn": "^46.0.0",
-    "gh-release": "^7.0.2",
-    "husky": "^8.0.3",
-    "jest": "^29.5.0",
-    "markdownlint-cli": "^0.34.0",
-    "prettier": "^2.8.8",
-    "rimraf": "^5.0.0",
-    "shell-quote": "^1.8.1",
-    "style-dictionary": "^3.7.1",
-    "token-transformer": "^0.0.27",
-    "ts-jest": "^29.0.5",
-    "ts-node": "^10.9.1",
-    "tslib": "^2.5.0",
-    "typescript": "^5.0.2",
-    "yargs": "^17.7.2"
+    "concurrently": "8.2.1",
+    "@tokens-studio/sd-transforms": "0.8.2",
+    "@types/jest": "29.5.0",
+    "@types/node": "18.15.11",
+    "@typescript-eslint/eslint-plugin": "5.59.2",
+    "change-case": "4.1.2",
+    "eslint": "8.39.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-jest": "27.2.1",
+    "eslint-plugin-jsdoc": "43.1.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-unicorn": "46.0.0",
+    "jest": "29.5.0",
+    "markdownlint-cli": "0.34.0",
+    "prettier": "2.8.8",
+    "rimraf": "5.0.0",
+    "style-dictionary": "3.7.1",
+    "ts-jest": "29.0.5",
+    "ts-node": "10.9.1",
+    "typescript": "5.0.2"
   }
 }
