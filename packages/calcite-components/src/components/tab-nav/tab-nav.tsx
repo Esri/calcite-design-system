@@ -495,16 +495,14 @@ export class TabNav {
 
     const getActionChevronDirection = (overflowDirection: string): VNode => {
       const isEnd = overflowDirection === "end";
-      const dirActionClass: string = isEnd ? CSS.arrowEnd : CSS.arrowStart;
-      const dirChevronIcon: string = isEnd ? ICON.chevronRight : ICON.chevronLeft;
 
       const dirScroll = () =>
         isEnd ? this.scrollToNextTabTitles() : this.scrollToPreviousTabTitles();
 
       return (
         <calcite-action
-          class={dirActionClass}
-          icon={dirChevronIcon}
+          class={isEnd ? CSS.arrowEnd : CSS.arrowStart}
+          icon={isEnd ? ICON.chevronRight : ICON.chevronLeft}
           onClick={() => dirScroll()}
           scale={this.scale}
           text="Placeholder"

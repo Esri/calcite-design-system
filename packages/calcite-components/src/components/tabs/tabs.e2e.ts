@@ -4,7 +4,7 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-tabs", () => {
-  const tabsContent = `
+  const tabsContent = html`
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
@@ -16,14 +16,14 @@ describe("calcite-tabs", () => {
     <calcite-tab>Tab 3 Content</calcite-tab>
     <calcite-tab>Tab 4 Content</calcite-tab>
   `;
-  const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
+  const tabsSnippet = html`<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
   describe("renders", () => {
     renders(tabsSnippet, { display: "flex" });
   });
 
   describe("honors hidden attribute", () => {
-    hidden("calcite-tabs");
+    hidden(tabsSnippet);
   });
 
   describe("defaults", () => {
@@ -35,7 +35,7 @@ describe("calcite-tabs", () => {
   });
 
   describe("accessible: checked", () => {
-    accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`);
+    accessible(tabsSnippet);
   });
 
   it("sets up basic aria attributes", async () => {
@@ -135,9 +135,9 @@ describe("calcite-tabs", () => {
         html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
-      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "s");
-      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "s");
+      expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("s");
+      expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe("s");
+      expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe("s");
     });
 
     it("should render itself and child tab elements with corresponding scale (medium)", async () => {
@@ -145,9 +145,9 @@ describe("calcite-tabs", () => {
         html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "m");
+      expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("m");
+      expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe("m");
+      expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe("m");
     });
 
     it("should render itself and child tab elements with corresponding scale (large)", async () => {
@@ -155,9 +155,9 @@ describe("calcite-tabs", () => {
         html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "l");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
-      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "l");
-      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "l");
+      expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe("l");
+      expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe("l");
+      expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe("l");
     });
   });
 

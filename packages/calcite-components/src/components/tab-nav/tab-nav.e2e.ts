@@ -5,7 +5,6 @@ import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
-  const tabNavHtml = html`<calcite-tab-nav></calcite-tab-nav>`;
   const tabTitles = html`
     <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
     <calcite-tab-title>Tab 2 Title</calcite-tab-title>
@@ -15,11 +14,11 @@ describe("calcite-tab-nav", () => {
   const nestedTabTitles = html`<calcite-tab-nav>${tabTitles}</calcite-tab-nav>`;
 
   describe("accessible: checked", () => {
-    accessible(tabNavHtml);
+    accessible(nestedTabTitles);
   });
 
   describe("renders", () => {
-    renders(tabNavHtml, { display: "flex" });
+    renders(nestedTabTitles, { display: "flex" });
   });
 
   describe("honors hidden attribute", () => {
