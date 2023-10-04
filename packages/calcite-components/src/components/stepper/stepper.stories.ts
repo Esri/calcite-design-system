@@ -213,9 +213,9 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
     >
   </calcite-stepper>`;
 
-const getBreakpointsStoryTemplate = (scale: string): string => html` <style>
+const getBreakpointsStoryTemplate = ({ scale, width }: { scale: string; width: string }): string => html` <style>
     calcite-stepper {
-      width: 600px;
+      width: "${width}" px;
     }
   </style>
   <calcite-stepper numbered icon layout="horizontal" scale="${scale}">
@@ -223,6 +223,7 @@ const getBreakpointsStoryTemplate = (scale: string): string => html` <style>
       heading="Choose method"
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
       complete
+      disabled
     >
       <calcite-notice open width="full">
         <div slot="message">Step 1 Content Goes Here</div>
@@ -257,9 +258,12 @@ const getBreakpointsStoryTemplate = (scale: string): string => html` <style>
     </calcite-stepper-item>
   </calcite-stepper>`;
 
-export const responsiveLayoutXsmallScaleS_TestOnly = (): string => getBreakpointsStoryTemplate("s");
-export const responsiveLayoutXsmallScaleM_TestOnly = (): string => getBreakpointsStoryTemplate("m");
-export const responsiveLayoutXsmallScaleL_TestOnly = (): string => getBreakpointsStoryTemplate("l");
+export const responsiveLayoutXsmallScaleS_TestOnly = (): string =>
+  getBreakpointsStoryTemplate({ scale: "s", width: "400" });
+export const responsiveLayoutXsmallScaleM_TestOnly = (): string =>
+  getBreakpointsStoryTemplate({ scale: "m", width: "500" });
+export const responsiveLayoutXsmallScaleL_TestOnly = (): string =>
+  getBreakpointsStoryTemplate({ scale: "l", width: "600" });
 
 responsiveLayoutXsmallScaleL_TestOnly.parameters = {
   chromatic: { disableSnapshot: true },

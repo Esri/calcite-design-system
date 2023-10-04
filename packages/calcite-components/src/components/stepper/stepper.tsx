@@ -124,7 +124,7 @@ export class Stepper {
     return (
       <Host aria-label={"Progress steps"} role="region">
         {this.singleViewMode && (
-          <div class="step-bar-container">
+          <div class={{ [CSS.stepBarContainer]: true }}>
             {this.items.map((item, index) => (
               <StepBar
                 isActive={index === this.currentPosition}
@@ -134,7 +134,7 @@ export class Stepper {
             ))}
           </div>
         )}
-        <div class="action-container">
+        <div class={{ [CSS.actionContainer]: true }}>
           {this.renderAction("start")}
           {this.renderAction("end")}
         </div>
@@ -411,8 +411,6 @@ export class Stepper {
         appearance="transparent"
         class={{
           [CSS.actionIcon]: true,
-          [CSS.actionIconStart]: isPositionStart,
-          [CSS.actionIconEnd]: !isPositionStart,
         }}
         compact={true}
         disabled={
@@ -452,6 +450,7 @@ export class Stepper {
   }
 
   private getFirstEnabledStepperPosition(): number {
+    // If first stepper item is disabled returns next enabled stepper item.
     let index = 0;
     while (index < this.items.length) {
       if (!this.items[index].disabled) {
