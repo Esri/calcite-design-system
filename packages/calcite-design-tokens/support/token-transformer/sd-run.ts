@@ -38,7 +38,10 @@ export const run = async (
 
   // Here we are registering the Transforms provided by Token Studio
   // https://github.com/tokens-studio/sd-transforms
-  await registerTransforms(StyleDictionary, { expand: false });
+  // @ts-expect-error - @token-studio does not keep their types up to date.
+  await registerTransforms(StyleDictionary, {
+    expand: false,
+  });
 
   // Register custom formatter https://amzn.github.io/style-dictionary/#/formats?id=custom-formats
   StyleDictionary.registerFormat({
