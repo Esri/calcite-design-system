@@ -66,6 +66,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
+        name: "collapse-direction",
+        commit(): Attribute {
+          this.value = select("collapseDirection", ["down", "up"], "down");
+          delete this.build;
+          return this;
+        },
+      },
+      {
         name: "height-scale",
         commit(): Attribute {
           this.value = select("heightScale", scale.values, scale.defaultValue);
@@ -211,6 +219,41 @@ export const collapsibleWithActions_TestOnly = (): string => html`
     style="height: 100%;"
     closable
     collapsible
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const collapseDirectionUp_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    collapse-direction="up"
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const collapseDirectionUpCollapsed_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    collapsed
+    collapse-direction="up"
     heading="Collapsible with actions"
     description="A panel that can be collapsed"
   >
