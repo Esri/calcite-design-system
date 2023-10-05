@@ -19,7 +19,7 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 
 import {
   componentFocusable,
@@ -218,7 +218,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale={adjustIconScale(this.scale)} />
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -275,7 +275,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
               <calcite-icon
                 flipRtl={iconFlipRtl}
                 icon={requestedIcon}
-                scale={adjustIconScale(this.scale)}
+                scale={getIconScale(this.scale)}
               />
             </div>
           ) : null}

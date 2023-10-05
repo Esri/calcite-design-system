@@ -46,7 +46,7 @@ import { SetValueOrigin } from "../input/interfaces";
 import { Position, Scale, Status } from "../interfaces";
 import { InputTextMessages } from "./assets/input-text/t9n";
 import { CSS, SLOTS } from "./resources";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -612,7 +612,7 @@ export class InputText
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={adjustIconScale(this.scale)} />
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -620,7 +620,7 @@ export class InputText
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={adjustIconScale(this.scale)}
+        scale={getIconScale(this.scale)}
       />
     );
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;

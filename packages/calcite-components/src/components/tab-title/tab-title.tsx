@@ -35,7 +35,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 
 /**
  * Tab-titles are optionally individually closable.
@@ -197,7 +197,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         class={{ [CSS.titleIcon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={adjustIconScale(this.scale)}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -206,7 +206,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         class={{ [CSS.titleIcon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={adjustIconScale(this.scale)}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -253,7 +253,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
-        <calcite-icon icon={ICONS.close} scale={adjustIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
     ) : null;
   }

@@ -21,9 +21,7 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
-
-// ...
+import { getIconScale } from "../../utils/component";
 import { SLOTS, CSS, IDS } from "./resources";
 import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
@@ -153,7 +151,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
-        scale={adjustIconScale(this.scale)}
+        scale={getIconScale(this.scale)}
       />
     ) : null;
     const iconEndEl = this.iconEnd ? (
@@ -162,7 +160,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         icon={this.iconEnd}
         key="icon-end"
-        scale={adjustIconScale(this.scale)}
+        scale={getIconScale(this.scale)}
       />
     ) : null;
     const { description } = this;
@@ -204,7 +202,7 @@ export class AccordionItem implements ConditionalSlotComponent {
                     ? "minus"
                     : "plus"
                 }
-                scale={adjustIconScale(this.scale)}
+                scale={getIconScale(this.scale)}
               />
             </div>
             {this.renderActionsEnd()}

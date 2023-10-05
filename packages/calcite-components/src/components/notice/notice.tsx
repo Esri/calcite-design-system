@@ -35,7 +35,7 @@ import { KindIcons } from "../resources";
 import { NoticeMessages } from "./assets/notice/t9n";
 import { CSS, SLOTS } from "./resources";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -168,7 +168,7 @@ export class Notice
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale={adjustIconScale(this.scale)} />
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -185,7 +185,7 @@ export class Notice
             <calcite-icon
               flipRtl={this.iconFlipRtl}
               icon={this.requestedIcon}
-              scale={adjustIconScale(this.scale)}
+              scale={getIconScale(this.scale)}
             />
           </div>
         ) : null}

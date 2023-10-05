@@ -67,7 +67,7 @@ import {
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -1049,7 +1049,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={adjustIconScale(this.scale)} />
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -1057,7 +1057,7 @@ export class Input
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={adjustIconScale(this.scale)}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -1078,7 +1078,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={adjustIconScale(this.scale)} />
+        <calcite-icon icon="chevron-up" scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1097,7 +1097,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={adjustIconScale(this.scale)} />
+        <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1186,7 +1186,7 @@ export class Input
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>
-                <calcite-icon icon="chevron-down" scale={adjustIconScale(this.scale)} />
+                <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
               </div>
             ) : null,
           ]

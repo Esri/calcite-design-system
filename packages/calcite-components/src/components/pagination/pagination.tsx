@@ -36,7 +36,7 @@ import { PaginationMessages } from "./assets/pagination/t9n";
 import { CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Breakpoints, getBreakpoints } from "../../utils/responsive";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 
 export interface PaginationDetail {
   start: number;
@@ -427,7 +427,7 @@ export class Pagination
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon flipRtl icon={ICONS.previous} scale={adjustIconScale(this.scale)} />
+          <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
         </button>
         {this.renderItems()}
         <button
@@ -439,7 +439,7 @@ export class Pagination
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon flipRtl icon={ICONS.next} scale={adjustIconScale(this.scale)} />
+          <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
         </button>
       </Fragment>
     );

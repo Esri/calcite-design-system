@@ -22,7 +22,7 @@ import {
   InteractiveComponent,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
@@ -325,7 +325,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
         ? "circle-f"
         : "circle";
 
-    return <calcite-icon icon={icon} scale={adjustIconScale(this.scale)} />;
+    return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
   }
 
   renderSelectableCell(): VNode {

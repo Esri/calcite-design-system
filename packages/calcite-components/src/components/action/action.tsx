@@ -27,7 +27,7 @@ import {
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 import {
   connectMessages,
   disconnectMessages,
@@ -249,13 +249,12 @@ export class Action
 
   renderIconContainer(): VNode {
     const { loading, icon, scale, el, iconFlipRtl } = this;
-    //const iconScale = scale === "l" ? "m" : "s";
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
       <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
     const calciteIconNode = icon ? (
-      <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale={adjustIconScale(this.scale)} />
+      <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale={getIconScale(this.scale)} />
     ) : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;

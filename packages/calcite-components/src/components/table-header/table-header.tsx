@@ -17,7 +17,7 @@ import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
 import { CSS } from "./resources";
 import { RowType } from "../table/interfaces";
-import { adjustIconScale } from "../../utils/iconScaleAdjuster";
+import { getIconScale } from "../../utils/component";
 
 @Component({
   tag: "calcite-table-header",
@@ -225,7 +225,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             <calcite-icon
               class={{ [CSS.active]: allSelected }}
               icon={selectionIcon}
-              scale={adjustIconScale(this.scale)}
+              scale={getIconScale(this.scale)}
             />
           )}
           {(this.selectionCell || this.numberCell) && (
