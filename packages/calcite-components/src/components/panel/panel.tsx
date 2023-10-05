@@ -87,10 +87,11 @@ export class Panel
   @Prop({ reflect: true }) collapsed = false;
 
   /**
-   * When `true`, inverts the collapse icon.
+   * Specifies the direction of the collapse.
    *
+   * @internal
    */
-  @Prop() collapseInverted = false;
+  @Prop() collapseDirection: "down" | "up" = "down";
 
   /**
    * When `true`, the component is collapsible.
@@ -411,7 +412,7 @@ export class Panel
       messages,
       closable,
       collapsed,
-      collapseInverted,
+      collapseDirection,
       collapsible,
       hasMenuItems,
     } = this;
@@ -419,7 +420,7 @@ export class Panel
 
     const icons = [ICONS.expand, ICONS.collapse];
 
-    if (collapseInverted) {
+    if (collapseDirection === "up") {
       icons.reverse();
     }
 

@@ -36,8 +36,8 @@ describe("calcite-panel", () => {
         defaultValue: false,
       },
       {
-        propertyName: "collapseInverted",
-        defaultValue: false,
+        propertyName: "collapseDirection",
+        defaultValue: "down",
       },
       {
         propertyName: "collapsed",

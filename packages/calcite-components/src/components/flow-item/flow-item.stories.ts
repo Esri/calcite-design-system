@@ -66,9 +66,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
-        name: "collapse-inverted",
+        name: "collapse-direction",
         commit(): Attribute {
-          this.value = boolean("collapseInverted", false);
+          this.value = select("collapseDirection", ["down", "up"], "down");
           delete this.build;
           return this;
         },
@@ -167,8 +167,8 @@ export const collapsed_TestOnly = (): string => html`
   <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
 
-export const collapseInverted_TestOnly = (): string => html`
-  <calcite-flow-item collapsed collapsible collapse-inverted closable> Hello World! </calcite-flow-item>
+export const collapseDirection_TestOnly = (): string => html`
+  <calcite-flow-item collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`

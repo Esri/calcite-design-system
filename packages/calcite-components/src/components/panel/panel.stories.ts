@@ -66,9 +66,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
-        name: "collapse-inverted",
+        name: "collapse-direction",
         commit(): Attribute {
-          this.value = boolean("collapseInverted", false);
+          this.value = select("collapseDirection", ["down", "up"], "down");
           delete this.build;
           return this;
         },
@@ -230,12 +230,12 @@ export const collapsibleWithActions_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-export const collapseInverted_TestOnly = (): string => html`
+export const collapseDirection_TestOnly = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
     collapsible
-    collapse-inverted
+    collapse-direction="up"
     heading="Collapsible with actions"
     description="A panel that can be collapsed"
   >
@@ -247,13 +247,13 @@ export const collapseInverted_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-export const collapseInvertedCollapsed_TestOnly = (): string => html`
+export const collapseDirectionCollapsed_TestOnly = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
     collapsible
     collapsed
-    collapse-inverted
+    collapse-direction="up"
     heading="Collapsible with actions"
     description="A panel that can be collapsed"
   >
