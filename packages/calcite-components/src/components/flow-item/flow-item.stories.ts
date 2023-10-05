@@ -167,7 +167,7 @@ export const collapsed_TestOnly = (): string => html`
   <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
 
-export const collapsedInverted_TestOnly = (): string => html`
+export const collapseInverted_TestOnly = (): string => html`
   <calcite-flow-item collapsed collapsible collapse-inverted closable> Hello World! </calcite-flow-item>
 `;
 
