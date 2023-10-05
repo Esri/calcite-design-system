@@ -510,7 +510,7 @@ export class Combobox
 
   @State() defaultMessages: ComboboxMessages;
 
-  @State() selectedHiddenChips: number;
+  @State() selectedHiddenChipsCount: number;
 
   textInput: HTMLInputElement = null;
 
@@ -852,7 +852,7 @@ export class Combobox
           selectedVisibleChipEls++;
         }
       });
-      this.selectedHiddenChips = this.selectedItems.length - selectedVisibleChipEls;
+      this.selectedHiddenChipsCount = this.selectedItems.length - selectedVisibleChipEls;
     }
   };
 
@@ -1296,13 +1296,26 @@ export class Combobox
   }
 
   renderSelectedIndicatorChip(): VNode {
-    const label = this.selectedHiddenChips ? `+${this.selectedHiddenChips}` : undefined;
+    const { displayMode, selectedHiddenChipsCount, setSelectedIndicatorChipEl, scale } = this;
+    let label;
+    if (displayMode === "fit-to-line") {
+      label = selectedHiddenChipsCount ? `+${selectedHiddenChipsCount}` : undefined;
+    } else if (displayMode === "single") {
+      label = `${this.selectedItems.length} selected`;
+    }
+    const style =
+      displayMode === "fit-to-line" || (displayMode === "single" && this.selectedItems.length === 0)
+        ? {
+            position: "absolute",
+            visibility: "hidden",
+          }
+        : undefined;
     return (
       <calcite-chip
         class="chip"
-        ref={this.setSelectedIndicatorChipEl}
-        scale={this.scale}
-        style={{ visibility: "hidden", position: "absolute" }}
+        ref={setSelectedIndicatorChipEl}
+        scale={scale}
+        style={style}
         title={label}
         value=""
       >
@@ -1441,10 +1454,11 @@ export class Combobox
   }
 
   render(): VNode {
-    const { guid, label, open } = this;
+    const { displayMode, guid, label, open } = this;
     const single = isSingleLike(this.selectionMode);
+    const singleDisplayMode = displayMode === "single";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
-    const isFitToLine = !single && this.displayMode === "fit-to-line";
+    const isFitToLine = !single && displayMode === "fit-to-line";
 
     return (
       <Host onClick={this.comboboxFocusHandler}>
@@ -1472,7 +1486,7 @@ export class Combobox
             ref={this.setInputContainerEl}
           >
             {this.renderIconStart()}
-            {!single && this.renderChips()}
+            {!single && !singleDisplayMode && this.renderChips()}
             {!single && this.renderSelectedIndicatorChip()}
             <label
               class="screen-readers-only"
