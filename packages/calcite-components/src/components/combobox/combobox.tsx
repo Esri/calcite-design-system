@@ -513,6 +513,8 @@ export class Combobox
 
   @State() defaultMessages: ComboboxMessages;
 
+  @State() selectedHiddenChips: number;
+
   textInput: HTMLInputElement = null;
 
   data: ItemData[];
@@ -790,7 +792,13 @@ export class Combobox
   }
 
   private refreshDisplayMode = () => {
-    if (this.textInput && !isSingleLike(this.selectionMode) && this.displayMode === "fit-to-line") {
+    if (isSingleLike(this.selectionMode)) {
+      return;
+    }
+    if (!this.textInput) {
+      return;
+    }
+    if (this.displayMode === "fit-to-line") {
       const chipEls = this.el.shadowRoot.querySelectorAll(`calcite-chip`);
       const { fontSize, fontFamily } = getComputedStyle(this.textInput);
       const placeholderTextWidth = getTextWidth(this.placeholder, `${fontSize} ${fontFamily}`);
@@ -834,6 +842,17 @@ export class Combobox
         this.selectedIndicatorChipEl.style.position = "absolute";
         this.selectedIndicatorChipEl.style.visibility = "hidden";
       }
+
+      let selectedVisibleChipEls = 0;
+      chipEls.forEach((chipEl) => {
+        if (chipEl === this.selectedIndicatorChipEl) {
+          return;
+        }
+        if (chipEl.selected && chipEl.style.visibility === "visible") {
+          selectedVisibleChipEls++;
+        }
+      });
+      this.selectedHiddenChips = this.selectedItems.length - selectedVisibleChipEls;
     }
   };
 
@@ -1274,17 +1293,7 @@ export class Combobox
   }
 
   renderSelectedIndicatorChip(): VNode {
-    const chipEls = this.el.shadowRoot.querySelectorAll(`calcite-chip`);
-    let selectedVisibleChipEls = 0;
-    chipEls.forEach((chipEl) => {
-      if (chipEl === this.selectedIndicatorChipEl) {
-        return;
-      }
-      if (chipEl.selected && chipEl.style.visibility === "visible") {
-        selectedVisibleChipEls++;
-      }
-    });
-    const label = `+${this.selectedItems.length - selectedVisibleChipEls}`;
+    const label = this.selectedHiddenChips ? `+${this.selectedHiddenChips}` : undefined;
     return (
       <calcite-chip
         class="chip"
