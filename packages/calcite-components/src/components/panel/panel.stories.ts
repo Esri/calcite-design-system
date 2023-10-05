@@ -230,7 +230,7 @@ export const collapsibleWithActions_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-export const collapseDirection_TestOnly = (): string => html`
+export const collapseDirectionUp_TestOnly = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
@@ -247,7 +247,7 @@ export const collapseDirection_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-export const collapseDirectionCollapsed_TestOnly = (): string => html`
+export const collapseDirectionUpCollapsed_TestOnly = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
