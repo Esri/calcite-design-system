@@ -435,7 +435,7 @@ export class Stepper {
   }
 
   private getFirstEnabledStepperPosition(): number {
-    // If first stepper item is disabled returns next enabled stepper item.
+    // If first stepper item is disabled returns next enabled stepper item & if all the stepper item's are disabled , first item index will be returned.
     let index = 0;
     while (index < this.items.length) {
       if (!this.items[index].disabled) {
@@ -443,6 +443,8 @@ export class Stepper {
       }
       index++;
     }
+
+    this.currentPosition = 0;
     return 0;
   }
 

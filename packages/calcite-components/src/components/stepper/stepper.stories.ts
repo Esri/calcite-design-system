@@ -276,7 +276,7 @@ responsiveLayoutScaleS_TestOnly.parameters = {
 
 export const responsiveLayoutWithDisabledStepperItems_TestOnly = (): string => html`<style>
     calcite-stepper {
-      width: 400px;
+      width: 300px;
     }
   </style>
   <calcite-stepper numbered icon layout="horizontal" scale="s">
@@ -284,8 +284,7 @@ export const responsiveLayoutWithDisabledStepperItems_TestOnly = (): string => h
       heading="Choose method"
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
       complete
-      disabled
-    >
+      disabled>
       <calcite-notice open width="full">
         <div slot="message">Step 1 Content Goes Here</div>
       </calcite-notice>
