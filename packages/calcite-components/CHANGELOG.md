@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0...@esri/calcite-components@1.9.1-next.0) (2023-10-05)
+
+### Bug Fixes
+
+- **panel:** fix collapse action title and reverse icon direction ([#7927](https://github.com/Esri/calcite-design-system/issues/7927)) ([5f620f8](https://github.com/Esri/calcite-design-system/commit/5f620f8541d6b7a9518fd8d3c5d1558420d25966)), closes [#7930](https://github.com/Esri/calcite-design-system/issues/7930)
+
 ## [1.9.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0...@esri/calcite-components@1.9.0) (2023-10-03)
 
 ### Features
