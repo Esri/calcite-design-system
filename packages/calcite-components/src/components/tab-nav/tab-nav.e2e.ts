@@ -215,7 +215,7 @@ describe("calcite-tab-nav", () => {
         const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title")) as HTMLCalciteTabTitleElement[];
 
         const tabNavWidth = tabNav.offsetWidth;
-        const tabTitlesTotalWidth = tabTitles.reduce((sum, tabTitle: HTMLElement) => {
+        const tabTitlesTotalWidth = tabTitles.reduce((sum, tabTitle) => {
           return sum + tabTitle.offsetWidth;
         }, 0);
 
@@ -235,15 +235,15 @@ describe("calcite-tab-nav", () => {
             let tabNavWidth: number;
             if (tabNav) {
               tabNav.scrollLeft = 0;
-              tabNavWidth = tabNav.getBoundingClientRect().width;
+              tabNavWidth = tabNav.clientWidth;
             }
 
             const visibleTabTitles = tabTitles.filter((tabTitle) => {
               const tabTitleRect = tabTitle.getBoundingClientRect();
               return tabTitleRect.left >= 0 && tabTitleRect.right <= tabNavWidth;
             });
-            const firstRightOverflowItem = tabTitles[visibleTabTitles.length];
-            const isOverflowingEnd = firstRightOverflowItem.getBoundingClientRect().right > tabNavWidth;
+            const firstEndOverflowItem = tabTitles[visibleTabTitles.length];
+            const isOverflowingEnd = firstEndOverflowItem.getBoundingClientRect().right > tabNavWidth;
 
             return isOverflowingEnd;
           });
