@@ -791,6 +791,18 @@ export class Combobox
     this.updateActiveItemIndex(targetIndex);
   }
 
+  private hideChip(chipEl: HTMLCalciteChipElement): void {
+    chipEl.style.display = "inline-block";
+    chipEl.style.position = "absolute";
+    chipEl.style.visibility = "hidden";
+  }
+
+  private showChip(chipEl: HTMLCalciteChipElement): void {
+    chipEl.style.display = "inline-block";
+    chipEl.style.position = "static";
+    chipEl.style.visibility = "visible";
+  }
+
   private refreshDisplayMode = () => {
     if (isSingleLike(this.selectionMode)) {
       return;
@@ -816,31 +828,22 @@ export class Combobox
           const chipElWidth = getElementWidth(chipEl);
           if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
             availableHorizontalChipElSpace -= chipElWidth;
-            chipEl.style.position = "static";
-            chipEl.style.visibility = "visible";
+            this.showChip(chipEl);
           } else {
-            chipEl.style.position = "absolute";
-            chipEl.style.visibility = "hidden";
+            this.hideChip(chipEl);
           }
         } else {
-          chipEl.style.position = "absolute";
-          chipEl.style.visibility = "hidden";
+          this.hideChip(chipEl);
         }
-
-        // The browser for some reason sets display to "none" when its visibility is directly changed.
-        // This ensures we can always get the width in pixels instead of "auto".
-        chipEl.style.display = "inline-block";
       });
 
       const hasHiddenSelectedChips = Array.from(chipEls).some(
         (chipEl) => chipEl.selected && chipEl.style.visibility === "hidden"
       );
       if (hasHiddenSelectedChips) {
-        this.selectedIndicatorChipEl.style.position = "static";
-        this.selectedIndicatorChipEl.style.visibility = "visible";
+        this.showChip(this.selectedIndicatorChipEl);
       } else {
-        this.selectedIndicatorChipEl.style.position = "absolute";
-        this.selectedIndicatorChipEl.style.visibility = "hidden";
+        this.hideChip(this.selectedIndicatorChipEl);
       }
 
       let selectedVisibleChipEls = 0;
