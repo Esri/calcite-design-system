@@ -19,6 +19,7 @@ import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./inter
 import { createObserver } from "../../utils/observers";
 import { StepBar } from "./step-bar";
 import { ITEM_MIN_WIDTH, CSS } from "./resources";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -307,6 +308,8 @@ export class Stepper {
 
   private singleViewMode = false;
 
+  guid = `calcite-stepper-action-${guid()}`;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -402,6 +405,7 @@ export class Stepper {
     const { currentPosition, singleViewMode, layout } = this;
     const dir = getElementDir(this.el);
     const totalItems = this.items.length;
+    const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
 
     return layout === "horizontal" && singleViewMode ? (
       <calcite-action
@@ -417,6 +421,7 @@ export class Stepper {
         }
         icon={path}
         iconFlipRtl={dir === "rtl"}
+        id={id}
         // eslint-disable-next-line react/jsx-no-bind
         onClick={(event) => this.handleActionClick(event, position)}
         scale={this.scale}
