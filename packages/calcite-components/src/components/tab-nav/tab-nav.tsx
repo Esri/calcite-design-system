@@ -134,7 +134,6 @@ export class TabNav {
 
   componentWillRender(): void {
     const { parentTabsEl } = this;
-    // const tabTitles = this.el.querySelectorAll("calcite-tab-title");
 
     this.layout = parentTabsEl?.layout;
     this.position = parentTabsEl?.position;
@@ -144,9 +143,6 @@ export class TabNav {
     if (this.selectedTitle) {
       this.updateOffsetPosition();
     }
-    // if (getElementDir(this.el) === "ltr" && this.layout === "inline") {
-    //   this.findVisibleTabTitleIndices(tabTitles);
-    // }
   }
 
   componentDidRender(): void {
@@ -311,6 +307,8 @@ export class TabNav {
 
   @State() selectedTabId: TabID;
 
+  @State() viewportVisibleTabTitleIndices: Map<object, number>;
+
   parentTabsEl: HTMLCalciteTabsElement;
 
   tabNavEl: HTMLDivElement;
@@ -334,21 +332,20 @@ export class TabNav {
     this.getOverflowIcons();
   });
 
-  private visibleTabTitleIndices;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private findVisibleTabTitleIndices = (tabTitles: NodeListOf<Element>): Map<object, number> => {
+  private findViewportVisibleTabTitleIndices = (): Map<object, number> => {
+    const tabTitlesNodeList: NodeListOf<HTMLCalciteTabTitleElement> =
+      this.el.querySelectorAll("calcite-tab-title");
     const elWidth = this.el.clientWidth;
-    console.log("elWidth", elWidth);
     const tabTitlesMap = new Map<object, number>();
 
     function findIndex() {
-      tabTitles.forEach((tabTitle, index) => {
+      tabTitlesNodeList.forEach((tabTitle, index) => {
         const tabTitleRect = tabTitle?.getBoundingClientRect();
         console.log("tabTitleRect", tabTitleRect.x);
 
@@ -368,28 +365,25 @@ export class TabNav {
   private scrollToTabTitles = (direction: "forward" | "backward"): void => {
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
 
-    let { visibleTabTitleIndices } = this;
+    let { viewportVisibleTabTitleIndices } = this;
 
-    visibleTabTitleIndices = this.findVisibleTabTitleIndices(tabTitles);
-    console.log("visibleTabTitleIndices in scrollToTabTitles", visibleTabTitleIndices);
+    viewportVisibleTabTitleIndices = this.findViewportVisibleTabTitleIndices();
+    console.log("visibleTabTitleIndices in scrollToTabTitles", viewportVisibleTabTitleIndices);
 
     const tabTitlesArray = Array.from(tabTitles);
 
     let lastValue: number;
-    for (const value of visibleTabTitleIndices?.values()) {
+    for (const value of viewportVisibleTabTitleIndices?.values()) {
       lastValue = value;
     }
     console.log("lastValue", lastValue);
 
-    const valuesIterator = visibleTabTitleIndices?.values();
+    const valuesIterator = viewportVisibleTabTitleIndices?.values();
     const firstValue: number = valuesIterator?.next().value;
 
     requestAnimationFrame(() => {
       const targetIndex = direction === "forward" ? lastValue : firstValue - 1;
       const scrollInline = direction === "forward" ? "start" : "end";
-
-      console.log("targetIndex", targetIndex);
-      console.log("tabTitlesArray", tabTitlesArray);
 
       if (tabTitlesArray[targetIndex]) {
         tabTitlesArray[targetIndex].scrollIntoView({
@@ -437,6 +431,11 @@ export class TabNav {
 
   updateActiveWidth(): void {
     this.indicatorWidth = this.selectedTitle?.offsetWidth;
+  }
+
+  updateViewportVisibleTabTitleIndices(): void {
+    this.viewportVisibleTabTitleIndices = this.findViewportVisibleTabTitleIndices();
+    console.log("this.viewportVisibleTabTitleIndices", this.viewportVisibleTabTitleIndices);
   }
 
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
@@ -488,7 +487,11 @@ export class TabNav {
     requestAnimationFrame(() => {
       this.updateOffsetPosition();
       this.updateActiveWidth();
+
       tabTitles[this.selectedTabId].focus();
+    });
+    requestAnimationFrame(() => {
+      this.updateViewportVisibleTabTitleIndices();
     });
   }
 
@@ -498,46 +501,37 @@ export class TabNav {
   } {
     const dir = getElementDir(this.el);
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
-    const visibleTabTitleIndices = this.findVisibleTabTitleIndices(tabTitles);
+    const viewportVisibleTabTitleIndices = this.findViewportVisibleTabTitleIndices();
 
     let isOverflowingEnd = false;
     let isOverflowingStart = false;
 
-    if (dir === "ltr" && visibleTabTitleIndices.size > 0) {
-      const keyIterator = visibleTabTitleIndices.keys();
-
+    if (dir === "ltr" && viewportVisibleTabTitleIndices.size > 0) {
       let lastKey;
-      for (const key of keyIterator) {
+      for (const key of viewportVisibleTabTitleIndices.keys()) {
         lastKey = key;
       }
 
-      if (keyIterator.next().value !== 0) {
+      if (viewportVisibleTabTitleIndices.keys().next().value !== 0) {
         isOverflowingStart = true;
       }
 
-      if (visibleTabTitleIndices.get(lastKey) !== tabTitles.length - 1) {
+      if (viewportVisibleTabTitleIndices.get(lastKey) !== tabTitles.length - 1) {
         isOverflowingEnd = true;
       }
     }
+
     return { isOverflowingStart, isOverflowingEnd };
   }
 
   getOverflowActions(
     isOverflowingStart: boolean,
     isOverflowingEnd: boolean
-  ): { showStartAction: string; showEndAction: string } {
-    let showStartAction = null;
-    let showEndAction = null;
-
-    if (isOverflowingStart) {
-      showStartAction = "start";
-    }
-
-    if (isOverflowingEnd) {
-      showEndAction = "end";
-    }
-
-    return { showStartAction, showEndAction };
+  ): { showStartAction: string | null; showEndAction: string | null } {
+    return {
+      showStartAction: isOverflowingStart ? "start" : null,
+      showEndAction: isOverflowingEnd ? "end" : null,
+    };
   }
 
   getActionChevronDirection = (overflowDirection: string): VNode => {
