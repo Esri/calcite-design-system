@@ -1,5 +1,6 @@
 /**
  * Find the string in a list
+ *
  * @param {string} str the string to find in the list
  * @param {string[]} list the list of strings to match with the provided string
  * @param {RegExp} regexExclude a regular expression defining strings that should always be excluded

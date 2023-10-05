@@ -11,6 +11,7 @@ import { Theme } from "./getThemes.js";
 
 /**
  * Style Dictionary runner configuration overrides.
+ *
  * @param {string} tokenDir the directory containing design token files
  * @param {string} buildPath the directory to write generated assets to
  * @param {Theme} theme the theme configuration to use to generate the platform asset files

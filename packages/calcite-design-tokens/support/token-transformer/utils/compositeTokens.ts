@@ -37,6 +37,7 @@ const typeMaps = {
 
 /**
  * Get type from type map
+ *
  * @param {string} key type
  * @param {DesignToken} compositeToken a Style Dictionary token
  * @returns {string} approved token type
@@ -45,6 +46,7 @@ export const getType = (key: string, compositeToken: DesignToken): string => typ
 
 /**
  * This is a recursive function to dig into composite tokens and lift up the token values in a Style Dictionary format.
+ *
  * @param {DesignToken} compositeToken the composite token object
  * @param {boolean} isShadow is a drop shadow?
  * @param {Function} handleValue a function to determine how the final token value string should be passed to Style Dictionary
