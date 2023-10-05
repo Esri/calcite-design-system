@@ -213,7 +213,7 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
     >
   </calcite-stepper>`;
 
-const getBreakpointsStoryTemplate = ({ scale, width }: { scale: string; width: number }): string => html` <style>
+const getBreakpointsStoryTemplate = ({ scale, width }: { scale: string; width: number }): string => html`<style>
     calcite-stepper {
       width: ${width}px;
     }
@@ -258,21 +258,54 @@ const getBreakpointsStoryTemplate = ({ scale, width }: { scale: string; width: n
     </calcite-stepper-item>
   </calcite-stepper>`;
 
-export const responsiveLayoutXsmallScaleS_TestOnly = (): string =>
-  getBreakpointsStoryTemplate({ scale: "s", width: 400 });
-export const responsiveLayoutXsmallScaleM_TestOnly = (): string =>
-  getBreakpointsStoryTemplate({ scale: "m", width: 500 });
-export const responsiveLayoutXsmallScaleL_TestOnly = (): string =>
-  getBreakpointsStoryTemplate({ scale: "l", width: 600 });
+export const responsiveLayoutScaleS_TestOnly = (): string => getBreakpointsStoryTemplate({ scale: "s", width: 400 });
+export const responsiveLayoutScaleM_TestOnly = (): string => getBreakpointsStoryTemplate({ scale: "m", width: 500 });
+export const responsiveLayoutScaleL_TestOnly = (): string => getBreakpointsStoryTemplate({ scale: "l", width: 600 });
 
-responsiveLayoutXsmallScaleL_TestOnly.parameters = {
+responsiveLayoutScaleL_TestOnly.parameters = {
   chromatic: { disableSnapshot: true },
 };
 
-responsiveLayoutXsmallScaleM_TestOnly.parameters = {
+responsiveLayoutScaleM_TestOnly.parameters = {
   chromatic: { disableSnapshot: true },
 };
 
-responsiveLayoutXsmallScaleS_TestOnly.parameters = {
+responsiveLayoutScaleS_TestOnly.parameters = {
   chromatic: { disableSnapshot: true },
 };
+
+export const responsiveLayoutWithDisabledStepperItems_TestOnly = (): string => html`<style>
+    calcite-stepper {
+      width: 400px;
+    }
+  </style>
+  <calcite-stepper numbered icon layout="horizontal" scale="s">
+    <calcite-stepper-item
+      heading="Choose method"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      complete
+      disabled
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 1 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Compile member list"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      complete
+      disabled
+      selected
+    >
+      <calcite-notice open width="full">
+        <div slot="message">Step 2 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Set member properties"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      description="Some subtext"
+      error
+      disabled
+    >
+  </calcite-stepper>`;
