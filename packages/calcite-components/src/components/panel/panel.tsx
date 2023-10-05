@@ -432,7 +432,7 @@ export class Panel
         icon={collapsed ? icons[0] : icons[1]}
         onClick={this.collapse}
         text={collapse}
-        title={!collapsed ? expand : collapse}
+        title={collapsed ? expand : collapse}
       />
     ) : null;
 
