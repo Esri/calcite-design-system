@@ -291,9 +291,6 @@ export class Combobox
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
-    // this.selectedItems?.forEach((item, i) => {
-    //   console.log(item.value, i);
-    // });
   }
 
   /**
@@ -1264,8 +1261,9 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode, messages } = this;
-    return this.items.map((item, i) => {
+    const { activeChipIndex, displayMode, scale, selectionMode, messages } = this;
+    const items = displayMode === "fit-to-line" ? this.items : this.selectedItems;
+    return items.map((item, i) => {
       const chipClasses = {
         chip: true,
         "chip--active": activeChipIndex === i,
@@ -1273,6 +1271,8 @@ export class Combobox
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
+      const style =
+        displayMode === "fit-to-line" ? { position: "absolute", visibility: "hidden" } : undefined;
       return (
         <calcite-chip
           class={chipClasses}
@@ -1285,7 +1285,7 @@ export class Combobox
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
           selected={item.selected}
-          style={{ position: "absolute", visibility: "hidden" }}
+          style={style}
           title={label}
           value={item.value}
         >
