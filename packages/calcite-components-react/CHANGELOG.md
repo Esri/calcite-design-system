@@ -3,13 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.9.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.9.1-next.0...@esri/calcite-components-react@1.9.1-next.1) (2023-10-05)
+## [1.9.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.9.0...@esri/calcite-components-react@1.9.1) (2023-10-05)
 
-**Note:** Version bump only for package @esri/calcite-components-react
+### Miscellaneous Chores
 
-## [1.9.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.9.0...@esri/calcite-components-react@1.9.1-next.0) (2023-10-05)
+- **@esri/calcite-components-react:** Synchronize undefined versions
 
-**Note:** Version bump only for package @esri/calcite-components-react
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^1.9.1-next.1 to ^1.9.1
 
 ## [1.9.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.8.0...@esri/calcite-components-react@1.9.0) (2023-10-03)
 
