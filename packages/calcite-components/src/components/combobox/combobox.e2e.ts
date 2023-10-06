@@ -1065,7 +1065,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      expect(await combobox.getProperty("value")).toBe("");
+      expect(await inputEl.getProperty("value")).toBe("");
 
       combobox.setProperty("selectionMode", "single");
       await inputEl.focus();
@@ -1075,7 +1075,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      expect(await combobox.getProperty("value")).toBe("");
+      expect(await inputEl.getProperty("value")).toBe("");
     });
 
     describe("keyboard interaction with chips", () => {
