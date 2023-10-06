@@ -283,7 +283,7 @@ export class Stepper {
   @Watch("currentPosition")
   handlePositionChange(): void {
     requestAnimationFrame(() => {
-      this.determineActiveStepper();
+      this.determineActiveStepper(true);
     });
   }
 
@@ -330,7 +330,7 @@ export class Stepper {
     });
   }
 
-  private determineActiveStepper(): void {
+  private determineActiveStepper(currentPositionChanged = false): void {
     const totalItems = this.items.length;
     if (!this.elWidth || !totalItems || this.layout !== "horizontal") {
       return;
@@ -341,10 +341,14 @@ export class Stepper {
     const totalRowGap = (totalItems - 1) * (parseInt(window.getComputedStyle(this.el).rowGap) || 0);
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
+      if (this.singleViewMode && !currentPositionChanged) {
+        return;
+      }
       this.el.style.gridTemplateColumns = "none";
       this.singleViewMode = true;
       this.el.style.display = "flex";
       this.el.style.flexDirection = "columns";
+
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
         if (index !== activePosition) {
           item.style.display = "none";
@@ -354,6 +358,9 @@ export class Stepper {
         }
       });
     } else if (this.elWidth > totalMinWidthOfItems + totalRowGap) {
+      if (!this.singleViewMode) {
+        return;
+      }
       this.el.style.display = "grid";
       this.singleViewMode = false;
       this.setGridTemplateColumns(this.items);
@@ -432,10 +439,19 @@ export class Stepper {
 
   private handleActionClick(event: MouseEvent, position: Position): void {
     event.stopPropagation();
+    const currentActivePosition = this.currentPosition;
     if (position === "start") {
       this.prevStep();
     } else {
       this.nextStep();
+    }
+
+    if (
+      this.currentPosition &&
+      currentActivePosition !== this.currentPosition &&
+      !this.items[this.currentPosition].disabled
+    ) {
+      this.calciteStepperItemChange.emit();
     }
   }
 
