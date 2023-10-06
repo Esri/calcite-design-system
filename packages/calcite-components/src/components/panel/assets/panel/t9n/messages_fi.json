@@ -1,4 +1,6 @@
 {
   "close": "Sulje",
-  "options": "Asetukset"
+  "options": "Asetukset",
+  "collapse": "Kutista",
+  "expand": "Laajenna"
 }

@@ -75,10 +75,15 @@ export class DropdownGroup {
 
   connectedCallback(): void {
     this.updateItems();
+    this.mutationObserver?.observe(this.el, { childList: true });
   }
 
   componentWillLoad(): void {
     this.groupPosition = this.getGroupPosition();
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {

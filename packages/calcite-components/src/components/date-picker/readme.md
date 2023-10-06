@@ -19,7 +19,11 @@ You can set a min and max range, as well as an initial value with ISO 8601 forma
 You can also add range property to activate date range mode. In this mode, you will have to set the value property directly on the component's instance to an array of date strings.
 
 ```html
-<calcite-date-picker range min="2020-02-01" max="2021-01-01" />
+<calcite-date-picker min="2020-01-01" max="2021-01-31" range />
+```
+
+```js
+document.querySelector("calcite-date-picker").value = ["2020-01-03", "2020-01-05"];
 ```
 
 ## Properties
@@ -31,7 +35,7 @@ You can also add range property to activate date range mode. In this mode, you w
 | `headingLevel`               | `heading-level`                | Specifies the number at which section headings should start.                                                                                                                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                                                                                                                                                            | `undefined` |
 | `max`                        | `max`                          | Specifies the latest allowed date (`"yyyy-mm-dd"`).                                                                                                                          | `string`                                                                                                                                                                                                                                | `undefined` |
 | `maxAsDate`                  | --                             | Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`).                                                                                          | `Date`                                                                                                                                                                                                                                  | `undefined` |
-| `messageOverrides`           | `message-overrides`            | Use this property to override individual strings used by the component.                                                                                                      | `DatePickerMessages`                                                                                                                                                                                                                    | `undefined` |
+| `messageOverrides`           | --                             | Use this property to override individual strings used by the component.                                                                                                      | `{ nextMonth?: string; prevMonth?: string; year?: string; }`                                                                                                                                                                            | `undefined` |
 | `min`                        | `min`                          | Specifies the earliest allowed date (`"yyyy-mm-dd"`).                                                                                                                        | `string`                                                                                                                                                                                                                                | `undefined` |
 | `minAsDate`                  | --                             | Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).                                                                                        | `Date`                                                                                                                                                                                                                                  | `undefined` |
 | `numberingSystem`            | `numbering-system`             | Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.                                                    | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined` |
@@ -47,6 +51,16 @@ You can also add range property to activate date range mode. In this mode, you w
 | ------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | `calciteDatePickerChange`      | Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.               | `CustomEvent<void>` |
 | `calciteDatePickerRangeChange` | Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`. | `CustomEvent<void>` |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Dependencies
 

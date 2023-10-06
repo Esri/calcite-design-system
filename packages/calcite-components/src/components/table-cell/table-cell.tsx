@@ -24,6 +24,8 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { TableCellMessages } from "./assets/table-cell/t9n";
 import { CSS } from "./resources";
 import { RowType } from "../table/interfaces";
+import { getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding content, usually text content.
@@ -205,6 +207,8 @@ export class TableCell
   //--------------------------------------------------------------------------
 
   render(): VNode {
+    const dir = getElementDir(this.el);
+
     return (
       <Host>
         <td
@@ -214,6 +218,7 @@ export class TableCell
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
+            [CSS_UTILITY.rtl]: dir === "rtl",
           }}
           colSpan={this.colSpan}
           onBlur={this.onContainerBlur}
