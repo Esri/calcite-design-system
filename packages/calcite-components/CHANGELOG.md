@@ -3,18 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.9.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.1-next.0...@esri/calcite-components@1.9.1-next.1) (2023-10-05)
+## [1.9.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0...@esri/calcite-components@1.9.1) (2023-10-05)
 
 ### Bug Fixes
 
-- **combobox:** fix issue causing value to be cleared when selecting an item (Windows + trackpad) ([#7954](https://github.com/Esri/calcite-design-system/issues/7954)) ([557d658](https://github.com/Esri/calcite-design-system/commit/557d65862d5fbf5b3ae9447e44d78604af525892)), closes [#7934](https://github.com/Esri/calcite-design-system/issues/7934)
-- **input-time-zone:** fix handling of unknown and cityless time zones from offset display mode ([#7947](https://github.com/Esri/calcite-design-system/issues/7947)) ([75e0302](https://github.com/Esri/calcite-design-system/commit/75e0302d9f02ce07c26c6aa9853536a2918b9d48)), closes [#7944](https://github.com/Esri/calcite-design-system/issues/7944) [#7951](https://github.com/Esri/calcite-design-system/issues/7951)
-
-## [1.9.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0...@esri/calcite-components@1.9.1-next.0) (2023-10-05)
-
-### Bug Fixes
-
-- **panel:** fix collapse action title and reverse icon direction ([#7927](https://github.com/Esri/calcite-design-system/issues/7927)) ([5f620f8](https://github.com/Esri/calcite-design-system/commit/5f620f8541d6b7a9518fd8d3c5d1558420d25966)), closes [#7930](https://github.com/Esri/calcite-design-system/issues/7930)
+- **combobox:** Fix issue causing value to be cleared when selecting an item (Windows + trackpad) ([#7954](https://github.com/Esri/calcite-design-system/issues/7954)) ([557d658](https://github.com/Esri/calcite-design-system/commit/557d65862d5fbf5b3ae9447e44d78604af525892))
+- **input-time-zone:** Fix handling of unknown and cityless time zones from offset display mode ([#7947](https://github.com/Esri/calcite-design-system/issues/7947)) ([75e0302](https://github.com/Esri/calcite-design-system/commit/75e0302d9f02ce07c26c6aa9853536a2918b9d48))
+- **panel:** Fix collapse action title and reverse icon direction ([#7927](https://github.com/Esri/calcite-design-system/issues/7927)) ([5f620f8](https://github.com/Esri/calcite-design-system/commit/5f620f8541d6b7a9518fd8d3c5d1558420d25966))
 
 ## [1.9.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0...@esri/calcite-components@1.9.0) (2023-10-03)
 
