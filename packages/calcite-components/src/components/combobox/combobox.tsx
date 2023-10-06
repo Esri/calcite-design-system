@@ -512,6 +512,8 @@ export class Combobox
 
   @State() selectedHiddenChipsCount: number;
 
+  @State() selectedVisibleChipsCount: number;
+
   textInput: HTMLInputElement = null;
 
   data: ItemData[];
@@ -834,25 +836,17 @@ export class Combobox
         }
       });
 
-      const hasHiddenSelectedChips = Array.from(chipEls).some(
-        (chipEl) => chipEl.selected && chipEl.style.visibility === "hidden"
-      );
-      if (hasHiddenSelectedChips) {
-        this.showChip(this.selectedIndicatorChipEl);
-      } else {
-        this.hideChip(this.selectedIndicatorChipEl);
-      }
-
-      let selectedVisibleChipEls = 0;
+      let selectedVisibleChipsCount = 0;
       chipEls.forEach((chipEl) => {
         if (chipEl === this.selectedIndicatorChipEl) {
           return;
         }
         if (chipEl.selected && chipEl.style.visibility === "visible") {
-          selectedVisibleChipEls++;
+          selectedVisibleChipsCount++;
         }
       });
-      this.selectedHiddenChipsCount = this.selectedItems.length - selectedVisibleChipEls;
+      this.selectedHiddenChipsCount = this.getSelectedItems().length - selectedVisibleChipsCount;
+      this.selectedVisibleChipsCount = selectedVisibleChipsCount;
     }
   };
 
@@ -1296,26 +1290,29 @@ export class Combobox
   }
 
   renderSelectedIndicatorChip(): VNode {
-    const { displayMode, selectedHiddenChipsCount, setSelectedIndicatorChipEl, scale } = this;
+    const {
+      displayMode,
+      scale,
+      selectedHiddenChipsCount,
+      selectedVisibleChipsCount,
+      setSelectedIndicatorChipEl,
+    } = this;
     let label;
-    if (displayMode === "fit-to-line") {
-      label = selectedHiddenChipsCount ? `+${selectedHiddenChipsCount}` : undefined;
-    } else if (displayMode === "single") {
+    if (this.getItems().length === this.getSelectedItems().length) {
+      label = "All selected";
+    } else if (displayMode === "fit-to-line" && selectedHiddenChipsCount > 0) {
+      label =
+        selectedVisibleChipsCount > 0
+          ? `+${selectedHiddenChipsCount}`
+          : `${selectedHiddenChipsCount} selected`;
+    } else if (displayMode === "single" && this.getSelectedItems().length > 0) {
       label = `${this.selectedItems.length} selected`;
     }
-    const style =
-      displayMode === "fit-to-line" || (displayMode === "single" && this.selectedItems.length === 0)
-        ? {
-            position: "absolute",
-            visibility: "hidden",
-          }
-        : undefined;
     return (
       <calcite-chip
-        class="chip"
+        class={{ chip: true, [CSS.chipInvisible]: !label, [CSS.chipVisible]: label }}
         ref={setSelectedIndicatorChipEl}
         scale={scale}
-        style={style}
         title={label}
         value=""
       >
@@ -1455,10 +1452,11 @@ export class Combobox
 
   render(): VNode {
     const { displayMode, guid, label, open } = this;
-    const single = isSingleLike(this.selectionMode);
+    const singleSelectionMode = isSingleLike(this.selectionMode);
+    const showAllDisplayMode = displayMode === "show-all";
     const singleDisplayMode = displayMode === "single";
+    const fitToLineDisplayMode = !singleSelectionMode && displayMode === "fit-to-line";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
-    const isFitToLine = !single && displayMode === "fit-to-line";
 
     return (
       <Host onClick={this.comboboxFocusHandler}>
@@ -1472,7 +1470,7 @@ export class Combobox
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             wrapper: true,
-            "wrapper--single": single || !this.selectedItems.length,
+            "wrapper--single": singleSelectionMode || !this.selectedItems.length,
             "wrapper--active": open,
           }}
           onClick={this.clickHandler}
@@ -1482,12 +1480,12 @@ export class Combobox
           ref={this.setReferenceEl}
         >
           <div
-            class={{ "grid-input": true, "fit-to-line": isFitToLine }}
+            class={{ "grid-input": true, "fit-to-line": fitToLineDisplayMode }}
             ref={this.setInputContainerEl}
           >
             {this.renderIconStart()}
-            {!single && !singleDisplayMode && this.renderChips()}
-            {!single && this.renderSelectedIndicatorChip()}
+            {!singleSelectionMode && !singleDisplayMode && this.renderChips()}
+            {!singleSelectionMode && !showAllDisplayMode && this.renderSelectedIndicatorChip()}
             <label
               class="screen-readers-only"
               htmlFor={`${inputUidPrefix}${guid}`}

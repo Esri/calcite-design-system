@@ -212,6 +212,14 @@
   @apply bg-foreground-3;
 }
 
+.chip--invisible {
+  @apply absolute invisible;
+}
+
+.chip--visible {
+  @apply inline-block static visible;
+}
+
 .item {
   @apply block;
 }
