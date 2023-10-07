@@ -11,39 +11,70 @@ import {
   reflects,
   renders,
   t9n,
+  TagAndPage,
 } from "../../tests/commonTests";
 import { toUserFriendlyName } from "./utils";
 
 describe("calcite-input-time-zone", () => {
-  describe.skip("accessible", () => {
-    accessible(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
+  const testTimeZoneNamesAndOffsets = [
+    { name: "America/Los_Angeles", offset: -420, label: "GMT-7" },
+    { name: "America/Denver", offset: -360, label: "GMT-6" },
+    { name: "Europe/London", offset: 60, label: "GMT+1" },
+  ];
+
+  async function simpleTestProvider(): Promise<TagAndPage> {
+    const page = await newE2EPage();
+    await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
+    await page.setContent(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
+
+    return {
+      page,
+      tag: "calcite-input-time-zone",
+    };
+  }
+
+  describe("accessible", () => {
+    accessible(simpleTestProvider);
   });
 
-  describe.skip("focusable", () => {
-    focusable(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
+  describe("focusable", () => {
+    focusable(simpleTestProvider);
   });
 
-  describe.skip("formAssociated", () => {
-    formAssociated(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), {
-      testValue: "-360",
-      clearable: false,
+  describe("formAssociated", () => {
+    formAssociated(
+      {
+        tagOrHTML: addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`),
+        beforeContent: async (page) => {
+          await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
+        },
+      },
+      {
+        testValue: "-360",
+        clearable: false,
+      }
+    );
+  });
+
+  describe("hidden", () => {
+    hidden(simpleTestProvider);
+  });
+
+  describe("renders", () => {
+    renders(simpleTestProvider, { display: "block" });
+  });
+
+  describe("labelable", () => {
+    labelable({
+      tagOrHTML: addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`),
+      beforeContent: async (page) => {
+        await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
+      },
     });
   });
 
-  describe.skip("hidden", () => {
-    hidden(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
-  });
-
-  describe.skip("renders", () => {
-    renders(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), { display: "block" });
-  });
-
-  describe.skip("labelable", () => {
-    labelable(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
-  });
-
-  describe.skip("reflects", () => {
-    reflects(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), [
+  describe("reflects", () => {
+    reflects(simpleTestProvider, [
       { propertyName: "disabled", value: true },
       { propertyName: "maxItems", value: 0 },
       { propertyName: "mode", value: "offset" },
@@ -53,8 +84,8 @@ describe("calcite-input-time-zone", () => {
     ]);
   });
 
-  describe.skip("defaults", () => {
-    defaults(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), [
+  describe("defaults", () => {
+    defaults(simpleTestProvider, [
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "maxItems", defaultValue: 0 },
       { propertyName: "messageOverrides", defaultValue: undefined },
@@ -65,21 +96,15 @@ describe("calcite-input-time-zone", () => {
     ]);
   });
 
-  describe.skip("disabled", () => {
-    disabled(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`), {
+  describe("disabled", () => {
+    disabled(simpleTestProvider, {
       shadowAriaAttributeTargetSelector: "calcite-combobox",
     });
   });
 
-  describe.skip("t9n", () => {
-    t9n(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
+  describe("t9n", () => {
+    t9n(simpleTestProvider);
   });
-
-  const testTimeZoneNamesAndOffsets = [
-    { name: "America/Los_Angeles", offset: -420, label: "GMT-7" },
-    { name: "America/Denver", offset: -360, label: "GMT-6" },
-    { name: "Europe/London", offset: 60, label: "GMT+1" },
-  ];
 
   describe("mode", () => {
     describe("offset (default)", () => {
@@ -244,7 +269,7 @@ describe("calcite-input-time-zone", () => {
  * @param testHtml
  */
 function addTimeZoneNamePolyfill(testHtml: string): string {
-  return html` <script>
+  return html` <script type="module">
       const OriginalDateTimeFormat = Intl.DateTimeFormat;
 
       class ExtendedDateTimeFormat extends OriginalDateTimeFormat {
