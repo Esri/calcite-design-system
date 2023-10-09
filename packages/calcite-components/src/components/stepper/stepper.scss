@@ -51,9 +51,7 @@
 
 .step-bar--inactive {
   fill: var(--light-ui-border-3, #dfdfdf);
-  stroke-width: 5;
   fill-opacity: 1;
-  stroke-opacity: 1;
   block-size: 100%;
 }
 
@@ -73,6 +71,7 @@
 .step-bar {
   @apply flex;
   block-size: 100%;
+  inline-size: 100%;
 }
 
 .step-bar-container {
