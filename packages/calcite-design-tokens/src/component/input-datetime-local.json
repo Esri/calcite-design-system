@@ -218,31 +218,6 @@
         }
       }
     },
-    "[specific-element]": {
-      "font": {
-        "sm": {
-          "value": {
-            "typography": "$[comp-name].font.sm",
-            "fontWeights": "$core.font.font-weight.medium-italic"
-          },
-          "type": "composition"
-        },
-        "md": {
-          "value": {
-            "typography": "$[comp-name].font.md",
-            "fontWeights": "$core.font.font-weight.medium-italic"
-          },
-          "type": "composition"
-        },
-        "lg": {
-          "value": {
-            "typography": "$[comp-name].font.lg",
-            "fontWeights": "$core.font.font-weight.medium-italic"
-          },
-          "type": "composition"
-        }
-      }
-    },
     "opacity": {
       "placeholder": {
         "light": {
