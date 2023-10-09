@@ -2,17 +2,15 @@
   "name": "@esri/calcite-design-tokens",
   "version": "1.0.0",
   "description": "Esri's Calcite Design System Tokens",
-  "homepage": "https://github.com/Esri/calcite-design-tokens",
   "keywords": [
     "Calcite",
     "Calcite Design System",
     "design tokens",
     "tokens"
   ],
-  "main": "./dist/js/calcite-headless.js",
+  "main": "./dist/scss/calcite-headless.scss",
   "type": "module",
   "exports": {
-    ".": "./dist/js/calcite-headless.js",
     "./css": "./dist/css/calcite-headless.css",
     "./css/brand/dark": "./dist/css/brand-dark.css",
     "./css/brand/light": "./dist/css/brand-light.css",
@@ -24,22 +22,17 @@
     "./scss/brand/light": "./dist/scss/brand-light.scss",
     "./scss/calcite/dark": "./dist/scss/calcite-dark.scss",
     "./scss/calcite/light": "./dist/scss/calcite-light.scss",
-    "./scss/headless": "./dist/scss/calcite-headless.scss",
-    "./js/brand/dark": "./dist/js/brand-dark.js",
-    "./js/brand/light": "./dist/js/brand-light.js",
-    "./js/calcite/dark": "./dist/js/calcite-dark.js",
-    "./js/calcite/light": "./dist/js/calcite-light.js",
-    "./js/headless": "./dist/js/calcite-headless.js"
+    "./scss/headless": "./dist/scss/calcite-headless.scss"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Esri/calcite-design-tokens.git"
+    "url": "git://github.com/Esri/calcite-design-system.git"
   },
   "author": {
     "name": "Esri"
   },
   "bugs": {
-    "url": "https://github.com/Esri/calcite-design-tokens/issues"
+    "url": "https://github.com/Esri/calcite-design-system/issues"
   },
   "scripts": {
     "build": "ts-node --esm support/run.ts",
