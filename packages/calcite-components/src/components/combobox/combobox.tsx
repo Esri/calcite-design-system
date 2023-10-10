@@ -791,15 +791,13 @@ export class Combobox
   }
 
   private hideChip(chipEl: HTMLCalciteChipElement): void {
-    chipEl.style.display = "inline-block";
-    chipEl.style.position = "absolute";
-    chipEl.style.visibility = "hidden";
+    chipEl.classList.remove(CSS.chipVisible);
+    chipEl.classList.add(CSS.chipInvisible);
   }
 
   private showChip(chipEl: HTMLCalciteChipElement): void {
-    chipEl.style.display = "inline-block";
-    chipEl.style.position = "static";
-    chipEl.style.visibility = "visible";
+    chipEl.classList.remove(CSS.chipInvisible);
+    chipEl.classList.add(CSS.chipVisible);
   }
 
   private refreshDisplayMode = () => {
@@ -841,7 +839,7 @@ export class Combobox
         if (chipEl === this.selectedIndicatorChipEl) {
           return;
         }
-        if (chipEl.selected && chipEl.style.visibility === "visible") {
+        if (chipEl.selected && getComputedStyle(chipEl).visibility === "visible") {
           selectedVisibleChipsCount++;
         }
       });
@@ -1265,8 +1263,6 @@ export class Combobox
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
-      const style =
-        displayMode === "fit-to-line" ? { position: "absolute", visibility: "hidden" } : undefined;
       return (
         <calcite-chip
           class={chipClasses}
@@ -1279,7 +1275,6 @@ export class Combobox
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
           selected={item.selected}
-          style={style}
           title={label}
           value={item.value}
         >
