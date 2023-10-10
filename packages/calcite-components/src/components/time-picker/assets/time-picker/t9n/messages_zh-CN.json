@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "小数秒",
+  "fractionalSecondDown": "减少小数秒",
+  "fractionalSecondUp": "增加小数秒",
   "hour": "小时",
   "hourDown": "减少小时",
   "hourUp": "增加小时",

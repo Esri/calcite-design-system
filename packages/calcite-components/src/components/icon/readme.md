@@ -6,7 +6,7 @@
 
 ### Custom-icon-color
 
-To use a custom color for the icon fill, you can add a class to the `calcite-icon` component with the desired color.
+To use a custom color for the icon fill, you can supply your desired color to the `--calcite-ui-icon-color` CSS variable:
 
 ```html
 <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft"></calcite-icon>
@@ -14,7 +14,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 
 ```css
 .my-icon-color-class {
-  color: #007ac2;
+  --calcite-ui-icon-color: #007ac2;
 }
 ```
 
@@ -55,8 +55,10 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-input-message](../input-message)
 - [calcite-input-number](../input-number)
 - [calcite-input-text](../input-text)
+- [calcite-input-time-picker](../input-time-picker)
 - [calcite-link](../link)
 - [calcite-list-item](../list-item)
+- [calcite-menu-item](../menu-item)
 - [calcite-modal](../modal)
 - [calcite-notice](../notice)
 - [calcite-pagination](../pagination)
@@ -67,6 +69,8 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-select](../select)
 - [calcite-stepper-item](../stepper-item)
 - [calcite-tab-title](../tab-title)
+- [calcite-table-header](../table-header)
+- [calcite-table-row](../table-row)
 - [calcite-tile](../tile)
 - [calcite-time-picker](../time-picker)
 - [calcite-tip-manager](../tip-manager)
@@ -95,8 +99,10 @@ graph TD;
   calcite-input-message --> calcite-icon
   calcite-input-number --> calcite-icon
   calcite-input-text --> calcite-icon
+  calcite-input-time-picker --> calcite-icon
   calcite-link --> calcite-icon
   calcite-list-item --> calcite-icon
+  calcite-menu-item --> calcite-icon
   calcite-modal --> calcite-icon
   calcite-notice --> calcite-icon
   calcite-pagination --> calcite-icon
@@ -107,6 +113,8 @@ graph TD;
   calcite-select --> calcite-icon
   calcite-stepper-item --> calcite-icon
   calcite-tab-title --> calcite-icon
+  calcite-table-header --> calcite-icon
+  calcite-table-row --> calcite-icon
   calcite-tile --> calcite-icon
   calcite-time-picker --> calcite-icon
   calcite-tip-manager --> calcite-icon

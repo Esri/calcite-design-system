@@ -79,7 +79,7 @@ Only attach additional data to your event if that data cannot be determined from
 
 `<calcite-tab-nav>` is also an example of this. The `event.details.tab` item contains the index of the selected tab or the tab name which cannot be easily determined from the state of `<calcite-tab-nav>` in some cases so it makes sense to include in the event.
 
-### Native event cancelation
+### Native event cancellation
 
 When a component **handles events for its own interaction** (e.g., moving between list items, closing an open menu), if the event is tied to default browser behavior (e.g., space key scrolling the page), `Event.preventDefault()` must be called to avoid mixed behavior.
 
@@ -421,22 +421,22 @@ For such cases, the following pattern will enable developers to create custom ch
 - Must provide a `customItemSelectors` property to allow querying for custom elements in addition to their expected children.
 - An interface for the class (used by custom item classes) and element (used by parent component APIs) must be created in the parent's `interfaces.d.ts` file, where the necessary child APIs must be extracted.
 
-**Example**
+##### Example
 
-**`parent/interfaces.d.ts`**
+###### `parent/interfaces.d.ts`
 
 ```ts
 type ChildComponentLike = Pick<Components.CalciteChild, "required" | "props" | "from" | "parent">;
 type ChildComponentLikeElement = ChilcComponentLike & HTMLElement;
 ```
 
-**`parent/parent.tsx`**
+###### `parent/parent.tsx`
 
 ```tsx
   @Prop() selectedItem: HTMLChildComponentElement | ChildComponentLikeElement;
 ```
 
-**`custom-item/custom-item.tsx`**
+###### `custom-item/custom-item.tsx`
 
 ```tsx
 export class CustomItem implements ChildComponentLike {
@@ -474,4 +474,4 @@ export class CustomItem implements ChildComponentLike {
 - This pattern should be applied sparingly and on a case-by-case basis.
 - We can refine this pattern as we go on, but additional modifications needed to handle the custom items workflow will be considered out-of-scope and thus not supported.
 - Until we have documentation covering creating custom elements, `customItemSelectors` must be made internal and any `ChildComponentLike` types must be excluded from the doc.
-- Please refer to https://github.com/Esri/calcite-design-system/pull/7608/ as an example on how this pattern is applied.
+- Please refer to <https://github.com/Esri/calcite-design-system/pull/7608/> as an example on how this pattern is applied.

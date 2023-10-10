@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "行を選択解除するには Enter キーまたは Space キーを押します",
+  "keyboardSelect": "行を選択するには Enter キーまたは Space キーを押します",
+  "row": "行",
+  "selected": "選択済み",
+  "unselected": "選択解除"
 }

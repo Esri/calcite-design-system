@@ -19,7 +19,7 @@ import {
   LocalizedComponent,
   SupportedLocale,
 } from "../../utils/locale";
-import { BasicTimeZoneGroup } from "./interfaces";
+import { TimeZoneItem, TimeZoneMode } from "./interfaces";
 import { Scale } from "../interfaces";
 import {
   connectMessages,
@@ -29,7 +29,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { generateTimeZoneGroups, getUserTimeZoneOffset } from "./utils";
+import { createTimeZoneItems, getUserTimeZoneName, getUserTimeZoneOffset } from "./utils";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
   componentFocusable,
@@ -80,6 +80,9 @@ export class InputTimeZone
    */
   @Prop({ reflect: true }) form: string;
 
+  /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
+  @Prop({ reflect: true }) maxItems = 0;
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -97,6 +100,23 @@ export class InputTimeZone
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
+  }
+
+  /**
+   * This specifies the type of `value` and the associated options presented to the user:
+   *
+   * Using `"offset"` will provide options related
+   *
+   * @default "offset"
+   */
+  @Prop({ reflect: true }) mode: TimeZoneMode = "offset";
+
+  @Watch("effectiveLocale")
+  @Watch("messages")
+  @Watch("mode")
+  @Watch("referenceDate")
+  handleTimeZoneItemPropsChange(): void {
+    this.createTimeZoneItems();
   }
 
   /**
@@ -120,6 +140,15 @@ export class InputTimeZone
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
+   * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.
+   *
+   * It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+   *
+   * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
+   */
+  @Prop() referenceDate: Date | string;
+
+  /**
    * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
@@ -137,6 +166,18 @@ export class InputTimeZone
    * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
    */
   @Prop({ mutable: true }) value: string;
+
+  @Watch("value")
+  handleValueChange(value: string, oldValue: string): void {
+    const timeZoneItem = this.findTimeZoneItem(value);
+
+    if (!timeZoneItem) {
+      this.value = oldValue;
+      return;
+    }
+
+    this.selectedTimeZoneItem = timeZoneItem;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -191,9 +232,9 @@ export class InputTimeZone
 
   labelEl: HTMLCalciteLabelElement;
 
-  private selectedTimeZoneGroup: BasicTimeZoneGroup;
+  private selectedTimeZoneItem: TimeZoneItem;
 
-  private timeZoneGroups: BasicTimeZoneGroup[];
+  private timeZoneItems: TimeZoneItem[];
 
   //--------------------------------------------------------------------------
   //
@@ -222,17 +263,15 @@ export class InputTimeZone
   private onComboboxChange = (event: CustomEvent): void => {
     event.stopPropagation();
     const combobox = event.target as HTMLCalciteComboboxElement;
-    const selected = this.timeZoneGroups.find(
-      ({ offsetValue }) => combobox.value === `${offsetValue}`
-    );
+    const selected = this.findTimeZoneItem(combobox.selectedItems[0].getAttribute("data-value"));
 
-    const selectedValue = `${selected.offsetValue}`;
+    const selectedValue = `${selected.value}`;
     if (this.value === selectedValue) {
       return;
     }
 
     this.value = selectedValue;
-    this.selectedTimeZoneGroup = selected;
+    this.selectedTimeZoneItem = selected;
     this.calciteInputTimeZoneChange.emit();
   };
 
@@ -247,6 +286,31 @@ export class InputTimeZone
     event.stopPropagation();
     this.calciteInputTimeZoneOpen.emit();
   };
+
+  private findTimeZoneItem(value: number | string): TimeZoneItem {
+    const valueToMatch = value;
+
+    return this.timeZoneItems.find(
+      ({ value }) =>
+        // intentional == to match string to number
+        value == valueToMatch
+    );
+  }
+
+  private async createTimeZoneItems(): Promise<TimeZoneItem[]> {
+    if (!this.effectiveLocale || !this.messages) {
+      return [];
+    }
+
+    return createTimeZoneItems(
+      this.effectiveLocale,
+      this.messages,
+      this.mode,
+      this.referenceDate instanceof Date
+        ? this.referenceDate
+        : new Date(this.referenceDate ?? Date.now())
+    );
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -272,15 +336,18 @@ export class InputTimeZone
     setUpLoadableComponent(this);
     await setUpMessages(this);
 
-    const timeZoneGroups = await generateTimeZoneGroups();
-    this.timeZoneGroups = timeZoneGroups;
-    const offsetToMatch = this.value ?? getUserTimeZoneOffset();
-    this.selectedTimeZoneGroup = timeZoneGroups.find(
-      ({ offsetValue }) =>
-        // intentional == to match string to number
-        offsetValue == offsetToMatch
-    );
-    const selectedValue = `${this.selectedTimeZoneGroup.offsetValue}`;
+    this.timeZoneItems = await this.createTimeZoneItems();
+
+    const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
+    const valueToMatch = this.value ?? fallbackValue;
+
+    this.selectedTimeZoneItem = this.findTimeZoneItem(valueToMatch);
+
+    if (!this.selectedTimeZoneItem) {
+      this.selectedTimeZoneItem = this.findTimeZoneItem(fallbackValue);
+    }
+
+    const selectedValue = `${this.selectedTimeZoneItem.value}`;
     afterConnectDefaultValueSet(this, selectedValue);
     this.value = selectedValue;
   }
@@ -301,6 +368,7 @@ export class InputTimeZone
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
           lang={this.effectiveLocale}
+          maxItems={this.maxItems}
           onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
           onCalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
           onCalciteComboboxChange={this.onComboboxChange}
@@ -313,17 +381,17 @@ export class InputTimeZone
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setComboboxRef}
         >
-          {this.timeZoneGroups.map((group) => {
-            const selected = this.selectedTimeZoneGroup === group;
-            const label = group.offsetLabel;
-            const value = group.offsetValue;
+          {this.timeZoneItems.map((group) => {
+            const selected = this.selectedTimeZoneItem === group;
+            const { label, value } = group;
 
             return (
               <calcite-combobox-item
+                data-value={value}
                 key={label}
                 selected={selected}
                 textLabel={label}
-                value={`${value}`}
+                value={`${group.filterValue}`}
               />
             );
           })}

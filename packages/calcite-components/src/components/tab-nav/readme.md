@@ -20,11 +20,11 @@ When tab-nav is the only parent, tab-title can inherit its `scale` and `position
 
 ## Properties
 
-| Property        | Attribute        | Description                                                                   | Type                         | Default     |
-| --------------- | ---------------- | ----------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `selectedTitle` | `selected-title` | Specifies the component's selected tab-title.                                 | `HTMLCalciteTabTitleElement` | `null`      |
-| `storageId`     | `storage-id`     | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                     | `undefined` |
-| `syncId`        | `sync-id`        | Specifies text to update multiple components to keep in sync if one changes.  | `string`                     | `undefined` |
+| Property        | Attribute    | Description                                                                   | Type                         | Default     |
+| --------------- | ------------ | ----------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `selectedTitle` | --           | Specifies the component's selected tab-title.                                 | `HTMLCalciteTabTitleElement` | `null`      |
+| `storageId`     | `storage-id` | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                     | `undefined` |
+| `syncId`        | `sync-id`    | Specifies text to update multiple components to keep in sync if one changes.  | `string`                     | `undefined` |
 
 ## Events
 

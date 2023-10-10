@@ -17,6 +17,9 @@ export default {
   title: "Components/Shell",
   parameters: {
     notes: [readme, panelReadme, centerRowReadme],
+    chromatic: {
+      delay: 1000,
+    },
   },
   ...storyFilters(),
 };

@@ -80,6 +80,7 @@ import {
 import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { Status } from "../interfaces";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -284,6 +285,9 @@ export class InputDatePicker
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * Specifies the placement of the `calcite-date-picker` relative to the component.
@@ -542,6 +546,7 @@ export class InputDatePicker
                 readOnly={readOnly}
                 role="combobox"
                 scale={this.scale}
+                status={this.status}
                 type="text"
                 // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.setStartInput}
@@ -640,6 +645,7 @@ export class InputDatePicker
                   readOnly={readOnly}
                   role="combobox"
                   scale={this.scale}
+                  status={this.status}
                   type="text"
                   // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setEndInput}

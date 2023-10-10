@@ -55,7 +55,7 @@ td {
 
 tr:focus,
 td:focus {
-  @apply focus-inset z-sticky;
+  @apply focus-inset;
 }
 
 .content,

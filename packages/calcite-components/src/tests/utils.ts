@@ -354,3 +354,37 @@ export async function getFocusedElementProp(
     options?.shadow
   );
 }
+
+/**
+ * Custom integer matcher to use with object matchers.
+ *
+ * @see https://jasmine.github.io/tutorials/custom_argument_matchers
+ */
+export function toBeInteger(): any {
+  return {
+    asymmetricMatch(abc: string): boolean {
+      return Number.isInteger(abc);
+    },
+
+    jasmineToString(): string {
+      return `Expected value to be an integer.`;
+    },
+  };
+}
+
+/**
+ * Custom number matcher to use with object matchers.
+ *
+ * @see https://jasmine.github.io/tutorials/custom_argument_matchers
+ */
+export function toBeNumber(): any {
+  return {
+    asymmetricMatch(expected: string): boolean {
+      return !isNaN(parseFloat(expected)) && isFinite(Number(expected));
+    },
+
+    jasmineToString(): string {
+      return `Expected value to be an number.`;
+    },
+  };
+}

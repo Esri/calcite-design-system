@@ -44,6 +44,16 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | `calciteSplitButtonPrimaryClick`   | Fires when the primary button is clicked. | `CustomEvent<void>` |
 | `calciteSplitButtonSecondaryClick` | Fires when the dropdown menu is clicked.  | `CustomEvent<void>` |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
 | Slot | Description                                   |

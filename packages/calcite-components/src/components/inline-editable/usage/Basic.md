@@ -2,6 +2,6 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 
 ```html
 <calcite-inline-editable>
-  <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+  <calcite-input value="City of Acme Tree Survey" placeholder="City of Acme Tree Survey"></calcite-input>
 </calcite-inline-editable>
 ```

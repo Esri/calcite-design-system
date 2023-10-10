@@ -8,17 +8,6 @@ The `calcite-action-bar` component is made up of multiple `calcite-action`s in t
 
 ## Usage
 
-### Basic
-
-Renders `calcite-action`s that stick to the top of the bar.
-
-```html
-<calcite-action-bar>
-  <calcite-action text="Add" icon="plus"></calcite-action>
-  <calcite-action text="Save" icon="save"></calcite-action>
-</calcite-action-bar>
-```
-
 ### Actions-end
 
 The actions-end slot renders `calcite-action`s that stick to the end of the bar prior to the expand/collapse icon.
@@ -27,6 +16,17 @@ The actions-end slot renders `calcite-action`s that stick to the end of the bar 
 <calcite-action-bar>
   <calcite-action text="Information" icon="information"></calcite-action>
   <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+</calcite-action-bar>
+```
+
+### Basic
+
+Renders `calcite-action`s that stick to the top of the bar.
+
+```html
+<calcite-action-bar>
+  <calcite-action text="Add" icon="plus"></calcite-action>
+  <calcite-action text="Save" icon="save"></calcite-action>
 </calcite-action-bar>
 ```
 
@@ -47,12 +47,12 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ```html
 <calcite-action-bar>
-  <calcite-action-group>
+  <calcite-action-group label="Manage item">
     <calcite-action text="Add" icon="plus"></calcite-action>
     <calcite-action text="Save" icon="save"></calcite-action>
   </calcite-action-group>
 
-  <calcite-action-group>
+  <calcite-action-group label="Item types">
     <calcite-action text="Layers" icon="layers"></calcite-action>
     <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
   </calcite-action-group>
@@ -61,15 +61,16 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Properties
 
-| Property                  | Attribute                   | Description                                                                     | Type                         | Default      |
-| ------------------------- | --------------------------- | ------------------------------------------------------------------------------- | ---------------------------- | ------------ |
-| `expandDisabled`          | `expand-disabled`           | When `true`, the expand-toggling behavior is disabled.                          | `boolean`                    | `false`      |
-| `expanded`                | `expanded`                  | When `true`, the component is expanded.                                         | `boolean`                    | `false`      |
-| `layout`                  | `layout`                    | The layout direction of the actions.                                            | `"horizontal" \| "vertical"` | `"vertical"` |
-| `messageOverrides`        | `message-overrides`         | Use this property to override individual strings used by the component.         | `ActionBarMessages`          | `undefined`  |
-| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing `calcite-action`s that won't fit into menus. | `boolean`                    | `false`      |
-| `position`                | `position`                  | Arranges the component depending on the element's `dir` property.               | `"end" \| "start"`           | `undefined`  |
-| `scale`                   | `scale`                     | Specifies the size of the expand `calcite-action`.                              | `"l" \| "m" \| "s"`          | `undefined`  |
+| Property                  | Attribute                   | Description                                                                     | Type                                      | Default      |
+| ------------------------- | --------------------------- | ------------------------------------------------------------------------------- | ----------------------------------------- | ------------ |
+| `actionsEndGroupLabel`    | `actions-end-group-label`   | Specifies the accessible label for the last action-group.                       | `string`                                  | `undefined`  |
+| `expandDisabled`          | `expand-disabled`           | When `true`, the expand-toggling behavior is disabled.                          | `boolean`                                 | `false`      |
+| `expanded`                | `expanded`                  | When `true`, the component is expanded.                                         | `boolean`                                 | `false`      |
+| `layout`                  | `layout`                    | The layout direction of the actions.                                            | `"horizontal" \| "vertical"`              | `"vertical"` |
+| `messageOverrides`        | --                          | Use this property to override individual strings used by the component.         | `{ expand?: string; collapse?: string; }` | `undefined`  |
+| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing `calcite-action`s that won't fit into menus. | `boolean`                                 | `false`      |
+| `position`                | `position`                  | Arranges the component depending on the element's `dir` property.               | `"end" \| "start"`                        | `undefined`  |
+| `scale`                   | `scale`                     | Specifies the size of the expand `calcite-action`.                              | `"l" \| "m" \| "s"`                       | `undefined`  |
 
 ## Events
 
@@ -89,11 +90,12 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot               | Description                                                                                                            |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-|                    | A slot for adding `calcite-action`s that will appear at the top of the component.                                      |
-| `"actions-end"`    | A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button. |
-| `"expand-tooltip"` | A slot to set the `calcite-tooltip` for the expand toggle.                                                             |
+| Slot               | Description                                                                                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                    | A slot for adding `calcite-action`s that will appear at the top of the component.                                                                                         |
+| `"actions-end"`    | A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.                                                    |
+| `"bottom-actions"` | [Deprecated] Use the `"actions-end"` slot instead. A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button. |
+| `"expand-tooltip"` | A slot to set the `calcite-tooltip` for the expand toggle.                                                                                                                |
 
 ## CSS Custom Properties
 
