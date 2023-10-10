@@ -134,6 +134,22 @@ describe("calcite-input-time-zone", () => {
 
         expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneNamesAndOffsets[0].label);
       });
+
+      it("omits filtered or non-localized time zones (incoming to browser)", async () => {
+        const page = await newE2EPage();
+        await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
+        await page.setContent(
+          await addTimeZoneNamePolyfill(html` <calcite-input-time-zone value="60"></calcite-input-time-zone>`)
+        );
+
+        const input = await page.find("calcite-input-time-zone");
+
+        expect(await input.getProperty("value")).toBe(`${testTimeZoneNamesAndOffsets[2].offset}`);
+
+        const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+
+        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneNamesAndOffsets[2].label);
+      });
     });
 
     describe("name", () => {
@@ -269,7 +285,7 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
                 ? "-7"
                 : timeZone === "America/Denver"
                 ? "-6"
-                : timeZone === "Europe/London"
+                : timeZone === "Europe/London" || timeZone === "Europe/Belfast" || timeZone === "Etc/GMT-1"
                 ? "+1"
                 : "+0");
 
@@ -298,7 +314,15 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
 
       Intl.supportedValuesOf = function (key) {
         if (key === "timeZone") {
-          return ["America/Los_Angeles", "America/Denver", "Europe/London"];
+          return [
+            "America/Los_Angeles",
+            "America/Denver",
+            "Europe/London",
+
+            // not available in Chromium v92 at time of testing
+            "Etc/GMT-1",
+            "Europe/Belfast",
+          ];
         }
       };
     </script>
