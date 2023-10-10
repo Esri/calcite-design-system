@@ -282,6 +282,7 @@ export class FlowItem
 
   handlePanelToggle = (event: CustomEvent<void>): void => {
     event.stopPropagation();
+    this.collapsed = (event.target as HTMLCalcitePanelElement).collapsed;
     this.calciteFlowItemToggle.emit();
   };
 

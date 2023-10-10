@@ -66,6 +66,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
+        name: "collapse-direction",
+        commit(): Attribute {
+          this.value = select("collapseDirection", ["down", "up"], "down");
+          delete this.build;
+          return this;
+        },
+      },
+      {
         name: "height-scale",
         commit(): Attribute {
           this.value = select("heightScale", scale.values, scale.defaultValue);
@@ -157,6 +165,10 @@ export const onlyProps = (): string => html`
 
 export const collapsed_TestOnly = (): string => html`
   <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
+`;
+
+export const collapseDirectionUp_TestOnly = (): string => html`
+  <calcite-flow-item collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`

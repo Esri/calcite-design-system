@@ -4,6 +4,48 @@ import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
 
+const timeZoneNameBlockList = [
+  "CET",
+  "CST6CDT",
+  "EET",
+  "EST",
+  "EST5EDT",
+  "Etc/GMT+1",
+  "Etc/GMT+10",
+  "Etc/GMT+11",
+  "Etc/GMT+12",
+  "Etc/GMT+2",
+  "Etc/GMT+3",
+  "Etc/GMT+4",
+  "Etc/GMT+5",
+  "Etc/GMT+6",
+  "Etc/GMT+7",
+  "Etc/GMT+8",
+  "Etc/GMT+9",
+  "Etc/GMT-1",
+  "Etc/GMT-10",
+  "Etc/GMT-11",
+  "Etc/GMT-12",
+  "Etc/GMT-13",
+  "Etc/GMT-14",
+  "Etc/GMT-2",
+  "Etc/GMT-3",
+  "Etc/GMT-4",
+  "Etc/GMT-5",
+  "Etc/GMT-6",
+  "Etc/GMT-7",
+  "Etc/GMT-8",
+  "Etc/GMT-9",
+  "Factory",
+  "HST",
+  "MET",
+  "MST",
+  "MST7MDT",
+  "PST8PDT",
+  "UTC",
+  "WET",
+];
+
 function timeZoneOffsetToDecimal(shortOffsetTimeZoneName: string): string {
   const minusSign = "−";
   const hyphen = "-";
@@ -71,16 +113,41 @@ export async function createTimeZoneItems(
 
       const listFormatter = new Intl.ListFormat(locale, { style: "long", type: "conjunction" });
 
+      // we remove blocked entries from tzs and adjust label indices accordingly
+      timeZoneGroups.forEach((group) => {
+        const indexOffsets: number[] = [];
+        let removedSoFar = 0;
+
+        group.tzs.forEach((tz, index) => {
+          if (timeZoneNameBlockList.includes(tz)) {
+            removedSoFar++;
+          }
+          indexOffsets[index] = removedSoFar;
+        });
+
+        group.tzs = group.tzs.filter((tz) => !timeZoneNameBlockList.includes(tz));
+
+        group.labelTzIndices = group.labelTzIndices
+          .map((index) => index - indexOffsets[index])
+          .filter((index) => index >= 0 && index < group.tzs.length);
+      });
+
       return timeZoneGroups
         .map<TimeZoneItem<number>>(({ labelTzIndices, tzs }) => {
           const groupRepTz = tzs[0];
           const decimalOffset = timeZoneOffsetToDecimal(getTimeZoneShortOffset(groupRepTz, locale, referenceDateInMs));
           const value = toOffsetValue(groupRepTz, referenceDateInMs);
-          const label = createTimeZoneOffsetLabel(
-            messages,
-            decimalOffset,
-            listFormatter.format(labelTzIndices.map((index: number) => messages[tzs[index]]))
-          );
+          const tzLabels = labelTzIndices.map((index: number) => {
+            const timeZone = tzs[index];
+            const timeZoneLabel = messages[timeZone];
+            return (
+              timeZoneLabel ||
+              // get city token
+              timeZone.split("/").pop()
+            );
+          });
+
+          const label = createTimeZoneOffsetLabel(messages, decimalOffset, listFormatter.format(tzLabels));
 
           return {
             label,

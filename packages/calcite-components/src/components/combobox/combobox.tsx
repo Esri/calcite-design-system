@@ -850,17 +850,17 @@ export class Combobox
     }
   };
 
-  setInactiveIfNotContained = (event: Event): void => {
+  private setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
+
+    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+      return;
+    }
 
     if (!this.allowCustomValues && this.textInput.value) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
-    }
-
-    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
     }
 
     if (this.allowCustomValues && this.text.trim().length) {
