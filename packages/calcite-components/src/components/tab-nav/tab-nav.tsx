@@ -184,7 +184,9 @@ export class TabNav {
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
         >
-          <slot />
+          <div class={CSS.tabTitleSlotWrapper} id="#wrapper">
+            <slot />
+          </div>
           <div
             class="tab-nav-active-indicator-container"
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
@@ -347,7 +349,6 @@ export class TabNav {
     function findIndex() {
       tabTitlesNodeList.forEach((tabTitle, index) => {
         const tabTitleRect = tabTitle?.getBoundingClientRect();
-        console.log("tabTitleRect", tabTitleRect.x);
 
         if (tabTitleRect?.x >= 0 && tabTitleRect?.x <= elWidth) {
           tabTitlesMap.set(tabTitle, index);
@@ -356,8 +357,6 @@ export class TabNav {
     }
 
     findIndex();
-
-    console.log("tabTitlesMap", tabTitlesMap);
 
     return tabTitlesMap;
   };
@@ -368,15 +367,12 @@ export class TabNav {
     let { viewportVisibleTabTitleIndices } = this;
 
     viewportVisibleTabTitleIndices = this.findViewportVisibleTabTitleIndices();
-    console.log("visibleTabTitleIndices in scrollToTabTitles", viewportVisibleTabTitleIndices);
-
     const tabTitlesArray = Array.from(tabTitles);
 
     let lastValue: number;
     for (const value of viewportVisibleTabTitleIndices?.values()) {
       lastValue = value;
     }
-    console.log("lastValue", lastValue);
 
     const valuesIterator = viewportVisibleTabTitleIndices?.values();
     const firstValue: number = valuesIterator?.next().value;
@@ -395,7 +391,6 @@ export class TabNav {
   };
 
   private scrollToNextTabTitles = (): void => {
-    console.log("scrollToNextTabTitles");
     this.scrollToTabTitles("forward");
   };
 
@@ -435,7 +430,6 @@ export class TabNav {
 
   updateViewportVisibleTabTitleIndices(): void {
     this.viewportVisibleTabTitleIndices = this.findViewportVisibleTabTitleIndices();
-    console.log("this.viewportVisibleTabTitleIndices", this.viewportVisibleTabTitleIndices);
   }
 
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
@@ -536,8 +530,12 @@ export class TabNav {
 
   getActionChevronDirection = (overflowDirection: string): VNode => {
     const isEnd = overflowDirection === "end";
+
     return (
       <calcite-action
+        appearance={
+          (this.el.parentElement as HTMLCalciteTabsElement).bordered ? "solid" : "transparent"
+        }
         class={isEnd ? CSS.arrowEnd : CSS.arrowStart}
         icon={isEnd ? ICON.chevronRight : ICON.chevronLeft}
         onClick={isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
@@ -556,6 +554,7 @@ export class TabNav {
 
     const chevronEnd = this.getActionChevronDirection(showEndAction);
     const chevronStart = this.getActionChevronDirection(showStartAction);
+
     return [chevronEnd, chevronStart];
   }
 }
