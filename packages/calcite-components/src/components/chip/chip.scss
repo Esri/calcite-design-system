@@ -153,6 +153,7 @@
 
 .close {
   @apply focus-base
+    transition-default
     text-color-1
     m-0
     cursor-pointer

@@ -203,6 +203,10 @@
   @apply h-0 overflow-hidden;
 }
 
+calcite-chip {
+  --calcite-animation-timing: 0;
+}
+
 .chip {
   margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   max-inline-size: 100%;
