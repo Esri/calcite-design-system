@@ -120,7 +120,7 @@ export class Combobox
 
   /**
    * Controls the display behavior of multiple selected items.
-   * This property does not apply when selection-mode is set to "single".
+   * This property does not apply when selection-mode is set to "single" or "single-persist".
    * - "show-all" displays every selected chip, wrapping to the next line if necessary
    * - "single" displays a single chip indicating the total amount of selected items
    * - "fit-to-line" only displays selected chips that fit horizontally, with a non-closable chip indicating additional selected items as needed
