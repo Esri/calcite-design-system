@@ -492,7 +492,9 @@ export function labelable(
   describe("label wraps labelables", () => {
     it("is labelable when component is wrapped in a label", async () => {
       const wrappedHtml = html`<calcite-label>${labelTitle} ${componentHtml}</calcite-label>`;
-      const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
+      const wrappedPage: E2EPage = await newE2EPage();
+      beforeContent?.(wrappedPage);
+      await wrappedPage.setContent(wrappedHtml);
       await wrappedPage.waitForChanges();
 
       await assertLabelable({
