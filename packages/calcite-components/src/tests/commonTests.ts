@@ -702,9 +702,9 @@ export function formAssociated(
     const content = html` <form>
       ${componentHtml}
       <!--
-                  keeping things simple by using submit-type input
-                  this should cover button and calcite-button submit cases
-                  -->
+        keeping things simple by using submit-type input
+        this should cover button and calcite-button submit cases
+      -->
       <input id="submitter" type="submit" />
     </form>`;
     await page.setContent(content);
