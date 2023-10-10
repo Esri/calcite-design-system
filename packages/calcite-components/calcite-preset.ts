@@ -221,8 +221,6 @@ export default {
         9: "2.25rem",
         11: "2.75rem",
         13: "3.25rem",
-        15: "3.75rem",
-        18: "4.5rem",
       },
       transitionProperty: {
         margin: "margin",

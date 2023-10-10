@@ -142,7 +142,13 @@ export class Icon {
       return;
     }
 
-    this.pathData = await fetchIcon({ icon, scale });
+    const pathData = await fetchIcon({ icon, scale });
+
+    if (icon !== this.icon) {
+      return;
+    }
+
+    this.pathData = pathData;
   }
 
   private waitUntilVisible(callback: () => void): void {

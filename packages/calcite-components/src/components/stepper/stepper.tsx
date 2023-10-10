@@ -332,7 +332,7 @@ export class Stepper {
 
   private determineActiveStepper(currentPositionChanged = false): void {
     const totalItems = this.items.length;
-    if (!this.elWidth || !totalItems || this.layout !== "horizontal") {
+    if (!this.elWidth || !totalItems || this.layout !== "horizontal" || totalItems === 1) {
       return;
     }
 
@@ -456,13 +456,10 @@ export class Stepper {
   }
 
   private getFirstEnabledStepperPosition(): number {
-    // If first stepper item is disabled returns next enabled stepper item & if all the stepper item's are disabled , first item index will be returned.
-    let index = 0;
-    while (index < this.items.length) {
-      if (!this.items[index].disabled) {
-        return index;
-      }
-      index++;
+    const enabledStepIndex = this.items.findIndex((item) => !item.disabled);
+
+    if (enabledStepIndex > -1) {
+      return enabledStepIndex;
     }
 
     this.currentPosition = 0;
