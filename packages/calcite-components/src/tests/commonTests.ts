@@ -534,7 +534,7 @@ export function labelable(
     it("is labelable when a component is set first before being wrapped in a label", async () => {
       const componentFirstWrappedPage: E2EPage = await newE2EPage();
       beforeContent?.(componentFirstWrappedPage);
-      await componentFirstWrappedPage.setContent(`${componentHtml}`);
+      await componentFirstWrappedPage.setContent(componentHtml);
       await componentFirstWrappedPage.waitForChanges();
       await componentFirstWrappedPage.evaluate((id: string) => {
         const componentEl = document.querySelector(`[id='${id}']`);
