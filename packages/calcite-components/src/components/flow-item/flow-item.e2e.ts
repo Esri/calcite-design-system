@@ -139,10 +139,22 @@ describe("calcite-flow-item", () => {
 
     await page.setContent("<calcite-flow-item collapsible collapsed></calcite-flow-item>");
 
+    const flowItem = await page.find("calcite-flow-item");
     const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
 
+    expect(await flowItem.getProperty("collapsed")).toBe(true);
     expect(await panel.getProperty("collapsed")).toBe(true);
     expect(await panel.getProperty("collapsible")).toBe(true);
+
+    await page.$eval("calcite-flow-item", (flowItem: HTMLCalciteFlowItemElement) => {
+      const panel = flowItem.shadowRoot.querySelector("calcite-panel");
+      const toggleButton = panel.shadowRoot.querySelector("[data-test=collapse]") as HTMLCalciteActionElement;
+      toggleButton.click();
+    });
+
+    await page.waitForChanges();
+
+    expect(await flowItem.getProperty("collapsed")).toBe(false);
   });
 
   it("allows scrolling content", async () => {
