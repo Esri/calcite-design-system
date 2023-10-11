@@ -23,6 +23,18 @@ describe("calcite-flow-item", () => {
         defaultValue: false,
       },
       {
+        propertyName: "collapsible",
+        defaultValue: false,
+      },
+      {
+        propertyName: "collapseDirection",
+        defaultValue: "down",
+      },
+      {
+        propertyName: "collapsed",
+        defaultValue: false,
+      },
+      {
         propertyName: "disabled",
         defaultValue: false,
       },
@@ -52,6 +64,17 @@ describe("calcite-flow-item", () => {
   describe("accessible", () => {
     accessible(`
     <calcite-flow-item>
+      <div slot="${SLOTS.headerActionsStart}">test start</div>
+      <div slot="${SLOTS.headerContent}">test content</div>
+      <div slot="${SLOTS.headerActionsEnd}">test end</div>
+      <p>Content</p>
+      <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
+      <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
+    </calcite-flow-item>
+    `);
+
+    accessible(`
+    <calcite-flow-item collapsible>
       <div slot="${SLOTS.headerActionsStart}">test start</div>
       <div slot="${SLOTS.headerContent}">test content</div>
       <div slot="${SLOTS.headerActionsEnd}">test end</div>
@@ -111,6 +134,29 @@ describe("calcite-flow-item", () => {
     expect(calciteFlowItemBack).toHaveReceivedEvent();
   });
 
+  it("sets collapsible and collapsed on internal panel", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-flow-item collapsible collapsed></calcite-flow-item>");
+
+    const flowItem = await page.find("calcite-flow-item");
+    const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+
+    expect(await flowItem.getProperty("collapsed")).toBe(true);
+    expect(await panel.getProperty("collapsed")).toBe(true);
+    expect(await panel.getProperty("collapsible")).toBe(true);
+
+    await page.$eval("calcite-flow-item", (flowItem: HTMLCalciteFlowItemElement) => {
+      const panel = flowItem.shadowRoot.querySelector("calcite-panel");
+      const toggleButton = panel.shadowRoot.querySelector("[data-test=collapse]") as HTMLCalciteActionElement;
+      toggleButton.click();
+    });
+
+    await page.waitForChanges();
+
+    expect(await flowItem.getProperty("collapsed")).toBe(false);
+  });
+
   it("allows scrolling content", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
@@ -161,15 +207,23 @@ describe("calcite-flow-item", () => {
     });
 
     const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");
-
-    await page.evaluate(() => {
-      const panel = document.querySelector("calcite-flow-item").shadowRoot.querySelector("calcite-panel");
-
-      panel.dispatchEvent(new CustomEvent("calcitePanelScroll"));
-    });
-
+    const panel = await page.find("calcite-flow-item >>> calcite-panel");
+    panel.triggerEvent("calcitePanelScroll");
     await page.waitForChanges();
 
     expect(scrollSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("honors calciteFlowItemToggle event", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-flow-item collapsible>test</calcite-flow-item>",
+    });
+
+    const toggleSpy = await page.spyOnEvent("calciteFlowItemToggle");
+    const panel = await page.find("calcite-flow-item >>> calcite-panel");
+    panel.triggerEvent("calcitePanelToggle");
+    await page.waitForChanges();
+
+    expect(toggleSpy).toHaveReceivedEventTimes(1);
   });
 });

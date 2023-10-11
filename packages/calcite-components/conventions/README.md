@@ -79,7 +79,7 @@ Only attach additional data to your event if that data cannot be determined from
 
 `<calcite-tab-nav>` is also an example of this. The `event.details.tab` item contains the index of the selected tab or the tab name which cannot be easily determined from the state of `<calcite-tab-nav>` in some cases so it makes sense to include in the event.
 
-### Native event cancelation
+### Native event cancellation
 
 When a component **handles events for its own interaction** (e.g., moving between list items, closing an open menu), if the event is tied to default browser behavior (e.g., space key scrolling the page), `Event.preventDefault()` must be called to avoid mixed behavior.
 
@@ -423,20 +423,20 @@ For such cases, the following pattern will enable developers to create custom ch
 
 ##### Example
 
-**`parent/interfaces.d.ts`**
+###### `parent/interfaces.d.ts`
 
 ```ts
 type ChildComponentLike = Pick<Components.CalciteChild, "required" | "props" | "from" | "parent">;
 type ChildComponentLikeElement = ChilcComponentLike & HTMLElement;
 ```
 
-**`parent/parent.tsx`**
+###### `parent/parent.tsx`
 
 ```tsx
   @Prop() selectedItem: HTMLChildComponentElement | ChildComponentLikeElement;
 ```
 
-**`custom-item/custom-item.tsx`**
+###### `custom-item/custom-item.tsx`
 
 ```tsx
 export class CustomItem implements ChildComponentLike {

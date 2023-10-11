@@ -1,4 +1,6 @@
 {
   "close": "닫기",
-  "options": "옵션"
+  "options": "옵션",
+  "collapse": "축소",
+  "expand": "확장"
 }

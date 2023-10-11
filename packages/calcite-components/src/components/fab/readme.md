@@ -14,15 +14,23 @@ Renders a `calcite-fab` that displays only an icon and a tooltip label.
 
 ### Loading-and-disabled
 
-Renders a `calcite-fab` that is loading and disabled.
+Renders a `calcite-fab` that is `loading` and `disabled`.
 
 ```html
 <calcite-fab loading disabled></calcite-fab>
 ```
 
+### Styling
+
+Configure styling for a `calcite-fab` to fit your UI and branding with the `appearance` and `kind` attributes/properties:
+
+```html
+<calcite-fab appearance="outline-fill" kind="danger" icon="trash" label="Remove layer"></calcite-fab>
+```
+
 ### With-text
 
-Renders a `calcite-fab` that displays text along side an icon and a tooltip label.
+Renders a `calcite-fab` that displays text alongside an icon.
 
 ```html
 <calcite-fab label="Performs my custom action" text="Perform Action!" text-enabled></calcite-fab>

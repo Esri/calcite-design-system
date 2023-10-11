@@ -7,15 +7,17 @@
 ### Basic
 
 ```html
-<calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+<calcite-input placeholder="Enter your region"></calcite-input>
 ```
 
 ### Clearable
 
+Display a clear button when the component has a value with the `clearable` attribute:
+
 ```html
 <calcite-label>
-  Clearable item
-  <calcite-input clearable value="My great name" placeholder="John Doe"></calcite-input>
+  Full name
+  <calcite-input clearable value="John Doe" placeholder="John Doe"></calcite-input>
 </calcite-label>
 ```
 
@@ -28,11 +30,14 @@ You must use `focusin`/`focusout` instead of `focus`/`blur` because these events
 All events return an element and a value:
 
 ```js
-input.addEventListener("focusin", logFocus);
-input.addEventListener("focusout", logBlur);
+inputEl.addEventListener("focusin", logFocus);
+inputEl.addEventListener("focusout", logBlur);
 
-function logChange() {
-  console.log(event.target.element);
+function logFocus() {
+  console.log(event.target);
+}
+
+function logBlur() {
   console.log(event.target.value);
 }
 ```
@@ -50,10 +55,17 @@ function logChange() {
 ### With-message
 
 ```html
-<calcite-label for="info">
-  My great label
-  <calcite-input id="info" placeholder="Enter your information"></calcite-input>
-  <calcite-input-message icon="3d-glasses"> Here's something you should know about this input </calcite-input-message>
+<calcite-label>
+  Desired subdomain
+  <calcite-input
+    suffix-text=".city-of-acme.gov"
+    status="invalid"
+    placeholder="Enter your subdomain"
+    value="i-love-maps"
+  ></calcite-input>
+  <calcite-input-message icon="frown" status="invalid">
+    Apologies, this subdomain has already been registered.
+  </calcite-input-message>
 </calcite-label>
 ```
 
@@ -64,10 +76,12 @@ function logChange() {
 | `accept`           | `accept`             | Specifies a comma separated list of unique file type specifiers for limiting accepted file types. This property only has an effect when `type` is "file". Read the native attribute's documentation on MDN for more info. | `string`                                                                                                                                                                                                                                | `undefined`  |
 | `alignment`        | `alignment`          | Specifies the text alignment of the component's value.                                                                                                                                                                    | `"end" \| "start"`                                                                                                                                                                                                                      | `"start"`    |
 | `autocomplete`     | `autocomplete`       | Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.                                                                                          | `string`                                                                                                                                                                                                                                | `undefined`  |
-| `autofocus`        | `autofocus`          | When `true`, the component is focused on page load.                                                                                                                                                                       | `boolean`                                                                                                                                                                                                                               | `false`      |
+| `autofocus`        | `autofocus`          | When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.                                                | `boolean`                                                                                                                                                                                                                               | `false`      |
 | `clearable`        | `clearable`          | When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.                  | `boolean`                                                                                                                                                                                                                               | `false`      |
 | `disabled`         | `disabled`           | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                  | `boolean`                                                                                                                                                                                                                               | `false`      |
 | `enterKeyHint`     | `enter-key-hint`     | Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.                                                                                | `string`                                                                                                                                                                                                                                | `undefined`  |
+| `files`            | --                   | When `type` is `"file"`, specifies the component's selected files.                                                                                                                                                        | `FileList`                                                                                                                                                                                                                              | `undefined`  |
+| `form`             | `form`               | The ID of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any.                                                                     | `string`                                                                                                                                                                                                                                | `undefined`  |
 | `groupSeparator`   | `group-separator`    | When `true`, number values are displayed with a group separator corresponding to the language and country format.                                                                                                         | `boolean`                                                                                                                                                                                                                               | `false`      |
 | `hidden`           | `hidden`             | When `true`, the component will not be visible.                                                                                                                                                                           | `boolean`                                                                                                                                                                                                                               | `false`      |
 | `icon`             | `icon`               | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.                                                                                                     | `boolean \| string`                                                                                                                                                                                                                     | `undefined`  |
@@ -77,7 +91,7 @@ function logChange() {
 | `loading`          | `loading`            | When `true`, a busy indicator is displayed.                                                                                                                                                                               | `boolean`                                                                                                                                                                                                                               | `false`      |
 | `max`              | `max`                | Specifies the maximum value for type "number".                                                                                                                                                                            | `number`                                                                                                                                                                                                                                | `undefined`  |
 | `maxLength`        | `max-length`         | Specifies the maximum length of text for the component's value.                                                                                                                                                           | `number`                                                                                                                                                                                                                                | `undefined`  |
-| `messageOverrides` | `message-overrides`  | Use this property to override individual strings used by the component.                                                                                                                                                   | `InputMessages`                                                                                                                                                                                                                         | `undefined`  |
+| `messageOverrides` | --                   | Use this property to override individual strings used by the component.                                                                                                                                                   | `{ clear?: string; loading?: string; }`                                                                                                                                                                                                 | `undefined`  |
 | `min`              | `min`                | Specifies the minimum value for `type="number"`.                                                                                                                                                                          | `number`                                                                                                                                                                                                                                | `undefined`  |
 | `minLength`        | `min-length`         | Specifies the minimum length of text for the component's value.                                                                                                                                                           | `number`                                                                                                                                                                                                                                | `undefined`  |
 | `multiple`         | `multiple`           | When `true`, the component can accept more than one value. This property only has an effect when `type` is "email" or "file". Read the native attribute's documentation on MDN for more info.                             | `boolean`                                                                                                                                                                                                                               | `false`      |
@@ -107,7 +121,7 @@ function logChange() {
 
 ### `selectText() => Promise<void>`
 
-Selects all text of the component's `value`.
+Selects the text of the component's `value`.
 
 #### Returns
 
@@ -131,8 +145,6 @@ Type: `Promise<void>`
 
 ### Used by
 
-- [calcite-color-picker](../color-picker)
-- [calcite-color-picker-hex-input](../color-picker-hex-input)
 - [calcite-filter](../filter)
 - [calcite-input-date-picker](../input-date-picker)
 - [calcite-input-time-picker](../input-time-picker)
@@ -148,8 +160,6 @@ Type: `Promise<void>`
 graph TD;
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
-  calcite-color-picker --> calcite-input
-  calcite-color-picker-hex-input --> calcite-input
   calcite-filter --> calcite-input
   calcite-input-date-picker --> calcite-input
   calcite-input-time-picker --> calcite-input

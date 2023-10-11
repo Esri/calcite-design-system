@@ -106,15 +106,16 @@ Specify the underlying value for each option.
 
 ## Properties
 
-| Property             | Attribute         | Description                                                                                       | Type                         | Default     |
-| -------------------- | ----------------- | ------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `disabled`           | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.          | `boolean`                    | `false`     |
-| `label` _(required)_ | `label`           | Accessible name for the component.                                                                | `string`                     | `undefined` |
-| `name`               | `name`            | Specifies the name of the component. Required to pass the component's `value` on form submission. | `string`                     | `undefined` |
-| `scale`              | `scale`           | Specifies the size of the component.                                                              | `"l" \| "m" \| "s"`          | `"m"`       |
-| `selectedOption`     | `selected-option` | The component's selected option `HTMLElement`.                                                    | `HTMLCalciteOptionElement`   | `undefined` |
-| `value`              | `value`           | The component's `selectedOption` value.                                                           | `string`                     | `null`      |
-| `width`              | `width`           | Specifies the width of the component.                                                             | `"auto" \| "full" \| "half"` | `"auto"`    |
+| Property             | Attribute  | Description                                                                                                                                           | Type                         | Default     |
+| -------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`           | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                              | `boolean`                    | `false`     |
+| `form`               | `form`     | The ID of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any. | `string`                     | `undefined` |
+| `label` _(required)_ | `label`    | Accessible name for the component.                                                                                                                    | `string`                     | `undefined` |
+| `name`               | `name`     | Specifies the name of the component. Required to pass the component's `value` on form submission.                                                     | `string`                     | `undefined` |
+| `scale`              | `scale`    | Specifies the size of the component.                                                                                                                  | `"l" \| "m" \| "s"`          | `"m"`       |
+| `selectedOption`     | --         | The component's selected option `HTMLElement`.                                                                                                        | `HTMLCalciteOptionElement`   | `undefined` |
+| `value`              | `value`    | The component's `selectedOption` value.                                                                                                               | `string`                     | `null`      |
+| `width`              | `width`    | Specifies the width of the component.                                                                                                                 | `"auto" \| "full" \| "half"` | `"auto"`    |
 
 ## Events
 

@@ -10,12 +10,12 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 ```html
 <calcite-label>
-  My great label
-  <calcite-input status="invalid" placeholder="“Enter" your information”></calcite-input>
-  <calcite-input-message status="invalid"
-    >That's not going to work out.
-    <calcite-button appearance="inline" href="">Learn more</calcite-button></calcite-input-message
-  >
+  Desired subdomain
+  <calcite-input suffix-text=".city-of-acme.gov" placeholder="Enter your subdomain" value="big-map-fan">
+  </calcite-input>
+  <calcite-input-message icon="check-circle" status="valid">
+    Excellent news - this domain is available.
+  </calcite-input-message>
 </calcite-label>
 ```
 

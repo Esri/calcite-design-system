@@ -11,10 +11,11 @@ const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.lengt
 export const geActionDimensions = (
   actions: HTMLCalciteActionElement[]
 ): { actionWidth: number; actionHeight: number } => {
-  const actionLen = actions?.length;
+  const actionsNotSlotted = actions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions);
+  const actionLen = actionsNotSlotted?.length;
   return {
-    actionWidth: actionLen ? getAverage(actions.map((action) => action.clientWidth || 0)) : 0,
-    actionHeight: actionLen ? getAverage(actions.map((action) => action.clientHeight || 0)) : 0,
+    actionWidth: actionLen ? getAverage(actionsNotSlotted.map((action) => action.clientWidth || 0)) : 0,
+    actionHeight: actionLen ? getAverage(actionsNotSlotted.map((action) => action.clientHeight || 0)) : 0,
   };
 };
 
