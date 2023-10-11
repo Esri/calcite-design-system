@@ -555,6 +555,19 @@ export class TabNav {
     const chevronEnd = this.getActionChevronDirection(showEndAction);
     const chevronStart = this.getActionChevronDirection(showStartAction);
 
+    const tabTitleSlotWrapper: HTMLDivElement = this.el.shadowRoot.querySelector(
+      `.${CSS.tabTitleSlotWrapper}`
+    );
+    if (tabTitleSlotWrapper) {
+      const scaleValue = this.scale === "s" ? "1.5" : this.scale === "m" ? "2" : "2.5";
+      console.log("tabTitleSlotWrapper", tabTitleSlotWrapper);
+      const style = tabTitleSlotWrapper.style;
+
+      console.log("isOverflowingStart", isOverflowingStart);
+      console.log("isOverflowingEnd", isOverflowingEnd);
+      style.paddingInlineStart = isOverflowingStart ? `${scaleValue}rem` : "";
+      style.paddingInlineEnd = isOverflowingEnd ? `${scaleValue}rem` : "";
+    }
     return [chevronEnd, chevronStart];
   }
 }

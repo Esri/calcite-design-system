@@ -6,4 +6,5 @@ export const ICON = {
 export const CSS = {
   arrowEnd: "arrow-end",
   arrowStart: "arrow-start",
+  tabTitleSlotWrapper: "tab-titles-slot-wrapper",
 };

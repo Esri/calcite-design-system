@@ -37,7 +37,8 @@
   scrollbar-width: none;
 }
 
-.tab-nav {
+.tab-nav,
+.tab-titles-slot-wrapper {
   @apply flex
     w-full
     justify-start
