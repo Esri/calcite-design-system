@@ -3,65 +3,69 @@
     "font": {
       "heading": {
         "light": {
-          "value": "$semantic.ui.color.text.1.light",
+          "value": "{semantic.ui.color.text.1.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
+          "value": "{semantic.ui.color.text.1.dark}",
           "type": "color"
         },
         "sm": {
-          "value": "$semantic.font.default.medium.-2h",
+          "value": "{semantic.font.default.medium.-2h}",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.medium.-1h",
+          "value": "{semantic.font.default.medium.-1h}",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.medium.0h",
+          "value": "{semantic.font.default.medium.0h}",
           "type": "typography"
         }
       },
       "description": {
         "light": {
-          "value": "$semantic.ui.color.text.3.light",
+          "value": "{semantic.ui.color.text.3.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
+          "value": "{semantic.ui.color.text.3.dark}",
           "type": "color"
-        },
+        }
+      },
+      "descrition": {
         "sm": {
-          "value": "$semantic.font.default.regular.-2h",
+          "value": "{semantic.font.default.regular.-2h}",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.regular.-1h",
+          "value": "{semantic.font.default.regular.-1h}",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.regular.0h",
+          "value": "{semantic.font.default.regular.0h}",
           "type": "typography"
         }
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
-      },
-      "expanded": {
+      "default": {
         "light": {
-          "value": "$semantic.ui.color.text.1.light",
+          "value": "{semantic.ui.color.text.3.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
+          "value": "{semantic.ui.color.text.3.dark}",
+          "type": "color"
+        }
+      },
+      "expanded": {
+        "light": {
+          "value": "{semantic.ui.color.text.1.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.1.dark}",
           "type": "color"
         }
       }
@@ -69,26 +73,26 @@
     "background": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
+          "value": "{semantic.ui.color.foreground.1.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
+          "value": "{semantic.ui.color.foreground.1.dark}",
           "type": "color"
         }
       }
     },
     "icon-size": {
       "sm": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       }
     },
@@ -124,7 +128,7 @@
         }
       },
       "space-around": {
-        "top-bottom": {
+        "block": {
           "sm": {
             "value": "{core.spacing.1}",
             "type": "spacing"
@@ -138,7 +142,7 @@
             "type": "spacing"
           }
         },
-        "left-right": {
+        "inline": {
           "sm": {
             "value": "{core.spacing.3}",
             "type": "spacing"
@@ -155,16 +159,16 @@
       }
     },
     "border-width": {
-      "value": "{core.border.border-width.0}",
+      "value": "{core.border.width.0}",
       "type": "borderWidth"
     },
     "border": {
       "light": {
-        "value": "$semantic.ui.color.border.2.light",
+        "value": "{semantic.ui.color.border.2.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.border.2.dark",
+        "value": "{semantic.ui.color.border.2.dark}",
         "type": "color"
       }
     }

@@ -1,5 +1,5 @@
 {
-  "panel-header": {
+  "flow-header": {
     "font": {
       "light": {
         "value": "{semantic.ui.color.text.2.light}",

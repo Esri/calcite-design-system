@@ -1,64 +1,94 @@
 {
   "tooltip": {
-    "space-arround": {
-      "top-bottom": {
-        "value": "$core.spacing.5",
-        "type": "spacing"
-      },
-      "left-right": {
-        "value": "$core.spacing.7",
-        "type": "spacing"
+    "space": {
+      "around": {
+        "block": {
+          "value": "{core.spacing.5}",
+          "type": "spacing"
+        },
+        "inline": {
+          "value": "{core.spacing.7}",
+          "type": "spacing"
+        }
       }
     },
     "foreground": {
       "light": {
-        "value": "$semantic.ui.color.foreground.1.light",
+        "value": "{semantic.ui.color.foreground.1.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.foreground.1.dark",
+        "value": "{semantic.ui.color.foreground.1.dark}",
         "type": "color"
       }
     },
     "font": {
       "light": {
-        "value": "$semantic.ui.color.text.1.light",
+        "value": "{semantic.ui.color.text.1.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.1.dark",
+        "value": "{semantic.ui.color.text.1.dark}",
         "type": "color"
       },
-      "standard": {
-        "value": "$semantic.font.wrap.medium.-2",
-        "type": "typography"
+      "font-family": {
+        "type": "",
+        "value": "{core.font.font-family.primary}"
+      },
+      "font-weight": {
+        "type": "fontWeight",
+        "value": "{core.font.font-weight.medium}"
+      },
+      "line-hight": {
+        "type": "lineHeight",
+        "value": "{core.font.line-height.relative.snug}"
+      },
+      "font-size": {
+        "type": "fontSize",
+        "value": "{core.font.font-size.3}"
+      },
+      "letter-spacing": {
+        "type": "letterSpacing",
+        "value": "{core.font.letter-spacing.normal}"
+      },
+      "paragraph-spacing": {
+        "type": "paragraphSpacing",
+        "value": "{core.font.paragraph-spacing.normal}"
+      },
+      "text-decoration": {
+        "type": "textDecoration",
+        "value": "{core.font.text-decoration.none}"
+      },
+      "text-case": {
+        "type": "textCase",
+        "value": "{core.font.text-case.none}"
       }
     },
     "border": {
       "light": {
-        "value": "$semantic.ui.color.border.3.light",
+        "value": "{semantic.ui.color.border.3.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.border.3.dark",
+        "value": "{semantic.ui.color.border.3.dark}",
         "type": "color"
+      },
+      "radius": {
+        "value": "{core.border.radius.1}",
+        "type": "borderRadius"
+      },
+      "width": {
+        "value": "{core.border.width.0}",
+        "type": "borderWidth"
       }
-    },
-    "border-radius": {
-      "value": "$core.border.border-radius.1",
-      "type": "borderRadius"
-    },
-    "border-width": {
-      "value": "$core.border.border-width.0",
-      "type": "borderWidth"
     },
     "arrow": {
       "width": {
-        "value": "$core.sizing.6",
+        "value": "{core.sizing.6}",
         "type": "sizing"
       },
       "height": {
-        "value": "$core.sizing.2",
+        "value": "{core.sizing.2}",
         "type": "sizing"
       }
     }

@@ -15,6 +15,13 @@
           "type": "fontFamilies"
         }
       },
+      "font-style": {
+        "emphasis": {
+          "value": "italic",
+          "type": "fontStyle",
+          "description": "used in ratings"
+        }
+      },
       "font-weight": {
         "ultralight": {
           "value": "UltraLight",
@@ -36,10 +43,6 @@
         },
         "medium": {
           "value": "Medium",
-          "type": "fontWeights"
-        },
-        "medium-italic": {
-          "value": "Medium Italic",
           "type": "fontWeights"
         },
         "demi": {
@@ -269,7 +272,7 @@
       }
     },
     "border": {
-      "border-radius": {
+      "radius": {
         "0": {
           "value": "2px",
           "type": "borderRadius"
@@ -311,7 +314,7 @@
           "type": "borderRadius"
         }
       },
-      "border-width": {
+      "width": {
         "0": {
           "value": "1px",
           "type": "borderWidth"
@@ -1550,11 +1553,11 @@
         }
       },
       "margin": {
-        "value": "$core.spacing.9",
+        "value": "{core.spacing.9}",
         "type": "spacing"
       },
       "gutter": {
-        "value": "$core.spacing.7",
+        "value": "{core.spacing.7}",
         "type": "spacing"
       },
       "content": {
@@ -1641,7 +1644,7 @@
           "y": "0",
           "blur": "0",
           "spread": "0",
-          "color": "rgba($core.color.neutral.blk-240, $core.opacity.0)",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
           "type": "dropShadow"
         },
         "type": "boxShadow"
@@ -1653,7 +1656,7 @@
             "y": "2",
             "blur": "8",
             "spread": "0",
-            "color": "rgba($core.color.neutral.blk-240, $core.opacity.4)",
+            "color": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
             "type": "dropShadow"
           },
           {
@@ -1661,7 +1664,7 @@
             "y": "4",
             "blur": "16",
             "spread": "0",
-            "color": "rgba($core.color.neutral.blk-240, $core.opacity.8)",
+            "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
             "type": "dropShadow"
           }
         ],
@@ -1674,7 +1677,7 @@
             "y": "4",
             "blur": "20",
             "spread": "0",
-            "color": "rgba($core.color.neutral.blk-240, $core.opacity.8)",
+            "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
             "type": "dropShadow"
           },
           {
@@ -1682,7 +1685,7 @@
             "y": "12",
             "blur": "32",
             "spread": "-2",
-            "color": "rgba($core.color.neutral.blk-240, $core.opacity.10)",
+            "color": "rgba({core.color.neutral.blk-240}, {core.opacity.10})",
             "type": "dropShadow"
           }
         ],
@@ -1694,7 +1697,7 @@
           "y": "0",
           "blur": "0",
           "spread": "0",
-          "color": "rgba($core.color.neutral.blk-240, $core.opacity.0)",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
           "type": "dropShadow"
         },
         "type": "boxShadow"

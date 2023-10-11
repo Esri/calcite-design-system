@@ -2,215 +2,217 @@
   "color": {
     "brand": {
       "default": {
-        "value": "$semantic.ui.color.brand.default.light",
+        "value": "{semantic.ui.color.brand.default.light}",
         "type": "color"
       },
       "hover": {
-        "value": "$semantic.ui.color.brand.hover.light",
+        "value": "{semantic.ui.color.brand.hover.light}",
         "type": "color"
       },
       "press": {
-        "value": "$semantic.ui.color.brand.press.light",
+        "value": "{semantic.ui.color.brand.press.light}",
         "type": "color"
       }
     },
     "background": {
-      "value": "$semantic.ui.color.background.light",
-      "type": "color"
+      "1": {
+        "value": "{semantic.ui.color.background.light}",
+        "type": "color"
+      }
     },
     "foreground": {
       "1": {
-        "value": "$semantic.ui.color.foreground.1.light",
+        "value": "{semantic.ui.color.foreground.1.light}",
         "type": "color"
       },
       "2": {
-        "value": "$semantic.ui.color.foreground.2.light",
+        "value": "{semantic.ui.color.foreground.2.light}",
         "type": "color"
       },
       "3": {
-        "value": "{semantic.ui.color.foreground.3.light}",
+        "value": "{semantic.ui.color.foreground.current.light}",
         "type": "color"
       }
     },
     "text": {
       "1": {
-        "value": "$semantic.ui.color.text.1.light",
+        "value": "{semantic.ui.color.text.1.light}",
         "type": "color"
       },
       "2": {
-        "value": "$semantic.ui.color.text.2.light",
+        "value": "{semantic.ui.color.text.2.light}",
         "type": "color"
       },
       "3": {
-        "value": "$semantic.ui.color.text.3.light",
+        "value": "{semantic.ui.color.text.3.light}",
         "type": "color"
       },
       "inverse": {
-        "value": "$semantic.ui.color.text.inverse.light",
+        "value": "{semantic.ui.color.text.inverse.light}",
         "type": "color"
       },
       "link": {
-        "value": "$semantic.ui.color.text.link.light",
+        "value": "{semantic.ui.color.text.link.light}",
         "type": "color"
       }
     },
     "border": {
       "1": {
-        "value": "$semantic.ui.color.border.1.light",
+        "value": "{semantic.ui.color.border.1.light}",
         "type": "color"
       },
       "2": {
-        "value": "$semantic.ui.color.border.2.light",
+        "value": "{semantic.ui.color.border.2.light}",
         "type": "color"
       },
       "3": {
-        "value": "$semantic.ui.color.border.3.light",
+        "value": "{semantic.ui.color.border.3.light}",
         "type": "color"
       },
       "input": {
-        "value": "$semantic.ui.color.border.input.light",
+        "value": "{semantic.ui.color.border.input.light}",
         "type": "color"
       }
     },
     "info": {
       "default": {
-        "value": "$semantic.ui.color.info.default.light",
+        "value": "{semantic.ui.color.info.default.light}",
         "type": "color"
       },
       "hover": {
-        "value": "$semantic.ui.color.info.hover.light",
+        "value": "{semantic.ui.color.info.hover.light}",
         "type": "color"
       },
       "press": {
-        "value": "$semantic.ui.color.info.press.light",
+        "value": "{semantic.ui.color.info.press.light}",
         "type": "color"
       }
     },
     "success": {
       "default": {
-        "value": "$semantic.ui.color.success.default.light",
+        "value": "{semantic.ui.color.success.default.light}",
         "type": "color"
       },
       "hover": {
-        "value": "$semantic.ui.color.success.hover.light",
+        "value": "{semantic.ui.color.success.hover.light}",
         "type": "color"
       },
       "press": {
-        "value": "$semantic.ui.color.success.press.light",
+        "value": "{semantic.ui.color.success.press.light}",
         "type": "color"
       }
     },
     "warning": {
       "default": {
-        "value": "$semantic.ui.color.warning.default.light",
+        "value": "{semantic.ui.color.warning.default.light}",
         "type": "color"
       },
       "hover": {
-        "value": "$semantic.ui.color.warning.hover.light",
+        "value": "{semantic.ui.color.warning.hover.light}",
         "type": "color"
       },
       "press": {
-        "value": "$semantic.ui.color.warning.press.light",
+        "value": "{semantic.ui.color.warning.press.light}",
         "type": "color"
       }
     },
     "danger": {
       "default": {
-        "value": "$semantic.ui.color.danger.default.light",
+        "value": "{semantic.ui.color.danger.default.light}",
         "type": "color"
       },
       "hover": {
-        "value": "$semantic.ui.color.danger.hover.light",
+        "value": "{semantic.ui.color.danger.hover.light}",
         "type": "color"
       },
       "press": {
-        "value": "$semantic.ui.color.danger.press.light",
+        "value": "{semantic.ui.color.danger.press.light}",
         "type": "color"
       }
     },
     "inverse": {
       "default": {
-        "value": "$semantic.ui.color.inverse.light",
+        "value": "{semantic.ui.color.inverse.default.light}",
         "type": "color"
       }
     },
     "component": {
       "avatar": {
         "font": {
-          "value": "$avatar.font.light",
+          "value": "{avatar.font.light}",
           "type": "color"
         },
         "icon": {
-          "value": "$avatar.icon.light",
+          "value": "{avatar.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$avatar.background.default.light",
+            "value": "{avatar.background.default.light}",
             "type": "color"
           },
           "red": {
-            "value": "$avatar.background.red.light",
+            "value": "{avatar.background.red.light}",
             "type": "color"
           },
           "teal": {
-            "value": "$avatar.background.teal.light",
+            "value": "{avatar.background.teal.light}",
             "type": "color"
           },
           "blue": {
-            "value": "$avatar.background.blue.light",
+            "value": "{avatar.background.blue.light}",
             "type": "color"
           },
           "green": {
-            "value": "$avatar.background.green.light",
+            "value": "{avatar.background.green.light}",
             "type": "color"
           },
           "yellow": {
-            "value": "$avatar.background.yellow.light",
+            "value": "{avatar.background.yellow.light}",
             "type": "color"
           }
         }
       },
       "checkbox": {
         "font": {
-          "value": "$checkbox.font.light",
+          "value": "{checkbox.font.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$checkbox.background.default.light",
+            "value": "{checkbox.background.default.light}",
             "type": "color"
           },
           "selected": {
-            "value": "$checkbox.background.selected.light",
+            "value": "{checkbox.background.selected.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$checkbox.icon.light",
+          "value": "{checkbox.icon.light}",
           "type": "color"
         },
         "border": {
-          "value": "$checkbox.border.light",
+          "value": "{checkbox.border.light}",
           "type": "color"
         }
       },
       "radio": {
         "font": {
-          "value": "$radio.font.light",
+          "value": "{radio.font.light}",
           "type": "color"
         },
         "background": {
-          "value": "$radio.background.light",
+          "value": "{radio.background.light}",
           "type": "color"
         },
         "border": {
           "unchecked": {
-            "value": "$radio.border.unchecked.light",
+            "value": "{radio.border.unchecked.light}",
             "type": "color"
           },
           "checked": {
-            "value": "$radio.border.checked.light",
+            "value": "{radio.border.checked.light}",
             "type": "color"
           }
         }
@@ -218,84 +220,84 @@
       "chip": {
         "font": {
           "clear": {
-            "value": "$chip.font.clear.light",
+            "value": "{chip.font.clear.light}",
             "type": "color"
           },
           "solid": {
             "grey": {
-              "value": "$chip.font.solid.grey.light",
+              "value": "{chip.font.solid.grey.light}",
               "type": "color"
             },
             "blue": {
-              "value": "$chip.font.solid.blue.light",
+              "value": "{chip.font.solid.blue.light}",
               "type": "color"
             },
             "red": {
-              "value": "$chip.font.solid.red.light",
+              "value": "{chip.font.solid.red.light}",
               "type": "color"
             },
             "yellow": {
-              "value": "$chip.font.solid.yellow.light",
+              "value": "{chip.font.solid.yellow.light}",
               "type": "color"
             },
             "green": {
-              "value": "$chip.font.solid.green.light",
+              "value": "{chip.font.solid.green.light}",
               "type": "color"
             }
           }
         },
         "icon": {
           "clear": {
-            "value": "$chip.icon.clear.light",
+            "value": "{chip.icon.clear.light}",
             "type": "color"
           },
           "solid": {
             "grey": {
-              "value": "$chip.icon.solid.grey.light",
+              "value": "{chip.icon.solid.grey.light}",
               "type": "color"
             },
             "blue": {
-              "value": "$chip.icon.solid.blue.light",
+              "value": "{chip.icon.solid.blue.light}",
               "type": "color"
             },
             "red": {
-              "value": "$chip.icon.solid.red.light",
+              "value": "{chip.icon.solid.red.light}",
               "type": "color"
             },
             "yellow": {
-              "value": "$chip.icon.solid.yellow.light",
+              "value": "{chip.icon.solid.yellow.light}",
               "type": "color"
             },
             "green": {
-              "value": "$chip.icon.solid.green.light",
+              "value": "{chip.icon.solid.green.light}",
               "type": "color"
             }
           }
         },
         "closable-icon": {
-          "value": "$chip.closable-icon.light",
+          "value": "{chip.closable-icon.light}",
           "type": "color"
         },
         "background": {
           "solid": {
             "grey": {
-              "value": "$chip.background.solid.grey.light",
+              "value": "{chip.background.solid.grey.light}",
               "type": "color"
             },
             "blue": {
-              "value": "$chip.background.solid.blue.light",
+              "value": "{chip.background.solid.blue.light}",
               "type": "color"
             },
             "red": {
-              "value": "$chip.background.solid.red.light",
+              "value": "{chip.background.solid.red.light}",
               "type": "color"
             },
             "yellow": {
-              "value": "$chip.background.solid.yellow.light",
+              "value": "{chip.background.solid.yellow.light}",
               "type": "color"
             },
             "green": {
-              "value": "$chip.background.solid.green.light",
+              "value": "{chip.background.solid.green.light}",
               "type": "color"
             }
           }
@@ -303,23 +305,23 @@
         "border": {
           "clear": {
             "grey": {
-              "value": "$chip.border.clear.grey.light",
+              "value": "{chip.border.clear.grey.light}",
               "type": "color"
             },
             "blue": {
-              "value": "$chip.border.clear.blue.light",
+              "value": "{chip.border.clear.blue.light}",
               "type": "color"
             },
             "red": {
-              "value": "$chip.border.clear.red.light",
+              "value": "{chip.border.clear.red.light}",
               "type": "color"
             },
             "yellow": {
-              "value": "$chip.border.clear.yellow.light",
+              "value": "{chip.border.clear.yellow.light}",
               "type": "color"
             },
             "green": {
-              "value": "$chip.border.clear.green.light",
+              "value": "{chip.border.clear.green.light}",
               "type": "color"
             }
           }
@@ -327,29 +329,29 @@
       },
       "label": {
         "font": {
-          "value": "$label.font.light",
+          "value": "{label.font.light}",
           "type": "color"
         }
       },
       "loader": {
         "font": {
-          "value": "$loader.font.light",
+          "value": "{loader.font.light}",
           "type": "color"
         },
         "default": {
           "foreground": {
-            "value": "$loader.default.foreground.light",
+            "value": "{loader.default.foreground.light}",
             "type": "color"
           }
         },
         "inline": {
           "foreground": {
             "indeterminate": {
-              "value": "$loader.inline.foreground.indeterminate.light",
+              "value": "{loader.inline.foreground.indeterminate.light}",
               "type": "color"
             },
             "determinate": {
-              "value": "$loader.inline.foreground.determinate.light",
+              "value": "{loader.inline.foreground.determinate.light}",
               "type": "color"
             }
           }
@@ -359,15 +361,15 @@
         "star": {
           "background": {
             "default": {
-              "value": "$rating.star.background.default.light",
+              "value": "{rating.star.background.default.light}",
               "type": "color"
             },
             "active": {
-              "value": "$rating.star.background.active.light",
+              "value": "{rating.star.background.active.light}",
               "type": "color"
             },
             "average": {
-              "value": "$rating.star.background.average.light",
+              "value": "{rating.star.background.average.light}",
               "type": "color"
             }
           }
@@ -375,76 +377,76 @@
         "chip": {
           "count": {
             "font": {
-              "value": "$rating.chip.count.font.light",
+              "value": "{rating.chip.count.font.light}",
               "type": "color"
             }
           },
           "foreground": {
-            "value": "$rating.chip.foreground.light",
+            "value": "{rating.chip.foreground.light}",
             "type": "color"
           }
         }
       },
       "tooltip": {
         "foreground": {
-          "value": "$tooltip.foreground.light",
+          "value": "{tooltip.foreground.light}",
           "type": "color"
         },
         "border": {
-          "value": "$tooltip.border.light",
+          "value": "{tooltip.border.light}",
           "type": "color"
         },
         "font": {
-          "value": "$tooltip.font.light",
+          "value": "{tooltip.font.light}",
           "type": "color"
         }
       },
       "accordion-item": {
         "font": {
           "heading": {
-            "value": "$accordion-item.font.heading.light",
+            "value": "{accordion-item.font.heading.light}",
             "type": "color"
           },
           "description": {
-            "value": "$accordion-item.font.description.light",
+            "value": "{accordion-item.font.description.light}",
             "type": "color"
           }
         },
         "icon": {
           "default": {
-            "value": "$accordion-item.icon.light",
+            "value": "{accordion-item.icon.default.light}",
             "type": "color"
           },
           "expanded": {
-            "value": "$accordion-item.icon.expanded.light",
+            "value": "{accordion-item.icon.expanded.light}",
             "type": "color"
           }
         },
         "background": {
-          "value": "$accordion-item.background.default.light",
+          "value": "{accordion-item.background.default.light}",
           "type": "color"
         },
         "border": {
-          "value": "$accordion-item.border.light",
+          "value": "{accordion-item.border.light}",
           "type": "color"
         }
       },
       "input-message": {
         "font": {
-          "value": "$input-message.font.light",
+          "value": "{input-message.font.light}",
           "type": "color"
         },
         "icon": {
           "idle": {
-            "value": "$input-message.icon.idle.light",
+            "value": "{input-message.icon.idle.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-message.icon.invalid.light",
+            "value": "{input-message.icon.invalid.light}",
             "type": "color"
           },
           "valid": {
-            "value": "$input-message.icon.valid.light",
+            "value": "{input-message.icon.valid.light}",
             "type": "color"
           }
         }
@@ -452,55 +454,55 @@
       "alert": {
         "font": {
           "title": {
-            "value": "$alert.font.title.light",
+            "value": "{alert.font.title.light}",
             "type": "color"
           },
           "message": {
-            "value": "$alert.font.message.light",
+            "value": "{alert.font.message.light}",
             "type": "color"
           }
         },
         "background": {
-          "value": "$alert.background.light",
+          "value": "{alert.background.light}",
           "type": "color"
         },
         "border": {
-          "value": "$alert.border.light",
+          "value": "{alert.border.light}",
           "type": "color"
         },
         "icon": {
           "blue": {
-            "value": "$alert.icon.blue.light",
+            "value": "{alert.icon.blue.light}",
             "type": "color"
           },
           "green": {
-            "value": "$alert.icon.green.light",
+            "value": "{alert.icon.green.light}",
             "type": "color"
           },
           "yellow": {
-            "value": "$alert.icon.yellow.light",
+            "value": "{alert.icon.yellow.light}",
             "type": "color"
           },
           "red": {
-            "value": "$alert.icon.red.light",
+            "value": "{alert.icon.red.light}",
             "type": "color"
           }
         },
         "highlight": {
           "blue": {
-            "value": "$alert.highlight.blue.light",
+            "value": "{alert.highlight.blue.light}",
             "type": "color"
           },
           "green": {
-            "value": "$alert.highlight.green.light",
+            "value": "{alert.highlight.green.light}",
             "type": "color"
           },
           "yellow": {
-            "value": "$alert.highlight.yellow.light",
+            "value": "{alert.highlight.yellow.light}",
             "type": "color"
           },
           "red": {
-            "value": "$alert.highlight.red.light",
+            "value": "{alert.highlight.red.light}",
             "type": "color"
           }
         }
@@ -508,29 +510,29 @@
       "tip": {
         "font": {
           "heading": {
-            "value": "$tip.font.heading.light",
+            "value": "{tip.font.heading.light}",
             "type": "color"
           },
           "description": {
-            "value": "$tip.font.description.light",
+            "value": "{tip.font.description.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$tip.icon.light",
+          "value": "{tip.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
             "light": {
-              "value": "$tip.background.default.light",
+              "value": "{tip.background.default.light}",
               "type": "color"
             }
           }
         },
         "border": {
           "default": {
-            "value": "$tip.border.default.light",
+            "value": "{tip.border.default.light}",
             "type": "color"
           }
         }
@@ -538,21 +540,21 @@
       "color-picker": {
         "font": {
           "label": {
-            "value": "$color-picker.font.label.light",
+            "value": "{color-picker.font.label.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$color-picker.icon.light",
+          "value": "{color-picker.icon.light}",
           "type": "color"
         },
         "border": {
-          "value": "$color-picker.border.light",
+          "value": "{color-picker.border.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$color-picker.background.default.light",
+            "value": "{color-picker.background.default.light}",
             "type": "color"
           }
         }
@@ -560,12 +562,12 @@
       "date-picker": {
         "font": {
           "date": {
-            "value": "$date-picker.font.date.light",
+            "value": "{date-picker.font.date.light}",
             "type": "color"
           },
           "range": {
             "date": {
-              "value": "$date-picker.font.range.date.light",
+              "value": "{date-picker.font.range.date.light}",
               "type": "color"
             }
           },
@@ -574,51 +576,51 @@
             "type": "color"
           },
           "month": {
-            "value": "$date-picker.font.month.light",
+            "value": "{date-picker.font.month.light}",
             "type": "color"
           },
           "selected": {
             "date": {
-              "value": "$date-picker.font.selected.date.light",
+              "value": "{date-picker.font.selected.date.light}",
               "type": "color"
             }
           },
           "active": {
             "date": {
-              "value": "$date-picker.font.active.date.light",
+              "value": "{date-picker.font.active.date.light}",
               "type": "color"
             }
           }
         },
         "icon": {
-          "value": "$date-picker.icon.light",
+          "value": "{date-picker.icon.light}",
           "type": "color"
         },
         "border": {
-          "value": "$date-picker.border.light",
+          "value": "{date-picker.border.light}",
           "type": "color"
         },
         "date": {
           "active": {
             "border": {
-              "value": "$date-picker.date.active.border.light",
+              "value": "{date-picker.date.active.border.light}",
               "type": "color"
             }
           }
         },
         "background": {
           "default": {
-            "value": "$date-picker.background.default.light",
+            "value": "{date-picker.background.default.light}",
             "type": "color"
           },
           "date": {
             "range": {
-              "value": "$date-picker.background.date.range.light",
+              "value": "{date-picker.background.date.range.light}",
               "type": "color"
             },
             "active": {
               "light": {
-                "value": "$date-picker.background.date.active.light",
+                "value": "{date-picker.background.date.active.light}",
                 "type": "color"
               }
             }
@@ -628,33 +630,33 @@
       "input-date-picker": {
         "font": {
           "placeholder-value": {
-            "value": "$input-date-picker.font.placeholder-value.light",
+            "value": "{input-date-picker.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-date-picker.font.label.light",
+            "value": "{input-date-picker.font.label.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-date-picker.icon.light",
+          "value": "{input-date-picker.icon.light}",
           "type": "color"
         },
         "border": {
-          "value": "$input-date-picker.border.light",
+          "value": "{input-date-picker.border.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-date-picker.background.default.light",
+            "value": "{input-date-picker.background.default.light}",
             "type": "color"
           },
           "arrow": {
-            "value": "$input-date-picker.background.arrow.light",
+            "value": "{input-date-picker.background.arrow.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-date-picker.background.read-only.light",
+            "value": "{input-date-picker.background.read-only.light}",
             "type": "color"
           }
         }
@@ -662,43 +664,43 @@
       "input-datetime-local": {
         "font": {
           "placeholder-value": {
-            "value": "$input-datetime-local.font.placeholder-value.light",
+            "value": "{input-datetime-local.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-datetime-local.font.label.light",
+            "value": "{input-datetime-local.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-datetime-local.font.prefix-suffix.light",
+            "value": "{input-datetime-local.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-datetime-local.icon.light",
+          "value": "{input-datetime-local.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-datetime-local.background.default.light",
+            "value": "{input-datetime-local.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-datetime-local.background.prefix-suffix.light",
+            "value": "{input-datetime-local.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-datetime-local.background.read-only.light",
+            "value": "{input-datetime-local.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-datetime-local.border.default.light",
+            "value": "{input-datetime-local.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-datetime-local.border.invalid.light",
+            "value": "{input-datetime-local.border.invalid.light}",
             "type": "color"
           }
         }
@@ -706,43 +708,43 @@
       "input-email": {
         "font": {
           "placeholder-value": {
-            "value": "$input-email.font.placeholder-value.light",
+            "value": "{input-email.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-email.font.label.light",
+            "value": "{input-email.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-email.font.prefix-suffix.light",
+            "value": "{input-email.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-email.icon.light",
+          "value": "{input-email.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-email.background.default.light",
+            "value": "{input-email.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-email.background.prefix-suffix.light",
+            "value": "{input-email.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-email.background.read-only.light",
+            "value": "{input-email.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-email.border.default.light",
+            "value": "{input-email.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-email.border.invalid.light",
+            "value": "{input-email.border.invalid.light}",
             "type": "color"
           }
         }
@@ -750,43 +752,43 @@
       "input-file": {
         "font": {
           "placeholder-value": {
-            "value": "$input-file.font.placeholder-value.light",
+            "value": "{input-file.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-file.font.label.light",
+            "value": "{input-file.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-file.font.prefix-suffix.light",
+            "value": "{input-file.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-file.icon.light",
+          "value": "{input-file.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-file.background.default.light",
+            "value": "{input-file.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-file.background.prefix-suffix.light",
+            "value": "{input-file.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-file.background.read-only.light",
+            "value": "{input-file.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-file.border.default.light",
+            "value": "{input-file.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-file.border.invalid.light",
+            "value": "{input-file.border.invalid.light}",
             "type": "color"
           }
         }
@@ -794,43 +796,43 @@
       "input-month": {
         "font": {
           "placeholder-value": {
-            "value": "$input-month.font.placeholder-value.light",
+            "value": "{input-month.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-month.font.label.light",
+            "value": "{input-month.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-month.font.prefix-suffix.light",
+            "value": "{input-month.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-month.icon.light",
+          "value": "{input-month.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-month.background.default.light",
+            "value": "{input-month.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-month.background.prefix-suffix.light",
+            "value": "{input-month.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-month.background.read-only.light",
+            "value": "{input-month.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-month.border.default.light",
+            "value": "{input-month.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-month.border.invalid.light",
+            "value": "{input-month.border.invalid.light}",
             "type": "color"
           }
         }
@@ -838,43 +840,43 @@
       "input-number": {
         "font": {
           "placeholder-value": {
-            "value": "$input-number.font.placeholder-value.light",
+            "value": "{input-number.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-number.font.label.light",
+            "value": "{input-number.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-number.font.prefix-suffix.light",
+            "value": "{input-number.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-number.icon.light",
+          "value": "{input-number.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-number.background.default.light",
+            "value": "{input-number.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-number.background.prefix-suffix.light",
+            "value": "{input-number.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-number.background.read-only.light",
+            "value": "{input-number.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-number.border.default.light",
+            "value": "{input-number.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-number.border.invalid.light",
+            "value": "{input-number.border.invalid.light}",
             "type": "color"
           }
         }
@@ -882,43 +884,43 @@
       "input-password": {
         "font": {
           "placeholder-value": {
-            "value": "$input-password.font.placeholder-value.light",
+            "value": "{input-password.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-password.font.label.light",
+            "value": "{input-password.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-password.font.prefix-suffix.light",
+            "value": "{input-password.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-password.icon.light",
+          "value": "{input-password.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-password.background.default.light",
+            "value": "{input-password.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-password.background.prefix-suffix.light",
+            "value": "{input-password.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-password.background.read-only.light",
+            "value": "{input-password.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-password.border.default.light",
+            "value": "{input-password.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-password.border.invalid.light",
+            "value": "{input-password.border.invalid.light}",
             "type": "color"
           }
         }
@@ -926,43 +928,43 @@
       "input-search": {
         "font": {
           "placeholder-value": {
-            "value": "$input-search.font.placeholder-value.light",
+            "value": "{input-search.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-search.font.label.light",
+            "value": "{input-search.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-search.font.prefix-suffix.light",
+            "value": "{input-search.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-search.icon.light",
+          "value": "{input-search.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-search.background.default.light",
+            "value": "{input-search.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-search.background.prefix-suffix.light",
+            "value": "{input-search.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-search.background.read-only.light",
+            "value": "{input-search.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-search.border.default.light",
+            "value": "{input-search.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-search.border.invalid.light",
+            "value": "{input-search.border.invalid.light}",
             "type": "color"
           }
         }
@@ -970,43 +972,43 @@
       "input-telephone": {
         "font": {
           "placeholder-value": {
-            "value": "$input-telephone.font.placeholder-value.light",
+            "value": "{input-telephone.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-telephone.font.label.light",
+            "value": "{input-telephone.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-telephone.font.prefix-suffix.light",
+            "value": "{input-telephone.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-telephone.icon.light",
+          "value": "{input-telephone.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-telephone.background.default.light",
+            "value": "{input-telephone.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-telephone.background.prefix-suffix.light",
+            "value": "{input-telephone.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-telephone.background.read-only.light",
+            "value": "{input-telephone.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-telephone.border.default.light",
+            "value": "{input-telephone.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-telephone.border.invalid.light",
+            "value": "{input-telephone.border.invalid.light}",
             "type": "color"
           }
         }
@@ -1014,43 +1016,43 @@
       "input-text": {
         "font": {
           "placeholder-value": {
-            "value": "$input-text.font.placeholder-value.light",
+            "value": "{input-text.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-text.font.label.light",
+            "value": "{input-text.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-text.font.prefix-suffix.light",
+            "value": "{input-text.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-text.icon.light",
+          "value": "{input-text.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-text.background.default.light",
+            "value": "{input-text.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-text.background.prefix-suffix.light",
+            "value": "{input-text.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-text.background.read-only.light",
+            "value": "{input-text.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-text.border.default.light",
+            "value": "{input-text.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-text.border.invalid.light",
+            "value": "{input-text.border.invalid.light}",
             "type": "color"
           }
         }
@@ -1058,43 +1060,43 @@
       "input-week": {
         "font": {
           "placeholder-value": {
-            "value": "$input-week.font.placeholder-value.light",
+            "value": "{input-week.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$input-week.font.label.light",
+            "value": "{input-week.font.label.light}",
             "type": "color"
           },
           "prefix-suffix": {
-            "value": "$input-week.font.prefix-suffix.light",
+            "value": "{input-week.font.prefix-suffix.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$input-week.icon.light",
+          "value": "{input-week.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$input-week.background.default.light",
+            "value": "{input-week.background.default.light}",
             "type": "color"
           },
           "prefix-sufix": {
-            "value": "$input-week.background.prefix-suffix.light",
+            "value": "{input-week.background.prefix-suffix.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$input-week.background.read-only.light",
+            "value": "{input-week.background.read-only.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$input-week.border.default.light",
+            "value": "{input-week.border.default.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$input-week.border.invalid.light",
+            "value": "{input-week.border.invalid.light}",
             "type": "color"
           }
         }
@@ -1102,29 +1104,29 @@
       "textarea": {
         "font": {
           "placeholder-value": {
-            "value": "$textarea.font.placeholder-value.light",
+            "value": "{textarea.font.placeholder-value.light}",
             "type": "color"
           },
           "label": {
-            "value": "$textarea.font.label.light",
+            "value": "{textarea.font.label.light}",
             "type": "color"
           },
           "chat-limit": {
-            "value": "$textarea.font.chat-limit.light",
+            "value": "{textarea.font.chat-limit.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$textarea.icon.light",
+          "value": "{textarea.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$textarea.background.default.light",
+            "value": "{textarea.background.default.light}",
             "type": "color"
           },
           "read-only": {
-            "value": "$textarea.background.read-only.light",
+            "value": "{textarea.background.read-only.light}",
             "type": "color"
           }
         },
@@ -1138,39 +1140,39 @@
       "tab-title": {
         "font": {
           "default": {
-            "value": "$tab-title.font.default.light",
+            "value": "{tab-title.font.default.light}",
             "type": "color"
           },
           "active": {
-            "value": "$tab-title.font.active.light",
+            "value": "{tab-title.font.active.light}",
             "type": "color"
           }
         },
         "icon": {
           "default": {
-            "value": "$tab-title.icon.default.light",
+            "value": "{tab-title.icon.default.light}",
             "type": "color"
           },
           "active": {
-            "value": "$tab-title.icon.active.light",
+            "value": "{tab-title.icon.active.light}",
             "type": "color"
           }
         },
         "bordered": {
           "border": {
-            "value": "$tab-title.bordered.border.light",
+            "value": "{tab-title.bordered.border.light}",
             "type": "color"
           },
           "background": {
             "default": {
-              "value": "$tab-title.bordered.background.default.light",
+              "value": "{tab-title.bordered.background.default.light}",
               "type": "color"
             }
           }
         },
         "border": {
           "active": {
-            "value": "$tab-title.border.active.light",
+            "value": "{tab-title.border.active.light}",
             "type": "color"
           }
         }
@@ -1178,11 +1180,11 @@
       "tabs": {
         "bordered": {
           "border": {
-            "value": "$tabs.bordered.border.light",
+            "value": "{tabs.bordered.border.light}",
             "type": "color"
           },
           "background": {
-            "value": "$tabs.bordered.background.default.light",
+            "value": "{tabs.bordered.background.default.light}",
             "type": "color"
           }
         }
@@ -1190,225 +1192,225 @@
       "card": {
         "font": {
           "title": {
-            "value": "$card.font.title.light",
+            "value": "{card.font.title.light}",
             "type": "color"
           },
           "subtitle": {
-            "value": "$card.font.subtitle.light",
+            "value": "{card.font.subtitle.light}",
             "type": "color"
           },
           "description": {
-            "value": "$card.font.description.light",
+            "value": "{card.font.description.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$card.border.default.light",
+            "value": "{card.border.default.light}",
             "type": "color"
           },
           "active": {
-            "value": "$card.border.active.light",
+            "value": "{card.border.active.light}",
             "type": "color"
           }
         },
         "background": {
           "default": {
-            "value": "$card.background.default.light",
+            "value": "{card.background.default.light}",
             "type": "color"
           }
         }
       },
       "action": {
         "font": {
-          "value": "$action.font.default.light",
+          "value": "{action.font.default.light}",
           "type": "color"
         },
         "icon": {
-          "value": "$action.icon.light",
+          "value": "{action.icon.default.light}",
           "type": "color"
         },
         "background": {
           "default": {
-            "value": "$action.background.default.light",
+            "value": "{action.background.default.light}",
             "type": "color"
           },
           "active": {
-            "value": "$action.background.active.light",
+            "value": "{action.background.active.light}",
             "type": "color"
           }
         }
       },
       "action-bar": {
         "border": {
-          "value": "$action-bar.border.light",
+          "value": "{action-bar.border.light}",
           "type": "color"
         },
         "background": {
-          "value": "$action-bar.background.light",
+          "value": "{action-bar.background.light}",
           "type": "color"
         }
       },
       "action-pad": {
         "border": {
-          "value": "$action-pad.border.light",
+          "value": "{action-pad.border.light}",
           "type": "color"
         },
         "background": {
-          "value": "$action-pad.background.light",
+          "value": "{action-pad.background.light}",
           "type": "color"
         }
       },
       "action-bar-grid": {
         "border": {
-          "value": "$action-bar-grid.border.light",
+          "value": "{action-bar-grid.border.light}",
           "type": "color"
         },
         "background": {
-          "value": "$action-bar-grid.background.light",
+          "value": "{action-bar-grid.background.light}",
           "type": "color"
         }
       },
       "action-pad-grid": {
         "border": {
-          "value": "$action-pad-grid.border.light",
+          "value": "{action-pad-grid.border.light}",
           "type": "color"
         },
         "background": {
-          "value": "$action-pad-grid.background.light",
+          "value": "{action-pad-grid.background.light}",
           "type": "color"
         }
       },
       "block": {
         "font": {
           "heading": {
-            "value": "$block.font.heading.light",
+            "value": "{block.font.heading.light}",
             "type": "color"
           },
           "active": {
-            "value": "$action.font.active.light",
+            "value": "{action.font.active.light}",
             "type": "color"
           },
           "description": {
-            "value": "$block.font.description.light",
+            "value": "{block.font.description.light}",
             "type": "color"
           },
           "content": {
-            "value": "$block.font.content.light",
+            "value": "{block.font.content.light}",
             "type": "color"
           }
         },
         "icon": {
           "idle": {
-            "value": "$block.icon.idle.light",
+            "value": "{block.icon.idle.light}",
             "type": "color"
           },
           "valid": {
-            "value": "$block.icon.valid.light",
+            "value": "{block.icon.valid.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$block.icon.invalid.light",
+            "value": "{block.icon.invalid.light}",
             "type": "color"
           },
           "drag-handle": {
-            "value": "$block.icon.drag-handle.light",
+            "value": "{block.icon.drag-handle.light}",
             "type": "color"
           },
           "chevron": {
-            "value": "$block.icon.chevron.light",
+            "value": "{block.icon.chevron.light}",
             "type": "color"
           }
         },
         "border": {
-          "value": "$block.border.light",
+          "value": "{block.border.light}",
           "type": "color"
         },
         "background": {
-          "value": "$block.background.light",
+          "value": "{block.background.light}",
           "type": "color"
         }
       },
       "block-section": {
         "font": {
-          "value": "$block-section.font.light",
+          "value": "{block-section.font.light}",
           "type": "color"
         },
         "icon": {
           "valid": {
-            "value": "$block-section.icon.valid.light",
+            "value": "{block-section.icon.valid.light}",
             "type": "color"
           },
           "invalid": {
-            "value": "$block-section.icon.invalid.light",
+            "value": "{block-section.icon.invalid.light}",
             "type": "color"
           },
           "chevron": {
-            "value": "$block-section.icon.chevron.light",
+            "value": "{block-section.icon.chevron.light}",
             "type": "color"
           }
         },
         "background": {
-          "value": "$block-section.background.light",
+          "value": "{block-section.background.light}",
           "type": "color"
         }
       },
       "notice": {
         "font": {
           "title": {
-            "value": "$notice.font.title.light",
+            "value": "{notice.font.title.light}",
             "type": "color"
           },
           "message": {
-            "value": "$notice.font.message.light",
+            "value": "{notice.font.message.light}",
             "type": "color"
           }
         },
         "background": {
-          "value": "$notice.background.light",
+          "value": "{notice.background.light}",
           "type": "color"
         },
         "icon": {
           "info": {
-            "value": "$notice.icon.info.light",
+            "value": "{notice.icon.info.light}",
             "type": "color"
           },
           "success": {
-            "value": "$notice.icon.success.light",
+            "value": "{notice.icon.success.light}",
             "type": "color"
           },
           "warning": {
-            "value": "$notice.icon.warning.light",
+            "value": "{notice.icon.warning.light}",
             "type": "color"
           },
           "danger": {
-            "value": "$notice.icon.danger.light",
+            "value": "{notice.icon.danger.light}",
             "type": "color"
           },
           "brand": {
-            "value": "$notice.icon.brand.light",
+            "value": "{notice.icon.brand.light}",
             "type": "color"
           }
         },
         "highlight": {
           "info": {
-            "value": "$notice.highlight.info.light",
+            "value": "{notice.highlight.info.light}",
             "type": "color"
           },
           "success": {
-            "value": "$notice.highlight.success.light",
+            "value": "{notice.highlight.success.light}",
             "type": "color"
           },
           "warning": {
-            "value": "$notice.highlight.warning.light",
+            "value": "{notice.highlight.warning.light}",
             "type": "color"
           },
           "danger": {
-            "value": "$notice.highlight.danger.light",
+            "value": "{notice.highlight.danger.light}",
             "type": "color"
           },
           "brand": {
-            "value": "$notice.highlight.brand.light",
+            "value": "{notice.highlight.brand.light}",
             "type": "color"
           }
         }
@@ -1416,136 +1418,136 @@
       "modal": {
         "font": {
           "header": {
-            "value": "$modal.font.header.light",
+            "value": "{modal.font.header.light}",
             "type": "color"
           },
           "content": {
-            "value": "$modal.font.content.light",
+            "value": "{modal.font.content.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$modal.icon.light",
+          "value": "{modal.icon.light}",
           "type": "color"
         },
         "border": {
           "default": {
-            "value": "$modal.border.default.light",
+            "value": "{modal.border.default.light}",
             "type": "color"
           },
           "top": {
             "brand": {
-              "value": "$modal.border.top.brand.light",
+              "value": "{modal.border.top.brand.light}",
               "type": "color"
             },
             "info": {
-              "value": "$modal.border.top.info.light",
+              "value": "{modal.border.top.info.light}",
               "type": "color"
             },
             "success": {
-              "value": "$modal.border.top.success.light",
+              "value": "{modal.border.top.success.light}",
               "type": "color"
             },
             "danger": {
-              "value": "$modal.border.top.danger.light",
+              "value": "{modal.border.top.danger.light}",
               "type": "color"
             },
             "warning": {
-              "value": "$modal.border.top.warning.light",
+              "value": "{modal.border.top.warning.light}",
               "type": "color"
             }
           }
         },
         "background": {
-          "value": "$modal.background.light",
+          "value": "{modal.background.light}",
           "type": "color"
         }
       },
       "panel-header": {
         "font": {
-          "value": "$panel-header.font.light",
+          "value": "{panel-header.font.light}",
           "type": "color"
         },
         "icon": {
-          "value": "$panel-header.icon.light",
+          "value": "{panel-header.icon.light}",
           "type": "color"
         },
         "border": {
-          "value": "$panel-header.border.light",
+          "value": "{panel-header.border.light}",
           "type": "color"
         },
         "background": {
-          "value": "$panel-header.background.light",
+          "value": "{panel-header.background.light}",
           "type": "color"
         }
       },
       "popover": {
         "font": {
-          "value": "$popover.font.light",
+          "value": "{popover.font.light}",
           "type": "color"
         },
         "icon": {
-          "value": "$popover.icon.light",
+          "value": "{popover.icon.light}",
           "type": "color"
         },
         "border": {
-          "value": "$popover.border.light",
+          "value": "{popover.border.light}",
           "type": "color"
         },
         "background": {
-          "value": "$popover.background.light",
+          "value": "{popover.background.light}",
           "type": "color"
         }
       },
       "slider": {
         "font": {
           "label": {
-            "value": "$slider.font.label.light",
+            "value": "{slider.font.label.light}",
             "type": "color"
           },
           "tick-label": {
-            "value": "$slider.font.tick-label.light",
+            "value": "{slider.font.tick-label.light}",
             "type": "color"
           }
         },
         "handle": {
           "background": {
-            "value": "$slider.handle.background.light",
+            "value": "{slider.handle.background.light}",
             "type": "color"
           },
           "border": {
-            "value": "$slider.handle.border.light",
+            "value": "{slider.handle.border.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$slider.border.default.light",
+            "value": "{slider.border.default.light}",
             "type": "color"
           },
           "active": {
-            "value": "$slider.border.active.light",
+            "value": "{slider.border.active.light}",
             "type": "color"
           }
         },
         "tick": {
           "default": {
             "background": {
-              "value": "$slider.tick.default.background.light",
+              "value": "{slider.tick.default.background.light}",
               "type": "color"
             },
             "border": {
-              "value": "$slider.tick.default.border.light",
+              "value": "{slider.tick.default.border.light}",
               "type": "color"
             }
           },
           "active": {
             "background": {
-              "value": "$slider.tick.active.background.light",
+              "value": "{slider.tick.active.background.light}",
               "type": "color"
             },
             "border": {
-              "value": "$slider.tick.active.border.light",
+              "value": "{slider.tick.active.border.light}",
               "type": "color"
             }
           }
@@ -1554,52 +1556,52 @@
       "slider-range": {
         "font": {
           "label": {
-            "value": "$slider-range.font.label.light",
+            "value": "{slider-range.font.label.light}",
             "type": "color"
           },
           "tick-label": {
-            "value": "$slider-range.font.tick-label.light",
+            "value": "{slider-range.font.tick-label.light}",
             "type": "color"
           }
         },
         "handle": {
           "background": {
-            "value": "$slider-range.handle.background.light",
+            "value": "{slider-range.handle.background.light}",
             "type": "color"
           },
           "border": {
-            "value": "$slider-range.handle.border.light",
+            "value": "{slider-range.handle.border.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$slider-range.border.default.light",
+            "value": "{slider-range.border.default.light}",
             "type": "color"
           },
           "active": {
-            "value": "$slider-range.border.active.light",
+            "value": "{slider-range.border.active.light}",
             "type": "color"
           }
         },
         "tick": {
           "default": {
             "background": {
-              "value": "$slider-range.tick.default.background.light",
+              "value": "{slider-range.tick.default.background.light}",
               "type": "color"
             },
             "border": {
-              "value": "$slider-range.tick.default.border.light",
+              "value": "{slider-range.tick.default.border.light}",
               "type": "color"
             }
           },
           "active": {
             "background": {
-              "value": "$slider-range.tick.active.background.light",
+              "value": "{slider-range.tick.active.background.light}",
               "type": "color"
             },
             "border": {
-              "value": "$slider-range.tick.active.border.light",
+              "value": "{slider-range.tick.active.border.light}",
               "type": "color"
             }
           }
@@ -1608,52 +1610,52 @@
       "slider-histogram": {
         "font": {
           "label": {
-            "value": "$slider-histogram.font.label.light",
+            "value": "{slider-histogram.font.label.light}",
             "type": "color"
           },
           "tick-label": {
-            "value": "$slider-histogram.font.tick-label.light",
+            "value": "{slider-histogram.font.tick-label.light}",
             "type": "color"
           }
         },
         "handle": {
           "background": {
-            "value": "$slider-histogram.handle.background.light",
+            "value": "{slider-histogram.handle.background.light}",
             "type": "color"
           },
           "border": {
-            "value": "$slider-histogram.handle.border.light",
+            "value": "{slider-histogram.handle.border.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$slider-histogram.border.default.light",
+            "value": "{slider-histogram.border.default.light}",
             "type": "color"
           },
           "active": {
-            "value": "$slider-histogram.border.active.light",
+            "value": "{slider-histogram.border.active.light}",
             "type": "color"
           }
         },
         "tick": {
           "default": {
             "background": {
-              "value": "$slider-histogram.tick.default.background.light",
+              "value": "{slider-histogram.tick.default.background.light}",
               "type": "color"
             },
             "border": {
-              "value": "$slider-histogram.tick.default.border.light",
+              "value": "{slider-histogram.tick.default.border.light}",
               "type": "color"
             }
           },
           "active": {
             "background": {
-              "value": "$slider-histogram.tick.active.background.light",
+              "value": "{slider-histogram.tick.active.background.light}",
               "type": "color"
             },
             "border": {
-              "value": "$slider-histogram.tick.active.border.light",
+              "value": "{slider-histogram.tick.active.border.light}",
               "type": "color"
             }
           }
@@ -1661,14 +1663,14 @@
         "area": {
           "active": {
             "background": {
-              "value": "$slider-histogram.area.active.background.light",
+              "value": "{slider-histogram.area.active.background.light}",
               "type": "color"
             }
           }
         },
         "active-end": {
           "background": {
-            "value": "$slider-histogram.active-end.background.light",
+            "value": "{slider-histogram.active-end.background.light}",
             "type": "color"
           }
         }
@@ -1676,52 +1678,52 @@
       "slider-histogram-range": {
         "font": {
           "label": {
-            "value": "$slider-histogram-range.font.label.light",
+            "value": "{slider-histogram-range.font.label.light}",
             "type": "color"
           },
           "tick-label": {
-            "value": "$slider-histogram-range.font.tick-label.light",
+            "value": "{slider-histogram-range.font.tick-label.light}",
             "type": "color"
           }
         },
         "handle": {
           "background": {
-            "value": "$slider-histogram-range.handle.background.light",
+            "value": "{slider-histogram-range.handle.background.light}",
             "type": "color"
           },
           "border": {
-            "value": "$slider-histogram-range.handle.border.light",
+            "value": "{slider-histogram-range.handle.border.light}",
             "type": "color"
           }
         },
         "border": {
           "default": {
-            "value": "$slider-histogram-range.border.default.light",
+            "value": "{slider-histogram-range.border.default.light}",
             "type": "color"
           },
           "active": {
-            "value": "$slider-histogram-range.border.active.light",
+            "value": "{slider-histogram-range.border.active.light}",
             "type": "color"
           }
         },
         "tick": {
           "default": {
             "background": {
-              "value": "$slider-histogram-range.tick.default.background.light",
+              "value": "{slider-histogram-range.tick.default.background.light}",
               "type": "color"
             },
             "border": {
-              "value": "$slider-histogram-range.tick.default.border.light",
+              "value": "{slider-histogram-range.tick.default.border.light}",
               "type": "color"
             }
           },
           "active": {
             "background": {
-              "value": "$slider-histogram-range.tick.active.background.light",
+              "value": "{slider-histogram-range.tick.active.background.light}",
               "type": "color"
             },
             "border": {
-              "value": "$slider-histogram-range.tick.active.border.light",
+              "value": "{slider-histogram-range.tick.active.border.light}",
               "type": "color"
             }
           }
@@ -1729,64 +1731,80 @@
         "area": {
           "active": {
             "background": {
-              "value": "$slider-histogram-range.area.active.background.light",
+              "value": "{slider-histogram-range.area.active.background.light}",
               "type": "color"
             }
           }
         },
         "active-end": {
           "background": {
-            "value": "$slider-histogram.active-end.background.light",
+            "value": "{slider-histogram.active-end.background.light}",
             "type": "color"
           }
         }
       },
       "filter": {
         "font": {
-          "value": "$filter.font.light",
+          "value": "{filter.font.light}",
           "type": "color"
         },
         "icon": {
-          "value": "$filter.icon.light",
+          "value": "{filter.icon.light}",
           "type": "color"
         },
         "border": {
-          "value": "$filter.border.light",
+          "value": "{filter.border.light}",
           "type": "color"
         },
         "background": {
-          "value": "$filter.background.light",
+          "value": "{filter.background.light}",
           "type": "color"
         }
       },
       "scrim": {
         "background": {
-          "value": "$scrim.background.light",
+          "value": "{scrim.background.light}",
           "type": "color"
         }
       },
       "tip-manager": {
         "font": {
           "heading": {
-            "value": "$tip-manager.font.heading.light",
+            "value": "{tip-manager.font.heading.light}",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$tip-manager.icon.light",
+          "value": "{tip-manager.icon.light}",
           "type": "color"
         },
         "background": {
           "default": {
             "light": {
-              "value": "$tip-manager.background.default.light",
+              "value": "{tip-manager.background.default.light}",
               "type": "color"
             }
           }
         },
         "border": {
           "default": {
-            "value": "$tip-manager.border.default.light",
+            "value": "{tip-manager.border.default.light}",
+            "type": "color"
+          }
+        }
+      },
+      "time-picker": {
+        "font": {
+          "value": "{time-picker.font.light}",
+          "type": "color"
+        },
+        "icon": {
+          "value": "{time-picker.icon.light}",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "{time-picker.background.default.light}",
             "type": "color"
           }
         }
@@ -1795,73 +1813,73 @@
         "font": {
           "brand": {
             "solid": {
-              "value": "$button.font.brand.solid.light",
+              "value": "{button.font.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.font.brand.outline-fill.light",
+              "value": "{button.font.brand.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.font.brand.outline.light",
+              "value": "{button.font.brand.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$button.font.brand.transparent.light",
+              "value": "{button.font.brand.transparent.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$button.font.inverse.solid.light",
+              "value": "{button.font.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.font.inverse.outline-fill.light",
+              "value": "{button.font.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.font.inverse.outline.light",
+              "value": "{button.font.inverse.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$button.font.inverse.transparent.light",
+              "value": "{button.font.inverse.transparent.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$button.font.inverse.solid.light",
+              "value": "{button.font.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.font.inverse.outline-fill.light",
+              "value": "{button.font.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.font.inverse.outline.light",
+              "value": "{button.font.inverse.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$button.font.inverse.transparent.light",
+              "value": "{button.font.inverse.transparent.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$button.font.danger.solid.light",
+              "value": "{button.font.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.font.danger.outline-fill.light",
+              "value": "{button.font.danger.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.font.danger.outline.light",
+              "value": "{button.font.danger.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$button.font.danger.transparent.light",
+              "value": "{button.font.danger.transparent.light}",
               "type": "color"
             }
           }
@@ -1869,73 +1887,73 @@
         "icon": {
           "brand": {
             "solid": {
-              "value": "$button.icon.brand.solid.light",
+              "value": "{button.icon.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.icon.brand.outline-fill.light",
+              "value": "{button.icon.brand.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.icon.brand.outline.light",
+              "value": "{button.icon.brand.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$button.icon.brand.transparent.light",
+              "value": "{button.icon.brand.transparent.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$button.icon.inverse.solid.light",
+              "value": "{button.icon.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.icon.inverse.outline-fill.light",
+              "value": "{button.icon.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.icon.inverse.outline.light",
+              "value": "{button.icon.inverse.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$button.icon.inverse.transparent.light",
+              "value": "{button.icon.inverse.transparent.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$button.icon.inverse.solid.light",
+              "value": "{button.icon.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.icon.inverse.outline-fill.light",
+              "value": "{button.icon.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.icon.inverse.outline.light",
+              "value": "{button.icon.inverse.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$button.icon.inverse.transparent.light",
+              "value": "{button.icon.inverse.transparent.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$button.icon.danger.solid.light",
+              "value": "{button.icon.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.icon.danger.outline-fill.light",
+              "value": "{button.icon.danger.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.icon.danger.outline.light",
+              "value": "{button.icon.danger.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$button.icon.danger.transparent.light",
+              "value": "{button.icon.danger.transparent.light}",
               "type": "color"
             }
           }
@@ -1943,41 +1961,41 @@
         "background": {
           "brand": {
             "solid": {
-              "value": "$button.background.brand.solid.light",
+              "value": "{button.background.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.background.brand.outline-fill.light",
+              "value": "{button.background.brand.outline-fill.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$button.background.inverse.solid.light",
+              "value": "{button.background.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.background.inverse.outline-fill.light",
+              "value": "{button.background.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$button.background.inverse.solid.light",
+              "value": "{button.background.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.background.inverse.outline-fill.light",
+              "value": "{button.background.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$button.background.danger.solid.light",
+              "value": "{button.background.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$button.background.danger.outline-fill.light",
+              "value": "{button.background.danger.outline-fill.light}",
               "type": "color"
             }
           }
@@ -1985,41 +2003,41 @@
         "border": {
           "brand": {
             "outline-fill": {
-              "value": "$button.border.brand.outline-fill.light",
+              "value": "{button.border.brand.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.border.brand.outline.light",
+              "value": "{button.border.brand.outline.light}",
               "type": "color"
             }
           },
           "inverse": {
             "outline-fill": {
-              "value": "$button.border.inverse.outline-fill.light",
+              "value": "{button.border.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.border.inverse.outline.light",
+              "value": "{button.border.inverse.outline.light}",
               "type": "color"
             }
           },
           "neutral": {
             "outline-fill": {
-              "value": "$button.border.inverse.outline-fill.light",
+              "value": "{button.border.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.border.inverse.outline.light",
+              "value": "{button.border.inverse.outline.light}",
               "type": "color"
             }
           },
           "danger": {
             "outline-fill": {
-              "value": "$button.border.danger.outline-fill.light",
+              "value": "{button.border.danger.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$button.border.danger.outline.light",
+              "value": "{button.border.danger.outline.light}",
               "type": "color"
             }
           }
@@ -2029,73 +2047,73 @@
         "font": {
           "brand": {
             "solid": {
-              "value": "$split-button.font.brand.solid.light",
+              "value": "{split-button.font.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.font.brand.outline-fill.light",
+              "value": "{split-button.font.brand.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.font.brand.outline.light",
+              "value": "{split-button.font.brand.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.font.brand.transparent.light",
+              "value": "{split-button.font.brand.transparent.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$split-button.font.inverse.solid.light",
+              "value": "{split-button.font.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.font.inverse.outline-fill.light",
+              "value": "{split-button.font.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.font.inverse.outline.light",
+              "value": "{split-button.font.inverse.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.font.inverse.transparent.light",
+              "value": "{split-button.font.inverse.transparent.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$split-button.font.inverse.solid.light",
+              "value": "{split-button.font.neutral.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.font.inverse.outline-fill.light",
+              "value": "{split-button.font.neutral.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.font.inverse.outline.light",
+              "value": "{split-button.font.neutral.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.font.inverse.transparent.light",
+              "value": "{split-button.font.neutral.transparent.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$split-button.font.danger.solid.light",
+              "value": "{split-button.font.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.font.danger.outline-fill.light",
+              "value": "{split-button.font.danger.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.font.danger.outline.light",
+              "value": "{split-button.font.danger.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.font.danger.transparent.light",
+              "value": "{split-button.font.danger.transparent.light}",
               "type": "color"
             }
           }
@@ -2103,73 +2121,73 @@
         "icon": {
           "brand": {
             "solid": {
-              "value": "$split-button.icon.brand.solid.light",
+              "value": "{split-button.icon.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.icon.brand.outline-fill.light",
+              "value": "{split-button.icon.brand.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.icon.brand.outline.light",
+              "value": "{split-button.icon.brand.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.icon.brand.transparent.light",
+              "value": "{split-button.icon.brand.transparent.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$split-button.icon.inverse.solid.light",
+              "value": "{split-button.icon.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.icon.inverse.outline-fill.light",
+              "value": "{split-button.icon.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.icon.inverse.outline.light",
+              "value": "{split-button.icon.inverse.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.icon.inverse.transparent.light",
+              "value": "{split-button.icon.inverse.transparent.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$split-button.icon.inverse.solid.light",
+              "value": "{split-button.icon.neutral.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.icon.inverse.outline-fill.light",
+              "value": "{split-button.icon.neutral.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.icon.inverse.outline.light",
+              "value": "{split-button.icon.neutral.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.icon.inverse.transparent.light",
+              "value": "{split-button.icon.neutral.transparent.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$split-button.icon.danger.solid.light",
+              "value": "{split-button.icon.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.icon.danger.outline-fill.light",
+              "value": "{split-button.icon.danger.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.icon.danger.outline.light",
+              "value": "{split-button.icon.danger.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.icon.danger.transparent.light",
+              "value": "{split-button.icon.danger.transparent.light}",
               "type": "color"
             }
           }
@@ -2177,41 +2195,41 @@
         "background": {
           "brand": {
             "solid": {
-              "value": "$split-button.background.brand.solid.light",
+              "value": "{split-button.background.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.background.brand.outline-fill.light",
+              "value": "{split-button.background.brand.outline-fill.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$split-button.background.inverse.solid.light",
+              "value": "{split-button.background.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.background.inverse.outline-fill.light",
+              "value": "{split-button.background.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$split-button.background.inverse.solid.light",
+              "value": "{split-button.background.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.background.inverse.outline-fill.light",
+              "value": "{split-button.background.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$split-button.background.danger.solid.light",
+              "value": "{split-button.background.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.background.danger.outline-fill.light",
+              "value": "{split-button.background.danger.outline-fill.light}",
               "type": "color"
             }
           }
@@ -2219,41 +2237,41 @@
         "border": {
           "brand": {
             "outline-fill": {
-              "value": "$split-button.border.brand.outline-fill.light",
+              "value": "{split-button.border.brand.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.border.brand.outline.light",
+              "value": "{split-button.border.brand.outline.light}",
               "type": "color"
             }
           },
           "inverse": {
             "outline-fill": {
-              "value": "$split-button.border.inverse.outline-fill.light",
+              "value": "{split-button.border.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.border.inverse.outline.light",
+              "value": "{split-button.border.inverse.outline.light}",
               "type": "color"
             }
           },
           "neutral": {
             "outline-fill": {
-              "value": "$button.border.inverse.outline-fill.light",
+              "value": "{button.border.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.border.inverse.outline.light",
+              "value": "{split-button.border.inverse.outline.light}",
               "type": "color"
             }
           },
           "danger": {
             "outline-fill": {
-              "value": "$split-button.border.danger.outline-fill.light",
+              "value": "{split-button.border.danger.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.border.danger.outline.light",
+              "value": "{split-button.border.danger.outline.light}",
               "type": "color"
             }
           }
@@ -2261,73 +2279,73 @@
         "divider": {
           "brand": {
             "solid": {
-              "value": "$split-button.divider.brand.solid.light",
+              "value": "{split-button.divider.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.divider.brand.outline-fill.light",
+              "value": "{split-button.divider.brand.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.divider.brand.outline.light",
+              "value": "{split-button.divider.brand.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.divider.brand.transparent.light",
+              "value": "{split-button.divider.brand.transparent.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$split-button.divider.inverse.solid.light",
+              "value": "{split-button.divider.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.divider.inverse.outline-fill.light",
+              "value": "{split-button.divider.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.divider.inverse.outline.light",
+              "value": "{split-button.divider.inverse.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.divider.inverse.transparent.light",
+              "value": "{split-button.divider.inverse.transparent.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$split-button.divider.inverse.solid.light",
+              "value": "{split-button.divider.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.divider.inverse.outline-fill.light",
+              "value": "{split-button.divider.inverse.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.divider.inverse.outline.light",
+              "value": "{split-button.divider.inverse.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.divider.inverse.transparent.light",
+              "value": "{split-button.divider.inverse.transparent.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$split-button.divider.danger.solid.light",
+              "value": "{split-button.divider.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.divider.danger.outline-fill.light",
+              "value": "{split-button.divider.danger.outline-fill.light}",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.divider.danger.outline.light",
+              "value": "{split-button.divider.danger.outline.light}",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.divider.danger.transparent.light",
+              "value": "{split-button.divider.danger.transparent.light}",
               "type": "color"
             }
           }
@@ -2337,41 +2355,41 @@
         "font": {
           "brand": {
             "solid": {
-              "value": "$fab.font.brand.solid.light",
+              "value": "{fab.font.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.font.brand.outline-fill.light",
+              "value": "{fab.font.brand.outline-fill.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$fab.font.inverse.solid.light",
+              "value": "{fab.font.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.font.inverse.outline-fill.light",
+              "value": "{fab.font.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$fab.font.inverse.solid.light",
+              "value": "{fab.font.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.font.inverse.outline-fill.light",
+              "value": "{fab.font.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$fab.font.danger.solid.light",
+              "value": "{fab.font.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.font.danger.outline-fill.light",
+              "value": "{fab.font.danger.outline-fill.light}",
               "type": "color"
             }
           }
@@ -2379,41 +2397,41 @@
         "icon": {
           "brand": {
             "solid": {
-              "value": "$fab.icon.brand.solid.light",
+              "value": "{fab.icon.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.icon.brand.outline-fill.light",
+              "value": "{fab.icon.brand.outline-fill.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$fab.icon.inverse.solid.light",
+              "value": "{fab.icon.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.icon.inverse.outline-fill.light",
+              "value": "{fab.icon.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$fab.icon.inverse.solid.light",
+              "value": "{fab.icon.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.icon.inverse.outline-fill.light",
+              "value": "{fab.icon.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$fab.icon.danger.solid.light",
+              "value": "{fab.icon.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.icon.danger.outline-fill.light",
+              "value": "{fab.icon.danger.outline-fill.light}",
               "type": "color"
             }
           }
@@ -2421,41 +2439,41 @@
         "background": {
           "brand": {
             "solid": {
-              "value": "$fab.background.brand.solid.light",
+              "value": "{fab.background.brand.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.background.brand.outline-fill.light",
+              "value": "{fab.background.brand.outline-fill.light}",
               "type": "color"
             }
           },
           "inverse": {
             "solid": {
-              "value": "$fab.background.inverse.solid.light",
+              "value": "{fab.background.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.background.inverse.outline-fill.light",
+              "value": "{fab.background.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "neutral": {
             "solid": {
-              "value": "$fab.background.inverse.solid.light",
+              "value": "{fab.background.inverse.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.background.inverse.outline-fill.light",
+              "value": "{fab.background.inverse.outline-fill.light}",
               "type": "color"
             }
           },
           "danger": {
             "solid": {
-              "value": "$fab.background.danger.solid.light",
+              "value": "{fab.background.danger.solid.light}",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$fab.background.danger.outline-fill.light",
+              "value": "{fab.background.danger.outline-fill.light}",
               "type": "color"
             }
           }
@@ -2463,42 +2481,292 @@
         "border": {
           "brand": {
             "outline-fill": {
-              "value": "$fab.border.brand.outline-fill.light",
+              "value": "{fab.border.brand.outline-fill.light}",
               "type": "color"
             },
             "solid": {
-              "value": "$fab.border.brand.solid.light",
+              "value": "{fab.border.brand.solid.light}",
               "type": "color"
             }
           },
           "inverse": {
             "outline-fill": {
-              "value": "$fab.border.inverse.outline-fill.light",
+              "value": "{fab.border.inverse.outline-fill.light}",
               "type": "color"
             },
             "solid": {
-              "value": "$fab.border.inverse.solid.light",
+              "value": "{fab.border.inverse.solid.light}",
               "type": "color"
             }
           },
           "neutral": {
             "outline-fill": {
-              "value": "$fab.border.inverse.outline-fill.light",
+              "value": "{fab.border.inverse.outline-fill.light}",
               "type": "color"
             },
             "solid": {
-              "value": "$fab.border.inverse.solid.light",
+              "value": "{fab.border.inverse.solid.light}",
               "type": "color"
             }
           },
           "danger": {
             "outline-fill": {
-              "value": "$fab.border.danger.outline-fill.light",
+              "value": "{fab.border.danger.outline-fill.light}",
               "type": "color"
             },
             "solid": {
-              "value": "$fab.border.danger.solid.light",
+              "value": "{fab.border.danger.solid.light}",
               "type": "color"
+            }
+          }
+        }
+      },
+      "combobox": {
+        "icon": {
+          "default": {
+            "light": {
+              "value": "{combobox.icon.default.light}",
+              "type": "color"
+            }
+          },
+          "dropdown": {
+            "light": {
+              "value": "{combobox.icon.dropdown.light}",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "light": {
+            "value": "{combobox.border.light}",
+            "type": "color"
+          }
+        },
+        "background": {
+          "default": {
+            "light": {
+              "value": "{combobox.background.default.light}",
+              "type": "color"
+            }
+          },
+          "item-container": {
+            "light": {
+              "value": "{combobox.background.item-container.light}",
+              "type": "color"
+            }
+          }
+        },
+        "font": {
+          "placeholder": {
+            "light": {
+              "value": "{combobox.font.placeholder.light}",
+              "type": "color"
+            }
+          },
+          "value": {
+            "light": "[object Object]"
+          },
+          "type": "color"
+        }
+      },
+      "combobox-item": {
+        "font": {
+          "default": {
+            "light": {
+              "value": "{combobox-item.font.default.light}",
+              "type": "color"
+            }
+          },
+          "selected": {
+            "light": {
+              "value": "{combobox-item.font.selected.light}",
+              "type": "color"
+            }
+          },
+          "group-title": {
+            "light": {
+              "value": "{combobox-item.font.group-title.light}",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "default": {
+            "light": {
+              "value": "{combobox-item.icon.default.light}",
+              "type": "color"
+            },
+            "selected": {
+              "light": {
+                "value": "{combobox-item.icon.default.selected.light}",
+                "type": "color"
+              }
+            }
+          },
+          "select": {
+            "light": {
+              "value": "{combobox-item.icon.select.light}",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "light": {
+            "value": "{combobox-item.border.light}",
+            "type": "color"
+          }
+        }
+      },
+      "dropdown": {
+        "background": {
+          "default": {
+            "light": {
+              "value": "{dropdown.background.default.light}",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "dropdown-item": {
+        "font": {
+          "default": {
+            "light": {
+              "value": "{dropdown-item.font.default.light}",
+              "type": "color"
+            }
+          },
+          "selected": {
+            "light": {
+              "value": "{dropdown-item.font.selected.light}",
+              "type": "color"
+            }
+          },
+          "group-title": {
+            "light": {
+              "value": "{dropdown-item.font.group-title.light}",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "default": {
+            "light": {
+              "value": "{dropdown-item.icon.default.light}",
+              "type": "color"
+            },
+            "selected": {
+              "light": {
+                "value": "{dropdown-item.icon.default.selected.light}",
+                "type": "color"
+              }
+            }
+          },
+          "select": {
+            "light": {
+              "value": "{dropdown-item.icon.select.light}",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "light": {
+            "value": "{dropdown-item.border.light}",
+            "type": "color"
+          }
+        }
+      },
+      "segmented-control": {
+        "border": {
+          "light": {
+            "value": "{segmented-control.border.light}",
+            "type": "color"
+          }
+        },
+        "background": {
+          "light": {
+            "value": "{segmented-control.background.light}",
+            "type": "color"
+          }
+        }
+      },
+      "segmented-control-item": {
+        "font": {
+          "solid": {
+            "default": {
+              "light": {
+                "value": "{segmented-control-item.font.solid.default.light}",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "{segmented-control-item.font.solid.checked.light}",
+                "type": "color"
+              }
+            }
+          },
+          "outline": {
+            "default": {
+              "light": {
+                "value": "{segmented-control-item.font.outline.default.light}",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "{segmented-control-item.font.outline.checked.light}",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "icon": {
+          "solid": {
+            "default": {
+              "light": {
+                "value": "{segmented-control-item.icon.solid.default.light}",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "{segmented-control-item.icon.solid.checked.light}",
+                "type": "color"
+              }
+            }
+          },
+          "outline": {
+            "checked": {
+              "light": {
+                "value": "{segmented-control-item.icon.outline.checked.light}",
+                "type": "color"
+              }
+            },
+            "default": {
+              "light": {
+                "value": "{segmented-control-item.icon.outline.default.light}",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "border": {
+          "outline": {
+            "checked": {
+              "light": {
+                "value": "{segmented-control-item.border.outline.checked.light}",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "background": {
+          "solid": {
+            "checked": {
+              "light": {
+                "value": "{segmented-control-item.background.solid.checked.light}",
+                "type": "color"
+              }
             }
           }
         }

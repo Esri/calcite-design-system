@@ -1,61 +1,5 @@
 {
   "tabs": {
-    "font": {
-      "default": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
-      },
-      "sm": {
-        "value": "$semantic.font.default.regular.-2h",
-        "type": "typography"
-      },
-      "md": {
-        "value": "$semantic.font.default.regular.-1h",
-        "type": "typography"
-      },
-      "lg": {
-        "value": "$semantic.font.default.regular.0h",
-        "type": "typography"
-      },
-      "active": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
-          "type": "color"
-        }
-      }
-    },
-    "icon": {
-      "default": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
-      },
-      "active": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
-          "type": "color"
-        }
-      }
-    },
     "bordered": {
       "border": {
         "light": {
@@ -65,6 +9,20 @@
         "dark": {
           "value": "$semantic.ui.color.border.3.dark",
           "type": "color"
+        },
+        "radius": {
+          "sm": {
+            "value": "$core.border.radius.none",
+            "type": "borderRadius"
+          },
+          "md": {
+            "value": "$core.border.radius.none",
+            "type": "borderRadius"
+          },
+          "lg": {
+            "value": "$core.border.radius.none",
+            "type": "borderRadius"
+          }
         }
       },
       "background": {
@@ -79,162 +37,208 @@
           }
         }
       },
-      "space-around": {
-        "left-right": {
+      "space": {
+        "around": {
+          "inline": {
+            "sm": {
+              "value": "$core.spacing.5",
+              "type": "spacing"
+            },
+            "md": {
+              "value": "$core.spacing.5",
+              "type": "spacing"
+            },
+            "lg": {
+              "value": "$core.spacing.7",
+              "type": "spacing"
+            }
+          },
+          "block": {
+            "sm": {
+              "value": "$core.spacing.7",
+              "type": "spacing"
+            },
+            "md": {
+              "value": "$core.spacing.7",
+              "type": "spacing"
+            },
+            "lg": {
+              "value": "$core.spacing.10",
+              "type": "spacing"
+            }
+          }
+        },
+        "between": {
           "sm": {
-            "value": "$core.spacing.5",
+            "value": "$core.spacing.none",
             "type": "spacing"
           },
           "md": {
-            "value": "$core.spacing.5",
+            "value": "$core.spacing.none",
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.7",
-            "type": "spacing"
-          }
-        },
-        "top-bottom": {
-          "sm": {
-            "value": "$core.spacing.7",
-            "type": "spacing"
-          },
-          "md": {
-            "value": "$core.spacing.7",
-            "type": "spacing"
-          },
-          "lg": {
-            "value": "$core.spacing.10",
+            "value": "$core.spacing.none",
             "type": "spacing"
           }
         }
-      },
-      "border-radius": {
-        "sm": {
-          "value": "$core.border.border-radius.none",
-          "type": "borderRadius"
-        },
-        "md": {
-          "value": "$core.border.border-radius.none",
-          "type": "borderRadius"
-        },
-        "lg": {
-          "value": "$core.border.border-radius.none",
-          "type": "borderRadius"
-        }
-      },
-      "space-between": {
-        "sm": {
-          "value": "$core.spacing.none",
-          "type": "spacing"
-        },
-        "md": {
-          "value": "$core.spacing.none",
-          "type": "spacing"
-        },
-        "lg": {
-          "value": "$core.spacing.none",
-          "type": "spacing"
-        }
-      }
-    },
-    "border-width": {
-      "sm": {
-        "value": "$core.border.border-width.0",
-        "type": "borderWidth"
-      },
-      "md": {
-        "value": "$core.border.border-width.0",
-        "type": "borderWidth"
-      },
-      "lg": {
-        "value": "$core.border.border-width.0",
-        "type": "borderWidth"
-      },
-      "active": {
-        "sm": {
-          "value": "$core.border.border-width.1",
-          "type": "borderWidth"
-        },
-        "md": {
-          "value": "$core.border.border-width.1",
-          "type": "borderWidth"
-        },
-        "lg": {
-          "value": "$core.border.border-width.1",
-          "type": "borderWidth"
-        }
-      }
-    },
-    "icon-size": {
-      "sm": {
-        "value": "$core.sizing.7",
-        "type": "sizing"
-      },
-      "md": {
-        "value": "$core.sizing.7",
-        "type": "sizing"
-      },
-      "lg": {
-        "value": "$core.sizing.9",
-        "type": "sizing"
       }
     },
     "default": {
-      "space-around": {
-        "left-right": {
+      "border": {
+        "width": {
           "sm": {
-            "value": "$core.spacing.none",
-            "type": "spacing"
+            "value": "$core.border.width.0",
+            "type": "borderWidth"
           },
           "md": {
-            "value": "$core.spacing.none",
-            "type": "spacing"
+            "value": "$core.border.width.0",
+            "type": "borderWidth"
           },
           "lg": {
-            "value": "$core.spacing.none",
-            "type": "spacing"
+            "value": "$core.border.width.0",
+            "type": "borderWidth"
+          },
+          "active": {
+            "sm": {
+              "value": "$core.border.width.1",
+              "type": "borderWidth"
+            },
+            "md": {
+              "value": "$core.border.width.1",
+              "type": "borderWidth"
+            },
+            "lg": {
+              "value": "$core.border.width.1",
+              "type": "borderWidth"
+            }
           }
         },
-        "top-bottom": {
-          "sm": {
-            "value": "$core.spacing.1",
-            "type": "spacing"
+        "active": {
+          "light": {
+            "value": "{semantic.ui.color.brand.default.light}",
+            "type": "color"
           },
-          "md": {
-            "value": "$core.spacing.3",
-            "type": "spacing"
-          },
-          "lg": {
-            "value": "$core.spacing.5",
-            "type": "spacing"
+          "dark": {
+            "value": "{semantic.ui.color.brand.default.dark}",
+            "type": "color"
           }
         }
       },
-      "space-between": {
+      "font": {
+        "default": {
+          "light": {
+            "value": "$semantic.ui.color.text.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.3.dark",
+            "type": "color"
+          }
+        },
         "sm": {
-          "value": "$core.spacing.7",
-          "type": "spacing"
+          "value": "$semantic.font.default.regular.-2h",
+          "type": "typography"
         },
         "md": {
-          "value": "$core.spacing.8",
-          "type": "spacing"
+          "value": "$semantic.font.default.regular.-1h",
+          "type": "typography"
         },
         "lg": {
-          "value": "$core.spacing.9",
-          "type": "spacing"
-        }
-      }
-    },
-    "border": {
-      "active": {
-        "light": {
-          "value": "{semantic.ui.color.brand.default.light}",
-          "type": "color"
+          "value": "$semantic.font.default.regular.0h",
+          "type": "typography"
         },
-        "dark": {
-          "value": "{semantic.ui.color.brand.default.dark}",
-          "type": "color"
+        "active": {
+          "light": {
+            "value": "$semantic.ui.color.text.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
+        }
+      },
+      "icon": {
+        "default": {
+          "light": {
+            "value": "$semantic.ui.color.text.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.3.dark",
+            "type": "color"
+          }
+        },
+        "active": {
+          "light": {
+            "value": "$semantic.ui.color.text.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
+        },
+        "size": {
+          "sm": {
+            "value": "$core.sizing.7",
+            "type": "sizing"
+          },
+          "md": {
+            "value": "$core.sizing.7",
+            "type": "sizing"
+          },
+          "lg": {
+            "value": "$core.sizing.9",
+            "type": "sizing"
+          }
+        }
+      },
+      "space": {
+        "around": {
+          "inline": {
+            "sm": {
+              "value": "$core.spacing.none",
+              "type": "spacing"
+            },
+            "md": {
+              "value": "$core.spacing.none",
+              "type": "spacing"
+            },
+            "lg": {
+              "value": "$core.spacing.none",
+              "type": "spacing"
+            }
+          },
+          "block": {
+            "sm": {
+              "value": "$core.spacing.1",
+              "type": "spacing"
+            },
+            "md": {
+              "value": "$core.spacing.3",
+              "type": "spacing"
+            },
+            "lg": {
+              "value": "$core.spacing.5",
+              "type": "spacing"
+            }
+          }
+        },
+        "between": {
+          "sm": {
+            "value": "$core.spacing.7",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.8",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.9",
+            "type": "spacing"
+          }
         }
       }
     }

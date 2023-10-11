@@ -3,43 +3,43 @@
     "font": {
       "heading": {
         "light": {
-          "value": "$semantic.ui.color.text.2.light",
+          "value": "{semantic.ui.color.text.2.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.2.dark",
+          "value": "{semantic.ui.color.text.2.dark}",
           "type": "color"
         },
         "md": {
-          "value": "$semantic.font.default.medium.-1h",
+          "value": "{semantic.font.default.medium.-1h}",
           "type": "typography"
         }
       },
       "description": {
         "light": {
-          "value": "$semantic.ui.color.text.3.light",
+          "value": "{semantic.ui.color.text.3.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
+          "value": "{semantic.ui.color.text.3.dark}",
           "type": "color"
         },
         "md": {
-          "value": "$semantic.font.default.regular.-2h",
+          "value": "{semantic.font.default.regular.-2h}",
           "type": "typography"
         }
       },
       "content": {
         "light": {
-          "value": "$semantic.ui.color.text.2.light",
+          "value": "{semantic.ui.color.text.2.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.2.dark",
+          "value": "{semantic.ui.color.text.2.dark}",
           "type": "color"
         },
         "md": {
-          "value": "$semantic.font.default.regular.-1h",
+          "value": "{semantic.font.default.regular.-1h}",
           "type": "typography"
         }
       }
@@ -47,47 +47,47 @@
     "icon": {
       "idle": {
         "light": {
-          "value": "$semantic.ui.color.text.2.light",
+          "value": "{semantic.ui.color.text.2.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.2.dark",
+          "value": "{semantic.ui.color.text.2.dark}",
           "type": "color"
         }
       },
       "valid": {
         "light": {
-          "value": "$semantic.ui.color.success.default.light",
+          "value": "{semantic.ui.color.success.default.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.success.default.dark",
+          "value": "{semantic.ui.color.success.default.dark}",
           "type": "color"
         }
       },
       "invalid": {
         "light": {
-          "value": "$semantic.ui.color.danger.default.light",
+          "value": "{semantic.ui.color.danger.default.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.danger.default.dark",
+          "value": "{semantic.ui.color.danger.default.dark}",
           "type": "color"
         }
       },
       "drag-handle": {
         "light": {
-          "value": "$semantic.ui.color.border.input.light",
+          "value": "{semantic.ui.color.border.input.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.border.input.dark",
+          "value": "{semantic.ui.color.border.input.dark}",
           "type": "color"
         }
       },
       "chevron": {
         "light": {
-          "value": "$semantic.ui.color.text.3.light",
+          "value": "{semantic.ui.color.text.3.light}",
           "type": "color"
         },
         "dark": {
@@ -98,45 +98,45 @@
     },
     "border": {
       "light": {
-        "value": "$semantic.ui.color.border.3.light",
+        "value": "{semantic.ui.color.border.3.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.border.3.dark",
+        "value": "{semantic.ui.color.border.3.dark}",
         "type": "color"
       }
     },
     "background": {
       "light": {
-        "value": "$semantic.ui.color.foreground.1.light",
+        "value": "{semantic.ui.color.foreground.1.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.background.dark",
+        "value": "{semantic.ui.color.background.dark}",
         "type": "color"
       }
     },
     "border-radius": {
       "md": {
-        "value": "$core.border.border-radius.none",
+        "value": "{core.border.radius.none}",
         "type": "borderRadius"
       }
     },
     "border-width": {
       "md": {
-        "value": "$core.border.border-width.0",
+        "value": "{core.border.width.0}",
         "type": "borderWidth"
       }
     },
     "icon-size": {
       "md": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       }
     },
     "space-between": {
       "md": {
-        "value": "$core.spacing.5",
+        "value": "{core.spacing.5}",
         "type": "spacing"
       }
     },
@@ -144,13 +144,13 @@
       "block": {
         "top-down-left": {
           "md": {
-            "value": "$core.spacing.5",
+            "value": "{core.spacing.5}",
             "type": "spacing"
           }
         },
         "right": {
           "md": {
-            "value": "$core.spacing.7",
+            "value": "{core.spacing.7}",
             "type": "spacing"
           }
         }
@@ -158,13 +158,13 @@
       "block-content": {
         "right-left": {
           "md": {
-            "value": "$core.spacing.5",
+            "value": "{core.spacing.5}",
             "type": "spacing"
           }
         },
         "top-down": {
           "md": {
-            "value": "$core.spacing.3",
+            "value": "{core.spacing.3}",
             "type": "spacing"
           }
         }
@@ -172,13 +172,13 @@
     },
     "chevron-size": {
       "md": {
-        "value": "$core.sizing.7",
+        "value": "{core.sizing.7}",
         "type": "sizing"
       }
     },
     "drag-size": {
       "md": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       }
     },
@@ -187,7 +187,7 @@
         "drag": {
           "right-left": {
             "md": {
-              "value": "$core.spacing.1",
+              "value": "{core.spacing.1}",
               "type": "spacing"
             }
           }

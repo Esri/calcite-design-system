@@ -1,0 +1,50 @@
+{
+  "progress": {
+    "font": {
+      "light": {
+        "value": "{semantic.ui.color.text.1.light}",
+        "type": "color"
+      },
+      "dark": {
+        "value": "{semantic.ui.color.text.1.dark}",
+        "type": "color"
+      },
+      "text": {
+        "value": "{semantic.font.default.medium.-2h}",
+        "type": "typography"
+      }
+    },
+    "track": {
+      "idle": {
+        "light": {
+          "value": "{semantic.ui.color.background.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.background.dark}",
+          "type": "color"
+        }
+      },
+      "active": {
+        "light": {
+          "value": "{semantic.ui.color.brand.default.light}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.brand.default.dark}",
+          "type": "color"
+        }
+      }
+    },
+    "space-between": {
+      "value": "{core.spacing.6}",
+      "type": "spacing"
+    },
+    "comp-size": {
+      "track": {
+        "value": "{core.sizing.0}",
+        "type": "sizing"
+      }
+    }
+  }
+}

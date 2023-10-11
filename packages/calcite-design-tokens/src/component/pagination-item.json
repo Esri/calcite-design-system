@@ -1,5 +1,5 @@
 {
-  "tab-title": {
+  "pagination-item": {
     "font": {
       "default": {
         "light": {
@@ -9,19 +9,19 @@
         "dark": {
           "value": "{semantic.ui.color.text.3.dark}",
           "type": "color"
+        },
+        "sm": {
+          "value": "{semantic.font.default.regular.-2h}",
+          "type": "typography"
+        },
+        "md": {
+          "value": "{semantic.font.default.regular.-1h}",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "{semantic.font.default.regular.0h}",
+          "type": "typography"
         }
-      },
-      "sm": {
-        "value": "{semantic.font.default.regular.-2h}",
-        "type": "typography"
-      },
-      "md": {
-        "value": "{semantic.font.default.regular.-1h}",
-        "type": "typography"
-      },
-      "lg": {
-        "value": "{semantic.font.default.regular.0h}",
-        "type": "typography"
       },
       "active": {
         "light": {
@@ -31,10 +31,26 @@
         "dark": {
           "value": "{semantic.ui.color.text.1.dark}",
           "type": "color"
+        },
+        "sm": {
+          "value": "{semantic.font.default.medium.-2h}",
+          "type": "typography"
+        },
+        "md": {
+          "value": "{semantic.font.default.medium.-1h}",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "{semantic.font.default.medium.0h}",
+          "type": "typography"
         }
       }
     },
     "icon": {
+      "inactive": {
+        "value": "{core.opacity.50}",
+        "type": "opacity"
+      },
       "default": {
         "light": {
           "value": "{semantic.ui.color.text.3.light}",
@@ -78,11 +94,13 @@
             "type": "color"
           }
         }
-      },
+      }
+    },
+    "number": {
       "space-around": {
         "inline": {
           "sm": {
-            "value": "{core.spacing.5}",
+            "value": "{core.spacing.3}",
             "type": "spacing"
           },
           "md": {
@@ -104,7 +122,39 @@
             "type": "spacing"
           },
           "lg": {
-            "value": "{core.spacing.4}",
+            "value": "{core.spacing.5}",
+            "type": "spacing"
+          }
+        }
+      }
+    },
+    "next-previous": {
+      "space-around": {
+        "inline": {
+          "sm": {
+            "value": "{core.spacing.1}",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "{core.spacing.5}",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "{core.spacing.7}",
+            "type": "spacing"
+          }
+        },
+        "block": {
+          "sm": {
+            "value": "{core.spacing.1}",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "{core.spacing.5}",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "{core.spacing.6}",
             "type": "spacing"
           }
         }
@@ -125,18 +175,6 @@
       }
     },
     "border-width": {
-      "sm": {
-        "value": "{core.border.width.0}",
-        "type": "borderWidth"
-      },
-      "md": {
-        "value": "{core.border.width.0}",
-        "type": "borderWidth"
-      },
-      "lg": {
-        "value": "{core.border.width.0}",
-        "type": "borderWidth"
-      },
       "active": {
         "sm": {
           "value": "{core.border.width.1}",
