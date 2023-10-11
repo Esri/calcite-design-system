@@ -1,5 +1,5 @@
 import { Rule } from "eslint";
-import { stencilComponentContext } from "stencil-eslint-core";
+import type { JSXAttribute, JSXSpreadAttribute, JSXOpeningElement } from "@babel/types";
 
 const rule: Rule.RuleModule = {
   meta: {
@@ -10,21 +10,39 @@ const rule: Rule.RuleModule = {
     },
     fixable: "code",
     schema: [],
+    type: "problem",
   },
 
+  // https://unpkg.com/browse/@babel/types@7.6.0/lib/index.d.ts
+  // export interface JSXAttribute extends BaseNode {
+  //   type: "JSXAttribute";
+  //   name: JSXIdentifier | JSXNamespacedName;
+  //   value: JSXElement | JSXFragment | StringLiteral | JSXExpressionContainer | null;
+  // }
+
   create(context): Rule.RuleListener {
-    const stencil = stencilComponentContext();
-
     return {
-      JSXOpeningElement(node) {
-        const attributes = node.attributes;
-        const refAttribute = attributes.find((attr) => attr.name.name === "ref");
+      JSXIdentifier(node) {
+        const openingElement = node.parent as JSXOpeningElement;
+        if (openingElement.type === "JSXOpeningElement") {
+          const attributes: string[] = [];
 
-        if (refAttribute && attributes.indexOf(refAttribute) !== attributes.length - 1) {
-          context.report({
-            node,
-            message: "The 'ref' attribute should be placed as the last property in JSX elements.",
+          openingElement.attributes.forEach((attr: JSXAttribute | JSXSpreadAttribute) => {
+            if (attr.type === "JSXAttribute" && attr.name?.type === "JSXIdentifier") {
+              attributes.push(attr.name.name);
+            }
           });
+
+          const refAttribute = attributes.find((attr: string) => attr === "ref");
+
+          console.log("refAttribute", refAttribute);
+
+          if (refAttribute && attributes.indexOf(refAttribute) !== attributes.length - 1) {
+            context.report({
+              node,
+              message: "The 'ref' attribute should be placed as the last property in JSX elements.",
+            });
+          }
         }
       },
     };
