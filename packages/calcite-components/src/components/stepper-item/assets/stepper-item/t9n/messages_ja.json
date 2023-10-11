@@ -1,5 +1,5 @@
 {
-  "complete": "Completed step",
-  "previousStep": "Previous step",
-  "nextStep": "Next step"
+  "complete": "完了したステップ",
+  "previousStep": "前のステップ",
+  "nextStep": "次のステップ"
 }

@@ -1,5 +1,5 @@
 {
-  "complete": "Completed step",
-  "previousStep": "Previous step",
-  "nextStep": "Next step"
+  "complete": "Obavljen korak",
+  "previousStep": "Prethodni korak",
+  "nextStep": "Sledeći korak"
 }
