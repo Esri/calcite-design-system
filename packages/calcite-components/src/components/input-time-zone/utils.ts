@@ -118,19 +118,18 @@ export async function createTimeZoneItems(
         const indexOffsets: number[] = [];
         let removedSoFar = 0;
 
-        group.tzs = group.tzs.filter((tz) => {
+        group.tzs.forEach((tz, index) => {
           if (timeZoneNameBlockList.includes(tz)) {
             removedSoFar++;
-            return false;
           }
-
-          indexOffsets.push(removedSoFar);
-          return true;
+          indexOffsets[index] = removedSoFar;
         });
 
+        group.tzs = group.tzs.filter((tz) => !timeZoneNameBlockList.includes(tz));
+
         group.labelTzIndices = group.labelTzIndices
-          .map((index) => index - (indexOffsets[index] || 0))
-          .filter((index) => index < group.tzs.length);
+          .map((index) => index - indexOffsets[index])
+          .filter((index) => index >= 0 && index < group.tzs.length);
       });
 
       return timeZoneGroups

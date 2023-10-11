@@ -18,6 +18,7 @@ jobs:
         with:
           node-version-file: package.json
       - run: npm install
+      - run: npm --workspace="packages/calcite-design-tokens" run build
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:

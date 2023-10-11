@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2-next.1...@esri/calcite-components@1.9.2-next.2) (2023-10-10)
+
+### Bug Fixes
+
+- **input-time-zone:** fix error caused by time zone group filtering ([#7971](https://github.com/Esri/calcite-design-system/issues/7971)) ([521673e](https://github.com/Esri/calcite-design-system/commit/521673ece5058373cc672005d8eac2502ce20cbc)), closes [#7944](https://github.com/Esri/calcite-design-system/issues/7944)
+
+## [1.9.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2-next.0...@esri/calcite-components@1.9.2-next.1) (2023-10-10)
+
+### Bug Fixes
+
+- **table:** Improve scrollbar display ([#7967](https://github.com/Esri/calcite-design-system/issues/7967)) ([593a1bf](https://github.com/Esri/calcite-design-system/commit/593a1bfc5bb6706e4001403c68f220a05e3d1c5d)), closes [#7892](https://github.com/Esri/calcite-design-system/issues/7892)
+
 ## [1.9.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.1...@esri/calcite-components@1.9.2-next.0) (2023-10-06)
 
 ### Bug Fixes
