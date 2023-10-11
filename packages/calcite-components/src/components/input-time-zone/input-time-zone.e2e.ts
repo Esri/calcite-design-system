@@ -175,6 +175,60 @@ describe("calcite-input-time-zone", () => {
 
         expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneNamesAndOffsets[2].label);
       });
+
+      it("looks up in label and time zone groups (not displayed)", async () => {
+        const searchTerms = ["London", "Belfast", "GMT-12"];
+
+        const page = await newE2EPage();
+        await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
+        await page.setContent(
+          await addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`)
+        );
+
+        const input = await page.find("calcite-input-time-zone");
+
+        async function clearSearchTerm(searchTerm: string): Promise<void> {
+          for (let i = 0; i < searchTerm.length; i++) {
+            await input.press("Backspace");
+          }
+        }
+
+        let matchedTimeZoneItems = await page.findAll(
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden])"
+        );
+        expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
+
+        await input.click();
+        await input.type(searchTerms[0]);
+        await page.waitForChanges();
+
+        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+
+        expect(matchedTimeZoneItems).toHaveLength(1);
+
+        await clearSearchTerm(searchTerms[0]);
+        await input.type(searchTerms[1]);
+        await page.waitForChanges();
+
+        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+
+        expect(matchedTimeZoneItems).toHaveLength(1);
+
+        await clearSearchTerm(searchTerms[1]);
+        await input.type(searchTerms[2]);
+        await page.waitForChanges();
+
+        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+
+        expect(matchedTimeZoneItems).toHaveLength(2);
+
+        await clearSearchTerm(searchTerms[1]);
+        await page.waitForChanges();
+
+        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+
+        expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
+      });
     });
 
     describe("name", () => {
@@ -302,17 +356,29 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
 
           if (timeZoneName === "shortOffset") {
             const { timeZone } = this.originalOptions;
+            let offsetString;
 
             // hardcoding GMT and time zone names for this particular test suite
-            const offsetString =
-              "GMT" +
-              (timeZone === "America/Los_Angeles"
-                ? "-7"
-                : timeZone === "America/Denver"
-                ? "-6"
-                : timeZone === "Europe/London" || timeZone === "Europe/Belfast" || timeZone === "Etc/GMT-1"
-                ? "+1"
-                : "+0");
+            if (timeZone.includes("Etc/")) {
+              offsetString = timeZone.replace("Etc/", "GMT");
+
+              // Etc/x time zones have the opposite sign of the offset
+              if (offsetString.includes("+")) {
+                offsetString = offsetString.replace("+", "-");
+              } else if (offsetString.includes("-")) {
+                offsetString = offsetString.replace("-", "+");
+              }
+            } else {
+              offsetString =
+                "GMT" +
+                (timeZone === "America/Los_Angeles"
+                  ? "-7"
+                  : timeZone === "America/Denver"
+                  ? "-6"
+                  : timeZone === "Europe/London" || timeZone === "Europe/Belfast"
+                  ? "+1"
+                  : "+0");
+            }
 
             originalParts.push({ type: "timeZoneName", value: offsetString });
           }
@@ -345,7 +411,32 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
             "Europe/London",
 
             // not available in Chromium v92 at time of testing
+            "Etc/GMT+1",
+            "Etc/GMT+10",
+            "Etc/GMT+11",
+            "Etc/GMT+12",
+            "Etc/GMT+2",
+            "Etc/GMT+3",
+            "Etc/GMT+4",
+            "Etc/GMT+5",
+            "Etc/GMT+6",
+            "Etc/GMT+7",
+            "Etc/GMT+8",
+            "Etc/GMT+9",
             "Etc/GMT-1",
+            "Etc/GMT-10",
+            "Etc/GMT-11",
+            "Etc/GMT-12",
+            "Etc/GMT-13",
+            "Etc/GMT-14",
+            "Etc/GMT-2",
+            "Etc/GMT-3",
+            "Etc/GMT-4",
+            "Etc/GMT-5",
+            "Etc/GMT-6",
+            "Etc/GMT-7",
+            "Etc/GMT-8",
+            "Etc/GMT-9",
             "Europe/Belfast",
           ];
         }
