@@ -4,7 +4,7 @@ import type { JSXAttribute, JSXSpreadAttribute, JSXOpeningElement } from "@babel
 const rule: Rule.RuleModule = {
   meta: {
     docs: {
-      description: "Ensure that the ref attribute is placed as the last property in JSX elements to keep it up-to-date",
+      description: `Ensures the ref attribute is ordered last in a JSXElement to keep it up-to-date`,
       category: "Best Practices",
       recommended: true,
     },
@@ -12,13 +12,6 @@ const rule: Rule.RuleModule = {
     schema: [],
     type: "problem",
   },
-
-  // https://unpkg.com/browse/@babel/types@7.6.0/lib/index.d.ts
-  // export interface JSXAttribute extends BaseNode {
-  //   type: "JSXAttribute";
-  //   name: JSXIdentifier | JSXNamespacedName;
-  //   value: JSXElement | JSXFragment | StringLiteral | JSXExpressionContainer | null;
-  // }
 
   create(context): Rule.RuleListener {
     return {
@@ -35,12 +28,10 @@ const rule: Rule.RuleModule = {
 
           const refAttribute = attributes.find((attr: string) => attr === "ref");
 
-          console.log("refAttribute", refAttribute);
-
           if (refAttribute && attributes.indexOf(refAttribute) !== attributes.length - 1) {
             context.report({
               node,
-              message: `The "ref" attribute should be placed as the last property in JSX elements.`,
+              message: `The "ref" attribute should be the last attribute in a JSXElement`,
             });
           }
         }
