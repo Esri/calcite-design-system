@@ -37,7 +37,7 @@
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/html": "6.5.16",
     "@storybook/storybook-deployer": "2.8.16",
-    "@storybook/testing-library": "0.2.1",
+    "@storybook/testing-library": "0.2.2",
     "@tokens-studio/sd-transforms": "0.8.2",
     "@types/dedent": "0.7.0",
     "@types/eslint": "8.40.2",
