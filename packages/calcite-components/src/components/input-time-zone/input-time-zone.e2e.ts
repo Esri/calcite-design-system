@@ -159,7 +159,7 @@ describe("calcite-input-time-zone", () => {
             const page = await newE2EPage();
             await page.emulateTimezone(name);
             await page.setContent(
-              await addTimeZoneNamePolyfill(html` <calcite-input-time-zone mode="name"></calcite-input-time-zone>`)
+              await addTimeZoneNamePolyfill(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`)
             );
             await page.waitForChanges();
 
