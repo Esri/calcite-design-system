@@ -11,7 +11,7 @@
     const LINKED_VERSIONS_HEAD_PACKAGE = "@esri/calcite-components";
 
     // next releases will be blocked if HEAD's version is less than a TRACKING package's version
-    const LINKED_VERSIONS_TRACKING_PACKAGES = ["@esri/calcite-components-react", "@esri/calcite-design-tokens"];
+    const LINKED_VERSIONS_TRACKING_PACKAGES = ["@esri/calcite-components-react"];
 
     interface PackageData {
       name: string;
