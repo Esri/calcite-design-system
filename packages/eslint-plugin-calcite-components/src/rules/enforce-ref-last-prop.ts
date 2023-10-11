@@ -40,7 +40,7 @@ const rule: Rule.RuleModule = {
           if (refAttribute && attributes.indexOf(refAttribute) !== attributes.length - 1) {
             context.report({
               node,
-              message: "The 'ref' attribute should be placed as the last property in JSX elements.",
+              message: `The "ref" attribute should be placed as the last property in JSX elements.`,
             });
           }
         }
