@@ -13,12 +13,8 @@
       right-0
       z-default;
   }
+
   .calcite-sortable--drag {
     @apply shadow-2;
-  }
-  .calcite-sortable--original-location {
-    @apply border-b
-      border-solid
-      border-color-input;
   }
 }
