@@ -1528,6 +1528,11 @@
     },
     "breakpoint": {
       "width": {
+        "xxs": {
+          "value": "320px",
+          "type": "sizing",
+          "description": "Small handheld devices and mini-windows"
+        },
         "xs": {
           "value": "476px",
           "type": "sizing",
