@@ -401,36 +401,6 @@
           "type": "color"
         }
       },
-      "accordion-item": {
-        "font": {
-          "heading": {
-            "value": "{accordion-item.font.heading.light}",
-            "type": "color"
-          },
-          "description": {
-            "value": "{accordion-item.font.description.light}",
-            "type": "color"
-          }
-        },
-        "icon": {
-          "default": {
-            "value": "{accordion-item.icon.default.light}",
-            "type": "color"
-          },
-          "expanded": {
-            "value": "{accordion-item.icon.expanded.light}",
-            "type": "color"
-          }
-        },
-        "background": {
-          "value": "{accordion-item.background.default.light}",
-          "type": "color"
-        },
-        "border": {
-          "value": "{accordion-item.border.light}",
-          "type": "color"
-        }
-      },
       "input-message": {
         "font": {
           "value": "{input-message.font.light}",

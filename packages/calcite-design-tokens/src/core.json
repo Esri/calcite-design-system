@@ -46,7 +46,7 @@
           "type": "fontWeights"
         },
         "demi": {
-          "value": "Demi",
+          "value": 600,
           "type": "fontWeights"
         },
         "bold": {

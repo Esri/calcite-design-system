@@ -1,0 +1,36 @@
+{
+  "ui": {
+    "component": {
+      "accordion-item": {
+        "font": {
+          "heading": {
+            "value": "{accordion-item.font.heading.dark}",
+            "type": "color"
+          },
+          "description": {
+            "value": "{accordion-item.font.description.dark}",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "default": {
+            "value": "{accordion-item.icon.default.dark}",
+            "type": "color"
+          },
+          "expanded": {
+            "value": "{accordion-item.icon.expanded.dark}",
+            "type": "color"
+          }
+        },
+        "background": {
+          "value": "{accordion-item.background.default.dark}",
+          "type": "color"
+        },
+        "border": {
+          "value": "{accordion-item.border.dark}",
+          "type": "color"
+        }
+      }
+    }
+  }
+}
