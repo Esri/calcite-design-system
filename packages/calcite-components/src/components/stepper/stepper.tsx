@@ -126,7 +126,7 @@ export class Stepper {
           <div class={{ [CSS.stepBarContainer]: true }}>
             {this.items.map((item, index) => (
               <StepBar
-                disabled={item.disabled}
+                disabled={item.disabled && index !== this.currentPosition}
                 isActive={index === this.currentPosition}
                 isComplete={item.complete && index !== this.currentPosition && !item.error}
                 isError={item.error && index !== this.currentPosition}

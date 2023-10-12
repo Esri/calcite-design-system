@@ -356,11 +356,19 @@
   }
 }
 
-:host([layout="horizontal"][single-view-mode][error]),
-:host([layout="horizontal"][single-view-mode][complete]) .container {
+:host([layout="horizontal"][single-view-mode][error][selected]),
+:host([layout="horizontal"][single-view-mode][complete][selected]) .container {
   @apply text-color-3;
   & .stepper-item-heading {
     @apply text-color-2;
+  }
+}
+:host([layout="horizontal"][single-view-mode][complete][selected]) .container {
+  & .stepper-item-icon {
+    @apply opacity-disabled;
+  }
+  & .stepper-item-number {
+    @apply text-color-3;
   }
 }
 
