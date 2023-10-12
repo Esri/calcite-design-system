@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.9.2-next.2",
+  "version": "1.9.2",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -70,7 +70,7 @@
     "color": "4.2.3",
     "composed-offset-position": "0.0.4",
     "dayjs": "1.11.10",
-    "focus-trap": "7.5.2",
+    "focus-trap": "7.5.3",
     "form-request-submit-polyfill": "2.0.0",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.0",
