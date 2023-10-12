@@ -24,6 +24,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS, IDS } from "./resources";
 import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
+import { getMode, Mode } from "../../utils/modePublisher";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -87,6 +88,8 @@ export class AccordionItem implements ConditionalSlotComponent {
    */
   @Prop() scale: Scale;
 
+  @Prop({ mutable: true, reflect: true }) calciteMode: Mode;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -108,6 +111,11 @@ export class AccordionItem implements ConditionalSlotComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+  componentWillLoad(): void {
+    // TODO: check if this attribute is manually set by the user before getting the theme set in local storage.
+    // TODO: make this a part of the generic component setup.
+    this.calciteMode = getMode();
+  }
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);

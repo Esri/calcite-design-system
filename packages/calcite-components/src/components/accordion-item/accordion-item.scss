@@ -1,3 +1,5 @@
+@forward "~@esri/calcite-design-tokens/dist/scss/accordion-item";
+
 %icon-position {
   /* icon rotation variables */
   --calcite-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
