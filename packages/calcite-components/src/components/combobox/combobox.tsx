@@ -437,6 +437,7 @@ export class Combobox
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition(true);
     setComponentLoaded(this);
+    this.refreshDisplayMode();
   }
 
   componentDidRender(): void {
