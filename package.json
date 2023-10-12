@@ -111,7 +111,7 @@
   },
   "license": "SEE LICENSE.md",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "packageManager": "npm@10.1.0",
   "volta": {
