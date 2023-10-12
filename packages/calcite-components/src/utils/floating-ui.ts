@@ -415,7 +415,6 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  * @param options.arrowEl - A customizable arrow element.
  * @param options.type - The type of floating UI.
  * @param delayed - Reposition the component after a delay.
- *
  * @returns {Promise<void>}
  */
 export async function reposition(
