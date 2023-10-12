@@ -402,29 +402,27 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  *
  * Note: this is not needed for components that use `calcite-popover`.
  *
- * @param component
- * @param options
- * @param options.referenceEl
- * @param options.floatingEl
- * @param options.overlayPositioning
- * @param options.placement
- * @param options.flipDisabled
- * @param options.flipPlacements
- * @param options.offsetDistance
- * @param options.offsetSkidding
- * @param options.arrowEl
- * @param options.type
- * @param delayed
+ * @param component - A floating-ui component.
+ * @param options - Reposition parameters.
+ * @param options.referenceEl - Reference element.
+ * @param options.floatingEl - Floating element.
+ * @param options.overlayPositioning - type of positioning to use for the overlaid content.
+ * @param options.placement - Determines where the component will be positioned relative to the `referenceElement`.
+ * @param options.flipDisabled - Prevents flipping the component's placement when overlapping its `referenceElement`.
+ * @param options.flipPlacements - Defines the available placements that can be used when a flip occurs.
+ * @param options.offsetDistance - Offsets the position of the popover away from the `referenceElement`.
+ * @param options.offsetSkidding - Offsets the position of the component along the `referenceElement`.
+ * @param options.arrowEl - A customizable arrow element.
+ * @param options.type - The type of floating UI.
+ * @param delayed - Reposition the component after a delay.
+ *
+ * @returns {Promise<void>}
  */
 export async function reposition(
   component: FloatingUIComponent,
   options: Parameters<typeof positionFloatingUI>[1],
   delayed = false
 ): Promise<void> {
-  if (!component.open) {
-    return;
-  }
-
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
 
   return positionFunction(component, options);
@@ -466,9 +464,9 @@ const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, Debou
 /**
  * Helper to set up floating element interactions on connectedCallback.
  *
- * @param component
- * @param referenceEl
- * @param floatingEl
+ * @param component - The floating-ui component.
+ * @param referenceEl - Reference element.
+ * @param floatingEl - Floating element.
  */
 export function connectFloatingUI(
   component: FloatingUIComponent,
@@ -493,7 +491,7 @@ export function connectFloatingUI(
 
   const runAutoUpdate = Build.isBrowser
     ? autoUpdate
-    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: Function): (() => void) => {
+    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
         return () => {
           /* noop */
@@ -509,9 +507,9 @@ export function connectFloatingUI(
 /**
  * Helper to tear down floating element interactions on disconnectedCallback.
  *
- * @param component
- * @param referenceEl
- * @param floatingEl
+ * @param component - A floating-ui component.
+ * @param referenceEl - Reference element.
+ * @param floatingEl - Floating element.
  */
 export function disconnectFloatingUI(
   component: FloatingUIComponent,
