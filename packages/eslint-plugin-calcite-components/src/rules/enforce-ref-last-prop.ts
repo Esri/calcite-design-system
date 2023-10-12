@@ -4,7 +4,7 @@ import type { JSXAttribute, JSXSpreadAttribute, JSXOpeningElement } from "@babel
 const rule: Rule.RuleModule = {
   meta: {
     docs: {
-      description: `Ensures the ref attribute is ordered last in a JSXElement to keep it up-to-date`,
+      description: `Ensures the "ref" attribute is ordered last in a JSXElement to keep it up-to-date.`,
       category: "Best Practices",
       recommended: true,
     },
@@ -31,7 +31,7 @@ const rule: Rule.RuleModule = {
           if (refAttribute && attributes.indexOf(refAttribute) !== attributes.length - 1) {
             context.report({
               node,
-              message: `The "ref" attribute should be the last attribute in a JSXElement`,
+              message: `The "ref" attribute should be the last attribute in a JSXElement.`,
             });
           }
         }
