@@ -1,4 +1,6 @@
 {
   "close": "Zapri",
-  "options": "Možnosti"
+  "options": "Možnosti",
+  "collapse": "Strni",
+  "expand": "Razširi"
 }

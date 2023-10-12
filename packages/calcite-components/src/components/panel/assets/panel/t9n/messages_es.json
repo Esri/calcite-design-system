@@ -1,4 +1,6 @@
 {
   "close": "Cerrar",
-  "options": "Opciones"
+  "options": "Opciones",
+  "collapse": "Contraer",
+  "expand": "Expandir"
 }

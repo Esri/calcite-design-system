@@ -11,8 +11,12 @@ The `calcite-block` component is intended for displaying a heading and content. 
 Renders a header and content that remains open - no collapsible option.
 
 ```html
-<calcite-block heading="When your son becomes a priest, do you call him..." open>
-  <div>Father or Son?</div>
+<calcite-block heading="Dogs" open>
+  <ul>
+    <li>The first species to be domesticated</li>
+    <li>Domesticated from wolves over 15,000 years ago</li>
+    <li>Adapted to human behavior performing many roles such as hunting, protection, military, therapy, etc.</li>
+  </ul>
 </calcite-block>
 ```
 
@@ -30,7 +34,13 @@ Renders a header with a clickable icon to toggle the block open and closed.
 
 ```html
 <calcite-block heading="Domestic pets" open collapsible>
-  <calcite-block-section text="puppers rool, kittehs drule"> </calcite-block-section>
+  <calcite-block-section text="Dogs" open>
+    <ul>
+      <li>The first species to be domesticated</li>
+      <li>Domesticated from wolves over 15,000 years ago</li>
+      <li>Adapted to human behavior performing many roles such as hunting, protection, military, therapy, etc.</li>
+    </ul>
+  </calcite-block-section>
 </calcite-block>
 ```
 
@@ -39,7 +49,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 Renders a header and control with a slot for adding a single HTML element (in the header).
 
 ```html
-<calcite-block heading="This header" description="it has an input">
+<calcite-block heading="A fantastic heading" description="Add a control, such as an editing action">
   <calcite-action icon="pencil" text="edit" slot="control"></calcite-action>
 </calcite-block>
 ```
@@ -49,31 +59,45 @@ Renders a header and control with a slot for adding a single HTML element (in th
 Renders a header and icon with the icon.
 
 ```html
-<calcite-block heading="Icon't believe it!">
-  <div slot="icon">🤯</div>
+<calcite-block heading="Dogs">
+  <div slot="icon">🐕</div>
 </calcite-block>
 ```
 
 ## Properties
 
-| Property               | Attribute           | Description                                                                              | Type                             | Default     |
-| ---------------------- | ------------------- | ---------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `collapsible`          | `collapsible`       | When `true`, the component is collapsible.                                               | `boolean`                        | `false`     |
-| `description`          | `description`       | A description for the component, which displays below the heading.                       | `string`                         | `undefined` |
-| `disabled`             | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                        | `false`     |
-| `dragHandle`           | `drag-handle`       | When `true`, displays a drag handle in the header.                                       | `boolean`                        | `false`     |
-| `heading` _(required)_ | `heading`           | The component header text.                                                               | `string`                         | `undefined` |
-| `headingLevel`         | `heading-level`     | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6`     | `undefined` |
-| `loading`              | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                        | `false`     |
-| `messageOverrides`     | `message-overrides` | Use this property to override individual strings used by the component.                  | `BlockMessages`                  | `undefined` |
-| `open`                 | `open`              | When `true`, expands the component and its contents.                                     | `boolean`                        | `false`     |
-| `status`               | `status`            | Displays a status-related indicator icon.                                                | `"idle" \| "invalid" \| "valid"` | `undefined` |
+| Property               | Attribute       | Description                                                                              | Type                                                                          | Default     |
+| ---------------------- | --------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------- |
+| `collapsible`          | `collapsible`   | When `true`, the component is collapsible.                                               | `boolean`                                                                     | `false`     |
+| `description`          | `description`   | A description for the component, which displays below the heading.                       | `string`                                                                      | `undefined` |
+| `disabled`             | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                                                                     | `false`     |
+| `dragHandle`           | `drag-handle`   | When `true`, displays a drag handle in the header.                                       | `boolean`                                                                     | `false`     |
+| `heading` _(required)_ | `heading`       | The component header text.                                                               | `string`                                                                      | `undefined` |
+| `headingLevel`         | `heading-level` | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                  | `undefined` |
+| `loading`              | `loading`       | When `true`, a busy indicator is displayed.                                              | `boolean`                                                                     | `false`     |
+| `messageOverrides`     | --              | Use this property to override individual strings used by the component.                  | `{ collapse?: string; expand?: string; loading?: string; options?: string; }` | `undefined` |
+| `open`                 | `open`          | When `true`, expands the component and its contents.                                     | `boolean`                                                                     | `false`     |
+| `status`               | `status`        | Displays a status-related indicator icon.                                                | `"idle" \| "invalid" \| "valid"`                                              | `undefined` |
 
 ## Events
 
-| Event                | Description                                   | Type                |
-| -------------------- | --------------------------------------------- | ------------------- |
-| `calciteBlockToggle` | Emits when the component's header is clicked. | `CustomEvent<void>` |
+| Event                     | Description                                                                                                                                                                                        | Type                |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteBlockBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.                                                                                                       | `CustomEvent<void>` |
+| `calciteBlockBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins.                                                                                           | `CustomEvent<void>` |
+| `calciteBlockClose`       | Fires when the component is closed and animation is complete.                                                                                                                                      | `CustomEvent<void>` |
+| `calciteBlockOpen`        | Fires when the component is open and animation is complete.                                                                                                                                        | `CustomEvent<void>` |
+| `calciteBlockToggle`      | <span style="color:red">**[DEPRECATED]**</span> use `openClose` events: `calciteBlock[Before]Open` and `calciteBlock[Before]Close` instead.<br/><br/>Emits when the component's header is clicked. | `CustomEvent<void>` |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first tabbable element.
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Slots
 
@@ -95,9 +119,9 @@ Renders a header and icon with the icon.
 ### Depends on
 
 - [calcite-scrim](../scrim)
+- [calcite-loader](../loader)
 - [calcite-icon](../icon)
 - [calcite-handle](../handle)
-- [calcite-loader](../loader)
 - [calcite-action-menu](../action-menu)
 
 ### Graph
@@ -105,9 +129,9 @@ Renders a header and icon with the icon.
 ```mermaid
 graph TD;
   calcite-block --> calcite-scrim
+  calcite-block --> calcite-loader
   calcite-block --> calcite-icon
   calcite-block --> calcite-handle
-  calcite-block --> calcite-loader
   calcite-block --> calcite-action-menu
   calcite-scrim --> calcite-loader
   calcite-handle --> calcite-icon

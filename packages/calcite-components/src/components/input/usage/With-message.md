@@ -1,7 +1,14 @@
 ```html
-<calcite-label for="info">
-  My great label
-  <calcite-input id="info" placeholder="Enter your information"></calcite-input>
-  <calcite-input-message icon="3d-glasses"> Here's something you should know about this input </calcite-input-message>
+<calcite-label>
+  Desired subdomain
+  <calcite-input
+    suffix-text=".city-of-acme.gov"
+    status="invalid"
+    placeholder="Enter your subdomain"
+    value="i-love-maps"
+  ></calcite-input>
+  <calcite-input-message icon="frown" status="invalid">
+    Apologies, this subdomain has already been registered.
+  </calcite-input-message>
 </calcite-label>
 ```

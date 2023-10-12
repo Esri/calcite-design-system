@@ -80,19 +80,55 @@ describe("calcite-flow", () => {
 
     it("goes back when item back button is clicked", async () => {
       const page = await newE2EPage();
-
       await page.setContent(html`<calcite-flow show-back-button>
         <calcite-flow-item id="first"></calcite-flow-item>
         <calcite-flow-item id="second"></calcite-flow-item>
       </calcite-flow>`);
+      await page.waitForChanges();
+
+      let items = await page.findAll("calcite-flow-item");
+
+      expect(items).toHaveLength(2);
+      expect(items[0].id).toBe("first");
+      expect(items[1].id).toBe("second");
 
       const activeItemBackButton = await page.find(`calcite-flow-item:last-of-type >>> .${ITEM_CSS.backButton}`);
       await activeItemBackButton.click();
+      await page.waitForChanges();
 
-      const items = await page.findAll("calcite-flow-item");
+      items = await page.findAll("calcite-flow-item");
 
       expect(items).toHaveLength(1);
       expect(items[0].id).toBe("first");
+    });
+
+    it("does not go back when item back button is clicked and defaultPrevented", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-flow show-back-button>
+        <calcite-flow-item id="first"></calcite-flow-item>
+        <calcite-flow-item id="second"></calcite-flow-item>
+      </calcite-flow>`);
+      await page.waitForChanges();
+
+      let items = await page.findAll("calcite-flow-item");
+
+      expect(items).toHaveLength(2);
+      expect(items[0].id).toBe("first");
+      expect(items[1].id).toBe("second");
+
+      await page.evaluate((backButtonSelector) => {
+        const lastFlowItem = document.querySelector("calcite-flow-item:last-of-type");
+
+        lastFlowItem?.addEventListener("calciteFlowItemBack", (event) => event.preventDefault());
+
+        lastFlowItem?.shadowRoot.querySelector(backButtonSelector)?.click();
+      }, `.${ITEM_CSS.backButton}`);
+      await page.waitForChanges();
+
+      items = await page.findAll("calcite-flow-item");
+      expect(items).toHaveLength(2);
+      expect(items[0].id).toBe("first");
+      expect(items[1].id).toBe("second");
     });
 
     it("setting 'beforeBack' should be called in 'back()'", async () => {

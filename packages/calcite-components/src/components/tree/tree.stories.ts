@@ -301,3 +301,173 @@ export const OverflowingSubtree = (): string =>
         }, 1000);
       });
     </script>`;
+
+export const allSelectionModesExpanded_TestOnly = (): string => html`
+  <h2>ancestors</h2>
+  <calcite-tree selection-mode="ancestors">
+    <calcite-tree-item> <span>Child 1</span> </calcite-tree-item>
+
+    <calcite-tree-item expanded>
+      <span>Child 2</span>
+
+      <calcite-tree slot="children">
+        <calcite-tree-item> <span>Grandchild 1</span> </calcite-tree-item>
+
+        <calcite-tree-item> <span>Grandchild 2</span> </calcite-tree-item>
+
+        <calcite-tree-item>
+          <span>Grandchild 3</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item> <span>Great-Grandchild 1</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 2</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 3</span> </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>
+
+  <h2>children</h2>
+  <calcite-tree selection-mode="children">
+    <calcite-tree-item> <span>Child 1</span> </calcite-tree-item>
+
+    <calcite-tree-item expanded>
+      <span>Child 2</span>
+
+      <calcite-tree slot="children">
+        <calcite-tree-item> <span>Grandchild 1</span> </calcite-tree-item>
+
+        <calcite-tree-item> <span>Grandchild 2</span> </calcite-tree-item>
+
+        <calcite-tree-item>
+          <span>Grandchild 3</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item> <span>Great-Grandchild 1</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 2</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 3</span> </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>
+
+  <h2>multichildren</h2>
+  <calcite-tree selection-mode="multichildren">
+    <calcite-tree-item> <span>Child 1</span> </calcite-tree-item>
+
+    <calcite-tree-item expanded>
+      <span>Child 2</span>
+
+      <calcite-tree slot="children">
+        <calcite-tree-item> <span>Grandchild 1</span> </calcite-tree-item>
+
+        <calcite-tree-item> <span>Grandchild 2</span> </calcite-tree-item>
+
+        <calcite-tree-item>
+          <span>Grandchild 3</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item> <span>Great-Grandchild 1</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 2</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 3</span> </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>
+
+  <h2>multiple</h2>
+  <calcite-tree selection-mode="multiple">
+    <calcite-tree-item> <span>Child 1</span> </calcite-tree-item>
+
+    <calcite-tree-item expanded>
+      <span>Child 2</span>
+
+      <calcite-tree slot="children">
+        <calcite-tree-item> <span>Grandchild 1</span> </calcite-tree-item>
+
+        <calcite-tree-item> <span>Grandchild 2</span> </calcite-tree-item>
+
+        <calcite-tree-item>
+          <span>Grandchild 3</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item> <span>Great-Grandchild 1</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 2</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 3</span> </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>
+
+  <h2>none</h2>
+  <calcite-tree selection-mode="none">
+    <calcite-tree-item> <span>Child 1</span> </calcite-tree-item>
+
+    <calcite-tree-item expanded>
+      <span>Child 2</span>
+
+      <calcite-tree slot="children">
+        <calcite-tree-item> <span>Grandchild 1</span> </calcite-tree-item>
+
+        <calcite-tree-item> <span>Grandchild 2</span> </calcite-tree-item>
+
+        <calcite-tree-item>
+          <span>Grandchild 3</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item> <span>Great-Grandchild 1</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 2</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 3</span> </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>
+
+  <h2>single</h2>
+  <calcite-tree selection-mode="single">
+    <calcite-tree-item> <span>Child 1</span> </calcite-tree-item>
+
+    <calcite-tree-item expanded>
+      <span>Child 2</span>
+
+      <calcite-tree slot="children">
+        <calcite-tree-item> <span>Grandchild 1</span> </calcite-tree-item>
+
+        <calcite-tree-item> <span>Grandchild 2</span> </calcite-tree-item>
+
+        <calcite-tree-item>
+          <span>Grandchild 3</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item> <span>Great-Grandchild 1</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 2</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 3</span> </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>
+
+  <h2>single-persist</h2>
+  <calcite-tree selection-mode="single-persist">
+    <calcite-tree-item> <span>Child 1</span> </calcite-tree-item>
+
+    <calcite-tree-item expanded>
+      <span>Child 2</span>
+
+      <calcite-tree slot="children">
+        <calcite-tree-item> <span>Grandchild 1</span> </calcite-tree-item>
+
+        <calcite-tree-item> <span>Grandchild 2</span> </calcite-tree-item>
+
+        <calcite-tree-item>
+          <span>Grandchild 3</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item> <span>Great-Grandchild 1</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 2</span> </calcite-tree-item>
+            <calcite-tree-item> <span>Great-Grandchild 3</span> </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>
+`;

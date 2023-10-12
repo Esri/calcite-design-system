@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "kõik",
+  "keyboardDeselectAll": "Kõigi ridade valimise tühistamiseks vajutage sisestus- või tühikuklahvi",
+  "keyboardSelectAll": "Kõigi ridade valimiseks vajutage sisestus- või tühikuklahvi",
+  "rowNumber": "Rea number",
+  "selected": "rida on valitud",
+  "selectionColumn": "Valikuveerg"
 }

@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Kesirli saniye",
+  "fractionalSecondDown": "Kesirli saniyeyi azalt",
+  "fractionalSecondUp": "Kesirli saniyeyi artır",
   "hour": "Saat",
   "hourDown": "Saati azalt",
   "hourUp": "Saati artır",

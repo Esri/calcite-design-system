@@ -52,12 +52,14 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 
 ### Used by
 
+- [calcite-block-section](../block-section)
 - [calcite-card](../card)
 
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-block-section --> calcite-label
   calcite-card --> calcite-label
   style calcite-label fill:#f9f,stroke:#333,stroke-width:4px
 ```

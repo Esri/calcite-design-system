@@ -40,7 +40,6 @@
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Select</h1>
 
-      <!-- Header -->
       <div class="parent">
         <div class="child"></div>
         <div class="child">Small</div>
@@ -48,9 +47,8 @@
         <div class="child">Large</div>
       </div>
 
-      <!-- Basic -->
       <div class="parent">
-        <div class="child right-aligned-text">Basic</div>
+        <div class="child right-aligned-text">Basic (offset mode)</div>
         <div class="child">
           <calcite-input-time-zone scale="s"></calcite-input-time-zone>
         </div>
@@ -61,6 +59,36 @@
 
         <div class="child">
           <calcite-input-time-zone scale="l"></calcite-input-time-zone>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Basic (offset mode) + reference date</div>
+        <div class="child">
+          <calcite-input-time-zone scale="s" reference-date="2023-11-28T06:31:19.129Z"></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone scale="m" reference-date="2023-11-28T06:31:19.129Z"></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone scale="l" reference-date="2023-11-28T06:31:19.129Z"></calcite-input-time-zone>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">name mode</div>
+        <div class="child">
+          <calcite-input-time-zone scale="s" mode="name"></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone scale="m" mode="name"></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone scale="l" mode="name"></calcite-input-time-zone>
         </div>
       </div>
     </demo-dom-swapper>

@@ -34,6 +34,10 @@ module.exports = async ({ github, context, core }) => {
   }
 
   const currentDate = new Date(Date.now());
+
+  // make sure the milestone is still current on the day of the release
+  currentDate.setUTCHours(0, 0, 0, 0);
+
   for (const milestone of milestones) {
     if (!milestone?.due_on || new Date(milestone?.due_on) < currentDate) {
       console.log(`Skipping open milestone "${milestone.title}" because it is past due or doesn't have a due date.`);

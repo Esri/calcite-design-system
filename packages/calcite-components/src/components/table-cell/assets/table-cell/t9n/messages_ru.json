@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Нажмите Enter или Space для отмены выборки строки",
+  "keyboardSelect": "Нажмите Enter или Space для выборки строки",
+  "row": "строка",
+  "selected": "выбрано",
+  "unselected": "не выбрано"
 }
