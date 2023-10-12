@@ -24,7 +24,7 @@
 }
 
 .table-container {
-  @apply overflow-x-scroll whitespace-nowrap;
+  @apply overflow-x-auto whitespace-nowrap;
 }
 
 .table-container:not(.bordered) {

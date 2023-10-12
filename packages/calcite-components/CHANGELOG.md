@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.1...@esri/calcite-components@1.9.2) (2023-10-12)
+
+### Bug Fixes
+
+- **flow-item:** Update collapsed property when collapse button is clicked ([#7960](https://github.com/Esri/calcite-design-system/issues/7960)) ([f6fd55f](https://github.com/Esri/calcite-design-system/commit/f6fd55fd2b387ec6f0ecfceaa84a4cc13182c8bd))
+- **input-time-zone:** Allow searching offsets by Etc/x time zone ([#7978](https://github.com/Esri/calcite-design-system/issues/7978)) ([2c34b42](https://github.com/Esri/calcite-design-system/commit/2c34b4289b897529f351a17a0c00063cf40769b5))
+- **input-time-zone:** Fix error caused by time zone group filtering ([#7971](https://github.com/Esri/calcite-design-system/issues/7971)) ([521673e](https://github.com/Esri/calcite-design-system/commit/521673ece5058373cc672005d8eac2502ce20cbc))
+- **table:** Improve scrollbar display ([#7967](https://github.com/Esri/calcite-design-system/issues/7967)) ([593a1bf](https://github.com/Esri/calcite-design-system/commit/593a1bfc5bb6706e4001403c68f220a05e3d1c5d))
+
+## [1.9.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0...@esri/calcite-components@1.9.1) (2023-10-05)
+
+### Bug Fixes
+
+- **combobox:** Fix issue causing value to be cleared when selecting an item (Windows + trackpad) ([#7954](https://github.com/Esri/calcite-design-system/issues/7954)) ([557d658](https://github.com/Esri/calcite-design-system/commit/557d65862d5fbf5b3ae9447e44d78604af525892))
+- **input-time-zone:** Fix handling of unknown and cityless time zones from offset display mode ([#7947](https://github.com/Esri/calcite-design-system/issues/7947)) ([75e0302](https://github.com/Esri/calcite-design-system/commit/75e0302d9f02ce07c26c6aa9853536a2918b9d48))
+- **panel:** Fix collapse action title and reverse icon direction ([#7927](https://github.com/Esri/calcite-design-system/issues/7927)) ([5f620f8](https://github.com/Esri/calcite-design-system/commit/5f620f8541d6b7a9518fd8d3c5d1558420d25966))
+
 ## [1.9.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.8.0...@esri/calcite-components@1.9.0) (2023-10-03)
 
 ### Features
