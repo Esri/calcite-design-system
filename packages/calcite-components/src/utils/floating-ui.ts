@@ -464,7 +464,7 @@ const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, Debou
 /**
  * Helper to set up floating element interactions on connectedCallback.
  *
- * @param component - The floating-ui component.
+ * @param component - A floating-ui component.
  * @param referenceEl - Reference element.
  * @param floatingEl - Floating element.
  */
