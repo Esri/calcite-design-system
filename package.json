@@ -50,7 +50,7 @@
     "@types/react": "^16.7.6",
     "@types/semver": "7.5.2",
     "@types/shell-quote": "1.7.1",
-    "@types/sortablejs": "1.15.2",
+    "@types/sortablejs": "1.15.3",
     "@types/yargs": "17.0.24",
     "@typescript-eslint/eslint-plugin": "5.60.1",
     "@typescript-eslint/parser": "5.48.2",
