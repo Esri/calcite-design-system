@@ -1,6 +1,5 @@
 import { camelCase } from "change-case";
-import { TransformedToken } from "style-dictionary/types/TransformedToken.js";
-import { Options } from "style-dictionary/types/Options.js";
+import { Core as StyleDictionary, Options, TransformedToken } from "style-dictionary";
 import { parseTokenPath } from "../utils/parseTokenPath.js";
 
 /**
@@ -10,6 +9,16 @@ import { parseTokenPath } from "../utils/parseTokenPath.js";
  * @param {Options} options Style Dictionary format options
  * @returns {string} an updated name for the token which will be used for the final output
  */
-export function nameCamelCase(token: TransformedToken, options: Options): string {
+export function nameCamelCaseFunction(token: TransformedToken, options: Options): string {
   return camelCase([options.prefix].concat(parseTokenPath(token.path)).join(" "));
 }
+
+export const registerNameCamelCase = (sd: StyleDictionary): void => {
+  sd.registerTransform({
+    name: nameCamelCase,
+    type: "name",
+    transformer: nameCamelCaseFunction,
+  });
+};
+
+export const nameCamelCase = "name/calcite/camel-case";

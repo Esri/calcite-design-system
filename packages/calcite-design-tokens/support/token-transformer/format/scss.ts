@@ -1,9 +1,9 @@
-import { pascalCase, sentenceCase } from "change-case";
-import StyleDictionary, { Dictionary, File, Platform, Options } from "style-dictionary";
-import { sortAllTokens } from "../utils/sortAllTokens.js";
-
-const regexThemeGroup = /calcite|brand/gi;
-const regexFileNameWithoutExtension = /\w+(?=\.\w+$)/gi;
+import { paramCase } from "change-case";
+import styleDictionary, { Dictionary, File, Platform, Options, Core as SD } from "style-dictionary";
+import { importedReferenceList } from "./utils/importedReferenceList.js";
+import { addToIndex } from "./update/indexFile.js";
+import { addToMixins } from "./update/mixinsFile.js";
+import { relative, resolve } from "path";
 
 /**
  * Exports SCSS style formats
@@ -15,52 +15,53 @@ const regexFileNameWithoutExtension = /\w+(?=\.\w+$)/gi;
  * @param {Options} fileInfo.options the Style Dictionary format options passed from the config
  * @returns {string} a string that is passed to fs.writeFileSync
  */
-export function formatSCSS(fileInfo: {
+export function formatSCSSFunction(fileInfo: {
   dictionary: Dictionary;
   file: File;
   platform?: Platform;
-  options: Options & { themeable?: boolean };
+  options: Options & { themeable?: boolean; reference?: string[] };
 }): string {
   const { dictionary, file, options } = fileInfo;
   const { outputReferences } = options;
-  const themeName = pascalCase(
-    sentenceCase(file.destination.match(regexFileNameWithoutExtension)[0])
-      .split(" ")
-      .filter((n) => !regexThemeGroup.test(n))
-      .join(" ")
-  ).toLowerCase();
-  const sassProps = StyleDictionary.formatHelpers.createPropertyFormatter({
-    outputReferences,
-    dictionary,
-    format: "sass",
-  });
-  const cssProps = StyleDictionary.formatHelpers.createPropertyFormatter({
-    outputReferences,
-    dictionary,
-    format: "css",
-    formatting: {
-      prefix: fileInfo.platform.prefix,
-    },
-  });
+  const fileHeader = styleDictionary.formatHelpers.fileHeader({ file });
+  const outputFileDir = options.output.filePath.slice(0, options.output.filePath.lastIndexOf("/"));
   const regexNamePartial = new RegExp(`(${fileInfo.platform.prefix}|semantic|app)-`, "g");
-  const sortedTokens = sortAllTokens(dictionary, outputReferences);
-  const coreTokens = [...sortedTokens].reduce(
-    (acc, token) => {
-      if (typeof token.value === "string") {
-        token.value = token.value.includes(" ") ? `"${token.value}"` : token.value === "Demi" ? 600 : token.value;
-        acc[1].push(cssProps(token));
-        acc[0].push(sassProps(token).replaceAll(regexNamePartial, ""));
-      }
-
-      return acc;
-    },
-    [[], []]
+  const mode = options.output.filePath.slice(
+    options.output.filePath.lastIndexOf("/") + 1,
+    options.output.filePath.lastIndexOf(".")
   );
+  const name = `calcite-${paramCase(
+    relative(resolve(options.output.dir, options.output.platform), options.output.filePath).replaceAll(
+      /(.scss)|(base)/g,
+      ""
+    )
+  )}`;
+  const referenceList = importedReferenceList(options.reference, outputFileDir);
 
-  return `${StyleDictionary.formatHelpers.fileHeader({ file })}
-${coreTokens[0].join("\n")}
+  // Index File Updates
+  addToIndex(name, file.options.prefix, mode, outputFileDir, options.output.filePath, fileHeader);
 
-@mixin calcite-theme-${themeName}() {
-${coreTokens[1].join("\n")}
-}`;
+  // Mixin File Updates
+  addToMixins(name, outputFileDir, dictionary, outputReferences, fileHeader);
+
+  return (
+    fileHeader +
+    (referenceList.length > 0 ? referenceList.join("\n") + "\n\n" : "") +
+    styleDictionary.formatHelpers
+      .formattedVariables({ format: "sass", dictionary, outputReferences })
+      .replaceAll(regexNamePartial, "")
+      .split("\n")
+      .filter((variable) => !variable.includes("[object Object]"))
+      .join("\n") +
+    "\n"
+  );
 }
+
+export function registerSCSSFormat(sd: SD): void {
+  sd.registerFormat({
+    name: formatSCSS,
+    formatter: formatSCSSFunction,
+  });
+}
+
+export const formatSCSS = "calcite/scss";
