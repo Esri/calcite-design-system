@@ -4,12 +4,18 @@ import { StepBarProps } from "./interfaces";
 export const CSS = {
   stepBar: "step-bar",
   stepBarActive: "step-bar--active",
-  stepBarInActive: "step-bar--inactive",
   stepBarComplete: "step-bar--complete",
+  stepBarDisabled: "step-bar--disabled",
   stepBarError: "step-bar--error",
+  stepBarInActive: "step-bar--inactive",
 };
 
-export const StepBar: FunctionalComponent<StepBarProps> = ({ isActive, isComplete, isError }) => (
+export const StepBar: FunctionalComponent<StepBarProps> = ({
+  disabled,
+  isActive,
+  isComplete,
+  isError,
+}) => (
   <svg
     class={{
       [CSS.stepBar]: true,
@@ -17,10 +23,11 @@ export const StepBar: FunctionalComponent<StepBarProps> = ({ isActive, isComplet
   >
     <rect
       class={{
-        [CSS.stepBarInActive]: true,
         [CSS.stepBarActive]: isActive,
         [CSS.stepBarComplete]: isComplete,
+        [CSS.stepBarDisabled]: disabled,
         [CSS.stepBarError]: isError,
+        [CSS.stepBarInActive]: true,
       }}
       width="100%"
       x="0"

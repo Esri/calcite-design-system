@@ -328,7 +328,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   private renderIcon(): VNode {
     const path =
-      this.selected && !this.singleViewMode
+      this.selected && (this.singleViewMode ? !this.error && !this.complete : true)
         ? "circleF"
         : this.error
         ? "exclamationMarkCircleF"

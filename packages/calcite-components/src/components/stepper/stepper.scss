@@ -49,6 +49,18 @@
   gap: theme("spacing.3") var(--calcite-stepper-item-spacing-unit-s);
 }
 
+.step-bar {
+  @apply flex;
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.step-bar-container {
+  @apply flex gap-2 absolute justify-between items-start;
+  block-size: 0.125rem;
+  inline-size: 100%;
+}
+
 .step-bar--inactive {
   fill: var(--light-ui-border-3, #dfdfdf);
   fill-opacity: 1;
@@ -68,16 +80,8 @@
   fill: var(--calcite-ui-danger);
 }
 
-.step-bar {
-  @apply flex;
-  block-size: 100%;
-  inline-size: 100%;
-}
-
-.step-bar-container {
-  @apply flex gap-2 absolute justify-between items-start;
-  block-size: 0.125rem;
-  inline-size: 100%;
+.step-bar--disabled {
+  opacity: 0.5;
 }
 
 .action-icon {

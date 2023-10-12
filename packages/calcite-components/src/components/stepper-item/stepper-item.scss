@@ -173,7 +173,7 @@
   @apply border-t-color-danger-hover;
 }
 
-:host([selected]:not([single-view-mode])) .container {
+:host([selected]) .container {
   border-block-start-color: theme("backgroundColor.brand");
   & .stepper-item-heading {
     @apply text-color-1;
@@ -320,7 +320,7 @@
     outline-color: canvasText;
   }
 
-  :host([selected]:not([single-view-mode])) .container {
+  :host([selected]) .container {
     border-block-start-color: highlight;
     & .stepper-item-number {
       color: highlight;
@@ -344,6 +344,24 @@
   me-0;
   inline-size: 100%;
   padding-inline: calc(var(--calcite-internal-stepper-action-inline-size) + 0.5rem);
+}
+
+:host([layout="horizontal"][single-view-mode][error]) .container {
+  & .stepper-item-number {
+    color: theme("backgroundColor.danger");
+  }
+  & .stepper-item-icon {
+    @apply opacity-100;
+    color: theme("backgroundColor.danger");
+  }
+}
+
+:host([layout="horizontal"][single-view-mode][error]),
+:host([layout="horizontal"][single-view-mode][complete]) .container {
+  @apply text-color-3;
+  & .stepper-item-heading {
+    @apply text-color-2;
+  }
 }
 
 @include base-component();
