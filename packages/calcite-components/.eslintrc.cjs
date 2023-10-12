@@ -12,7 +12,7 @@ module.exports = {
     "plugin:jsdoc/recommended",
     "prettier",
   ],
-  ignorePatterns: ["dist", "docs", "hydrate", "www"],
+  ignorePatterns: ["dist", "docs", "hydrate", "www", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     tsconfigRootDir: __dirname,
