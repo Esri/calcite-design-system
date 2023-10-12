@@ -1,16 +1,18 @@
 import { readFileSync } from "fs";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
 import { getThemes } from "./token-transformer/getThemes.js";
 import { run } from "./token-transformer/sd-run.js";
+import { resolve, join } from "path";
+import { URL } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = new URL(".", import.meta.url).pathname;
 
 /**
- * Get all themes defined int the tokens/$themes.json and generate a Style Dictionary output for each theme
+ * Get all themes defined int the src/$themes.json and generate a Style Dictionary output for each theme
  */
-const rawData = readFileSync(resolve(__dirname, "../src/$themes.json"), { encoding: "utf-8" });
+const tokensDir = resolve(__dirname, "../src");
+const rawData = readFileSync(join(tokensDir, "$themes.json"), {
+  encoding: "utf-8",
+});
 const data = JSON.parse(rawData);
-
-getThemes(data).then((themes) => Promise.all(themes.map((theme) => run("src", "dist", theme))));
+const files = await getThemes(data);
+Promise.all(files.map((theme) => run("src", "dist", theme)));

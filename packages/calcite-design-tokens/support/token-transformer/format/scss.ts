@@ -38,33 +38,18 @@ export function formatSCSS(fileInfo: {
     outputReferences,
     dictionary,
     format: "css",
+    formatting: {
+      prefix: fileInfo.platform.prefix,
+    },
   });
+  const regexNamePartial = new RegExp(`(${fileInfo.platform.prefix}|semantic|app)-`, "g");
   const sortedTokens = sortAllTokens(dictionary, outputReferences);
   const coreTokens = [...sortedTokens].reduce(
     (acc, token) => {
-      token.value = token.value.includes(" ") ? `"${token.value}"` : token.value === "Demi" ? 600 : token.value;
-      acc[1].push(cssProps(token));
-
-      if (token.filePath.includes("core")) {
-        const sassToken = { ...token };
-        const path = sassToken.path.filter((p) => !/(core|default|font$)/.test(p));
-        sassToken.name = sassToken.type === "color" ? path.slice(-1).join("-") : path.join("-");
-        sassToken.original.value = sassToken.original.value[0] === "{" ? sassToken.value : sassToken.original.value;
-        acc[0].push(sassProps(sassToken));
-      }
-
-      if (/dark|light/.test(token.filePath) && !token.path.includes("component")) {
-        const sassToken = { ...token };
-        const path = sassToken.path.reduce((acc, p) => {
-          if (p === "default") {
-            return acc;
-          }
-          acc.push(p === "color" ? "ui" : p);
-          return acc;
-        }, []);
-        path.push(token.filePath.includes("dark") ? "dark" : "light");
-        sassToken.name = path.join("-");
-        acc[0].push(sassProps(sassToken));
+      if (typeof token.value === "string") {
+        token.value = token.value.includes(" ") ? `"${token.value}"` : token.value === "Demi" ? 600 : token.value;
+        acc[1].push(cssProps(token));
+        acc[0].push(sassProps(token).replaceAll(regexNamePartial, ""));
       }
 
       return acc;
