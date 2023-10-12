@@ -404,8 +404,8 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  *
  * @param component - A floating-ui component.
  * @param options - Reposition parameters.
- * @param options.referenceEl - Reference element.
- * @param options.floatingEl - Floating element.
+ * @param options.referenceEl - The `referenceElement` used to position the component according to its `placement` value.
+ * @param options.floatingEl - The `floatingElement` containing the floating ui.
  * @param options.overlayPositioning - type of positioning to use for the overlaid content.
  * @param options.placement - Determines where the component will be positioned relative to the `referenceElement`.
  * @param options.flipDisabled - Prevents flipping the component's placement when overlapping its `referenceElement`.
@@ -465,8 +465,8 @@ const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, Debou
  * Helper to set up floating element interactions on connectedCallback.
  *
  * @param component - A floating-ui component.
- * @param referenceEl - Reference element.
- * @param floatingEl - Floating element.
+ * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
+ * @param floatingEl - The `floatingElement` containing the floating ui.
  */
 export function connectFloatingUI(
   component: FloatingUIComponent,
@@ -508,8 +508,8 @@ export function connectFloatingUI(
  * Helper to tear down floating element interactions on disconnectedCallback.
  *
  * @param component - A floating-ui component.
- * @param referenceEl - Reference element.
- * @param floatingEl - Floating element.
+ * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
+ * @param floatingEl - The `floatingElement` containing the floating ui.
  */
 export function disconnectFloatingUI(
   component: FloatingUIComponent,
