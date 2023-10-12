@@ -1527,31 +1527,91 @@
       }
     },
     "breakpoint": {
-      "width": {
-        "xxs": {
+      "xxs": {
+        "max": {
           "value": "320px",
           "type": "sizing",
           "description": "Small handheld devices and mini-windows"
         },
+        "min": {
+          "value": "0",
+          "type": "sizing",
+          "description": "Small handheld devices and mini-windows"
+        }
+      },
+      "xs": {
+        "max": {
+          "value": "476px",
+          "type": "sizing",
+          "description": "Handheld devices"
+        },
+        "min": {
+          "value": "321px",
+          "type": "sizing",
+          "description": "Handheld devices"
+        }
+      },
+      "sm": {
+        "max": {
+          "value": "768px",
+          "type": "sizing",
+          "description": "Small tablets"
+        },
+        "min": {
+          "value": "477px",
+          "type": "sizing",
+          "description": "Small tablets"
+        }
+      },
+      "md": {
+        "max": {
+          "value": "1152px",
+          "type": "sizing",
+          "description": "Small laptops"
+        },
+        "min": {
+          "value": "769px",
+          "type": "sizing",
+          "description": "Small laptops"
+        }
+      },
+      "lg": {
+        "max": {
+          "value": "1722px",
+          "type": "sizing",
+          "description": "Large laptops and desktop computers"
+        },
+        "min": {
+          "value": "1153px",
+          "type": "sizing",
+          "description": "Large laptops and desktop computers"
+        }
+      },
+      "width": {
+        "xxs": {
+          "value": "320px",
+          "type": "sizing",
+          "description": "To be deprecated"
+        },
         "xs": {
           "value": "476px",
           "type": "sizing",
-          "description": "min-width size"
+          "description": "To be deprecated"
         },
         "sm": {
           "value": "768px",
           "type": "sizing",
-          "description": "min-width size"
+          "description": "To be deprecated"
         },
         "md": {
           "value": "1152px",
           "type": "sizing",
-          "description": "min-width size"
+          "description": "To be deprecated"
         },
         "lg": {
           "value": "1440px",
           "type": "sizing",
-          "description": "min-width size"
+          "description": "To be deprecated"
         }
       },
       "margin": {
