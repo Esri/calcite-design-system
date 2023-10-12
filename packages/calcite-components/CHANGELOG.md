@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.2-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2-next.2...@esri/calcite-components@1.9.2-next.3) (2023-10-12)
+
+### Bug Fixes
+
+- **input-time-zone:** allow searching offsets by Etc/x time zone ([#7978](https://github.com/Esri/calcite-design-system/issues/7978)) ([2c34b42](https://github.com/Esri/calcite-design-system/commit/2c34b4289b897529f351a17a0c00063cf40769b5)), closes [#7957](https://github.com/Esri/calcite-design-system/issues/7957)
+
 ## [1.9.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2-next.1...@esri/calcite-components@1.9.2-next.2) (2023-10-10)
 
 ### Bug Fixes
