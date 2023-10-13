@@ -1,4 +1,3 @@
-import { html } from "../../../support/formatting";
 import { disabled, renders, hidden, t9n } from "../../tests/commonTests";
 
 describe("calcite-stepper-item", () => {
@@ -15,8 +14,6 @@ describe("calcite-stepper-item", () => {
   });
 
   describe("translation support", () => {
-    t9n(html` <calcite-stepper-item heading="Step 1" id="step-1">
-      <div>Step 1 content</div>
-    </calcite-stepper-item>`);
+    t9n(`<calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>`);
   });
 });
