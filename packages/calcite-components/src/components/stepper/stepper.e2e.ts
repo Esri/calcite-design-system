@@ -73,14 +73,7 @@ describe("calcite-stepper", () => {
   });
 
   describe("translation support", () => {
-    t9n(html`<calcite-stepper>
-      <calcite-stepper-item heading="Step 1" id="step-1">
-        <div>Step 1 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Step 2" id="step-2">
-        <div>Step 2 content</div>
-      </calcite-stepper-item>
-    </calcite-stepper>`);
+    t9n("calcite-stepper");
   });
 
   it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
@@ -467,9 +460,7 @@ describe("calcite-stepper", () => {
           const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           item2.click();
-          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
-          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
           return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
