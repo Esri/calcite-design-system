@@ -155,26 +155,29 @@ export class Tabs {
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
+  private updateElements = <T extends HTMLElement>(
+    selector: string,
+    updater: (el: T) => void
+  ): void => {
+    Array.from(this.el.querySelectorAll<T>(selector)).forEach(updater);
+  };
+
   private updateItems = (): void => {
     const { position, scale } = this;
 
-    Array.from(this.el.querySelectorAll("calcite-tab-nav")).forEach(
-      (nav: HTMLCalciteTabNavElement) => {
-        nav.position = position;
-        nav.scale = scale;
-      }
-    );
+    this.updateElements.call(this, "calcite-tab-nav", (nav: HTMLCalciteTabNavElement) => {
+      nav.position = position;
+      nav.scale = scale;
+    });
 
-    Array.from(this.el.querySelectorAll("calcite-tab")).forEach((tab: HTMLCalciteTabElement) => {
+    this.updateElements.call(this, "calcite-tab", (tab: HTMLCalciteTabElement) => {
       tab.scale = scale;
     });
 
-    Array.from(this.el.querySelectorAll("calcite-tab-title")).forEach(
-      (title: HTMLCalciteTabTitleElement) => {
-        title.position = position;
-        title.scale = scale;
-      }
-    );
+    this.updateElements.call(this, "calcite-tab-title", (title: HTMLCalciteTabTitleElement) => {
+      title.position = position;
+      title.scale = scale;
+    });
   };
 
   //--------------------------------------------------------------------------

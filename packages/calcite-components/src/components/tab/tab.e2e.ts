@@ -23,44 +23,23 @@ describe("calcite-tab", () => {
   });
 
   describe("when nested within calcite-tabs component", () => {
-    it("should render with medium scale", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs>${tabHtml}</calcite-tabs>`,
-      });
-      const element = await page.find("calcite-tab");
-      expect(await element.getProperty("scale")).toBe("m");
+    const scales = [
+      { name: "medium", scale: "m", fontSize: "14px", lineHeight: "16px" },
+      { name: "small", scale: "s", fontSize: "12px", lineHeight: "16px" },
+      { name: "large", scale: "l", fontSize: "16px", lineHeight: "20px" },
+    ];
 
-      const section = await page.find(`calcite-tab >>> section`);
-
-      expect(await (await section.getComputedStyle())["font-size"]).toEqual("14px");
-      expect(await (await section.getComputedStyle())["line-height"]).toEqual("16px"); // 1rem
-    });
-
-    describe("when tabs scale is small", () => {
-      it("should render with small scale", async () => {
+    scales.forEach(({ name, scale, fontSize, lineHeight }) => {
+      it(`should render with ${name} scale`, async () => {
         const page = await newE2EPage({
-          html: `<calcite-tabs scale="s">${tabHtml}</calcite-tabs>`,
+          html: `<calcite-tabs scale="${scale}">${tabHtml}</calcite-tabs>`,
         });
         const element = await page.find("calcite-tab");
-        expect(await element.getProperty("scale")).toBe("s");
+        expect(await element.getProperty("scale")).toBe(scale);
 
         const section = await page.find(`calcite-tab >>> section`);
-        expect(await (await section.getComputedStyle())["font-size"]).toEqual("12px");
-        expect(await (await section.getComputedStyle())["line-height"]).toEqual("16px"); // 1rem
-      });
-    });
-
-    describe("when tabs scale is large", () => {
-      it("should render with large scale", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tabs scale="l">${tabHtml}</calcite-tabs>`,
-        });
-        const element = await page.find("calcite-tab");
-        expect(await element.getProperty("scale")).toBe("l");
-
-        const section = await page.find(`calcite-tab >>> section`);
-        expect(await (await section.getComputedStyle())["font-size"]).toEqual("16px");
-        expect(await (await section.getComputedStyle())["line-height"]).toEqual("20px"); // 1.25rem
+        expect(await (await section.getComputedStyle())["font-size"]).toEqual(fontSize);
+        expect(await (await section.getComputedStyle())["line-height"]).toEqual(lineHeight);
       });
     });
   });
