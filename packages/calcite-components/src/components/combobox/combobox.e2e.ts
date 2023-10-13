@@ -1624,13 +1624,11 @@ describe("calcite-combobox", () => {
   it("should gain focus when it's items are selected via click", async () => {
     const page = await newE2EPage();
     await page.setContent(html` <calcite-combobox id="demoId">
-      <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+      <calcite-combobox-item id="demoItemId" value="test-value" text-label="test"> </calcite-combobox-item>
     </calcite-combobox>`);
     await skipAnimations(page);
-    const item = await page.find("calcite-combobox-item");
-    await item.click();
-    await page.waitForChanges();
     const focusedId = await page.evaluate(() => {
+      document.getElementById("demoItemId").click();
       const el = document.activeElement;
       return el.id;
     });
