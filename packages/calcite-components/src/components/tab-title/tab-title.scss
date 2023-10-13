@@ -4,9 +4,9 @@
   margin-inline-end: theme("margin.5");
 }
 
-:host([layout="center"]) .scale--s,
-:host([layout="center"]) .scale--m,
-:host([layout="center"]) .scale--l {
+:host([layout="center"]) .scale-s,
+:host([layout="center"]) .scale-m,
+:host([layout="center"]) .scale-l {
   @apply my-0 text-center;
   margin-inline-end: theme("margin.0");
   flex-basis: theme("spacing.48");
@@ -22,25 +22,25 @@
   }
 }
 
-:host([layout="center"][bordered][closable]) .scale--s {
+:host([layout="center"][bordered][closable]) .scale-s {
   .content {
     padding-inline-start: 36px; //28px button width + 0.5rem padding
   }
 }
 
-:host([layout="center"][bordered][closable]) .scale--m {
+:host([layout="center"][bordered][closable]) .scale-m {
   .content {
     padding-inline-start: 40px; //28px button width + 0.75rem padding
   }
 }
 
-:host([layout="center"][closable]) .scale--l {
+:host([layout="center"][closable]) .scale-l {
   .content {
     padding-inline-start: 40px; //36px button width + .25 padding
   }
 }
 
-:host([layout="center"][closable][bordered]) .scale--s {
+:host([layout="center"][closable][bordered]) .scale-s {
   .content {
     padding-inline-start: 52px; //36px button width + 1rem padding
   }
@@ -87,20 +87,20 @@
   }
 }
 
-:host .scale--s {
+:host .scale-s {
   margin-inline-end: 1rem;
   .content {
     @apply text-n2h py-1;
   }
 }
 
-:host .scale--m {
+:host .scale-m {
   .content {
     @apply text-n1h py-2;
   }
 }
 
-:host .scale--l {
+:host .scale-l {
   margin-inline-end: 1.5rem;
   .content {
     @apply text-0h py-2.5;
@@ -255,13 +255,13 @@
   }
 }
 
-:host([bordered]) .scale--s {
+:host([bordered]) .scale-s {
   .content {
     @apply px-2;
   }
 }
 
-:host([bordered]) .scale--l {
+:host([bordered]) .scale-l {
   .content {
     @apply px-4;
   }

@@ -219,7 +219,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
           class={{
             container: true,
             [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
-            [`scale--${this.scale}`]: true,
+            [`scale-${this.scale}`]: true,
           }}
           hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)

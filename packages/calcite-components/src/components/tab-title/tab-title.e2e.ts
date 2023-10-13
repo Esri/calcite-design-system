@@ -355,7 +355,7 @@ describe("calcite-tab-title", () => {
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
     `;
 
-    const navWithTabTitleSetHtml = html` <calcite-tab-nav slot="title-group"> ${tabTitleSetHtml} </calcite-tab-nav> `;
+    const navWithTabTitleSetHtml = html`<calcite-tab-nav slot="title-group">${tabTitleSetHtml}</calcite-tab-nav>`;
 
     const scaleStyles = [
       { scale: "", styles: { fontSize: "14px", lineHeight: "16px" } }, //default
