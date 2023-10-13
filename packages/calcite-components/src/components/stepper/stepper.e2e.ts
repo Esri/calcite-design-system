@@ -677,7 +677,7 @@ describe("calcite-stepper", () => {
 
     const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
 
-    expect(stepperItem1).not.toHaveAttribute("selected");
-    expect(stepperItem2).toHaveAttribute("selected");
+    expect(await stepperItem1.getProperty("selected")).toBe(false);
+    expect(await stepperItem2.getProperty("selected")).toBe(true);
   });
 });

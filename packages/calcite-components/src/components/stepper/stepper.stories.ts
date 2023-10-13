@@ -160,10 +160,8 @@ export const overriddenWidth_TestOnly = (): string => html` <calcite-stepper num
 </calcite-stepper>`;
 
 export const disabled_TestOnly = (): string => html`<calcite-stepper>
-  <calcite-stepper-item heading="item1" complete>1</calcite-stepper-item>
+  <calcite-stepper-item heading="item1" complete disabled>1</calcite-stepper-item>
   <calcite-stepper-item heading="item2">2</calcite-stepper-item>
-  <calcite-stepper-item heading="item3" selected>3</calcite-stepper-item>
-  <calcite-stepper-item heading="item4" disabled>4</calcite-stepper-item>
 </calcite-stepper>`;
 
 export const arabicNumberingSystem_TestOnly = (): string => html` <calcite-stepper
@@ -212,9 +210,3 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
       >Step 1 Content Goes Here</calcite-stepper-item
     >
   </calcite-stepper>`;
-
-export const firstItemDisabled_TestOnly = (): string => html`<calcite-stepper>
-  <calcite-stepper-item heading="item1" disabled>1</calcite-stepper-item>
-  <calcite-stepper-item heading="item2">2</calcite-stepper-item>
-  <calcite-stepper-item heading="item3">3</calcite-stepper-item>
-</calcite-stepper>`;
