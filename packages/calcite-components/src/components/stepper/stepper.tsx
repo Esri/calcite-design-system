@@ -106,7 +106,7 @@ export class Stepper {
     // if no stepper items are set as active, default to the first one
     if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
-        position: 0,
+        position: this.getFirstEnabledStepperPosition(),
       });
     }
   }
@@ -333,4 +333,9 @@ export class Stepper {
     this.el.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
   };
+
+  private getFirstEnabledStepperPosition(): number {
+    const enabledStepIndex = this.items.findIndex((item) => !item.disabled);
+    return enabledStepIndex > -1 ? enabledStepIndex : 0;
+  }
 }
