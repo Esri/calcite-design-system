@@ -91,22 +91,22 @@ describe("repositioning", () => {
   });
 
   it("repositions immediately by default", async () => {
+    assertPreOpenPositioning(floatingEl);
+
     fakeFloatingUiComponent.open = true;
 
     reposition(fakeFloatingUiComponent, positionOptions);
-
-    assertPreOpenPositioning(floatingEl);
 
     await waitForAnimationFrame();
     assertOpenPositioning(floatingEl);
   });
 
   it("can reposition after a delay", async () => {
+    assertPreOpenPositioning(floatingEl);
+
     fakeFloatingUiComponent.open = true;
 
     reposition(fakeFloatingUiComponent, positionOptions, true);
-
-    assertPreOpenPositioning(floatingEl);
 
     await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
     assertOpenPositioning(floatingEl);
