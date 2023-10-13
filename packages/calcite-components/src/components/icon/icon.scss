@@ -11,18 +11,21 @@
 }
 
 :host([scale="s"]) {
-  block-size: var(--calcite-icon-size-sm);
-  inline-size: var(--calcite-icon-size-sm);
+  @apply h-4 w-4;
+  min-inline-size: theme("spacing.4");
+  min-block-size: theme("spacing.4");
 }
 
 :host([scale="m"]) {
-  block-size: var(--calcite-icon-size-md);
-  inline-size: var(--calcite-icon-size-md);
+  @apply h-6 w-6;
+  min-inline-size: theme("spacing.6");
+  min-block-size: theme("spacing.6");
 }
 
 :host([scale="l"]) {
-  block-size: var(--calcite-icon-size-lg);
-  inline-size: var(--calcite-icon-size-lg);
+  @apply h-8 w-8;
+  min-inline-size: theme("spacing.8");
+  min-block-size: theme("spacing.8");
 }
 
 .flip-rtl {
