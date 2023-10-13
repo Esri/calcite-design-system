@@ -2,15 +2,15 @@
   @apply relative flex;
 }
 
-:host .scale--s {
+:host .scale-s {
   min-block-size: theme("spacing.6");
 }
 
-:host .scale--m {
+:host .scale-m {
   min-block-size: theme("spacing.8");
 }
 
-:host .scale--l {
+:host .scale-l {
   min-block-size: theme("spacing.11");
 }
 
@@ -45,12 +45,12 @@
   @apply justify-evenly;
 }
 
-:host([position="bottom"]) .tab-nav-active-indicator {
+:host .position-bottom .tab-nav-active-indicator {
   inset-block-end: unset;
   @apply top-0;
 }
 
-:host([position="bottom"]) .tab-nav-active-indicator-container {
+:host .position-bottom .tab-nav-active-indicator-container {
   inset-block-end: unset;
   @apply top-0;
 }
@@ -59,7 +59,7 @@
   inset-block-end: unset; // display active blue line above instead of below
 }
 
-:host([bordered][position="bottom"]) .tab-nav-active-indicator-container {
+:host([bordered]) .position-bottom .tab-nav-active-indicator-container {
   inset-block-end: 0; // display active blue line below instead of above
   inset-block-start: unset;
 }

@@ -172,7 +172,11 @@ export class TabNav {
     return (
       <Host role="tablist">
         <div
-          class={{ [CSS.tabNav]: true, [`scale--${this.scale}`]: true }}
+          class={{
+            [CSS.tabNav]: true,
+            [`scale-${this.scale}`]: true,
+            [`position-${this.position}`]: true,
+          }}
           onScroll={this.handleContainerScroll}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}

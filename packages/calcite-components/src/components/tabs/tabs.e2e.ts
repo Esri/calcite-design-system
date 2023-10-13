@@ -16,7 +16,7 @@ describe("calcite-tabs", () => {
     <calcite-tab>Tab 3 Content</calcite-tab>
     <calcite-tab>Tab 4 Content</calcite-tab>
   `;
-  const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
+  const tabsSnippet = html`<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
   describe("renders", () => {
     renders(tabsSnippet, { display: "flex" });
@@ -270,11 +270,25 @@ describe("calcite-tabs", () => {
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
         const wrapper = document.querySelector(wrapperName);
+
+        async function waitForAnimationFrames(count) {
+          async function frame() {
+            if (count > 0) {
+              await new Promise((resolve) => requestAnimationFrame(resolve));
+              count--;
+              await frame();
+            }
+          }
+
+          await frame();
+        }
+
         wrapper.shadowRoot.querySelector<HTMLElement>("#title-2").click();
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await waitForAnimationFrames(4);
 
         const tabTitle = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
+        await waitForAnimationFrames(2);
+
         const tab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
         return { tabTitle, tab };
       },
