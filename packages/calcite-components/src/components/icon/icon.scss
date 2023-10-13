@@ -16,23 +16,17 @@ $icon-size-l: 32px;
 
 :host([scale="s"]) {
   inline-size: $icon-size-s;
-  min-inline-size: $icon-size-s;
   block-size: $icon-size-s;
-  min-block-size: $icon-size-s;
 }
 
 :host([scale="m"]) {
   inline-size: $icon-size-m;
-  min-inline-size: $icon-size-m;
   block-size: $icon-size-m;
-  min-block-size: $icon-size-m;
 }
 
 :host([scale="l"]) {
   inline-size: $icon-size-l;
-  min-inline-size: $icon-size-l;
   block-size: $icon-size-l;
-  min-block-size: $icon-size-l;
 }
 
 .flip-rtl {
