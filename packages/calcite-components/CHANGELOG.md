@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.3-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.0...@esri/calcite-components@1.9.3-next.1) (2023-10-13)
+
+### Bug Fixes
+
+- floating components will now get an initial position even if they are not opened ([#8001](https://github.com/Esri/calcite-design-system/issues/8001)) ([78b680d](https://github.com/Esri/calcite-design-system/commit/78b680d444f37e21c735e94eceb03678418c9745)), closes [#7979](https://github.com/Esri/calcite-design-system/issues/7979)
+
 ## [1.9.3-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2...@esri/calcite-components@1.9.3-next.0) (2023-10-12)
 
 **Note:** Version bump only for package @esri/calcite-components
