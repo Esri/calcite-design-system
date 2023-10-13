@@ -111,6 +111,10 @@ export class Stepper {
     }
   }
 
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
+
   render(): VNode {
     return (
       <Host aria-label={"Progress steps"} role="region">
