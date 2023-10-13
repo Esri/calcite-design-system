@@ -842,7 +842,11 @@ export class Combobox
         if (chipEl === this.selectedIndicatorChipEl) {
           return;
         }
-        if (chipEl.selected && getComputedStyle(chipEl).visibility === "visible") {
+        if (
+          chipEl.selected &&
+          chipEl.classList.contains(CSS.chipVisible) &&
+          !chipEl.classList.contains(CSS.chipInvisible)
+        ) {
           selectedVisibleChipsCount++;
         }
       });
