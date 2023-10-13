@@ -811,7 +811,9 @@ export class Combobox
       return;
     }
     if (this.displayMode === "fit-to-line") {
-      const chipEls = this.el.shadowRoot.querySelectorAll("calcite-chip");
+      const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
+        (chipEl) => chipEl !== this.selectedIndicatorChipEl
+      );
       const { fontSize, fontFamily } = getComputedStyle(this.textInput);
       const inputContainerElWidth = getElementWidth(this.inputContainerEl);
       const inputContainerElGap = parseInt(
@@ -825,12 +827,13 @@ export class Combobox
       );
 
       chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
-        if (chipEl === this.selectedIndicatorChipEl) {
-          return;
-        }
         if (chipEl.selected) {
           const chipElWidth = getElementWidth(chipEl);
-          if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
+          if (
+            chipElWidth &&
+            chipElWidth < availableHorizontalChipElSpace &&
+            this.getItems().length !== this.getSelectedItems().length
+          ) {
             availableHorizontalChipElSpace -= chipElWidth + inputContainerElGap;
             this.showChip(chipEl);
           } else {
@@ -843,9 +846,6 @@ export class Combobox
 
       let selectedVisibleChipsCount = 0;
       chipEls.forEach((chipEl) => {
-        if (chipEl === this.selectedIndicatorChipEl) {
-          return;
-        }
         if (
           chipEl.selected &&
           chipEl.classList.contains(CSS.chipVisible) &&
