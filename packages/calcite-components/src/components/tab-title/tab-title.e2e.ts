@@ -347,6 +347,20 @@ describe("calcite-tab-title", () => {
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
   });
 
+  async function testTabTitleStyles(page: E2EPage, testCase: any) {
+    page.waitForChanges();
+
+    const tabTitleEl = await page.find(`calcite-tab-title`);
+    const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
+
+    const contentStyles = await content.getComputedStyle();
+
+    expect(await tabTitleEl.getProperty("scale")).toBe(testCase.scale);
+
+    expect(contentStyles.fontSize).toEqual(testCase.styles.fontSize);
+    expect(contentStyles.lineHeight).toEqual(testCase.styles.lineHeight);
+  }
+
   describe("scale property", () => {
     const tabTitleSetHtml = html`
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -359,54 +373,36 @@ describe("calcite-tab-title", () => {
 
     const scaleStyles = [
       { scale: "", styles: { fontSize: "14px", lineHeight: "16px" } }, //default
-      { scale: "s", styles: { fontSize: "12px", lineHeight: "16px" } }, // n2h: ["var(--calcite-font-size--2)", { lineHeight: "1rem" }], // 12px (0.75rem)
-      { scale: "m", styles: { fontSize: "14px", lineHeight: "16px" } }, // n1h: ["var(--calcite-font-size--1)", { lineHeight: "1rem" }], // 14px (0.875rem)
-      { scale: "l", styles: { fontSize: "16px", lineHeight: "20px" } }, // "0h": ["var(--calcite-font-size-0)", { lineHeight: "1.25rem" }], // 16px (1rem)
+      { scale: "s", styles: { fontSize: "12px", lineHeight: "16px" } },
+      { scale: "m", styles: { fontSize: "14px", lineHeight: "16px" } },
+      { scale: "l", styles: { fontSize: "16px", lineHeight: "20px" } },
     ];
 
-    for (const testCase of scaleStyles) {
+    for (const { scale, styles } of scaleStyles) {
       describe("when immediate parent element is `tabs`", () => {
-        it(`should inherit ${testCase.scale || "default medium"} scale from parent`, async () => {
+        it(`should inherit ${scale || "default medium"} scale from parent`, async () => {
           const page = await newE2EPage();
-          await page.setContent(html`<calcite-tabs scale="${testCase.scale}">${tabTitleSetHtml}</calcite-tabs>`);
+          await page.setContent(html`<calcite-tabs scale="${scale}">${tabTitleSetHtml}</calcite-tabs>`);
 
-          page.waitForChanges();
-
-          const tabTitleEl = await page.find("calcite-tab-title");
-          const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
-
-          const contentStyles = await content.getComputedStyle();
-          expect(await tabTitleEl.getProperty("scale")).toBe(testCase.scale);
-
-          expect(contentStyles.fontSize).toEqual(testCase.styles.fontSize);
-          expect(contentStyles.lineHeight).toEqual(testCase.styles.lineHeight);
+          await testTabTitleStyles(page, { scale, styles });
         });
       });
 
       describe("when immediate parent element is `tab-nav`", () => {
-        it(`should inherit ${testCase.scale || "default medium"} scale down from 'tabs' parent`, async () => {
+        it(`should inherit ${scale || "default medium"} scale down from 'tabs' parent`, async () => {
           const page = await newE2EPage();
-          await page.setContent(`<calcite-tabs scale="${testCase.scale}">${navWithTabTitleSetHtml}</calcite-tabs>`);
+          await page.setContent(`<calcite-tabs scale="${scale}">${navWithTabTitleSetHtml}</calcite-tabs>`);
 
-          page.waitForChanges();
-
-          const tabTitleEl = await page.find(`calcite-tab-title`);
-          const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
-
-          const contentStyles = await content.getComputedStyle();
-
-          expect(await tabTitleEl.getProperty("scale")).toBe(testCase.scale);
-
-          expect(contentStyles.fontSize).toEqual(testCase.styles.fontSize);
-          expect(contentStyles.lineHeight).toEqual(testCase.styles.lineHeight);
+          await testTabTitleStyles(page, { scale, styles });
         });
       });
     }
+  });
 
-    describe("when the active tab-title changes", () => {
-      it("should move the active tab nav indicator", async () => {
-        const page = await newE2EPage({
-          html: `
+  describe("when the active tab-title changes", () => {
+    it("should move the active tab nav indicator", async () => {
+      const page = await newE2EPage({
+        html: `
         <calcite-tabs>
           <calcite-tab-nav slot="title-group">
             <calcite-tab-title class="title-1">Tab 1 Title</calcite-tab-title>
@@ -420,37 +416,36 @@ describe("calcite-tab-title", () => {
           <calcite-tab>Tab 4 Content</calcite-tab>
         </calcite-tabs>
         `,
-        });
-        const tabTitle1 = await page.find(".title-1");
-        const tabTitle2 = await page.find(".title-2");
-
-        expect(await (await page.find("calcite-tab-title[selected]")).innerText).toEqual("Tab 2 Title");
-        expect(
-          await page.evaluate(() => {
-            return (
-              document
-                .querySelector("calcite-tab-nav")
-                .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
-            ).style.left;
-          })
-        ).not.toEqual("0px");
-
-        // toggle new selected tab-title
-        await tabTitle2.removeAttribute("selected");
-        await tabTitle1.setAttribute("selected", true);
-        await page.waitForChanges();
-
-        expect(await (await page.find("calcite-tab-title[selected]")).innerText).toEqual("Tab 1 Title");
-        expect(
-          await page.evaluate(() => {
-            return (
-              document
-                .querySelector("calcite-tab-nav")
-                .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
-            ).style.left;
-          })
-        ).toEqual("0px");
       });
+      const tabTitle1 = await page.find(".title-1");
+      const tabTitle2 = await page.find(".title-2");
+
+      expect(await (await page.find("calcite-tab-title[selected]")).innerText).toEqual("Tab 2 Title");
+      expect(
+        await page.evaluate(() => {
+          return (
+            document
+              .querySelector("calcite-tab-nav")
+              .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
+          ).style.left;
+        })
+      ).not.toEqual("0px");
+
+      // toggle new selected tab-title
+      await tabTitle2.removeAttribute("selected");
+      await tabTitle1.setAttribute("selected", true);
+      await page.waitForChanges();
+
+      expect(await (await page.find("calcite-tab-title[selected]")).innerText).toEqual("Tab 1 Title");
+      expect(
+        await page.evaluate(() => {
+          return (
+            document
+              .querySelector("calcite-tab-nav")
+              .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
+          ).style.left;
+        })
+      ).toEqual("0px");
     });
   });
 });
