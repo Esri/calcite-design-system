@@ -21,6 +21,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { CSS } from "../tabs/resources";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -171,7 +172,7 @@ export class TabNav {
     return (
       <Host role="tablist">
         <div
-          class={{ [`scale--${this.scale}`]: true }}
+          class={{ [CSS.tabNav]: true, [`scale--${this.scale}`]: true }}
           onScroll={this.handleContainerScroll}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}

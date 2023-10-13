@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { TabNav } from "../tabs/resources";
+import { CSS } from "../tabs/resources";
 
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
@@ -96,7 +96,7 @@ describe("calcite-tab-nav", () => {
         const page = await newE2EPage();
         await page.setContent(html`<calcite-tabs scale="${key}">${tabNavHtml}</calcite-tabs>`);
 
-        const element = await page.find(TabNav);
+        const element = await page.find(CSS.tabNav);
         expect((await element.getComputedStyle())["height"]).toEqual(value);
         expect(await element.getProperty("scale")).toBe(`${key}`);
       });

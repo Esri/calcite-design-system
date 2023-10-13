@@ -24,7 +24,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { CSS, ICONS } from "./resources";
+import { CSS, ICONS } from "../tabs/resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -218,6 +218,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
           class={{
             container: true,
             [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
+            [`scale--${this.scale}`]: true,
           }}
           hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)

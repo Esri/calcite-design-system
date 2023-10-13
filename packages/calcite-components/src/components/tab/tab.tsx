@@ -15,7 +15,7 @@ import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail } from "./interfaces";
-
+import { CSS } from "../tabs/resources";
 /**
  * @slot - A slot for adding custom content.
  */
@@ -63,7 +63,11 @@ export class Tab {
 
     return (
       <Host aria-labelledby={this.labeledBy} id={id}>
-        <div class="container" role="tabpanel" tabIndex={this.selected ? 0 : -1}>
+        <div
+          class={{ [CSS.container]: true, [`scale--${this.scale}`]: true }}
+          role="tabpanel"
+          tabIndex={this.selected ? 0 : -1}
+        >
           <section>
             <slot />
           </section>

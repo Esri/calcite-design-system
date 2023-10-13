@@ -1,7 +1,7 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { TabLayout, TabPosition } from "./interfaces";
-import { SLOTS, Tab, TabNav, TabTitle } from "./resources";
+import { SLOTS, CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -158,19 +158,21 @@ export class Tabs {
   private updateItems = (): void => {
     const { position, scale } = this;
 
-    Array.from(this.el.querySelectorAll(TabNav)).forEach((nav: HTMLCalciteTabNavElement) => {
+    Array.from(this.el.querySelectorAll(CSS.tabNav)).forEach((nav: HTMLCalciteTabNavElement) => {
       nav.position = position;
       nav.scale = scale;
     });
 
-    Array.from(this.el.querySelectorAll(Tab)).forEach((tab: HTMLCalciteTabElement) => {
+    Array.from(this.el.querySelectorAll(CSS.tab)).forEach((tab: HTMLCalciteTabElement) => {
       tab.scale = scale;
     });
 
-    Array.from(this.el.querySelectorAll(TabTitle)).forEach((title: HTMLCalciteTabTitleElement) => {
-      title.position = position;
-      title.scale = scale;
-    });
+    Array.from(this.el.querySelectorAll(CSS.tabTitle)).forEach(
+      (title: HTMLCalciteTabTitleElement) => {
+        title.position = position;
+        title.scale = scale;
+      }
+    );
   };
 
   //--------------------------------------------------------------------------
