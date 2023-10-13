@@ -212,3 +212,9 @@ export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layou
       >Step 1 Content Goes Here</calcite-stepper-item
     >
   </calcite-stepper>`;
+
+export const firstItemDisabled_TestOnly = (): string => html`<calcite-stepper>
+  <calcite-stepper-item heading="item1" disabled>1</calcite-stepper-item>
+  <calcite-stepper-item heading="item2">2</calcite-stepper-item>
+  <calcite-stepper-item heading="item3">3</calcite-stepper-item>
+</calcite-stepper>`;
