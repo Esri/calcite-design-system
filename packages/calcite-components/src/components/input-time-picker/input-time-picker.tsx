@@ -72,6 +72,7 @@ import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { getSupportedLocale } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
+import { getIconScale } from "../../utils/component";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayjsLocaleToLocaleConfigImport = new Map([
@@ -1026,7 +1027,10 @@ export class InputTimePicker
   renderToggleIcon(open: boolean): VNode {
     return (
       <span class={CSS.toggleIcon}>
-        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
       </span>
     );
   }
