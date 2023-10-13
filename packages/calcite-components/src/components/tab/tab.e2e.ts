@@ -29,8 +29,11 @@ describe("calcite-tab", () => {
       });
       const element = await page.find("calcite-tab");
       expect(await element.getProperty("scale")).toBe("m");
-      expect(await (await element.getComputedStyle())["font-size"]).toEqual("14px");
-      expect(await (await element.getComputedStyle())["line-height"]).toEqual("16px"); // 1rem
+
+      const section = await page.find(`calcite-tab >>> section`);
+
+      expect(await (await section.getComputedStyle())["font-size"]).toEqual("14px");
+      expect(await (await section.getComputedStyle())["line-height"]).toEqual("16px"); // 1rem
     });
 
     describe("when tabs scale is small", () => {
@@ -40,8 +43,10 @@ describe("calcite-tab", () => {
         });
         const element = await page.find("calcite-tab");
         expect(await element.getProperty("scale")).toBe("s");
-        expect(await (await element.getComputedStyle())["font-size"]).toEqual("12px");
-        expect(await (await element.getComputedStyle())["line-height"]).toEqual("16px"); // 1rem
+
+        const section = await page.find(`calcite-tab >>> section`);
+        expect(await (await section.getComputedStyle())["font-size"]).toEqual("12px");
+        expect(await (await section.getComputedStyle())["line-height"]).toEqual("16px"); // 1rem
       });
     });
 
@@ -52,8 +57,10 @@ describe("calcite-tab", () => {
         });
         const element = await page.find("calcite-tab");
         expect(await element.getProperty("scale")).toBe("l");
-        expect(await (await element.getComputedStyle())["font-size"]).toEqual("16px");
-        expect(await (await element.getComputedStyle())["line-height"]).toEqual("20px"); // 1.25rem
+
+        const section = await page.find(`calcite-tab >>> section`);
+        expect(await (await section.getComputedStyle())["font-size"]).toEqual("16px");
+        expect(await (await section.getComputedStyle())["line-height"]).toEqual("20px"); // 1.25rem
       });
     });
   });

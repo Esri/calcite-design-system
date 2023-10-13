@@ -64,7 +64,7 @@ export class Tab {
     return (
       <Host aria-labelledby={this.labeledBy} id={id}>
         <div
-          class={{ [CSS.container]: true, [`scale--${this.scale}`]: true }}
+          class={{ [CSS.container]: true, [`scale-${this.scale}`]: true }}
           role="tabpanel"
           tabIndex={this.selected ? 0 : -1}
         >
