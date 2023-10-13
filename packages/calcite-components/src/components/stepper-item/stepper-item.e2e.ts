@@ -15,13 +15,8 @@ describe("calcite-stepper-item", () => {
   });
 
   describe("translation support", () => {
-    t9n(html`<calcite-stepper>
-      <calcite-stepper-item heading="Step 1" id="step-1">
-        <div>Step 1 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Step 2" id="step-2">
-        <div>Step 2 content</div>
-      </calcite-stepper-item>
-    </calcite-stepper>`);
+    t9n(html` <calcite-stepper-item heading="Step 1" id="step-1">
+      <div>Step 1 content</div>
+    </calcite-stepper-item>`);
   });
 });
