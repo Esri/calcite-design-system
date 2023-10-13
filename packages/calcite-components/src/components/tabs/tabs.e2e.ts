@@ -4,7 +4,7 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 import { GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-tabs", () => {
-  const tabsContent = `
+  const tabsContent = html`
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
@@ -361,8 +361,12 @@ describe("calcite-tabs", () => {
 
   it("inheritable props `position` and `scale` get passed to `tab-nav` and `tab-titles`", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-tabs position="bottom" scale="l"></calcite-tabs> `);
+    await page.setContent(html`<calcite-tabs position="bottom" scale="l">${tabsContent}</calcite-tabs>`);
+    const tabNav = await page.find("calcite-tab-nav");
     const tabTitles = await page.findAll("calcite-tab-titles");
+
+    expect(await tabNav.getProperty("position")).toBe("bottom");
+    expect(await tabNav.getProperty("scale")).toBe("l");
 
     tabTitles.forEach(async (item) => {
       expect(await item.getProperty("position")).toBe("bottom");
