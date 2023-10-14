@@ -663,4 +663,21 @@ describe("calcite-stepper", () => {
     await page.waitForChanges();
     expect(stepperItem2.getAttribute("aria-current")).toEqual("step");
   });
+
+  it("should select the next enabled stepper-item if first stepper-item is disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item heading="Step 1" id="step-1" disabled>
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>`);
+
+    const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+
+    expect(await stepperItem1.getProperty("selected")).toBe(false);
+    expect(await stepperItem2.getProperty("selected")).toBe(true);
+  });
 });
