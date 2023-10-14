@@ -87,20 +87,20 @@
   }
 }
 
-:host .scale-s {
+.scale-s {
   margin-inline-end: 1rem;
   .content {
     @apply text-n2h py-1;
   }
 }
 
-:host .scale-m {
+.scale-m {
   .content {
     @apply text-n1h py-2;
   }
 }
 
-:host .scale-l {
+.scale-l {
   margin-inline-end: 1.5rem;
   .content {
     @apply text-0h py-2.5;

@@ -72,7 +72,7 @@ export class TabNav {
    *
    *  @internal
    */
-  @Prop() position: TabPosition = "top";
+  @Prop() position: TabPosition = "bottom";
 
   /**
    * @internal

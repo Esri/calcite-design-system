@@ -2,15 +2,15 @@
   @apply relative flex;
 }
 
-:host .scale-s {
+.scale-s {
   min-block-size: theme("spacing.6");
 }
 
-:host .scale-m {
+.scale-m {
   min-block-size: theme("spacing.8");
 }
 
-:host .scale-l {
+.scale-l {
   min-block-size: theme("spacing.11");
 }
 

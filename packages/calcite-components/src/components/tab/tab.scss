@@ -18,15 +18,15 @@ section,
   @apply hidden h-full w-full;
 }
 
-:host .scale-s section {
+.scale-s section {
   @apply text-n2h py-1;
 }
 
-:host .scale-m section {
+.scale-m section {
   @apply text-n1h py-2;
 }
 
-:host .scale-l section {
+.scale-l section {
   @apply text-0h;
   padding-block: 13px;
 }
