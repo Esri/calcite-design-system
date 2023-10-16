@@ -189,6 +189,27 @@ describe("calcite-pagination", () => {
     });
   });
 
+  describe("pageSize", () => {
+    let page: E2EPage;
+    let pagination: E2EElement;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`<calcite-pagination start-item="1" total-items="5" page-size="1"></calcite-pagination>`);
+      pagination = await page.find("calcite-pagination");
+    });
+
+    it("should set pageSize to one when set to zero via attribute", async () => {
+      expect(await pagination.getProperty("pageSize")).toBe(1);
+    });
+
+    it("should set pageSize to one when set to zero programmatically", async () => {
+      expect(await pagination.getProperty("pageSize")).toBe(10);
+      pagination.setProperty("pageSize", 0);
+      await page.waitForChanges();
+      expect(await pagination.getProperty("pageSize")).toBe(1);
+    });
+  });
+
   describe("number locale support", () => {
     let page: E2EPage;
     let element: E2EElement;

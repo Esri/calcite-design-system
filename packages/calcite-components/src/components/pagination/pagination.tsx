@@ -101,7 +101,7 @@ export class Pagination
   @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the number of items per page. */
-  @Prop({ reflect: true }) pageSize = 20;
+  @Prop({ mutable: true, reflect: true }) pageSize = 20;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -112,10 +112,14 @@ export class Pagination
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) totalItems = 0;
 
-  @Watch("pageSize")
   @Watch("totalItems")
-  handleTotalPages(): void {
+  handleTotalItems(): void {
     this.totalPages = this.totalItems / this.pageSize;
+  }
+
+  @Watch("pageSize")
+  handlePageSize(): void {
+    this.handleTotalPages();
   }
 
   // --------------------------------------------------------------------------
@@ -297,6 +301,13 @@ export class Pagination
     this.emitUpdate();
   };
 
+  private handleTotalPages(): void {
+    if (this.pageSize < 1) {
+      this.pageSize = 1;
+    }
+    this.totalPages = this.totalItems / this.pageSize;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -382,6 +393,12 @@ export class Pagination
 
   renderPage(start: number): VNode {
     const { pageSize } = this;
+
+    // if(pageSize === 0 ) {
+
+    //   this.pageSize === 1
+    //   console.log("pagesizeeeeee",pageSize)
+    // }
     const page = Math.floor(start / pageSize) + (pageSize === 1 ? 0 : 1);
 
     numberStringFormatter.numberFormatOptions = {
