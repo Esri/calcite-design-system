@@ -113,13 +113,12 @@ export class Pagination
   @Prop({ reflect: true }) totalItems = 0;
 
   @Watch("totalItems")
-  handleTotalItems(): void {
-    this.totalPages = this.totalItems / this.pageSize;
-  }
-
   @Watch("pageSize")
-  handlePageSize(): void {
-    this.handleTotalPages();
+  handleTotalPages(): void {
+    if (this.pageSize < 1) {
+      this.pageSize = 1;
+    }
+    this.totalPages = this.totalItems / this.pageSize;
   }
 
   // --------------------------------------------------------------------------
@@ -301,13 +300,6 @@ export class Pagination
     this.emitUpdate();
   };
 
-  private handleTotalPages(): void {
-    if (this.pageSize < 1) {
-      this.pageSize = 1;
-    }
-    this.totalPages = this.totalItems / this.pageSize;
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -393,12 +385,6 @@ export class Pagination
 
   renderPage(start: number): VNode {
     const { pageSize } = this;
-
-    // if(pageSize === 0 ) {
-
-    //   this.pageSize === 1
-    //   console.log("pagesizeeeeee",pageSize)
-    // }
     const page = Math.floor(start / pageSize) + (pageSize === 1 ? 0 : 1);
 
     numberStringFormatter.numberFormatOptions = {
