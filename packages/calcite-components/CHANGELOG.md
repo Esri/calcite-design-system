@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.2...@esri/calcite-components@1.10.0-next.0) (2023-10-16)
+
+### Features
+
+- **stepper,stepper-item:** adds support for built-in translations ([#8002](https://github.com/Esri/calcite-design-system/issues/8002)) ([bb91624](https://github.com/Esri/calcite-design-system/commit/bb9162440c31f6d776f197d29c06a4dafd6b4c2f)), closes [#7759](https://github.com/Esri/calcite-design-system/issues/7759)
+
 ## [1.9.3-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.1...@esri/calcite-components@1.9.3-next.2) (2023-10-13)
 
 ### Bug Fixes
