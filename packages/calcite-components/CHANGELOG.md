@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.3-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.1...@esri/calcite-components@1.9.3-next.2) (2023-10-13)
+
+### Bug Fixes
+
+- **icon:** use pixel sizes for icons ([#8009](https://github.com/Esri/calcite-design-system/issues/8009)) ([49085d5](https://github.com/Esri/calcite-design-system/commit/49085d5f1beb0897a21745f2880519391ba2be81)), closes [#8006](https://github.com/Esri/calcite-design-system/issues/8006)
+- **stepper:** selects next enabled stepper-item when first one is disabled ([#8004](https://github.com/Esri/calcite-design-system/issues/8004)) ([e0ed54e](https://github.com/Esri/calcite-design-system/commit/e0ed54e0b067426538c9d4b03552f8936738a1a8)), closes [#7953](https://github.com/Esri/calcite-design-system/issues/7953)
+
 ## [1.9.3-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.0...@esri/calcite-components@1.9.3-next.1) (2023-10-13)
 
 ### Bug Fixes
