@@ -297,7 +297,6 @@ export class Combobox
     if (this.disabled || !isPrimaryPointerButton(event)) {
       return;
     }
-
     this.setInactiveIfNotContained(event);
   }
 
@@ -306,7 +305,6 @@ export class Combobox
     if (this.ignoreSelectedEventsFlag) {
       return;
     }
-
     const target = event.target as HTMLCalciteComboboxItemElement;
     const newIndex = this.filteredItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
@@ -764,14 +762,14 @@ export class Combobox
   private setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
 
-    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
-    }
-
     if (!this.allowCustomValues && this.textInput.value) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
+    }
+
+    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+      return;
     }
 
     if (this.allowCustomValues && this.text.trim().length) {
