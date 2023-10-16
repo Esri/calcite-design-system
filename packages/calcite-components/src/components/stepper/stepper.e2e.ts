@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 
@@ -70,6 +70,10 @@ describe("calcite-stepper", () => {
       </calcite-stepper>`,
       { display: "grid" }
     );
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-stepper");
   });
 
   it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
@@ -453,7 +457,9 @@ describe("calcite-stepper", () => {
           const wrapper = document.querySelector(wrapperName);
 
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-          wrapper.shadowRoot.querySelector<HTMLElement>("#item-2").click();
+          const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+          item2.click();
           wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
