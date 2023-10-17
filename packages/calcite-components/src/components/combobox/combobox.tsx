@@ -734,7 +734,6 @@ export class Combobox
 
   clickHandler = (event: MouseEvent): void => {
     const composedPath = event.composedPath();
-
     if (composedPath.some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
       this.open = false;
       event.preventDefault();
@@ -759,17 +758,22 @@ export class Combobox
     this.updateActiveItemIndex(targetIndex);
   }
 
-  private setInactiveIfNotContained = (event: Event): void => {
+  private setInactiveIfNotContained = (event: PointerEvent | FocusEvent): void => {
     const composedPath = event.composedPath();
+
+    if (
+      event instanceof PointerEvent &&
+      (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl))
+    ) {
+      return;
+    } else if (event instanceof FocusEvent && event.relatedTarget === this.el) {
+      return;
+    }
 
     if (!this.allowCustomValues && this.textInput.value) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
-    }
-
-    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
     }
 
     if (this.allowCustomValues && this.text.trim().length) {
