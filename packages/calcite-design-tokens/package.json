@@ -38,7 +38,7 @@
     "build": "ts-node --esm support/run.ts",
     "clean": "rimraf dist",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore && prettier --write \"**/*.md\" >/dev/null",
+    "lint:md": "markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore && prettier --write \"**/*.md\" >/dev/null",
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "lint": "concurrently npm:lint:*",
     "test": "jest"
