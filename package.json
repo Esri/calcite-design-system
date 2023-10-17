@@ -85,7 +85,7 @@
     "postcss": "8.4.31",
     "prettier": "2.8.8",
     "puppeteer": "10.0.0",
-    "quicktype-core": "23.0.75",
+    "quicktype-core": "23.0.76",
     "react-dom": "^16.13.1",
     "react": "^16.13.1",
     "rimraf": "5.0.1",
