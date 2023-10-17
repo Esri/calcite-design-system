@@ -36,6 +36,7 @@ import { PaginationMessages } from "./assets/pagination/t9n";
 import { CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Breakpoints, getBreakpoints } from "../../utils/responsive";
+import { getIconScale } from "../../utils/component";
 
 export interface PaginationDetail {
   start: number;
@@ -100,7 +101,7 @@ export class Pagination
   @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the number of items per page. */
-  @Prop({ reflect: true }) pageSize = 20;
+  @Prop({ mutable: true, reflect: true }) pageSize = 20;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -111,9 +112,12 @@ export class Pagination
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) totalItems = 0;
 
-  @Watch("pageSize")
   @Watch("totalItems")
+  @Watch("pageSize")
   handleTotalPages(): void {
+    if (this.pageSize < 1) {
+      this.pageSize = 1;
+    }
     this.totalPages = this.totalItems / this.pageSize;
   }
 
@@ -408,14 +412,12 @@ export class Pagination
   }
 
   render(): VNode {
-    const { totalItems, pageSize, startItem, messages, scale } = this;
+    const { totalItems, pageSize, startItem, messages } = this;
 
     const prevDisabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
 
     const nextDisabled =
       pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
-
-    const iconScale = scale === "l" ? "m" : "s";
 
     return (
       <Fragment>
@@ -428,7 +430,7 @@ export class Pagination
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon flipRtl icon={ICONS.previous} scale={iconScale} />
+          <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
         </button>
         {this.renderItems()}
         <button
@@ -440,7 +442,7 @@ export class Pagination
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon flipRtl icon={ICONS.next} scale={iconScale} />
+          <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
         </button>
       </Fragment>
     );

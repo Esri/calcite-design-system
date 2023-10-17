@@ -21,6 +21,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot - A slot for adding text.
@@ -143,7 +144,7 @@ export class DropdownItem implements LoadableComponent {
         class={CSS.iconStart}
         flipRtl={iconFlipRtl === "start" || iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
     const contentNode = (
@@ -156,7 +157,7 @@ export class DropdownItem implements LoadableComponent {
         class={CSS.iconEnd}
         flipRtl={iconFlipRtl === "end" || iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -212,7 +213,7 @@ export class DropdownItem implements LoadableComponent {
             <calcite-icon
               class={CSS.icon}
               icon={selectionMode === "multiple" ? "check" : "bullet-point"}
-              scale={scale === "l" ? "m" : "s"}
+              scale={getIconScale(this.scale)}
             />
           ) : null}
           {contentEl}

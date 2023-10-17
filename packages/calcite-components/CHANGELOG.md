@@ -3,23 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.9.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2-next.1...@esri/calcite-components@1.9.2-next.2) (2023-10-10)
+## [1.10.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.1...@esri/calcite-components@1.10.0-next.2) (2023-10-17)
+
+### Features
+
+- **block:** ensure chevron is always displayed ([#8014](https://github.com/Esri/calcite-design-system/issues/8014)) ([95fecb2](https://github.com/Esri/calcite-design-system/commit/95fecb2f83f030576e1313f7c5970cd9b4d40e66)), closes [#4935](https://github.com/Esri/calcite-design-system/issues/4935)
+
+## [1.10.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.0...@esri/calcite-components@1.10.0-next.1) (2023-10-16)
 
 ### Bug Fixes
 
-- **input-time-zone:** fix error caused by time zone group filtering ([#7971](https://github.com/Esri/calcite-design-system/issues/7971)) ([521673e](https://github.com/Esri/calcite-design-system/commit/521673ece5058373cc672005d8eac2502ce20cbc)), closes [#7944](https://github.com/Esri/calcite-design-system/issues/7944)
+- **pagination:** prevents console error when page-size is set to zero ([#8017](https://github.com/Esri/calcite-design-system/issues/8017)) ([d09d485](https://github.com/Esri/calcite-design-system/commit/d09d48525ef8ea69ca5bc0bcac678ba559bc2cdb)), closes [#2093](https://github.com/Esri/calcite-design-system/issues/2093)
 
-## [1.9.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2-next.0...@esri/calcite-components@1.9.2-next.1) (2023-10-10)
+## [1.10.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.2...@esri/calcite-components@1.10.0-next.0) (2023-10-16)
+
+### Features
+
+- **stepper,stepper-item:** adds support for built-in translations ([#8002](https://github.com/Esri/calcite-design-system/issues/8002)) ([bb91624](https://github.com/Esri/calcite-design-system/commit/bb9162440c31f6d776f197d29c06a4dafd6b4c2f)), closes [#7759](https://github.com/Esri/calcite-design-system/issues/7759)
+
+## [1.9.3-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.1...@esri/calcite-components@1.9.3-next.2) (2023-10-13)
 
 ### Bug Fixes
 
-- **table:** Improve scrollbar display ([#7967](https://github.com/Esri/calcite-design-system/issues/7967)) ([593a1bf](https://github.com/Esri/calcite-design-system/commit/593a1bfc5bb6706e4001403c68f220a05e3d1c5d)), closes [#7892](https://github.com/Esri/calcite-design-system/issues/7892)
+- **icon:** use pixel sizes for icons ([#8009](https://github.com/Esri/calcite-design-system/issues/8009)) ([49085d5](https://github.com/Esri/calcite-design-system/commit/49085d5f1beb0897a21745f2880519391ba2be81)), closes [#8006](https://github.com/Esri/calcite-design-system/issues/8006)
+- **stepper:** selects next enabled stepper-item when first one is disabled ([#8004](https://github.com/Esri/calcite-design-system/issues/8004)) ([e0ed54e](https://github.com/Esri/calcite-design-system/commit/e0ed54e0b067426538c9d4b03552f8936738a1a8)), closes [#7953](https://github.com/Esri/calcite-design-system/issues/7953)
 
-## [1.9.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.1...@esri/calcite-components@1.9.2-next.0) (2023-10-06)
+## [1.9.3-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.0...@esri/calcite-components@1.9.3-next.1) (2023-10-13)
 
 ### Bug Fixes
 
-- **flow-item:** update collapsed property when collapse button is clicked ([#7960](https://github.com/Esri/calcite-design-system/issues/7960)) ([f6fd55f](https://github.com/Esri/calcite-design-system/commit/f6fd55fd2b387ec6f0ecfceaa84a4cc13182c8bd)), closes [#7959](https://github.com/Esri/calcite-design-system/issues/7959)
+- floating components will now get an initial position even if they are not opened ([#8001](https://github.com/Esri/calcite-design-system/issues/8001)) ([78b680d](https://github.com/Esri/calcite-design-system/commit/78b680d444f37e21c735e94eceb03678418c9745)), closes [#7979](https://github.com/Esri/calcite-design-system/issues/7979)
+
+## [1.9.3-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2...@esri/calcite-components@1.9.3-next.0) (2023-10-12)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [1.9.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.1...@esri/calcite-components@1.9.2) (2023-10-12)
+
+### Bug Fixes
+
+- **flow-item:** Update collapsed property when collapse button is clicked ([#7960](https://github.com/Esri/calcite-design-system/issues/7960)) ([f6fd55f](https://github.com/Esri/calcite-design-system/commit/f6fd55fd2b387ec6f0ecfceaa84a4cc13182c8bd))
+- **input-time-zone:** Allow searching offsets by Etc/x time zone ([#7978](https://github.com/Esri/calcite-design-system/issues/7978)) ([2c34b42](https://github.com/Esri/calcite-design-system/commit/2c34b4289b897529f351a17a0c00063cf40769b5))
+- **input-time-zone:** Fix error caused by time zone group filtering ([#7971](https://github.com/Esri/calcite-design-system/issues/7971)) ([521673e](https://github.com/Esri/calcite-design-system/commit/521673ece5058373cc672005d8eac2502ce20cbc))
+- **table:** Improve scrollbar display ([#7967](https://github.com/Esri/calcite-design-system/issues/7967)) ([593a1bf](https://github.com/Esri/calcite-design-system/commit/593a1bfc5bb6706e4001403c68f220a05e3d1c5d))
 
 ## [1.9.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.0...@esri/calcite-components@1.9.1) (2023-10-05)
 

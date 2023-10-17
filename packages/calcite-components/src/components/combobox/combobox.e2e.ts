@@ -1605,7 +1605,7 @@ describe("calcite-combobox", () => {
 
   it("should not focus on the combobox when items are programmatically selected", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-combobox id="demoId">
+    await page.setContent(html` <calcite-combobox open id="demoId">
       <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
     </calcite-combobox>`);
     const item = await page.find("calcite-combobox-item");
@@ -1623,7 +1623,7 @@ describe("calcite-combobox", () => {
 
   it("should gain focus when it's items are selected via click", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-combobox id="demoId">
+    await page.setContent(html` <calcite-combobox open id="demoId">
       <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
     </calcite-combobox>`);
     await skipAnimations(page);
