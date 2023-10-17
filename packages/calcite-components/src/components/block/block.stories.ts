@@ -131,12 +131,12 @@ export const simple = (): string =>
 export const withHeaderControl = (): string =>
   create(
     "calcite-block",
-    createBlockAttributes({ exceptions: ["open", "collapsible"] }),
-    `<label slot="control">test <input placeholder="I'm a header control"/></label>`
+    createBlockAttributes({ exceptions: ["open"] }),
+    html`<label slot="control">test <input placeholder="I'm a header control" /></label>`
   );
 
 export const withIconAndHeader = (): string =>
-  create("calcite-block", createBlockAttributes({ exceptions: ["open", "collapsible"] }), `<div slot="icon">✅</div>`);
+  create("calcite-block", createBlockAttributes({ exceptions: ["open"] }), html`<div slot="icon">✅</div>`);
 
 export const disabled_TestOnly = (): string => html`<calcite-block
   heading="heading"
