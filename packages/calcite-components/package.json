@@ -72,6 +72,7 @@
     "dayjs": "1.11.10",
     "focus-trap": "7.5.4",
     "form-request-submit-polyfill": "2.0.0",
+    "highlight.js": "11.9.0",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.0",
     "timezone-groups": "0.8.0"

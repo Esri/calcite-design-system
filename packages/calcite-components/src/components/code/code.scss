@@ -1,0 +1,9 @@
+:host {
+  @apply flex bg-transparent p-4;
+}
+
+@import "../../node_modules/highlight.js/scss/github";
+
+@include disabled();
+
+@include base-component();
