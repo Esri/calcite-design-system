@@ -154,6 +154,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   disconnectedCallback(): void {
     disconnectMessages(this);
     disconnectLocalized(this);
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
