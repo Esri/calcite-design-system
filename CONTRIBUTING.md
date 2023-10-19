@@ -77,9 +77,9 @@ Estimates are used to determine how much work needs to go into an issue. The tot
 - `estimate - 2`: Small fix or update, does not require updates to tests.
 - `estimate - 3`: A day or two of work, may require changes to tests.
 - `estimate - 5`: A few days of work, requires updates to tests.
-- `estimate - 8`: Requires input from team, consider smaller steps.
-- `estimate - 13`: Requires planning and input from team, consider smaller steps.
-- `estimate - 21`: Requires planning, input from team members and possibly others.
+- `estimate - 8`: Requires input from development team, consider smaller steps.
+- `estimate - 13`: Requires planning and input from development team, consider smaller steps.
+- `estimate - 21`: Requires planning, input from development team members and possibly others.
 - `estimate - 34`: Issue should be converted into an epic. Requires all hands on deck.
 
 ### Epics
