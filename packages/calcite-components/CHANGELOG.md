@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.2...@esri/calcite-components@1.10.0-next.3) (2023-10-20)
+
+### Bug Fixes
+
+- **button, fab, inline-editable, split-button:** prevent redundant opacity when button is both loading and disabled ([#8015](https://github.com/Esri/calcite-design-system/issues/8015)) ([3a1d3fd](https://github.com/Esri/calcite-design-system/commit/3a1d3fd1895a8b1f58d1a45e13c299a85e153583)), closes [#7950](https://github.com/Esri/calcite-design-system/issues/7950)
+- **input-date-picker, input-time-picker:** adjust chevron scale accordingly ([#8012](https://github.com/Esri/calcite-design-system/issues/8012)) ([f894f80](https://github.com/Esri/calcite-design-system/commit/f894f802d7cc5aee40a486c2efabe8563e8d1dcd)), closes [#6889](https://github.com/Esri/calcite-design-system/issues/6889)
+
 ## [1.10.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.1...@esri/calcite-components@1.10.0-next.2) (2023-10-17)
 
 ### Features
