@@ -23,9 +23,7 @@
 }
 
 .toggle-icon {
-  @apply absolute flex
-  w-4 cursor-pointer
-  items-center;
+  @apply absolute flex cursor-pointer items-center;
   inset-inline-end: 0;
   inset-block: 0;
   padding-inline: var(--calcite-toggle-spacing);

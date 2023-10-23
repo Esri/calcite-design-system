@@ -48,7 +48,7 @@ export const fullWidthWithIcons = (): string => html`
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-segmented-control
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"

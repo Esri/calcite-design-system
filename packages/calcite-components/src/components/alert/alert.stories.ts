@@ -1,8 +1,10 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
+
+const openAlertScreenshotDelay = 1000;
 
 export default {
   title: "Components/Alert",
@@ -218,3 +220,121 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
     <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
   </calcite-alert>
 `;
+
+// we use individual stories since we can't display multiple open alerts at the same time
+
+const breakpointsStoryTemplate = html`
+  <style>
+    .breakpoint-stories-container {
+      height: 600px;
+
+      /* force fixed container placement on the breakpoint-sized stories container */
+      contain: layout;
+    }
+  </style>
+  <calcite-alert icon open scale="{scale}">
+    <div slot="title">title</div>
+    <div slot="message">message</div>
+    <calcite-action scale="{scale}" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+  </calcite-alert>
+  <calcite-alert icon scale="{scale}">
+    <div slot="title">title</div>
+    <div slot="message">message</div>
+    <calcite-action scale="{scale}" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+  </calcite-alert>
+  <script>
+    (async function () {
+      await customElements.whenDefined("calcite-alert");
+      const alert2 = document.querySelectorAll("calcite-alert")[1];
+      await alert2.componentOnReady();
+
+      requestAnimationFrame(() => (alert2.open = true));
+    })();
+  </script>
+`;
+
+export const breakpointsXsmallScaleS_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "s" });
+
+breakpointsXsmallScaleS_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsSmallScaleS_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "s" });
+
+breakpointsSmallScaleS_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsMediumScaleS_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "s" });
+
+breakpointsMediumScaleS_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsLargeScaleS_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "s" });
+
+breakpointsLargeScaleS_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsXsmallScaleM_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "m" });
+
+breakpointsXsmallScaleM_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsSmallScaleM_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "m" });
+
+breakpointsSmallScaleM_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsMediumScaleM_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "m" });
+
+breakpointsMediumScaleM_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsLargeScaleM_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "m" });
+
+breakpointsLargeScaleM_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsXsmallScaleL_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "xsmall", scale: "l" });
+
+breakpointsXsmallScaleL_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsSmallScaleL_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "small", scale: "l" });
+
+breakpointsSmallScaleL_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsMediumScaleL_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "medium", scale: "l" });
+
+breakpointsMediumScaleL_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};
+
+export const breakpointsLargeScaleL_TestOnly = (): string =>
+  createBreakpointStories(breakpointsStoryTemplate, { breakpoint: "large", scale: "l" });
+
+breakpointsLargeScaleL_TestOnly.parameters = {
+  chromatic: { delay: openAlertScreenshotDelay },
+};

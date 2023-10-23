@@ -42,6 +42,7 @@ body:
       options:
         - label: "@esri/calcite-components"
         - label: "@esri/calcite-components-react"
+        - label: "@esri/calcite-design-tokens"
         - label: "@esri/eslint-plugin-calcite-components"
     validations:
       required: false
