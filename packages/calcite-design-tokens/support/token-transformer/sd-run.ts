@@ -109,6 +109,12 @@ export const run = async (
             filter: "filterSource",
             options: { ...options, outputReferences: true },
           },
+          {
+            format: "typescript/es6-declarations",
+            destination: `${fileName}.d.ts`,
+            filter: "filterSource",
+            options: { ...options, outputReferences: true },
+          },
         ],
       },
       css: {
