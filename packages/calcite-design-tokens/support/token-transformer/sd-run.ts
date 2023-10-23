@@ -99,6 +99,18 @@ export const run = async (
           },
         ],
       },
+      js: {
+        transformGroup: "js",
+        buildPath: `${buildPath}/es6/`,
+        files: [
+          {
+            format: "javascript/es6",
+            destination: `${fileName}.js`,
+            filter: "filterSource",
+            options: { ...options, outputReferences: true },
+          },
+        ],
+      },
       css: {
         prefix: "calcite",
         transforms: [
