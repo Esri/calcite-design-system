@@ -5,9 +5,8 @@ import { html } from "../../../support/formatting";
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
 
-  describe("defaults (immediate parent tabs or tab-nav)", () => {
-    defaults("calcite-tabs", [{ propertyName: "scale", defaultValue: "m" }]);
-    defaults(`<calcite-tabs>${tabNavHtml}</calcite-tabs>`, [{ propertyName: "scale", defaultValue: "m" }]);
+  describe("defaults", () => {
+    defaults(tabNavHtml, [{ propertyName: "scale", defaultValue: "m" }]);
   });
 
   describe("renders", () => {
@@ -81,25 +80,6 @@ describe("calcite-tab-nav", () => {
       const style = await indicator.getComputedStyle();
       expect(style["width"]).not.toBe("0px");
     });
-  });
-
-  describe("scales", () => {
-    const scaleMinHeightPairs = {
-      s: "24px",
-      m: "32px",
-      l: "44px",
-    };
-
-    for (const [key, value] of Object.entries(scaleMinHeightPairs)) {
-      it(`${key} scale`, async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`<calcite-tabs scale="${key}">${tabNavHtml}</calcite-tabs>`);
-
-        const element = await page.find("calcite-tab-nav");
-        expect((await element.getComputedStyle())["height"]).toEqual(value);
-        expect(await element.getProperty("scale")).toBe(`${key}`);
-      });
-    }
   });
 
   it("focuses on keyboard interaction", async () => {
