@@ -8,7 +8,7 @@ import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
 import { parseName } from "./utils/parseName.js";
 import { Theme } from "./getThemes.js";
-import { jsModule } from "./format/javascript.js";
+import { jsModule, tsModule } from "./format/javascript.js";
 
 /**
  * Style Dictionary runner configuration overrides.
@@ -55,6 +55,11 @@ export const run = async (
     formatter: jsModule,
   });
 
+  StyleDictionary.registerFormat({
+    name: "calcite/ts-module",
+    formatter: tsModule,
+  });
+
   // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms
   StyleDictionary.registerTransform({
     name: "name/calcite/camel",
@@ -85,6 +90,11 @@ export const run = async (
           {
             destination: `${fileName}.js`,
             format: "calcite/js-module",
+            filter: "filterSource",
+          },
+          {
+            destination: `${fileName}.d.ts`,
+            format: "calcite/ts-module",
             filter: "filterSource",
           },
         ],
