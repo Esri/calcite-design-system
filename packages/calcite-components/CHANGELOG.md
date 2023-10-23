@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.3...@esri/calcite-components@1.10.0-next.4) (2023-10-23)
+
+### Bug Fixes
+
+- **segmented-control-item:** fix text color contrast ([#8036](https://github.com/Esri/calcite-design-system/issues/8036)) ([ede8c43](https://github.com/Esri/calcite-design-system/commit/ede8c437e95ed2370cb485168ed8e6eedf0e9717)), closes [#7250](https://github.com/Esri/calcite-design-system/issues/7250)
+
 ## [1.10.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.2...@esri/calcite-components@1.10.0-next.3) (2023-10-20)
 
 ### Bug Fixes
