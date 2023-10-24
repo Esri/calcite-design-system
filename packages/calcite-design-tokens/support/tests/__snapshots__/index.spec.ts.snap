@@ -1621,6 +1621,9 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-input-date-picker-border-radius-lg: var(--calcite-app-border-radius-none);
   --calcite-input-date-picker-border-radius-md: var(--calcite-app-border-radius-none);
   --calcite-input-date-picker-border-radius-sm: var(--calcite-app-border-radius-none);
+  --calcite-icon-size-lg: var(--calcite-app-sizing-11);
+  --calcite-icon-size-md: var(--calcite-app-sizing-9);
+  --calcite-icon-size-sm: var(--calcite-app-sizing-7);
   --calcite-filter-space-around-top-bottom-lg: var(--calcite-app-spacing-3);
   --calcite-filter-space-around-top-bottom-md: var(--calcite-app-spacing-3);
   --calcite-filter-space-around-top-bottom-sm: var(--calcite-app-spacing-3);
@@ -4923,6 +4926,9 @@ export const FilterSpaceAroundLeftRightLg = \\"12px\\";
 export const FilterSpaceAroundTopBottomSm = \\"8px\\";
 export const FilterSpaceAroundTopBottomMd = \\"8px\\";
 export const FilterSpaceAroundTopBottomLg = \\"8px\\";
+export const IconSizeSm = \\"16px\\";
+export const IconSizeMd = \\"24px\\";
+export const IconSizeLg = \\"32px\\";
 export const InputDatePickerFontPlaceholderValueLight = \\"#151515\\";
 export const InputDatePickerFontPlaceholderValueDark = \\"#ffffff\\";
 export const InputDatePickerFontLabelLight = \\"#151515\\";
@@ -8020,6 +8026,9 @@ export const FilterSpaceAroundLeftRightLg : string;
 export const FilterSpaceAroundTopBottomSm : string;
 export const FilterSpaceAroundTopBottomMd : string;
 export const FilterSpaceAroundTopBottomLg : string;
+export const IconSizeSm : string;
+export const IconSizeMd : string;
+export const IconSizeLg : string;
 export const InputDatePickerFontPlaceholderValueLight : string;
 export const InputDatePickerFontPlaceholderValueDark : string;
 export const InputDatePickerFontLabelLight : string;
@@ -36431,6 +36440,61 @@ export default{
             \\"lg\\"
           ]
         }
+      }
+    }
+  },
+  \\"icon\\": {
+    \\"size\\": {
+      \\"sm\\": {
+        \\"value\\": \\"16px\\",
+        \\"type\\": \\"sizing\\",
+        \\"filePath\\": \\"src/component/icon.json\\",
+        \\"isSource\\": true,
+        \\"original\\": {
+          \\"value\\": \\"{core.sizing.7}\\",
+          \\"type\\": \\"sizing\\"
+        },
+        \\"name\\": \\"sm\\",
+        \\"attributes\\": {},
+        \\"path\\": [
+          \\"icon\\",
+          \\"size\\",
+          \\"sm\\"
+        ]
+      },
+      \\"md\\": {
+        \\"value\\": \\"24px\\",
+        \\"type\\": \\"sizing\\",
+        \\"filePath\\": \\"src/component/icon.json\\",
+        \\"isSource\\": true,
+        \\"original\\": {
+          \\"value\\": \\"{core.sizing.9}\\",
+          \\"type\\": \\"sizing\\"
+        },
+        \\"name\\": \\"md\\",
+        \\"attributes\\": {},
+        \\"path\\": [
+          \\"icon\\",
+          \\"size\\",
+          \\"md\\"
+        ]
+      },
+      \\"lg\\": {
+        \\"value\\": \\"32px\\",
+        \\"type\\": \\"sizing\\",
+        \\"filePath\\": \\"src/component/icon.json\\",
+        \\"isSource\\": true,
+        \\"original\\": {
+          \\"value\\": \\"{core.sizing.11}\\",
+          \\"type\\": \\"sizing\\"
+        },
+        \\"name\\": \\"lg\\",
+        \\"attributes\\": {},
+        \\"path\\": [
+          \\"icon\\",
+          \\"size\\",
+          \\"lg\\"
+        ]
       }
     }
   },
@@ -80643,6 +80707,7 @@ interface RootObject {
   dropdown: Dropdown;
   fab: Fab;
   filter: Filter;
+  icon: Icon10;
   'input-date-picker': Inputdatepicker;
   'input-datetime-local': Inputdatetimelocal;
   'input-email': Inputdatetimelocal;
@@ -81405,8 +81470,8 @@ interface Handle2 {
 }
 interface Stepperitem {
   font: Font17;
-  icon: Icon11;
-  border: Icon11;
+  icon: Icon12;
+  border: Icon12;
   background: Background;
   foreground: Heading;
   'border-radius': Iconsize;
@@ -81417,7 +81482,7 @@ interface Stepperitem {
   'space-around': Default3;
   disabled: Light;
 }
-interface Icon11 {
+interface Icon12 {
   default: Heading;
   active: Heading;
   error: Heading;
@@ -81733,10 +81798,10 @@ interface Label {
 }
 interface Inputmessage {
   font: Heading;
-  icon: Icon10;
+  icon: Icon11;
   'icon-size': Iconsize;
 }
-interface Icon10 {
+interface Icon11 {
   idle: Heading;
   invalid: Heading;
   valid: Heading;
@@ -81794,6 +81859,9 @@ interface Background7 {
 interface Font11 {
   'placeholder-value': Heading;
   label: Heading;
+}
+interface Icon10 {
+  size: Iconsize;
 }
 interface Filter {
   font: Heading;
@@ -85439,6 +85507,9 @@ $breakpoint-margin: 24px;
   --calcite-input-date-picker-border-radius-lg: var(--calcite-app-border-radius-none);
   --calcite-input-date-picker-border-radius-md: var(--calcite-app-border-radius-none);
   --calcite-input-date-picker-border-radius-sm: var(--calcite-app-border-radius-none);
+  --calcite-icon-size-lg: var(--calcite-app-sizing-11);
+  --calcite-icon-size-md: var(--calcite-app-sizing-9);
+  --calcite-icon-size-sm: var(--calcite-app-sizing-7);
   --calcite-filter-space-around-top-bottom-lg: var(--calcite-app-spacing-3);
   --calcite-filter-space-around-top-bottom-md: var(--calcite-app-spacing-3);
   --calcite-filter-space-around-top-bottom-sm: var(--calcite-app-spacing-3);
