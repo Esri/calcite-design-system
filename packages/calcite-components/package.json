@@ -86,5 +86,8 @@
     "@stencil/sass": "3.0.5",
     "@stencil/state-tunnel": "1.0.1"
   },
-  "license": "SEE LICENSE.md"
+  "license": "SEE LICENSE.md",
+  "volta": {
+    "extends": "../../package.json"
+  }
 }
