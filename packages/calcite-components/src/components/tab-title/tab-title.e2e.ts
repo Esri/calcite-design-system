@@ -379,22 +379,10 @@ describe("calcite-tab-title", () => {
     ];
 
     for (const { scale, styles } of scaleStyles) {
-      describe("when immediate parent element is `tabs`", () => {
-        it(`should inherit ${scale || "default medium"} scale from parent`, async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`<calcite-tabs scale="${scale}">${tabTitleSetHtml}</calcite-tabs>`);
-
-          await testTabTitleStyles(page, { scale, styles });
-        });
-      });
-
-      describe("when immediate parent element is `tab-nav`", () => {
-        it(`should inherit ${scale || "default medium"} scale down from 'tabs' parent`, async () => {
-          const page = await newE2EPage();
-          await page.setContent(`<calcite-tabs scale="${scale}">${navWithTabTitleSetHtml}</calcite-tabs>`);
-
-          await testTabTitleStyles(page, { scale, styles });
-        });
+      it(`should inherit ${scale || "default medium"} scale down from 'tabs' parent`, async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-tabs scale="${scale}">${navWithTabTitleSetHtml}</calcite-tabs>`);
+        await testTabTitleStyles(page, { scale, styles });
       });
     }
   });
