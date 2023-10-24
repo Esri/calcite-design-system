@@ -2,6 +2,8 @@ import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
+import { Scale } from "../interfaces";
+import { TabPosition } from "../tabs/interfaces";
 
 describe("calcite-tabs", () => {
   const tabsContent = html`
@@ -124,21 +126,32 @@ describe("calcite-tabs", () => {
       expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
   });
-  describe("calcite-tabs", () => {
-    const scales = ["s", "m", "l"];
+
+  function testCalciteTabs(scale: Scale, position: TabPosition) {
+    const scaleName = scale === "m" ? "default medium" : scale;
+
+    it(`should render itself and child tab elements with corresponding scale (${scaleName}) and position (${position})`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs scale="${scale}" position="${position}">${tabsContent}</calcite-tabs>`);
+      await page.waitForChanges();
+
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", scale);
+      expect(await page.find("calcite-tabs")).toEqualAttribute("position", position);
+      expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe(scale);
+      expect(await (await page.find("calcite-tab-nav")).getProperty("position")).toBe(position);
+      expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe(scale);
+      expect(await (await page.find("calcite-tab-title")).getProperty("position")).toBe(position);
+      expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe(scale);
+    });
+  }
+
+  describe("calcite-tabs inheritable props", () => {
+    const scales: Scale[] = ["s", "m", "l"];
+    const positions: TabPosition[] = ["top", "bottom"];
 
     scales.forEach((scale) => {
-      const scaleName = scale === "m" ? "default medium" : scale;
-
-      it(`should render itself and child tab elements with corresponding scale (${scaleName})`, async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`<calcite-tabs scale="${scale}">${tabsContent}</calcite-tabs>`);
-        await page.waitForChanges();
-
-        expect(await page.find("calcite-tabs")).toEqualAttribute("scale", scale);
-        expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe(scale);
-        expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe(scale);
-        expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe(scale);
+      positions.forEach((position) => {
+        testCalciteTabs(scale, position);
       });
     });
   });
@@ -341,20 +354,5 @@ describe("calcite-tabs", () => {
     const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
 
     expect(selectedTitleOnEmit).toBe("boats");
-  });
-
-  it("inheritable props `position` and `scale` get passed to `tab-nav` and `tab-titles`", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-tabs position="bottom" scale="l">${tabsContent}</calcite-tabs>`);
-    const tabNav = await page.find("calcite-tab-nav");
-    const tabTitles = await page.findAll("calcite-tab-titles");
-
-    expect(await tabNav.getProperty("position")).toBe("bottom");
-    expect(await tabNav.getProperty("scale")).toBe("l");
-
-    for (const item of tabTitles) {
-      expect(await item.getProperty("position")).toBe("bottom");
-      expect(await item.getProperty("scale")).toBe("l");
-    }
   });
 });
