@@ -14,19 +14,19 @@
     "./css": "./dist/css/calcite-headless.css",
     "./css/calcite/dark": "./dist/css/calcite-dark.css",
     "./css/calcite/light": "./dist/css/calcite-light.css",
-    "./css/global": "./dist/css/calcite-headless.css",
+    "./css/headless": "./dist/css/calcite-headless.css",
     "./scss": "./dist/scss/calcite-headless.scss",
     "./scss/calcite/dark": "./dist/scss/calcite-dark.scss",
     "./scss/calcite/light": "./dist/scss/calcite-light.scss",
-    "./scss/global": "./dist/scss/calcite-headless.scss",
+    "./scss/headless": "./dist/scss/calcite-headless.scss",
     "./js": "./dist/js/calcite-headless.js",
     "./js/calcite/dark": "./dist/js/calcite-dark.js",
     "./js/calcite/light": "./dist/js/calcite-light.js",
-    "./js/global": "./dist/js/calcite-headless.js",
+    "./js/headless": "./dist/js/calcite-headless.js",
     "./es6": "./dist/es6/calcite-headless.js",
     "./es6/calcite/dark": "./dist/es6/calcite-dark.js",
     "./es6/calcite/light": "./dist/es6/calcite-light.js",
-    "./es6/global": "./dist/es6/calcite-headless.js"
+    "./es6/headless": "./dist/es6/calcite-headless.js"
   },
   "repository": {
     "type": "git",
