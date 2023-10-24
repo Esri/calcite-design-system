@@ -66,6 +66,7 @@ import {
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -934,7 +935,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -942,7 +943,7 @@ export class InputNumber
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -963,7 +964,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="chevron-up" scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -982,7 +983,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
       </button>
     );
 

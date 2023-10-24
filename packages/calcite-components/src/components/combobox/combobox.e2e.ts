@@ -16,7 +16,7 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
-import { skipAnimations } from "../../tests/utils";
+import { getElementXY, skipAnimations } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
   describe("renders", () => {
@@ -238,6 +238,38 @@ describe("calcite-combobox", () => {
     expect(await items[3].isVisible()).toBe(false);
 
     expect((await combobox.getProperty("filteredItems")).length).toBe(2);
+  });
+
+  it("does not clear filter if pointer down/up on an item has a delay in between events", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox clear-disabled="true" selection-mode="single-persist" placeholder="Select a field">
+        <calcite-combobox-item id="item-1" value="France/Germany" text-label="France/Germany"></calcite-combobox-item>
+        <calcite-combobox-item id="item-2" value="Spain/Portugal" text-label="Spain/Portugal"></calcite-combobox-item>
+        <calcite-combobox-item
+          id="item-3"
+          value="Indonesia/Malaysia"
+          text-label="Indonesia/Malaysia"
+        ></calcite-combobox-item>
+        <calcite-combobox-item id="item-4" value="Libya/Algeria" text-label="Libya/Algeria"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.click();
+    await page.waitForChanges();
+    await combobox.type("Algeria");
+    await page.waitForChanges();
+
+    const [lastItemX, lastItemY] = await getElementXY(page, "#item-4");
+
+    await page.mouse.move(lastItemX, lastItemY);
+    await page.mouse.down();
+    await page.waitForChanges();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    expect(await combobox.getProperty("value")).toBe("Libya/Algeria");
   });
 
   it("should control max items displayed", async () => {
@@ -1605,7 +1637,7 @@ describe("calcite-combobox", () => {
 
   it("should not focus on the combobox when items are programmatically selected", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-combobox id="demoId">
+    await page.setContent(html` <calcite-combobox open id="demoId">
       <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
     </calcite-combobox>`);
     const item = await page.find("calcite-combobox-item");
@@ -1623,7 +1655,7 @@ describe("calcite-combobox", () => {
 
   it("should gain focus when it's items are selected via click", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-combobox id="demoId">
+    await page.setContent(html` <calcite-combobox open id="demoId">
       <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
     </calcite-combobox>`);
     await skipAnimations(page);

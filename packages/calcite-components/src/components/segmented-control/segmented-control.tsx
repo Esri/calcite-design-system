@@ -84,7 +84,7 @@ export class SegmentedControl
   @Prop({ reflect: true }) name: string;
 
   /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

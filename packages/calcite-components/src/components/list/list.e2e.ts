@@ -5,7 +5,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
-import { GlobalTestProps, dragAndDrop, isElementFocused } from "../../tests/utils";
+import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
 import { DragDetail } from "../../utils/sortableComponent";
 
 const placeholder = placeholderImage({
@@ -109,6 +109,48 @@ describe("calcite-list", () => {
       </calcite-list>`,
       { focusTarget: "child" }
     );
+
+    it("disabling and enabling an item restores actions from being tabbable", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list selection-mode="multiple">
+          <calcite-list-item label="first">
+            <calcite-action id="action-1" icon="information" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item label="second">
+            <calcite-action id="action-2" icon="information" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item label="third">
+            <calcite-action id="action-3" icon="information" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+        </calcite-list>
+      `);
+
+      const [firstItem, secondItem] = await page.findAll("calcite-list-item");
+
+      await firstItem.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("action-3");
+
+      await secondItem.setProperty("disabled", true);
+      await page.waitForChanges();
+      await secondItem.setProperty("disabled", false);
+      await page.waitForChanges();
+
+      await firstItem.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("action-3");
+    });
   });
 
   it("navigating items after filtering", async () => {
