@@ -87,7 +87,7 @@
     "@stencil/state-tunnel": "1.0.1"
   },
   "license": "SEE LICENSE.md",
-  "volta": {
-    "extends": "../../package.json"
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
