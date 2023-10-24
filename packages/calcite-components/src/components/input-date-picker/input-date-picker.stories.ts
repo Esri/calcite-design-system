@@ -94,6 +94,13 @@ export const invalidStatus_TestOnly = (): string => html`
   </div>
 `;
 
+export const scales_TestOnly = (): string =>
+  html`
+    <calcite-input-date-picker scale="s" icon value="2020-12-12"></calcite-input-date-picker>
+    <calcite-input-date-picker scale="m" icon value="2020-12-12"></calcite-input-date-picker>
+    <calcite-input-date-picker scale="l" icon value="2020-12-12"></calcite-input-date-picker>
+  `;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker

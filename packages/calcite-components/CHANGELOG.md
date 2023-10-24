@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.3...@esri/calcite-components@1.10.0-next.4) (2023-10-23)
+
+### Bug Fixes
+
+- **segmented-control-item:** fix text color contrast ([#8036](https://github.com/Esri/calcite-design-system/issues/8036)) ([ede8c43](https://github.com/Esri/calcite-design-system/commit/ede8c437e95ed2370cb485168ed8e6eedf0e9717)), closes [#7250](https://github.com/Esri/calcite-design-system/issues/7250)
+
+## [1.10.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.2...@esri/calcite-components@1.10.0-next.3) (2023-10-20)
+
+### Bug Fixes
+
+- **button, fab, inline-editable, split-button:** prevent redundant opacity when button is both loading and disabled ([#8015](https://github.com/Esri/calcite-design-system/issues/8015)) ([3a1d3fd](https://github.com/Esri/calcite-design-system/commit/3a1d3fd1895a8b1f58d1a45e13c299a85e153583)), closes [#7950](https://github.com/Esri/calcite-design-system/issues/7950)
+- **input-date-picker, input-time-picker:** adjust chevron scale accordingly ([#8012](https://github.com/Esri/calcite-design-system/issues/8012)) ([f894f80](https://github.com/Esri/calcite-design-system/commit/f894f802d7cc5aee40a486c2efabe8563e8d1dcd)), closes [#6889](https://github.com/Esri/calcite-design-system/issues/6889)
+
+## [1.10.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.1...@esri/calcite-components@1.10.0-next.2) (2023-10-17)
+
+### Features
+
+- **block:** ensure chevron is always displayed ([#8014](https://github.com/Esri/calcite-design-system/issues/8014)) ([95fecb2](https://github.com/Esri/calcite-design-system/commit/95fecb2f83f030576e1313f7c5970cd9b4d40e66)), closes [#4935](https://github.com/Esri/calcite-design-system/issues/4935)
+
+## [1.10.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.0...@esri/calcite-components@1.10.0-next.1) (2023-10-16)
+
+### Bug Fixes
+
+- **pagination:** prevents console error when page-size is set to zero ([#8017](https://github.com/Esri/calcite-design-system/issues/8017)) ([d09d485](https://github.com/Esri/calcite-design-system/commit/d09d48525ef8ea69ca5bc0bcac678ba559bc2cdb)), closes [#2093](https://github.com/Esri/calcite-design-system/issues/2093)
+
+## [1.10.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.2...@esri/calcite-components@1.10.0-next.0) (2023-10-16)
+
+### Features
+
+- **stepper,stepper-item:** adds support for built-in translations ([#8002](https://github.com/Esri/calcite-design-system/issues/8002)) ([bb91624](https://github.com/Esri/calcite-design-system/commit/bb9162440c31f6d776f197d29c06a4dafd6b4c2f)), closes [#7759](https://github.com/Esri/calcite-design-system/issues/7759)
+
+## [1.9.3-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.1...@esri/calcite-components@1.9.3-next.2) (2023-10-13)
+
+### Bug Fixes
+
+- **icon:** use pixel sizes for icons ([#8009](https://github.com/Esri/calcite-design-system/issues/8009)) ([49085d5](https://github.com/Esri/calcite-design-system/commit/49085d5f1beb0897a21745f2880519391ba2be81)), closes [#8006](https://github.com/Esri/calcite-design-system/issues/8006)
+- **stepper:** selects next enabled stepper-item when first one is disabled ([#8004](https://github.com/Esri/calcite-design-system/issues/8004)) ([e0ed54e](https://github.com/Esri/calcite-design-system/commit/e0ed54e0b067426538c9d4b03552f8936738a1a8)), closes [#7953](https://github.com/Esri/calcite-design-system/issues/7953)
+
 ## [1.9.3-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.3-next.0...@esri/calcite-components@1.9.3-next.1) (2023-10-13)
 
 ### Bug Fixes

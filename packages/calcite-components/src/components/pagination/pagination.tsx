@@ -101,7 +101,7 @@ export class Pagination
   @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the number of items per page. */
-  @Prop({ reflect: true }) pageSize = 20;
+  @Prop({ mutable: true, reflect: true }) pageSize = 20;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -112,9 +112,12 @@ export class Pagination
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) totalItems = 0;
 
-  @Watch("pageSize")
   @Watch("totalItems")
+  @Watch("pageSize")
   handleTotalPages(): void {
+    if (this.pageSize < 1) {
+      this.pageSize = 1;
+    }
     this.totalPages = this.totalItems / this.pageSize;
   }
 
