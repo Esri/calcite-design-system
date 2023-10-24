@@ -53,7 +53,7 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver.observe(this.el, { childList: true });
     this.updateItems();
   }
 
@@ -153,7 +153,19 @@ export class Tabs {
    */
   @State() tabs: HTMLCalciteTabElement[] = [];
 
-  mutationObserver = createObserver("mutation", () => this.updateItems());
+  mutationObserver = createObserver("mutation", (mutationsList: MutationRecord[]) => {
+    console.log("mutationsList", mutationsList);
+    for (const mutation of mutationsList) {
+      const target = mutation.target as HTMLElement;
+      if (
+        target.nodeName === "CALCITE-TAB-NAV" ||
+        target.nodeName === "CALCITE-TAB-TITLE" ||
+        target.nodeName === "CALCITE-TAB"
+      ) {
+        this.updateItems();
+      }
+    }
+  });
 
   private updateItems = (): void => {
     const { position, scale } = this;
