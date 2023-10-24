@@ -107,7 +107,11 @@ export const setWidthContainer = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-button disabled>disabled</calcite-button>`;
+export const disabled_TestOnly = (): string => html`
+  <calcite-button disabled>disabled</calcite-button>
+  <br />
+  <calcite-button loading disabled>loading + disabled</calcite-button>
+`;
 
 export const withIconStartEmpty_TestOnly = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
 

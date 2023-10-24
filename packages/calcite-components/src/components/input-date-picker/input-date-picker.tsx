@@ -80,6 +80,7 @@ import {
 import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 
 @Component({
@@ -605,16 +606,12 @@ export class InputDatePicker
 
             {this.range && this.layout === "horizontal" && (
               <div class="horizontal-arrow-container">
-                <calcite-icon
-                  flipRtl={true}
-                  icon="arrow-right"
-                  scale={this.scale === "l" ? "m" : "s"}
-                />
+                <calcite-icon flipRtl={true} icon="arrow-right" scale={getIconScale(this.scale)} />
               </div>
             )}
             {this.range && this.layout === "vertical" && this.scale !== "s" && (
               <div class="vertical-arrow-container">
-                <calcite-icon icon="arrow-down" scale={this.scale === "l" ? "m" : "s"} />
+                <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
               </div>
             )}
             {this.range && (
@@ -663,7 +660,10 @@ export class InputDatePicker
   renderToggleIcon(open: boolean): VNode {
     return (
       <span class={CSS.toggleIcon}>
-        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
       </span>
     );
   }

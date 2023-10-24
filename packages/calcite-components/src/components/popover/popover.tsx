@@ -61,6 +61,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
+import { getIconScale } from "../../utils/component";
 
 const manager = new PopoverManager();
 
@@ -542,7 +543,7 @@ export class Popover
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         >
-          <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
+          <calcite-icon icon="x" scale={getIconScale(this.scale)} />
         </calcite-action>
       </div>
     ) : null;

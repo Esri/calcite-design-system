@@ -160,7 +160,7 @@
 
 @include disabled();
 
-:host([loading]) {
+:host([loading]:not([disabled])) {
   @extend %non-interactive-host-contents;
 
   button,

@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 
@@ -70,6 +70,10 @@ describe("calcite-stepper", () => {
       </calcite-stepper>`,
       { display: "grid" }
     );
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-stepper");
   });
 
   it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
@@ -453,7 +457,9 @@ describe("calcite-stepper", () => {
           const wrapper = document.querySelector(wrapperName);
 
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-          wrapper.shadowRoot.querySelector<HTMLElement>("#item-2").click();
+          const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+          item2.click();
           wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
@@ -662,5 +668,22 @@ describe("calcite-stepper", () => {
     await page.$eval("#step-2", itemClicker);
     await page.waitForChanges();
     expect(stepperItem2.getAttribute("aria-current")).toEqual("step");
+  });
+
+  it("should select the next enabled stepper-item if first stepper-item is disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item heading="Step 1" id="step-1" disabled>
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>`);
+
+    const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+
+    expect(await stepperItem1.getProperty("selected")).toBe(false);
+    expect(await stepperItem2.getProperty("selected")).toBe(true);
   });
 });
