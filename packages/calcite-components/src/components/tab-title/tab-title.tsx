@@ -24,7 +24,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { CSS, ICONS } from "../tabs/resources";
+import { CSS, ICONS } from "./resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {

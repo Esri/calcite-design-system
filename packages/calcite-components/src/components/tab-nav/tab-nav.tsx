@@ -21,7 +21,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { CSS } from "../tabs/resources";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.

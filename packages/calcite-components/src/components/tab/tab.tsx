@@ -11,11 +11,12 @@ import {
   State,
   VNode,
 } from "@stencil/core";
+import { CSS } from "./resources";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail } from "./interfaces";
-import { CSS } from "../tabs/resources";
+
 /**
  * @slot - A slot for adding custom content.
  */

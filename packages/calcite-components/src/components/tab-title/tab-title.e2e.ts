@@ -1,7 +1,7 @@
 import { newE2EPage, E2EPage, E2EElement } from "@stencil/core/testing";
 import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS } from "../tabs/resources";
+import { CSS } from "./resources";
 
 describe("calcite-tab-title", () => {
   const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
@@ -347,7 +347,7 @@ describe("calcite-tab-title", () => {
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
   });
 
-  async function testTabTitleStyles(page: E2EPage, testCase: any) {
+  async function assertTabTitleStyles(page: E2EPage, testCase: any) {
     page.waitForChanges();
 
     const tabTitleEl = await page.find(`calcite-tab-title`);
@@ -382,7 +382,7 @@ describe("calcite-tab-title", () => {
       it(`should inherit ${scale || "default medium"} scale down from 'tabs' parent`, async () => {
         const page = await newE2EPage();
         await page.setContent(`<calcite-tabs scale="${scale}">${navWithTabTitleSetHtml}</calcite-tabs>`);
-        await testTabTitleStyles(page, { scale, styles });
+        await assertTabTitleStyles(page, { scale, styles });
       });
     }
   });
