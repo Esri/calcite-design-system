@@ -8,7 +8,7 @@ import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
 import { parseName } from "./utils/parseName.js";
 import { Theme } from "./getThemes.js";
-import { jsModule, tsModule } from "./format/javascript.js";
+import { formatJs, formatTs } from "./format/javascript.js";
 
 /**
  * Style Dictionary runner configuration overrides.
@@ -52,12 +52,12 @@ export const run = async (
 
   StyleDictionary.registerFormat({
     name: "calcite/js-module",
-    formatter: jsModule,
+    formatter: formatJs,
   });
 
   StyleDictionary.registerFormat({
     name: "calcite/ts-module",
-    formatter: tsModule,
+    formatter: formatTs,
   });
 
   // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms

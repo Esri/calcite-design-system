@@ -3,7 +3,7 @@ import { default as JsonToTS } from "json-to-ts";
 
 type FormatOptions = { dictionary: Dictionary; file: File };
 
-export function jsModule({ dictionary, file }: FormatOptions): string {
+export function formatJs({ dictionary, file }: FormatOptions): string {
   return (
     StyleDictionary.formatHelpers.fileHeader({ file }) +
     "export default" +
@@ -12,7 +12,7 @@ export function jsModule({ dictionary, file }: FormatOptions): string {
   );
 }
 
-export function tsModule({ dictionary, file }: FormatOptions): string {
+export function formatTs({ dictionary, file }: FormatOptions): string {
   return (
     StyleDictionary.formatHelpers.fileHeader({ file }) +
     "declare const root: RootObject\n" +
