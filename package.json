@@ -79,6 +79,7 @@
     "jest-axe": "7.0.1",
     "jest-cli": "27.4.5",
     "jest": "27.4.5",
+    "json-to-ts": "1.7.0",
     "lerna": "7.1.5",
     "lint-staged": "13.2.3",
     "markdownlint-cli": "0.34.0",
@@ -110,9 +111,6 @@
     "workbox-build": "7.0.0"
   },
   "license": "SEE LICENSE.md",
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "packageManager": "npm@10.1.0",
   "volta": {
     "node": "18.18.0",

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.6...@esri/calcite-components@1.10.0-next.7) (2023-10-24)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [1.10.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.5...@esri/calcite-components@1.10.0-next.6) (2023-10-24)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [1.10.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.4...@esri/calcite-components@1.10.0-next.5) (2023-10-24)
+
+### Bug Fixes
+
+- **list-item:** restore tabbability when an item's disabled prop is toggled ([#8042](https://github.com/Esri/calcite-design-system/issues/8042)) ([c970603](https://github.com/Esri/calcite-design-system/commit/c970603ad18b31a074cdf91346af28592b8da53a)), closes [#7335](https://github.com/Esri/calcite-design-system/issues/7335)
+
 ## [1.10.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.3...@esri/calcite-components@1.10.0-next.4) (2023-10-23)
 
 ### Bug Fixes
