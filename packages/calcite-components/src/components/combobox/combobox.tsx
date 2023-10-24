@@ -297,7 +297,13 @@ export class Combobox
     if (this.disabled || !isPrimaryPointerButton(event)) {
       return;
     }
-    this.setInactiveIfNotContained(event);
+
+    const composedPath = event.composedPath();
+    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+      return;
+    }
+
+    this.determineCustomValueAllowedOnBlur();
   }
 
   @Listen("calciteComboboxItemChange")
@@ -758,18 +764,7 @@ export class Combobox
     this.updateActiveItemIndex(targetIndex);
   }
 
-  private setInactiveIfNotContained = (event: PointerEvent | FocusEvent): void => {
-    const composedPath = event.composedPath();
-
-    if (
-      event instanceof PointerEvent &&
-      (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl))
-    ) {
-      return;
-    } else if (event instanceof FocusEvent && event.relatedTarget === this.el) {
-      return;
-    }
-
+  private determineCustomValueAllowedOnBlur = (): void => {
     if (!this.allowCustomValues && this.textInput.value) {
       this.clearInputValue();
       this.filterItems("");
@@ -1149,7 +1144,11 @@ export class Combobox
   };
 
   comboboxBlurHandler = (event: FocusEvent): void => {
-    this.setInactiveIfNotContained(event);
+    if (event.relatedTarget === this.el) {
+      return;
+    }
+
+    this.determineCustomValueAllowedOnBlur();
   };
 
   //--------------------------------------------------------------------------
