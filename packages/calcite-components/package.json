@@ -86,8 +86,5 @@
     "@stencil/sass": "3.0.5",
     "@stencil/state-tunnel": "1.0.1"
   },
-  "license": "SEE LICENSE.md",
-  "engines": {
-    "node": ">=16.0.0"
-  }
+  "license": "SEE LICENSE.md"
 }
