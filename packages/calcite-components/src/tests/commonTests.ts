@@ -936,6 +936,14 @@ interface DisabledOptions {
    *  Note: this should only be used for components that wrap a single component that implements disabled behavior.
    */
   shadowAriaAttributeTargetSelector?: string;
+
+  /**
+   * Use this to specify if any pointerEvent is disabled on click.
+   *
+   *  Note: mousedown and mouseup events are skipped when pointerEvent has preventDefault
+   *  https://github.com/web-platform-tests/wpt/blob/master/pointerevents/compat/pointerevent_mouse-pointer-preventdefault.html#L54
+   */
+  pointerEventPreventDefaultOnClick?: boolean;
 }
 
 type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
@@ -1004,7 +1012,9 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
   // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
   const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
   const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
-  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
+  const allExpectedEvents = options.pointerEventPreventDefaultOnClick
+    ? [...eventsExpectedToBubble, "click"]
+    : [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
 
   const createEventSpiesForExpectedEvents = async (component: E2EElement): Promise<EventSpy[]> => {
     const eventSpies: EventSpy[] = [];

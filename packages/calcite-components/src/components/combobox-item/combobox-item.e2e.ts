@@ -14,6 +14,6 @@ describe("calcite-combobox-item", () => {
   });
 
   describe("disabled", () => {
-    disabled("calcite-combobox-item", { focusTarget: "none" });
+    disabled("calcite-combobox-item", { focusTarget: "none", pointerEventPreventDefaultOnClick: true });
   });
 });
