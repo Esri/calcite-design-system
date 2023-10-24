@@ -352,9 +352,9 @@ describe("calcite-tabs", () => {
     expect(await tabNav.getProperty("position")).toBe("bottom");
     expect(await tabNav.getProperty("scale")).toBe("l");
 
-    tabTitles.forEach(async (item) => {
+    for (const item of tabTitles) {
       expect(await item.getProperty("position")).toBe("bottom");
       expect(await item.getProperty("scale")).toBe("l");
-    });
+    }
   });
 });
