@@ -84,8 +84,8 @@ export const run = async (
     source,
     include,
     platforms: {
-      json: {
-        buildPath: `${buildPath}/json/`,
+      js: {
+        buildPath: `${buildPath}/js/`,
         files: [
           {
             destination: `${fileName}.js`,
@@ -99,7 +99,7 @@ export const run = async (
           },
         ],
       },
-      js: {
+      es6: {
         transformGroup: "js",
         buildPath: `${buildPath}/es6/`,
         files: [
