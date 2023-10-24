@@ -529,11 +529,29 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-app-breakpoint-cols-xs: 6; /* columns */
   --calcite-app-breakpoint-content-fixed: 1440px; /* only for lg breakpoint fixed grid width */
   --calcite-app-breakpoint-content-fluid: 100%; /* for fluid grid widths */
-  --calcite-app-breakpoint-width-lg: 1440px; /* min-width size */
-  --calcite-app-breakpoint-width-md: 1152px; /* min-width size */
-  --calcite-app-breakpoint-width-sm: 768px; /* min-width size */
-  --calcite-app-breakpoint-width-xs: 476px; /* min-width size */
-  --calcite-app-breakpoint-width-xxs: 320px; /* Small handheld devices and mini-windows */
+  --calcite-app-breakpoint-width-lg-min: 1153px; /* Large laptops and desktop computers */
+  --calcite-app-breakpoint-width-lg-max: 1722px; /* Large laptops and desktop computers */
+  --calcite-app-breakpoint-width-md-min: 769px; /* Small laptops */
+  --calcite-app-breakpoint-width-md-max: 1152px; /* Small laptops */
+  --calcite-app-breakpoint-width-sm-min: 477px; /* Small tablets */
+  --calcite-app-breakpoint-width-sm-max: 768px; /* Small tablets */
+  --calcite-app-breakpoint-width-xs-min: 321px; /* Handheld devices */
+  --calcite-app-breakpoint-width-xs-max: 476px; /* Handheld devices */
+  --calcite-app-breakpoint-width-xxs-max: 320px; /* Small handheld devices and mini-windows */
+  --calcite-app-breakpoint-width-lg: 1440px; /* To be deprecated */
+  --calcite-app-breakpoint-width-md: 1152px; /* To be deprecated */
+  --calcite-app-breakpoint-width-sm: 768px; /* To be deprecated */
+  --calcite-app-breakpoint-width-xs: 476px; /* To be deprecated */
+  --calcite-app-breakpoint-width-xxs: 320px; /* To be deprecated */
+  --calcite-app-breakpoint-height-lg-min: 679px; /* Large laptops and desktop computers */
+  --calcite-app-breakpoint-height-lg-max: 853px; /* Large laptops and desktop computers */
+  --calcite-app-breakpoint-height-md-min: 504px; /* Small laptops */
+  --calcite-app-breakpoint-height-md-max: 678px; /* Small laptops */
+  --calcite-app-breakpoint-height-sm-min: 329px; /* Small tablets */
+  --calcite-app-breakpoint-height-sm-max: 503px; /* Small tablets */
+  --calcite-app-breakpoint-height-xs-min: 154px; /* Handheld devices */
+  --calcite-app-breakpoint-height-xs-max: 328px; /* Handheld devices */
+  --calcite-app-breakpoint-height-xxs-max: 153px; /* Small handheld devices and mini-windows */
   --calcite-app-spacing-none: 0px;
   --calcite-app-spacing-28: 288px;
   --calcite-app-spacing-27: 256px;
@@ -6618,11 +6636,29 @@ export const CoreSpacing26 = \\"224px\\";
 export const CoreSpacing27 = \\"256px\\";
 export const CoreSpacing28 = \\"288px\\";
 export const CoreSpacingNone = \\"0px\\";
-export const CoreBreakpointWidthXxs = \\"320px\\";
-export const CoreBreakpointWidthXs = \\"476px\\";
-export const CoreBreakpointWidthSm = \\"768px\\";
-export const CoreBreakpointWidthMd = \\"1152px\\";
-export const CoreBreakpointWidthLg = \\"1440px\\";
+export const CoreBreakpointHeightXxsMax = 153;
+export const CoreBreakpointHeightXsMax = 328;
+export const CoreBreakpointHeightXsMin = 154;
+export const CoreBreakpointHeightSmMax = 503;
+export const CoreBreakpointHeightSmMin = 329;
+export const CoreBreakpointHeightMdMax = 678;
+export const CoreBreakpointHeightMdMin = 504;
+export const CoreBreakpointHeightLgMax = 853;
+export const CoreBreakpointHeightLgMin = 679;
+export const CoreBreakpointWidthDefaultXxs = \\"320px\\";
+export const CoreBreakpointWidthDefaultXs = \\"476px\\";
+export const CoreBreakpointWidthDefaultSm = \\"768px\\";
+export const CoreBreakpointWidthDefaultMd = \\"1152px\\";
+export const CoreBreakpointWidthDefaultLg = \\"1440px\\";
+export const CoreBreakpointWidthXxsMax = 320;
+export const CoreBreakpointWidthXsMax = 476;
+export const CoreBreakpointWidthXsMin = 321;
+export const CoreBreakpointWidthSmMax = 768;
+export const CoreBreakpointWidthSmMin = 477;
+export const CoreBreakpointWidthMdMax = 1152;
+export const CoreBreakpointWidthMdMin = 769;
+export const CoreBreakpointWidthLgMax = 1722;
+export const CoreBreakpointWidthLgMin = 1153;
 export const CoreBreakpointMargin = \\"24px\\";
 export const CoreBreakpointGutter = \\"16px\\";
 export const CoreBreakpointContentFluid = \\"100%\\";
@@ -9718,11 +9754,29 @@ export const CoreSpacing26 : string;
 export const CoreSpacing27 : string;
 export const CoreSpacing28 : string;
 export const CoreSpacingNone : string;
-export const CoreBreakpointWidthXxs : string;
-export const CoreBreakpointWidthXs : string;
-export const CoreBreakpointWidthSm : string;
-export const CoreBreakpointWidthMd : string;
-export const CoreBreakpointWidthLg : string;
+export const CoreBreakpointHeightXxsMax : number;
+export const CoreBreakpointHeightXsMax : number;
+export const CoreBreakpointHeightXsMin : number;
+export const CoreBreakpointHeightSmMax : number;
+export const CoreBreakpointHeightSmMin : number;
+export const CoreBreakpointHeightMdMax : number;
+export const CoreBreakpointHeightMdMin : number;
+export const CoreBreakpointHeightLgMax : number;
+export const CoreBreakpointHeightLgMin : number;
+export const CoreBreakpointWidthDefaultXxs : string;
+export const CoreBreakpointWidthDefaultXs : string;
+export const CoreBreakpointWidthDefaultSm : string;
+export const CoreBreakpointWidthDefaultMd : string;
+export const CoreBreakpointWidthDefaultLg : string;
+export const CoreBreakpointWidthXxsMax : number;
+export const CoreBreakpointWidthXsMax : number;
+export const CoreBreakpointWidthXsMin : number;
+export const CoreBreakpointWidthSmMax : number;
+export const CoreBreakpointWidthSmMin : number;
+export const CoreBreakpointWidthMdMax : number;
+export const CoreBreakpointWidthMdMin : number;
+export const CoreBreakpointWidthLgMax : number;
+export const CoreBreakpointWidthLgMin : number;
 export const CoreBreakpointMargin : string;
 export const CoreBreakpointGutter : string;
 export const CoreBreakpointContentFluid : string;
@@ -68672,106 +68726,513 @@ export default{
       }
     },
     \\"breakpoint\\": {
-      \\"width\\": {
+      \\"height\\": {
         \\"xxs\\": {
-          \\"value\\": \\"320px\\",
-          \\"type\\": \\"sizing\\",
-          \\"description\\": \\"Small handheld devices and mini-windows\\",
-          \\"filePath\\": \\"src/core.json\\",
-          \\"isSource\\": true,
-          \\"original\\": {
-            \\"value\\": \\"320px\\",
+          \\"max\\": {
+            \\"value\\": 153,
             \\"type\\": \\"sizing\\",
-            \\"description\\": \\"Small handheld devices and mini-windows\\"
-          },
-          \\"name\\": \\"xxs\\",
-          \\"attributes\\": {},
-          \\"path\\": [
-            \\"core\\",
-            \\"breakpoint\\",
-            \\"width\\",
-            \\"xxs\\"
-          ]
+            \\"description\\": \\"Small handheld devices and mini-windows\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 153,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small handheld devices and mini-windows\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"xxs\\",
+              \\"max\\"
+            ]
+          }
         },
         \\"xs\\": {
-          \\"value\\": \\"476px\\",
-          \\"type\\": \\"sizing\\",
-          \\"description\\": \\"min-width size\\",
-          \\"filePath\\": \\"src/core.json\\",
-          \\"isSource\\": true,
-          \\"original\\": {
-            \\"value\\": \\"476px\\",
+          \\"max\\": {
+            \\"value\\": 328,
             \\"type\\": \\"sizing\\",
-            \\"description\\": \\"min-width size\\"
+            \\"description\\": \\"Handheld devices\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 328,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Handheld devices\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"xs\\",
+              \\"max\\"
+            ]
           },
-          \\"name\\": \\"xs\\",
-          \\"attributes\\": {},
-          \\"path\\": [
-            \\"core\\",
-            \\"breakpoint\\",
-            \\"width\\",
-            \\"xs\\"
-          ]
+          \\"min\\": {
+            \\"value\\": 154,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Handheld devices\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 154,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Handheld devices\\"
+            },
+            \\"name\\": \\"min\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"xs\\",
+              \\"min\\"
+            ]
+          }
         },
         \\"sm\\": {
-          \\"value\\": \\"768px\\",
-          \\"type\\": \\"sizing\\",
-          \\"description\\": \\"min-width size\\",
-          \\"filePath\\": \\"src/core.json\\",
-          \\"isSource\\": true,
-          \\"original\\": {
-            \\"value\\": \\"768px\\",
+          \\"max\\": {
+            \\"value\\": 503,
             \\"type\\": \\"sizing\\",
-            \\"description\\": \\"min-width size\\"
+            \\"description\\": \\"Small tablets\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 503,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small tablets\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"sm\\",
+              \\"max\\"
+            ]
           },
-          \\"name\\": \\"sm\\",
-          \\"attributes\\": {},
-          \\"path\\": [
-            \\"core\\",
-            \\"breakpoint\\",
-            \\"width\\",
-            \\"sm\\"
-          ]
+          \\"min\\": {
+            \\"value\\": 329,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Small tablets\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 329,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small tablets\\"
+            },
+            \\"name\\": \\"min\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"sm\\",
+              \\"min\\"
+            ]
+          }
         },
         \\"md\\": {
-          \\"value\\": \\"1152px\\",
-          \\"type\\": \\"sizing\\",
-          \\"description\\": \\"min-width size\\",
-          \\"filePath\\": \\"src/core.json\\",
-          \\"isSource\\": true,
-          \\"original\\": {
-            \\"value\\": \\"1152px\\",
+          \\"max\\": {
+            \\"value\\": 678,
             \\"type\\": \\"sizing\\",
-            \\"description\\": \\"min-width size\\"
+            \\"description\\": \\"Small laptops\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 678,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small laptops\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"md\\",
+              \\"max\\"
+            ]
           },
-          \\"name\\": \\"md\\",
-          \\"attributes\\": {},
-          \\"path\\": [
-            \\"core\\",
-            \\"breakpoint\\",
-            \\"width\\",
-            \\"md\\"
-          ]
+          \\"min\\": {
+            \\"value\\": 504,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Small laptops\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 504,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small laptops\\"
+            },
+            \\"name\\": \\"min\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"md\\",
+              \\"min\\"
+            ]
+          }
         },
         \\"lg\\": {
-          \\"value\\": \\"1440px\\",
-          \\"type\\": \\"sizing\\",
-          \\"description\\": \\"min-width size\\",
-          \\"filePath\\": \\"src/core.json\\",
-          \\"isSource\\": true,
-          \\"original\\": {
+          \\"max\\": {
+            \\"value\\": 853,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Large laptops and desktop computers\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 853,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Large laptops and desktop computers\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"lg\\",
+              \\"max\\"
+            ]
+          },
+          \\"min\\": {
+            \\"value\\": 679,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Large laptops and desktop computers\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 679,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Large laptops and desktop computers\\"
+            },
+            \\"name\\": \\"min\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"height\\",
+              \\"lg\\",
+              \\"min\\"
+            ]
+          }
+        }
+      },
+      \\"width\\": {
+        \\"default\\": {
+          \\"xxs\\": {
+            \\"value\\": \\"320px\\",
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"To be deprecated\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": \\"320px\\",
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"To be deprecated\\"
+            },
+            \\"name\\": \\"xxs\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"default\\",
+              \\"xxs\\"
+            ]
+          },
+          \\"xs\\": {
+            \\"value\\": \\"476px\\",
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"To be deprecated\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": \\"476px\\",
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"To be deprecated\\"
+            },
+            \\"name\\": \\"xs\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"default\\",
+              \\"xs\\"
+            ]
+          },
+          \\"sm\\": {
+            \\"value\\": \\"768px\\",
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"To be deprecated\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": \\"768px\\",
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"To be deprecated\\"
+            },
+            \\"name\\": \\"sm\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"default\\",
+              \\"sm\\"
+            ]
+          },
+          \\"md\\": {
+            \\"value\\": \\"1152px\\",
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"To be deprecated\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": \\"1152px\\",
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"To be deprecated\\"
+            },
+            \\"name\\": \\"md\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"default\\",
+              \\"md\\"
+            ]
+          },
+          \\"lg\\": {
             \\"value\\": \\"1440px\\",
             \\"type\\": \\"sizing\\",
-            \\"description\\": \\"min-width size\\"
+            \\"description\\": \\"To be deprecated\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": \\"1440px\\",
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"To be deprecated\\"
+            },
+            \\"name\\": \\"lg\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"default\\",
+              \\"lg\\"
+            ]
+          }
+        },
+        \\"xxs\\": {
+          \\"max\\": {
+            \\"value\\": 320,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Small handheld devices and mini-windows\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 320,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small handheld devices and mini-windows\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"xxs\\",
+              \\"max\\"
+            ]
+          }
+        },
+        \\"xs\\": {
+          \\"max\\": {
+            \\"value\\": 476,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Handheld devices\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 476,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Handheld devices\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"xs\\",
+              \\"max\\"
+            ]
           },
-          \\"name\\": \\"lg\\",
-          \\"attributes\\": {},
-          \\"path\\": [
-            \\"core\\",
-            \\"breakpoint\\",
-            \\"width\\",
-            \\"lg\\"
-          ]
+          \\"min\\": {
+            \\"value\\": 321,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Handheld devices\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 321,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Handheld devices\\"
+            },
+            \\"name\\": \\"min\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"xs\\",
+              \\"min\\"
+            ]
+          }
+        },
+        \\"sm\\": {
+          \\"max\\": {
+            \\"value\\": 768,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Small tablets\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 768,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small tablets\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"sm\\",
+              \\"max\\"
+            ]
+          },
+          \\"min\\": {
+            \\"value\\": 477,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Small tablets\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 477,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small tablets\\"
+            },
+            \\"name\\": \\"min\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"sm\\",
+              \\"min\\"
+            ]
+          }
+        },
+        \\"md\\": {
+          \\"max\\": {
+            \\"value\\": 1152,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Small laptops\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 1152,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small laptops\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"md\\",
+              \\"max\\"
+            ]
+          },
+          \\"min\\": {
+            \\"value\\": 769,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Small laptops\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 769,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Small laptops\\"
+            },
+            \\"name\\": \\"min\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"md\\",
+              \\"min\\"
+            ]
+          }
+        },
+        \\"lg\\": {
+          \\"max\\": {
+            \\"value\\": 1722,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Large laptops and desktop computers\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 1722,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Large laptops and desktop computers\\"
+            },
+            \\"name\\": \\"max\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"lg\\",
+              \\"max\\"
+            ]
+          },
+          \\"min\\": {
+            \\"value\\": 1153,
+            \\"type\\": \\"sizing\\",
+            \\"description\\": \\"Large laptops and desktop computers\\",
+            \\"filePath\\": \\"src/core.json\\",
+            \\"isSource\\": true,
+            \\"original\\": {
+              \\"value\\": 1153,
+              \\"type\\": \\"sizing\\",
+              \\"description\\": \\"Large laptops and desktop computers\\"
+            },
+            \\"name\\": \\"min\\",
+            \\"attributes\\": {},
+            \\"path\\": [
+              \\"core\\",
+              \\"breakpoint\\",
+              \\"width\\",
+              \\"lg\\",
+              \\"min\\"
+            ]
+          }
         }
       },
       \\"margin\\": {
@@ -80837,6 +81298,7 @@ interface Zindex {
   tooltip: Light;
 }
 interface Breakpoint {
+  height: Height;
   width: Width;
   margin: Light;
   gutter: Light;
@@ -80854,11 +81316,49 @@ interface Content2 {
   fixed: Ultralight;
 }
 interface Width {
+  default: Default8;
+  xxs: Xxs;
+  xs: Xs;
+  sm: Xs;
+  md: Xs;
+  lg: Xs;
+}
+interface Default8 {
   xxs: Ultralight;
   xs: Ultralight;
   sm: Ultralight;
   md: Ultralight;
   lg: Ultralight;
+}
+interface Height {
+  xxs: Xxs;
+  xs: Xs;
+  sm: Xs;
+  md: Xs;
+  lg: Xs;
+}
+interface Xs {
+  max: Max;
+  min: Max;
+}
+interface Xxs {
+  max: Max;
+}
+interface Max {
+  value: number;
+  type: string;
+  description: string;
+  filePath: string;
+  isSource: boolean;
+  original: Original3;
+  name: string;
+  attributes: Attributes;
+  path: string[];
+}
+interface Original3 {
+  value: number;
+  type: string;
+  description: string;
 }
 interface Sizing {
   '0': Light;
@@ -84035,11 +84535,29 @@ $breakpoint-cols-sm: 12; // columns
 $breakpoint-cols-xs: 6; // columns
 $breakpoint-content-fixed: 1440px; // only for lg breakpoint fixed grid width
 $breakpoint-content-fluid: 100%; // for fluid grid widths
-$breakpoint-width-lg: 1440px; // min-width size
-$breakpoint-width-md: 1152px; // min-width size
-$breakpoint-width-sm: 768px; // min-width size
-$breakpoint-width-xs: 476px; // min-width size
-$breakpoint-width-xxs: 320px; // Small handheld devices and mini-windows
+$breakpoint-width-lg-min: 1153px; // Large laptops and desktop computers
+$breakpoint-width-lg-max: 1722px; // Large laptops and desktop computers
+$breakpoint-width-md-min: 769px; // Small laptops
+$breakpoint-width-md-max: 1152px; // Small laptops
+$breakpoint-width-sm-min: 477px; // Small tablets
+$breakpoint-width-sm-max: 768px; // Small tablets
+$breakpoint-width-xs-min: 321px; // Handheld devices
+$breakpoint-width-xs-max: 476px; // Handheld devices
+$breakpoint-width-xxs-max: 320px; // Small handheld devices and mini-windows
+$breakpoint-width-lg: 1440px; // To be deprecated
+$breakpoint-width-md: 1152px; // To be deprecated
+$breakpoint-width-sm: 768px; // To be deprecated
+$breakpoint-width-xs: 476px; // To be deprecated
+$breakpoint-width-xxs: 320px; // To be deprecated
+$breakpoint-height-lg-min: 679px; // Large laptops and desktop computers
+$breakpoint-height-lg-max: 853px; // Large laptops and desktop computers
+$breakpoint-height-md-min: 504px; // Small laptops
+$breakpoint-height-md-max: 678px; // Small laptops
+$breakpoint-height-sm-min: 329px; // Small tablets
+$breakpoint-height-sm-max: 503px; // Small tablets
+$breakpoint-height-xs-min: 154px; // Handheld devices
+$breakpoint-height-xs-max: 328px; // Handheld devices
+$breakpoint-height-xxs-max: 153px; // Small handheld devices and mini-windows
 $spacing-none: 0px;
 $spacing-28: 288px;
 $spacing-27: 256px;
@@ -84415,11 +84933,29 @@ $breakpoint-margin: 24px;
   --calcite-app-breakpoint-cols-xs: 6; /* columns */
   --calcite-app-breakpoint-content-fixed: 1440px; /* only for lg breakpoint fixed grid width */
   --calcite-app-breakpoint-content-fluid: 100%; /* for fluid grid widths */
-  --calcite-app-breakpoint-width-lg: 1440px; /* min-width size */
-  --calcite-app-breakpoint-width-md: 1152px; /* min-width size */
-  --calcite-app-breakpoint-width-sm: 768px; /* min-width size */
-  --calcite-app-breakpoint-width-xs: 476px; /* min-width size */
-  --calcite-app-breakpoint-width-xxs: 320px; /* Small handheld devices and mini-windows */
+  --calcite-app-breakpoint-width-lg-min: 1153px; /* Large laptops and desktop computers */
+  --calcite-app-breakpoint-width-lg-max: 1722px; /* Large laptops and desktop computers */
+  --calcite-app-breakpoint-width-md-min: 769px; /* Small laptops */
+  --calcite-app-breakpoint-width-md-max: 1152px; /* Small laptops */
+  --calcite-app-breakpoint-width-sm-min: 477px; /* Small tablets */
+  --calcite-app-breakpoint-width-sm-max: 768px; /* Small tablets */
+  --calcite-app-breakpoint-width-xs-min: 321px; /* Handheld devices */
+  --calcite-app-breakpoint-width-xs-max: 476px; /* Handheld devices */
+  --calcite-app-breakpoint-width-xxs-max: 320px; /* Small handheld devices and mini-windows */
+  --calcite-app-breakpoint-width-lg: 1440px; /* To be deprecated */
+  --calcite-app-breakpoint-width-md: 1152px; /* To be deprecated */
+  --calcite-app-breakpoint-width-sm: 768px; /* To be deprecated */
+  --calcite-app-breakpoint-width-xs: 476px; /* To be deprecated */
+  --calcite-app-breakpoint-width-xxs: 320px; /* To be deprecated */
+  --calcite-app-breakpoint-height-lg-min: 679px; /* Large laptops and desktop computers */
+  --calcite-app-breakpoint-height-lg-max: 853px; /* Large laptops and desktop computers */
+  --calcite-app-breakpoint-height-md-min: 504px; /* Small laptops */
+  --calcite-app-breakpoint-height-md-max: 678px; /* Small laptops */
+  --calcite-app-breakpoint-height-sm-min: 329px; /* Small tablets */
+  --calcite-app-breakpoint-height-sm-max: 503px; /* Small tablets */
+  --calcite-app-breakpoint-height-xs-min: 154px; /* Handheld devices */
+  --calcite-app-breakpoint-height-xs-max: 328px; /* Handheld devices */
+  --calcite-app-breakpoint-height-xxs-max: 153px; /* Small handheld devices and mini-windows */
   --calcite-app-spacing-none: 0px;
   --calcite-app-spacing-28: 288px;
   --calcite-app-spacing-27: 256px;
