@@ -27,7 +27,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/
   @Prop({ reflect: true }) href: string;
 
-  /** Specifies an icon to display at the start of the component. */
+  /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
