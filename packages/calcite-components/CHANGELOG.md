@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.7...@esri/calcite-components@1.10.0-next.8) (2023-10-25)
+
+### Features
+
+- **navigation-logo:** Adds `icon` and `iconFlipRtl` properties ([#8054](https://github.com/Esri/calcite-design-system/issues/8054)) ([049056d](https://github.com/Esri/calcite-design-system/commit/049056d18ad081abafdbd45d236507ad18b60fc3)), closes [#7124](https://github.com/Esri/calcite-design-system/issues/7124)
+
 ## [1.10.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.6...@esri/calcite-components@1.10.0-next.7) (2023-10-24)
 
 **Note:** Version bump only for package @esri/calcite-components
