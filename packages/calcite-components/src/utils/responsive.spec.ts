@@ -8,10 +8,11 @@ describe("getBreakpoints()", () => {
     document.head.innerHTML = `
       <style>
         :root {
-        --calcite-app-breakpoint-width-lg: 1000px;
-        --calcite-app-breakpoint-width-md: 100px;
-        --calcite-app-breakpoint-width-sm: 10px;
-        --calcite-app-breakpoint-width-xs: 1px;
+        --calcite-app-breakpoint-width-lg: 10000px;
+        --calcite-app-breakpoint-width-md: 1000px;
+        --calcite-app-breakpoint-width-sm: 100px;
+        --calcite-app-breakpoint-width-xs: 10px;
+        --calcite-app-breakpoint-width-xxs: 1px;
       }
       </style>
     `;
@@ -22,6 +23,7 @@ describe("getBreakpoints()", () => {
         medium: toBeInteger(),
         small: toBeInteger(),
         xsmall: toBeInteger(),
+        xxsmall: toBeInteger(),
       },
     });
   });
