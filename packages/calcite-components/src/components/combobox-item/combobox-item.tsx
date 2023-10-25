@@ -160,7 +160,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.selected = !this.selected;
   }
 
-  itemPointerHandler = (event: PointerEvent): void => {
+  itemPointerDownHandler = (event: PointerEvent): void => {
     event.preventDefault();
     this.toggleSelected();
   };
@@ -243,7 +243,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
           class={`container scale--${this.scale}`}
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
-          <li class={classes} id={this.guid} onPointerDown={this.itemPointerHandler}>
+          <li class={classes} id={this.guid} onPointerDown={this.itemPointerDownHandler}>
             {this.renderSelectIndicator(showDot, iconPath)}
             {this.renderIcon(iconPath)}
             <span class="title">{this.textLabel}</span>

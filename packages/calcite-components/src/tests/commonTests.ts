@@ -977,12 +977,12 @@ interface DisabledOptions {
   shadowAriaAttributeTargetSelector?: string;
 
   /**
-   * Use this to specify if any pointerEvent is disabled on click.
+   * Use this to specify if pointerDownEvent is disabled on click.
    *
    *  Note: mousedown and mouseup events are skipped when pointerEvent has preventDefault
    *  https://github.com/web-platform-tests/wpt/blob/master/pointerevents/compat/pointerevent_mouse-pointer-preventdefault.html#L54
    */
-  pointerEventPreventDefaultOnClick?: boolean;
+  pointerDownEventDefaultPrevented?: boolean;
 }
 
 type ComponentTestContent = TagOrHTML | TagAndPage;
@@ -1066,7 +1066,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
   // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
   const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
   const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
-  const allExpectedEvents = options.pointerEventPreventDefaultOnClick
+  const allExpectedEvents = options.pointerDownEventDefaultPrevented
     ? [...eventsExpectedToBubble, "click"]
     : [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
 
