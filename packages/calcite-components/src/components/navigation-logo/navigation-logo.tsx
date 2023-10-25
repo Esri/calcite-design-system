@@ -103,6 +103,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   private renderIcon(): VNode {
+    /** Icon scale is not variable as the component does not have a scale property */
     return <calcite-icon class={CSS.icon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="l" />;
   }
 
