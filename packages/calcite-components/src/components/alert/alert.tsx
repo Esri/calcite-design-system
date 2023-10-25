@@ -46,8 +46,8 @@ import { KindIcons } from "../resources";
 import { AlertMessages } from "./assets/alert/t9n";
 import { AlertDuration, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
-import { Breakpoints, getBreakpoints } from "../../utils/responsive";
 import { createObserver } from "../../utils/observers";
+import { breakpoints } from "../../utils/responsive";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -182,8 +182,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
-    this.breakpoints = breakpoints;
+    await setUpMessages(this);
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
@@ -218,7 +217,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     const { hasEndActions } = this;
     const { open, autoClose, responsiveContainerWidth, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
-    const widthBreakpoints = this.breakpoints.width;
+    const widthBreakpoints = breakpoints.width;
     const lessThanSmall = responsiveContainerWidth < widthBreakpoints.small;
     const greaterOrEqualThanSmall = responsiveContainerWidth >= widthBreakpoints.small;
     const hidden = !open;
@@ -438,8 +437,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @State() responsiveContainerWidth: number;
 
   private autoCloseTimeoutId: number = null;
-
-  private breakpoints: Breakpoints;
 
   private closeButton: HTMLButtonElement;
 
