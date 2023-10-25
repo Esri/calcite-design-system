@@ -1,9 +1,9 @@
 import {
-  CoreBreakpointWidthLg,
-  CoreBreakpointWidthMd,
-  CoreBreakpointWidthSm,
-  CoreBreakpointWidthXs,
-  CoreBreakpointWidthXxs,
+  CoreBreakpointWidthDefaultLg,
+  CoreBreakpointWidthDefaultMd,
+  CoreBreakpointWidthDefaultSm,
+  CoreBreakpointWidthDefaultXs,
+  CoreBreakpointWidthDefaultXxs,
 } from "@esri/calcite-design-tokens/dist/es6/calcite-headless";
 
 export interface Breakpoints {
@@ -21,11 +21,11 @@ export interface Breakpoints {
  */
 export const breakpoints: Breakpoints = {
   width: {
-    large: cssLengthToNumber(CoreBreakpointWidthLg),
-    medium: cssLengthToNumber(CoreBreakpointWidthMd),
-    small: cssLengthToNumber(CoreBreakpointWidthSm),
-    xsmall: cssLengthToNumber(CoreBreakpointWidthXs),
-    xxsmall: cssLengthToNumber(CoreBreakpointWidthXxs),
+    large: cssLengthToNumber(CoreBreakpointWidthDefaultLg),
+    medium: cssLengthToNumber(CoreBreakpointWidthDefaultMd),
+    small: cssLengthToNumber(CoreBreakpointWidthDefaultSm),
+    xsmall: cssLengthToNumber(CoreBreakpointWidthDefaultXs),
+    xxsmall: cssLengthToNumber(CoreBreakpointWidthDefaultXxs),
   },
 };
 
