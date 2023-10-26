@@ -423,7 +423,7 @@ export class Combobox
 
     if (this.displayMode === "fit-to-line") {
       this.intersectionObserver = createObserver("intersection", this.intersectionHandler, {
-        root: this.inputContainerEl,
+        root: this.chipContainerEl,
         threshold: 1,
       });
     }
@@ -539,7 +539,7 @@ export class Combobox
 
   private referenceEl: HTMLDivElement;
 
-  private inputContainerEl: HTMLDivElement;
+  private chipContainerEl: HTMLDivElement;
 
   private listContainerEl: HTMLDivElement;
 
@@ -827,9 +827,9 @@ export class Combobox
     this.transitionEl = el;
   };
 
-  setInputContainerEl = (el: HTMLDivElement): void => {
+  setChipContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
-    this.inputContainerEl = el;
+    this.chipContainerEl = el;
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -1464,7 +1464,7 @@ export class Combobox
         >
           <div
             class={{ "grid-input": true, "fit-to-line": fitToLineDisplayMode }}
-            ref={this.setInputContainerEl}
+            ref={this.setChipContainerEl}
           >
             {this.renderIconStart()}
             {!singleSelectionMode && !singleDisplayMode && this.renderChips()}
