@@ -1,4 +1,4 @@
-Tab-nav and tab-title inherit their `scale` and `position` from tabs parent.
+Tabs `scale` and `position` properties are inherited by it's child components, tab-nav and tab-title.
 
 ```html
 <calcite-tabs scale="l" position="bottom">
