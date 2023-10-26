@@ -1,16 +1,15 @@
 :host {
   @apply block outline-none;
   margin-inline-start: theme("margin.0");
+  margin-inline-end: theme("margin.5");
 }
 
 :host([layout="inline"]) {
   @apply flex-initial;
-  margin-inline-end: theme("margin.5");
 }
 
 :host([layout="center"]) {
   @apply flex-auto;
-  margin-inline-end: theme("margin.5");
 }
 
 :host([layout="center"]) .scale-s,

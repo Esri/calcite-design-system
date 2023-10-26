@@ -212,10 +212,11 @@ function propToAttr(name: string): string {
  *    ])
  * })
  *
- * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
- * @param {object[]} propsToTest - An array of objects to test.
- * @param {string} propsToTest.propertyName - The property name.
- * @param {any} propsToTest.value - The property value.
+ * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param componentTestSetup
+ * @param {object[]} propsToTest - the properties to test
+ * @param {string} propsToTest.propertyName - the property name
+ * @param {any} propsToTest.value - the property value
  */
 export function defaults(
   componentTestSetup: ComponentTestSetup,
