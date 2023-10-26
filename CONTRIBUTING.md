@@ -71,12 +71,20 @@ Milestones are used to organize issues targeted for a sprint in a planned releas
 
 ### Estimates
 
-Estimates are used to determine how much work needs to go into an issue. The total estimate helps product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for time estimates using an `estimate-#` label for tracking:
+Estimates are used to determine how much effort needs to go into an issue. The total estimate helps product managers triage issues effectively so designers and developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for time estimates using an `estimate-#` label for tracking:
+
+### Design estimates
+
+- `estimate - design - sm`: No more than a few days of design expertise.
+- `estimate - design - md`: One to two weeks of design efforts and collaboration.
+- `estimate - design - lg`: Two to four weeks of design expertise, collaboration, and discussion. Usually requires all hands on deck.
+
+### Development estimates
 
 - `estimate - 1`: Very small fix or change, a one line update.
 - `estimate - 2`: Small fix or update, does not require updates to tests.
-- `estimate - 3`: A day or two of work, may require changes to tests.
-- `estimate - 5`: A few days of work, requires updates to tests.
+- `estimate - 3`: A day or two of effort, may require changes to tests.
+- `estimate - 5`: A few days of effort, requires updates to tests.
 - `estimate - 8`: Requires input from team, consider smaller steps.
 - `estimate - 13`: Requires planning and input from team, consider smaller steps.
 - `estimate - 21`: Requires planning, input from team members and possibly others.
