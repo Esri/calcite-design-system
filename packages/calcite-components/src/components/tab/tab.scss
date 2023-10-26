@@ -27,8 +27,7 @@ section,
 }
 
 .scale-l section {
-  @apply text-0h;
-  padding-block: 13px;
+  @apply text-0h py-2.5;
 }
 
 @include base-component();

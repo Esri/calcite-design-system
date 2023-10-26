@@ -1,6 +1,15 @@
 :host {
-  @apply block flex-initial outline-none;
+  @apply block outline-none;
   margin-inline-start: theme("margin.0");
+}
+
+:host([layout="inline"]) {
+  @apply flex-initial;
+  margin-inline-end: theme("margin.5");
+}
+
+:host([layout="center"]) {
+  @apply flex-auto;
   margin-inline-end: theme("margin.5");
 }
 
@@ -8,7 +17,6 @@
 :host([layout="center"]) .scale-m,
 :host([layout="center"]) .scale-l {
   @apply my-0 text-center;
-  margin-inline-end: theme("margin.0");
   flex-basis: theme("spacing.48");
   .content {
     @apply m-auto;
@@ -88,7 +96,6 @@
 }
 
 .scale-s {
-  margin-inline-end: 1rem;
   .content {
     @apply text-n2h py-1;
   }
@@ -101,7 +108,6 @@
 }
 
 .scale-l {
-  margin-inline-end: 1.5rem;
   .content {
     @apply text-0h py-2.5;
   }
