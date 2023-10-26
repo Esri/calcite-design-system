@@ -1,0 +1,14 @@
+projects/output-target/src/lib/stencil-generated/*
+
+# Compiled output
+/tmp
+/out-tsc
+/bazel-out
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings

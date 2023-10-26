@@ -1,0 +1,10 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["@esri/calcite-components#build", "^build"],
+      "outputs": ["../../dist/output-target/**"]
+    }
+  }
+}
