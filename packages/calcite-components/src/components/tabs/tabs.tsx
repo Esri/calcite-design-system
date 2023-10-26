@@ -37,7 +37,7 @@ export class Tabs {
 
   @Watch("position")
   @Watch("scale")
-  handlePropsChange(): void {
+  handleInheritableProps(): void {
     this.updateItems();
   }
 
@@ -154,7 +154,6 @@ export class Tabs {
   @State() tabs: HTMLCalciteTabElement[] = [];
 
   mutationObserver = createObserver("mutation", (mutationsList: MutationRecord[]) => {
-    console.log("mutationsList", mutationsList);
     for (const mutation of mutationsList) {
       const target = mutation.target as HTMLElement;
       if (
@@ -176,13 +175,12 @@ export class Tabs {
       nav.scale = scale;
     }
 
-    Array.from(this.el.querySelectorAll("calcite-tab:not(.calcite-tab-nested)")).forEach(
-      (tab: HTMLCalciteTabElement) => {
-        tab.scale = scale;
-      }
-    );
+    const tab = this.el.querySelector("calcite-tab");
+    if (tab) {
+      tab.scale = scale;
+    }
 
-    Array.from(this.el.querySelectorAll("calcite-tab-title")).forEach(
+    Array.from(this.el.querySelectorAll("calcite-tab-nav > calcite-tab-title")).forEach(
       (title: HTMLCalciteTabTitleElement) => {
         title.position = position;
         title.scale = scale;

@@ -1,3 +1,3 @@
 export const CSS = {
-  tabNav: "tab-nav",
+  container: "tab-nav",
 };

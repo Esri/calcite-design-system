@@ -173,7 +173,7 @@ export class TabNav {
       <Host role="tablist">
         <div
           class={{
-            [CSS.tabNav]: true,
+            [CSS.container]: true,
             [`scale-${this.scale}`]: true,
             [`position-${this.position}`]: true,
           }}

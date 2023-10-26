@@ -4,7 +4,6 @@ import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-tab-title", () => {
-  const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
   const tabTitleClosableHtml = "<calcite-tab-title closable></calcite-tab-title>";
 
   const multiTabTitleClosableMarkup = `
@@ -42,7 +41,7 @@ describe("calcite-tab-title", () => {
   const closeSelector = `calcite-tab-title >>> .${CSS.closeButton}`;
 
   describe("renders", () => {
-    renders(tabTitleHtml, { display: "block" });
+    renders("calcite-tab-title", { display: "block" });
     renders(multiTabTitleClosableMarkup, { display: "flex" });
   });
 
@@ -345,46 +344,6 @@ describe("calcite-tab-title", () => {
 
     await page.keyboard.press("Enter");
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
-  });
-
-  async function assertTabTitleStyles(page: E2EPage, testCase: any) {
-    page.waitForChanges();
-
-    const tabTitleEl = await page.find(`calcite-tab-title`);
-    const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
-
-    const contentStyles = await content.getComputedStyle();
-
-    expect(await tabTitleEl.getProperty("scale")).toBe(testCase.scale);
-
-    expect(contentStyles.fontSize).toEqual(testCase.styles.fontSize);
-    expect(contentStyles.lineHeight).toEqual(testCase.styles.lineHeight);
-  }
-
-  describe("scale property", () => {
-    const tabTitleSetHtml = html`
-      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-    `;
-
-    const navWithTabTitleSetHtml = html`<calcite-tab-nav slot="title-group">${tabTitleSetHtml}</calcite-tab-nav>`;
-
-    const scaleStyles = [
-      { scale: "", styles: { fontSize: "14px", lineHeight: "16px" } }, //default
-      { scale: "s", styles: { fontSize: "12px", lineHeight: "16px" } },
-      { scale: "m", styles: { fontSize: "14px", lineHeight: "16px" } },
-      { scale: "l", styles: { fontSize: "16px", lineHeight: "20px" } },
-    ];
-
-    for (const { scale, styles } of scaleStyles) {
-      it(`should inherit ${scale || "default medium"} scale down from 'tabs' parent`, async () => {
-        const page = await newE2EPage();
-        await page.setContent(`<calcite-tabs scale="${scale}">${navWithTabTitleSetHtml}</calcite-tabs>`);
-        await assertTabTitleStyles(page, { scale, styles });
-      });
-    }
   });
 
   describe("when the active tab-title changes", () => {

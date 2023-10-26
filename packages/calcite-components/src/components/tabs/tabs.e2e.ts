@@ -127,7 +127,7 @@ describe("calcite-tabs", () => {
     }
   });
 
-  function testCalciteTabs(scale: Scale, position: TabPosition) {
+  function testTabsScaleAndPosition(scale: Scale, position: TabPosition) {
     const scaleName = scale === "m" ? "default medium" : scale;
 
     it(`should render itself and child tab elements with corresponding scale (${scaleName}) and position (${position})`, async () => {
@@ -135,13 +135,18 @@ describe("calcite-tabs", () => {
       await page.setContent(html`<calcite-tabs scale="${scale}" position="${position}">${tabsContent}</calcite-tabs>`);
       await page.waitForChanges();
 
-      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", scale);
-      expect(await page.find("calcite-tabs")).toEqualAttribute("position", position);
-      expect(await (await page.find("calcite-tab-nav")).getProperty("scale")).toBe(scale);
-      expect(await (await page.find("calcite-tab-nav")).getProperty("position")).toBe(position);
-      expect(await (await page.find("calcite-tab-title")).getProperty("scale")).toBe(scale);
-      expect(await (await page.find("calcite-tab-title")).getProperty("position")).toBe(position);
-      expect(await (await page.find("calcite-tab")).getProperty("scale")).toBe(scale);
+      const tabs = await page.find("calcite-tabs");
+      const tab = await page.find("calcite-tab");
+      const tabTitle = await page.find("calcite-tab-title");
+      const tabNav = await page.find("calcite-tab-nav");
+
+      expect(await tabs.getProperty("scale")).toBe(scale);
+      expect(await tabs.getProperty("position")).toBe(position);
+      expect(await tabNav.getProperty("scale")).toBe(scale);
+      expect(await tabNav.getProperty("position")).toBe(position);
+      expect(await tabTitle.getProperty("scale")).toBe(scale);
+      expect(await tabTitle.getProperty("position")).toBe(position);
+      expect(await tab.getProperty("scale")).toBe(scale);
     });
   }
 
@@ -151,7 +156,7 @@ describe("calcite-tabs", () => {
 
     scales.forEach((scale) => {
       positions.forEach((position) => {
-        testCalciteTabs(scale, position);
+        testTabsScaleAndPosition(scale, position);
       });
     });
   });

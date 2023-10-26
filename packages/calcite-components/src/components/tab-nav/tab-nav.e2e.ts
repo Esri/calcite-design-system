@@ -3,14 +3,12 @@ import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tab-nav", () => {
-  const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
-
   describe("defaults", () => {
-    defaults(tabNavHtml, [{ propertyName: "scale", defaultValue: "m" }]);
+    defaults("calcite-tab-nav", [{ propertyName: "scale", defaultValue: "m" }]);
   });
 
   describe("renders", () => {
-    renders(tabNavHtml, { display: "flex" });
+    renders("calcite-tab-nav", { display: "flex" });
   });
 
   describe("honors hidden attribute", () => {
@@ -18,7 +16,7 @@ describe("calcite-tab-nav", () => {
   });
 
   describe("accessible: checked", () => {
-    accessible(tabNavHtml);
+    accessible("calcite-tab-nav");
   });
 
   it("emits on user interaction", async () => {
