@@ -194,7 +194,7 @@ function propToAttr(name: string): string {
 }
 
 /**
- * Helper for asserting that a property's value is its default.
+ * Helper for asserting that a property's value is its default
  *
  * Note that this helper should be used within a describe block.
  *
