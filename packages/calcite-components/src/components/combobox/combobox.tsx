@@ -66,6 +66,7 @@ import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
+import { getIconScale } from "../../utils/component";
 
 interface ItemData {
   label: string;
@@ -1294,7 +1295,7 @@ export class Combobox
             class="selected-icon"
             flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
             icon={!this.open && selectedItem ? selectedIcon : placeholderIcon}
-            scale="s"
+            scale={getIconScale(this.scale)}
           />
         </span>
       )
@@ -1305,7 +1306,10 @@ export class Combobox
     const { open } = this;
     return (
       <span class="icon-end">
-        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
       </span>
     );
   }
