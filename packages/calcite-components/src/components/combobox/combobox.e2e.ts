@@ -1792,7 +1792,7 @@ describe("calcite-combobox", () => {
         return comboboxEl.getBoundingClientRect().toJSON();
       });
 
-      await inputEl.type("asdf");
+      await inputEl.type("three");
       await page.waitForChanges();
       await page.mouse.move(10, 2 * comboboxRect.bottom);
       await page.mouse.down();
@@ -1801,7 +1801,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).not.toBe("myCombobox");
       expect(await inputEl.getProperty("value")).toBe("");
-      expect(await combobox.getProperty("value")).toBe(allowCustomValues ? "asdf" : "");
+      expect(await combobox.getProperty("value")).toBe(allowCustomValues ? "three" : "");
     }
 
     selectionModes.forEach((mode) => {
@@ -1838,15 +1838,16 @@ describe("calcite-combobox", () => {
       await inputEl.focus();
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-      await page.keyboard.type("asdf");
+      await page.keyboard.type("three");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       expect(await inputEl.getProperty("value")).toBe("");
-      expect(await combobox.getProperty("value")).toBe(allowCustomValues ? "asdf" : "");
+      expect(await combobox.getProperty("value")).toBe(allowCustomValues ? "three" : "");
     }
+
     selectionModes.forEach((mode) => {
       it(`should clear the input on blur when selectionMode=${mode}`, async () => {
         await clearInputValueOnBlur(mode);
