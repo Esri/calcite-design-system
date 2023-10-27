@@ -3,7 +3,7 @@ export const ComboboxItemGroup = "CALCITE-COMBOBOX-ITEM-GROUP";
 export const ComboboxChildSelector = `${ComboboxItem}, ${ComboboxItemGroup}`;
 
 export const CSS = {
-  chipHidden: "chip--hidden",
   chipInvisible: "chip--invisible",
+  chipVisible: "chip--visible",
   listContainer: "list-container",
 };

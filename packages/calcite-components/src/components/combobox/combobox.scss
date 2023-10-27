@@ -74,6 +74,7 @@
 
 .grid-input {
   @apply flex
+    flex-grow
     flex-wrap
     items-center
     relative
@@ -100,7 +101,6 @@
   line-height: var(--calcite-combobox-input-height);
   inline-size: 100%;
   margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
-  min-inline-size: 50px;
   &:focus {
     @apply outline-none;
   }
@@ -210,18 +210,19 @@ calcite-chip {
 
 .chip {
   margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
+  max-inline-size: 100%;
 }
 
 .chip--active {
   @apply bg-foreground-3;
 }
 
-.chip--hidden {
-  @apply hidden;
+.chip--invisible {
+  @apply absolute invisible;
 }
 
-.chip--invisible {
-  @apply invisible;
+.chip--visible {
+  @apply inline-block static visible;
 }
 
 .item {

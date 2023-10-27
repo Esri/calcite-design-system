@@ -15,7 +15,12 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 
-import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import {
+  getElementWidth,
+  getTextWidth,
+  isPrimaryPointerButton,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -420,13 +425,6 @@ export class Combobox
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
-
-    if (this.displayMode === "fit-to-line") {
-      this.intersectionObserver = createObserver("intersection", this.intersectionHandler, {
-        root: this.chipContainerEl,
-        threshold: 1,
-      });
-    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -439,9 +437,7 @@ export class Combobox
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition(true);
     setComponentLoaded(this);
-    if (this.displayMode === "fit-to-line") {
-      this.intersectionObserveChips();
-    }
+    this.refreshDisplayMode();
   }
 
   componentDidRender(): void {
@@ -451,10 +447,10 @@ export class Combobox
     }
 
     updateHostInteraction(this);
+  }
 
-    if (this.displayMode === "fit-to-line") {
-      this.intersectionObserveChips();
-    }
+  componentDidUpdate(): void {
+    this.refreshDisplayMode();
   }
 
   disconnectedCallback(): void {
@@ -525,11 +521,12 @@ export class Combobox
 
   data: ItemData[];
 
-  intersectionObserver: IntersectionObserver;
-
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
+  resizeObserver = createObserver("resize", () => {
+    this.setMaxScrollerHeight();
+    this.refreshDisplayMode();
+  });
 
   private guid = guid();
 
@@ -795,6 +792,71 @@ export class Combobox
 
     this.updateActiveItemIndex(targetIndex);
   }
+
+  private hideChip(chipEl: HTMLCalciteChipElement): void {
+    chipEl.classList.remove(CSS.chipVisible);
+    chipEl.classList.add(CSS.chipInvisible);
+  }
+
+  private showChip(chipEl: HTMLCalciteChipElement): void {
+    chipEl.classList.remove(CSS.chipInvisible);
+    chipEl.classList.add(CSS.chipVisible);
+  }
+
+  private refreshDisplayMode = () => {
+    if (isSingleLike(this.selectionMode)) {
+      return;
+    }
+    if (!this.textInput) {
+      return;
+    }
+    if (this.displayMode === "fit-to-line") {
+      const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
+        (chipEl) => chipEl !== this.selectedIndicatorChipEl
+      );
+      const { fontSize, fontFamily } = getComputedStyle(this.textInput);
+      const chipContainerElWidth = getElementWidth(this.chipContainerEl);
+      const chipContainerElGap = parseInt(
+        getComputedStyle(this.chipContainerEl).gap.replace("px", "")
+      );
+      const inputTextWidth = getTextWidth(this.placeholder, `${fontSize} ${fontFamily}`) || 50;
+      const selectedIndicatorChipElWidth = getElementWidth(this.selectedIndicatorChipEl);
+      let availableHorizontalChipElSpace = Math.round(
+        chipContainerElWidth - (selectedIndicatorChipElWidth + chipContainerElGap + inputTextWidth)
+      );
+
+      chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
+        if (chipEl.selected) {
+          const chipElWidth = getElementWidth(chipEl);
+          if (
+            chipElWidth &&
+            chipElWidth < availableHorizontalChipElSpace &&
+            this.getItems().length !== this.getSelectedItems().length
+          ) {
+            availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
+            this.showChip(chipEl);
+          } else {
+            this.hideChip(chipEl);
+          }
+        } else {
+          this.hideChip(chipEl);
+        }
+      });
+
+      let selectedVisibleChipsCount = 0;
+      chipEls.forEach((chipEl) => {
+        if (
+          chipEl.selected &&
+          chipEl.classList.contains(CSS.chipVisible) &&
+          !chipEl.classList.contains(CSS.chipInvisible)
+        ) {
+          selectedVisibleChipsCount++;
+        }
+      });
+      this.selectedHiddenChipsCount = this.getSelectedItems().length - selectedVisibleChipsCount;
+      this.selectedVisibleChipsCount = selectedVisibleChipsCount;
+    }
+  };
 
   private setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
@@ -1194,32 +1256,6 @@ export class Combobox
     this.setInactiveIfNotContained(event);
   };
 
-  private intersectionHandler = (entries): void => {
-    entries.forEach(({ target, isIntersecting }) => {
-      target.classList.toggle(CSS.chipInvisible, !isIntersecting);
-    });
-    let selectedHiddenChipsCount = 0;
-    let selectedVisibleChipsCount = 0;
-    const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-      (chipEl) => chipEl !== this.selectedIndicatorChipEl
-    );
-    chipEls.forEach((chipEl) => {
-      if (chipEl.classList.contains(CSS.chipInvisible)) {
-        selectedHiddenChipsCount++;
-      } else {
-        selectedVisibleChipsCount++;
-      }
-    });
-    this.selectedHiddenChipsCount = selectedHiddenChipsCount;
-    this.selectedVisibleChipsCount = selectedVisibleChipsCount;
-  };
-
-  private intersectionObserveChips(): void {
-    Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip"))
-      .filter((chipEl) => chipEl !== this.selectedIndicatorChipEl)
-      .forEach((chipEl) => this.intersectionObserver.observe(chipEl));
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -1227,8 +1263,9 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode, messages } = this;
-    return this.selectedItems.map((item, i) => {
+    const { activeChipIndex, displayMode, scale, selectionMode, messages } = this;
+    const items = displayMode === "fit-to-line" ? this.items : this.selectedItems;
+    return items.map((item, i) => {
       const chipClasses = {
         chip: true,
         "chip--active": activeChipIndex === i,
@@ -1247,6 +1284,7 @@ export class Combobox
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
+          selected={item.selected}
           title={label}
           value={item.value}
         >
@@ -1254,6 +1292,38 @@ export class Combobox
         </calcite-chip>
       );
     });
+  }
+
+  renderSelectedIndicatorChip(): VNode {
+    const {
+      displayMode,
+      scale,
+      selectedHiddenChipsCount,
+      selectedVisibleChipsCount,
+      setSelectedIndicatorChipEl,
+    } = this;
+    let label;
+    if (this.getItems().length === this.getSelectedItems().length) {
+      label = "All selected";
+    } else if (displayMode === "fit-to-line" && selectedHiddenChipsCount > 0) {
+      label =
+        selectedVisibleChipsCount > 0
+          ? `+${selectedHiddenChipsCount}`
+          : `${selectedHiddenChipsCount} selected`;
+    } else if (displayMode === "single" && this.getSelectedItems().length > 0) {
+      label = `${this.selectedItems.length} selected`;
+    }
+    return (
+      <calcite-chip
+        class={{ chip: true, [CSS.chipInvisible]: !label, [CSS.chipVisible]: label }}
+        ref={setSelectedIndicatorChipEl}
+        scale={scale}
+        title={label}
+        value=""
+      >
+        {label}
+      </calcite-chip>
+    );
   }
 
   renderInput(): VNode {
@@ -1385,54 +1455,6 @@ export class Combobox
     );
   }
 
-  renderSelectedIndicatorChip(): VNode {
-    const {
-      displayMode,
-      scale,
-      selectedHiddenChipsCount,
-      selectedVisibleChipsCount,
-      setSelectedIndicatorChipEl,
-    } = this;
-
-    const itemsCount = this.getItems().length;
-    const selectedItemsCount = this.getSelectedItems().length;
-
-    let label;
-    let hideChip = false;
-
-    const allItemsSelected = itemsCount === selectedItemsCount;
-
-    if (displayMode === "single") {
-      label = allItemsSelected
-        ? "All selected"
-        : selectedItemsCount
-        ? `${this.selectedItems.length} selected`
-        : "";
-    } else if (displayMode === "fit-to-line") {
-      if (allItemsSelected && !selectedVisibleChipsCount) {
-        label = "All selected";
-      } else {
-        label =
-          selectedVisibleChipsCount > 0
-            ? `+${selectedHiddenChipsCount}`
-            : `${selectedHiddenChipsCount} selected`;
-        hideChip = !selectedHiddenChipsCount;
-      }
-    }
-
-    return (
-      <calcite-chip
-        class={{ chip: true, [CSS.chipHidden]: hideChip }}
-        ref={setSelectedIndicatorChipEl}
-        scale={scale}
-        title={label}
-        value=""
-      >
-        {label}
-      </calcite-chip>
-    );
-  }
-
   render(): VNode {
     const { displayMode, guid, label, open } = this;
     const singleSelectionMode = isSingleLike(this.selectionMode);
@@ -1468,6 +1490,7 @@ export class Combobox
           >
             {this.renderIconStart()}
             {!singleSelectionMode && !singleDisplayMode && this.renderChips()}
+            {!singleSelectionMode && !showAllDisplayMode && this.renderSelectedIndicatorChip()}
             <label
               class="screen-readers-only"
               htmlFor={`${inputUidPrefix}${guid}`}
@@ -1475,9 +1498,8 @@ export class Combobox
             >
               {label}
             </label>
+            {this.renderInput()}
           </div>
-          {!singleSelectionMode && !showAllDisplayMode && this.renderSelectedIndicatorChip()}
-          {this.renderInput()}
           {isClearable ? (
             <XButton
               disabled={this.disabled}
