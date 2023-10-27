@@ -163,16 +163,41 @@ export const setWidth = (): string => html`
   </div>
 `;
 
-export const justTabNav = (): string => html`
-  <calcite-tab-nav
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "l")}"
-  >
+const TabNavHTMLSimple = html`
+  <calcite-tab-nav slot="title-group">
     <calcite-tab-title>Tab 1 Title</calcite-tab-title>
     <calcite-tab-title>Tab 2 Title</calcite-tab-title>
     <calcite-tab-title>Tab 3 Title</calcite-tab-title>
     <calcite-tab-title selected>Tab 4 Title</calcite-tab-title>
   </calcite-tab-nav>
+  <calcite-tab><p>Tab 1 Content</p></calcite-tab>
+  <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+  <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+  <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+`;
+
+export const centerScale_TestOnly = (): string => html`
+  <tabs layout="center" scale="s">${TabNavHTMLSimple}</tabs>
+  <tabs layout="center" scale="m">${TabNavHTMLSimple}</tabs>
+  <tabs layout="center" scale="l">${TabNavHTMLSimple}</tabs>
+`;
+
+export const centerBorderedScale_TestOnly = (): string => html`
+  <tabs layout="center" scale="s" bordered>${TabNavHTMLSimple}</tabs>
+  <tabs layout="center" scale="m" bordered>${TabNavHTMLSimple}</tabs>
+  <tabs layout="center" scale="l" bordered>${TabNavHTMLSimple}</tabs>
+`;
+
+export const inlineScale_TestOnly = (): string => html`
+  <tabs layout="inline" scale="s">${TabNavHTMLSimple}</tabs>
+  <tabs layout="inline" scale="m">${TabNavHTMLSimple}</tabs>
+  <tabs layout="inline" scale="l">${TabNavHTMLSimple}</tabs>
+`;
+
+export const inlineBorderedScale_TestOnly = (): string => html`
+  <tabs layout="inline" scale="s" bordered>${TabNavHTMLSimple}</tabs>
+  <tabs layout="inline" scale="m" bordered>${TabNavHTMLSimple}</tabs>
+  <tabs layout="inline" scale="l" bordered>${TabNavHTMLSimple}</tabs>
 `;
 
 export const disabledTabsAndMediumIconsForLargeTabsTitle_TestOnly = (): string => html`
