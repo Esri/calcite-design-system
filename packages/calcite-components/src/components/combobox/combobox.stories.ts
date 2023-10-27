@@ -497,19 +497,19 @@ export const clearDisabled_TestOnly = (): string => html`
 `;
 
 export const openInAllScales_TestOnly = (): string => html`
-  <calcite-combobox open scale="s">
+  <calcite-combobox open placeholder="choose a number" placeholder-icon="number" scale="s">
     <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
     <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
     <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
   </calcite-combobox>
   <br />
-  <calcite-combobox open scale="m">
+  <calcite-combobox open placeholder="choose a number" placeholder-icon="number" scale="m">
     <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
     <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
     <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
   </calcite-combobox>
   <br />
-  <calcite-combobox open scale="l">
+  <calcite-combobox open placeholder="choose a number" placeholder-icon="number" scale="l">
     <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
     <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
     <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
