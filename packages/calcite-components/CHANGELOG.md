@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.9...@esri/calcite-components@1.10.0-next.10) (2023-10-27)
+
+### Bug Fixes
+
+- **filter:** corrects the accessible label ([#8069](https://github.com/Esri/calcite-design-system/issues/8069)) ([c203084](https://github.com/Esri/calcite-design-system/commit/c2030843ae465c6d2bfc1f55b9fa856d5f249aef)), closes [#5626](https://github.com/Esri/calcite-design-system/issues/5626)
+
+## [1.10.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.8...@esri/calcite-components@1.10.0-next.9) (2023-10-27)
+
+### Bug Fixes
+
+- **combobox:** clear custom input value on blur ([#8070](https://github.com/Esri/calcite-design-system/issues/8070)) ([327ff06](https://github.com/Esri/calcite-design-system/commit/327ff06f73a7e0dd5bdf6b09996b4c119e4386ff)), closes [#2162](https://github.com/Esri/calcite-design-system/issues/2162)
+- **input-time-zone:** fix city translations ([#8058](https://github.com/Esri/calcite-design-system/issues/8058)) ([7df7e1f](https://github.com/Esri/calcite-design-system/commit/7df7e1f3af7a1f1616980c1f8e1c0ee1cc0c81af))
+
 ## [1.10.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.7...@esri/calcite-components@1.10.0-next.8) (2023-10-25)
 
 ### Features
