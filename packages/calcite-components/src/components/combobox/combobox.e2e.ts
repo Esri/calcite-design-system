@@ -492,6 +492,7 @@ describe("calcite-combobox", () => {
 
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("one");
+          expect(await combobox.getProperty("open")).toBe(true);
         });
 
         it("multiple-selection mode allows toggling selection once the selected item is selected", async () => {

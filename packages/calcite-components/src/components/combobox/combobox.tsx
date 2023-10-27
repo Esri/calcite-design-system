@@ -303,7 +303,18 @@ export class Combobox
     if (composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
-    this.determineCustomValueAllowed();
+
+    if (!this.allowCustomValues && this.textInput.value) {
+      this.clearInputValue();
+      this.filterItems("");
+      this.updateActiveItemIndex(-1);
+    }
+
+    if (this.allowCustomValues && this.text.trim().length) {
+      this.addCustomChip(this.text);
+    }
+
+    this.open = false;
   }
 
   @Listen("calciteComboboxItemChange")
@@ -769,20 +780,6 @@ export class Combobox
 
     this.updateActiveItemIndex(targetIndex);
   }
-
-  private determineCustomValueAllowed = (): void => {
-    if (!this.allowCustomValues && this.textInput.value) {
-      this.clearInputValue();
-      this.filterItems("");
-      this.updateActiveItemIndex(-1);
-    }
-
-    if (this.allowCustomValues && this.text.trim().length) {
-      this.addCustomChip(this.text);
-    }
-
-    this.open = false;
-  };
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
