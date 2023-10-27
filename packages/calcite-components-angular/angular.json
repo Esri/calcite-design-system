@@ -2,32 +2,33 @@
   "$schema": "../../node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "cli": {
+    "analytics": false,
+    "packageManager": "npm"
+  },
   "projects": {
-    "@esri/calcite-components-angular": {
+    "component-library": {
       "projectType": "library",
-      "root": "projects/output-target",
-      "sourceRoot": "projects/output-target/src",
+      "root": "projects/component-library",
+      "sourceRoot": "projects/component-library/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/output-target/ng-package.json"
+            "project": "projects/component-library/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/output-target/tsconfig.lib.prod.json"
+              "tsConfig": "projects/component-library/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/output-target/tsconfig.lib.json"
+              "tsConfig": "projects/component-library/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

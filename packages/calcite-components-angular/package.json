@@ -1,14 +1,12 @@
 {
   "name": "angular-workspace",
   "version": "0.0.0",
-  "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
     "prebuild": "./support/stencilDoubleBuildTypesWorkaround.sh",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "build": "ng build"
   },
+  "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",
     "@angular/common": "^16.2.0",
@@ -19,15 +17,13 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.7",
-    "@angular/cli": "^16.2.7",
+    "@angular-devkit/build-angular": "^16.2.8",
+    "@angular/cli": "^16.2.8",
     "@angular/compiler-cli": "^16.2.0",
     "ng-packagr": "^16.2.0"
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }
