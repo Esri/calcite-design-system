@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "./support/stencilDoubleBuildTypesWorkaround.sh",
     "build": "ng build",
     "watch": "ng build --watch --configuration development"
   },

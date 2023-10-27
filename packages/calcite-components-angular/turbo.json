@@ -3,8 +3,7 @@
   "extends": ["//"],
   "pipeline": {
     "build": {
-      "dependsOn": ["@esri/calcite-components#build", "^build"],
-      "outputs": ["../../dist/output-target/**"]
+      "dependsOn": ["@esri/calcite-components#build", "^build"]
     }
   }
 }
