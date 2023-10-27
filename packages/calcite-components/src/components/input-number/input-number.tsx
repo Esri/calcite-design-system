@@ -740,11 +740,14 @@ export class InputNumber
     }, valueNudgeDelayInMs);
   };
 
-  private nudgeButtonPointerUpAndOutHandler = (event: PointerEvent): void => {
+  private nudgeButtonPointerUpHandler = (event: PointerEvent): void => {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
+    window.clearInterval(this.nudgeNumberValueIntervalId);
+  };
 
+  private nudgeButtonPointerOutHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
@@ -959,8 +962,8 @@ export class InputNumber
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
-        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
         tabIndex={-1}
         type="button"
       >
@@ -978,8 +981,8 @@ export class InputNumber
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
-        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerOut={this.nudgeButtonPointerUpHandler}
+        onPointerUp={this.nudgeButtonPointerOutHandler}
         tabIndex={-1}
         type="button"
       >
