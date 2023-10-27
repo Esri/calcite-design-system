@@ -298,7 +298,12 @@ export class Combobox
       return;
     }
 
-    this.setInactiveIfNotContained(event);
+    const composedPath = event.composedPath();
+
+    if (composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+      return;
+    }
+    this.determineCustomValueAllowed();
   }
 
   @Listen("calciteComboboxItemChange")
@@ -580,6 +585,10 @@ export class Combobox
         } else if (this.open) {
           this.open = false;
           event.preventDefault();
+        } else if (!this.allowCustomValues && this.text) {
+          this.clearInputValue();
+          this.filterItems("");
+          this.updateActiveItemIndex(-1);
         }
         break;
       case "ArrowLeft":
@@ -761,13 +770,7 @@ export class Combobox
     this.updateActiveItemIndex(targetIndex);
   }
 
-  private setInactiveIfNotContained = (event: Event): void => {
-    const composedPath = event.composedPath();
-
-    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
-    }
-
+  private determineCustomValueAllowed = (): void => {
     if (!this.allowCustomValues && this.textInput.value) {
       this.clearInputValue();
       this.filterItems("");
@@ -1146,10 +1149,6 @@ export class Combobox
     this.textInput?.focus();
   };
 
-  comboboxBlurHandler = (event: FocusEvent): void => {
-    this.setInactiveIfNotContained(event);
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -1225,7 +1224,6 @@ export class Combobox
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
           key="input"
-          onBlur={this.comboboxBlurHandler}
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
