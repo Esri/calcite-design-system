@@ -166,7 +166,7 @@ export class Tabs {
     }
   });
 
-  private updateItems = (): void => {
+  private updateItems(): void {
     const { position, scale } = this;
 
     const nav = this.el.querySelector("calcite-tab-nav");
@@ -185,7 +185,7 @@ export class Tabs {
         title.scale = scale;
       }
     );
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
