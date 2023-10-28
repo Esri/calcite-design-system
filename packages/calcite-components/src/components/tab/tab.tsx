@@ -69,7 +69,7 @@ export class Tab {
           role="tabpanel"
           tabIndex={this.selected ? 0 : -1}
         >
-          <section>
+          <section class={CSS.content}>
             <slot />
           </section>
         </div>

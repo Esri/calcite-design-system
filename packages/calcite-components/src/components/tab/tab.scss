@@ -13,21 +13,21 @@
   @apply block h-full w-full overflow-auto;
 }
 
-section,
-.container {
-  @apply hidden h-full w-full;
-}
-
-.scale-s section {
+.scale-s .content {
   @apply text-n2h py-1;
 }
 
-.scale-m section {
+.scale-m .content {
   @apply text-n1h py-2;
 }
 
-.scale-l section {
+.scale-l .content {
   @apply text-0h py-2.5;
+}
+
+section,
+.container {
+  @apply hidden h-full w-full;
 }
 
 @include base-component();
