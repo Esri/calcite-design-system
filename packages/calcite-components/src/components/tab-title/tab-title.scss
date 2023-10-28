@@ -12,6 +12,10 @@
   @apply flex-auto;
 }
 
+:host([layout="center"]:not([bordered])) {
+  margin-inline-start: theme("margin.5");
+}
+
 :host([layout="center"]) .scale-s,
 :host([layout="center"]) .scale-m,
 :host([layout="center"]) .scale-l {

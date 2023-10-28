@@ -175,10 +175,9 @@ export class Tabs {
       nav.scale = scale;
     }
 
-    const tab = this.el.querySelector("calcite-tab");
-    if (tab) {
+    Array.from(this.el.querySelectorAll("calcite-tab")).forEach((tab: HTMLCalciteTabElement) => {
       tab.scale = scale;
-    }
+    });
 
     Array.from(this.el.querySelectorAll("calcite-tab-nav > calcite-tab-title")).forEach(
       (title: HTMLCalciteTabTitleElement) => {
