@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "1.1.0-next.0",
+  "version": "1.1.0-next.3",
   "description": "Esri's Calcite Design System Tokens",
   "keywords": [
     "Calcite",
@@ -12,17 +12,21 @@
   "type": "module",
   "exports": {
     "./css": "./dist/css/calcite-headless.css",
-    "./css/brand/dark": "./dist/css/brand-dark.css",
-    "./css/brand/light": "./dist/css/brand-light.css",
     "./css/calcite/dark": "./dist/css/calcite-dark.css",
     "./css/calcite/light": "./dist/css/calcite-light.css",
     "./css/headless": "./dist/css/calcite-headless.css",
     "./scss": "./dist/scss/calcite-headless.scss",
-    "./scss/brand/dark": "./dist/scss/brand-dark.scss",
-    "./scss/brand/light": "./dist/scss/brand-light.scss",
     "./scss/calcite/dark": "./dist/scss/calcite-dark.scss",
     "./scss/calcite/light": "./dist/scss/calcite-light.scss",
-    "./scss/headless": "./dist/scss/calcite-headless.scss"
+    "./scss/headless": "./dist/scss/calcite-headless.scss",
+    "./js": "./dist/js/calcite-headless.js",
+    "./js/calcite/dark": "./dist/js/calcite-dark.js",
+    "./js/calcite/light": "./dist/js/calcite-light.js",
+    "./js/headless": "./dist/js/calcite-headless.js",
+    "./es6": "./dist/es6/calcite-headless.js",
+    "./es6/calcite/dark": "./dist/es6/calcite-dark.js",
+    "./es6/calcite/light": "./dist/es6/calcite-light.js",
+    "./es6/headless": "./dist/es6/calcite-headless.js"
   },
   "repository": {
     "type": "git",
@@ -38,7 +42,7 @@
     "build": "ts-node --esm support/run.ts",
     "clean": "rimraf dist",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore && prettier --write \"**/*.md\" >/dev/null",
+    "lint:md": "markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore && prettier --write \"**/*.md\" >/dev/null",
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "lint": "concurrently npm:lint:*",
     "test": "jest"

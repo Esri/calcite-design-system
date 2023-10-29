@@ -112,13 +112,23 @@ export const darkModeRTL_TestOnly = (): string => html`
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`<calcite-split-button disabled>
-  <calcite-dropdown-group selection-mode="none">
-    <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-    <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-    <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-  </calcite-dropdown-group>
-</calcite-split-button>`;
+export const disabled_TestOnly = (): string => html`
+  <calcite-split-button disabled>
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>
+  <br />
+  <calcite-split-button disabled loading>
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>
+`;
 
 export const appearanceAndKindCombinations_TestOnly = (): string => html`
   <calcite-split-button primary-text="outline+brand" appearance="outline" kind="brand"></calcite-split-button>
@@ -161,3 +171,5 @@ export const appearanceAndKindCombinations_TestOnly = (): string => html`
     kind="neutral"
   ></calcite-split-button>
 `;
+
+export const loadingAndDisabled_TestOnly = (): string => html`<calcite-button loading disabled>Test</calcite-button>`;

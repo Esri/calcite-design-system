@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { JSXAttributes, JSXBase } from "@stencil/core/internal";
 import { Scale } from "../interfaces";
+import { getIconScale } from "../../utils/component";
 
 export interface XButtonOptions extends JSXAttributes {
   disabled: boolean;
@@ -33,7 +34,7 @@ export function XButton({
       // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
       ref={ref}
     >
-      <calcite-icon icon="x" scale={scale === "l" ? "m" : "s"} />
+      <calcite-icon icon="x" scale={getIconScale(scale)} />
     </button>
   );
 }

@@ -352,14 +352,7 @@ export class Block
             title={toggleLabel}
           >
             {headerContent}
-            {!hasControl && !hasMenuActions ? (
-              <calcite-icon
-                aria-hidden="true"
-                class={CSS.toggleIcon}
-                icon={collapseIcon}
-                scale="s"
-              />
-            ) : null}
+            <calcite-icon aria-hidden="true" class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
           </button>
         ) : (
           headerContent

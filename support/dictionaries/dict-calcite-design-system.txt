@@ -73,6 +73,7 @@ tibt
 
 ## sizing
 xsmall
+xxsmall
 
 ## svg
 svgs

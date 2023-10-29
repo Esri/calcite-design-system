@@ -71,12 +71,20 @@ Milestones are used to organize issues targeted for a sprint in a planned releas
 
 ### Estimates
 
-Estimates are used to determine how much work needs to go into an issue. The total estimate helps product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for time estimates using an `estimate-#` label for tracking:
+Estimates are used to determine how much effort needs to go into an issue. The total estimate helps product managers triage issues effectively so designers and developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for time estimates using an `estimate-#` label for tracking:
+
+### Design estimates
+
+- `estimate - design - sm`: No more than a few days of design expertise.
+- `estimate - design - md`: One to two weeks of design efforts and collaboration.
+- `estimate - design - lg`: Two to four weeks of design expertise, collaboration, and discussion. Usually requires all hands on deck.
+
+### Development estimates
 
 - `estimate - 1`: Very small fix or change, a one line update.
 - `estimate - 2`: Small fix or update, does not require updates to tests.
-- `estimate - 3`: A day or two of work, may require changes to tests.
-- `estimate - 5`: A few days of work, requires updates to tests.
+- `estimate - 3`: A day or two of effort, may require changes to tests.
+- `estimate - 5`: A few days of effort, requires updates to tests.
 - `estimate - 8`: Requires input from team, consider smaller steps.
 - `estimate - 13`: Requires planning and input from team, consider smaller steps.
 - `estimate - 21`: Requires planning, input from team members and possibly others.
@@ -97,7 +105,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure to use the major versions of Node/NPM specified in [`package.json`](./package.json).
+An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure to use the major versions of Node/NPM specified under the "volta" key in [`package.json`](./package.json).
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 

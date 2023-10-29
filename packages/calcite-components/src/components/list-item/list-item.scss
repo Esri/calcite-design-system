@@ -22,6 +22,10 @@
   @apply bg-foreground-2 cursor-pointer;
 }
 
+.container:active {
+  @apply bg-foreground-1;
+}
+
 .container--border-selected {
   border-inline-start: theme("borderWidth.4") solid theme("colors.brand");
 }

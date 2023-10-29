@@ -26,6 +26,7 @@ import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
@@ -159,8 +160,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.selected = !this.selected;
   }
 
-  itemClickHandler = (event: MouseEvent): void => {
-    event.preventDefault();
+  private itemClickHandler = (): void => {
     this.toggleSelected();
   };
 
@@ -181,7 +181,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
         key="icon"
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     ) : null;
   }
@@ -205,7 +205,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         flipRtl={this.iconFlipRtl}
         icon={iconPath}
         key="indicator"
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
   }
