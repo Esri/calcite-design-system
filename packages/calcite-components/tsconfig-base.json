@@ -6,7 +6,6 @@
     "experimentalDecorators": true,
     "lib": ["dom", "es2021"],
     "moduleResolution": "node",
-    "skipLibCheck": true,
     "module": "esnext",
     "target": "es2020",
     "resolveJsonModule": true,
