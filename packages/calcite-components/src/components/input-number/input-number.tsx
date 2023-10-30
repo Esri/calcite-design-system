@@ -981,8 +981,8 @@ export class InputNumber
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpHandler}
-        onPointerUp={this.nudgeButtonPointerOutHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
         tabIndex={-1}
         type="button"
       >
