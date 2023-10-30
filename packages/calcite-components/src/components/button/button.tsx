@@ -271,13 +271,14 @@ export class Button
         href={childElType === "a" && this.href}
         name={childElType === "button" && this.name}
         onClick={this.handleClick}
-        ref={this.setChildEl}
         rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
         target={childElType === "a" && this.target}
         title={this.tooltipText}
         type={childElType === "button" && this.type}
         {...this.globalAttributes}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={this.setChildEl}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}

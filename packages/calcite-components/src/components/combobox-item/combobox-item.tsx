@@ -160,8 +160,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.selected = !this.selected;
   }
 
-  itemClickHandler = (event: MouseEvent): void => {
-    event.preventDefault();
+  private itemClickHandler = (): void => {
     this.toggleSelected();
   };
 

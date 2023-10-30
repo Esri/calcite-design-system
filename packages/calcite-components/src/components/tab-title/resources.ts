@@ -4,8 +4,8 @@ export const CSS = {
   content: "content",
   contentHasText: "content--has-text",
   iconEnd: "icon-end",
-  iconStart: "icon-start",
   iconPresent: "icon-present",
+  iconStart: "icon-start",
   titleIcon: "calcite-tab-title--icon",
 };
 

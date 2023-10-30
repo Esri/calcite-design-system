@@ -71,6 +71,7 @@ import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
+import { getIconScale } from "../../utils/component";
 
 interface ItemData {
   label: string;
@@ -314,7 +315,23 @@ export class Combobox
       return;
     }
 
-    this.setInactiveIfNotContained(event);
+    const composedPath = event.composedPath();
+
+    if (composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+      return;
+    }
+
+    if (!this.allowCustomValues && this.textInput.value) {
+      this.clearInputValue();
+      this.filterItems("");
+      this.updateActiveItemIndex(-1);
+    }
+
+    if (this.allowCustomValues && this.text.trim().length) {
+      this.addCustomChip(this.text);
+    }
+
+    this.open = false;
   }
 
   @Listen("calciteComboboxItemChange")
@@ -612,6 +629,10 @@ export class Combobox
         } else if (this.open) {
           this.open = false;
           event.preventDefault();
+        } else if (!this.allowCustomValues && this.text) {
+          this.clearInputValue();
+          this.filterItems("");
+          this.updateActiveItemIndex(-1);
         }
         break;
       case "ArrowLeft":
@@ -846,26 +867,6 @@ export class Combobox
       this.selectedHiddenChipsCount = this.getSelectedItems().length - selectedVisibleChipsCount;
       this.selectedVisibleChipsCount = selectedVisibleChipsCount;
     }
-  };
-
-  private setInactiveIfNotContained = (event: Event): void => {
-    const composedPath = event.composedPath();
-
-    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
-    }
-
-    if (!this.allowCustomValues && this.textInput.value) {
-      this.clearInputValue();
-      this.filterItems("");
-      this.updateActiveItemIndex(-1);
-    }
-
-    if (this.allowCustomValues && this.text.trim().length) {
-      this.addCustomChip(this.text);
-    }
-
-    this.open = false;
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
@@ -1242,10 +1243,6 @@ export class Combobox
     this.textInput?.focus();
   };
 
-  comboboxBlurHandler = (event: FocusEvent): void => {
-    this.setInactiveIfNotContained(event);
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -1358,7 +1355,6 @@ export class Combobox
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
           key="input"
-          onBlur={this.comboboxBlurHandler}
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
@@ -1432,7 +1428,7 @@ export class Combobox
             class="selected-icon"
             flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
             icon={!this.open && selectedItem ? selectedIcon : placeholderIcon}
-            scale="s"
+            scale={getIconScale(this.scale)}
           />
         </span>
       )
@@ -1443,7 +1439,10 @@ export class Combobox
     const { open } = this;
     return (
       <span class="icon-end">
-        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
       </span>
     );
   }
