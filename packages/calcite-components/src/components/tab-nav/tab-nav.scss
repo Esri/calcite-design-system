@@ -14,9 +14,16 @@
   min-block-size: theme("spacing.11");
 }
 
-// `tab-nav` in all scales in layout="center" has a padding of 20px on both ends
-:host([layout="center"]:not([bordered])) {
+:host(:not([bordered])) {
+  // `tab-nav` in all scales in layout="center" has a padding of 20px on both ends
   padding-inline: theme("margin.5");
+
+  //override margin-inline-end for the last child for tab-nav to implement the 20px padding on both ends instead
+  .tab-nav {
+    ::slotted(calcite-tab-title:last-child) {
+      margin-inline-end: theme("margin.0");
+    }
+  }
 
   .scale-l {
     ::slotted(calcite-tab-title) {
@@ -31,15 +38,6 @@
   .scale-s {
     ::slotted(calcite-tab-title) {
       margin-inline-end: theme("margin.4");
-    }
-  }
-}
-
-//override margin-inline-end for the last child for tab-nav to implement the 20px padding on both ends instead
-:host([layout="center"]:not([bordered])) {
-  .tab-nav {
-    ::slotted(calcite-tab-title:last-child) {
-      margin-inline-end: theme("margin.0");
     }
   }
 }
