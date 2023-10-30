@@ -14,7 +14,7 @@
   min-block-size: theme("spacing.11");
 }
 
-:host(:not([bordered])) {
+:host([layout="center"]:not([bordered])) {
   // `tab-nav` in all scales in layout="center" has a padding of 20px on both ends
   padding-inline: theme("margin.5");
 
@@ -24,7 +24,9 @@
       margin-inline-end: theme("margin.0");
     }
   }
+}
 
+:host(:not([bordered])) {
   .scale-l {
     ::slotted(calcite-tab-title) {
       margin-inline-end: theme("margin.6");
