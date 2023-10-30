@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.10...@esri/calcite-components@1.10.0-next.11) (2023-10-30)
+
+### Bug Fixes
+
+- **combobox:** ensure icon scales are consistent ([#8075](https://github.com/Esri/calcite-design-system/issues/8075)) ([babba3b](https://github.com/Esri/calcite-design-system/commit/babba3bd1d1f5413ccf71cc5fc24c24051682ca5)), closes [#8067](https://github.com/Esri/calcite-design-system/issues/8067)
+
 ## [1.10.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0-next.9...@esri/calcite-components@1.10.0-next.10) (2023-10-27)
 
 ### Bug Fixes
