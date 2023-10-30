@@ -17,7 +17,7 @@ export interface OpenCloseComponent {
   /**
    * When true, the component is open.
    */
-  opened?: boolean;
+  openedProp?: boolean;
 
   /**
    *  Specifies the name of transitionProp.
@@ -72,7 +72,7 @@ function transitionEnd(this: OpenCloseComponent, event: TransitionEvent): void {
 }
 
 function isOpen(component: OpenCloseComponent): boolean {
-  return "opened" in component ? component.opened : component.open;
+  return "openedProp" in component ? component.openedProp : component.open;
 }
 
 function emitImmediately(component: OpenCloseComponent, nonOpenCloseComponent = false): void {

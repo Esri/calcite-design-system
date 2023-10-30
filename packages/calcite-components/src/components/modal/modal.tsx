@@ -93,7 +93,7 @@ export class Modal
    *
    * @internal
    */
-  @Prop({ mutable: true, reflect: true }) opened = false;
+  @Prop({ mutable: true, reflect: true }) openedProp = false;
 
   /** Passes a function to run before the component closes. */
   @Prop() beforeClose: (el: HTMLCalciteModalElement) => Promise<void>;
@@ -215,7 +215,7 @@ export class Modal
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: this.opened,
+            [CSS.containerOpen]: this.openedProp,
             [CSS.slottedInShell]: this.slottedInShell,
           }}
         >
@@ -510,7 +510,7 @@ export class Modal
     }
   }
 
-  @Watch("opened")
+  @Watch("openedProp")
   handleOpenedChange(value: boolean): void {
     onToggleOpenCloseComponent(this);
     if (value) {
@@ -531,7 +531,7 @@ export class Modal
 
   private openModal() {
     this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.opened = true;
+    this.openedProp = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
 
@@ -568,7 +568,7 @@ export class Modal
       }
     }
 
-    this.opened = false;
+    this.openedProp = false;
     this.removeOverflowHiddenClass();
   };
 

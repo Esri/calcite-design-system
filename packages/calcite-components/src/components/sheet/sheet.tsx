@@ -101,7 +101,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     }
   }
 
-  @Watch("opened")
+  @Watch("openedProp")
   handleOpenedChange(): void {
     onToggleOpenCloseComponent(this);
   }
@@ -111,7 +111,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
    *
    * @internal.
    */
-  @Prop({ mutable: true, reflect: true }) opened = false;
+  @Prop({ mutable: true, reflect: true }) openedProp = false;
 
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
@@ -174,7 +174,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: this.opened,
+            [CSS.containerOpen]: this.openedProp,
             [CSS.containerSlottedInShell]: this.slottedInShell,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
@@ -310,7 +310,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   private openSheet(): void {
     this.el.addEventListener("calciteSheetOpen", this.openEnd);
-    this.opened = true;
+    this.openedProp = true;
     if (!this.slottedInShell) {
       this.initialOverflowCSS = document.documentElement.style.overflow;
       // use an inline style instead of a utility class to avoid global class declarations.
@@ -341,7 +341,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
       }
     }
 
-    this.opened = false;
+    this.openedProp = false;
     this.removeOverflowHiddenClass();
   };
 

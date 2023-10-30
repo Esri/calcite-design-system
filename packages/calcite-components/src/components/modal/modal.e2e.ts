@@ -136,12 +136,12 @@ describe("calcite-modal properties", () => {
     await page.waitForChanges();
     modal.setProperty("open", true);
     await page.waitForChanges();
-    expect(await modal.getProperty("opened")).toBe(true);
+    expect(await modal.getProperty("openedProp")).toBe(true);
     const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
     await closeButton.click();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await modal.getProperty("opened")).toBe(false);
+    expect(await modal.getProperty("openedProp")).toBe(false);
   });
 
   it("calls the beforeClose method prior to closing via ESC key", async () => {
@@ -162,12 +162,12 @@ describe("calcite-modal properties", () => {
     await page.waitForChanges();
     modal.setProperty("open", true);
     await page.waitForChanges();
-    expect(await modal.getProperty("opened")).toBe(true);
+    expect(await modal.getProperty("openedProp")).toBe(true);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await modal.getProperty("opened")).toBe(false);
+    expect(await modal.getProperty("openedProp")).toBe(false);
   });
 });
 
@@ -189,11 +189,11 @@ it("calls the beforeClose method prior to closing via attribute", async () => {
   await page.waitForChanges();
   modal.setProperty("open", true);
   await page.waitForChanges();
-  expect(await modal.getProperty("opened")).toBe(true);
+  expect(await modal.getProperty("openedProp")).toBe(true);
   modal.removeAttribute("open");
   await page.waitForChanges();
   expect(mockCallBack).toHaveBeenCalledTimes(1);
-  expect(await modal.getProperty("opened")).toBe(false);
+  expect(await modal.getProperty("openedProp")).toBe(false);
 });
 
 it("should handle rejected 'beforeClose' promise'", async () => {
@@ -234,7 +234,7 @@ it("should remain open with rejected 'beforeClose' promise'", async () => {
   await page.waitForChanges();
 
   expect(await modal.getProperty("open")).toBe(true);
-  expect(await modal.getProperty("opened")).toBe(true);
+  expect(await modal.getProperty("openedProp")).toBe(true);
   expect(modal.getAttribute("open")).toBe(""); // Makes sure attribute is added back
 });
 
@@ -454,10 +454,10 @@ describe("calcite-modal accessibility checks", () => {
       </calcite-modal>`
     );
     const modal = await page.find("calcite-modal");
-    const opened = page.waitForEvent("calciteModalOpen");
+    const openedProp = page.waitForEvent("calciteModalOpen");
     modal.setProperty("open", true);
     await page.waitForChanges();
-    await opened;
+    await openedProp;
 
     expect(await isElementFocused(page, `.${CSS.close}`, { shadowed: true })).toBe(true);
     await page.keyboard.press("Tab");
