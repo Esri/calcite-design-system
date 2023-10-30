@@ -1709,4 +1709,28 @@ describe("calcite-input-number", () => {
   describe("translation support", () => {
     t9n("calcite-input-number");
   });
+
+  it("should stop increasing the value when pointer is moved away from the increment button", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-input-number></calcite-input-number>");
+
+    const inputNumber = await page.find("calcite-input-number");
+    expect(await inputNumber.getProperty("value")).toBe("");
+
+    const [incrementButtonX, incrementButtonY] = await getElementXY(page, "calcite-input-number", "button");
+    const inputNumberRect = await page.evaluate(() => {
+      const inputNumber = document.querySelector("calcite-input-number");
+      return inputNumber.getBoundingClientRect().toJSON();
+    });
+
+    await page.mouse.move(incrementButtonX, incrementButtonY);
+    await page.mouse.down();
+    await page.waitForChanges();
+    await page.waitForTimeout(3000);
+    expect(await inputNumber.getProperty("value")).not.toBe("");
+    const value = await inputNumber.getProperty("value");
+    await page.mouse.move(inputNumberRect.bottom, 2 * inputNumberRect.bottom);
+    await page.waitForChanges();
+    expect(await inputNumber.getProperty("value")).toEqual(value);
+  });
 });
