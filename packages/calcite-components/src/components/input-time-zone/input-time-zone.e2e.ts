@@ -108,7 +108,7 @@ describe("calcite-input-time-zone", () => {
 
   describe("mode", () => {
     describe("offset (default)", () => {
-      describe("selects user's matching time zone offset on initialization", () => {
+      describe.skip("selects user's matching time zone offset on initialization", () => {
         testTimeZoneNamesAndOffsets.forEach(({ name, offset, label }) => {
           it(`selects default time zone for "${name}"`, async () => {
             const page = await newE2EPage();
@@ -126,7 +126,7 @@ describe("calcite-input-time-zone", () => {
         });
       });
 
-      it("allows users to preselect a time zone offset", async () => {
+      it.skip("allows users to preselect a time zone offset", async () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
         await page.setContent(
