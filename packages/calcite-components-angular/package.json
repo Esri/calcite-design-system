@@ -1,13 +1,12 @@
 {
   "name": "angular-workspace",
-  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "prebuild": "./support/stencilDoubleBuildTypesWorkaround.sh && ts-node ./support/patchEventDetailTypeImports.ts",
     "build": "ng build",
     "clean": "rimraf dist node_modules .turbo .angular projects/component-library/dist"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",
     "@angular/common": "^16.2.0",
