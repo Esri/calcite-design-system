@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "prebuild": "./support/stencilDoubleBuildTypesWorkaround.sh",
+    "prebuild": "./support/stencilDoubleBuildTypesWorkaround.sh && ts-node ./support/patchEventDetailTypeImports.ts",
     "build": "ng build"
   },
   "private": true,
@@ -25,5 +25,8 @@
     "@angular/cli": "^16.2.8",
     "@angular/compiler-cli": "^16.2.0",
     "ng-packagr": "^16.2.0"
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }

@@ -87,6 +87,7 @@ export const create: () => Config = () => ({
   outputTargets: [
     angularOutputTarget({
       componentCorePackage: "@esri/calcite-components",
+      includeImportCustomElements: true,
       directivesProxyFile:
         "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/components.ts",
       directivesArrayFile:
