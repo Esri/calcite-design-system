@@ -34,7 +34,6 @@ const typeImportStrings = [
     );
 
     let contents = await readFile(filePath, { encoding: "utf8" });
-
     typeImportStrings.forEach(({ oldValue, newValue }) => (contents = contents.replace(oldValue, newValue)));
 
     await writeFile(filePath, contents);

@@ -7,7 +7,7 @@
     "@esri/calcite-components": "1.9.2"
   },
   "files": [
-    "../../dist/output-target"
+    "./dist"
   ],
   "dependencies": {
     "tslib": "^2.3.0"

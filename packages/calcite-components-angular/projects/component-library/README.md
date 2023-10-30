@@ -1,25 +1,27 @@
-# ComponentLibrary
+# Calcite Components Angular
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+A set of Angular components that wrap [Calcite Components](https://developers.arcgis.com/calcite-design-system/components/).
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name --project component-library` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project component-library`.
+```sh
+npm install --save @esri/calcite-components @esri/calcite-components-angular
+```
 
-> Note: Don't forget to add `--project component-library` or else it will be added to the default project in your `angular.json` file.
+## Contributing
 
-## Build
+We welcome contributions to this project. See the main [calcite-components CONTRIBUTING.md](../../../../CONTRIBUTING.md) for an overview of contribution guidelines.
 
-Run `ng build component-library` to build the project. The build artifacts will be stored in the `dist/` directory.
+## License
 
-## Publishing
+COPYRIGHT © 2021 Esri
 
-After building your library with `ng build component-library`, go to the dist folder `cd dist/component-library` and run `npm publish`.
+All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
-## Running unit tests
+This material is licensed for use under the Esri Master License Agreement (MLA), and is bound by the terms of that agreement. You may redistribute and use this code without modification, provided you adhere to the terms of the MLA and include this copyright notice.
 
-Run `ng test component-library` to execute the unit tests via [Karma](https://karma-runner.github.io).
+See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
-## Further help
+For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+email: <contracts@esri.com>

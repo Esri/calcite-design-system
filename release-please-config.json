@@ -12,7 +12,7 @@
       "component": "@esri/calcite-components-react"
     },
 
-    "packages/calcite-components-angular/packages/output-target": {
+    "packages/calcite-components-angular/projects/component-library": {
       "component": "@esri/calcite-components-angular"
     },
     "packages/calcite-design-tokens": {

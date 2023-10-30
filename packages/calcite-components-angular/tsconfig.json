@@ -1,10 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    "outDir": "./dist",
     "paths": {
-      "@esri/calcite-components": ["dist/component-library"]
+      "@esri/calcite-components-angular": ["./projects/component-library/dist"]
     },
     "lib": ["es2021", "dom"],
     "target": "es2020",
@@ -23,14 +22,12 @@
     "noImplicitAny": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": false,
-    "skipLibCheck": true,
-    "strict": true,
-    "useDefineForClassFields": false
+    "strict": true
   },
+  "exclude": ["node_modules/**", "dist/**"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
