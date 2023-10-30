@@ -1253,9 +1253,8 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, displayMode, scale, selectionMode, messages } = this;
-    const items = displayMode === "fit-to-line" ? this.items : this.selectedItems;
-    return items.map((item, i) => {
+    const { activeChipIndex, scale, selectionMode, messages } = this;
+    return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
         "chip--active": activeChipIndex === i,
