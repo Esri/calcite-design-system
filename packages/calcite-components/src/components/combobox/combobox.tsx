@@ -794,13 +794,11 @@ export class Combobox
   }
 
   private hideChip(chipEl: HTMLCalciteChipElement): void {
-    chipEl.classList.remove(CSS.chipVisible);
     chipEl.classList.add(CSS.chipInvisible);
   }
 
   private showChip(chipEl: HTMLCalciteChipElement): void {
     chipEl.classList.remove(CSS.chipInvisible);
-    chipEl.classList.add(CSS.chipVisible);
   }
 
   private refreshDisplayMode = () => {
@@ -828,11 +826,7 @@ export class Combobox
       chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
         if (chipEl.selected) {
           const chipElWidth = getElementWidth(chipEl);
-          if (
-            chipElWidth &&
-            chipElWidth < availableHorizontalChipElSpace &&
-            this.getItems().length !== this.getSelectedItems().length
-          ) {
+          if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
             availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
             this.showChip(chipEl);
           } else {
@@ -845,11 +839,7 @@ export class Combobox
 
       let selectedVisibleChipsCount = 0;
       chipEls.forEach((chipEl) => {
-        if (
-          chipEl.selected &&
-          chipEl.classList.contains(CSS.chipVisible) &&
-          !chipEl.classList.contains(CSS.chipInvisible)
-        ) {
+        if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
           selectedVisibleChipsCount++;
         }
       });
@@ -1303,19 +1293,23 @@ export class Combobox
       setSelectedIndicatorChipEl,
     } = this;
     let label;
-    if (this.getItems().length === this.getSelectedItems().length) {
+    const allSelected = this.getItems().length === this.getSelectedItems().length;
+    if (
+      (allSelected && displayMode === "single") ||
+      (allSelected && displayMode === "fit-to-line" && !selectedVisibleChipsCount)
+    ) {
       label = "All selected";
+    } else if (displayMode === "single" && this.getSelectedItems().length > 0) {
+      label = `${this.selectedItems.length} selected`;
     } else if (displayMode === "fit-to-line" && selectedHiddenChipsCount > 0) {
       label =
         selectedVisibleChipsCount > 0
           ? `+${selectedHiddenChipsCount}`
           : `${selectedHiddenChipsCount} selected`;
-    } else if (displayMode === "single" && this.getSelectedItems().length > 0) {
-      label = `${this.selectedItems.length} selected`;
     }
     return (
       <calcite-chip
-        class={{ chip: true, [CSS.chipInvisible]: !label, [CSS.chipVisible]: label }}
+        class={{ chip: true, [CSS.chipInvisible]: !label }}
         ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
