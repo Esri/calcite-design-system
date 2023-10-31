@@ -25,7 +25,7 @@
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider build-storybook --output-dir ./docs --quiet",
     "clean": "npm run util:clean-js-files && npm run util:clean-readmes && rimraf node_modules dist www hydrate docs .turbo src/components.d.ts",
-    "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer @whitespace/storybook-addon-html && npm audit fix",
+    "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest @whitespace/storybook-addon-html && npm audit fix",
     "docs": "build-storybook",
     "docs:preview": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true start-storybook",
     "lint": "concurrently npm:lint:*",
@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "1.5.3",
-    "@stencil/core": "2.22.3",
+    "@stencil/core": "4.7.0",
     "@types/color": "3.0.4",
     "color": "4.2.3",
     "composed-offset-position": "0.0.4",
@@ -83,8 +83,8 @@
     "@stencil-community/eslint-plugin": "0.5.0",
     "@stencil/postcss": "2.1.0",
     "@stencil/react-output-target": "0.5.3",
-    "@stencil/sass": "3.0.5",
-    "@stencil/state-tunnel": "1.0.1"
+    "@stencil/sass": "3.0.7",
+    "jsdom": "22.1.0"
   },
   "license": "SEE LICENSE.md",
   "volta": {

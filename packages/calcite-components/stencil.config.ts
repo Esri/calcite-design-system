@@ -92,7 +92,7 @@ export const create: () => Config = () => ({
       includeImportCustomElements: true,
     }),
     { type: "dist-hydrate-script" },
-    { type: "dist-custom-elements", autoDefineCustomElements: true },
+    { type: "dist-custom-elements", customElementsExportBehavior: "auto-define-custom-elements" },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
