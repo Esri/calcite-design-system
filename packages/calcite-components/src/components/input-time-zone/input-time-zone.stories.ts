@@ -10,7 +10,8 @@ export default {
     chromatic: { delay: 1500 },
     notes: readme,
     options: {
-      timezone: "America/Los_Angeles",
+      // for stability, we use a timezone unaffected by daylight savings time
+      timezone: "America/Mexico_City",
     },
   },
   ...storyFilters(),
@@ -28,9 +29,9 @@ export const timeZoneNameMode_TestOnly = (): string => html`
   <calcite-input-time-zone mode="name" open></calcite-input-time-zone>
 `;
 
-export const initialNameSelected_TestOnly = (): string => html`
-  <calcite-input-time-zone mode="name" value="America/Ciudad_Juarez"></calcite-input-time-zone>
-`;
+export const initialNameSelected_TestOnly = (): string =>
+  // for stability, we use a timezone unaffected by daylight savings time
+  html`<calcite-input-time-zone mode="name" value="America/Phoenix"></calcite-input-time-zone>`;
 
 export const initialOffsetSelected_TestOnly = (): string => html`
   <calcite-input-time-zone value="-360"></calcite-input-time-zone>
