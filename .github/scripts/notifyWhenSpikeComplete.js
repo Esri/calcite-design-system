@@ -21,12 +21,6 @@ module.exports = async ({ github, context }) => {
     };
 
     /* Modify labels */
-
-    /* Tries to remove labels */
-    /* If the label is not associated with the issue,
-       the error is logged and the script will continue. */
-
-    // Try to remove "spike" label
     try {
       await github.rest.issues.removeLabel({
         ...issueProps,
@@ -36,7 +30,6 @@ module.exports = async ({ github, context }) => {
       console.log("The 'spike' label is not associated with the issue", err);
     }
 
-    // Try to remove "1 - assigned" label
     try {
       await github.rest.issues.removeLabel({
         ...issueProps,
