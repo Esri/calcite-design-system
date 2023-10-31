@@ -14,6 +14,17 @@ type PointerPosition = {
   offset?: [number, number];
 };
 
+// type ElementDOMRect = {
+//   left : number,
+//   top :number,
+//   right : number,
+//   bottom : number,
+//   height:number,
+//   width:number,
+//   x:number,
+//   y:number
+// }
+
 interface SelectorOptions extends JSONObject {
   element: string;
   shadow?: string;
@@ -151,6 +162,29 @@ export async function getElementXY(
 }
 
 /**
+ * Helper to get an E2EElement's DOMRect object.
+ *
+ * @param {E2EPage} page - the e2e page
+ * @param {string} elementSelector - the element selector
+ * @param {string} shadowSelector - the shadowRoot selector
+ */
+export async function getElementRect(
+  page: E2EPage,
+  elementSelector: string,
+  shadowSelector?: string
+): Promise<DOMRect> {
+  return page.evaluate(
+    ([elementSelector, shadowSelector]): DOMRect => {
+      const element = document.querySelector(elementSelector);
+      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      const targetDOMRect = measureTarget.getBoundingClientRect().toJSON();
+      return targetDOMRect;
+    },
+    [elementSelector, shadowSelector]
+  );
+}
+
+/**
  * This util helps visualize mouse movement when running tests in headful mode.
  * Note that this util should only be used for test debugging purposes and not be included in a test.
  * Based on https://github.com/puppeteer/puppeteer/issues/4378#issuecomment-499726973
@@ -213,6 +247,8 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
     document.addEventListener(
       "mousemove",
       (event) => {
+        event.preventDefault();
+        console.log("mouse movedddddd", event.pageX, event.pageY, event.buttons);
         box.style.left = event.pageX + "px";
         box.style.top = event.pageY + "px";
         updateButtons(event.buttons);
@@ -223,6 +259,7 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
     document.addEventListener(
       "mousedown",
       (event) => {
+        console.log("mousedown", event.buttons, event.which);
         updateButtons(event.buttons);
         box.classList.add("button-" + event.which);
       },
@@ -232,6 +269,7 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
     document.addEventListener(
       "mouseup",
       (event) => {
+        console.log("mouseup", event.buttons, event.which);
         updateButtons(event.buttons);
         box.classList.remove("button-" + event.which);
       },
