@@ -13,7 +13,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, getElementProp, toAriaBoolean, nodeListToArray } from "../../utils/dom";
+import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -95,14 +95,18 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
   /**
-   * @internal
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   *
+   *  @internal
    */
-  @Prop({ reflect: true, mutable: true }) position: TabPosition;
+  @Prop() position: TabPosition = "top";
 
   /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) scale: Scale;
+  @Prop() scale: Scale = "m";
 
   /**
    * @internal
@@ -177,14 +181,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   componentWillRender(): void {
     if (this.parentTabsEl) {
       this.layout = this.parentTabsEl.layout;
-      this.position = this.parentTabsEl.position;
-      this.scale = this.parentTabsEl.scale;
       this.bordered = this.parentTabsEl.bordered;
-    }
-    // handle case when tab-nav is only parent
-    if (!this.parentTabsEl && this.parentTabNavEl) {
-      this.position = getElementProp(this.parentTabNavEl, "position", this.position);
-      this.scale = getElementProp(this.parentTabNavEl, "scale", this.scale);
     }
   }
 
@@ -222,6 +219,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
           class={{
             container: true,
             [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
+            [`scale-${this.scale}`]: true,
           }}
           hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
