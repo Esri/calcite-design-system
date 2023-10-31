@@ -5,6 +5,7 @@
     "ng": "ng",
     "prebuild": "./support/stencilDoubleBuildTypesWorkaround.sh && ts-node ./support/patchEventDetailTypeImports.ts",
     "build": "ng build",
+    "postbuild": "rimraf projects/component-library/dist/package.json projects/component-library/dist/README.md",
     "clean": "rimraf dist node_modules .turbo .angular projects/component-library/dist"
   },
   "dependencies": {

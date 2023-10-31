@@ -1,6 +1,19 @@
 {
   "name": "@esri/calcite-components-angular",
   "version": "1.10.0",
+  "module": "./dist/fesm2022/esri-calcite-components-angular.mjs",
+  "typings": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "esm2022": "./dist/esm2022/esri-calcite-components-angular.mjs",
+      "esm": "./dist/esm2022/esri-calcite-components-angular.mjs",
+      "default": "./dist/fesm2022/esri-calcite-components-angular.mjs"
+    }
+  },
   "files": [
     "dist/"
   ],
