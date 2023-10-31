@@ -14,17 +14,6 @@ type PointerPosition = {
   offset?: [number, number];
 };
 
-// type ElementDOMRect = {
-//   left : number,
-//   top :number,
-//   right : number,
-//   bottom : number,
-//   height:number,
-//   width:number,
-//   x:number,
-//   y:number
-// }
-
 interface SelectorOptions extends JSONObject {
   element: string;
   shadow?: string;
@@ -177,8 +166,7 @@ export async function getElementRect(
     ([elementSelector, shadowSelector]): DOMRect => {
       const element = document.querySelector(elementSelector);
       const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
-      const targetDOMRect = measureTarget.getBoundingClientRect().toJSON();
-      return targetDOMRect;
+      return measureTarget.getBoundingClientRect().toJSON();
     },
     [elementSelector, shadowSelector]
   );
