@@ -39,9 +39,6 @@
     px-0
     py-2;
 
-  &:focus {
-    @apply focus-outset;
-  }
   &:hover {
     @apply text-color-1;
   }
@@ -65,9 +62,13 @@
 
   .focus-guard {
     --calcite-label-margin-bottom: 0;
-    @apply absolute pointer-events-none;
+    @apply pointer-events-none;
     inset-inline-end: 0;
     margin-inline-start: theme("margin.1");
+  }
+
+  &:focus {
+    @apply focus-outset;
   }
 }
 
