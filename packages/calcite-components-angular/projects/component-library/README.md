@@ -8,7 +8,7 @@ The following is an outline of the steps required to use `@esri/calcite-componen
 
 ### Install the packages
 
-Install the Angular components along with [`@esri/calcite-components`](https://www.npmjs.com/package/@esri/calcite-components):
+Install the Angular wrapper components along with [`@esri/calcite-components`](https://www.npmjs.com/package/@esri/calcite-components):
 
 ```sh
 npm install @esri/calcite-components @esri/calcite-components-angular
@@ -18,7 +18,7 @@ Make sure the versions of the two packages remain the same when updating your de
 
 ### Copy local assets
 
-Calcite Components rely on assets being available at a particular path. If using assets locally, you'll need to copy these over to your `src` directory. This example has a `copy` npm script, which will automatically run after installing dependencies.
+Calcite Components rely on assets being available at a particular path. If using assets locally, you'll need to copy these over to your `src` directory:
 
 ```sh
 cp -r node_modules/@esri/calcite-components/dist/calcite/assets/ ./src/assets/
@@ -45,7 +45,7 @@ defineCustomElements(window, { resourcesUrl: "./assets" });
 
 ### Use the components
 
-Add `CalciteComponentsModule` to the imports of your Angular component's module file:
+Add `CalciteComponentsModule` to the imports of your Angular component's module:
 
 ```ts
 // src/app/app.module.ts
@@ -72,7 +72,7 @@ Calcite Components can now be used in your application like any other Angular co
 
 ## Contributing
 
-We welcome contributions to this project. See the main [calcite-components CONTRIBUTING.md](../../../../CONTRIBUTING.md) for an overview of contribution guidelines.
+We welcome contributions to this project. See [CONTRIBUTING.md](https://github.com/Esri/calcite-design-system/blob/main/CONTRIBUTING.md) for an overview of the guidelines.
 
 ## License
 
