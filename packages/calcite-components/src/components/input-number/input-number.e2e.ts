@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getElementXY, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 
@@ -1708,5 +1708,32 @@ describe("calcite-input-number", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-number");
+  });
+
+  it("should stop increasing the value when pointer is moved away from the increment button", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-input-number></calcite-input-number>");
+    const inputNumber = await page.find("calcite-input-number");
+    expect(await inputNumber.getProperty("value")).toBe("");
+
+    const incrementButtonRect = await getElementRect(page, "calcite-input-number", "button");
+    await page.mouse.move(
+      incrementButtonRect.left + incrementButtonRect.width / 2,
+      incrementButtonRect.top + incrementButtonRect.height / 2
+    );
+    await page.mouse.down();
+    await page.waitForChanges();
+    // timeout is used to simulate long press.
+    await page.waitForTimeout(3000);
+    expect(await inputNumber.getProperty("value")).not.toBe("");
+
+    const value = await inputNumber.getProperty("value");
+    await page.mouse.move(incrementButtonRect.x, 2 * incrementButtonRect.bottom);
+    await page.waitForChanges();
+    expect(await inputNumber.getProperty("value")).toEqual(value);
+
+    await page.mouse.up();
+    await page.waitForChanges();
+    expect(await inputNumber.getProperty("value")).toEqual(value);
   });
 });
