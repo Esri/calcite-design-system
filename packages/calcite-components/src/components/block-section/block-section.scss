@@ -59,6 +59,7 @@
 
 .toggle--switch-container {
   @apply flex items-center relative bg-transparent w-full;
+  word-break: break-word;
 
   .focus-guard {
     --calcite-label-margin-bottom: 0;
