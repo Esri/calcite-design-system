@@ -132,6 +132,7 @@ export function selectText(input: E2EElement): Promise<void> {
  * @param {E2EPage} page - the e2e page
  * @param {string} elementSelector - the element selector
  * @param {string} shadowSelector - the shadowRoot selector
+ * @deprecated Use `getElementRect` instead.
  */
 export async function getElementXY(
   page: E2EPage,
@@ -156,6 +157,7 @@ export async function getElementXY(
  * @param {E2EPage} page - the e2e page
  * @param {string} elementSelector - the element selector
  * @param {string} shadowSelector - the shadowRoot selector
+ * @returns {Promise<DOMRect>} Promise with DOMRect object.
  */
 export async function getElementRect(
   page: E2EPage,
@@ -235,8 +237,6 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
     document.addEventListener(
       "mousemove",
       (event) => {
-        event.preventDefault();
-        console.log("mouse movedddddd", event.pageX, event.pageY, event.buttons);
         box.style.left = event.pageX + "px";
         box.style.top = event.pageY + "px";
         updateButtons(event.buttons);
@@ -247,7 +247,6 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
     document.addEventListener(
       "mousedown",
       (event) => {
-        console.log("mousedown", event.buttons, event.which);
         updateButtons(event.buttons);
         box.classList.add("button-" + event.which);
       },
@@ -257,7 +256,6 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
     document.addEventListener(
       "mouseup",
       (event) => {
-        console.log("mouseup", event.buttons, event.which);
         updateButtons(event.buttons);
         box.classList.remove("button-" + event.which);
       },
