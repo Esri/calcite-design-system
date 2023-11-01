@@ -2,15 +2,15 @@
   @apply relative flex;
 }
 
-:host([scale="s"]) {
+.scale-s {
   min-block-size: theme("spacing.6");
 }
 
-:host([scale="m"]) {
+.scale-m {
   min-block-size: theme("spacing.8");
 }
 
-:host([scale="l"]) {
+.scale-l {
   min-block-size: theme("spacing.11");
 }
 
@@ -35,6 +35,36 @@
   display: none;
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+:host([layout="center"]:not([bordered])) {
+  // `tab-nav` in all scales in layout="center" has a padding of 20px on both ends
+  padding-inline: theme("margin.5");
+
+  //override margin-inline-end for the last child for tab-nav to implement the 20px padding on both ends instead
+  .tab-nav {
+    ::slotted(calcite-tab-title:last-child) {
+      margin-inline-end: theme("margin.0");
+    }
+  }
+}
+
+:host(:not([bordered])) {
+  .scale-l {
+    ::slotted(calcite-tab-title) {
+      margin-inline-end: theme("margin.6");
+    }
+  }
+  .scale-m {
+    ::slotted(calcite-tab-title) {
+      margin-inline-end: theme("margin.5");
+    }
+  }
+  .scale-s {
+    ::slotted(calcite-tab-title) {
+      margin-inline-end: theme("margin.4");
+    }
+  }
 }
 
 .tab-nav,
@@ -86,12 +116,12 @@ calcite-action {
   @apply justify-evenly;
 }
 
-:host([position="bottom"]) .tab-nav-active-indicator {
+:host .position-bottom .tab-nav-active-indicator {
   inset-block-end: unset;
   @apply top-0;
 }
 
-:host([position="bottom"]) .tab-nav-active-indicator-container {
+:host .position-bottom .tab-nav-active-indicator-container {
   inset-block-end: unset;
   @apply top-0;
 }
@@ -100,7 +130,7 @@ calcite-action {
   inset-block-end: unset; // display active blue line above instead of below
 }
 
-:host([bordered][position="bottom"]) .tab-nav-active-indicator-container {
+:host([bordered]) .position-bottom .tab-nav-active-indicator-container {
   inset-block-end: 0; // display active blue line below instead of above
   inset-block-start: unset;
 }

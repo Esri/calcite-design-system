@@ -16,16 +16,17 @@ import {
 import { toUserFriendlyName } from "./utils";
 
 describe("calcite-input-time-zone", () => {
+  // for stability, we use time zones that are unaffected by daylight savings time
   const testTimeZoneNamesAndOffsets = [
-    { name: "America/Los_Angeles", offset: -420, label: "GMT-7" },
-    { name: "America/Denver", offset: -360, label: "GMT-6" },
-    { name: "Europe/London", offset: 60, label: "GMT+1" },
+    { name: "America/Mexico_City", offset: -360, label: "GMT-6" },
+    { name: "America/Phoenix", offset: -420, label: "GMT-7" },
+    { name: "Pacific/Guam", offset: 600, label: "GMT+10" },
   ];
 
   async function simpleTestProvider(): Promise<TagAndPage> {
     const page = await newE2EPage();
     await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
-    await page.setContent(addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`));
+    await page.setContent(addTimeZoneNamePolyfill(html`<calcite-input-time-zone></calcite-input-time-zone>`));
 
     return {
       page,
@@ -44,7 +45,7 @@ describe("calcite-input-time-zone", () => {
   describe("formAssociated", () => {
     formAssociated(
       {
-        tagOrHTML: addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`),
+        tagOrHTML: addTimeZoneNamePolyfill(html`<calcite-input-time-zone></calcite-input-time-zone>`),
         beforeContent: async (page) => {
           await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
         },
@@ -66,7 +67,7 @@ describe("calcite-input-time-zone", () => {
 
   describe("labelable", () => {
     labelable({
-      tagOrHTML: addTimeZoneNamePolyfill(html` <calcite-input-time-zone></calcite-input-time-zone>`),
+      tagOrHTML: addTimeZoneNamePolyfill(html`<calcite-input-time-zone></calcite-input-time-zone>`),
       beforeContent: async (page) => {
         await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
       },
@@ -131,7 +132,7 @@ describe("calcite-input-time-zone", () => {
         await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
         await page.setContent(
           await addTimeZoneNamePolyfill(
-            html` <calcite-input-time-zone value="${testTimeZoneNamesAndOffsets[1].offset}"></calcite-input-time-zone>`
+            html`<calcite-input-time-zone value="${testTimeZoneNamesAndOffsets[1].offset}"></calcite-input-time-zone>`
           )
         );
 
@@ -148,7 +149,7 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
         await page.setContent(
-          await addTimeZoneNamePolyfill(html` <calcite-input-time-zone value="9000"></calcite-input-time-zone>`)
+          await addTimeZoneNamePolyfill(html`<calcite-input-time-zone value="9000"></calcite-input-time-zone>`)
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -164,7 +165,7 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
         await page.setContent(
-          await addTimeZoneNamePolyfill(html` <calcite-input-time-zone value="60"></calcite-input-time-zone>`)
+          await addTimeZoneNamePolyfill(html`<calcite-input-time-zone value="600"></calcite-input-time-zone>`)
         );
 
         const input = await page.find("calcite-input-time-zone");
@@ -175,6 +176,61 @@ describe("calcite-input-time-zone", () => {
 
         expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneNamesAndOffsets[2].label);
       });
+
+      it("looks up in label and time zone groups (not displayed)", async () => {
+        const displayLabelSearchTerm = "Guam";
+        const groupedTimeZoneSearchTerm = "Chuuk";
+        const gmtSearchTerm = "GMT-12";
+        const searchTerms = [displayLabelSearchTerm, groupedTimeZoneSearchTerm, gmtSearchTerm];
+
+        const page = await newE2EPage();
+        await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
+        await page.setContent(await addTimeZoneNamePolyfill(html`<calcite-input-time-zone></calcite-input-time-zone>`));
+
+        const input = await page.find("calcite-input-time-zone");
+
+        async function clearSearchTerm(searchTerm: string): Promise<void> {
+          for (let i = 0; i < searchTerm.length; i++) {
+            await input.press("Backspace");
+          }
+        }
+
+        let matchedTimeZoneItems = await page.findAll(
+          "calcite-input-time-zone >>> calcite-combobox-item:not([hidden])"
+        );
+        expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
+
+        await input.click();
+        await input.type(searchTerms[0]);
+        await page.waitForChanges();
+
+        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+
+        expect(matchedTimeZoneItems).toHaveLength(1);
+
+        await clearSearchTerm(searchTerms[0]);
+        await input.type(searchTerms[1]);
+        await page.waitForChanges();
+
+        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+
+        expect(matchedTimeZoneItems).toHaveLength(1);
+
+        await clearSearchTerm(searchTerms[1]);
+        await input.type(searchTerms[2]);
+        await page.waitForChanges();
+
+        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+
+        expect(matchedTimeZoneItems).toHaveLength(2);
+
+        await clearSearchTerm(searchTerms[1]);
+        await page.waitForChanges();
+
+        matchedTimeZoneItems = await page.findAll("calcite-input-time-zone >>> calcite-combobox-item:not([hidden])");
+
+        expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
+      });
     });
 
     describe("name", () => {
@@ -184,7 +240,7 @@ describe("calcite-input-time-zone", () => {
             const page = await newE2EPage();
             await page.emulateTimezone(name);
             await page.setContent(
-              await addTimeZoneNamePolyfill(html` <calcite-input-time-zone mode="name"></calcite-input-time-zone>`)
+              await addTimeZoneNamePolyfill(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`)
             );
             await page.waitForChanges();
 
@@ -202,7 +258,7 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
         await page.setContent(
-          await addTimeZoneNamePolyfill(html` <calcite-input-time-zone
+          await addTimeZoneNamePolyfill(html`<calcite-input-time-zone
             mode="name"
             value="${testTimeZoneNamesAndOffsets[1].name}"
           ></calcite-input-time-zone>`)
@@ -223,7 +279,7 @@ describe("calcite-input-time-zone", () => {
         const page = await newE2EPage();
         await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
         await page.setContent(
-          await addTimeZoneNamePolyfill(html` <calcite-input-time-zone
+          await addTimeZoneNamePolyfill(html`<calcite-input-time-zone
             mode="name"
             value="Does/Not/Exist"
           ></calcite-input-time-zone>`)
@@ -269,7 +325,7 @@ describe("calcite-input-time-zone", () => {
     const page = await newE2EPage();
     await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
     await page.setContent(
-      addTimeZoneNamePolyfill(html` <calcite-input-time-zone max-items="7"></calcite-input-time-zone>`)
+      addTimeZoneNamePolyfill(html`<calcite-input-time-zone max-items="7"></calcite-input-time-zone>`)
     );
     const internalCombobox = await page.find("calcite-input-time-zone >>> calcite-combobox");
 
@@ -285,7 +341,7 @@ describe("calcite-input-time-zone", () => {
  * @param testHtml
  */
 function addTimeZoneNamePolyfill(testHtml: string): string {
-  return html` <script type="module">
+  return html`<script type="module">
       const OriginalDateTimeFormat = Intl.DateTimeFormat;
 
       class ExtendedDateTimeFormat extends OriginalDateTimeFormat {
@@ -302,17 +358,29 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
 
           if (timeZoneName === "shortOffset") {
             const { timeZone } = this.originalOptions;
+            let offsetString;
 
             // hardcoding GMT and time zone names for this particular test suite
-            const offsetString =
-              "GMT" +
-              (timeZone === "America/Los_Angeles"
-                ? "-7"
-                : timeZone === "America/Denver"
-                ? "-6"
-                : timeZone === "Europe/London" || timeZone === "Europe/Belfast" || timeZone === "Etc/GMT-1"
-                ? "+1"
-                : "+0");
+            if (timeZone.includes("Etc/")) {
+              offsetString = timeZone.replace("Etc/", "GMT");
+
+              // Etc/x time zones have the opposite sign of the offset
+              if (offsetString.includes("+")) {
+                offsetString = offsetString.replace("+", "-");
+              } else if (offsetString.includes("-")) {
+                offsetString = offsetString.replace("-", "+");
+              }
+            } else {
+              offsetString =
+                "GMT" +
+                (timeZone === "America/Mexico_City"
+                  ? "-6"
+                  : timeZone === "America/Phoenix"
+                  ? "-7"
+                  : timeZone === "Pacific/Guam" || timeZone === "Pacific/Chuuk"
+                  ? "+10"
+                  : "+0");
+            }
 
             originalParts.push({ type: "timeZoneName", value: offsetString });
           }
@@ -340,13 +408,38 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
       Intl.supportedValuesOf = function (key) {
         if (key === "timeZone") {
           return [
-            "America/Los_Angeles",
-            "America/Denver",
-            "Europe/London",
+            "America/Mexico_City",
+            "America/Phoenix",
+            "Pacific/Guam",
 
             // not available in Chromium v92 at time of testing
+            "Etc/GMT+1",
+            "Etc/GMT+10",
+            "Etc/GMT+11",
+            "Etc/GMT+12",
+            "Etc/GMT+2",
+            "Etc/GMT+3",
+            "Etc/GMT+4",
+            "Etc/GMT+5",
+            "Etc/GMT+6",
+            "Etc/GMT+7",
+            "Etc/GMT+8",
+            "Etc/GMT+9",
             "Etc/GMT-1",
-            "Europe/Belfast",
+            "Etc/GMT-10",
+            "Etc/GMT-11",
+            "Etc/GMT-12",
+            "Etc/GMT-13",
+            "Etc/GMT-14",
+            "Etc/GMT-2",
+            "Etc/GMT-3",
+            "Etc/GMT-4",
+            "Etc/GMT-5",
+            "Etc/GMT-6",
+            "Etc/GMT-7",
+            "Etc/GMT-8",
+            "Etc/GMT-9",
+            "Pacific/Chuuk",
           ];
         }
       };

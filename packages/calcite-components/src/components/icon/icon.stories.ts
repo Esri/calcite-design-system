@@ -19,6 +19,16 @@ export const simple = (): string => html`
   ></calcite-icon>
 `;
 
+export const customBaseFontSize = (): string => html`
+  <style>
+    html {
+      font-size: 62.5%;
+    }</style
+  ><calcite-icon icon="banana" scale="s"></calcite-icon>
+  <calcite-icon icon="banana" scale="m"></calcite-icon>
+  <calcite-icon icon="banana" scale="l"></calcite-icon>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-icon
     class="calcite-mode-dark"

@@ -8,15 +8,29 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch,
 } from "@stencil/core";
 
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-import { NumberingSystem } from "../../utils/locale";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+} from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { StepperMessages } from "./assets/stepper/t9n";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -25,8 +39,9 @@ import { createObserver } from "../../utils/observers";
   tag: "calcite-stepper",
   styleUrl: "stepper.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class Stepper {
+export class Stepper implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -54,6 +69,14 @@ export class Stepper {
   }
 
   /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: StepperMessages;
+
+  /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
@@ -69,6 +92,17 @@ export class Stepper {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItem: HTMLCalciteStepperItemElement = null;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<StepperMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -100,20 +134,32 @@ export class Stepper {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateItems();
+    connectMessages(this);
+    connectLocalized(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
     if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
-        position: 0,
+        position: this.getFirstEnabledStepperPosition(),
       });
     }
   }
 
+  disconnectedCallback(): void {
+    disconnectMessages(this);
+    disconnectLocalized(this);
+    this.mutationObserver?.disconnect();
+  }
+
   render(): VNode {
     return (
-      <Host aria-label={"Progress steps"} role="region">
+      <Host aria-label={this.messages.label} role="region">
         <slot onSlotchange={this.handleDefaultSlotChange} />
       </Host>
     );
@@ -255,6 +301,15 @@ export class Stepper {
 
   @Element() el: HTMLCalciteStepperElement;
 
+  @State() defaultMessages: StepperMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
 
   /** list of sorted Stepper items */
@@ -268,6 +323,12 @@ export class Stepper {
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
   private updateItems(): void {
     this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
       item.icon = this.icon;
@@ -276,12 +337,6 @@ export class Stepper {
       item.scale = this.scale;
     });
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 
   private getEnabledStepIndex(
     startIndex: number,
@@ -333,4 +388,9 @@ export class Stepper {
     this.el.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
   };
+
+  private getFirstEnabledStepperPosition(): number {
+    const enabledStepIndex = this.items.findIndex((item) => !item.disabled);
+    return enabledStepIndex > -1 ? enabledStepIndex : 0;
+  }
 }

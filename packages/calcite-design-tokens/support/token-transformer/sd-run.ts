@@ -8,6 +8,7 @@ import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
 import { parseName } from "./utils/parseName.js";
 import { Theme } from "./getThemes.js";
+import { formatJs, formatTs } from "./format/javascript.js";
 
 /**
  * Style Dictionary runner configuration overrides.
@@ -49,6 +50,16 @@ export const run = async (
     formatter: formatSCSS,
   });
 
+  StyleDictionary.registerFormat({
+    name: "calcite/js-module",
+    formatter: formatJs,
+  });
+
+  StyleDictionary.registerFormat({
+    name: "calcite/ts-module",
+    formatter: formatTs,
+  });
+
   // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms
   StyleDictionary.registerTransform({
     name: "name/calcite/camel",
@@ -73,6 +84,39 @@ export const run = async (
     source,
     include,
     platforms: {
+      js: {
+        buildPath: `${buildPath}/js/`,
+        files: [
+          {
+            destination: `${fileName}.js`,
+            format: "calcite/js-module",
+            filter: "filterSource",
+          },
+          {
+            destination: `${fileName}.d.ts`,
+            format: "calcite/ts-module",
+            filter: "filterSource",
+          },
+        ],
+      },
+      es6: {
+        transformGroup: "js",
+        buildPath: `${buildPath}/es6/`,
+        files: [
+          {
+            format: "javascript/es6",
+            destination: `${fileName}.js`,
+            filter: "filterSource",
+            options: { ...options, outputReferences: true },
+          },
+          {
+            format: "typescript/es6-declarations",
+            destination: `${fileName}.d.ts`,
+            filter: "filterSource",
+            options: { ...options, outputReferences: true },
+          },
+        ],
+      },
       css: {
         prefix: "calcite",
         transforms: [
