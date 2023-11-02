@@ -51,6 +51,7 @@ import {
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
+  componentLoaded,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
@@ -442,6 +443,17 @@ export class Combobox
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
+
+    if (this.displayMode === "fit-to-line") {
+      this.inputIntersectionObserver = createObserver(
+        "intersection",
+        this.inputIntersectionHandler,
+        {
+          root: this.chipContainerEl,
+          threshold: 0.5,
+        }
+      );
+    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -453,8 +465,10 @@ export class Combobox
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition(true);
+    if (this.displayMode === "fit-to-line") {
+      this.inputIntersectionObserver.observe(this.textInput);
+    }
     setComponentLoaded(this);
-    this.refreshDisplayMode();
   }
 
   componentDidRender(): void {
@@ -537,6 +551,8 @@ export class Combobox
   textInput: HTMLInputElement = null;
 
   data: ItemData[];
+
+  inputIntersectionObserver: IntersectionObserver;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -818,11 +834,21 @@ export class Combobox
     chipEl.classList.add(CSS.chipInvisible);
   }
 
+  private inputIntersectionHandler = (entries): void => {
+    const selectedItemsCount = this.getSelectedItems().length;
+    entries.forEach(({ isIntersecting }) => {
+      if (!isIntersecting && !this.selectedVisibleChipsCount && selectedItemsCount > 0) {
+        this.selectedIndicatorChipEl.innerHTML = `${selectedItemsCount}`;
+      }
+    });
+  };
+
   private showChip(chipEl: HTMLCalciteChipElement): void {
     chipEl.classList.remove(CSS.chipInvisible);
   }
 
-  private refreshDisplayMode = () => {
+  private refreshDisplayMode = async () => {
+    await componentLoaded(this);
     if (isSingleLike(this.selectionMode)) {
       return;
     }
@@ -864,8 +890,17 @@ export class Combobox
           selectedVisibleChipsCount++;
         }
       });
-      this.selectedHiddenChipsCount = this.getSelectedItems().length - selectedVisibleChipsCount;
-      this.selectedVisibleChipsCount = selectedVisibleChipsCount;
+
+      const newSelectedHiddenChipsCount =
+        this.getSelectedItems().length - selectedVisibleChipsCount;
+
+      if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
+        this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
+      }
+
+      if (selectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
+        this.selectedVisibleChipsCount = selectedVisibleChipsCount;
+      }
     }
   };
 
@@ -1292,7 +1327,10 @@ export class Combobox
     const allSelected = this.getItems().length === this.getSelectedItems().length;
     if (
       (allSelected && displayMode === "single") ||
-      (allSelected && displayMode === "fit-to-line" && !selectedVisibleChipsCount)
+      (allSelected &&
+        displayMode === "fit-to-line" &&
+        selectedVisibleChipsCount !== undefined &&
+        !selectedVisibleChipsCount)
     ) {
       label = "All selected";
     } else if (displayMode === "single" && this.getSelectedItems().length > 0) {
