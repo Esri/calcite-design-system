@@ -92,7 +92,7 @@
 
 :host([toggle-display="switch"]) .toggle {
   .toggle--switch__content {
-    margin-inline-end: 1.75rem;
+    @apply me-7;
   }
 }
 
