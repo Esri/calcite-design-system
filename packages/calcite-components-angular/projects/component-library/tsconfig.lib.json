@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.json",
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
+  }
+}
