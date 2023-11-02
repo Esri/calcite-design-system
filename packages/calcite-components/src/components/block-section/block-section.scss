@@ -39,6 +39,9 @@
     px-0
     py-2;
 
+  &:focus {
+    @apply focus-outset;
+  }
   &:hover {
     @apply text-color-1;
   }
@@ -63,13 +66,9 @@
 
   .focus-guard {
     --calcite-label-margin-bottom: 0;
-    @apply pointer-events-none;
+    @apply absolute pointer-events-none;
     inset-inline-end: 0;
     margin-inline-start: theme("margin.1");
-  }
-
-  &:focus {
-    @apply focus-outset;
   }
 }
 
@@ -89,6 +88,12 @@
 
 .status-icon.invalid {
   color: theme("colors.danger");
+}
+
+:host([toggle-display="switch"]) .toggle {
+  .toggle--switch__content {
+    margin-inline-end: 1.75rem;
+  }
 }
 
 @include base-component();

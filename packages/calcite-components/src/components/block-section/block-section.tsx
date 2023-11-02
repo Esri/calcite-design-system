@@ -216,7 +216,6 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
           class={{
             [CSS.toggleSwitchContainer]: true,
           }}
-          tabIndex={0}
         >
           <div
             aria-controls={IDS.content}
@@ -229,6 +228,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             onClick={this.toggleSection}
             onKeyDown={this.handleHeaderKeyDown}
             role="button"
+            tabIndex={0}
             title={toggleLabel}
           >
             <div class={CSS.toggleSwitchContent}>
