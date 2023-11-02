@@ -8,14 +8,16 @@ The tab-nav groups several [calcite-tab-title](../tab-title) components and buil
 
 ### Basic
 
-When tab-nav is the only parent, tab-title can inherit its `scale` and `position` from tab-nav:
+Tab-nav and tab-title inherit their `scale` and `position` from tab-title parent:
 
 ```html
-<calcite-tab-nav scale="l" position="bottom">
-  <calcite-tab-title>Layers</calcite-tab-title>
-  <calcite-tab-title>Maps</calcite-tab-title>
-  <calcite-tab-title selected>Data</calcite-tab-title>
-</calcite-tab-nav>
+<calcite-tabs scale="l" position="bottom">
+  <calcite-tab-nav>
+    <calcite-tab-title>Layers</calcite-tab-title>
+    <calcite-tab-title>Maps</calcite-tab-title>
+    <calcite-tab-title selected>Data</calcite-tab-title>
+  </calcite-tab-nav>
+</calcite-tabs>
 ```
 
 ## Properties

@@ -235,6 +235,40 @@ export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string =>
     </calcite-block>
   `;
 
+export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string =>
+  html`
+    <calcite-panel style="width:250px">
+      <calcite-block
+        collapsible
+        open
+        heading="Planes, trains, and automobiles are some examples of modes of transportation"
+        description="Planes, trains, and automobiles are some examples of modes of transportation"
+      >
+        <calcite-notice open>
+          <div slot="message">Some more complex options.</div>
+        </calcite-notice>
+        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+          <p>Block section content</p>
+        </calcite-block-section>
+        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+          <p>Block section content</p>
+        </calcite-block-section>
+      </calcite-block>
+      <calcite-block
+        collapsible
+        heading="Planes, trains, and automobiles are some examples of modes of transportation"
+        description="Planes, trains, and automobiles are some examples of modes of transportation"
+      >
+        <calcite-notice open>
+          <div slot="message">Some more complex options.</div>
+        </calcite-notice>
+        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+          <p>Block section content</p>
+        </calcite-block-section>
+      </calcite-block>
+    </calcite-panel>
+  `;
+
 export const loadingWithStatusIcon_TestOnly = (): string =>
   html`
     <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
