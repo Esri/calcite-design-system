@@ -1,11 +1,16 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
+  "extends": [
+    "config:base",
+    "npm:unpublishSafe",
+    "workarounds:typesNodeVersioning",
+    ":pinAllExceptPeerDependencies",
+    ":widenPeerDependencies"
+  ],
   "platformCommit": true,
-  "rangeStrategy": "pin",
   "enabledManagers": ["npm"],
   "timezone": "America/Los_Angeles",
-  "schedule": ["before 5am on tuesday and thursday"],
+  "schedule": ["before 5am on every weekday"],
   "labels": ["dependencies"],
   "ignoreDeps": [
     "@types/jest",
