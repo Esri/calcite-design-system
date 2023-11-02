@@ -10,6 +10,7 @@ export class SampleTag {
           onClick={() => {
             /* click! */
           }}
+          tabIndex={0}
           ref={(el: HTMLDivElement): void => {
             /* refEl */
           }}

@@ -35,7 +35,7 @@ Add a new `lint` script to `package.json`:
 
 Then you can run the linter:
 
-```javascript
+```shell
 npm run lint
 ```
 
@@ -51,7 +51,7 @@ This rule catches props/attributes that should be in the encapsulated HTML struc
 
 - [`@esri/calcite-components/enforce-ref-last-prop`](./docs/enforce-ref-last-prop.md)
 
-This rule ensures the `ref` attribute is ordered last in a JSXElement to keep it up-to-date.
+This updates `ref` usage to work around a Stencil bug where ref is called in the specified order and not after initializing element with all its attributes/properties. This can cause attributes/properties to be outdated by the time the callback is invoked. This rule ensures the `ref` attribute is ordered last in a JSXElement to keep it up-to-date.
 
 - [`@esri/calcite-components/require-event-emitter-type`](./docs/require-event-emitter-type.md)
 
