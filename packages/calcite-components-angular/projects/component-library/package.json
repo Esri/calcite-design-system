@@ -18,10 +18,10 @@
   "peerDependencies": {
     "@angular/common": "^16.2.0",
     "@angular/core": "^16.2.0",
-    "@esri/calcite-components": "1.10.1"
+    "@esri/calcite-components": "1.10.0"
   },
   "devDependencies": {
-    "@esri/calcite-components": "1.10.1"
+    "@esri/calcite-components": "1.10.0"
   },
   "dependencies": {
     "tslib": "2.3.0"
