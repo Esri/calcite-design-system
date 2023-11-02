@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.1-next.1...@esri/calcite-components@1.10.1-next.2) (2023-11-01)
+
+### Bug Fixes
+
+- **input-number:** prevent mutating value when pointerUp is emitted. ([#8077](https://github.com/Esri/calcite-design-system/issues/8077)) ([fa78d11](https://github.com/Esri/calcite-design-system/commit/fa78d114b518b37b6a59b4064c5a7e8e78e418b5)), closes [#7188](https://github.com/Esri/calcite-design-system/issues/7188)
+
+## [1.10.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.1-next.0...@esri/calcite-components@1.10.1-next.1) (2023-11-01)
+
+### Bug Fixes
+
+- **combobox-item:** hide disabled item icon ([#8095](https://github.com/Esri/calcite-design-system/issues/8095)) ([36552f3](https://github.com/Esri/calcite-design-system/commit/36552f309f250acb01a76b8cfa97f9813b7c22a4))
+- **input-time-zone:** fix Indian/Christmas time zone translation ([#8096](https://github.com/Esri/calcite-design-system/issues/8096)) ([d79d591](https://github.com/Esri/calcite-design-system/commit/d79d59162125ebce70d7a4e1351b34fc6aac68ed))
+
 ## [1.10.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0...@esri/calcite-components@1.10.1-next.0) (2023-10-31)
 
 ### Bug Fixes
