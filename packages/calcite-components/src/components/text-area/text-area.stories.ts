@@ -17,7 +17,7 @@ export const simple = (): string => html`
     placeholder="${text("placeholder", "Add Notes")}"
     ${boolean("disabled", false)}
     columns="${number("columns", 20)}"
-    resize="${text("resize", "both")}
+    resize="${text("resize", "both")}"
     rows="${number("rows", 2)}"
     label="${text("label", "")}"
     name="${text("name", "")}"
