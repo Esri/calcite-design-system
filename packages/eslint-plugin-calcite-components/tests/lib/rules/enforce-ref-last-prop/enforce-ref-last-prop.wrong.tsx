@@ -13,6 +13,7 @@ export class SampleTag {
           onClick={() => {
             /* click! */
           }}
+          tabIndex={0}
         >
           test
         </div>
