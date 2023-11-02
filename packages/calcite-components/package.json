@@ -19,7 +19,7 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:patch-jsdom-types && npm run util:prep-build-reqs && stencil build && npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
+    "build": "npm run util:prep-build-reqs && stencil build && npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
     "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider build-storybook --output-dir ./docs --quiet",
@@ -50,7 +50,6 @@
     "util:patch": "npm run util:patch-esm-resolution && npm run util:patch-tree-shaking",
     "util:patch-esm-resolution": "ts-node --esm support/patchESMResolution.ts",
     "util:patch-tree-shaking": "ts-node --esm support/patchTreeShaking.ts",
-    "util:patch-jsdom-types": "ts-node --esm support/patchJSDOMTypes.ts",
     "util:prep-build-reqs": "npm run util:copy-assets && npm run util:generate-t9n-types",
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
     "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types=' && npm run util:clean-js-files",
