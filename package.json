@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/calcite-components-angular/projects/component-library"
   ],
   "scripts": {
     "build": "turbo run build --log-order=stream",
@@ -49,7 +50,7 @@
     "@types/react-dom": "^16.0.9",
     "@types/react": "^16.7.6",
     "@types/semver": "7.5.3",
-    "@types/shell-quote": "1.7.2",
+    "@types/shell-quote": "1.7.3",
     "@types/sortablejs": "1.15.3",
     "@types/yargs": "17.0.24",
     "@typescript-eslint/eslint-plugin": "5.60.1",

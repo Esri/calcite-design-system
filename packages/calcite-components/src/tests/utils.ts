@@ -132,6 +132,7 @@ export function selectText(input: E2EElement): Promise<void> {
  * @param {E2EPage} page - the e2e page
  * @param {string} elementSelector - the element selector
  * @param {string} shadowSelector - the shadowRoot selector
+ * @deprecated Use `getElementRect` instead.
  */
 export async function getElementXY(
   page: E2EPage,
@@ -145,6 +146,29 @@ export async function getElementXY(
       const { x, y } = measureTarget.getBoundingClientRect();
 
       return [x, y];
+    },
+    [elementSelector, shadowSelector]
+  );
+}
+
+/**
+ * Helper to get an E2EElement's DOMRect object.
+ *
+ * @param {E2EPage} page - the e2e page
+ * @param {string} elementSelector - the element selector
+ * @param {string} shadowSelector - the shadowRoot selector
+ * @returns {Promise<DOMRect>} Promise with DOMRect object.
+ */
+export async function getElementRect(
+  page: E2EPage,
+  elementSelector: string,
+  shadowSelector?: string
+): Promise<DOMRect> {
+  return page.evaluate(
+    ([elementSelector, shadowSelector]): DOMRect => {
+      const element = document.querySelector(elementSelector);
+      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      return measureTarget.getBoundingClientRect().toJSON();
     },
     [elementSelector, shadowSelector]
   );
