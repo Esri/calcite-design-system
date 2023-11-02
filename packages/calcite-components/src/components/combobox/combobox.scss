@@ -150,9 +150,7 @@
 
 .icon-end,
 .icon-start {
-  @apply flex
-    w-4 cursor-pointer
-    items-center;
+  @apply flex cursor-pointer items-center;
 }
 
 .icon-end {

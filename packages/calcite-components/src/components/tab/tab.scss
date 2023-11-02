@@ -13,22 +13,21 @@
   @apply block h-full w-full overflow-auto;
 }
 
-section,
-.container {
-  @apply hidden h-full w-full;
-}
-
-:host([scale="s"]) {
+.scale-s .content {
   @apply text-n2h py-1;
 }
 
-:host([scale="m"]) {
+.scale-m .content {
   @apply text-n1h py-2;
 }
 
-:host([scale="l"]) {
-  @apply text-0h;
-  padding-block: 13px;
+.scale-l .content {
+  @apply text-0h py-2.5;
+}
+
+section,
+.container {
+  @apply hidden h-full w-full;
 }
 
 @include base-component();
