@@ -23,7 +23,7 @@
     "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider build-storybook --output-dir ./docs --quiet",
-    "clean": "npm run util:clean-js-files && npm run util:clean-readmes && rimraf node_modules dist www hydrate docs .turbo src/components.d.ts",
+    "clean": "npm run util:clean-js-files && npm run util:clean-readmes && rimraf node_modules dist www hydrate docs .turbo",
     "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest @whitespace/storybook-addon-html && npm audit fix",
     "docs": "build-storybook",
     "docs:preview": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true start-storybook",
