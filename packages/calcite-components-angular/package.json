@@ -24,7 +24,7 @@
     "@angular-devkit/build-angular": "16.2.8",
     "@angular/cli": "16.2.8",
     "@angular/compiler-cli": "16.2.0",
-    "ng-packagr": "16.2.0"
+    "ng-packagr": "16.2.3"
   },
   "volta": {
     "extends": "../../package.json"
