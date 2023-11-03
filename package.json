@@ -52,7 +52,7 @@
     "@types/semver": "7.5.4",
     "@types/shell-quote": "1.7.3",
     "@types/sortablejs": "1.15.4",
-    "@types/yargs": "17.0.24",
+    "@types/yargs": "17.0.29",
     "@typescript-eslint/eslint-plugin": "5.60.1",
     "@typescript-eslint/parser": "5.48.2",
     "@whitespace/storybook-addon-html": "5.0.0",
