@@ -1,5 +1,5 @@
 import { Config } from "@stencil/core";
-import { postcss } from "@stencil/postcss";
+import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
