@@ -42,7 +42,7 @@
     "@tokens-studio/sd-transforms": "0.8.2",
     "@types/dedent": "0.7.1",
     "@types/eslint": "8.40.2",
-    "@types/estree": "1.0.3",
+    "@types/estree": "1.0.4",
     "@types/jest-axe": "3.5.7",
     "@types/jest": "27.0.3",
     "@types/lodash-es": "4.17.10",
