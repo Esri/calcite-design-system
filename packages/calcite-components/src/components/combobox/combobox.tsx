@@ -450,7 +450,7 @@ export class Combobox
         this.inputIntersectionHandler,
         {
           root: this.chipContainerEl,
-          threshold: 0.5,
+          threshold: 1,
         }
       );
     }
@@ -864,10 +864,12 @@ export class Combobox
       const chipContainerElGap = parseInt(
         getComputedStyle(this.chipContainerEl).gap.replace("px", "")
       );
-      const inputTextWidth = getTextWidth(this.placeholder, `${fontSize} ${fontFamily}`) || 50;
+      const inputWidth =
+        (getTextWidth(this.textInput.value || this.placeholder, `${fontSize} ${fontFamily}`) ||
+          50) + chipContainerElGap;
       const selectedIndicatorChipElWidth = getElementWidth(this.selectedIndicatorChipEl);
       let availableHorizontalChipElSpace = Math.round(
-        chipContainerElWidth - (selectedIndicatorChipElWidth + chipContainerElGap + inputTextWidth)
+        chipContainerElWidth - (selectedIndicatorChipElWidth + chipContainerElGap + inputWidth)
       );
 
       chipEls.forEach((chipEl: HTMLCalciteChipElement) => {

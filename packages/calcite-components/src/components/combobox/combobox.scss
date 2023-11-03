@@ -101,6 +101,7 @@
   line-height: var(--calcite-combobox-input-height);
   inline-size: 100%;
   margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
+  min-inline-size: 4.8125rem;
   &:focus {
     @apply outline-none;
   }
