@@ -56,8 +56,7 @@
 }
 
 :host([checked]) label {
-  @apply bg-brand border-color-brand cursor-default;
-  color: theme("backgroundColor.background");
+  @apply bg-brand border-color-brand cursor-default text-color-inverse;
 }
 
 :host([checked]) .label--outline,

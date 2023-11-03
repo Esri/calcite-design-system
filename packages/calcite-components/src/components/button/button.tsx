@@ -15,6 +15,7 @@ import {
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
+import { getIconScale } from "../../utils/component";
 import {
   connectMessages,
   disconnectMessages,
@@ -26,6 +27,11 @@ import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes,
+} from "../../utils/globalAttributes";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -39,6 +45,7 @@ import { CSS } from "./resources";
 })
 export class Button
   implements
+    GlobalAttrComponent,
     LabelableComponent,
     InteractiveComponent,
     FormOwner,
@@ -175,6 +182,7 @@ export class Button
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
+    watchGlobalAttributes(this, ["aria-expanded"]);
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
@@ -189,6 +197,7 @@ export class Button
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
     this.formEl = null;
+    unwatchGlobalAttributes(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -228,7 +237,7 @@ export class Button
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -237,7 +246,7 @@ export class Button
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -262,12 +271,14 @@ export class Button
         href={childElType === "a" && this.href}
         name={childElType === "button" && this.name}
         onClick={this.handleClick}
-        ref={this.setChildEl}
         rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
         target={childElType === "a" && this.target}
         title={this.tooltipText}
         type={childElType === "button" && this.type}
+        {...this.globalAttributes}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={this.setChildEl}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}
@@ -343,6 +354,10 @@ export class Button
   private contentEl: HTMLSpanElement;
 
   resizeObserver = createObserver("resize", () => this.setTooltipText());
+
+  @State() globalAttributes = {
+    ariaExpanded: undefined,
+  };
 
   //--------------------------------------------------------------------------
   //

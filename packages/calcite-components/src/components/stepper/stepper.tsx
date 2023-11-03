@@ -13,13 +13,27 @@ import {
   Watch,
 } from "@stencil/core";
 import { focusElementInGroup, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
-import { NumberingSystem } from "../../utils/locale";
 import { Layout, Position, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 import { StepBar } from "./step-bar";
 import { ITEM_MIN_WIDTH, CSS } from "./resources";
 import { guid } from "../../utils/guid";
+
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+} from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { StepperMessages } from "./assets/stepper/t9n";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -28,8 +42,9 @@ import { guid } from "../../utils/guid";
   tag: "calcite-stepper",
   styleUrl: "stepper.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class Stepper {
+export class Stepper implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -57,6 +72,14 @@ export class Stepper {
   }
 
   /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: StepperMessages;
+
+  /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
@@ -72,6 +95,17 @@ export class Stepper {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItem: HTMLCalciteStepperItemElement = null;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<StepperMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -104,6 +138,12 @@ export class Stepper {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateItems();
     this.resizeObserver?.observe(this.el);
+    connectMessages(this);
+    connectLocalized(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -117,6 +157,9 @@ export class Stepper {
 
   disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
+    disconnectMessages(this);
+    disconnectLocalized(this);
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -277,6 +320,15 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteStepperElement;
+
+  @State() defaultMessages: StepperMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   /** keep track of the currently active item position */
   @State() currentPosition: number;

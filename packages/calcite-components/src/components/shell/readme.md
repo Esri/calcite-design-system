@@ -14,14 +14,14 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 
 ```html
 <calcite-shell>
-  <calcite-shell-panel slot="panel-start" position="start" detached>
+  <calcite-shell-panel slot="panel-start" position="start" display-mode="float">
     <calcite-action-bar slot="action-bar">
-      <calcite-action-group>
+      <calcite-action-group label="Manage item">
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" disabled icon="save"></calcite-action>
         <calcite-action text="Layers" active indicator icon="layers"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group>
+      <calcite-action-group label="Item types">
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Layers" indicator icon="layers"></calcite-action>
       </calcite-action-group>
@@ -40,14 +40,14 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
     </calcite-block>
   </calcite-shell-panel>
 
-   <calcite-shell-panel slot="panel-end" position="end" detached height-scale="l">
+   <calcite-shell-panel slot="panel-end" position="end" display-mode="float" height-scale="l">
       <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
+        <calcite-action-group label="Manage item">
           <calcite-action text="Add" active icon="plus"></calcite-action>
           <calcite-action text="Save" disabled icon="save"></calcite-action>
           <calcite-action text="Layers" icon="layers"></calcite-action>
         </calcite-action-group>
-        <calcite-action-group>
+        <calcite-action-group label="Item types">
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Save" disabled icon="save"></calcite-action>
           <calcite-action text="Layers" icon="layers"></calcite-action>
@@ -145,16 +145,19 @@ Renders a shell with a header and panels on the left and right sides of the app.
 
 ## Slots
 
-| Slot            | Description                                                                                                                                |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-|                 | A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.  |
-| `"alerts"`      | A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the shell. |
-| `"center-row"`  | A slot for adding content to the center row.                                                                                               |
-| `"footer"`      | A slot for adding footer content. This content will be positioned at the bottom of the component.                                          |
-| `"header"`      | A slot for adding header content. This content will be positioned at the top of the component.                                             |
-| `"modals"`      | A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell. |
-| `"panel-end"`   | A slot for adding the ending `calcite-shell-panel`.                                                                                        |
-| `"panel-start"` | A slot for adding the starting `calcite-shell-panel`.                                                                                      |
+| Slot             | Description                                                                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+|                  | A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.  |
+| `"alerts"`       | A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the shell. |
+| `"center-row"`   | [Deprecated] Use the `"panel-bottom"` slot instead. A slot for adding the bottom `calcite-shell-center-row`.                               |
+| `"footer"`       | A slot for adding footer content. This content will be positioned at the bottom of the component.                                          |
+| `"header"`       | A slot for adding header content. This content will be positioned at the top of the component.                                             |
+| `"modals"`       | A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell. |
+| `"panel-bottom"` | A slot for adding the bottom `calcite-shell-center-row`.                                                                                   |
+| `"panel-end"`    | A slot for adding the ending `calcite-shell-panel`.                                                                                        |
+| `"panel-start"`  | A slot for adding the starting `calcite-shell-panel`.                                                                                      |
+| `"panel-top"`    | A slot for adding the top `calcite-shell-center-row`.                                                                                      |
+| `"sheets"`       | A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the shell. |
 
 ## CSS Custom Properties
 

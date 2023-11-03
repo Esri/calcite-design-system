@@ -70,6 +70,23 @@ export class FlowItem
   @Prop({ reflect: true }) closed = false;
 
   /**
+   * When `true`, hides the component's content area.
+   */
+  @Prop({ reflect: true }) collapsed = false;
+
+  /**
+   * Specifies the direction of the collapse.
+   *
+   * @internal
+   */
+  @Prop() collapseDirection: "down" | "up" = "down";
+
+  /**
+   * When `true`, the component is collapsible.
+   */
+  @Prop({ reflect: true }) collapsible = false;
+
+  /**
    * When provided, the method will be called before it is removed from its parent `calcite-flow`.
    */
   @Prop() beforeBack: () => Promise<void>;
@@ -180,6 +197,11 @@ export class FlowItem
    */
   @Event({ cancelable: false }) calciteFlowItemClose: EventEmitter<void>;
 
+  /**
+   * Fires when the collapse button is clicked.
+   */
+  @Event({ cancelable: false }) calciteFlowItemToggle: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -209,6 +231,8 @@ export class FlowItem
 
   /**
    * Sets focus on the component.
+   *
+   * @returns promise.
    */
   @Method()
   async setFocus(): Promise<void> {
@@ -232,7 +256,8 @@ export class FlowItem
    *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
-   * @param options
+   * @param options - allows specific coordinates to be defined.
+   * @returns - promise that resolves once the content is scrolled to.
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -253,6 +278,12 @@ export class FlowItem
   handlePanelClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
     this.calciteFlowItemClose.emit();
+  };
+
+  handlePanelToggle = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.collapsed = (event.target as HTMLCalcitePanelElement).collapsed;
+    this.calciteFlowItemToggle.emit();
   };
 
   backButtonClick = (): void => {
@@ -300,6 +331,9 @@ export class FlowItem
 
   render(): VNode {
     const {
+      collapsed,
+      collapseDirection,
+      collapsible,
       closable,
       closed,
       description,
@@ -315,6 +349,9 @@ export class FlowItem
         <calcite-panel
           closable={closable}
           closed={closed}
+          collapseDirection={collapseDirection}
+          collapsed={collapsed}
+          collapsible={collapsible}
           description={description}
           disabled={disabled}
           heading={heading}
@@ -324,6 +361,7 @@ export class FlowItem
           messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
           onCalcitePanelScroll={this.handlePanelScroll}
+          onCalcitePanelToggle={this.handlePanelToggle}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setContainerRef}
         >

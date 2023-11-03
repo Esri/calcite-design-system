@@ -754,12 +754,12 @@ describe("calcite-modal accessibility checks", () => {
 
     modal.setProperty("scale", "m");
     await page.waitForChanges();
-    closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="m"]');
+    closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="s"]');
     expect(closeIcon).not.toBe(null);
 
     modal.setProperty("scale", "l");
     await page.waitForChanges();
-    closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="l"]');
+    closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="m"]');
     expect(closeIcon).not.toBe(null);
   });
 

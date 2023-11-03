@@ -270,10 +270,10 @@ export class Filter
         <div class={CSS.container}>
           <label>
             <calcite-input
-              aria-label={this.messages.label}
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
+              label={this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}

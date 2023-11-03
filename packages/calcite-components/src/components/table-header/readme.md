@@ -4,33 +4,24 @@
 
 ## Properties
 
-| Property           | Attribute     | Description                                                                                               | Type                                                                                             | Default     |
-| ------------------ | ------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ----------- |
-| `alignment`        | `alignment`   | Specifies the alignment of the component.                                                                 | `"center" \| "end" \| "start"`                                                                   | `"start"`   |
-| `colSpan`          | `col-span`    |                                                                                                           | `number`                                                                                         | `undefined` |
-| `description`      | `description` | A description to display beneath heading content.                                                         | `string`                                                                                         | `undefined` |
-| `heading`          | `heading`     | A heading to display above description content.                                                           | `string`                                                                                         | `undefined` |
-| `label`            | `label`       |                                                                                                           | `string`                                                                                         | `""`        |
-| `messageOverrides` | --            | Use this property to override individual strings used by the component.                                   | `{ focusReadout?: string; sortAscending?: string; sortDescending?: string; sortNone?: string; }` | `undefined` |
-| `rowSpan`          | `row-span`    |                                                                                                           | `number`                                                                                         | `undefined` |
-| `scale`            | `scale`       | Specifies the size of the component.                                                                      | `"l" \| "m" \| "s"`                                                                              | `"m"`       |
-| `sortable`         | `sortable`    | Specifies if the component should be able to sort associated `calcite-table-cell` ascending or descending | `boolean`                                                                                        | `false`     |
+| Property           | Attribute     | Description                                                             | Type                                                                                                                                           | Default     |
+| ------------------ | ------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `alignment`        | `alignment`   | Specifies the alignment of the component.                               | `"center" \| "end" \| "start"`                                                                                                                 | `"start"`   |
+| `colSpan`          | `col-span`    | Specifies the number of columns the component should span.              | `number`                                                                                                                                       | `undefined` |
+| `description`      | `description` | A description to display beneath heading content.                       | `string`                                                                                                                                       | `undefined` |
+| `heading`          | `heading`     | A heading to display above description content.                         | `string`                                                                                                                                       | `undefined` |
+| `messageOverrides` | --            | Use this property to override individual strings used by the component. | `{ all?: string; keyboardDeselectAll?: string; keyboardSelectAll?: string; rowNumber?: string; selected?: string; selectionColumn?: string; }` | `undefined` |
+| `rowSpan`          | `row-span`    | Specifies the number of rows the component should span.                 | `number`                                                                                                                                       | `undefined` |
 
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component's first focusable element.
+Sets focus on the component.
 
 #### Returns
 
 Type: `Promise<void>`
-
-## Slots
-
-| Slot            | Description                                      |
-| --------------- | ------------------------------------------------ |
-| `"actions-end"` | A slot for adding content, usually text content. |
 
 ## CSS Custom Properties
 

@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { isElementFocused } from "../../tests/utils";
@@ -70,6 +70,10 @@ describe("calcite-stepper", () => {
       </calcite-stepper>`,
       { display: "grid" }
     );
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-stepper");
   });
 
   it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
