@@ -2,3 +2,4 @@ docs/
 www/
 dist/
 hydrate/
+src/components.d.ts
