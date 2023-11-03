@@ -34,6 +34,7 @@
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "posttest": "npm run test:prerender",
+    "prepublishOnly": "./support/stencilDoubleBuildTypesWorkaround.sh",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\"",
     "test": "stencil test --no-docs --no-build --spec --e2e",
