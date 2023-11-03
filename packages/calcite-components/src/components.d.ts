@@ -5,12 +5,31 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionMode, Status, Width } from "./components/interfaces";
+import {
+  Alignment,
+  Appearance,
+  Columns,
+  FlipContext,
+  Kind,
+  Layout,
+  LogicalFlowPosition,
+  Position,
+  Scale,
+  SelectionMode,
+  Status,
+  Width,
+} from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
 import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
-import { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import {
+  EffectivePlacement,
+  LogicalPlacement,
+  MenuPlacement,
+  OverlayPositioning,
+  ReferenceElement,
+} from "./utils/floating-ui";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -72,7 +91,11 @@ import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
-import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
+import {
+  StepperItemChangeEventDetail,
+  StepperItemEventDetail,
+  StepperItemKeyEventDetail,
+} from "./components/stepper/interfaces";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
@@ -89,12 +112,31 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionMode, Status, Width } from "./components/interfaces";
+export {
+  Alignment,
+  Appearance,
+  Columns,
+  FlipContext,
+  Kind,
+  Layout,
+  LogicalFlowPosition,
+  Position,
+  Scale,
+  SelectionMode,
+  Status,
+  Width,
+} from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
 export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
-export { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export {
+  EffectivePlacement,
+  LogicalPlacement,
+  MenuPlacement,
+  OverlayPositioning,
+  ReferenceElement,
+} from "./utils/floating-ui";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -156,7 +198,11 @@ export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
-export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
+export {
+  StepperItemChangeEventDetail,
+  StepperItemEventDetail,
+  StepperItemKeyEventDetail,
+} from "./components/stepper/interfaces";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
@@ -178,1821 +224,1804 @@ export namespace Components {
     /**
      * Specifies the appearance of the component.
      */
-    "appearance": Extract<"solid" | "transparent", Appearance>;
+    appearance: Extract<"solid" | "transparent", Appearance>;
     /**
      * Specifies the placement of the icon in the header.
      */
-    "iconPosition": Position;
+    iconPosition: Position;
     /**
      * Specifies the type of the icon in the header.
      */
-    "iconType": "chevron" | "caret" | "plus-minus";
+    iconType: "chevron" | "caret" | "plus-minus";
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item), or `"single-persist"` (allow and require one open item).
      */
-    "selectionMode": Extract<
-      "single" | "single-persist" | "multiple",
-      SelectionMode
-    >;
+    selectionMode: Extract<"single" | "single-persist" | "multiple", SelectionMode>;
   }
   interface CalciteAccordionItem {
     /**
      * The containing `accordion` element.
      */
-    "accordionParent": HTMLCalciteAccordionElement;
+    accordionParent: HTMLCalciteAccordionElement;
     /**
      * Specifies a description for the component.
      */
-    "description": string;
+    description: string;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded": boolean;
+    expanded: boolean;
     /**
      * Specifies heading text for the component.
      */
-    "heading": string;
+    heading: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd": string;
+    iconEnd: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": FlipContext;
+    iconFlipRtl: FlipContext;
     /**
      * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
      */
-    "iconPosition": Position;
+    iconPosition: Position;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart": string;
+    iconStart: string;
     /**
      * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
      */
-    "iconType": "chevron" | "caret" | "plus-minus";
+    iconType: "chevron" | "caret" | "plus-minus";
     /**
      * Specifies the size of the component inherited from the `calcite-accordion`.
      */
-    "scale": Scale;
+    scale: Scale;
   }
   interface CalciteAction {
     /**
      * When `true`, the component is highlighted.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * Specifies the horizontal alignment of button elements with text content.
      */
-    "alignment": Alignment;
+    alignment: Alignment;
     /**
      * Specifies the appearance of the component.
      */
-    "appearance": Extract<"solid" | "transparent", Appearance>;
+    appearance: Extract<"solid" | "transparent", Appearance>;
     /**
      * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
      */
-    "compact": boolean;
+    compact: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Specifies an icon to display.
      */
-    "icon": string;
+    icon: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * When `true`, displays a visual indicator.
      */
-    "indicator": boolean;
+    indicator: boolean;
     /**
      * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ActionMessages>;
+    messageOverrides: Partial<ActionMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ActionMessages;
+    messages: ActionMessages;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies text that accompanies the icon.
      */
-    "text": string;
+    text: string;
     /**
      * Indicates whether the text is displayed.
      */
-    "textEnabled": boolean;
+    textEnabled: boolean;
   }
   interface CalciteActionBar {
     /**
      * Specifies the accessible label for the last action-group.
      */
-    "actionsEndGroupLabel": string;
+    actionsEndGroupLabel: string;
     /**
      * When `true`, the expand-toggling behavior is disabled.
      */
-    "expandDisabled": boolean;
+    expandDisabled: boolean;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded": boolean;
+    expanded: boolean;
     /**
      * The layout direction of the actions.
      */
-    "layout": Extract<"horizontal" | "vertical", Layout>;
+    layout: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ActionBarMessages>;
+    messageOverrides: Partial<ActionBarMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ActionBarMessages;
+    messages: ActionBarMessages;
     /**
      * Overflows actions that won't fit into menus.
      */
-    "overflowActions": () => Promise<void>;
+    overflowActions: () => Promise<void>;
     /**
      * Disables automatically overflowing `calcite-action`s that won't fit into menus.
      */
-    "overflowActionsDisabled": boolean;
+    overflowActionsDisabled: boolean;
     /**
      * Arranges the component depending on the element's `dir` property.
      */
-    "position": Position;
+    position: Position;
     /**
      * Specifies the size of the expand `calcite-action`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteActionGroup {
     /**
      * Indicates number of columns.
      */
-    "columns": Columns;
+    columns: Columns;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded": boolean;
+    expanded: boolean;
     /**
      * Specifies the label of the component. Required for accessibility.
      */
-    "label": string;
+    label: string;
     /**
      * Indicates the layout of the component.
      * @deprecated Use the `layout` property on the component's parent instead.
      */
-    "layout": Layout;
+    layout: Layout;
     /**
      * When `true`, the `calcite-action-menu` is open.
      */
-    "menuOpen": boolean;
+    menuOpen: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ActionGroupMessages>;
+    messageOverrides: Partial<ActionGroupMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ActionGroupMessages;
+    messages: ActionGroupMessages;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Specifies the size of the `calcite-action-menu`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteActionMenu {
     /**
      * Specifies the appearance of the component.
      */
-    "appearance": Extract<"solid" | "transparent", Appearance>;
+    appearance: Extract<"solid" | "transparent", Appearance>;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded": boolean;
+    expanded: boolean;
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements": EffectivePlacement[];
+    flipPlacements: EffectivePlacement[];
     /**
      * Specifies the text string for the component.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, the component is open.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Determines where the component will be positioned relative to the `referenceElement`.
      */
-    "placement": LogicalPlacement;
+    placement: LogicalPlacement;
     /**
      * Specifies the size of the component's trigger `calcite-action`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteActionPad {
     /**
      * Specifies the accessible label for the last action-group.
      */
-    "actionsEndGroupLabel": string;
+    actionsEndGroupLabel: string;
     /**
      * When `true`, the expand-toggling behavior is disabled.
      */
-    "expandDisabled": boolean;
+    expandDisabled: boolean;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded": boolean;
+    expanded: boolean;
     /**
      * Indicates the layout of the component.
      */
-    "layout": Layout;
+    layout: Layout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ActionPadMessages>;
+    messageOverrides: Partial<ActionPadMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ActionPadMessages;
+    messages: ActionPadMessages;
     /**
      * Arranges the component depending on the element's `dir` property.
      */
-    "position": Position;
+    position: Position;
     /**
      * Specifies the size of the expand `calcite-action`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteAlert {
     /**
      * When `true`, the component closes automatically (recommended for passive, non-blocking alerts).
      */
-    "autoClose": boolean;
+    autoClose: boolean;
     /**
      * Specifies the duration before the component automatically closes (only use with `autoClose`).
      */
-    "autoCloseDuration": AlertDuration;
+    autoCloseDuration: AlertDuration;
     /**
      * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
      */
-    "icon": string | boolean;
+    icon: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the kind of the component (will apply to top border and icon).
      */
-    "kind": Extract<
-      "brand" | "danger" | "info" | "success" | "warning",
-      Kind
-    >;
+    kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
     /**
      * Specifies an accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<AlertMessages>;
+    messageOverrides: Partial<AlertMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": AlertMessages;
+    messages: AlertMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * When `true`, displays and positions the component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Specifies the placement of the component
      */
-    "placement": MenuPlacement;
+    placement: MenuPlacement;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's "close" button (the first focusable item).
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
      */
-    "slottedInShell": boolean;
+    slottedInShell: boolean;
   }
   interface CalciteAvatar {
     /**
      * Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component.
      */
-    "fullName": string;
+    fullName: string;
     /**
      * Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the `src` to an image (remember to add a token if the user is private).
      */
-    "thumbnail": string;
+    thumbnail: string;
     /**
      * Specifies the unique id of the user.
      */
-    "userId": string;
+    userId: string;
     /**
      * Specifies the username of the user.
      */
-    "username": string;
+    username: string;
   }
   interface CalciteBlock {
     /**
      * When `true`, the component is collapsible.
      */
-    "collapsible": boolean;
+    collapsible: boolean;
     /**
      * A description for the component, which displays below the heading.
      */
-    "description": string;
+    description: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, displays a drag handle in the header.
      */
-    "dragHandle": boolean;
+    dragHandle: boolean;
     /**
      * The component header text.
      */
-    "heading": string;
+    heading: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<BlockMessages>;
+    messageOverrides: Partial<BlockMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": BlockMessages;
+    messages: BlockMessages;
     /**
      * When `true`, expands the component and its contents.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Sets focus on the component's first tabbable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Displays a status-related indicator icon.
      */
-    "status": Status;
+    status: Status;
   }
   interface CalciteBlockSection {
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<BlockSectionMessages>;
+    messageOverrides: Partial<BlockSectionMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": BlockSectionMessages;
+    messages: BlockSectionMessages;
     /**
      * When `true`, expands the component and its contents.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Sets focus on the component's first tabbable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Displays a status-related indicator icon.
      */
-    "status": Status;
+    status: Status;
     /**
      * The component header text.
      */
-    "text": string;
+    text: string;
     /**
      * Specifies the component's toggle display -  `"button"` (selectable header), or  `"switch"` (toggle switch).
      */
-    "toggleDisplay": BlockSectionToggleDisplay;
+    toggleDisplay: BlockSectionToggleDisplay;
   }
   interface CalciteButton {
     /**
      * Specifies the alignment of the component's elements.
      */
-    "alignment": ButtonAlignment;
+    alignment: ButtonAlignment;
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance": Extract<
-      "outline" | "outline-fill" | "solid" | "transparent",
-      Appearance
-    >;
+    appearance: Extract<"outline" | "outline-fill" | "solid" | "transparent", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
      */
-    "href": string;
+    href: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd": string;
+    iconEnd: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": FlipContext;
+    iconFlipRtl: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart": string;
+    iconStart: string;
     /**
      * Specifies the kind of the component (will apply to border and background if applicable).
      */
-    "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
+    kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, a busy indicator is displayed and interaction is disabled.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ButtonMessages>;
+    messageOverrides: Partial<ButtonMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ButtonMessages;
+    messages: ButtonMessages;
     /**
      * Specifies the name of the component on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Defines the relationship between the `href` value and the current document.
      * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
      */
-    "rel": string;
+    rel: string;
     /**
      * When `true`, adds a round style to the component.
      */
-    "round": boolean;
+    round: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies if the component is a child of a `calcite-split-button`.
      */
-    "splitChild": "primary" | "secondary" | false;
+    splitChild: "primary" | "secondary" | false;
     /**
      * Specifies where to open the linked document defined in the `href` property.
      * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
      */
-    "target": string;
+    target: string;
     /**
      * Specifies the default behavior of the button.
      * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
      */
-    "type": string;
+    type: string;
     /**
      * Specifies the width of the component.
      */
-    "width": Width;
+    width: Width;
   }
   interface CalciteCard {
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<CardMessages>;
+    messageOverrides: Partial<CardMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": CardMessages;
+    messages: CardMessages;
     /**
      * When `true`, the component is selectable.
      */
-    "selectable": boolean;
+    selectable: boolean;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Sets the placement of the thumbnail defined in the `thumbnail` slot.
      */
-    "thumbnailPosition": LogicalFlowPosition;
+    thumbnailPosition: LogicalFlowPosition;
   }
   interface CalciteCheckbox {
     /**
      * When `true`, the component is checked.
      */
-    "checked": boolean;
+    checked: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * The `id` attribute of the component. When omitted, a globally unique identifier is used.
      */
-    "guid": string;
+    guid: string;
     /**
      * The hovered state of the checkbox.
      */
-    "hovered": boolean;
+    hovered: boolean;
     /**
      * When `true`, the component is initially indeterminate, which is independent from its `checked` value.  The state is visual only, and can look different across browsers.
      * @mdn [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)
      */
-    "indeterminate": boolean;
+    indeterminate: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the name of the component on form submission.
      */
-    "name": any;
+    name: any;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteChip {
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance": Extract<"outline" | "outline-fill" | "solid", Appearance>;
+    appearance: Extract<"outline" | "outline-fill" | "solid", Appearance>;
     /**
      * When `true`, a close button is added to the component.
      */
-    "closable": boolean;
+    closable: boolean;
     /**
      * When `true`, hides the component.
      */
-    "closed": boolean;
+    closed: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Specifies an icon to display.
      */
-    "icon": string;
+    icon: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * When true, enables the chip to be focused, and allows the `calciteChipSelect` to emit. This is set to `true` by a parent Chip Group component.
      */
-    "interactive": boolean;
+    interactive: boolean;
     /**
      * Specifies the kind of the component (will apply to border and background if applicable).
      */
-    "kind": Extract<"brand" | "inverse" | "neutral", Kind>;
+    kind: Extract<"brand" | "inverse" | "neutral", Kind>;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ChipMessages>;
+    messageOverrides: Partial<ChipMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ChipMessages;
+    messages: ChipMessages;
     /**
      * Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * This internal property, managed by a containing `calcite-chip-group`, is conditionally set based on the `selectionMode` of the parent
      */
-    "selectionMode": Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode>;
+    selectionMode: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode>;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteChipGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the size of the component. Child `calcite-chip`s inherit the component's value.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems": HTMLCalciteChipElement[];
+    selectedItems: HTMLCalciteChipElement[];
     /**
      * Specifies the selection mode of the component.
      */
-    "selectionMode": Extract<
-      "multiple" | "single" | "single-persist" | "none",
-      SelectionMode
-    >;
+    selectionMode: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode>;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteColorPicker {
     /**
      * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
      */
-    "allowEmpty": boolean;
+    allowEmpty: boolean;
     /**
      * When true, the component will allow updates to the color's alpha value.
      */
-    "alphaChannel": boolean;
+    alphaChannel: boolean;
     /**
      * When true, hides the RGB/HSV channel inputs
      */
-    "channelsDisabled": boolean;
+    channelsDisabled: boolean;
     /**
      * Internal prop for advanced use-cases.
      */
-    "color": InternalColor | null;
+    color: InternalColor | null;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The format of `value`.  When `"auto"`, the format will be inferred from `value` when set.
      * @default "auto"
      */
-    "format": Format;
+    format: Format;
     /**
      * When true, hides the hex input
      */
-    "hexDisabled": boolean;
+    hexDisabled: boolean;
     /**
      * When `true`, hides the RGB/HSV channel inputs.
      * @deprecated use `channelsDisabled` instead
      */
-    "hideChannels": boolean;
+    hideChannels: boolean;
     /**
      * When `true`, hides the hex input.
      * @deprecated use `hexDisabled` instead
      */
-    "hideHex": boolean;
+    hideHex: boolean;
     /**
      * When `true`, hides the saved colors section.
      * @deprecated use `savedDisabled` instead
      */
-    "hideSaved": boolean;
+    hideSaved: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ColorPickerMessages>;
+    messageOverrides: Partial<ColorPickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ColorPickerMessages;
+    messages: ColorPickerMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * When true, hides the saved colors section
      */
-    "savedDisabled": boolean;
+    savedDisabled: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the storage ID for colors.
      */
-    "storageId": string;
+    storageId: string;
     /**
      * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.  The type will be preserved as the color is updated.
      * @default "#007ac2"
      * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
      * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
      */
-    "value": ColorValue | null;
+    value: ColorValue | null;
   }
   interface CalciteColorPickerHexInput {
     /**
      * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.  When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
      */
-    "allowEmpty": boolean;
+    allowEmpty: boolean;
     /**
      * When true, the component will allow updates to the color's alpha value.
      */
-    "alphaChannel": boolean;
+    alphaChannel: boolean;
     /**
      * Specifies accessible label for the input field.
      * @deprecated use `messages` instead
      */
-    "hexLabel": string;
+    hexLabel: string;
     /**
      * Messages are passed by parent component for accessible labels.
      */
-    "messages": ColorPickerMessages;
+    messages: ColorPickerMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The hex value.
      */
-    "value": string;
+    value: string;
   }
   interface CalciteColorPickerSwatch {
     /**
      * When `true`, the component is active.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * The color value.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
      */
-    "color": string | null;
+    color: string | null;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
   }
   interface CalciteCombobox {
     /**
      * When `true`, allows entry of custom values, which are not in the original set of items.
      */
-    "allowCustomValues": boolean;
+    allowCustomValues: boolean;
     /**
      * When `true`, the value-clearing will be disabled.
      */
-    "clearDisabled": boolean;
+    clearDisabled: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Specifies the component's filtered items.
      * @readonly
      */
-    "filteredItems": HTMLCalciteComboboxItemElement[];
+    filteredItems: HTMLCalciteComboboxItemElement[];
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements": EffectivePlacement[];
+    flipPlacements: EffectivePlacement[];
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar.
      */
-    "maxItems": number;
+    maxItems: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ComboboxMessages>;
+    messageOverrides: Partial<ComboboxMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ComboboxMessages;
+    messages: ComboboxMessages;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * When `true`, displays and positions the component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Specifies the placeholder text for the input.
      */
-    "placeholder": string;
+    placeholder: string;
     /**
      * Specifies the placeholder icon for the input.
      */
-    "placeholderIcon": string;
+    placeholderIcon: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "placeholderIconFlipRtl": boolean;
+    placeholderIconFlipRtl: boolean;
     /**
      * Updates the position of the component.
      * @param delayed
      */
-    "reposition": (delayed?: boolean) => Promise<void>;
+    reposition: (delayed?: boolean) => Promise<void>;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems": HTMLCalciteComboboxItemElement[];
+    selectedItems: HTMLCalciteComboboxItemElement[];
     /**
      * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
      */
-    "selectionMode": Extract<
-      "single" | "single-persist" | "ancestors" | "multiple",
-      SelectionMode
-    >;
+    selectionMode: Extract<"single" | "single-persist" | "ancestors" | "multiple", SelectionMode>;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's value(s) from the selected `calcite-combobox-item`(s).
      */
-    "value": string | string[];
+    value: string | string[];
   }
   interface CalciteComboboxItem {
     /**
      * When `true`, the component is active.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * Specifies the parent and grandparent items, which are set on `calcite-combobox`.
      */
-    "ancestors": ComboboxChildElement[];
+    ancestors: ComboboxChildElement[];
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, omits the component from the `calcite-combobox` filtered search results.
      */
-    "filterDisabled": boolean;
+    filterDisabled: boolean;
     /**
      * The `id` attribute of the component. When omitted, a globally unique identifier is used.
      */
-    "guid": string;
+    guid: string;
     /**
      * Specifies an icon to display.
      */
-    "icon": string;
+    icon: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
      */
-    "selectionMode": Extract<
-      "single" | "single-persist" | "ancestors" | "multiple",
-      SelectionMode
-    >;
+    selectionMode: Extract<"single" | "single-persist" | "ancestors" | "multiple", SelectionMode>;
     /**
      * The component's text.
      */
-    "textLabel": string;
+    textLabel: string;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteComboboxItemGroup {
     /**
      * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
      */
-    "afterEmptyGroup": boolean;
+    afterEmptyGroup: boolean;
     /**
      * Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`.
      */
-    "ancestors": ComboboxChildElement[];
+    ancestors: ComboboxChildElement[];
     /**
      * Specifies the title of the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
   }
   interface CalciteDatePicker {
     /**
      * Specifies the component's active date.
      */
-    "activeDate": Date;
+    activeDate: Date;
     /**
      * When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.
      */
-    "activeRange": "start" | "end";
+    activeRange: "start" | "end";
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * Specifies the latest allowed date (`"yyyy-mm-dd"`).
      */
-    "max": string;
+    max: string;
     /**
      * Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
      */
-    "maxAsDate": Date;
+    maxAsDate: Date;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<DatePickerMessages>;
+    messageOverrides: Partial<DatePickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": DatePickerMessages;
+    messages: DatePickerMessages;
     /**
      * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
      */
-    "min": string;
+    min: string;
     /**
      * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
      */
-    "minAsDate": Date;
+    minAsDate: Date;
     /**
      * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range.
      */
-    "proximitySelectionDisabled": boolean;
+    proximitySelectionDisabled: boolean;
     /**
      * When `true`, activates the component's range mode to allow a start and end date.
      */
-    "range": boolean;
+    range: boolean;
     /**
      * Resets active date state.
      */
-    "reset": () => Promise<void>;
+    reset: () => Promise<void>;
     /**
      * Specifies the size of the component.
      */
-    "scale": "s" | "m" | "l";
+    scale: "s" | "m" | "l";
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
      */
-    "value": string | string[];
+    value: string | string[];
     /**
      * Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`).
      */
-    "valueAsDate": Date | Date[];
+    valueAsDate: Date | Date[];
   }
   interface CalciteDatePickerDay {
     /**
      * When `true`, the component is active.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * Date is in the current month.
      */
-    "currentMonth": boolean;
+    currentMonth: boolean;
     /**
      * The DateTimeFormat used to provide screen reader labels.
      */
-    "dateTimeFormat": Intl.DateTimeFormat;
+    dateTimeFormat: Intl.DateTimeFormat;
     /**
      * Day of the month to be shown.
      */
-    "day": number;
+    day: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Date is the end of date range
      */
-    "endOfRange": boolean;
+    endOfRange: boolean;
     /**
      * Date is currently highlighted as part of the range
      */
-    "highlighted": boolean;
+    highlighted: boolean;
     /**
      * When `true`, activates the component's range mode to allow a start and end date.
      */
-    "range": boolean;
+    range: boolean;
     /**
      * When `true`, highlight styling for edge dates is applied.
      */
-    "rangeEdge": "start" | "end" | undefined;
+    rangeEdge: "start" | "end" | undefined;
     /**
      * Date is being hovered and within the set range
      */
-    "rangeHover": boolean;
+    rangeHover: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Date is the start of date range
      */
-    "startOfRange": boolean;
+    startOfRange: boolean;
     /**
      * The component's value.
      */
-    "value": Date;
+    value: Date;
   }
   interface CalciteDatePickerMonth {
     /**
      * Date currently active.
      */
-    "activeDate": Date;
+    activeDate: Date;
     /**
      * The DateTimeFormat used to provide screen reader labels.
      */
-    "dateTimeFormat": Intl.DateTimeFormat;
+    dateTimeFormat: Intl.DateTimeFormat;
     /**
      * End date currently active
      */
-    "endDate"?: Date;
+    endDate?: Date;
     /**
      * The range of dates currently being hovered
      */
-    "hoverRange": HoverRange;
+    hoverRange: HoverRange;
     /**
      * CLDR locale data for current locale
      */
-    "localeData": DateLocaleData;
+    localeData: DateLocaleData;
     /**
      * Specifies the latest allowed date (`"yyyy-mm-dd"`).
      */
-    "max": Date;
+    max: Date;
     /**
      * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
      */
-    "min": Date;
+    min: Date;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Already selected date.
      */
-    "selectedDate": Date;
+    selectedDate: Date;
     /**
      * Start date currently active.
      */
-    "startDate"?: Date;
+    startDate?: Date;
   }
   interface CalciteDatePickerMonthHeader {
     /**
      * Focused date with indicator (will become selected date if user proceeds)
      */
-    "activeDate": Date;
+    activeDate: Date;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * CLDR locale data for translated calendar info
      */
-    "localeData": DateLocaleData;
+    localeData: DateLocaleData;
     /**
      * Specifies the latest allowed date (`"yyyy-mm-dd"`).
      */
-    "max": Date;
+    max: Date;
     /**
      * This property specifies accessible strings for the component's previous month button ,next month button & year input elements. Made into a prop for testing purposes only.
      * @readonly
      */
-    "messages": DatePickerMessages;
+    messages: DatePickerMessages;
     /**
      * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
      */
-    "min": Date;
+    min: Date;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Already selected date.
      */
-    "selectedDate": Date;
+    selectedDate: Date;
   }
   interface CalciteDropdown {
     /**
      * When `true`, the component will remain open after a selection is made.  If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
      */
-    "closeOnSelectDisabled": boolean;
+    closeOnSelectDisabled: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements": EffectivePlacement[];
+    flipPlacements: EffectivePlacement[];
     /**
      * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
      */
-    "maxItems": number;
+    maxItems: number;
     /**
      * When `true`, displays and positions the component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Determines where the component will be positioned relative to the container element.
      * @default "bottom-start"
      */
-    "placement": MenuPlacement;
+    placement: MenuPlacement;
     /**
      * Updates the position of the component.
      * @param delayed
      */
-    "reposition": (delayed?: boolean) => Promise<void>;
+    reposition: (delayed?: boolean) => Promise<void>;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems": HTMLCalciteDropdownItemElement[];
+    selectedItems: HTMLCalciteDropdownItemElement[];
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the action to open the component from the container element.
      */
-    "type": "hover" | "click";
+    type: "hover" | "click";
     /**
      * Specifies the width of the component.
      */
-    "width": Scale;
+    width: Scale;
   }
   interface CalciteDropdownGroup {
     /**
      * Specifies and displays a group title.
      */
-    "groupTitle": string;
+    groupTitle: string;
     /**
      * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection.
      */
-    "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
+    selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
   }
   interface CalciteDropdownItem {
     /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.  Determines if the component will render as an anchor.
      */
-    "href": string;
+    href: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd": string;
+    iconEnd: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": FlipContext;
+    iconFlipRtl: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart": string;
+    iconStart: string;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the relationship to the linked document defined in `href`.
      */
-    "rel": string;
+    rel: string;
     /**
      * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Specifies the selection mode inherited from `calcite-dropdown-group`, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection.
      */
-    "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
+    selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the frame or window to open the linked document.
      */
-    "target": string;
+    target: string;
   }
   interface CalciteFab {
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance": Extract<"solid" | "outline-fill", Appearance>;
+    appearance: Extract<"solid" | "outline-fill", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Specifies an icon to display.
      * @default "plus"
      */
-    "icon": string;
+    icon: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the kind of the component (will apply to border and background).
      */
-    "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
+    kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies text to accompany the component's icon.
      */
-    "text": string;
+    text: string;
     /**
      * When `true`, displays the `text` value in the component.
      */
-    "textEnabled": boolean;
+    textEnabled: boolean;
   }
   interface CalciteFilter {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Performs a filter on the component.  This method can be useful because filtering is delayed and asynchronous.
      * @param value - The filter text value.
      * @returns
      */
-    "filter": (value?: string) => Promise<void>;
+    filter: (value?: string) => Promise<void>;
     /**
      * The component's resulting items after filtering.
      * @readonly
      */
-    "filteredItems": object[];
+    filteredItems: object[];
     /**
      * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
      */
-    "items": object[];
+    items: object[];
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<FilterMessages>;
+    messageOverrides: Partial<FilterMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": FilterMessages;
+    messages: FilterMessages;
     /**
      * Specifies placeholder text for the input element.
      */
-    "placeholder": string;
+    placeholder: string;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's value.
      */
-    "value": string;
+    value: string;
   }
   interface CalciteFlow {
     /**
      * Removes the currently active `calcite-flow-item`.
      */
-    "back": () => Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>;
+    back: () => Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>;
     /**
      * This property enables the component to consider other custom elements implementing flow-item's interface.
      */
-    "customItemSelectors": string;
+    customItemSelectors: string;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteFlowItem {
     /**
      * When provided, the method will be called before it is removed from its parent `calcite-flow`.
      */
-    "beforeBack": () => Promise<void>;
+    beforeBack: () => Promise<void>;
     /**
      * When `true`, displays a close button in the trailing side of the component's header.
      */
-    "closable": boolean;
+    closable: boolean;
     /**
      * When `true`, the component will be hidden.
      */
-    "closed": boolean;
+    closed: boolean;
     /**
      * Specifies the direction of the collapse.
      */
-    "collapseDirection": "down" | "up";
+    collapseDirection: "down" | "up";
     /**
      * When `true`, hides the component's content area.
      */
-    "collapsed": boolean;
+    collapsed: boolean;
     /**
      * When `true`, the component is collapsible.
      */
-    "collapsible": boolean;
+    collapsible: boolean;
     /**
      * A description for the component.
      */
-    "description": string;
+    description: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The component header text.
      */
-    "heading": string;
+    heading: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * When `true`, the action menu items in the `header-menu-actions` slot are open.
      */
-    "menuOpen": boolean;
+    menuOpen: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<FlowItemMessages>;
+    messageOverrides: Partial<FlowItemMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": FlowItemMessages;
+    messages: FlowItemMessages;
     /**
      * Scrolls the component's content to a specified set of coordinates.
      * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
      * @param options - allows specific coordinates to be defined.
      * @returns - promise that resolves once the content is scrolled to.
      */
-    "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
+    scrollContentTo: (options?: ScrollToOptions) => Promise<void>;
     /**
      * Sets focus on the component.
      * @returns promise.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * When `true`, displays a back button in the component's header.
      */
-    "showBackButton": boolean;
+    showBackButton: boolean;
   }
   interface CalciteGraph {
     /**
      * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value
      */
-    "colorStops": ColorStop[];
+    colorStops: ColorStop[];
     /**
      * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value
      */
-    "data": DataSeries;
+    data: DataSeries;
     /**
      * End of highlight color if highlighting range
      */
-    "highlightMax": number;
+    highlightMax: number;
     /**
      * Start of highlight color if highlighting range
      */
-    "highlightMin": number;
+    highlightMin: number;
     /**
      * Highest point of the range
      */
-    "max": number;
+    max: number;
     /**
      * Lowest point of the range
      */
-    "min": number;
+    min: number;
   }
   interface CalciteHandle {
-    "activated": boolean;
+    activated: boolean;
     /**
      * Value for the button title attribute
      */
-    "dragHandle": string;
-    "label": string;
+    dragHandle: string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<HandleMessages>;
+    messageOverrides: Partial<HandleMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": HandleMessages;
+    messages: HandleMessages;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
-    "setPosition": number;
-    "setSize": number;
+    setFocus: () => Promise<void>;
+    setPosition: number;
+    setSize: number;
   }
   interface CalciteIcon {
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "flipRtl": boolean;
+    flipRtl: boolean;
     /**
      * Displays a specific icon.
      * @see [Icons](https://esri.github.io/calcite-ui-icons)
      */
-    "icon": string;
+    icon: string;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Accessible name for the component.  It is recommended to set this value if your icon is semantic.
      */
-    "textLabel": string;
+    textLabel: string;
   }
   interface CalciteInlineEditable {
     /**
      * Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically.
      */
-    "afterConfirm": () => Promise<void>;
+    afterConfirm: () => Promise<void>;
     /**
      * When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component.
      */
-    "controls": boolean;
+    controls: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, inline editing is enabled on the component.
      */
-    "editingEnabled": boolean;
+    editingEnabled: boolean;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<InlineEditableMessages>;
+    messageOverrides: Partial<InlineEditableMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": InlineEditableMessages;
+    messages: InlineEditableMessages;
     /**
      * Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteInput {
     /**
      * Specifies a comma separated list of unique file type specifiers for limiting accepted file types. This property only has an effect when `type` is "file". Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
      */
-    "accept": string;
+    accept: string;
     /**
      * Specifies the text alignment of the component's value.
      */
-    "alignment": Position;
+    alignment: Position;
     /**
      * Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
      */
-    "autocomplete": string;
+    autocomplete: string;
     /**
      * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
      * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
      */
-    "autofocus": boolean;
+    autofocus: boolean;
     /**
      * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
      */
-    "clearable": boolean;
+    clearable: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
      */
-    "disabled": boolean;
-    "editingEnabled": boolean;
+    disabled: boolean;
+    editingEnabled: boolean;
     /**
      * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
      */
-    "enterKeyHint": string;
+    enterKeyHint: string;
     /**
      * When `type` is `"file"`, specifies the component's selected files.
      * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
      */
-    "files": FileList | undefined;
+    files: FileList | undefined;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator": boolean;
+    groupSeparator: boolean;
     /**
      * When `true`, the component will not be visible.
      * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
      */
-    "hidden": boolean;
+    hidden: boolean;
     /**
      * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
      */
-    "icon": string | boolean;
+    icon: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
      */
-    "inputMode": string;
+    inputMode: string;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * When `true`, uses locale formatting for numbers.
      */
-    "localeFormat": boolean;
+    localeFormat: boolean;
     /**
      * Specifies the maximum value for type "number".
      * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
      */
-    "max": number;
+    max: number;
     /**
      * Specifies the maximum length of text for the component's value.
      * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
      */
-    "maxLength": number;
+    maxLength: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<InputMessages>;
+    messageOverrides: Partial<InputMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": InputMessages;
+    messages: InputMessages;
     /**
      * Specifies the minimum value for `type="number"`.
      * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
      */
-    "min": number;
+    min: number;
     /**
      * Specifies the minimum length of text for the component's value.
      * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
      */
-    "minLength": number;
+    minLength: number;
     /**
      * When `true`, the component can accept more than one value. This property only has an effect when `type` is "email" or "file". Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
      */
-    "multiple": boolean;
+    multiple: boolean;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
      */
-    "name": string;
+    name: string;
     /**
      * Specifies the placement of the buttons for `type="number"`.
      */
-    "numberButtonType": InputPlacement;
+    numberButtonType: InputPlacement;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * Specifies a regex pattern the component's `value` must match for validation. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
      */
-    "pattern": string;
+    pattern: string;
     /**
      * Specifies placeholder text for the component.
      * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
      */
-    "placeholder": string;
+    placeholder: string;
     /**
      * Adds text to the start of the component.
      */
-    "prefixText": string;
+    prefixText: string;
     /**
      * When `true`, the component's value can be read, but cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly": boolean;
+    readOnly: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Selects the text of the component's `value`.
      */
-    "selectText": () => Promise<void>;
+    selectText: () => Promise<void>;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status": Status;
+    status: Status;
     /**
      * Specifies the granularity the component's `value` must adhere to.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
      */
-    "step": number | "any";
+    step: number | "any";
     /**
      * Adds text to the end of the component.
      */
-    "suffixText": string;
+    suffixText: string;
     /**
      * Specifies the component type.  Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
      */
-    "type": | "color"
+    type:
+      | "color"
       | "date"
       | "datetime-local"
       | "email"
@@ -2011,622 +2040,622 @@ export namespace Components {
     /**
      * The component's value.
      */
-    "value": string;
+    value: string;
   }
   interface CalciteInputDatePicker {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements": EffectivePlacement[];
+    flipPlacements: EffectivePlacement[];
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled": boolean;
+    focusTrapDisabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * Defines the layout of the component.
      */
-    "layout": "horizontal" | "vertical";
+    layout: "horizontal" | "vertical";
     /**
      * Specifies the latest allowed date ("yyyy-mm-dd").
      */
-    "max": string;
+    max: string;
     /**
      * Specifies the latest allowed date as a full date object.
      */
-    "maxAsDate": Date;
+    maxAsDate: Date;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<InputDatePickerMessages & DatePickerMessages>;
+    messageOverrides: Partial<InputDatePickerMessages & DatePickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": InputDatePickerMessages;
+    messages: InputDatePickerMessages;
     /**
      * Specifies the earliest allowed date ("yyyy-mm-dd").
      */
-    "min": string;
+    min: string;
     /**
      * Specifies the earliest allowed date as a full date object.
      */
-    "minAsDate": Date;
+    minAsDate: Date;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * When `true`, displays the `calcite-date-picker` component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Specifies the placement of the `calcite-date-picker` relative to the component.
      * @default "bottom-start"
      */
-    "placement": MenuPlacement;
+    placement: MenuPlacement;
     /**
      * When `true`, disables the default behavior on the third click of narrowing or extending the range. Instead starts a new range.
      */
-    "proximitySelectionDisabled": boolean;
+    proximitySelectionDisabled: boolean;
     /**
      * When `true`, activates a range for the component.
      */
-    "range": boolean;
+    range: boolean;
     /**
      * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly": boolean;
+    readOnly: boolean;
     /**
      * Updates the position of the component.
      * @param delayed
      */
-    "reposition": (delayed?: boolean) => Promise<void>;
+    reposition: (delayed?: boolean) => Promise<void>;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": "s" | "m" | "l";
+    scale: "s" | "m" | "l";
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status": Status;
+    status: Status;
     /**
      * Selected date as a string in ISO format (YYYY-MM-DD)
      */
-    "value": string | string[];
+    value: string | string[];
     /**
      * The component's value as a full date object.
      */
-    "valueAsDate": Date | Date[];
+    valueAsDate: Date | Date[];
   }
   interface CalciteInputMessage {
     /**
      * Specifies an icon to display.
      */
-    "icon": boolean | string;
+    icon: boolean | string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status": Status;
+    status: Status;
   }
   interface CalciteInputNumber {
     /**
      * Specifies the text alignment of the component's value.
      */
-    "alignment": Position;
+    alignment: Position;
     /**
      * Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
      */
-    "autocomplete": string;
+    autocomplete: string;
     /**
      * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
      * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
      */
-    "autofocus": boolean;
+    autofocus: boolean;
     /**
      * When `true`, a clear button is displayed when the component has a value.
      */
-    "clearable": boolean;
+    clearable: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
      */
-    "disabled": boolean;
-    "editingEnabled": boolean;
+    disabled: boolean;
+    editingEnabled: boolean;
     /**
      * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
      */
-    "enterKeyHint": string;
+    enterKeyHint: string;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator": boolean;
+    groupSeparator: boolean;
     /**
      * When `true`, the component will not be visible.
      * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
      */
-    "hidden": boolean;
+    hidden: boolean;
     /**
      * Specifies an icon to display.
      * @futureBreaking Remove boolean type as it is not supported.
      */
-    "icon": string | boolean;
+    icon: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
      */
-    "inputMode": string;
+    inputMode: string;
     /**
      * When `true`, restricts the component to integer numbers only and disables exponential notation.
      */
-    "integer": boolean;
+    integer: boolean;
     /**
      * Accessible name for the component's button or hyperlink.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, the component is in the loading state and `calcite-progress` is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Toggles locale formatting for numbers.
      */
-    "localeFormat": boolean;
+    localeFormat: boolean;
     /**
      * Specifies the maximum value.
      * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
      */
-    "max": number;
+    max: number;
     /**
      * Specifies the maximum length of text for the component's value.
      * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
      */
-    "maxLength": number;
+    maxLength: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<InputNumberMessages>;
+    messageOverrides: Partial<InputNumberMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": InputNumberMessages;
+    messages: InputNumberMessages;
     /**
      * Specifies the minimum value.
      * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
      */
-    "min": number;
+    min: number;
     /**
      * Specifies the minimum length of text for the component's value.
      * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
      */
-    "minLength": number;
+    minLength: number;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
      */
-    "name": string;
+    name: string;
     /**
      * Specifies the placement of the buttons.
      */
-    "numberButtonType": InputPlacement;
+    numberButtonType: InputPlacement;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * Specifies placeholder text for the component.
      * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
      */
-    "placeholder": string;
+    placeholder: string;
     /**
      * Adds text to the start of the component.
      */
-    "prefixText": string;
+    prefixText: string;
     /**
      * When `true`, the component's value can be read, but cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly": boolean;
+    readOnly: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Selects the text of the component's `value`.
      */
-    "selectText": () => Promise<void>;
+    selectText: () => Promise<void>;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status": Status;
+    status: Status;
     /**
      * Specifies the granularity that the component's value must adhere to.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
      */
-    "step": number | "any";
+    step: number | "any";
     /**
      * Adds text to the end of the component.
      */
-    "suffixText": string;
+    suffixText: string;
     /**
      * The component's value.
      */
-    "value": string;
+    value: string;
   }
   interface CalciteInputText {
     /**
      * Specifies the text alignment of the component's value.
      */
-    "alignment": Position;
+    alignment: Position;
     /**
      * Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
      */
-    "autocomplete": string;
+    autocomplete: string;
     /**
      * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
      * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
      */
-    "autofocus": boolean;
+    autofocus: boolean;
     /**
      * When `true`, a clear button is displayed when the component has a value.
      */
-    "clearable": boolean;
+    clearable: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
      */
-    "disabled": boolean;
-    "editingEnabled": boolean;
+    disabled: boolean;
+    editingEnabled: boolean;
     /**
      * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
      */
-    "enterKeyHint": string;
+    enterKeyHint: string;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * When `true`, the component will not be visible.
      * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
      */
-    "hidden": boolean;
+    hidden: boolean;
     /**
      * Specifies an icon to display.
      * @futureBreaking Remove boolean type as it is not supported.
      */
-    "icon": string | boolean;
+    icon: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
      */
-    "inputMode": string;
+    inputMode: string;
     /**
      * Accessible name for the component's button or hyperlink.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, the component is in the loading state and `calcite-progress` is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Specifies the maximum length of text for the component's value.
      * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
      */
-    "maxLength": number;
+    maxLength: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<InputTextMessages>;
+    messageOverrides: Partial<InputTextMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": InputTextMessages;
+    messages: InputTextMessages;
     /**
      * Specifies the minimum length of text for the component's value.
      * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
      */
-    "minLength": number;
+    minLength: number;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
      */
-    "name": string;
+    name: string;
     /**
      * Specifies a regex pattern the component's `value` must match for validation. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
      */
-    "pattern": string;
+    pattern: string;
     /**
      * Specifies placeholder text for the component.
      * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
      */
-    "placeholder": string;
+    placeholder: string;
     /**
      * Adds text to the start of the component.
      */
-    "prefixText": string;
+    prefixText: string;
     /**
      * When `true`, the component's value can be read, but cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly": boolean;
+    readOnly: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Selects the text of the component's `value`.
      */
-    "selectText": () => Promise<void>;
+    selectText: () => Promise<void>;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status": Status;
+    status: Status;
     /**
      * Adds text to the end of the component.
      */
-    "suffixText": string;
+    suffixText: string;
     /**
      * The component's value.
      */
-    "value": string;
+    value: string;
   }
   interface CalciteInputTimePicker {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled": boolean;
+    focusTrapDisabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<InputTimePickerMessages & TimePickerMessages>;
+    messageOverrides: Partial<InputTimePickerMessages & TimePickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": InputTimePickerMessages;
+    messages: InputTimePickerMessages;
     /**
      * Specifies the name of the component on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * When `true`, displays the `calcite-time-picker` component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Determines where the popover will be positioned relative to the input.
      */
-    "placement": LogicalPlacement;
+    placement: LogicalPlacement;
     /**
      * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly": boolean;
+    readOnly: boolean;
     /**
      * Updates the position of the component.
      * @param delayed
      */
-    "reposition": (delayed?: boolean) => Promise<void>;
+    reposition: (delayed?: boolean) => Promise<void>;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status": Status;
+    status: Status;
     /**
      * Specifies the granularity the component's `value` must adhere to (in seconds).
      */
-    "step": number;
+    step: number;
     /**
      * The time value in ISO (24-hour) format.
      */
-    "value": string;
+    value: string;
   }
   interface CalciteInputTimeZone {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Specifies the component's maximum number of options to display before displaying a scrollbar.
      */
-    "maxItems": number;
+    maxItems: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<InputTimeZoneMessages>;
+    messageOverrides: Partial<InputTimeZoneMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": InputTimeZoneMessages;
+    messages: InputTimeZoneMessages;
     /**
      * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options related
      * @default "offset"
      */
-    "mode": TimeZoneMode;
+    mode: TimeZoneMode;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * When `true`, displays and positions the component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
      * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
      */
-    "referenceDate": Date | string;
+    referenceDate: Date | string;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
-    "setFocus": () => Promise<void>;
+    scale: Scale;
+    setFocus: () => Promise<void>;
     /**
      * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
      * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
      */
-    "value": string;
+    value: string;
   }
   interface CalciteLabel {
     /**
      * Specifies the text alignment of the component.
      */
-    "alignment": Alignment;
+    alignment: Alignment;
     /**
      * Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component.
      */
-    "for": string;
+    for: string;
     /**
      * Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line.
      */
-    "layout": "inline" | "inline-space-between" | "default";
+    layout: "inline" | "inline-space-between" | "default";
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
   }
   interface CalciteLink {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value: Without a value, the browser will suggest a filename/extension See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
      */
-    "download": string | boolean;
+    download: string | boolean;
     /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
      */
-    "href": string;
+    href: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd": string;
+    iconEnd: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": FlipContext;
+    iconFlipRtl: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart": string;
+    iconStart: string;
     /**
      * Specifies the relationship to the linked document defined in `href`.
      */
-    "rel": string;
+    rel: string;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the frame or window to open the linked document.
      */
-    "target": string;
+    target: string;
   }
   /**
    * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -2635,710 +2664,701 @@ export namespace Components {
     /**
      * When provided, the method will be called to determine whether the element can  move from the list.
      */
-    "canPull": (detail: DragDetail) => boolean;
+    canPull: (detail: DragDetail) => boolean;
     /**
      * When provided, the method will be called to determine whether the element can be added from another list.
      */
-    "canPut": (detail: DragDetail) => boolean;
+    canPut: (detail: DragDetail) => boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, `calcite-list-item`s are sortable via a draggable button.
      */
-    "dragEnabled": boolean;
+    dragEnabled: boolean;
     /**
      * When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.
      */
-    "filterEnabled": boolean;
+    filterEnabled: boolean;
     /**
      * Placeholder text for the component's filter input field.
      */
-    "filterPlaceholder": string;
+    filterPlaceholder: string;
     /**
      * Text for the component's filter input field.
      */
-    "filterText": string;
+    filterText: string;
     /**
      * The currently filtered `calcite-list-item` data.
      * @readonly
      */
-    "filteredData": ItemData;
+    filteredData: ItemData;
     /**
      * The currently filtered `calcite-list-item`s.
      * @readonly
      */
-    "filteredItems": HTMLCalciteListItemElement[];
+    filteredItems: HTMLCalciteListItemElement[];
     /**
      * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
      */
-    "group"?: string;
+    group?: string;
     /**
      * Specifies an accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * One of the items within the list can be opened.
      */
-    "openable": boolean;
+    openable: boolean;
     /**
      * The currently selected items.
      * @readonly
      */
-    "selectedItems": HTMLCalciteListItemElement[];
+    selectedItems: HTMLCalciteListItemElement[];
     /**
      * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
      */
-    "selectionAppearance": SelectionAppearance;
+    selectionAppearance: SelectionAppearance;
     /**
      * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
      */
-    "selectionMode": Extract<
-      "none" | "multiple" | "single" | "single-persist",
-      SelectionMode
-    >;
+    selectionMode: Extract<"none" | "multiple" | "single" | "single-persist", SelectionMode>;
     /**
      * Sets focus on the component's first focusable element.
      * @returns
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteListItem {
     /**
      * Sets the item as focusable. Only one item should be focusable within a list.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * When `true`, a close button is added to the component.
      */
-    "closable": boolean;
+    closable: boolean;
     /**
      * When `true`, hides the component.
      */
-    "closed": boolean;
+    closed: boolean;
     /**
      * A description for the component. Displays below the label text.
      */
-    "description": string;
+    description: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, the component displays a draggable button.
      */
-    "dragHandle": boolean;
+    dragHandle: boolean;
     /**
      * The label text of the component. Displays above the description text.
      */
-    "label": string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ListItemMessages>;
+    messageOverrides: Partial<ListItemMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ListItemMessages;
+    messages: ListItemMessages;
     /**
      * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
      */
-    "metadata": Record<string, unknown>;
+    metadata: Record<string, unknown>;
     /**
      * When `true`, the item is open to show child components.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
      */
-    "selectionAppearance": SelectionAppearance;
+    selectionAppearance: SelectionAppearance;
     /**
      * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
      */
-    "selectionMode": Extract<
-      "none" | "multiple" | "single" | "single-persist",
-      SelectionMode
-    >;
+    selectionMode: Extract<"none" | "multiple" | "single" | "single-persist", SelectionMode>;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
      */
-    "setPosition": number;
+    setPosition: number;
     /**
      * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
      */
-    "setSize": number;
+    setSize: number;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteListItemGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The header text for all nested `calcite-list-item` rows.
      */
-    "heading": string;
+    heading: string;
   }
   interface CalciteLoader {
     /**
      * When `true`, displays smaller and appears to the left of the text.
      */
-    "inline": boolean;
+    inline: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Text that displays under the component's indicator.
      */
-    "text": string;
+    text: string;
     /**
      * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible.
      */
-    "type": "indeterminate" | "determinate";
+    type: "indeterminate" | "determinate";
     /**
      * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
      */
-    "value": number;
+    value: number;
   }
   interface CalciteMenu {
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the layout of the component.
      */
-    "layout": Layout;
+    layout: Layout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<MenuMessages>;
+    messageOverrides: Partial<MenuMessages>;
     /**
      * Made into a prop for testing purposes only.
      */
-    "messages": MenuMessages;
+    messages: MenuMessages;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteMenuItem {
     /**
      * When `true`, the component is highlighted.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * When `true`, the component displays a breadcrumb trail for use as a navigational aid.
      */
-    "breadcrumb": boolean;
+    breadcrumb: boolean;
     /**
      * Specifies the URL destination of the component, which can be set as an absolute or relative path.
      */
-    "href": string;
+    href: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd": string;
+    iconEnd: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": FlipContext;
+    iconFlipRtl: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart": string;
-    "isTopLevelItem": boolean;
+    iconStart: string;
+    isTopLevelItem: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
-    "layout": Layout;
+    label: string;
+    layout: Layout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<MenuItemMessages>;
+    messageOverrides: Partial<MenuItemMessages>;
     /**
      * Made into a prop for testing purposes only.
      */
-    "messages": MenuItemMessages;
+    messages: MenuItemMessages;
     /**
      * When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Defines the relationship between the `href` value and the current document.
      * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
      */
-    "rel": string;
+    rel: string;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies where to open the linked document defined in the `href` property.
      * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
      */
-    "target": string;
+    target: string;
     /**
      * Specifies the text to display.
      */
-    "text": string;
-    "topLevelMenuLayout": Layout;
+    text: string;
+    topLevelMenuLayout: Layout;
   }
   interface CalciteMeter {
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance": Extract<"outline" | "outline-fill" | "solid", Appearance>;
+    appearance: Extract<"outline" | "outline-fill" | "solid", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
      */
-    "fillType": "single" | "range";
+    fillType: "single" | "range";
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator": boolean;
+    groupSeparator: boolean;
     /**
      * Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.
      */
-    "high": number;
+    high: number;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.
      */
-    "low": number;
+    low: number;
     /**
      * Specifies the highest allowed value of the component.
      */
-    "max": number;
+    max: number;
     /**
      * Specifies the lowest allowed value of the component.
      */
-    "min": number;
+    min: number;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * When either `rangeLabels` is `true`, specifies the format of displayed labels.
      */
-    "rangeLabelType": MeterLabelType;
+    rangeLabelType: MeterLabelType;
     /**
      * When `true`, displays the values of `high`, `low`, `min`, and `max`.
      */
-    "rangeLabels": boolean;
+    rangeLabels: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values.
      */
-    "unitLabel": string;
+    unitLabel: string;
     /**
      * Specifies the current value of the component.
      */
-    "value": number;
+    value: number;
     /**
      * When `true`, displays the current value.
      */
-    "valueLabel": boolean;
+    valueLabel: boolean;
     /**
      * When either `valueLabel` is `true`, specifies the format of displayed label.
      */
-    "valueLabelType": MeterLabelType;
+    valueLabelType: MeterLabelType;
   }
   interface CalciteModal {
     /**
      * Passes a function to run before the component closes.
      */
-    "beforeClose": (el: HTMLCalciteModalElement) => Promise<void>;
+    beforeClose: (el: HTMLCalciteModalElement) => Promise<void>;
     /**
      * When `true`, disables the component's close button.
      */
-    "closeButtonDisabled": boolean;
+    closeButtonDisabled: boolean;
     /**
      * When `true`, prevents the component from expanding to the entire screen on mobile devices.
      */
-    "docked": boolean;
+    docked: boolean;
     /**
      * When `true`, disables the default close on escape behavior.
      */
-    "escapeDisabled": boolean;
+    escapeDisabled: boolean;
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled": boolean;
+    focusTrapDisabled: boolean;
     /**
      * Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`).
      */
-    "fullscreen": boolean;
+    fullscreen: boolean;
     /**
      * Specifies the kind of the component (will apply to top border).
      */
-    "kind": Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
+    kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ModalMessages>;
+    messageOverrides: Partial<ModalMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ModalMessages;
+    messages: ModalMessages;
     /**
      * When `true`, displays and positions the component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
      */
-    "opened": boolean;
+    opened: boolean;
     /**
      * When `true`, disables the closing of the component when clicked outside.
      */
-    "outsideCloseDisabled": boolean;
+    outsideCloseDisabled: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets the scroll top of the component's content.
      * @param top
      * @param left
      */
-    "scrollContent": (top?: number, left?: number) => Promise<void>;
+    scrollContent: (top?: number, left?: number) => Promise<void>;
     /**
      * Sets focus on the component's "close" button (the first focusable item).
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
      */
-    "slottedInShell": boolean;
+    slottedInShell: boolean;
     /**
      * Updates the element(s) that are used within the focus-trap of the component.
      */
-    "updateFocusTrapElements": () => Promise<void>;
+    updateFocusTrapElements: () => Promise<void>;
     /**
      * Specifies the width of the component.
      */
-    "width": Scale;
+    width: Scale;
   }
   interface CalciteNavigation {
     /**
      * When `navigationAction` is `true`, specifies the label of the `calcite-action`.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change.
      */
-    "navigationAction": boolean;
+    navigationAction: boolean;
     /**
      * When `navigation-action` is `true`, sets focus on the component's action element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteNavigationLogo {
     /**
      * When true, the component is highlighted.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * A description for the component, which displays below the `heading`.
      */
-    "description": string;
+    description: string;
     /**
      * Specifies heading text for the component, such as a product or organization name.
      */
-    "heading": string;
+    heading: string;
     /**
      * Specifies the URL destination of the component, which can be set as an absolute or relative path.
      */
-    "href": string;
+    href: string;
     /**
      * Specifies an icon to display.
      */
-    "icon": string;
+    icon: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies.
      */
-    "label": string;
+    label: string;
     /**
      * Defines the relationship between the `href` value and the current document.
      * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
      */
-    "rel": string;
+    rel: string;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies where to open the linked document defined in the `href` property.
      * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
      */
-    "target": string;
+    target: string;
     /**
      * Specifies the `src` to an image.
      */
-    "thumbnail": string;
+    thumbnail: string;
   }
   interface CalciteNavigationUser {
     /**
      * When true, the component is highlighted.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * Specifies the full name of the user.
      */
-    "fullName": string;
+    fullName: string;
     /**
      * Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies.
      */
-    "label": string;
+    label: string;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * When `true`, hides the `fullName` and `username` contents.
      */
-    "textDisabled": boolean;
+    textDisabled: boolean;
     /**
      * Specifies the `src` to an image (remember to add a token if the user is private).
      */
-    "thumbnail": string;
+    thumbnail: string;
     /**
      * Specifies the unique id of the user.
      */
-    "userId": string;
+    userId: string;
     /**
      * Specifies the username of the user.
      */
-    "username": string;
+    username: string;
   }
   interface CalciteNotice {
     /**
      * When `true`, a close button is added to the component.
      */
-    "closable": boolean;
+    closable: boolean;
     /**
      * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
      */
-    "icon": string | boolean;
+    icon: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the kind of the component (will apply to top border and icon).
      */
-    "kind": Extract<
-      "brand" | "danger" | "info" | "success" | "warning",
-      Kind
-    >;
+    kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<NoticeMessages>;
+    messageOverrides: Partial<NoticeMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": NoticeMessages;
+    messages: NoticeMessages;
     /**
      * When `true`, the component is visible.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the width of the component.
      */
-    "width": Width;
+    width: Width;
   }
   interface CalciteOption {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteOptionGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
   }
   interface CalcitePagination {
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator": boolean;
+    groupSeparator: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<PaginationMessages>;
+    messageOverrides: Partial<PaginationMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": PaginationMessages;
+    messages: PaginationMessages;
     /**
      * Go to the next page of results.
      */
-    "nextPage": () => Promise<void>;
+    nextPage: () => Promise<void>;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * Specifies the number of items per page.
      */
-    "pageSize": number;
+    pageSize: number;
     /**
      * Go to the previous page of results.
      */
-    "previousPage": () => Promise<void>;
+    previousPage: () => Promise<void>;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the starting item number.
      */
-    "startItem": number;
+    startItem: number;
     /**
      * Specifies the total number of items.
      */
-    "totalItems": number;
+    totalItems: number;
   }
   interface CalcitePanel {
     /**
      * When `true`, displays a close button in the trailing side of the header.
      */
-    "closable": boolean;
+    closable: boolean;
     /**
      * When `true`, the component will be hidden.
      */
-    "closed": boolean;
+    closed: boolean;
     /**
      * Specifies the direction of the collapse.
      */
-    "collapseDirection": "down" | "up";
+    collapseDirection: "down" | "up";
     /**
      * When `true`, hides the component's content area.
      */
-    "collapsed": boolean;
+    collapsed: boolean;
     /**
      * When `true`, the component is collapsible.
      */
-    "collapsible": boolean;
+    collapsible: boolean;
     /**
      * A description for the component.
      */
-    "description": string;
+    description: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The component header text.
      */
-    "heading": string;
+    heading: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * When `true`, the action menu items in the `header-menu-actions` slot are open.
      */
-    "menuOpen": boolean;
+    menuOpen: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<PanelMessages>;
+    messageOverrides: Partial<PanelMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": PanelMessages;
+    messages: PanelMessages;
     /**
      * Scrolls the component's content to a specified set of coordinates.
      * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
      * @param options - allows specific coordinates to be defined.
      * @returns - promise that resolves once the content is scrolled to.
      */
-    "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
+    scrollContentTo: (options?: ScrollToOptions) => Promise<void>;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -3347,54 +3367,54 @@ export namespace Components {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
      */
-    "filterEnabled": boolean;
+    filterEnabled: boolean;
     /**
      * Placeholder text for the filter input field.
      */
-    "filterPlaceholder": string;
+    filterPlaceholder: string;
     /**
      * Text for the filter input field.
      */
-    "filterText": string;
+    filterText: string;
     /**
      * The currently filtered data.
      * @readonly
      */
-    "filteredData": ItemData1;
+    filteredData: ItemData1;
     /**
      * The currently filtered items.
      * @readonly
      */
-    "filteredItems": HTMLCalcitePickListItemElement[];
+    filteredItems: HTMLCalcitePickListItemElement[];
     /**
      * Returns the component's selected `calcite-pick-list-item`s.
      */
-    "getSelectedItems": () => Promise<Map<string, HTMLCalcitePickListItemElement>>;
+    getSelectedItems: () => Promise<Map<string, HTMLCalcitePickListItemElement>>;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-pick-list-item`s at a time. When `false`, only a single `calcite-pick-list-item` can be selected at a time, and a new selection will deselect previous selections.
      */
-    "multiple": boolean;
+    multiple: boolean;
     /**
      * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
      */
-    "selectionFollowsFocus": boolean;
+    selectionFollowsFocus: boolean;
     /**
      * Sets focus on the component's first focusable element.
      * @param focusId
      */
-    "setFocus": (focusId?: ListFocusId) => Promise<void>;
+    setFocus: (focusId?: ListFocusId) => Promise<void>;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -3403,11 +3423,11 @@ export namespace Components {
     /**
      * Specifies the title for all nested `calcite-pick-list-item`s.
      */
-    "groupTitle": string;
+    groupTitle: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -3416,1632 +3436,1629 @@ export namespace Components {
     /**
      * A description for the component that displays below the label text.
      */
-    "description": string;
+    description: string;
     /**
      * When `false`, the component cannot be deselected by user interaction.
      */
-    "deselectDisabled": boolean;
+    deselectDisabled: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
      * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
      */
-    "icon": ICON_TYPES | null;
+    icon: ICON_TYPES | null;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Label and accessible name for the component. Appears next to the icon.
      */
-    "label": string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<PickListItemMessages>;
+    messageOverrides: Partial<PickListItemMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": PickListItemMessages;
+    messages: PickListItemMessages;
     /**
      * Provides additional metadata to the component. Primary use is for a filter on the parent list.
      */
-    "metadata": Record<string, unknown>;
-    "nonInteractive": boolean;
+    metadata: Record<string, unknown>;
+    nonInteractive: boolean;
     /**
      * When `true`, displays a remove action that removes the item from the list.
      */
-    "removable": boolean;
+    removable: boolean;
     /**
      * When `true`, selects an item. Toggles when an item is checked/unchecked.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Toggles the selection state. By default this won't trigger an event. The first argument allows the value to be coerced, rather than swapping values.
      * @param coerce
      */
-    "toggleSelected": (coerce?: boolean) => Promise<void>;
+    toggleSelected: (coerce?: boolean) => Promise<void>;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalcitePopover {
     /**
      * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
      */
-    "autoClose": boolean;
+    autoClose: boolean;
     /**
      * When `true`, display a close button within the component.
      */
-    "closable": boolean;
+    closable: boolean;
     /**
      * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
      */
-    "flipDisabled": boolean;
+    flipDisabled: boolean;
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements": EffectivePlacement[];
+    flipPlacements: EffectivePlacement[];
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled": boolean;
+    focusTrapDisabled: boolean;
     /**
      * The component header text.
      */
-    "heading": string;
+    heading: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<PopoverMessages>;
+    messageOverrides: Partial<PopoverMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": PopoverMessages;
+    messages: PopoverMessages;
     /**
      * Offsets the position of the popover away from the `referenceElement`.
      * @default 6
      */
-    "offsetDistance": number;
+    offsetDistance: number;
     /**
      * Offsets the position of the component along the `referenceElement`.
      */
-    "offsetSkidding": number;
+    offsetSkidding: number;
     /**
      * When `true`, displays and positions the component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Determines where the component will be positioned relative to the `referenceElement`.
      */
-    "placement": LogicalPlacement;
+    placement: LogicalPlacement;
     /**
      * When `true`, removes the caret pointer.
      */
-    "pointerDisabled": boolean;
+    pointerDisabled: boolean;
     /**
      * The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
      */
-    "referenceElement": ReferenceElement | string;
+    referenceElement: ReferenceElement | string;
     /**
      * Updates the position of the component.
      * @param delayed
      */
-    "reposition": (delayed?: boolean) => Promise<void>;
+    reposition: (delayed?: boolean) => Promise<void>;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.  This property can be set to `true` to manage when the component is open.
      */
-    "triggerDisabled": boolean;
+    triggerDisabled: boolean;
     /**
      * Updates the element(s) that are used within the focus-trap of the component.
      */
-    "updateFocusTrapElements": () => Promise<void>;
+    updateFocusTrapElements: () => Promise<void>;
   }
   interface CalciteProgress {
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * When `true` and for `"indeterminate"` progress bars, reverses the animation direction.
      */
-    "reversed": boolean;
+    reversed: boolean;
     /**
      * Text that displays under the component's indicator.
      */
-    "text": string;
+    text: string;
     /**
      * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible.
      */
-    "type": "indeterminate" | "determinate";
+    type: "indeterminate" | "determinate";
     /**
      * When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0.
      */
-    "value": number;
+    value: number;
   }
   interface CalciteRadioButton {
     /**
      * When `true`, the component is checked.
      */
-    "checked": boolean;
+    checked: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
-    "emitCheckedChange": () => Promise<void>;
+    disabled: boolean;
+    emitCheckedChange: () => Promise<void>;
     /**
      * The focused state of the component.
      */
-    "focused": boolean;
+    focused: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * The `id` of the component. When omitted, a globally unique identifier is used.
      */
-    "guid": string;
+    guid: string;
     /**
      * When `true`, the component is not displayed and is not focusable or checkable.
      */
-    "hidden": boolean;
+    hidden: boolean;
     /**
      * The hovered state of the component.
      */
-    "hovered": boolean;
+    hovered: boolean;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component inherited from the `calcite-radio-button-group`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteRadioButtonGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
      */
-    "hidden": boolean;
+    hidden: boolean;
     /**
      * Defines the layout of the component.
      */
-    "layout": Layout;
+    layout: Layout;
     /**
      * Specifies the name of the component on form submission. Must be unique to other component instances.
      */
-    "name": string;
+    name: string;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the component's selected item.
      * @readonly
      */
-    "selectedItem": HTMLCalciteRadioButtonElement;
+    selectedItem: HTMLCalciteRadioButtonElement;
     /**
      * Sets focus on the fist focusable `calcite-radio-button` element in the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteRating {
     /**
      * Specifies a cumulative average from previous ratings to display.
      */
-    "average": number;
+    average: number;
     /**
      * Specifies the number of previous ratings to display.
      */
-    "count": number;
+    count: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<RatingMessages>;
+    messageOverrides: Partial<RatingMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": RatingMessages;
+    messages: RatingMessages;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * When `true`, the component's value can be read, but cannot be modified.
      */
-    "readOnly": boolean;
+    readOnly: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`.
      */
-    "showChip": boolean;
+    showChip: boolean;
     /**
      * The component's value.
      */
-    "value": number;
+    value: number;
   }
   interface CalciteScrim {
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ScrimMessages>;
+    messageOverrides: Partial<ScrimMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ScrimMessages;
+    messages: ScrimMessages;
   }
   interface CalciteSegmentedControl {
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance": Extract<"outline" | "outline-fill" | "solid", Appearance>;
+    appearance: Extract<"outline" | "outline-fill" | "solid", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Defines the layout of the component.
      */
-    "layout": Extract<"horizontal" | "vertical", Layout>;
+    layout: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * The component's selected item `HTMLElement`.
      * @readonly
      */
-    "selectedItem": HTMLCalciteSegmentedControlItemElement;
+    selectedItem: HTMLCalciteSegmentedControlItemElement;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's `selectedItem` value.
      */
-    "value": string;
+    value: string;
     /**
      * Specifies the width of the component.
      */
-    "width": Extract<"auto" | "full", Width>;
+    width: Extract<"auto" | "full", Width>;
   }
   interface CalciteSegmentedControlItem {
     /**
      * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `solid`.
      */
-    "appearance": Extract<"outline" | "outline-fill" | "solid", Appearance>;
+    appearance: Extract<"outline" | "outline-fill" | "solid", Appearance>;
     /**
      * When `true`, the component is checked.
      */
-    "checked": boolean;
+    checked: boolean;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd": string;
+    iconEnd: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart": string;
+    iconStart: string;
     /**
      * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
      */
-    "layout": Layout;
+    layout: Layout;
     /**
      * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * The component's value.
      */
-    "value": any | null;
+    value: any | null;
   }
   interface CalciteSelect {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * The component's selected option `HTMLElement`.
      * @readonly
      */
-    "selectedOption": HTMLCalciteOptionElement;
+    selectedOption: HTMLCalciteOptionElement;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's `selectedOption` value.
      */
-    "value": string;
+    value: string;
     /**
      * Specifies the width of the component.
      */
-    "width": Width;
+    width: Width;
   }
   interface CalciteSheet {
     /**
      * Passes a function to run before the component closes.
      * @returns
      */
-    "beforeClose": (el: HTMLCalciteSheetElement) => Promise<void>;
+    beforeClose: (el: HTMLCalciteSheetElement) => Promise<void>;
     /**
      * Specifies the display mode - `"float"` (content is separated detached), or `"overlay"` (displays on top of center content).
      */
-    "displayMode": DisplayMode;
+    displayMode: DisplayMode;
     /**
      * When `true`, disables the default close on escape behavior.
      */
-    "escapeDisabled": boolean;
+    escapeDisabled: boolean;
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled": boolean;
+    focusTrapDisabled: boolean;
     /**
      * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
      */
-    "heightScale": Scale;
+    heightScale: Scale;
     /**
      * Specifies the label of the component.
      */
-    "label": string;
+    label: string;
     /**
      * When `true`, displays and positions the component.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
      */
-    "opened": boolean;
+    opened: boolean;
     /**
      * When `true`, disables the closing of the component when clicked outside.
      */
-    "outsideCloseDisabled": boolean;
+    outsideCloseDisabled: boolean;
     /**
      * Determines where the component will be positioned.
      */
-    "position": LogicalFlowPosition;
+    position: LogicalFlowPosition;
     /**
      * Sets focus on the component's "close" button (the first focusable item).
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
      */
-    "slottedInShell": boolean;
+    slottedInShell: boolean;
     /**
      * Updates the element(s) that are used within the focus-trap of the component.
      */
-    "updateFocusTrapElements": () => Promise<void>;
+    updateFocusTrapElements: () => Promise<void>;
     /**
      * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
      */
-    "widthScale": Scale;
+    widthScale: Scale;
   }
   interface CalciteShell {
     /**
      * Positions the center content behind any `calcite-shell-panel`s.
      */
-    "contentBehind": boolean;
+    contentBehind: boolean;
   }
   interface CalciteShellCenterRow {
     /**
      * When `true`, the content area displays like a floating panel.
      */
-    "detached": boolean;
+    detached: boolean;
     /**
      * Specifies the maximum height of the component.
      */
-    "heightScale": Scale;
+    heightScale: Scale;
     /**
      * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "position": Position;
+    position: Position;
   }
   interface CalciteShellPanel {
     /**
      * When `true`, hides the component's content area.
      */
-    "collapsed": boolean;
+    collapsed: boolean;
     /**
      * When `true`, the content area displays like a floating panel.
      * @deprecated use `displayMode` instead.
      */
-    "detached": boolean;
+    detached: boolean;
     /**
      * When `displayMode` is `float`, specifies the maximum height of the component.
      * @deprecated use `heightScale` instead.
      */
-    "detachedHeightScale": Scale;
+    detachedHeightScale: Scale;
     /**
      * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content).
      */
-    "displayMode": DisplayMode1;
+    displayMode: DisplayMode1;
     /**
      * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.
      */
-    "heightScale": Scale;
+    heightScale: Scale;
     /**
      * The direction of the component.
      */
-    "layout": Extract<"horizontal" | "vertical", Layout>;
+    layout: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ShellPanelMessages>;
+    messageOverrides: Partial<ShellPanelMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ShellPanelMessages;
+    messages: ShellPanelMessages;
     /**
      * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "position": Position;
+    position: Position;
     /**
      * When `true` and `displayMode` is not `float`, the component's content area is resizable.
      */
-    "resizable": boolean;
+    resizable: boolean;
     /**
      * When `layout` is `vertical`, specifies the width of the component.
      */
-    "widthScale": Scale;
+    widthScale: Scale;
   }
   interface CalciteSlider {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator": boolean;
+    groupSeparator: boolean;
     /**
      * When `true`, indicates a histogram is present.
      */
-    "hasHistogram": boolean;
+    hasHistogram: boolean;
     /**
      * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
      * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
      */
-    "histogram": DataSeries;
+    histogram: DataSeries;
     /**
      * A set of single color stops for a histogram, sorted by offset ascending.
      */
-    "histogramStops": ColorStop[];
+    histogramStops: ColorStop[];
     /**
      * When `true`, displays label handles with their numeric value.
      */
-    "labelHandles": boolean;
+    labelHandles: boolean;
     /**
      * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
      */
-    "labelTicks": boolean;
+    labelTicks: boolean;
     /**
      * The component's maximum selectable value.
      */
-    "max": number;
+    max: number;
     /**
      * For multiple selections, the accessible name for the second handle, such as `"Temperature, upper bound"`.
      */
-    "maxLabel": string;
+    maxLabel: string;
     /**
      * For multiple selections, the component's upper value.
      */
-    "maxValue": number;
+    maxValue: number;
     /**
      * The component's minimum selectable value.
      */
-    "min": number;
+    min: number;
     /**
      * Accessible name for first (or only) handle, such as `"Temperature, lower bound"`.
      */
-    "minLabel": string;
+    minLabel: string;
     /**
      * For multiple selections, the component's lower value.
      */
-    "minValue": number;
+    minValue: number;
     /**
      * When `true`, the slider will display values from high to low.  Note that this value will be ignored if the slider has an associated histogram.
      */
-    "mirrored": boolean;
+    mirrored: boolean;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * Specifies the interval to move with the page up, or page down keys.
      */
-    "pageStep": number;
+    pageStep: number;
     /**
      * When `true`, sets a finer point for handles.
      */
-    "precise": boolean;
+    precise: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * When `true`, enables snap selection in coordination with `step` via a mouse.
      */
-    "snap": boolean;
+    snap: boolean;
     /**
      * Specifies the interval to move with the up, or down keys.
      */
-    "step": number;
+    step: number;
     /**
      * Displays tick marks on the number line at a specified interval.
      */
-    "ticks": number;
+    ticks: number;
     /**
      * The component's value.
      */
-    "value": null | number | number[];
+    value: null | number | number[];
   }
   interface CalciteSortableList {
     /**
      * When provided, the method will be called to determine whether the element can  move from the list.
      */
-    "canPull": (detail: DragDetail) => boolean;
+    canPull: (detail: DragDetail) => boolean;
     /**
      * When provided, the method will be called to determine whether the element can be added from another list.
      */
-    "canPut": (detail: DragDetail) => boolean;
+    canPut: (detail: DragDetail) => boolean;
     /**
      * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Specifies which items inside the element should be draggable.
      */
-    "dragSelector"?: string;
+    dragSelector?: string;
     /**
      * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
      */
-    "group"?: string;
+    group?: string;
     /**
      * The selector for the handle elements.
      */
-    "handleSelector": string;
+    handleSelector: string;
     /**
      * Indicates the horizontal or vertical orientation of the component.
      */
-    "layout": Layout;
+    layout: Layout;
     /**
      * When true, content is waiting to be loaded. This state shows a busy indicator.
      */
-    "loading": boolean;
+    loading: boolean;
   }
   interface CalciteSplitButton {
     /**
      * When `true`, the component is active.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance": Extract<
-      "outline" | "outline-fill" | "solid" | "transparent",
-      Appearance
-    >;
+    appearance: Extract<"outline" | "outline-fill" | "solid" | "transparent", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Specifies the icon used for the dropdown menu.
      */
-    "dropdownIconType": DropdownIconType;
+    dropdownIconType: DropdownIconType;
     /**
      * Accessible name for the dropdown menu.
      */
-    "dropdownLabel": string;
+    dropdownLabel: string;
     /**
      * Specifies the kind of the component (will apply to border and background if applicable).
      */
-    "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
+    kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
     /**
      * When `true`, a busy indicator is displayed on the primary button.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Specifies an icon to display at the end of the primary button.
      */
-    "primaryIconEnd": string;
+    primaryIconEnd: string;
     /**
      * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "primaryIconFlipRtl": FlipContext;
+    primaryIconFlipRtl: FlipContext;
     /**
      * Specifies an icon to display at the start of the primary button.
      */
-    "primaryIconStart": string;
+    primaryIconStart: string;
     /**
      * Accessible name for the primary button.
      */
-    "primaryLabel": string;
+    primaryLabel: string;
     /**
      * Text displayed in the primary button.
      */
-    "primaryText": string;
+    primaryText: string;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the width of the component.
      */
-    "width": Width;
+    width: Width;
   }
   interface CalciteStack {
     /**
      * When `true`, content interaction is prevented and displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
   }
   interface CalciteStepper {
     /**
      * Set the last `calcite-stepper-item` as active.
      */
-    "endStep": () => Promise<void>;
+    endStep: () => Promise<void>;
     /**
      * Set a specified `calcite-stepper-item` as active.
      * @param step
      */
-    "goToStep": (step: number) => Promise<void>;
+    goToStep: (step: number) => Promise<void>;
     /**
      * When `true`, displays a status icon in the `calcite-stepper-item` heading.
      */
-    "icon": boolean;
+    icon: boolean;
     /**
      * Defines the layout of the component.
      */
-    "layout": Extract<"horizontal" | "vertical", Layout>;
+    layout: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<StepperMessages>;
+    messageOverrides: Partial<StepperMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": StepperMessages;
+    messages: StepperMessages;
     /**
      * Set the next `calcite-stepper-item` as active.
      */
-    "nextStep": () => Promise<void>;
+    nextStep: () => Promise<void>;
     /**
      * When `true`, displays the step number in the `calcite-stepper-item` heading.
      */
-    "numbered": boolean;
+    numbered: boolean;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Set the previous `calcite-stepper-item` as active.
      */
-    "prevStep": () => Promise<void>;
+    prevStep: () => Promise<void>;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the component's selected item.
      * @readonly
      */
-    "selectedItem": HTMLCalciteStepperItemElement;
+    selectedItem: HTMLCalciteStepperItemElement;
     /**
      * Set the first `calcite-stepper-item` as active.
      */
-    "startStep": () => Promise<void>;
+    startStep: () => Promise<void>;
   }
   interface CalciteStepperItem {
     /**
      * When `true`, the step has been completed.
      */
-    "complete": boolean;
+    complete: boolean;
     /**
      * A description for the component. Displays below the header text.
      */
-    "description": string;
+    description: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, the component contains an error that requires resolution from the user.
      */
-    "error": boolean;
+    error: boolean;
     /**
      * The component header text.
      */
-    "heading": string;
+    heading: string;
     /**
      * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
      */
-    "icon": boolean;
+    icon: boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
      */
-    "layout": Extract<"horizontal" | "vertical", Layout>;
+    layout: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<StepperItemMessages>;
+    messageOverrides: Partial<StepperItemMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": StepperItemMessages;
+    messages: StepperItemMessages;
     /**
      * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
      */
-    "numbered": boolean;
-    "numberingSystem": NumberingSystem;
+    numbered: boolean;
+    numberingSystem: NumberingSystem;
     /**
      * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteSwitch {
     /**
      * When `true`, the component is checked.
      */
-    "checked": boolean;
+    checked: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name": string;
+    name: string;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteTab {
     /**
      * Returns the index of the component item within the tab array.
      */
-    "getTabIndex": () => Promise<number>;
+    getTabIndex: () => Promise<number>;
     /**
      * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * When `true`, the component's contents are selected.  Only one tab can be selected within the `calcite-tabs` parent.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Specifies a unique name for the component.  When specified, use the same value on the `calcite-tab-title`.
      */
-    "tab": string;
+    tab: string;
     /**
      * @param tabIds
      * @param titleIds
      */
-    "updateAriaInfo": (tabIds?: string[], titleIds?: string[]) => Promise<void>;
+    updateAriaInfo: (tabIds?: string[], titleIds?: string[]) => Promise<void>;
   }
   interface CalciteTabNav {
-    "bordered": boolean;
-    "indicatorOffset": number;
-    "indicatorWidth": number;
-    "layout": TabLayout;
+    bordered: boolean;
+    indicatorOffset: number;
+    indicatorWidth: number;
+    layout: TabLayout;
     /**
      * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
      */
-    "position": TabPosition;
+    position: TabPosition;
     /**
      * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the component's selected tab-title.
      * @readonly
      */
-    "selectedTitle": HTMLCalciteTabTitleElement;
+    selectedTitle: HTMLCalciteTabTitleElement;
     /**
      * Specifies the name when saving selected `calcite-tab` data to `localStorage`.
      */
-    "storageId": string;
+    storageId: string;
     /**
      * Specifies text to update multiple components to keep in sync if one changes.
      */
-    "syncId": string;
+    syncId: string;
   }
   interface CalciteTabTitle {
-    "bordered": boolean;
+    bordered: boolean;
     /**
      * When `true`, a close button is added to the component.
      */
-    "closable": boolean;
+    closable: boolean;
     /**
      * When `true`, does not display or position the component.
      */
-    "closed": boolean;
+    closed: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
-    "getTabIdentifier": () => Promise<TabID>;
+    disabled: boolean;
+    getTabIdentifier: () => Promise<TabID>;
     /**
      * Returns the index of the title within the `calcite-tab-nav`.
      */
-    "getTabIndex": () => Promise<number>;
+    getTabIndex: () => Promise<number>;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd": string;
+    iconEnd: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": FlipContext;
+    iconFlipRtl: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart": string;
-    "layout": TabLayout;
+    iconStart: string;
+    layout: TabLayout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<TabTitleMessages>;
+    messageOverrides: Partial<TabTitleMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": TabTitleMessages;
+    messages: TabTitleMessages;
     /**
      * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
      */
-    "position": TabPosition;
+    position: TabPosition;
     /**
      * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * When `true`, the component and its respective `calcite-tab` contents are selected.  Only one tab can be selected within the `calcite-tabs` parent.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Specifies a unique name for the component.  When specified, use the same value on the `calcite-tab`.
      */
-    "tab": string;
+    tab: string;
     /**
      * @param tabIds
      * @param titleIds
      */
-    "updateAriaInfo": (tabIds?: string[], titleIds?: string[]) => Promise<void>;
+    updateAriaInfo: (tabIds?: string[], titleIds?: string[]) => Promise<void>;
   }
   interface CalciteTable {
     /**
      * When `true`, displays borders in the component.
      */
-    "bordered": boolean;
+    bordered: boolean;
     /**
      * Specifies an accessible title for the component.
      */
-    "caption": string;
+    caption: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator": boolean;
+    groupSeparator: boolean;
     /**
      * Specifies the layout of the component.
      */
-    "layout": TableLayout;
+    layout: TableLayout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<TableMessages>;
+    messageOverrides: Partial<TableMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": TableMessages;
+    messages: TableMessages;
     /**
      * When `true`, displays the position of the row in numeric form.
      */
-    "numbered": boolean;
+    numbered: boolean;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Specifies the page size of the component. When `true`, renders `calcite-pagination`
      */
-    "pageSize": number;
+    pageSize: number;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems": HTMLCalciteTableRowElement[];
+    selectedItems: HTMLCalciteTableRowElement[];
     /**
      * Specifies the selection mode of the component.
      */
-    "selectionMode": Extract<"none" | "multiple" | "single", SelectionMode>;
+    selectionMode: Extract<"none" | "multiple" | "single", SelectionMode>;
     /**
      * When `true`, displays zebra styling in the component.
      */
-    "zebra": boolean;
+    zebra: boolean;
   }
   interface CalciteTableCell {
     /**
      * Specifies the alignment of the component.
      */
-    "alignment": Alignment;
+    alignment: Alignment;
     /**
      * Specifies the number of columns the component should span.
      */
-    "colSpan": number;
+    colSpan: number;
     /**
      * When true, prevents user interaction.  Notes:  This prop should use the
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<TableCellMessages>;
+    messageOverrides: Partial<TableCellMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": TableCellMessages;
-    "numberCell": boolean;
-    "parentRowIsSelected": boolean;
-    "parentRowPositionLocalized": string;
-    "parentRowType": RowType;
-    "positionInRow": number;
-    "readCellContentsToAT": boolean;
+    messages: TableCellMessages;
+    numberCell: boolean;
+    parentRowIsSelected: boolean;
+    parentRowPositionLocalized: string;
+    parentRowType: RowType;
+    positionInRow: number;
+    readCellContentsToAT: boolean;
     /**
      * Specifies the number of rows the component should span.
      */
-    "rowSpan": number;
-    "scale": Scale;
-    "selectionCell": boolean;
+    rowSpan: number;
+    scale: Scale;
+    selectionCell: boolean;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteTableHeader {
     /**
      * Specifies the alignment of the component.
      */
-    "alignment": Alignment;
-    "bodyRowCount": number;
+    alignment: Alignment;
+    bodyRowCount: number;
     /**
      * Specifies the number of columns the component should span.
      */
-    "colSpan": number;
+    colSpan: number;
     /**
      * A description to display beneath heading content.
      */
-    "description": string;
+    description: string;
     /**
      * A heading to display above description content.
      */
-    "heading": string;
+    heading: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<TableHeaderMessages>;
+    messageOverrides: Partial<TableHeaderMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": TableHeaderMessages;
-    "numberCell": boolean;
-    "parentRowPosition": number;
-    "parentRowType": RowType;
-    "positionInRow": number;
+    messages: TableHeaderMessages;
+    numberCell: boolean;
+    parentRowPosition: number;
+    parentRowType: RowType;
+    positionInRow: number;
     /**
      * Specifies the number of rows the component should span.
      */
-    "rowSpan": number;
-    "scale": Scale;
-    "selectedRowCount": number;
-    "selectedRowCountLocalized": string;
-    "selectionCell": boolean;
-    "selectionMode": SelectionMode;
+    rowSpan: number;
+    scale: Scale;
+    selectedRowCount: number;
+    selectedRowCountLocalized: string;
+    selectionCell: boolean;
+    selectionMode: SelectionMode;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
   }
   interface CalciteTableRow {
-    "bodyRowCount": number;
-    "cellCount": number;
+    bodyRowCount: number;
+    cellCount: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
-    "numbered": boolean;
-    "positionAll": number;
-    "positionSection": number;
-    "positionSectionLocalized": string;
-    "readCellContentsToAT": boolean;
-    "rowType": RowType;
-    "scale": Scale;
+    disabled: boolean;
+    numbered: boolean;
+    positionAll: number;
+    positionSection: number;
+    positionSectionLocalized: string;
+    readCellContentsToAT: boolean;
+    rowType: RowType;
+    scale: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
-    "selectedRowCount": number;
-    "selectedRowCountLocalized": string;
-    "selectionMode": Extract<"multiple" | "single" | "none", SelectionMode>;
+    selected: boolean;
+    selectedRowCount: number;
+    selectedRowCountLocalized: string;
+    selectionMode: Extract<"multiple" | "single" | "none", SelectionMode>;
   }
   interface CalciteTabs {
     /**
      * When `true`, the component will display with a folder style menu.
      */
-    "bordered": boolean;
+    bordered: boolean;
     /**
      * Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`).
      */
-    "layout": TabLayout;
+    layout: TabLayout;
     /**
      * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
      */
-    "position": TabPosition;
+    position: TabPosition;
     /**
      * Specifies the size of the component, defaults to `m`.
      */
-    "scale": Scale;
+    scale: Scale;
   }
   interface CalciteTextArea {
     /**
      * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
      * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
      */
-    "autofocus": boolean;
+    autofocus: boolean;
     /**
      * Specifies the component's number of columns.
      * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
      */
-    "columns": number;
+    columns: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form": string;
+    form: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator": boolean;
+    groupSeparator: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the maximum number of characters allowed.
      * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
      */
-    "maxLength": number;
+    maxLength: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<TextAreaMessages>;
+    messageOverrides: Partial<TextAreaMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": TextAreaMessages;
+    messages: TextAreaMessages;
     /**
      * Specifies the name of the component.
      * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
      */
-    "name": string;
+    name: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * Specifies the placeholder text for the component.
      * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
      */
-    "placeholder": string;
+    placeholder: string;
     /**
      * When `true`, the component's `value` can be read, but cannot be modified.
      * @readonly
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly": boolean;
+    readOnly: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
      */
-    "required": boolean;
+    required: boolean;
     /**
      * Specifies if the component is resizable.
      */
-    "resize": "both" | "horizontal" | "vertical" | "none";
+    resize: "both" | "horizontal" | "vertical" | "none";
     /**
      * Specifies the component's number of rows.
      * @mdn [rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
      */
-    "rows": number;
+    rows: number;
     /**
      * Specifies the size of the component.
      */
-    "scale": "l" | "m" | "s";
+    scale: "l" | "m" | "s";
     /**
      * Selects the text of the component's `value`.
      */
-    "selectText": () => Promise<void>;
+    selectText: () => Promise<void>;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The component's value.
      */
-    "value": string;
+    value: string;
     /**
      * Specifies the wrapping mechanism for the text.
      * @mdn [wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
      */
-    "wrap": "soft" | "hard";
+    wrap: "soft" | "hard";
   }
   interface CalciteTile {
     /**
      * When `true`, the component is active.
      */
-    "active": boolean;
+    active: boolean;
     /**
      * A description for the component, which displays below the heading.
      */
-    "description": string;
+    description: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The component's embed mode.  When `true`, renders without a border and padding for use by other components.
      */
-    "embed": boolean;
+    embed: boolean;
     /**
      * The focused state of the component.
      */
-    "focused": boolean;
+    focused: boolean;
     /**
      * The component header text, which displays between the icon and description.
      */
-    "heading": string;
+    heading: string;
     /**
      * When `true`, the component is not displayed and is not focusable.
      */
-    "hidden": boolean;
+    hidden: boolean;
     /**
      * When embed is `"false"`, the URL for the component.
      */
-    "href": string;
+    href: string;
     /**
      * Specifies an icon to display.
      */
-    "icon": string;
+    icon: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
   }
   interface CalciteTileSelect {
     /**
      * When `true`, the component is checked.
      */
-    "checked": boolean;
+    checked: boolean;
     /**
      * A description for the component, which displays below the heading.
      */
-    "description": string;
+    description: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * The component header text, which displays between the icon and description.
      */
-    "heading": string;
+    heading: string;
     /**
      * When `true`, the component is not displayed and is not focusable or checkable.
      */
-    "hidden": boolean;
+    hidden: boolean;
     /**
      * Specifies an icon to display.
      */
-    "icon": string;
+    icon: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * When `inputEnabled` is `true`, specifies the placement of the interactive input on the component.
      */
-    "inputAlignment": Extract<"end" | "start", Alignment>;
+    inputAlignment: Extract<"end" | "start", Alignment>;
     /**
      * When `true`, displays an interactive input based on the `type` property.
      */
-    "inputEnabled": boolean;
+    inputEnabled: boolean;
     /**
      * Specifies the name of the component on form submission.
      */
-    "name": any;
+    name: any;
     /**
      * Sets focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * The selection mode of the component.  Use radio for single selection, and checkbox for multiple selections.
      */
-    "type": TileSelectType;
+    type: TileSelectType;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
     /**
      * Specifies the width of the component.
      */
-    "width": Extract<"auto" | "full", Width>;
+    width: Extract<"auto" | "full", Width>;
   }
   interface CalciteTileSelectGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
      */
-    "layout": TileSelectGroupLayout;
+    layout: TileSelectGroupLayout;
   }
   interface CalciteTimePicker {
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<TimePickerMessages>;
+    messageOverrides: Partial<TimePickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": TimePickerMessages;
+    messages: TimePickerMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem": NumberingSystem;
+    numberingSystem: NumberingSystem;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Sets focus on the component's first focusable element.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Specifies the granularity the `value` must adhere to (in seconds).
      */
-    "step": number;
+    step: number;
     /**
      * The component's value in UTC (always 24-hour format).
      */
-    "value": string;
+    value: string;
   }
   interface CalciteTip {
     /**
      * When `true`, the close button is not present on the component.
      */
-    "closeDisabled": boolean;
+    closeDisabled: boolean;
     /**
      * When `true`, the component does not display.
      */
-    "closed": boolean;
+    closed: boolean;
     /**
      * The component header text.
      */
-    "heading": string;
+    heading: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<TipMessages>;
+    messageOverrides: Partial<TipMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": TipMessages;
+    messages: TipMessages;
     /**
      * When `true`, the component is selected if it has a parent `calcite-tip-manager`.  Only one tip can be selected within the `calcite-tip-manager` parent.
      */
-    "selected": boolean;
+    selected: boolean;
   }
   interface CalciteTipGroup {
     /**
      * The component header text for all nested `calcite-tip`s.
      */
-    "groupTitle": string;
+    groupTitle: string;
   }
   interface CalciteTipManager {
     /**
      * When `true`, does not display or position the component.
      */
-    "closed": boolean;
+    closed: boolean;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel": HeadingLevel;
+    headingLevel: HeadingLevel;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<TipManagerMessages>;
+    messageOverrides: Partial<TipManagerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": TipManagerMessages;
+    messages: TipManagerMessages;
     /**
      * Selects the next `calcite-tip` to display.
      */
-    "nextTip": () => Promise<void>;
+    nextTip: () => Promise<void>;
     /**
      * Selects the previous `calcite-tip` to display.
      */
-    "previousTip": () => Promise<void>;
+    previousTip: () => Promise<void>;
   }
   interface CalciteTooltip {
     /**
      * Closes the component when the `referenceElement` is clicked.
      */
-    "closeOnClick": boolean;
+    closeOnClick: boolean;
     /**
      * Accessible name for the component.
      * @deprecated No longer necessary. Overrides the context of the component's description, which could confuse assistive technology users.
      */
-    "label": string;
+    label: string;
     /**
      * Offset the position of the component away from the `referenceElement`.
      * @default 6
      */
-    "offsetDistance": number;
+    offsetDistance: number;
     /**
      * Offset the position of the component along the `referenceElement`.
      */
-    "offsetSkidding": number;
+    offsetSkidding: number;
     /**
      * When `true`, the component is open.
      */
-    "open": boolean;
+    open: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  The `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning": OverlayPositioning;
+    overlayPositioning: OverlayPositioning;
     /**
      * Determines where the component will be positioned relative to the `referenceElement`.
      */
-    "placement": LogicalPlacement;
+    placement: LogicalPlacement;
     /**
      * The `referenceElement` to position the component according to its `"placement"` value.  Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.  However, a string ID of the reference element can be used.
      */
-    "referenceElement": ReferenceElement | string;
+    referenceElement: ReferenceElement | string;
     /**
      * Updates the position of the component.
      * @param delayed
      */
-    "reposition": (delayed?: boolean) => Promise<void>;
+    reposition: (delayed?: boolean) => Promise<void>;
   }
   interface CalciteTree {
-    "child": boolean;
+    child: boolean;
     /**
      * Displays indentation guide lines.
      */
-    "lines": boolean;
+    lines: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale": Scale;
+    scale: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems": HTMLCalciteTreeItemElement[];
+    selectedItems: HTMLCalciteTreeItemElement[];
     /**
      * Specifies the selection mode, where `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections, `"children"` allows any number of selections from one parent from corresponding parent and child selections, `"multichildren"` allows any number of selections from corresponding parent and child selections, `"multiple"` allows any number of selections, `"none"` allows no selections, `"single"` allows one selection, and `"single-persist"` allows and requires one selection.
      * @default "single"
      */
-    "selectionMode": SelectionMode;
+    selectionMode: SelectionMode;
   }
   interface CalciteTreeItem {
-    "depth": number;
+    depth: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded": boolean;
-    "hasChildren": boolean;
+    expanded: boolean;
+    hasChildren: boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": FlipContext;
+    iconFlipRtl: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart": string;
+    iconStart: string;
     /**
      * In ancestor selection mode, show as indeterminate when only some children are selected.
      */
-    "indeterminate": boolean;
-    "lines": boolean;
-    "parentExpanded": boolean;
-    "scale": Scale;
+    indeterminate: boolean;
+    lines: boolean;
+    parentExpanded: boolean;
+    scale: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
-    "selectionMode": SelectionMode;
+    selected: boolean;
+    selectionMode: SelectionMode;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -5050,74 +5067,74 @@ export namespace Components {
     /**
      * When provided, the method will be called to determine whether the element can  move from the list.
      */
-    "canPull": (detail: DragDetail) => boolean;
+    canPull: (detail: DragDetail) => boolean;
     /**
      * When provided, the method will be called to determine whether the element can be added from another list.
      */
-    "canPut": (detail: DragDetail) => boolean;
+    canPut: (detail: DragDetail) => boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
+    disabled: boolean;
     /**
      * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
      */
-    "dragEnabled": boolean;
+    dragEnabled: boolean;
     /**
      * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
      */
-    "filterEnabled": boolean;
+    filterEnabled: boolean;
     /**
      * Placeholder text for the filter's input field.
      */
-    "filterPlaceholder": string;
+    filterPlaceholder: string;
     /**
      * Text for the filter input field.
      */
-    "filterText": string;
+    filterText: string;
     /**
      * The currently filtered data.
      * @readonly
      */
-    "filteredData": ItemData1;
+    filteredData: ItemData1;
     /**
      * The currently filtered items.
      * @readonly
      */
-    "filteredItems": HTMLCalciteValueListItemElement[];
+    filteredItems: HTMLCalciteValueListItemElement[];
     /**
      * Returns the currently selected items
      */
-    "getSelectedItems": () => Promise<Map<string, HTMLCalciteValueListItemElement>>;
+    getSelectedItems: () => Promise<Map<string, HTMLCalciteValueListItemElement>>;
     /**
      * The component's group identifier.  To drag elements from one list into another, both lists must have the same group value.
      */
-    "group"?: string;
+    group?: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading": boolean;
+    loading: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides": Partial<ValueListMessages>;
+    messageOverrides: Partial<ValueListMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages": ValueListMessages;
+    messages: ValueListMessages;
     /**
      * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-value-list-item`s at a time. When `false`, only a single `calcite-value-list-item` can be selected at a time, and a new selection will deselect previous selections.
      */
-    "multiple": boolean;
+    multiple: boolean;
     /**
      * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
      */
-    "selectionFollowsFocus": boolean;
+    selectionFollowsFocus: boolean;
     /**
      * Sets focus on the component's first focusable element.
      * @param focusId
      */
-    "setFocus": (focusId?: ListFocusId) => Promise<void>;
+    setFocus: (focusId?: ListFocusId) => Promise<void>;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -5126,55 +5143,55 @@ export namespace Components {
     /**
      * A description for the component that displays below the label text.
      */
-    "description"?: string;
-    "deselectDisabled": boolean;
+    description?: string;
+    deselectDisabled: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled": boolean;
-    "handleActivated"?: boolean;
+    disabled: boolean;
+    handleActivated?: boolean;
     /**
      * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
      * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
      */
-    "icon"?: ICON_TYPES | null;
+    icon?: ICON_TYPES | null;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl": boolean;
+    iconFlipRtl: boolean;
     /**
      * Label and accessible name for the component. Appears next to the icon.
      */
-    "label": string;
+    label: string;
     /**
      * Provides additional metadata to the component. Primary use is for a filter on the parent list.
      */
-    "metadata"?: Record<string, unknown>;
+    metadata?: Record<string, unknown>;
     /**
      * When `true`, prevents the content of the component from user interaction.
      */
-    "nonInteractive": boolean;
+    nonInteractive: boolean;
     /**
      * When `true`, adds an action to remove the component.
      */
-    "removable": boolean;
+    removable: boolean;
     /**
      * When `true`, the component is selected.
      */
-    "selected": boolean;
+    selected: boolean;
     /**
      * Set focus on the component.
      */
-    "setFocus": () => Promise<void>;
+    setFocus: () => Promise<void>;
     /**
      * Toggle the selection state. By default this won't trigger an event. The first argument allows the value to be coerced, rather than swapping values.
      * @param coerce
      */
-    "toggleSelected": (coerce?: boolean) => Promise<void>;
+    toggleSelected: (coerce?: boolean) => Promise<void>;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
 }
 export interface CalciteAccordionCustomEvent<T> extends CustomEvent<T> {
@@ -5483,973 +5500,2652 @@ export interface CalciteValueListItemCustomEvent<T> extends CustomEvent<T> {
 }
 declare global {
   interface HTMLCalciteAccordionElementEventMap {
-    "calciteInternalAccordionChange": RequestedItem;
+    calciteInternalAccordionChange: RequestedItem;
   }
   interface HTMLCalciteAccordionElement extends Components.CalciteAccordion, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteAccordionElementEventMap>(type: K, listener: (this: HTMLCalciteAccordionElement, ev: CalciteAccordionCustomEvent<HTMLCalciteAccordionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteAccordionElementEventMap>(type: K, listener: (this: HTMLCalciteAccordionElement, ev: CalciteAccordionCustomEvent<HTMLCalciteAccordionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteAccordionElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteAccordionElement,
+        ev: CalciteAccordionCustomEvent<HTMLCalciteAccordionElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteAccordionElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteAccordionElement,
+        ev: CalciteAccordionCustomEvent<HTMLCalciteAccordionElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteAccordionElement: {
     prototype: HTMLCalciteAccordionElement;
     new (): HTMLCalciteAccordionElement;
   };
   interface HTMLCalciteAccordionItemElementEventMap {
-    "calciteInternalAccordionItemSelect": RequestedItem1;
-    "calciteInternalAccordionItemClose": void;
+    calciteInternalAccordionItemSelect: RequestedItem1;
+    calciteInternalAccordionItemClose: void;
   }
   interface HTMLCalciteAccordionItemElement extends Components.CalciteAccordionItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteAccordionItemElementEventMap>(type: K, listener: (this: HTMLCalciteAccordionItemElement, ev: CalciteAccordionItemCustomEvent<HTMLCalciteAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteAccordionItemElementEventMap>(type: K, listener: (this: HTMLCalciteAccordionItemElement, ev: CalciteAccordionItemCustomEvent<HTMLCalciteAccordionItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteAccordionItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteAccordionItemElement,
+        ev: CalciteAccordionItemCustomEvent<HTMLCalciteAccordionItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteAccordionItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteAccordionItemElement,
+        ev: CalciteAccordionItemCustomEvent<HTMLCalciteAccordionItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteAccordionItemElement: {
     prototype: HTMLCalciteAccordionItemElement;
     new (): HTMLCalciteAccordionItemElement;
   };
-  interface HTMLCalciteActionElement extends Components.CalciteAction, HTMLStencilElement {
-  }
+  interface HTMLCalciteActionElement extends Components.CalciteAction, HTMLStencilElement {}
   var HTMLCalciteActionElement: {
     prototype: HTMLCalciteActionElement;
     new (): HTMLCalciteActionElement;
   };
   interface HTMLCalciteActionBarElementEventMap {
-    "calciteActionBarToggle": void;
+    calciteActionBarToggle: void;
   }
   interface HTMLCalciteActionBarElement extends Components.CalciteActionBar, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteActionBarElementEventMap>(type: K, listener: (this: HTMLCalciteActionBarElement, ev: CalciteActionBarCustomEvent<HTMLCalciteActionBarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteActionBarElementEventMap>(type: K, listener: (this: HTMLCalciteActionBarElement, ev: CalciteActionBarCustomEvent<HTMLCalciteActionBarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteActionBarElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteActionBarElement,
+        ev: CalciteActionBarCustomEvent<HTMLCalciteActionBarElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteActionBarElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteActionBarElement,
+        ev: CalciteActionBarCustomEvent<HTMLCalciteActionBarElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteActionBarElement: {
     prototype: HTMLCalciteActionBarElement;
     new (): HTMLCalciteActionBarElement;
   };
-  interface HTMLCalciteActionGroupElement extends Components.CalciteActionGroup, HTMLStencilElement {
-  }
+  interface HTMLCalciteActionGroupElement extends Components.CalciteActionGroup, HTMLStencilElement {}
   var HTMLCalciteActionGroupElement: {
     prototype: HTMLCalciteActionGroupElement;
     new (): HTMLCalciteActionGroupElement;
   };
   interface HTMLCalciteActionMenuElementEventMap {
-    "calciteActionMenuOpen": void;
+    calciteActionMenuOpen: void;
   }
   interface HTMLCalciteActionMenuElement extends Components.CalciteActionMenu, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteActionMenuElementEventMap>(type: K, listener: (this: HTMLCalciteActionMenuElement, ev: CalciteActionMenuCustomEvent<HTMLCalciteActionMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteActionMenuElementEventMap>(type: K, listener: (this: HTMLCalciteActionMenuElement, ev: CalciteActionMenuCustomEvent<HTMLCalciteActionMenuElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteActionMenuElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteActionMenuElement,
+        ev: CalciteActionMenuCustomEvent<HTMLCalciteActionMenuElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteActionMenuElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteActionMenuElement,
+        ev: CalciteActionMenuCustomEvent<HTMLCalciteActionMenuElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteActionMenuElement: {
     prototype: HTMLCalciteActionMenuElement;
     new (): HTMLCalciteActionMenuElement;
   };
   interface HTMLCalciteActionPadElementEventMap {
-    "calciteActionPadToggle": void;
+    calciteActionPadToggle: void;
   }
   interface HTMLCalciteActionPadElement extends Components.CalciteActionPad, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteActionPadElementEventMap>(type: K, listener: (this: HTMLCalciteActionPadElement, ev: CalciteActionPadCustomEvent<HTMLCalciteActionPadElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteActionPadElementEventMap>(type: K, listener: (this: HTMLCalciteActionPadElement, ev: CalciteActionPadCustomEvent<HTMLCalciteActionPadElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteActionPadElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteActionPadElement,
+        ev: CalciteActionPadCustomEvent<HTMLCalciteActionPadElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteActionPadElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteActionPadElement,
+        ev: CalciteActionPadCustomEvent<HTMLCalciteActionPadElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteActionPadElement: {
     prototype: HTMLCalciteActionPadElement;
     new (): HTMLCalciteActionPadElement;
   };
   interface HTMLCalciteAlertElementEventMap {
-    "calciteAlertBeforeClose": void;
-    "calciteAlertClose": void;
-    "calciteAlertBeforeOpen": void;
-    "calciteAlertOpen": void;
-    "calciteInternalAlertSync": Sync;
-    "calciteInternalAlertRegister": void;
+    calciteAlertBeforeClose: void;
+    calciteAlertClose: void;
+    calciteAlertBeforeOpen: void;
+    calciteAlertOpen: void;
+    calciteInternalAlertSync: Sync;
+    calciteInternalAlertRegister: void;
   }
   interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteAlertElementEventMap>(type: K, listener: (this: HTMLCalciteAlertElement, ev: CalciteAlertCustomEvent<HTMLCalciteAlertElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteAlertElementEventMap>(type: K, listener: (this: HTMLCalciteAlertElement, ev: CalciteAlertCustomEvent<HTMLCalciteAlertElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteAlertElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteAlertElement, ev: CalciteAlertCustomEvent<HTMLCalciteAlertElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteAlertElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteAlertElement, ev: CalciteAlertCustomEvent<HTMLCalciteAlertElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteAlertElement: {
     prototype: HTMLCalciteAlertElement;
     new (): HTMLCalciteAlertElement;
   };
-  interface HTMLCalciteAvatarElement extends Components.CalciteAvatar, HTMLStencilElement {
-  }
+  interface HTMLCalciteAvatarElement extends Components.CalciteAvatar, HTMLStencilElement {}
   var HTMLCalciteAvatarElement: {
     prototype: HTMLCalciteAvatarElement;
     new (): HTMLCalciteAvatarElement;
   };
   interface HTMLCalciteBlockElementEventMap {
-    "calciteBlockBeforeClose": void;
-    "calciteBlockBeforeOpen": void;
-    "calciteBlockClose": void;
-    "calciteBlockOpen": void;
-    "calciteBlockToggle": void;
+    calciteBlockBeforeClose: void;
+    calciteBlockBeforeOpen: void;
+    calciteBlockClose: void;
+    calciteBlockOpen: void;
+    calciteBlockToggle: void;
   }
   interface HTMLCalciteBlockElement extends Components.CalciteBlock, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteBlockElementEventMap>(type: K, listener: (this: HTMLCalciteBlockElement, ev: CalciteBlockCustomEvent<HTMLCalciteBlockElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteBlockElementEventMap>(type: K, listener: (this: HTMLCalciteBlockElement, ev: CalciteBlockCustomEvent<HTMLCalciteBlockElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteBlockElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteBlockElement, ev: CalciteBlockCustomEvent<HTMLCalciteBlockElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteBlockElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteBlockElement, ev: CalciteBlockCustomEvent<HTMLCalciteBlockElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteBlockElement: {
     prototype: HTMLCalciteBlockElement;
     new (): HTMLCalciteBlockElement;
   };
   interface HTMLCalciteBlockSectionElementEventMap {
-    "calciteBlockSectionToggle": void;
+    calciteBlockSectionToggle: void;
   }
   interface HTMLCalciteBlockSectionElement extends Components.CalciteBlockSection, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteBlockSectionElementEventMap>(type: K, listener: (this: HTMLCalciteBlockSectionElement, ev: CalciteBlockSectionCustomEvent<HTMLCalciteBlockSectionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteBlockSectionElementEventMap>(type: K, listener: (this: HTMLCalciteBlockSectionElement, ev: CalciteBlockSectionCustomEvent<HTMLCalciteBlockSectionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteBlockSectionElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteBlockSectionElement,
+        ev: CalciteBlockSectionCustomEvent<HTMLCalciteBlockSectionElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteBlockSectionElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteBlockSectionElement,
+        ev: CalciteBlockSectionCustomEvent<HTMLCalciteBlockSectionElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteBlockSectionElement: {
     prototype: HTMLCalciteBlockSectionElement;
     new (): HTMLCalciteBlockSectionElement;
   };
-  interface HTMLCalciteButtonElement extends Components.CalciteButton, HTMLStencilElement {
-  }
+  interface HTMLCalciteButtonElement extends Components.CalciteButton, HTMLStencilElement {}
   var HTMLCalciteButtonElement: {
     prototype: HTMLCalciteButtonElement;
     new (): HTMLCalciteButtonElement;
   };
   interface HTMLCalciteCardElementEventMap {
-    "calciteCardSelect": void;
+    calciteCardSelect: void;
   }
   interface HTMLCalciteCardElement extends Components.CalciteCard, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteCardElementEventMap>(type: K, listener: (this: HTMLCalciteCardElement, ev: CalciteCardCustomEvent<HTMLCalciteCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteCardElementEventMap>(type: K, listener: (this: HTMLCalciteCardElement, ev: CalciteCardCustomEvent<HTMLCalciteCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteCardElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteCardElement, ev: CalciteCardCustomEvent<HTMLCalciteCardElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteCardElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteCardElement, ev: CalciteCardCustomEvent<HTMLCalciteCardElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteCardElement: {
     prototype: HTMLCalciteCardElement;
     new (): HTMLCalciteCardElement;
   };
   interface HTMLCalciteCheckboxElementEventMap {
-    "calciteInternalCheckboxBlur": boolean;
-    "calciteCheckboxChange": void;
-    "calciteInternalCheckboxFocus": boolean;
+    calciteInternalCheckboxBlur: boolean;
+    calciteCheckboxChange: void;
+    calciteInternalCheckboxFocus: boolean;
   }
   interface HTMLCalciteCheckboxElement extends Components.CalciteCheckbox, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteCheckboxElementEventMap>(type: K, listener: (this: HTMLCalciteCheckboxElement, ev: CalciteCheckboxCustomEvent<HTMLCalciteCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteCheckboxElementEventMap>(type: K, listener: (this: HTMLCalciteCheckboxElement, ev: CalciteCheckboxCustomEvent<HTMLCalciteCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteCheckboxElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteCheckboxElement,
+        ev: CalciteCheckboxCustomEvent<HTMLCalciteCheckboxElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteCheckboxElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteCheckboxElement,
+        ev: CalciteCheckboxCustomEvent<HTMLCalciteCheckboxElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteCheckboxElement: {
     prototype: HTMLCalciteCheckboxElement;
     new (): HTMLCalciteCheckboxElement;
   };
   interface HTMLCalciteChipElementEventMap {
-    "calciteChipClose": void;
-    "calciteChipSelect": void;
-    "calciteInternalChipKeyEvent": KeyboardEvent;
+    calciteChipClose: void;
+    calciteChipSelect: void;
+    calciteInternalChipKeyEvent: KeyboardEvent;
   }
   interface HTMLCalciteChipElement extends Components.CalciteChip, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteChipElementEventMap>(type: K, listener: (this: HTMLCalciteChipElement, ev: CalciteChipCustomEvent<HTMLCalciteChipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteChipElementEventMap>(type: K, listener: (this: HTMLCalciteChipElement, ev: CalciteChipCustomEvent<HTMLCalciteChipElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteChipElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteChipElement, ev: CalciteChipCustomEvent<HTMLCalciteChipElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteChipElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteChipElement, ev: CalciteChipCustomEvent<HTMLCalciteChipElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteChipElement: {
     prototype: HTMLCalciteChipElement;
     new (): HTMLCalciteChipElement;
   };
   interface HTMLCalciteChipGroupElementEventMap {
-    "calciteChipGroupSelect": void;
+    calciteChipGroupSelect: void;
   }
   interface HTMLCalciteChipGroupElement extends Components.CalciteChipGroup, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteChipGroupElementEventMap>(type: K, listener: (this: HTMLCalciteChipGroupElement, ev: CalciteChipGroupCustomEvent<HTMLCalciteChipGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteChipGroupElementEventMap>(type: K, listener: (this: HTMLCalciteChipGroupElement, ev: CalciteChipGroupCustomEvent<HTMLCalciteChipGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteChipGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteChipGroupElement,
+        ev: CalciteChipGroupCustomEvent<HTMLCalciteChipGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteChipGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteChipGroupElement,
+        ev: CalciteChipGroupCustomEvent<HTMLCalciteChipGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteChipGroupElement: {
     prototype: HTMLCalciteChipGroupElement;
     new (): HTMLCalciteChipGroupElement;
   };
   interface HTMLCalciteColorPickerElementEventMap {
-    "calciteColorPickerChange": void;
-    "calciteColorPickerInput": void;
+    calciteColorPickerChange: void;
+    calciteColorPickerInput: void;
   }
   interface HTMLCalciteColorPickerElement extends Components.CalciteColorPicker, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteColorPickerElementEventMap>(type: K, listener: (this: HTMLCalciteColorPickerElement, ev: CalciteColorPickerCustomEvent<HTMLCalciteColorPickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteColorPickerElementEventMap>(type: K, listener: (this: HTMLCalciteColorPickerElement, ev: CalciteColorPickerCustomEvent<HTMLCalciteColorPickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteColorPickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteColorPickerElement,
+        ev: CalciteColorPickerCustomEvent<HTMLCalciteColorPickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteColorPickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteColorPickerElement,
+        ev: CalciteColorPickerCustomEvent<HTMLCalciteColorPickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteColorPickerElement: {
     prototype: HTMLCalciteColorPickerElement;
     new (): HTMLCalciteColorPickerElement;
   };
   interface HTMLCalciteColorPickerHexInputElementEventMap {
-    "calciteColorPickerHexInputChange": void;
+    calciteColorPickerHexInputChange: void;
   }
   interface HTMLCalciteColorPickerHexInputElement extends Components.CalciteColorPickerHexInput, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteColorPickerHexInputElementEventMap>(type: K, listener: (this: HTMLCalciteColorPickerHexInputElement, ev: CalciteColorPickerHexInputCustomEvent<HTMLCalciteColorPickerHexInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteColorPickerHexInputElementEventMap>(type: K, listener: (this: HTMLCalciteColorPickerHexInputElement, ev: CalciteColorPickerHexInputCustomEvent<HTMLCalciteColorPickerHexInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteColorPickerHexInputElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteColorPickerHexInputElement,
+        ev: CalciteColorPickerHexInputCustomEvent<HTMLCalciteColorPickerHexInputElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteColorPickerHexInputElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteColorPickerHexInputElement,
+        ev: CalciteColorPickerHexInputCustomEvent<HTMLCalciteColorPickerHexInputElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteColorPickerHexInputElement: {
     prototype: HTMLCalciteColorPickerHexInputElement;
     new (): HTMLCalciteColorPickerHexInputElement;
   };
-  interface HTMLCalciteColorPickerSwatchElement extends Components.CalciteColorPickerSwatch, HTMLStencilElement {
-  }
+  interface HTMLCalciteColorPickerSwatchElement extends Components.CalciteColorPickerSwatch, HTMLStencilElement {}
   var HTMLCalciteColorPickerSwatchElement: {
     prototype: HTMLCalciteColorPickerSwatchElement;
     new (): HTMLCalciteColorPickerSwatchElement;
   };
   interface HTMLCalciteComboboxElementEventMap {
-    "calciteComboboxChange": void;
-    "calciteComboboxFilterChange": void;
-    "calciteComboboxChipClose": void;
-    "calciteComboboxBeforeClose": void;
-    "calciteComboboxClose": void;
-    "calciteComboboxBeforeOpen": void;
-    "calciteComboboxOpen": void;
+    calciteComboboxChange: void;
+    calciteComboboxFilterChange: void;
+    calciteComboboxChipClose: void;
+    calciteComboboxBeforeClose: void;
+    calciteComboboxClose: void;
+    calciteComboboxBeforeOpen: void;
+    calciteComboboxOpen: void;
   }
   interface HTMLCalciteComboboxElement extends Components.CalciteCombobox, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteComboboxElementEventMap>(type: K, listener: (this: HTMLCalciteComboboxElement, ev: CalciteComboboxCustomEvent<HTMLCalciteComboboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteComboboxElementEventMap>(type: K, listener: (this: HTMLCalciteComboboxElement, ev: CalciteComboboxCustomEvent<HTMLCalciteComboboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteComboboxElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteComboboxElement,
+        ev: CalciteComboboxCustomEvent<HTMLCalciteComboboxElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteComboboxElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteComboboxElement,
+        ev: CalciteComboboxCustomEvent<HTMLCalciteComboboxElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteComboboxElement: {
     prototype: HTMLCalciteComboboxElement;
     new (): HTMLCalciteComboboxElement;
   };
   interface HTMLCalciteComboboxItemElementEventMap {
-    "calciteComboboxItemChange": void;
+    calciteComboboxItemChange: void;
   }
   interface HTMLCalciteComboboxItemElement extends Components.CalciteComboboxItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteComboboxItemElementEventMap>(type: K, listener: (this: HTMLCalciteComboboxItemElement, ev: CalciteComboboxItemCustomEvent<HTMLCalciteComboboxItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteComboboxItemElementEventMap>(type: K, listener: (this: HTMLCalciteComboboxItemElement, ev: CalciteComboboxItemCustomEvent<HTMLCalciteComboboxItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteComboboxItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteComboboxItemElement,
+        ev: CalciteComboboxItemCustomEvent<HTMLCalciteComboboxItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteComboboxItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteComboboxItemElement,
+        ev: CalciteComboboxItemCustomEvent<HTMLCalciteComboboxItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteComboboxItemElement: {
     prototype: HTMLCalciteComboboxItemElement;
     new (): HTMLCalciteComboboxItemElement;
   };
-  interface HTMLCalciteComboboxItemGroupElement extends Components.CalciteComboboxItemGroup, HTMLStencilElement {
-  }
+  interface HTMLCalciteComboboxItemGroupElement extends Components.CalciteComboboxItemGroup, HTMLStencilElement {}
   var HTMLCalciteComboboxItemGroupElement: {
     prototype: HTMLCalciteComboboxItemGroupElement;
     new (): HTMLCalciteComboboxItemGroupElement;
   };
   interface HTMLCalciteDatePickerElementEventMap {
-    "calciteDatePickerChange": void;
-    "calciteDatePickerRangeChange": void;
+    calciteDatePickerChange: void;
+    calciteDatePickerRangeChange: void;
   }
   interface HTMLCalciteDatePickerElement extends Components.CalciteDatePicker, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteDatePickerElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerElement, ev: CalciteDatePickerCustomEvent<HTMLCalciteDatePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteDatePickerElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerElement, ev: CalciteDatePickerCustomEvent<HTMLCalciteDatePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteDatePickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDatePickerElement,
+        ev: CalciteDatePickerCustomEvent<HTMLCalciteDatePickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteDatePickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDatePickerElement,
+        ev: CalciteDatePickerCustomEvent<HTMLCalciteDatePickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteDatePickerElement: {
     prototype: HTMLCalciteDatePickerElement;
     new (): HTMLCalciteDatePickerElement;
   };
   interface HTMLCalciteDatePickerDayElementEventMap {
-    "calciteDaySelect": void;
-    "calciteInternalDayHover": void;
+    calciteDaySelect: void;
+    calciteInternalDayHover: void;
   }
   interface HTMLCalciteDatePickerDayElement extends Components.CalciteDatePickerDay, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteDatePickerDayElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerDayElement, ev: CalciteDatePickerDayCustomEvent<HTMLCalciteDatePickerDayElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteDatePickerDayElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerDayElement, ev: CalciteDatePickerDayCustomEvent<HTMLCalciteDatePickerDayElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteDatePickerDayElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDatePickerDayElement,
+        ev: CalciteDatePickerDayCustomEvent<HTMLCalciteDatePickerDayElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteDatePickerDayElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDatePickerDayElement,
+        ev: CalciteDatePickerDayCustomEvent<HTMLCalciteDatePickerDayElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteDatePickerDayElement: {
     prototype: HTMLCalciteDatePickerDayElement;
     new (): HTMLCalciteDatePickerDayElement;
   };
   interface HTMLCalciteDatePickerMonthElementEventMap {
-    "calciteInternalDatePickerSelect": Date;
-    "calciteInternalDatePickerHover": Date;
-    "calciteInternalDatePickerActiveDateChange": Date;
-    "calciteInternalDatePickerMouseOut": void;
+    calciteInternalDatePickerSelect: Date;
+    calciteInternalDatePickerHover: Date;
+    calciteInternalDatePickerActiveDateChange: Date;
+    calciteInternalDatePickerMouseOut: void;
   }
   interface HTMLCalciteDatePickerMonthElement extends Components.CalciteDatePickerMonth, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDatePickerMonthElement,
+        ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDatePickerMonthElement,
+        ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteDatePickerMonthElement: {
     prototype: HTMLCalciteDatePickerMonthElement;
     new (): HTMLCalciteDatePickerMonthElement;
   };
   interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
-    "calciteInternalDatePickerSelect": Date;
+    calciteInternalDatePickerSelect: Date;
   }
-  interface HTMLCalciteDatePickerMonthHeaderElement extends Components.CalciteDatePickerMonthHeader, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+  interface HTMLCalciteDatePickerMonthHeaderElement
+    extends Components.CalciteDatePickerMonthHeader,
+      HTMLStencilElement {
+    addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDatePickerMonthHeaderElement,
+        ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDatePickerMonthHeaderElement,
+        ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteDatePickerMonthHeaderElement: {
     prototype: HTMLCalciteDatePickerMonthHeaderElement;
     new (): HTMLCalciteDatePickerMonthHeaderElement;
   };
   interface HTMLCalciteDropdownElementEventMap {
-    "calciteDropdownSelect": void;
-    "calciteDropdownBeforeClose": void;
-    "calciteDropdownClose": void;
-    "calciteDropdownBeforeOpen": void;
-    "calciteDropdownOpen": void;
+    calciteDropdownSelect: void;
+    calciteDropdownBeforeClose: void;
+    calciteDropdownClose: void;
+    calciteDropdownBeforeOpen: void;
+    calciteDropdownOpen: void;
   }
   interface HTMLCalciteDropdownElement extends Components.CalciteDropdown, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteDropdownElementEventMap>(type: K, listener: (this: HTMLCalciteDropdownElement, ev: CalciteDropdownCustomEvent<HTMLCalciteDropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteDropdownElementEventMap>(type: K, listener: (this: HTMLCalciteDropdownElement, ev: CalciteDropdownCustomEvent<HTMLCalciteDropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteDropdownElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDropdownElement,
+        ev: CalciteDropdownCustomEvent<HTMLCalciteDropdownElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteDropdownElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDropdownElement,
+        ev: CalciteDropdownCustomEvent<HTMLCalciteDropdownElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteDropdownElement: {
     prototype: HTMLCalciteDropdownElement;
     new (): HTMLCalciteDropdownElement;
   };
   interface HTMLCalciteDropdownGroupElementEventMap {
-    "calciteInternalDropdownItemChange": RequestedItem2;
+    calciteInternalDropdownItemChange: RequestedItem2;
   }
   interface HTMLCalciteDropdownGroupElement extends Components.CalciteDropdownGroup, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteDropdownGroupElementEventMap>(type: K, listener: (this: HTMLCalciteDropdownGroupElement, ev: CalciteDropdownGroupCustomEvent<HTMLCalciteDropdownGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteDropdownGroupElementEventMap>(type: K, listener: (this: HTMLCalciteDropdownGroupElement, ev: CalciteDropdownGroupCustomEvent<HTMLCalciteDropdownGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteDropdownGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDropdownGroupElement,
+        ev: CalciteDropdownGroupCustomEvent<HTMLCalciteDropdownGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteDropdownGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDropdownGroupElement,
+        ev: CalciteDropdownGroupCustomEvent<HTMLCalciteDropdownGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteDropdownGroupElement: {
     prototype: HTMLCalciteDropdownGroupElement;
     new (): HTMLCalciteDropdownGroupElement;
   };
   interface HTMLCalciteDropdownItemElementEventMap {
-    "calciteDropdownItemSelect": void;
-    "calciteInternalDropdownItemSelect": RequestedItem2;
-    "calciteInternalDropdownItemKeyEvent": ItemKeyboardEvent;
-    "calciteInternalDropdownCloseRequest": void;
+    calciteDropdownItemSelect: void;
+    calciteInternalDropdownItemSelect: RequestedItem2;
+    calciteInternalDropdownItemKeyEvent: ItemKeyboardEvent;
+    calciteInternalDropdownCloseRequest: void;
   }
   interface HTMLCalciteDropdownItemElement extends Components.CalciteDropdownItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteDropdownItemElementEventMap>(type: K, listener: (this: HTMLCalciteDropdownItemElement, ev: CalciteDropdownItemCustomEvent<HTMLCalciteDropdownItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteDropdownItemElementEventMap>(type: K, listener: (this: HTMLCalciteDropdownItemElement, ev: CalciteDropdownItemCustomEvent<HTMLCalciteDropdownItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteDropdownItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDropdownItemElement,
+        ev: CalciteDropdownItemCustomEvent<HTMLCalciteDropdownItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteDropdownItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteDropdownItemElement,
+        ev: CalciteDropdownItemCustomEvent<HTMLCalciteDropdownItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteDropdownItemElement: {
     prototype: HTMLCalciteDropdownItemElement;
     new (): HTMLCalciteDropdownItemElement;
   };
-  interface HTMLCalciteFabElement extends Components.CalciteFab, HTMLStencilElement {
-  }
+  interface HTMLCalciteFabElement extends Components.CalciteFab, HTMLStencilElement {}
   var HTMLCalciteFabElement: {
     prototype: HTMLCalciteFabElement;
     new (): HTMLCalciteFabElement;
   };
   interface HTMLCalciteFilterElementEventMap {
-    "calciteFilterChange": void;
+    calciteFilterChange: void;
   }
   interface HTMLCalciteFilterElement extends Components.CalciteFilter, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteFilterElementEventMap>(type: K, listener: (this: HTMLCalciteFilterElement, ev: CalciteFilterCustomEvent<HTMLCalciteFilterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteFilterElementEventMap>(type: K, listener: (this: HTMLCalciteFilterElement, ev: CalciteFilterCustomEvent<HTMLCalciteFilterElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteFilterElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteFilterElement,
+        ev: CalciteFilterCustomEvent<HTMLCalciteFilterElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteFilterElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteFilterElement,
+        ev: CalciteFilterCustomEvent<HTMLCalciteFilterElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteFilterElement: {
     prototype: HTMLCalciteFilterElement;
     new (): HTMLCalciteFilterElement;
   };
-  interface HTMLCalciteFlowElement extends Components.CalciteFlow, HTMLStencilElement {
-  }
+  interface HTMLCalciteFlowElement extends Components.CalciteFlow, HTMLStencilElement {}
   var HTMLCalciteFlowElement: {
     prototype: HTMLCalciteFlowElement;
     new (): HTMLCalciteFlowElement;
   };
   interface HTMLCalciteFlowItemElementEventMap {
-    "calciteFlowItemBack": void;
-    "calciteFlowItemScroll": void;
-    "calciteFlowItemClose": void;
-    "calciteFlowItemToggle": void;
+    calciteFlowItemBack: void;
+    calciteFlowItemScroll: void;
+    calciteFlowItemClose: void;
+    calciteFlowItemToggle: void;
   }
   interface HTMLCalciteFlowItemElement extends Components.CalciteFlowItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteFlowItemElementEventMap>(type: K, listener: (this: HTMLCalciteFlowItemElement, ev: CalciteFlowItemCustomEvent<HTMLCalciteFlowItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteFlowItemElementEventMap>(type: K, listener: (this: HTMLCalciteFlowItemElement, ev: CalciteFlowItemCustomEvent<HTMLCalciteFlowItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteFlowItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteFlowItemElement,
+        ev: CalciteFlowItemCustomEvent<HTMLCalciteFlowItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteFlowItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteFlowItemElement,
+        ev: CalciteFlowItemCustomEvent<HTMLCalciteFlowItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteFlowItemElement: {
     prototype: HTMLCalciteFlowItemElement;
     new (): HTMLCalciteFlowItemElement;
   };
-  interface HTMLCalciteGraphElement extends Components.CalciteGraph, HTMLStencilElement {
-  }
+  interface HTMLCalciteGraphElement extends Components.CalciteGraph, HTMLStencilElement {}
   var HTMLCalciteGraphElement: {
     prototype: HTMLCalciteGraphElement;
     new (): HTMLCalciteGraphElement;
   };
   interface HTMLCalciteHandleElementEventMap {
-    "calciteHandleNudge": HandleNudge;
-    "calciteInternalHandleChange": HandleChange;
+    calciteHandleNudge: HandleNudge;
+    calciteInternalHandleChange: HandleChange;
   }
   interface HTMLCalciteHandleElement extends Components.CalciteHandle, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteHandleElementEventMap>(type: K, listener: (this: HTMLCalciteHandleElement, ev: CalciteHandleCustomEvent<HTMLCalciteHandleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteHandleElementEventMap>(type: K, listener: (this: HTMLCalciteHandleElement, ev: CalciteHandleCustomEvent<HTMLCalciteHandleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteHandleElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteHandleElement,
+        ev: CalciteHandleCustomEvent<HTMLCalciteHandleElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteHandleElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteHandleElement,
+        ev: CalciteHandleCustomEvent<HTMLCalciteHandleElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteHandleElement: {
     prototype: HTMLCalciteHandleElement;
     new (): HTMLCalciteHandleElement;
   };
-  interface HTMLCalciteIconElement extends Components.CalciteIcon, HTMLStencilElement {
-  }
+  interface HTMLCalciteIconElement extends Components.CalciteIcon, HTMLStencilElement {}
   var HTMLCalciteIconElement: {
     prototype: HTMLCalciteIconElement;
     new (): HTMLCalciteIconElement;
   };
   interface HTMLCalciteInlineEditableElementEventMap {
-    "calciteInlineEditableEditCancel": void;
-    "calciteInlineEditableEditConfirm": void;
-    "calciteInternalInlineEditableEnableEditingChange": void;
+    calciteInlineEditableEditCancel: void;
+    calciteInlineEditableEditConfirm: void;
+    calciteInternalInlineEditableEnableEditingChange: void;
   }
   interface HTMLCalciteInlineEditableElement extends Components.CalciteInlineEditable, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteInlineEditableElementEventMap>(type: K, listener: (this: HTMLCalciteInlineEditableElement, ev: CalciteInlineEditableCustomEvent<HTMLCalciteInlineEditableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteInlineEditableElementEventMap>(type: K, listener: (this: HTMLCalciteInlineEditableElement, ev: CalciteInlineEditableCustomEvent<HTMLCalciteInlineEditableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteInlineEditableElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInlineEditableElement,
+        ev: CalciteInlineEditableCustomEvent<HTMLCalciteInlineEditableElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteInlineEditableElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInlineEditableElement,
+        ev: CalciteInlineEditableCustomEvent<HTMLCalciteInlineEditableElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteInlineEditableElement: {
     prototype: HTMLCalciteInlineEditableElement;
     new (): HTMLCalciteInlineEditableElement;
   };
   interface HTMLCalciteInputElementEventMap {
-    "calciteInternalInputFocus": void;
-    "calciteInternalInputBlur": void;
-    "calciteInputInput": void;
-    "calciteInputChange": void;
+    calciteInternalInputFocus: void;
+    calciteInternalInputBlur: void;
+    calciteInputInput: void;
+    calciteInputChange: void;
   }
   interface HTMLCalciteInputElement extends Components.CalciteInput, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteInputElementEventMap>(type: K, listener: (this: HTMLCalciteInputElement, ev: CalciteInputCustomEvent<HTMLCalciteInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteInputElementEventMap>(type: K, listener: (this: HTMLCalciteInputElement, ev: CalciteInputCustomEvent<HTMLCalciteInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteInputElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteInputElement, ev: CalciteInputCustomEvent<HTMLCalciteInputElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteInputElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteInputElement, ev: CalciteInputCustomEvent<HTMLCalciteInputElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteInputElement: {
     prototype: HTMLCalciteInputElement;
     new (): HTMLCalciteInputElement;
   };
   interface HTMLCalciteInputDatePickerElementEventMap {
-    "calciteInputDatePickerChange": void;
-    "calciteInputDatePickerBeforeClose": void;
-    "calciteInputDatePickerClose": void;
-    "calciteInputDatePickerBeforeOpen": void;
-    "calciteInputDatePickerOpen": void;
+    calciteInputDatePickerChange: void;
+    calciteInputDatePickerBeforeClose: void;
+    calciteInputDatePickerClose: void;
+    calciteInputDatePickerBeforeOpen: void;
+    calciteInputDatePickerOpen: void;
   }
   interface HTMLCalciteInputDatePickerElement extends Components.CalciteInputDatePicker, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteInputDatePickerElementEventMap>(type: K, listener: (this: HTMLCalciteInputDatePickerElement, ev: CalciteInputDatePickerCustomEvent<HTMLCalciteInputDatePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteInputDatePickerElementEventMap>(type: K, listener: (this: HTMLCalciteInputDatePickerElement, ev: CalciteInputDatePickerCustomEvent<HTMLCalciteInputDatePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteInputDatePickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputDatePickerElement,
+        ev: CalciteInputDatePickerCustomEvent<HTMLCalciteInputDatePickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteInputDatePickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputDatePickerElement,
+        ev: CalciteInputDatePickerCustomEvent<HTMLCalciteInputDatePickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteInputDatePickerElement: {
     prototype: HTMLCalciteInputDatePickerElement;
     new (): HTMLCalciteInputDatePickerElement;
   };
-  interface HTMLCalciteInputMessageElement extends Components.CalciteInputMessage, HTMLStencilElement {
-  }
+  interface HTMLCalciteInputMessageElement extends Components.CalciteInputMessage, HTMLStencilElement {}
   var HTMLCalciteInputMessageElement: {
     prototype: HTMLCalciteInputMessageElement;
     new (): HTMLCalciteInputMessageElement;
   };
   interface HTMLCalciteInputNumberElementEventMap {
-    "calciteInternalInputNumberFocus": void;
-    "calciteInternalInputNumberBlur": void;
-    "calciteInputNumberInput": void;
-    "calciteInputNumberChange": void;
+    calciteInternalInputNumberFocus: void;
+    calciteInternalInputNumberBlur: void;
+    calciteInputNumberInput: void;
+    calciteInputNumberChange: void;
   }
   interface HTMLCalciteInputNumberElement extends Components.CalciteInputNumber, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteInputNumberElementEventMap>(type: K, listener: (this: HTMLCalciteInputNumberElement, ev: CalciteInputNumberCustomEvent<HTMLCalciteInputNumberElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteInputNumberElementEventMap>(type: K, listener: (this: HTMLCalciteInputNumberElement, ev: CalciteInputNumberCustomEvent<HTMLCalciteInputNumberElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteInputNumberElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputNumberElement,
+        ev: CalciteInputNumberCustomEvent<HTMLCalciteInputNumberElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteInputNumberElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputNumberElement,
+        ev: CalciteInputNumberCustomEvent<HTMLCalciteInputNumberElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteInputNumberElement: {
     prototype: HTMLCalciteInputNumberElement;
     new (): HTMLCalciteInputNumberElement;
   };
   interface HTMLCalciteInputTextElementEventMap {
-    "calciteInternalInputTextFocus": {
+    calciteInternalInputTextFocus: {
       element: HTMLInputElement;
       value: string;
     };
-    "calciteInternalInputTextBlur": { element: HTMLInputElement; value: string };
-    "calciteInputTextInput": void;
-    "calciteInputTextChange": void;
+    calciteInternalInputTextBlur: { element: HTMLInputElement; value: string };
+    calciteInputTextInput: void;
+    calciteInputTextChange: void;
   }
   interface HTMLCalciteInputTextElement extends Components.CalciteInputText, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteInputTextElementEventMap>(type: K, listener: (this: HTMLCalciteInputTextElement, ev: CalciteInputTextCustomEvent<HTMLCalciteInputTextElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteInputTextElementEventMap>(type: K, listener: (this: HTMLCalciteInputTextElement, ev: CalciteInputTextCustomEvent<HTMLCalciteInputTextElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteInputTextElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputTextElement,
+        ev: CalciteInputTextCustomEvent<HTMLCalciteInputTextElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteInputTextElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputTextElement,
+        ev: CalciteInputTextCustomEvent<HTMLCalciteInputTextElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteInputTextElement: {
     prototype: HTMLCalciteInputTextElement;
     new (): HTMLCalciteInputTextElement;
   };
   interface HTMLCalciteInputTimePickerElementEventMap {
-    "calciteInputTimePickerBeforeClose": void;
-    "calciteInputTimePickerBeforeOpen": void;
-    "calciteInputTimePickerChange": void;
-    "calciteInputTimePickerClose": void;
-    "calciteInputTimePickerOpen": void;
+    calciteInputTimePickerBeforeClose: void;
+    calciteInputTimePickerBeforeOpen: void;
+    calciteInputTimePickerChange: void;
+    calciteInputTimePickerClose: void;
+    calciteInputTimePickerOpen: void;
   }
   interface HTMLCalciteInputTimePickerElement extends Components.CalciteInputTimePicker, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteInputTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteInputTimePickerElement, ev: CalciteInputTimePickerCustomEvent<HTMLCalciteInputTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteInputTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteInputTimePickerElement, ev: CalciteInputTimePickerCustomEvent<HTMLCalciteInputTimePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteInputTimePickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputTimePickerElement,
+        ev: CalciteInputTimePickerCustomEvent<HTMLCalciteInputTimePickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteInputTimePickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputTimePickerElement,
+        ev: CalciteInputTimePickerCustomEvent<HTMLCalciteInputTimePickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteInputTimePickerElement: {
     prototype: HTMLCalciteInputTimePickerElement;
     new (): HTMLCalciteInputTimePickerElement;
   };
   interface HTMLCalciteInputTimeZoneElementEventMap {
-    "calciteInputTimeZoneBeforeClose": void;
-    "calciteInputTimeZoneBeforeOpen": void;
-    "calciteInputTimeZoneChange": void;
-    "calciteInputTimeZoneClose": void;
-    "calciteInputTimeZoneOpen": void;
+    calciteInputTimeZoneBeforeClose: void;
+    calciteInputTimeZoneBeforeOpen: void;
+    calciteInputTimeZoneChange: void;
+    calciteInputTimeZoneClose: void;
+    calciteInputTimeZoneOpen: void;
   }
   interface HTMLCalciteInputTimeZoneElement extends Components.CalciteInputTimeZone, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteInputTimeZoneElementEventMap>(type: K, listener: (this: HTMLCalciteInputTimeZoneElement, ev: CalciteInputTimeZoneCustomEvent<HTMLCalciteInputTimeZoneElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteInputTimeZoneElementEventMap>(type: K, listener: (this: HTMLCalciteInputTimeZoneElement, ev: CalciteInputTimeZoneCustomEvent<HTMLCalciteInputTimeZoneElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteInputTimeZoneElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputTimeZoneElement,
+        ev: CalciteInputTimeZoneCustomEvent<HTMLCalciteInputTimeZoneElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteInputTimeZoneElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteInputTimeZoneElement,
+        ev: CalciteInputTimeZoneCustomEvent<HTMLCalciteInputTimeZoneElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteInputTimeZoneElement: {
     prototype: HTMLCalciteInputTimeZoneElement;
     new (): HTMLCalciteInputTimeZoneElement;
   };
   interface HTMLCalciteLabelElementEventMap {
-    "calciteInternalLabelClick": {
+    calciteInternalLabelClick: {
       sourceEvent: MouseEvent;
     };
   }
   interface HTMLCalciteLabelElement extends Components.CalciteLabel, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteLabelElementEventMap>(type: K, listener: (this: HTMLCalciteLabelElement, ev: CalciteLabelCustomEvent<HTMLCalciteLabelElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteLabelElementEventMap>(type: K, listener: (this: HTMLCalciteLabelElement, ev: CalciteLabelCustomEvent<HTMLCalciteLabelElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteLabelElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteLabelElement, ev: CalciteLabelCustomEvent<HTMLCalciteLabelElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteLabelElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteLabelElement, ev: CalciteLabelCustomEvent<HTMLCalciteLabelElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteLabelElement: {
     prototype: HTMLCalciteLabelElement;
     new (): HTMLCalciteLabelElement;
   };
-  interface HTMLCalciteLinkElement extends Components.CalciteLink, HTMLStencilElement {
-  }
+  interface HTMLCalciteLinkElement extends Components.CalciteLink, HTMLStencilElement {}
   var HTMLCalciteLinkElement: {
     prototype: HTMLCalciteLinkElement;
     new (): HTMLCalciteLinkElement;
   };
   interface HTMLCalciteListElementEventMap {
-    "calciteListChange": void;
-    "calciteListFilter": void;
-    "calciteListOrderChange": DragDetail;
-    "calciteInternalListDefaultSlotChange": void;
+    calciteListChange: void;
+    calciteListFilter: void;
+    calciteListOrderChange: DragDetail;
+    calciteInternalListDefaultSlotChange: void;
   }
   /**
    * A general purpose list that enables users to construct list items that conform to Calcite styling.
    */
   interface HTMLCalciteListElement extends Components.CalciteList, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteListElementEventMap>(type: K, listener: (this: HTMLCalciteListElement, ev: CalciteListCustomEvent<HTMLCalciteListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteListElementEventMap>(type: K, listener: (this: HTMLCalciteListElement, ev: CalciteListCustomEvent<HTMLCalciteListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteListElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteListElement, ev: CalciteListCustomEvent<HTMLCalciteListElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteListElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteListElement, ev: CalciteListCustomEvent<HTMLCalciteListElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteListElement: {
     prototype: HTMLCalciteListElement;
     new (): HTMLCalciteListElement;
   };
   interface HTMLCalciteListItemElementEventMap {
-    "calciteListItemSelect": void;
-    "calciteListItemClose": void;
-    "calciteInternalListItemSelect": void;
-    "calciteInternalListItemActive": void;
-    "calciteInternalFocusPreviousItem": void;
-    "calciteInternalListItemChange": void;
+    calciteListItemSelect: void;
+    calciteListItemClose: void;
+    calciteInternalListItemSelect: void;
+    calciteInternalListItemActive: void;
+    calciteInternalFocusPreviousItem: void;
+    calciteInternalListItemChange: void;
   }
   interface HTMLCalciteListItemElement extends Components.CalciteListItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteListItemElementEventMap>(type: K, listener: (this: HTMLCalciteListItemElement, ev: CalciteListItemCustomEvent<HTMLCalciteListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteListItemElementEventMap>(type: K, listener: (this: HTMLCalciteListItemElement, ev: CalciteListItemCustomEvent<HTMLCalciteListItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteListItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteListItemElement,
+        ev: CalciteListItemCustomEvent<HTMLCalciteListItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteListItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteListItemElement,
+        ev: CalciteListItemCustomEvent<HTMLCalciteListItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteListItemElement: {
     prototype: HTMLCalciteListItemElement;
     new (): HTMLCalciteListItemElement;
   };
   interface HTMLCalciteListItemGroupElementEventMap {
-    "calciteInternalListItemGroupDefaultSlotChange": DragEvent;
+    calciteInternalListItemGroupDefaultSlotChange: DragEvent;
   }
   interface HTMLCalciteListItemGroupElement extends Components.CalciteListItemGroup, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteListItemGroupElementEventMap>(type: K, listener: (this: HTMLCalciteListItemGroupElement, ev: CalciteListItemGroupCustomEvent<HTMLCalciteListItemGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteListItemGroupElementEventMap>(type: K, listener: (this: HTMLCalciteListItemGroupElement, ev: CalciteListItemGroupCustomEvent<HTMLCalciteListItemGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteListItemGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteListItemGroupElement,
+        ev: CalciteListItemGroupCustomEvent<HTMLCalciteListItemGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteListItemGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteListItemGroupElement,
+        ev: CalciteListItemGroupCustomEvent<HTMLCalciteListItemGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteListItemGroupElement: {
     prototype: HTMLCalciteListItemGroupElement;
     new (): HTMLCalciteListItemGroupElement;
   };
-  interface HTMLCalciteLoaderElement extends Components.CalciteLoader, HTMLStencilElement {
-  }
+  interface HTMLCalciteLoaderElement extends Components.CalciteLoader, HTMLStencilElement {}
   var HTMLCalciteLoaderElement: {
     prototype: HTMLCalciteLoaderElement;
     new (): HTMLCalciteLoaderElement;
   };
-  interface HTMLCalciteMenuElement extends Components.CalciteMenu, HTMLStencilElement {
-  }
+  interface HTMLCalciteMenuElement extends Components.CalciteMenu, HTMLStencilElement {}
   var HTMLCalciteMenuElement: {
     prototype: HTMLCalciteMenuElement;
     new (): HTMLCalciteMenuElement;
   };
   interface HTMLCalciteMenuItemElementEventMap {
-    "calciteInternalMenuItemKeyEvent": MenuItemCustomEvent;
-    "calciteMenuItemSelect": void;
+    calciteInternalMenuItemKeyEvent: MenuItemCustomEvent;
+    calciteMenuItemSelect: void;
   }
   interface HTMLCalciteMenuItemElement extends Components.CalciteMenuItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteMenuItemElementEventMap>(type: K, listener: (this: HTMLCalciteMenuItemElement, ev: CalciteMenuItemCustomEvent<HTMLCalciteMenuItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteMenuItemElementEventMap>(type: K, listener: (this: HTMLCalciteMenuItemElement, ev: CalciteMenuItemCustomEvent<HTMLCalciteMenuItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteMenuItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteMenuItemElement,
+        ev: CalciteMenuItemCustomEvent<HTMLCalciteMenuItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteMenuItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteMenuItemElement,
+        ev: CalciteMenuItemCustomEvent<HTMLCalciteMenuItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteMenuItemElement: {
     prototype: HTMLCalciteMenuItemElement;
     new (): HTMLCalciteMenuItemElement;
   };
-  interface HTMLCalciteMeterElement extends Components.CalciteMeter, HTMLStencilElement {
-  }
+  interface HTMLCalciteMeterElement extends Components.CalciteMeter, HTMLStencilElement {}
   var HTMLCalciteMeterElement: {
     prototype: HTMLCalciteMeterElement;
     new (): HTMLCalciteMeterElement;
   };
   interface HTMLCalciteModalElementEventMap {
-    "calciteModalBeforeClose": void;
-    "calciteModalClose": void;
-    "calciteModalBeforeOpen": void;
-    "calciteModalOpen": void;
+    calciteModalBeforeClose: void;
+    calciteModalClose: void;
+    calciteModalBeforeOpen: void;
+    calciteModalOpen: void;
   }
   interface HTMLCalciteModalElement extends Components.CalciteModal, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteModalElementEventMap>(type: K, listener: (this: HTMLCalciteModalElement, ev: CalciteModalCustomEvent<HTMLCalciteModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteModalElementEventMap>(type: K, listener: (this: HTMLCalciteModalElement, ev: CalciteModalCustomEvent<HTMLCalciteModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteModalElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteModalElement, ev: CalciteModalCustomEvent<HTMLCalciteModalElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteModalElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteModalElement, ev: CalciteModalCustomEvent<HTMLCalciteModalElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteModalElement: {
     prototype: HTMLCalciteModalElement;
     new (): HTMLCalciteModalElement;
   };
   interface HTMLCalciteNavigationElementEventMap {
-    "calciteNavigationActionSelect": void;
+    calciteNavigationActionSelect: void;
   }
   interface HTMLCalciteNavigationElement extends Components.CalciteNavigation, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteNavigationElementEventMap>(type: K, listener: (this: HTMLCalciteNavigationElement, ev: CalciteNavigationCustomEvent<HTMLCalciteNavigationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteNavigationElementEventMap>(type: K, listener: (this: HTMLCalciteNavigationElement, ev: CalciteNavigationCustomEvent<HTMLCalciteNavigationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteNavigationElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteNavigationElement,
+        ev: CalciteNavigationCustomEvent<HTMLCalciteNavigationElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteNavigationElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteNavigationElement,
+        ev: CalciteNavigationCustomEvent<HTMLCalciteNavigationElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteNavigationElement: {
     prototype: HTMLCalciteNavigationElement;
     new (): HTMLCalciteNavigationElement;
   };
-  interface HTMLCalciteNavigationLogoElement extends Components.CalciteNavigationLogo, HTMLStencilElement {
-  }
+  interface HTMLCalciteNavigationLogoElement extends Components.CalciteNavigationLogo, HTMLStencilElement {}
   var HTMLCalciteNavigationLogoElement: {
     prototype: HTMLCalciteNavigationLogoElement;
     new (): HTMLCalciteNavigationLogoElement;
   };
-  interface HTMLCalciteNavigationUserElement extends Components.CalciteNavigationUser, HTMLStencilElement {
-  }
+  interface HTMLCalciteNavigationUserElement extends Components.CalciteNavigationUser, HTMLStencilElement {}
   var HTMLCalciteNavigationUserElement: {
     prototype: HTMLCalciteNavigationUserElement;
     new (): HTMLCalciteNavigationUserElement;
   };
   interface HTMLCalciteNoticeElementEventMap {
-    "calciteNoticeBeforeClose": void;
-    "calciteNoticeBeforeOpen": void;
-    "calciteNoticeClose": void;
-    "calciteNoticeOpen": void;
+    calciteNoticeBeforeClose: void;
+    calciteNoticeBeforeOpen: void;
+    calciteNoticeClose: void;
+    calciteNoticeOpen: void;
   }
   interface HTMLCalciteNoticeElement extends Components.CalciteNotice, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteNoticeElementEventMap>(type: K, listener: (this: HTMLCalciteNoticeElement, ev: CalciteNoticeCustomEvent<HTMLCalciteNoticeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteNoticeElementEventMap>(type: K, listener: (this: HTMLCalciteNoticeElement, ev: CalciteNoticeCustomEvent<HTMLCalciteNoticeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteNoticeElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteNoticeElement,
+        ev: CalciteNoticeCustomEvent<HTMLCalciteNoticeElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteNoticeElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteNoticeElement,
+        ev: CalciteNoticeCustomEvent<HTMLCalciteNoticeElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteNoticeElement: {
     prototype: HTMLCalciteNoticeElement;
     new (): HTMLCalciteNoticeElement;
   };
   interface HTMLCalciteOptionElementEventMap {
-    "calciteInternalOptionChange": void;
+    calciteInternalOptionChange: void;
   }
   interface HTMLCalciteOptionElement extends Components.CalciteOption, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteOptionElementEventMap>(type: K, listener: (this: HTMLCalciteOptionElement, ev: CalciteOptionCustomEvent<HTMLCalciteOptionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteOptionElementEventMap>(type: K, listener: (this: HTMLCalciteOptionElement, ev: CalciteOptionCustomEvent<HTMLCalciteOptionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteOptionElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteOptionElement,
+        ev: CalciteOptionCustomEvent<HTMLCalciteOptionElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteOptionElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteOptionElement,
+        ev: CalciteOptionCustomEvent<HTMLCalciteOptionElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteOptionElement: {
     prototype: HTMLCalciteOptionElement;
     new (): HTMLCalciteOptionElement;
   };
   interface HTMLCalciteOptionGroupElementEventMap {
-    "calciteInternalOptionGroupChange": void;
+    calciteInternalOptionGroupChange: void;
   }
   interface HTMLCalciteOptionGroupElement extends Components.CalciteOptionGroup, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteOptionGroupElementEventMap>(type: K, listener: (this: HTMLCalciteOptionGroupElement, ev: CalciteOptionGroupCustomEvent<HTMLCalciteOptionGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteOptionGroupElementEventMap>(type: K, listener: (this: HTMLCalciteOptionGroupElement, ev: CalciteOptionGroupCustomEvent<HTMLCalciteOptionGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteOptionGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteOptionGroupElement,
+        ev: CalciteOptionGroupCustomEvent<HTMLCalciteOptionGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteOptionGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteOptionGroupElement,
+        ev: CalciteOptionGroupCustomEvent<HTMLCalciteOptionGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteOptionGroupElement: {
     prototype: HTMLCalciteOptionGroupElement;
     new (): HTMLCalciteOptionGroupElement;
   };
   interface HTMLCalcitePaginationElementEventMap {
-    "calcitePaginationChange": void;
+    calcitePaginationChange: void;
   }
   interface HTMLCalcitePaginationElement extends Components.CalcitePagination, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalcitePaginationElementEventMap>(type: K, listener: (this: HTMLCalcitePaginationElement, ev: CalcitePaginationCustomEvent<HTMLCalcitePaginationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalcitePaginationElementEventMap>(type: K, listener: (this: HTMLCalcitePaginationElement, ev: CalcitePaginationCustomEvent<HTMLCalcitePaginationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalcitePaginationElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalcitePaginationElement,
+        ev: CalcitePaginationCustomEvent<HTMLCalcitePaginationElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalcitePaginationElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalcitePaginationElement,
+        ev: CalcitePaginationCustomEvent<HTMLCalcitePaginationElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalcitePaginationElement: {
     prototype: HTMLCalcitePaginationElement;
     new (): HTMLCalcitePaginationElement;
   };
   interface HTMLCalcitePanelElementEventMap {
-    "calcitePanelClose": void;
-    "calcitePanelToggle": void;
-    "calcitePanelScroll": void;
+    calcitePanelClose: void;
+    calcitePanelToggle: void;
+    calcitePanelScroll: void;
   }
   interface HTMLCalcitePanelElement extends Components.CalcitePanel, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalcitePanelElementEventMap>(type: K, listener: (this: HTMLCalcitePanelElement, ev: CalcitePanelCustomEvent<HTMLCalcitePanelElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalcitePanelElementEventMap>(type: K, listener: (this: HTMLCalcitePanelElement, ev: CalcitePanelCustomEvent<HTMLCalcitePanelElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalcitePanelElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalcitePanelElement, ev: CalcitePanelCustomEvent<HTMLCalcitePanelElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalcitePanelElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalcitePanelElement, ev: CalcitePanelCustomEvent<HTMLCalcitePanelElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalcitePanelElement: {
     prototype: HTMLCalcitePanelElement;
     new (): HTMLCalcitePanelElement;
   };
   interface HTMLCalcitePickListElementEventMap {
-    "calciteListChange": Map<string, HTMLCalcitePickListItemElement>;
-    "calciteListFilter": void;
+    calciteListChange: Map<string, HTMLCalcitePickListItemElement>;
+    calciteListFilter: void;
   }
   /**
    * @deprecated Use the `list` component instead.
    */
   interface HTMLCalcitePickListElement extends Components.CalcitePickList, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(type: K, listener: (this: HTMLCalcitePickListElement, ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(type: K, listener: (this: HTMLCalcitePickListElement, ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalcitePickListElement,
+        ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalcitePickListElement,
+        ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalcitePickListElement: {
     prototype: HTMLCalcitePickListElement;
@@ -6458,22 +8154,21 @@ declare global {
   /**
    * @deprecated Use the `list` component instead.
    */
-  interface HTMLCalcitePickListGroupElement extends Components.CalcitePickListGroup, HTMLStencilElement {
-  }
+  interface HTMLCalcitePickListGroupElement extends Components.CalcitePickListGroup, HTMLStencilElement {}
   var HTMLCalcitePickListGroupElement: {
     prototype: HTMLCalcitePickListGroupElement;
     new (): HTMLCalcitePickListGroupElement;
   };
   interface HTMLCalcitePickListItemElementEventMap {
-    "calciteListItemChange": {
+    calciteListItemChange: {
       item: HTMLCalcitePickListItemElement;
       value: any;
       selected: boolean;
       shiftPressed: boolean;
     };
-    "calciteListItemRemove": void;
-    "calciteInternalListItemPropsChange": void;
-    "calciteInternalListItemValueChange": {
+    calciteListItemRemove: void;
+    calciteInternalListItemPropsChange: void;
+    calciteInternalListItemValueChange: {
       oldValue: any;
       newValue: any;
     };
@@ -6482,628 +8177,1726 @@ declare global {
    * @deprecated Use the `list` component instead.
    */
   interface HTMLCalcitePickListItemElement extends Components.CalcitePickListItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(type: K, listener: (this: HTMLCalcitePickListItemElement, ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(type: K, listener: (this: HTMLCalcitePickListItemElement, ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalcitePickListItemElement,
+        ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalcitePickListItemElement,
+        ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalcitePickListItemElement: {
     prototype: HTMLCalcitePickListItemElement;
     new (): HTMLCalcitePickListItemElement;
   };
   interface HTMLCalcitePopoverElementEventMap {
-    "calcitePopoverBeforeClose": void;
-    "calcitePopoverClose": void;
-    "calcitePopoverBeforeOpen": void;
-    "calcitePopoverOpen": void;
+    calcitePopoverBeforeClose: void;
+    calcitePopoverClose: void;
+    calcitePopoverBeforeOpen: void;
+    calcitePopoverOpen: void;
   }
   interface HTMLCalcitePopoverElement extends Components.CalcitePopover, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalcitePopoverElementEventMap>(type: K, listener: (this: HTMLCalcitePopoverElement, ev: CalcitePopoverCustomEvent<HTMLCalcitePopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalcitePopoverElementEventMap>(type: K, listener: (this: HTMLCalcitePopoverElement, ev: CalcitePopoverCustomEvent<HTMLCalcitePopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalcitePopoverElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalcitePopoverElement,
+        ev: CalcitePopoverCustomEvent<HTMLCalcitePopoverElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalcitePopoverElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalcitePopoverElement,
+        ev: CalcitePopoverCustomEvent<HTMLCalcitePopoverElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalcitePopoverElement: {
     prototype: HTMLCalcitePopoverElement;
     new (): HTMLCalcitePopoverElement;
   };
-  interface HTMLCalciteProgressElement extends Components.CalciteProgress, HTMLStencilElement {
-  }
+  interface HTMLCalciteProgressElement extends Components.CalciteProgress, HTMLStencilElement {}
   var HTMLCalciteProgressElement: {
     prototype: HTMLCalciteProgressElement;
     new (): HTMLCalciteProgressElement;
   };
   interface HTMLCalciteRadioButtonElementEventMap {
-    "calciteInternalRadioButtonBlur": void;
-    "calciteRadioButtonChange": void;
-    "calciteInternalRadioButtonCheckedChange": void;
-    "calciteInternalRadioButtonFocus": void;
+    calciteInternalRadioButtonBlur: void;
+    calciteRadioButtonChange: void;
+    calciteInternalRadioButtonCheckedChange: void;
+    calciteInternalRadioButtonFocus: void;
   }
   interface HTMLCalciteRadioButtonElement extends Components.CalciteRadioButton, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteRadioButtonElementEventMap>(type: K, listener: (this: HTMLCalciteRadioButtonElement, ev: CalciteRadioButtonCustomEvent<HTMLCalciteRadioButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteRadioButtonElementEventMap>(type: K, listener: (this: HTMLCalciteRadioButtonElement, ev: CalciteRadioButtonCustomEvent<HTMLCalciteRadioButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteRadioButtonElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteRadioButtonElement,
+        ev: CalciteRadioButtonCustomEvent<HTMLCalciteRadioButtonElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteRadioButtonElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteRadioButtonElement,
+        ev: CalciteRadioButtonCustomEvent<HTMLCalciteRadioButtonElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteRadioButtonElement: {
     prototype: HTMLCalciteRadioButtonElement;
     new (): HTMLCalciteRadioButtonElement;
   };
   interface HTMLCalciteRadioButtonGroupElementEventMap {
-    "calciteRadioButtonGroupChange": void;
+    calciteRadioButtonGroupChange: void;
   }
   interface HTMLCalciteRadioButtonGroupElement extends Components.CalciteRadioButtonGroup, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteRadioButtonGroupElementEventMap>(type: K, listener: (this: HTMLCalciteRadioButtonGroupElement, ev: CalciteRadioButtonGroupCustomEvent<HTMLCalciteRadioButtonGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteRadioButtonGroupElementEventMap>(type: K, listener: (this: HTMLCalciteRadioButtonGroupElement, ev: CalciteRadioButtonGroupCustomEvent<HTMLCalciteRadioButtonGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteRadioButtonGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteRadioButtonGroupElement,
+        ev: CalciteRadioButtonGroupCustomEvent<HTMLCalciteRadioButtonGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteRadioButtonGroupElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteRadioButtonGroupElement,
+        ev: CalciteRadioButtonGroupCustomEvent<HTMLCalciteRadioButtonGroupElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteRadioButtonGroupElement: {
     prototype: HTMLCalciteRadioButtonGroupElement;
     new (): HTMLCalciteRadioButtonGroupElement;
   };
   interface HTMLCalciteRatingElementEventMap {
-    "calciteRatingChange": void;
+    calciteRatingChange: void;
   }
   interface HTMLCalciteRatingElement extends Components.CalciteRating, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteRatingElementEventMap>(type: K, listener: (this: HTMLCalciteRatingElement, ev: CalciteRatingCustomEvent<HTMLCalciteRatingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteRatingElementEventMap>(type: K, listener: (this: HTMLCalciteRatingElement, ev: CalciteRatingCustomEvent<HTMLCalciteRatingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteRatingElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteRatingElement,
+        ev: CalciteRatingCustomEvent<HTMLCalciteRatingElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteRatingElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteRatingElement,
+        ev: CalciteRatingCustomEvent<HTMLCalciteRatingElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteRatingElement: {
     prototype: HTMLCalciteRatingElement;
     new (): HTMLCalciteRatingElement;
   };
-  interface HTMLCalciteScrimElement extends Components.CalciteScrim, HTMLStencilElement {
-  }
+  interface HTMLCalciteScrimElement extends Components.CalciteScrim, HTMLStencilElement {}
   var HTMLCalciteScrimElement: {
     prototype: HTMLCalciteScrimElement;
     new (): HTMLCalciteScrimElement;
   };
   interface HTMLCalciteSegmentedControlElementEventMap {
-    "calciteSegmentedControlChange": void;
+    calciteSegmentedControlChange: void;
   }
   interface HTMLCalciteSegmentedControlElement extends Components.CalciteSegmentedControl, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteSegmentedControlElementEventMap>(type: K, listener: (this: HTMLCalciteSegmentedControlElement, ev: CalciteSegmentedControlCustomEvent<HTMLCalciteSegmentedControlElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteSegmentedControlElementEventMap>(type: K, listener: (this: HTMLCalciteSegmentedControlElement, ev: CalciteSegmentedControlCustomEvent<HTMLCalciteSegmentedControlElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteSegmentedControlElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSegmentedControlElement,
+        ev: CalciteSegmentedControlCustomEvent<HTMLCalciteSegmentedControlElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteSegmentedControlElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSegmentedControlElement,
+        ev: CalciteSegmentedControlCustomEvent<HTMLCalciteSegmentedControlElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteSegmentedControlElement: {
     prototype: HTMLCalciteSegmentedControlElement;
     new (): HTMLCalciteSegmentedControlElement;
   };
   interface HTMLCalciteSegmentedControlItemElementEventMap {
-    "calciteInternalSegmentedControlItemChange": void;
+    calciteInternalSegmentedControlItemChange: void;
   }
   interface HTMLCalciteSegmentedControlItemElement extends Components.CalciteSegmentedControlItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteSegmentedControlItemElementEventMap>(type: K, listener: (this: HTMLCalciteSegmentedControlItemElement, ev: CalciteSegmentedControlItemCustomEvent<HTMLCalciteSegmentedControlItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteSegmentedControlItemElementEventMap>(type: K, listener: (this: HTMLCalciteSegmentedControlItemElement, ev: CalciteSegmentedControlItemCustomEvent<HTMLCalciteSegmentedControlItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteSegmentedControlItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSegmentedControlItemElement,
+        ev: CalciteSegmentedControlItemCustomEvent<HTMLCalciteSegmentedControlItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteSegmentedControlItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSegmentedControlItemElement,
+        ev: CalciteSegmentedControlItemCustomEvent<HTMLCalciteSegmentedControlItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteSegmentedControlItemElement: {
     prototype: HTMLCalciteSegmentedControlItemElement;
     new (): HTMLCalciteSegmentedControlItemElement;
   };
   interface HTMLCalciteSelectElementEventMap {
-    "calciteSelectChange": void;
+    calciteSelectChange: void;
   }
   interface HTMLCalciteSelectElement extends Components.CalciteSelect, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteSelectElementEventMap>(type: K, listener: (this: HTMLCalciteSelectElement, ev: CalciteSelectCustomEvent<HTMLCalciteSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteSelectElementEventMap>(type: K, listener: (this: HTMLCalciteSelectElement, ev: CalciteSelectCustomEvent<HTMLCalciteSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteSelectElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSelectElement,
+        ev: CalciteSelectCustomEvent<HTMLCalciteSelectElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteSelectElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSelectElement,
+        ev: CalciteSelectCustomEvent<HTMLCalciteSelectElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteSelectElement: {
     prototype: HTMLCalciteSelectElement;
     new (): HTMLCalciteSelectElement;
   };
   interface HTMLCalciteSheetElementEventMap {
-    "calciteSheetBeforeClose": void;
-    "calciteSheetClose": void;
-    "calciteSheetBeforeOpen": void;
-    "calciteSheetOpen": void;
+    calciteSheetBeforeClose: void;
+    calciteSheetClose: void;
+    calciteSheetBeforeOpen: void;
+    calciteSheetOpen: void;
   }
   interface HTMLCalciteSheetElement extends Components.CalciteSheet, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteSheetElementEventMap>(type: K, listener: (this: HTMLCalciteSheetElement, ev: CalciteSheetCustomEvent<HTMLCalciteSheetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteSheetElementEventMap>(type: K, listener: (this: HTMLCalciteSheetElement, ev: CalciteSheetCustomEvent<HTMLCalciteSheetElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteSheetElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteSheetElement, ev: CalciteSheetCustomEvent<HTMLCalciteSheetElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteSheetElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteSheetElement, ev: CalciteSheetCustomEvent<HTMLCalciteSheetElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteSheetElement: {
     prototype: HTMLCalciteSheetElement;
     new (): HTMLCalciteSheetElement;
   };
-  interface HTMLCalciteShellElement extends Components.CalciteShell, HTMLStencilElement {
-  }
+  interface HTMLCalciteShellElement extends Components.CalciteShell, HTMLStencilElement {}
   var HTMLCalciteShellElement: {
     prototype: HTMLCalciteShellElement;
     new (): HTMLCalciteShellElement;
   };
-  interface HTMLCalciteShellCenterRowElement extends Components.CalciteShellCenterRow, HTMLStencilElement {
-  }
+  interface HTMLCalciteShellCenterRowElement extends Components.CalciteShellCenterRow, HTMLStencilElement {}
   var HTMLCalciteShellCenterRowElement: {
     prototype: HTMLCalciteShellCenterRowElement;
     new (): HTMLCalciteShellCenterRowElement;
   };
-  interface HTMLCalciteShellPanelElement extends Components.CalciteShellPanel, HTMLStencilElement {
-  }
+  interface HTMLCalciteShellPanelElement extends Components.CalciteShellPanel, HTMLStencilElement {}
   var HTMLCalciteShellPanelElement: {
     prototype: HTMLCalciteShellPanelElement;
     new (): HTMLCalciteShellPanelElement;
   };
   interface HTMLCalciteSliderElementEventMap {
-    "calciteSliderInput": void;
-    "calciteSliderChange": void;
+    calciteSliderInput: void;
+    calciteSliderChange: void;
   }
   interface HTMLCalciteSliderElement extends Components.CalciteSlider, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteSliderElementEventMap>(type: K, listener: (this: HTMLCalciteSliderElement, ev: CalciteSliderCustomEvent<HTMLCalciteSliderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteSliderElementEventMap>(type: K, listener: (this: HTMLCalciteSliderElement, ev: CalciteSliderCustomEvent<HTMLCalciteSliderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteSliderElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSliderElement,
+        ev: CalciteSliderCustomEvent<HTMLCalciteSliderElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteSliderElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSliderElement,
+        ev: CalciteSliderCustomEvent<HTMLCalciteSliderElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteSliderElement: {
     prototype: HTMLCalciteSliderElement;
     new (): HTMLCalciteSliderElement;
   };
   interface HTMLCalciteSortableListElementEventMap {
-    "calciteListOrderChange": void;
+    calciteListOrderChange: void;
   }
   interface HTMLCalciteSortableListElement extends Components.CalciteSortableList, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteSortableListElementEventMap>(type: K, listener: (this: HTMLCalciteSortableListElement, ev: CalciteSortableListCustomEvent<HTMLCalciteSortableListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteSortableListElementEventMap>(type: K, listener: (this: HTMLCalciteSortableListElement, ev: CalciteSortableListCustomEvent<HTMLCalciteSortableListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteSortableListElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSortableListElement,
+        ev: CalciteSortableListCustomEvent<HTMLCalciteSortableListElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteSortableListElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSortableListElement,
+        ev: CalciteSortableListCustomEvent<HTMLCalciteSortableListElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteSortableListElement: {
     prototype: HTMLCalciteSortableListElement;
     new (): HTMLCalciteSortableListElement;
   };
   interface HTMLCalciteSplitButtonElementEventMap {
-    "calciteSplitButtonPrimaryClick": void;
-    "calciteSplitButtonSecondaryClick": void;
+    calciteSplitButtonPrimaryClick: void;
+    calciteSplitButtonSecondaryClick: void;
   }
   interface HTMLCalciteSplitButtonElement extends Components.CalciteSplitButton, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteSplitButtonElementEventMap>(type: K, listener: (this: HTMLCalciteSplitButtonElement, ev: CalciteSplitButtonCustomEvent<HTMLCalciteSplitButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteSplitButtonElementEventMap>(type: K, listener: (this: HTMLCalciteSplitButtonElement, ev: CalciteSplitButtonCustomEvent<HTMLCalciteSplitButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteSplitButtonElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSplitButtonElement,
+        ev: CalciteSplitButtonCustomEvent<HTMLCalciteSplitButtonElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteSplitButtonElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSplitButtonElement,
+        ev: CalciteSplitButtonCustomEvent<HTMLCalciteSplitButtonElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteSplitButtonElement: {
     prototype: HTMLCalciteSplitButtonElement;
     new (): HTMLCalciteSplitButtonElement;
   };
-  interface HTMLCalciteStackElement extends Components.CalciteStack, HTMLStencilElement {
-  }
+  interface HTMLCalciteStackElement extends Components.CalciteStack, HTMLStencilElement {}
   var HTMLCalciteStackElement: {
     prototype: HTMLCalciteStackElement;
     new (): HTMLCalciteStackElement;
   };
   interface HTMLCalciteStepperElementEventMap {
-    "calciteStepperItemChange": void;
-    "calciteInternalStepperItemChange": StepperItemChangeEventDetail;
+    calciteStepperItemChange: void;
+    calciteInternalStepperItemChange: StepperItemChangeEventDetail;
   }
   interface HTMLCalciteStepperElement extends Components.CalciteStepper, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteStepperElementEventMap>(type: K, listener: (this: HTMLCalciteStepperElement, ev: CalciteStepperCustomEvent<HTMLCalciteStepperElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteStepperElementEventMap>(type: K, listener: (this: HTMLCalciteStepperElement, ev: CalciteStepperCustomEvent<HTMLCalciteStepperElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteStepperElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteStepperElement,
+        ev: CalciteStepperCustomEvent<HTMLCalciteStepperElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteStepperElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteStepperElement,
+        ev: CalciteStepperCustomEvent<HTMLCalciteStepperElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteStepperElement: {
     prototype: HTMLCalciteStepperElement;
     new (): HTMLCalciteStepperElement;
   };
   interface HTMLCalciteStepperItemElementEventMap {
-    "calciteInternalStepperItemKeyEvent": StepperItemKeyEventDetail;
-    "calciteInternalStepperItemSelect": StepperItemEventDetail;
-    "calciteInternalUserRequestedStepperItemSelect": StepperItemChangeEventDetail;
-    "calciteInternalStepperItemRegister": StepperItemEventDetail;
+    calciteInternalStepperItemKeyEvent: StepperItemKeyEventDetail;
+    calciteInternalStepperItemSelect: StepperItemEventDetail;
+    calciteInternalUserRequestedStepperItemSelect: StepperItemChangeEventDetail;
+    calciteInternalStepperItemRegister: StepperItemEventDetail;
   }
   interface HTMLCalciteStepperItemElement extends Components.CalciteStepperItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteStepperItemElementEventMap>(type: K, listener: (this: HTMLCalciteStepperItemElement, ev: CalciteStepperItemCustomEvent<HTMLCalciteStepperItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteStepperItemElementEventMap>(type: K, listener: (this: HTMLCalciteStepperItemElement, ev: CalciteStepperItemCustomEvent<HTMLCalciteStepperItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteStepperItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteStepperItemElement,
+        ev: CalciteStepperItemCustomEvent<HTMLCalciteStepperItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteStepperItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteStepperItemElement,
+        ev: CalciteStepperItemCustomEvent<HTMLCalciteStepperItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteStepperItemElement: {
     prototype: HTMLCalciteStepperItemElement;
     new (): HTMLCalciteStepperItemElement;
   };
   interface HTMLCalciteSwitchElementEventMap {
-    "calciteSwitchChange": void;
+    calciteSwitchChange: void;
   }
   interface HTMLCalciteSwitchElement extends Components.CalciteSwitch, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteSwitchElementEventMap>(type: K, listener: (this: HTMLCalciteSwitchElement, ev: CalciteSwitchCustomEvent<HTMLCalciteSwitchElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteSwitchElementEventMap>(type: K, listener: (this: HTMLCalciteSwitchElement, ev: CalciteSwitchCustomEvent<HTMLCalciteSwitchElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteSwitchElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSwitchElement,
+        ev: CalciteSwitchCustomEvent<HTMLCalciteSwitchElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteSwitchElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteSwitchElement,
+        ev: CalciteSwitchCustomEvent<HTMLCalciteSwitchElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteSwitchElement: {
     prototype: HTMLCalciteSwitchElement;
     new (): HTMLCalciteSwitchElement;
   };
   interface HTMLCalciteTabElementEventMap {
-    "calciteInternalTabRegister": void;
+    calciteInternalTabRegister: void;
   }
   interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTabElementEventMap>(type: K, listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTabElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTabElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteTabElement, ev: CalciteTabCustomEvent<HTMLCalciteTabElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTabElement: {
     prototype: HTMLCalciteTabElement;
     new (): HTMLCalciteTabElement;
   };
   interface HTMLCalciteTabNavElementEventMap {
-    "calciteTabChange": void;
-    "calciteInternalTabChange": TabChangeEventDetail;
+    calciteTabChange: void;
+    calciteInternalTabChange: TabChangeEventDetail;
   }
   interface HTMLCalciteTabNavElement extends Components.CalciteTabNav, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTabNavElementEventMap>(type: K, listener: (this: HTMLCalciteTabNavElement, ev: CalciteTabNavCustomEvent<HTMLCalciteTabNavElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTabNavElementEventMap>(type: K, listener: (this: HTMLCalciteTabNavElement, ev: CalciteTabNavCustomEvent<HTMLCalciteTabNavElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTabNavElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTabNavElement,
+        ev: CalciteTabNavCustomEvent<HTMLCalciteTabNavElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTabNavElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTabNavElement,
+        ev: CalciteTabNavCustomEvent<HTMLCalciteTabNavElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTabNavElement: {
     prototype: HTMLCalciteTabNavElement;
     new (): HTMLCalciteTabNavElement;
   };
   interface HTMLCalciteTabTitleElementEventMap {
-    "calciteTabsActivate": void;
-    "calciteInternalTabsActivate": TabChangeEventDetail;
-    "calciteTabsClose": void;
-    "calciteInternalTabsClose": TabCloseEventDetail;
-    "calciteInternalTabsFocusNext": void;
-    "calciteInternalTabsFocusPrevious": void;
-    "calciteInternalTabsFocusFirst": void;
-    "calciteInternalTabsFocusLast": void;
-    "calciteInternalTabTitleRegister": TabID;
-    "calciteInternalTabIconChanged": void;
+    calciteTabsActivate: void;
+    calciteInternalTabsActivate: TabChangeEventDetail;
+    calciteTabsClose: void;
+    calciteInternalTabsClose: TabCloseEventDetail;
+    calciteInternalTabsFocusNext: void;
+    calciteInternalTabsFocusPrevious: void;
+    calciteInternalTabsFocusFirst: void;
+    calciteInternalTabsFocusLast: void;
+    calciteInternalTabTitleRegister: TabID;
+    calciteInternalTabIconChanged: void;
   }
   interface HTMLCalciteTabTitleElement extends Components.CalciteTabTitle, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTabTitleElementEventMap>(type: K, listener: (this: HTMLCalciteTabTitleElement, ev: CalciteTabTitleCustomEvent<HTMLCalciteTabTitleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTabTitleElementEventMap>(type: K, listener: (this: HTMLCalciteTabTitleElement, ev: CalciteTabTitleCustomEvent<HTMLCalciteTabTitleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTabTitleElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTabTitleElement,
+        ev: CalciteTabTitleCustomEvent<HTMLCalciteTabTitleElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTabTitleElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTabTitleElement,
+        ev: CalciteTabTitleCustomEvent<HTMLCalciteTabTitleElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTabTitleElement: {
     prototype: HTMLCalciteTabTitleElement;
     new (): HTMLCalciteTabTitleElement;
   };
   interface HTMLCalciteTableElementEventMap {
-    "calciteTableSelect": void;
-    "calciteTablePageChange": void;
-    "calciteInternalTableRowFocusChange": TableRowFocusEvent;
+    calciteTableSelect: void;
+    calciteTablePageChange: void;
+    calciteInternalTableRowFocusChange: TableRowFocusEvent;
   }
   interface HTMLCalciteTableElement extends Components.CalciteTable, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTableElementEventMap>(type: K, listener: (this: HTMLCalciteTableElement, ev: CalciteTableCustomEvent<HTMLCalciteTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTableElementEventMap>(type: K, listener: (this: HTMLCalciteTableElement, ev: CalciteTableCustomEvent<HTMLCalciteTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTableElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteTableElement, ev: CalciteTableCustomEvent<HTMLCalciteTableElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTableElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteTableElement, ev: CalciteTableCustomEvent<HTMLCalciteTableElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTableElement: {
     prototype: HTMLCalciteTableElement;
     new (): HTMLCalciteTableElement;
   };
-  interface HTMLCalciteTableCellElement extends Components.CalciteTableCell, HTMLStencilElement {
-  }
+  interface HTMLCalciteTableCellElement extends Components.CalciteTableCell, HTMLStencilElement {}
   var HTMLCalciteTableCellElement: {
     prototype: HTMLCalciteTableCellElement;
     new (): HTMLCalciteTableCellElement;
   };
-  interface HTMLCalciteTableHeaderElement extends Components.CalciteTableHeader, HTMLStencilElement {
-  }
+  interface HTMLCalciteTableHeaderElement extends Components.CalciteTableHeader, HTMLStencilElement {}
   var HTMLCalciteTableHeaderElement: {
     prototype: HTMLCalciteTableHeaderElement;
     new (): HTMLCalciteTableHeaderElement;
   };
   interface HTMLCalciteTableRowElementEventMap {
-    "calciteTableRowSelect": void;
-    "calciteInternalTableRowFocusRequest": TableRowFocusEvent;
+    calciteTableRowSelect: void;
+    calciteInternalTableRowFocusRequest: TableRowFocusEvent;
   }
   interface HTMLCalciteTableRowElement extends Components.CalciteTableRow, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTableRowElementEventMap>(type: K, listener: (this: HTMLCalciteTableRowElement, ev: CalciteTableRowCustomEvent<HTMLCalciteTableRowElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTableRowElementEventMap>(type: K, listener: (this: HTMLCalciteTableRowElement, ev: CalciteTableRowCustomEvent<HTMLCalciteTableRowElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTableRowElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTableRowElement,
+        ev: CalciteTableRowCustomEvent<HTMLCalciteTableRowElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTableRowElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTableRowElement,
+        ev: CalciteTableRowCustomEvent<HTMLCalciteTableRowElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTableRowElement: {
     prototype: HTMLCalciteTableRowElement;
     new (): HTMLCalciteTableRowElement;
   };
-  interface HTMLCalciteTabsElement extends Components.CalciteTabs, HTMLStencilElement {
-  }
+  interface HTMLCalciteTabsElement extends Components.CalciteTabs, HTMLStencilElement {}
   var HTMLCalciteTabsElement: {
     prototype: HTMLCalciteTabsElement;
     new (): HTMLCalciteTabsElement;
   };
   interface HTMLCalciteTextAreaElementEventMap {
-    "calciteTextAreaInput": void;
-    "calciteTextAreaChange": void;
+    calciteTextAreaInput: void;
+    calciteTextAreaChange: void;
   }
   interface HTMLCalciteTextAreaElement extends Components.CalciteTextArea, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTextAreaElementEventMap>(type: K, listener: (this: HTMLCalciteTextAreaElement, ev: CalciteTextAreaCustomEvent<HTMLCalciteTextAreaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTextAreaElementEventMap>(type: K, listener: (this: HTMLCalciteTextAreaElement, ev: CalciteTextAreaCustomEvent<HTMLCalciteTextAreaElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTextAreaElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTextAreaElement,
+        ev: CalciteTextAreaCustomEvent<HTMLCalciteTextAreaElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTextAreaElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTextAreaElement,
+        ev: CalciteTextAreaCustomEvent<HTMLCalciteTextAreaElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTextAreaElement: {
     prototype: HTMLCalciteTextAreaElement;
     new (): HTMLCalciteTextAreaElement;
   };
-  interface HTMLCalciteTileElement extends Components.CalciteTile, HTMLStencilElement {
-  }
+  interface HTMLCalciteTileElement extends Components.CalciteTile, HTMLStencilElement {}
   var HTMLCalciteTileElement: {
     prototype: HTMLCalciteTileElement;
     new (): HTMLCalciteTileElement;
   };
   interface HTMLCalciteTileSelectElementEventMap {
-    "calciteTileSelectChange": void;
+    calciteTileSelectChange: void;
   }
   interface HTMLCalciteTileSelectElement extends Components.CalciteTileSelect, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTileSelectElementEventMap>(type: K, listener: (this: HTMLCalciteTileSelectElement, ev: CalciteTileSelectCustomEvent<HTMLCalciteTileSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTileSelectElementEventMap>(type: K, listener: (this: HTMLCalciteTileSelectElement, ev: CalciteTileSelectCustomEvent<HTMLCalciteTileSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTileSelectElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTileSelectElement,
+        ev: CalciteTileSelectCustomEvent<HTMLCalciteTileSelectElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTileSelectElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTileSelectElement,
+        ev: CalciteTileSelectCustomEvent<HTMLCalciteTileSelectElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTileSelectElement: {
     prototype: HTMLCalciteTileSelectElement;
     new (): HTMLCalciteTileSelectElement;
   };
-  interface HTMLCalciteTileSelectGroupElement extends Components.CalciteTileSelectGroup, HTMLStencilElement {
-  }
+  interface HTMLCalciteTileSelectGroupElement extends Components.CalciteTileSelectGroup, HTMLStencilElement {}
   var HTMLCalciteTileSelectGroupElement: {
     prototype: HTMLCalciteTileSelectGroupElement;
     new (): HTMLCalciteTileSelectGroupElement;
   };
   interface HTMLCalciteTimePickerElementEventMap {
-    "calciteInternalTimePickerBlur": void;
-    "calciteInternalTimePickerChange": string;
-    "calciteInternalTimePickerFocus": void;
+    calciteInternalTimePickerBlur: void;
+    calciteInternalTimePickerChange: string;
+    calciteInternalTimePickerFocus: void;
   }
   interface HTMLCalciteTimePickerElement extends Components.CalciteTimePicker, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(type: K, listener: (this: HTMLCalciteTimePickerElement, ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTimePickerElement,
+        ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTimePickerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTimePickerElement,
+        ev: CalciteTimePickerCustomEvent<HTMLCalciteTimePickerElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTimePickerElement: {
     prototype: HTMLCalciteTimePickerElement;
     new (): HTMLCalciteTimePickerElement;
   };
   interface HTMLCalciteTipElementEventMap {
-    "calciteTipDismiss": void;
+    calciteTipDismiss: void;
   }
   interface HTMLCalciteTipElement extends Components.CalciteTip, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTipElementEventMap>(type: K, listener: (this: HTMLCalciteTipElement, ev: CalciteTipCustomEvent<HTMLCalciteTipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTipElementEventMap>(type: K, listener: (this: HTMLCalciteTipElement, ev: CalciteTipCustomEvent<HTMLCalciteTipElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTipElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteTipElement, ev: CalciteTipCustomEvent<HTMLCalciteTipElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTipElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteTipElement, ev: CalciteTipCustomEvent<HTMLCalciteTipElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTipElement: {
     prototype: HTMLCalciteTipElement;
     new (): HTMLCalciteTipElement;
   };
-  interface HTMLCalciteTipGroupElement extends Components.CalciteTipGroup, HTMLStencilElement {
-  }
+  interface HTMLCalciteTipGroupElement extends Components.CalciteTipGroup, HTMLStencilElement {}
   var HTMLCalciteTipGroupElement: {
     prototype: HTMLCalciteTipGroupElement;
     new (): HTMLCalciteTipGroupElement;
   };
   interface HTMLCalciteTipManagerElementEventMap {
-    "calciteTipManagerClose": void;
+    calciteTipManagerClose: void;
   }
   interface HTMLCalciteTipManagerElement extends Components.CalciteTipManager, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTipManagerElementEventMap>(type: K, listener: (this: HTMLCalciteTipManagerElement, ev: CalciteTipManagerCustomEvent<HTMLCalciteTipManagerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTipManagerElementEventMap>(type: K, listener: (this: HTMLCalciteTipManagerElement, ev: CalciteTipManagerCustomEvent<HTMLCalciteTipManagerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTipManagerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTipManagerElement,
+        ev: CalciteTipManagerCustomEvent<HTMLCalciteTipManagerElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTipManagerElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTipManagerElement,
+        ev: CalciteTipManagerCustomEvent<HTMLCalciteTipManagerElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTipManagerElement: {
     prototype: HTMLCalciteTipManagerElement;
     new (): HTMLCalciteTipManagerElement;
   };
   interface HTMLCalciteTooltipElementEventMap {
-    "calciteTooltipBeforeClose": void;
-    "calciteTooltipClose": void;
-    "calciteTooltipBeforeOpen": void;
-    "calciteTooltipOpen": void;
+    calciteTooltipBeforeClose: void;
+    calciteTooltipClose: void;
+    calciteTooltipBeforeOpen: void;
+    calciteTooltipOpen: void;
   }
   interface HTMLCalciteTooltipElement extends Components.CalciteTooltip, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTooltipElementEventMap>(type: K, listener: (this: HTMLCalciteTooltipElement, ev: CalciteTooltipCustomEvent<HTMLCalciteTooltipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTooltipElementEventMap>(type: K, listener: (this: HTMLCalciteTooltipElement, ev: CalciteTooltipCustomEvent<HTMLCalciteTooltipElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTooltipElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTooltipElement,
+        ev: CalciteTooltipCustomEvent<HTMLCalciteTooltipElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTooltipElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTooltipElement,
+        ev: CalciteTooltipCustomEvent<HTMLCalciteTooltipElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTooltipElement: {
     prototype: HTMLCalciteTooltipElement;
     new (): HTMLCalciteTooltipElement;
   };
   interface HTMLCalciteTreeElementEventMap {
-    "calciteTreeSelect": void;
+    calciteTreeSelect: void;
   }
   interface HTMLCalciteTreeElement extends Components.CalciteTree, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTreeElementEventMap>(type: K, listener: (this: HTMLCalciteTreeElement, ev: CalciteTreeCustomEvent<HTMLCalciteTreeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTreeElementEventMap>(type: K, listener: (this: HTMLCalciteTreeElement, ev: CalciteTreeCustomEvent<HTMLCalciteTreeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTreeElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteTreeElement, ev: CalciteTreeCustomEvent<HTMLCalciteTreeElementEventMap[K]>) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTreeElementEventMap>(
+      type: K,
+      listener: (this: HTMLCalciteTreeElement, ev: CalciteTreeCustomEvent<HTMLCalciteTreeElementEventMap[K]>) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTreeElement: {
     prototype: HTMLCalciteTreeElement;
     new (): HTMLCalciteTreeElement;
   };
   interface HTMLCalciteTreeItemElementEventMap {
-    "calciteInternalTreeItemSelect": TreeItemSelectDetail;
+    calciteInternalTreeItemSelect: TreeItemSelectDetail;
   }
   interface HTMLCalciteTreeItemElement extends Components.CalciteTreeItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteTreeItemElementEventMap>(type: K, listener: (this: HTMLCalciteTreeItemElement, ev: CalciteTreeItemCustomEvent<HTMLCalciteTreeItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteTreeItemElementEventMap>(type: K, listener: (this: HTMLCalciteTreeItemElement, ev: CalciteTreeItemCustomEvent<HTMLCalciteTreeItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteTreeItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTreeItemElement,
+        ev: CalciteTreeItemCustomEvent<HTMLCalciteTreeItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteTreeItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteTreeItemElement,
+        ev: CalciteTreeItemCustomEvent<HTMLCalciteTreeItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteTreeItemElement: {
     prototype: HTMLCalciteTreeItemElement;
     new (): HTMLCalciteTreeItemElement;
   };
   interface HTMLCalciteValueListElementEventMap {
-    "calciteListChange": Map<string, HTMLCalciteValueListItemElement>;
-    "calciteListOrderChange": any[];
-    "calciteListFilter": void;
+    calciteListChange: Map<string, HTMLCalciteValueListItemElement>;
+    calciteListOrderChange: any[];
+    calciteListFilter: void;
   }
   /**
    * @deprecated Use the `list` component instead.
    */
   interface HTMLCalciteValueListElement extends Components.CalciteValueList, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(type: K, listener: (this: HTMLCalciteValueListElement, ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(type: K, listener: (this: HTMLCalciteValueListElement, ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteValueListElement,
+        ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteValueListElement,
+        ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteValueListElement: {
     prototype: HTMLCalciteValueListElement;
     new (): HTMLCalciteValueListElement;
   };
   interface HTMLCalciteValueListItemElementEventMap {
-    "calciteListItemChange": {
+    calciteListItemChange: {
       item: HTMLCalciteValueListItemElement;
       value: any;
       selected: boolean;
       shiftPressed: boolean;
     };
-    "calciteListItemRemove": void;
-    "calciteValueListItemDragHandleBlur": ListItemAndHandle;
+    calciteListItemRemove: void;
+    calciteValueListItemDragHandleBlur: ListItemAndHandle;
   }
   /**
    * @deprecated Use the `list` component instead.
    */
   interface HTMLCalciteValueListItemElement extends Components.CalciteValueListItem, HTMLStencilElement {
-    addEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(type: K, listener: (this: HTMLCalciteValueListItemElement, ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(type: K, listener: (this: HTMLCalciteValueListItemElement, ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteValueListItemElement,
+        ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteValueListItemElement,
+        ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
   }
   var HTMLCalciteValueListItemElement: {
     prototype: HTMLCalciteValueListItemElement;
@@ -7223,1926 +10016,1909 @@ declare namespace LocalJSX {
     /**
      * Specifies the appearance of the component.
      */
-    "appearance"?: Extract<"solid" | "transparent", Appearance>;
+    appearance?: Extract<"solid" | "transparent", Appearance>;
     /**
      * Specifies the placement of the icon in the header.
      */
-    "iconPosition"?: Position;
+    iconPosition?: Position;
     /**
      * Specifies the type of the icon in the header.
      */
-    "iconType"?: "chevron" | "caret" | "plus-minus";
-    "onCalciteInternalAccordionChange"?: (event: CalciteAccordionCustomEvent<RequestedItem>) => void;
+    iconType?: "chevron" | "caret" | "plus-minus";
+    onCalciteInternalAccordionChange?: (event: CalciteAccordionCustomEvent<RequestedItem>) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item), or `"single-persist"` (allow and require one open item).
      */
-    "selectionMode"?: Extract<
-      "single" | "single-persist" | "multiple",
-      SelectionMode
-    >;
+    selectionMode?: Extract<"single" | "single-persist" | "multiple", SelectionMode>;
   }
   interface CalciteAccordionItem {
     /**
      * The containing `accordion` element.
      */
-    "accordionParent"?: HTMLCalciteAccordionElement;
+    accordionParent?: HTMLCalciteAccordionElement;
     /**
      * Specifies a description for the component.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded"?: boolean;
+    expanded?: boolean;
     /**
      * Specifies heading text for the component.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd"?: string;
+    iconEnd?: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: FlipContext;
+    iconFlipRtl?: FlipContext;
     /**
      * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
      */
-    "iconPosition"?: Position;
+    iconPosition?: Position;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart"?: string;
+    iconStart?: string;
     /**
      * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
      */
-    "iconType"?: "chevron" | "caret" | "plus-minus";
-    "onCalciteInternalAccordionItemClose"?: (event: CalciteAccordionItemCustomEvent<void>) => void;
-    "onCalciteInternalAccordionItemSelect"?: (event: CalciteAccordionItemCustomEvent<RequestedItem1>) => void;
+    iconType?: "chevron" | "caret" | "plus-minus";
+    onCalciteInternalAccordionItemClose?: (event: CalciteAccordionItemCustomEvent<void>) => void;
+    onCalciteInternalAccordionItemSelect?: (event: CalciteAccordionItemCustomEvent<RequestedItem1>) => void;
     /**
      * Specifies the size of the component inherited from the `calcite-accordion`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteAction {
     /**
      * When `true`, the component is highlighted.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * Specifies the horizontal alignment of button elements with text content.
      */
-    "alignment"?: Alignment;
+    alignment?: Alignment;
     /**
      * Specifies the appearance of the component.
      */
-    "appearance"?: Extract<"solid" | "transparent", Appearance>;
+    appearance?: Extract<"solid" | "transparent", Appearance>;
     /**
      * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
      */
-    "compact"?: boolean;
+    compact?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Specifies an icon to display.
      */
-    "icon"?: string;
+    icon?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * When `true`, displays a visual indicator.
      */
-    "indicator"?: boolean;
+    indicator?: boolean;
     /**
      * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ActionMessages>;
+    messageOverrides?: Partial<ActionMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ActionMessages;
+    messages?: ActionMessages;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies text that accompanies the icon.
      */
-    "text": string;
+    text: string;
     /**
      * Indicates whether the text is displayed.
      */
-    "textEnabled"?: boolean;
+    textEnabled?: boolean;
   }
   interface CalciteActionBar {
     /**
      * Specifies the accessible label for the last action-group.
      */
-    "actionsEndGroupLabel"?: string;
+    actionsEndGroupLabel?: string;
     /**
      * When `true`, the expand-toggling behavior is disabled.
      */
-    "expandDisabled"?: boolean;
+    expandDisabled?: boolean;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded"?: boolean;
+    expanded?: boolean;
     /**
      * The layout direction of the actions.
      */
-    "layout"?: Extract<"horizontal" | "vertical", Layout>;
+    layout?: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ActionBarMessages>;
+    messageOverrides?: Partial<ActionBarMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ActionBarMessages;
+    messages?: ActionBarMessages;
     /**
      * Emits when the `expanded` property is toggled.
      */
-    "onCalciteActionBarToggle"?: (event: CalciteActionBarCustomEvent<void>) => void;
+    onCalciteActionBarToggle?: (event: CalciteActionBarCustomEvent<void>) => void;
     /**
      * Disables automatically overflowing `calcite-action`s that won't fit into menus.
      */
-    "overflowActionsDisabled"?: boolean;
+    overflowActionsDisabled?: boolean;
     /**
      * Arranges the component depending on the element's `dir` property.
      */
-    "position"?: Position;
+    position?: Position;
     /**
      * Specifies the size of the expand `calcite-action`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteActionGroup {
     /**
      * Indicates number of columns.
      */
-    "columns"?: Columns;
+    columns?: Columns;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded"?: boolean;
+    expanded?: boolean;
     /**
      * Specifies the label of the component. Required for accessibility.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Indicates the layout of the component.
      * @deprecated Use the `layout` property on the component's parent instead.
      */
-    "layout"?: Layout;
+    layout?: Layout;
     /**
      * When `true`, the `calcite-action-menu` is open.
      */
-    "menuOpen"?: boolean;
+    menuOpen?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ActionGroupMessages>;
+    messageOverrides?: Partial<ActionGroupMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ActionGroupMessages;
+    messages?: ActionGroupMessages;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Specifies the size of the `calcite-action-menu`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteActionMenu {
     /**
      * Specifies the appearance of the component.
      */
-    "appearance"?: Extract<"solid" | "transparent", Appearance>;
+    appearance?: Extract<"solid" | "transparent", Appearance>;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded"?: boolean;
+    expanded?: boolean;
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements"?: EffectivePlacement[];
+    flipPlacements?: EffectivePlacement[];
     /**
      * Specifies the text string for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Emits when the `open` property is toggled.
      */
-    "onCalciteActionMenuOpen"?: (event: CalciteActionMenuCustomEvent<void>) => void;
+    onCalciteActionMenuOpen?: (event: CalciteActionMenuCustomEvent<void>) => void;
     /**
      * When `true`, the component is open.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Determines where the component will be positioned relative to the `referenceElement`.
      */
-    "placement"?: LogicalPlacement;
+    placement?: LogicalPlacement;
     /**
      * Specifies the size of the component's trigger `calcite-action`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteActionPad {
     /**
      * Specifies the accessible label for the last action-group.
      */
-    "actionsEndGroupLabel"?: string;
+    actionsEndGroupLabel?: string;
     /**
      * When `true`, the expand-toggling behavior is disabled.
      */
-    "expandDisabled"?: boolean;
+    expandDisabled?: boolean;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded"?: boolean;
+    expanded?: boolean;
     /**
      * Indicates the layout of the component.
      */
-    "layout"?: Layout;
+    layout?: Layout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ActionPadMessages>;
+    messageOverrides?: Partial<ActionPadMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ActionPadMessages;
+    messages?: ActionPadMessages;
     /**
      * Emits when the `expanded` property is toggled.
      */
-    "onCalciteActionPadToggle"?: (event: CalciteActionPadCustomEvent<void>) => void;
+    onCalciteActionPadToggle?: (event: CalciteActionPadCustomEvent<void>) => void;
     /**
      * Arranges the component depending on the element's `dir` property.
      */
-    "position"?: Position;
+    position?: Position;
     /**
      * Specifies the size of the expand `calcite-action`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteAlert {
     /**
      * When `true`, the component closes automatically (recommended for passive, non-blocking alerts).
      */
-    "autoClose"?: boolean;
+    autoClose?: boolean;
     /**
      * Specifies the duration before the component automatically closes (only use with `autoClose`).
      */
-    "autoCloseDuration"?: AlertDuration;
+    autoCloseDuration?: AlertDuration;
     /**
      * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
      */
-    "icon"?: string | boolean;
+    icon?: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies the kind of the component (will apply to top border and icon).
      */
-    "kind"?: Extract<
-      "brand" | "danger" | "info" | "success" | "warning",
-      Kind
-    >;
+    kind?: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
     /**
      * Specifies an accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<AlertMessages>;
+    messageOverrides?: Partial<AlertMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: AlertMessages;
+    messages?: AlertMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteAlertBeforeClose"?: (event: CalciteAlertCustomEvent<void>) => void;
+    onCalciteAlertBeforeClose?: (event: CalciteAlertCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteAlertBeforeOpen"?: (event: CalciteAlertCustomEvent<void>) => void;
+    onCalciteAlertBeforeOpen?: (event: CalciteAlertCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteAlertClose"?: (event: CalciteAlertCustomEvent<void>) => void;
+    onCalciteAlertClose?: (event: CalciteAlertCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteAlertOpen"?: (event: CalciteAlertCustomEvent<void>) => void;
+    onCalciteAlertOpen?: (event: CalciteAlertCustomEvent<void>) => void;
     /**
      * Fires when the component is added to DOM - used to receive initial queue.
      */
-    "onCalciteInternalAlertRegister"?: (event: CalciteAlertCustomEvent<void>) => void;
+    onCalciteInternalAlertRegister?: (event: CalciteAlertCustomEvent<void>) => void;
     /**
      * Fires to sync queue when opened or closed.
      */
-    "onCalciteInternalAlertSync"?: (event: CalciteAlertCustomEvent<Sync>) => void;
+    onCalciteInternalAlertSync?: (event: CalciteAlertCustomEvent<Sync>) => void;
     /**
      * When `true`, displays and positions the component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Specifies the placement of the component
      */
-    "placement"?: MenuPlacement;
+    placement?: MenuPlacement;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
      */
-    "slottedInShell"?: boolean;
+    slottedInShell?: boolean;
   }
   interface CalciteAvatar {
     /**
      * Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component.
      */
-    "fullName"?: string;
+    fullName?: string;
     /**
      * Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the `src` to an image (remember to add a token if the user is private).
      */
-    "thumbnail"?: string;
+    thumbnail?: string;
     /**
      * Specifies the unique id of the user.
      */
-    "userId"?: string;
+    userId?: string;
     /**
      * Specifies the username of the user.
      */
-    "username"?: string;
+    username?: string;
   }
   interface CalciteBlock {
     /**
      * When `true`, the component is collapsible.
      */
-    "collapsible"?: boolean;
+    collapsible?: boolean;
     /**
      * A description for the component, which displays below the heading.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, displays a drag handle in the header.
      */
-    "dragHandle"?: boolean;
+    dragHandle?: boolean;
     /**
      * The component header text.
      */
-    "heading": string;
+    heading: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<BlockMessages>;
+    messageOverrides?: Partial<BlockMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: BlockMessages;
+    messages?: BlockMessages;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteBlockBeforeClose"?: (event: CalciteBlockCustomEvent<void>) => void;
+    onCalciteBlockBeforeClose?: (event: CalciteBlockCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteBlockBeforeOpen"?: (event: CalciteBlockCustomEvent<void>) => void;
+    onCalciteBlockBeforeOpen?: (event: CalciteBlockCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteBlockClose"?: (event: CalciteBlockCustomEvent<void>) => void;
+    onCalciteBlockClose?: (event: CalciteBlockCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteBlockOpen"?: (event: CalciteBlockCustomEvent<void>) => void;
+    onCalciteBlockOpen?: (event: CalciteBlockCustomEvent<void>) => void;
     /**
      * Emits when the component's header is clicked.
      * @deprecated use `openClose` events: `calciteBlock[Before]Open` and `calciteBlock[Before]Close` instead.
      */
-    "onCalciteBlockToggle"?: (event: CalciteBlockCustomEvent<void>) => void;
+    onCalciteBlockToggle?: (event: CalciteBlockCustomEvent<void>) => void;
     /**
      * When `true`, expands the component and its contents.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Displays a status-related indicator icon.
      */
-    "status"?: Status;
+    status?: Status;
   }
   interface CalciteBlockSection {
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<BlockSectionMessages>;
+    messageOverrides?: Partial<BlockSectionMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: BlockSectionMessages;
+    messages?: BlockSectionMessages;
     /**
      * Emits when the header has been clicked.
      */
-    "onCalciteBlockSectionToggle"?: (event: CalciteBlockSectionCustomEvent<void>) => void;
+    onCalciteBlockSectionToggle?: (event: CalciteBlockSectionCustomEvent<void>) => void;
     /**
      * When `true`, expands the component and its contents.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Displays a status-related indicator icon.
      */
-    "status"?: Status;
+    status?: Status;
     /**
      * The component header text.
      */
-    "text"?: string;
+    text?: string;
     /**
      * Specifies the component's toggle display -  `"button"` (selectable header), or  `"switch"` (toggle switch).
      */
-    "toggleDisplay"?: BlockSectionToggleDisplay;
+    toggleDisplay?: BlockSectionToggleDisplay;
   }
   interface CalciteButton {
     /**
      * Specifies the alignment of the component's elements.
      */
-    "alignment"?: ButtonAlignment;
+    alignment?: ButtonAlignment;
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance"?: Extract<
-      "outline" | "outline-fill" | "solid" | "transparent",
-      Appearance
-    >;
+    appearance?: Extract<"outline" | "outline-fill" | "solid" | "transparent", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
      */
-    "href"?: string;
+    href?: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd"?: string;
+    iconEnd?: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: FlipContext;
+    iconFlipRtl?: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart"?: string;
+    iconStart?: string;
     /**
      * Specifies the kind of the component (will apply to border and background if applicable).
      */
-    "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
+    kind?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, a busy indicator is displayed and interaction is disabled.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ButtonMessages>;
+    messageOverrides?: Partial<ButtonMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ButtonMessages;
+    messages?: ButtonMessages;
     /**
      * Specifies the name of the component on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Defines the relationship between the `href` value and the current document.
      * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
      */
-    "rel"?: string;
+    rel?: string;
     /**
      * When `true`, adds a round style to the component.
      */
-    "round"?: boolean;
+    round?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies if the component is a child of a `calcite-split-button`.
      */
-    "splitChild"?: "primary" | "secondary" | false;
+    splitChild?: "primary" | "secondary" | false;
     /**
      * Specifies where to open the linked document defined in the `href` property.
      * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
      */
-    "target"?: string;
+    target?: string;
     /**
      * Specifies the default behavior of the button.
      * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
      */
-    "type"?: string;
+    type?: string;
     /**
      * Specifies the width of the component.
      */
-    "width"?: Width;
+    width?: Width;
   }
   interface CalciteCard {
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<CardMessages>;
+    messageOverrides?: Partial<CardMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: CardMessages;
+    messages?: CardMessages;
     /**
      * Fires when `selectable` is `true` and the component is selected.
      */
-    "onCalciteCardSelect"?: (event: CalciteCardCustomEvent<void>) => void;
+    onCalciteCardSelect?: (event: CalciteCardCustomEvent<void>) => void;
     /**
      * When `true`, the component is selectable.
      */
-    "selectable"?: boolean;
+    selectable?: boolean;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * Sets the placement of the thumbnail defined in the `thumbnail` slot.
      */
-    "thumbnailPosition"?: LogicalFlowPosition;
+    thumbnailPosition?: LogicalFlowPosition;
   }
   interface CalciteCheckbox {
     /**
      * When `true`, the component is checked.
      */
-    "checked"?: boolean;
+    checked?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * The `id` attribute of the component. When omitted, a globally unique identifier is used.
      */
-    "guid"?: string;
+    guid?: string;
     /**
      * The hovered state of the checkbox.
      */
-    "hovered"?: boolean;
+    hovered?: boolean;
     /**
      * When `true`, the component is initially indeterminate, which is independent from its `checked` value.  The state is visual only, and can look different across browsers.
      * @mdn [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)
      */
-    "indeterminate"?: boolean;
+    indeterminate?: boolean;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Specifies the name of the component on form submission.
      */
-    "name"?: any;
+    name?: any;
     /**
      * Emits when the component's `checked` status changes.
      */
-    "onCalciteCheckboxChange"?: (event: CalciteCheckboxCustomEvent<void>) => void;
+    onCalciteCheckboxChange?: (event: CalciteCheckboxCustomEvent<void>) => void;
     /**
      * Emits when the component is blurred.
      */
-    "onCalciteInternalCheckboxBlur"?: (event: CalciteCheckboxCustomEvent<boolean>) => void;
+    onCalciteInternalCheckboxBlur?: (event: CalciteCheckboxCustomEvent<boolean>) => void;
     /**
      * Emits when the component is focused.
      */
-    "onCalciteInternalCheckboxFocus"?: (event: CalciteCheckboxCustomEvent<boolean>) => void;
+    onCalciteInternalCheckboxFocus?: (event: CalciteCheckboxCustomEvent<boolean>) => void;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The component's value.
      */
-    "value"?: any;
+    value?: any;
   }
   interface CalciteChip {
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance"?: Extract<"outline" | "outline-fill" | "solid", Appearance>;
+    appearance?: Extract<"outline" | "outline-fill" | "solid", Appearance>;
     /**
      * When `true`, a close button is added to the component.
      */
-    "closable"?: boolean;
+    closable?: boolean;
     /**
      * When `true`, hides the component.
      */
-    "closed"?: boolean;
+    closed?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Specifies an icon to display.
      */
-    "icon"?: string;
+    icon?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * When true, enables the chip to be focused, and allows the `calciteChipSelect` to emit. This is set to `true` by a parent Chip Group component.
      */
-    "interactive"?: boolean;
+    interactive?: boolean;
     /**
      * Specifies the kind of the component (will apply to border and background if applicable).
      */
-    "kind"?: Extract<"brand" | "inverse" | "neutral", Kind>;
+    kind?: Extract<"brand" | "inverse" | "neutral", Kind>;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ChipMessages>;
+    messageOverrides?: Partial<ChipMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ChipMessages;
+    messages?: ChipMessages;
     /**
      * Fires when the component's close button is selected.
      */
-    "onCalciteChipClose"?: (event: CalciteChipCustomEvent<void>) => void;
+    onCalciteChipClose?: (event: CalciteChipCustomEvent<void>) => void;
     /**
      * Fires when the selected state of the component changes.
      */
-    "onCalciteChipSelect"?: (event: CalciteChipCustomEvent<void>) => void;
-    "onCalciteInternalChipKeyEvent"?: (event: CalciteChipCustomEvent<KeyboardEvent>) => void;
+    onCalciteChipSelect?: (event: CalciteChipCustomEvent<void>) => void;
+    onCalciteInternalChipKeyEvent?: (event: CalciteChipCustomEvent<KeyboardEvent>) => void;
     /**
      * Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * This internal property, managed by a containing `calcite-chip-group`, is conditionally set based on the `selectionMode` of the parent
      */
-    "selectionMode"?: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode>;
+    selectionMode?: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode>;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteChipGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Emits when the component's selection changes.
      */
-    "onCalciteChipGroupSelect"?: (event: CalciteChipGroupCustomEvent<void>) => void;
+    onCalciteChipGroupSelect?: (event: CalciteChipGroupCustomEvent<void>) => void;
     /**
      * Specifies the size of the component. Child `calcite-chip`s inherit the component's value.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems"?: HTMLCalciteChipElement[];
+    selectedItems?: HTMLCalciteChipElement[];
     /**
      * Specifies the selection mode of the component.
      */
-    "selectionMode"?: Extract<
-      "multiple" | "single" | "single-persist" | "none",
-      SelectionMode
-    >;
+    selectionMode?: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode>;
   }
   interface CalciteColorPicker {
     /**
      * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
      */
-    "allowEmpty"?: boolean;
+    allowEmpty?: boolean;
     /**
      * When true, the component will allow updates to the color's alpha value.
      */
-    "alphaChannel"?: boolean;
+    alphaChannel?: boolean;
     /**
      * When true, hides the RGB/HSV channel inputs
      */
-    "channelsDisabled"?: boolean;
+    channelsDisabled?: boolean;
     /**
      * Internal prop for advanced use-cases.
      */
-    "color"?: InternalColor | null;
+    color?: InternalColor | null;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The format of `value`.  When `"auto"`, the format will be inferred from `value` when set.
      * @default "auto"
      */
-    "format"?: Format;
+    format?: Format;
     /**
      * When true, hides the hex input
      */
-    "hexDisabled"?: boolean;
+    hexDisabled?: boolean;
     /**
      * When `true`, hides the RGB/HSV channel inputs.
      * @deprecated use `channelsDisabled` instead
      */
-    "hideChannels"?: boolean;
+    hideChannels?: boolean;
     /**
      * When `true`, hides the hex input.
      * @deprecated use `hexDisabled` instead
      */
-    "hideHex"?: boolean;
+    hideHex?: boolean;
     /**
      * When `true`, hides the saved colors section.
      * @deprecated use `savedDisabled` instead
      */
-    "hideSaved"?: boolean;
+    hideSaved?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ColorPickerMessages>;
+    messageOverrides?: Partial<ColorPickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ColorPickerMessages;
+    messages?: ColorPickerMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires when the color value has changed.
      */
-    "onCalciteColorPickerChange"?: (event: CalciteColorPickerCustomEvent<void>) => void;
+    onCalciteColorPickerChange?: (event: CalciteColorPickerCustomEvent<void>) => void;
     /**
      * Fires as the color value changes.  Similar to the `calciteColorPickerChange` event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
      */
-    "onCalciteColorPickerInput"?: (event: CalciteColorPickerCustomEvent<void>) => void;
+    onCalciteColorPickerInput?: (event: CalciteColorPickerCustomEvent<void>) => void;
     /**
      * When true, hides the saved colors section
      */
-    "savedDisabled"?: boolean;
+    savedDisabled?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the storage ID for colors.
      */
-    "storageId"?: string;
+    storageId?: string;
     /**
      * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.  The type will be preserved as the color is updated.
      * @default "#007ac2"
      * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
      * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
      */
-    "value"?: ColorValue | null;
+    value?: ColorValue | null;
   }
   interface CalciteColorPickerHexInput {
     /**
      * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.  When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
      */
-    "allowEmpty"?: boolean;
+    allowEmpty?: boolean;
     /**
      * When true, the component will allow updates to the color's alpha value.
      */
-    "alphaChannel"?: boolean;
+    alphaChannel?: boolean;
     /**
      * Specifies accessible label for the input field.
      * @deprecated use `messages` instead
      */
-    "hexLabel"?: string;
+    hexLabel?: string;
     /**
      * Messages are passed by parent component for accessible labels.
      */
-    "messages"?: ColorPickerMessages;
+    messages?: ColorPickerMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Emitted when the hex value changes.
      */
-    "onCalciteColorPickerHexInputChange"?: (event: CalciteColorPickerHexInputCustomEvent<void>) => void;
+    onCalciteColorPickerHexInputChange?: (event: CalciteColorPickerHexInputCustomEvent<void>) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The hex value.
      */
-    "value"?: string;
+    value?: string;
   }
   interface CalciteColorPickerSwatch {
     /**
      * When `true`, the component is active.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * The color value.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
      */
-    "color"?: string | null;
+    color?: string | null;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteCombobox {
     /**
      * When `true`, allows entry of custom values, which are not in the original set of items.
      */
-    "allowCustomValues"?: boolean;
+    allowCustomValues?: boolean;
     /**
      * When `true`, the value-clearing will be disabled.
      */
-    "clearDisabled"?: boolean;
+    clearDisabled?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Specifies the component's filtered items.
      * @readonly
      */
-    "filteredItems"?: HTMLCalciteComboboxItemElement[];
+    filteredItems?: HTMLCalciteComboboxItemElement[];
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements"?: EffectivePlacement[];
+    flipPlacements?: EffectivePlacement[];
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar.
      */
-    "maxItems"?: number;
+    maxItems?: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ComboboxMessages>;
+    messageOverrides?: Partial<ComboboxMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ComboboxMessages;
+    messages?: ComboboxMessages;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Fires when the component is requested to be closed, and before the closing transition begins.
      */
-    "onCalciteComboboxBeforeClose"?: (event: CalciteComboboxCustomEvent<void>) => void;
+    onCalciteComboboxBeforeClose?: (event: CalciteComboboxCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteComboboxBeforeOpen"?: (event: CalciteComboboxCustomEvent<void>) => void;
+    onCalciteComboboxBeforeOpen?: (event: CalciteComboboxCustomEvent<void>) => void;
     /**
      * Fires when the selected item(s) changes.
      */
-    "onCalciteComboboxChange"?: (event: CalciteComboboxCustomEvent<void>) => void;
+    onCalciteComboboxChange?: (event: CalciteComboboxCustomEvent<void>) => void;
     /**
      * Fires when a selected item in the component is closed via its `calcite-chip`.
      */
-    "onCalciteComboboxChipClose"?: (event: CalciteComboboxCustomEvent<void>) => void;
+    onCalciteComboboxChipClose?: (event: CalciteComboboxCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteComboboxClose"?: (event: CalciteComboboxCustomEvent<void>) => void;
+    onCalciteComboboxClose?: (event: CalciteComboboxCustomEvent<void>) => void;
     /**
      * Fires when text is added to filter the options list.
      */
-    "onCalciteComboboxFilterChange"?: (event: CalciteComboboxCustomEvent<void>) => void;
+    onCalciteComboboxFilterChange?: (event: CalciteComboboxCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteComboboxOpen"?: (event: CalciteComboboxCustomEvent<void>) => void;
+    onCalciteComboboxOpen?: (event: CalciteComboboxCustomEvent<void>) => void;
     /**
      * When `true`, displays and positions the component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Specifies the placeholder text for the input.
      */
-    "placeholder"?: string;
+    placeholder?: string;
     /**
      * Specifies the placeholder icon for the input.
      */
-    "placeholderIcon"?: string;
+    placeholderIcon?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "placeholderIconFlipRtl"?: boolean;
+    placeholderIconFlipRtl?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems"?: HTMLCalciteComboboxItemElement[];
+    selectedItems?: HTMLCalciteComboboxItemElement[];
     /**
      * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
      */
-    "selectionMode"?: Extract<
-      "single" | "single-persist" | "ancestors" | "multiple",
-      SelectionMode
-    >;
+    selectionMode?: Extract<"single" | "single-persist" | "ancestors" | "multiple", SelectionMode>;
     /**
      * The component's value(s) from the selected `calcite-combobox-item`(s).
      */
-    "value"?: string | string[];
+    value?: string | string[];
   }
   interface CalciteComboboxItem {
     /**
      * When `true`, the component is active.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * Specifies the parent and grandparent items, which are set on `calcite-combobox`.
      */
-    "ancestors"?: ComboboxChildElement[];
+    ancestors?: ComboboxChildElement[];
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, omits the component from the `calcite-combobox` filtered search results.
      */
-    "filterDisabled"?: boolean;
+    filterDisabled?: boolean;
     /**
      * The `id` attribute of the component. When omitted, a globally unique identifier is used.
      */
-    "guid"?: string;
+    guid?: string;
     /**
      * Specifies an icon to display.
      */
-    "icon"?: string;
+    icon?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Emits whenever the component is selected or unselected.
      */
-    "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
+    onCalciteComboboxItemChange?: (event: CalciteComboboxItemCustomEvent<void>) => void;
     /**
      * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
      */
-    "selectionMode"?: Extract<
-      "single" | "single-persist" | "ancestors" | "multiple",
-      SelectionMode
-    >;
+    selectionMode?: Extract<"single" | "single-persist" | "ancestors" | "multiple", SelectionMode>;
     /**
      * The component's text.
      */
-    "textLabel": string;
+    textLabel: string;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteComboboxItemGroup {
     /**
      * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
      */
-    "afterEmptyGroup"?: boolean;
+    afterEmptyGroup?: boolean;
     /**
      * Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`.
      */
-    "ancestors"?: ComboboxChildElement[];
+    ancestors?: ComboboxChildElement[];
     /**
      * Specifies the title of the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteDatePicker {
     /**
      * Specifies the component's active date.
      */
-    "activeDate"?: Date;
+    activeDate?: Date;
     /**
      * When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.
      */
-    "activeRange"?: "start" | "end";
+    activeRange?: "start" | "end";
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * Specifies the latest allowed date (`"yyyy-mm-dd"`).
      */
-    "max"?: string;
+    max?: string;
     /**
      * Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
      */
-    "maxAsDate"?: Date;
+    maxAsDate?: Date;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<DatePickerMessages>;
+    messageOverrides?: Partial<DatePickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: DatePickerMessages;
+    messages?: DatePickerMessages;
     /**
      * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
      */
-    "min"?: string;
+    min?: string;
     /**
      * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
      */
-    "minAsDate"?: Date;
+    minAsDate?: Date;
     /**
      * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
      */
-    "onCalciteDatePickerChange"?: (event: CalciteDatePickerCustomEvent<void>) => void;
+    onCalciteDatePickerChange?: (event: CalciteDatePickerCustomEvent<void>) => void;
     /**
      * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
      */
-    "onCalciteDatePickerRangeChange"?: (event: CalciteDatePickerCustomEvent<void>) => void;
+    onCalciteDatePickerRangeChange?: (event: CalciteDatePickerCustomEvent<void>) => void;
     /**
      * When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range.
      */
-    "proximitySelectionDisabled"?: boolean;
+    proximitySelectionDisabled?: boolean;
     /**
      * When `true`, activates the component's range mode to allow a start and end date.
      */
-    "range"?: boolean;
+    range?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: "s" | "m" | "l";
+    scale?: "s" | "m" | "l";
     /**
      * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
      */
-    "value"?: string | string[];
+    value?: string | string[];
     /**
      * Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`).
      */
-    "valueAsDate"?: Date | Date[];
+    valueAsDate?: Date | Date[];
   }
   interface CalciteDatePickerDay {
     /**
      * When `true`, the component is active.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * Date is in the current month.
      */
-    "currentMonth"?: boolean;
+    currentMonth?: boolean;
     /**
      * The DateTimeFormat used to provide screen reader labels.
      */
-    "dateTimeFormat"?: Intl.DateTimeFormat;
+    dateTimeFormat?: Intl.DateTimeFormat;
     /**
      * Day of the month to be shown.
      */
-    "day": number;
+    day: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Date is the end of date range
      */
-    "endOfRange"?: boolean;
+    endOfRange?: boolean;
     /**
      * Date is currently highlighted as part of the range
      */
-    "highlighted"?: boolean;
+    highlighted?: boolean;
     /**
      * Emitted when user selects day
      */
-    "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
+    onCalciteDaySelect?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
     /**
      * Emitted when user hovers over a day
      */
-    "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
+    onCalciteInternalDayHover?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
     /**
      * When `true`, activates the component's range mode to allow a start and end date.
      */
-    "range"?: boolean;
+    range?: boolean;
     /**
      * When `true`, highlight styling for edge dates is applied.
      */
-    "rangeEdge"?: "start" | "end" | undefined;
+    rangeEdge?: "start" | "end" | undefined;
     /**
      * Date is being hovered and within the set range
      */
-    "rangeHover"?: boolean;
+    rangeHover?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * Date is the start of date range
      */
-    "startOfRange"?: boolean;
+    startOfRange?: boolean;
     /**
      * The component's value.
      */
-    "value"?: Date;
+    value?: Date;
   }
   interface CalciteDatePickerMonth {
     /**
      * Date currently active.
      */
-    "activeDate"?: Date;
+    activeDate?: Date;
     /**
      * The DateTimeFormat used to provide screen reader labels.
      */
-    "dateTimeFormat"?: Intl.DateTimeFormat;
+    dateTimeFormat?: Intl.DateTimeFormat;
     /**
      * End date currently active
      */
-    "endDate"?: Date;
+    endDate?: Date;
     /**
      * The range of dates currently being hovered
      */
-    "hoverRange"?: HoverRange;
+    hoverRange?: HoverRange;
     /**
      * CLDR locale data for current locale
      */
-    "localeData"?: DateLocaleData;
+    localeData?: DateLocaleData;
     /**
      * Specifies the latest allowed date (`"yyyy-mm-dd"`).
      */
-    "max"?: Date;
+    max?: Date;
     /**
      * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
      */
-    "min"?: Date;
+    min?: Date;
     /**
      * Active date for the user keyboard access.
      */
-    "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+    onCalciteInternalDatePickerActiveDateChange?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
     /**
      * Event emitted when user hovers the date.
      */
-    "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
-    "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+    onCalciteInternalDatePickerHover?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+    onCalciteInternalDatePickerMouseOut?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
     /**
      * Event emitted when user selects the date.
      */
-    "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+    onCalciteInternalDatePickerSelect?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Already selected date.
      */
-    "selectedDate"?: Date;
+    selectedDate?: Date;
     /**
      * Start date currently active.
      */
-    "startDate"?: Date;
+    startDate?: Date;
   }
   interface CalciteDatePickerMonthHeader {
     /**
      * Focused date with indicator (will become selected date if user proceeds)
      */
-    "activeDate"?: Date;
+    activeDate?: Date;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * CLDR locale data for translated calendar info
      */
-    "localeData"?: DateLocaleData;
+    localeData?: DateLocaleData;
     /**
      * Specifies the latest allowed date (`"yyyy-mm-dd"`).
      */
-    "max"?: Date;
+    max?: Date;
     /**
      * This property specifies accessible strings for the component's previous month button ,next month button & year input elements. Made into a prop for testing purposes only.
      * @readonly
      */
-    "messages"?: DatePickerMessages;
+    messages?: DatePickerMessages;
     /**
      * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
      */
-    "min"?: Date;
+    min?: Date;
     /**
      * Changes to active date
      */
-    "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+    onCalciteInternalDatePickerSelect?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Already selected date.
      */
-    "selectedDate"?: Date;
+    selectedDate?: Date;
   }
   interface CalciteDropdown {
     /**
      * When `true`, the component will remain open after a selection is made.  If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
      */
-    "closeOnSelectDisabled"?: boolean;
+    closeOnSelectDisabled?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements"?: EffectivePlacement[];
+    flipPlacements?: EffectivePlacement[];
     /**
      * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
      */
-    "maxItems"?: number;
+    maxItems?: number;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteDropdownBeforeClose"?: (event: CalciteDropdownCustomEvent<void>) => void;
+    onCalciteDropdownBeforeClose?: (event: CalciteDropdownCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteDropdownBeforeOpen"?: (event: CalciteDropdownCustomEvent<void>) => void;
+    onCalciteDropdownBeforeOpen?: (event: CalciteDropdownCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteDropdownClose"?: (event: CalciteDropdownCustomEvent<void>) => void;
+    onCalciteDropdownClose?: (event: CalciteDropdownCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteDropdownOpen"?: (event: CalciteDropdownCustomEvent<void>) => void;
+    onCalciteDropdownOpen?: (event: CalciteDropdownCustomEvent<void>) => void;
     /**
      * Fires when a `calcite-dropdown-item`'s selection changes.
      */
-    "onCalciteDropdownSelect"?: (event: CalciteDropdownCustomEvent<void>) => void;
+    onCalciteDropdownSelect?: (event: CalciteDropdownCustomEvent<void>) => void;
     /**
      * When `true`, displays and positions the component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Determines where the component will be positioned relative to the container element.
      * @default "bottom-start"
      */
-    "placement"?: MenuPlacement;
+    placement?: MenuPlacement;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems"?: HTMLCalciteDropdownItemElement[];
+    selectedItems?: HTMLCalciteDropdownItemElement[];
     /**
      * Specifies the action to open the component from the container element.
      */
-    "type"?: "hover" | "click";
+    type?: "hover" | "click";
     /**
      * Specifies the width of the component.
      */
-    "width"?: Scale;
+    width?: Scale;
   }
   interface CalciteDropdownGroup {
     /**
      * Specifies and displays a group title.
      */
-    "groupTitle"?: string;
-    "onCalciteInternalDropdownItemChange"?: (event: CalciteDropdownGroupCustomEvent<RequestedItem2>) => void;
+    groupTitle?: string;
+    onCalciteInternalDropdownItemChange?: (event: CalciteDropdownGroupCustomEvent<RequestedItem2>) => void;
     /**
      * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection.
      */
-    "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
+    selectionMode?: Extract<"none" | "single" | "multiple", SelectionMode>;
   }
   interface CalciteDropdownItem {
     /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.  Determines if the component will render as an anchor.
      */
-    "href"?: string;
+    href?: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd"?: string;
+    iconEnd?: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: FlipContext;
+    iconFlipRtl?: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart"?: string;
+    iconStart?: string;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Fires when the component is selected.
      */
-    "onCalciteDropdownItemSelect"?: (event: CalciteDropdownItemCustomEvent<void>) => void;
-    "onCalciteInternalDropdownCloseRequest"?: (event: CalciteDropdownItemCustomEvent<void>) => void;
-    "onCalciteInternalDropdownItemKeyEvent"?: (event: CalciteDropdownItemCustomEvent<ItemKeyboardEvent>) => void;
-    "onCalciteInternalDropdownItemSelect"?: (event: CalciteDropdownItemCustomEvent<RequestedItem2>) => void;
+    onCalciteDropdownItemSelect?: (event: CalciteDropdownItemCustomEvent<void>) => void;
+    onCalciteInternalDropdownCloseRequest?: (event: CalciteDropdownItemCustomEvent<void>) => void;
+    onCalciteInternalDropdownItemKeyEvent?: (event: CalciteDropdownItemCustomEvent<ItemKeyboardEvent>) => void;
+    onCalciteInternalDropdownItemSelect?: (event: CalciteDropdownItemCustomEvent<RequestedItem2>) => void;
     /**
      * Specifies the relationship to the linked document defined in `href`.
      */
-    "rel"?: string;
+    rel?: string;
     /**
      * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * Specifies the selection mode inherited from `calcite-dropdown-group`, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection.
      */
-    "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
+    selectionMode?: Extract<"none" | "single" | "multiple", SelectionMode>;
     /**
      * Specifies the frame or window to open the linked document.
      */
-    "target"?: string;
+    target?: string;
   }
   interface CalciteFab {
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance"?: Extract<"solid" | "outline-fill", Appearance>;
+    appearance?: Extract<"solid" | "outline-fill", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Specifies an icon to display.
      * @default "plus"
      */
-    "icon"?: string;
+    icon?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies the kind of the component (will apply to border and background).
      */
-    "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
+    kind?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies text to accompany the component's icon.
      */
-    "text"?: string;
+    text?: string;
     /**
      * When `true`, displays the `text` value in the component.
      */
-    "textEnabled"?: boolean;
+    textEnabled?: boolean;
   }
   interface CalciteFilter {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The component's resulting items after filtering.
      * @readonly
      */
-    "filteredItems"?: object[];
+    filteredItems?: object[];
     /**
      * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
      */
-    "items"?: object[];
+    items?: object[];
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<FilterMessages>;
+    messageOverrides?: Partial<FilterMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: FilterMessages;
+    messages?: FilterMessages;
     /**
      * This event fires when the filter text changes.
      */
-    "onCalciteFilterChange"?: (event: CalciteFilterCustomEvent<void>) => void;
+    onCalciteFilterChange?: (event: CalciteFilterCustomEvent<void>) => void;
     /**
      * Specifies placeholder text for the input element.
      */
-    "placeholder"?: string;
+    placeholder?: string;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The component's value.
      */
-    "value"?: string;
+    value?: string;
   }
   interface CalciteFlow {
     /**
      * This property enables the component to consider other custom elements implementing flow-item's interface.
      */
-    "customItemSelectors"?: string;
+    customItemSelectors?: string;
   }
   interface CalciteFlowItem {
     /**
      * When provided, the method will be called before it is removed from its parent `calcite-flow`.
      */
-    "beforeBack"?: () => Promise<void>;
+    beforeBack?: () => Promise<void>;
     /**
      * When `true`, displays a close button in the trailing side of the component's header.
      */
-    "closable"?: boolean;
+    closable?: boolean;
     /**
      * When `true`, the component will be hidden.
      */
-    "closed"?: boolean;
+    closed?: boolean;
     /**
      * Specifies the direction of the collapse.
      */
-    "collapseDirection"?: "down" | "up";
+    collapseDirection?: "down" | "up";
     /**
      * When `true`, hides the component's content area.
      */
-    "collapsed"?: boolean;
+    collapsed?: boolean;
     /**
      * When `true`, the component is collapsible.
      */
-    "collapsible"?: boolean;
+    collapsible?: boolean;
     /**
      * A description for the component.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The component header text.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * When `true`, the action menu items in the `header-menu-actions` slot are open.
      */
-    "menuOpen"?: boolean;
+    menuOpen?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<FlowItemMessages>;
+    messageOverrides?: Partial<FlowItemMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: FlowItemMessages;
+    messages?: FlowItemMessages;
     /**
      * Fires when the back button is clicked.
      */
-    "onCalciteFlowItemBack"?: (event: CalciteFlowItemCustomEvent<void>) => void;
+    onCalciteFlowItemBack?: (event: CalciteFlowItemCustomEvent<void>) => void;
     /**
      * Fires when the close button is clicked.
      */
-    "onCalciteFlowItemClose"?: (event: CalciteFlowItemCustomEvent<void>) => void;
+    onCalciteFlowItemClose?: (event: CalciteFlowItemCustomEvent<void>) => void;
     /**
      * Fires when the content is scrolled.
      */
-    "onCalciteFlowItemScroll"?: (event: CalciteFlowItemCustomEvent<void>) => void;
+    onCalciteFlowItemScroll?: (event: CalciteFlowItemCustomEvent<void>) => void;
     /**
      * Fires when the collapse button is clicked.
      */
-    "onCalciteFlowItemToggle"?: (event: CalciteFlowItemCustomEvent<void>) => void;
+    onCalciteFlowItemToggle?: (event: CalciteFlowItemCustomEvent<void>) => void;
     /**
      * When `true`, displays a back button in the component's header.
      */
-    "showBackButton"?: boolean;
+    showBackButton?: boolean;
   }
   interface CalciteGraph {
     /**
      * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value
      */
-    "colorStops"?: ColorStop[];
+    colorStops?: ColorStop[];
     /**
      * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value
      */
-    "data"?: DataSeries;
+    data?: DataSeries;
     /**
      * End of highlight color if highlighting range
      */
-    "highlightMax"?: number;
+    highlightMax?: number;
     /**
      * Start of highlight color if highlighting range
      */
-    "highlightMin"?: number;
+    highlightMin?: number;
     /**
      * Highest point of the range
      */
-    "max": number;
+    max: number;
     /**
      * Lowest point of the range
      */
-    "min": number;
+    min: number;
   }
   interface CalciteHandle {
-    "activated"?: boolean;
+    activated?: boolean;
     /**
      * Value for the button title attribute
      */
-    "dragHandle"?: string;
-    "label"?: string;
+    dragHandle?: string;
+    label?: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<HandleMessages>;
+    messageOverrides?: Partial<HandleMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: HandleMessages;
+    messages?: HandleMessages;
     /**
      * Emitted when the handle is activated and the up or down arrow key is pressed.
      */
-    "onCalciteHandleNudge"?: (event: CalciteHandleCustomEvent<HandleNudge>) => void;
+    onCalciteHandleNudge?: (event: CalciteHandleCustomEvent<HandleNudge>) => void;
     /**
      * Emitted when the handle is activated or deactivated.
      */
-    "onCalciteInternalHandleChange"?: (event: CalciteHandleCustomEvent<HandleChange>) => void;
-    "setPosition"?: number;
-    "setSize"?: number;
+    onCalciteInternalHandleChange?: (event: CalciteHandleCustomEvent<HandleChange>) => void;
+    setPosition?: number;
+    setSize?: number;
   }
   interface CalciteIcon {
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "flipRtl"?: boolean;
+    flipRtl?: boolean;
     /**
      * Displays a specific icon.
      * @see [Icons](https://esri.github.io/calcite-ui-icons)
      */
-    "icon"?: string;
+    icon?: string;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Accessible name for the component.  It is recommended to set this value if your icon is semantic.
      */
-    "textLabel"?: string;
+    textLabel?: string;
   }
   interface CalciteInlineEditable {
     /**
      * Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically.
      */
-    "afterConfirm"?: () => Promise<void>;
+    afterConfirm?: () => Promise<void>;
     /**
      * When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component.
      */
-    "controls"?: boolean;
+    controls?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, inline editing is enabled on the component.
      */
-    "editingEnabled"?: boolean;
+    editingEnabled?: boolean;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<InlineEditableMessages>;
+    messageOverrides?: Partial<InlineEditableMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: InlineEditableMessages;
+    messages?: InlineEditableMessages;
     /**
      * Emits when the component's "cancel editing" button is pressed.
      */
-    "onCalciteInlineEditableEditCancel"?: (event: CalciteInlineEditableCustomEvent<void>) => void;
+    onCalciteInlineEditableEditCancel?: (event: CalciteInlineEditableCustomEvent<void>) => void;
     /**
      * Emits when the component's "confirm edits" button is pressed.
      */
-    "onCalciteInlineEditableEditConfirm"?: (event: CalciteInlineEditableCustomEvent<void>) => void;
-    "onCalciteInternalInlineEditableEnableEditingChange"?: (event: CalciteInlineEditableCustomEvent<void>) => void;
+    onCalciteInlineEditableEditConfirm?: (event: CalciteInlineEditableCustomEvent<void>) => void;
+    onCalciteInternalInlineEditableEnableEditingChange?: (event: CalciteInlineEditableCustomEvent<void>) => void;
     /**
      * Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteInput {
     /**
      * Specifies a comma separated list of unique file type specifiers for limiting accepted file types. This property only has an effect when `type` is "file". Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
      */
-    "accept"?: string;
+    accept?: string;
     /**
      * Specifies the text alignment of the component's value.
      */
-    "alignment"?: Position;
+    alignment?: Position;
     /**
      * Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
      */
-    "autocomplete"?: string;
+    autocomplete?: string;
     /**
      * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
      * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
      */
-    "autofocus"?: boolean;
+    autofocus?: boolean;
     /**
      * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
      */
-    "clearable"?: boolean;
+    clearable?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
      */
-    "disabled"?: boolean;
-    "editingEnabled"?: boolean;
+    disabled?: boolean;
+    editingEnabled?: boolean;
     /**
      * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
      */
-    "enterKeyHint"?: string;
+    enterKeyHint?: string;
     /**
      * When `type` is `"file"`, specifies the component's selected files.
      * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
      */
-    "files"?: FileList | undefined;
+    files?: FileList | undefined;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator"?: boolean;
+    groupSeparator?: boolean;
     /**
      * When `true`, the component will not be visible.
      * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
      */
-    "hidden"?: boolean;
+    hidden?: boolean;
     /**
      * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
      */
-    "icon"?: string | boolean;
+    icon?: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
      */
-    "inputMode"?: string;
+    inputMode?: string;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * When `true`, uses locale formatting for numbers.
      */
-    "localeFormat"?: boolean;
+    localeFormat?: boolean;
     /**
      * Specifies the maximum value for type "number".
      * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
      */
-    "max"?: number;
+    max?: number;
     /**
      * Specifies the maximum length of text for the component's value.
      * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
      */
-    "maxLength"?: number;
+    maxLength?: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<InputMessages>;
+    messageOverrides?: Partial<InputMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: InputMessages;
+    messages?: InputMessages;
     /**
      * Specifies the minimum value for `type="number"`.
      * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
      */
-    "min"?: number;
+    min?: number;
     /**
      * Specifies the minimum length of text for the component's value.
      * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
      */
-    "minLength"?: number;
+    minLength?: number;
     /**
      * When `true`, the component can accept more than one value. This property only has an effect when `type` is "email" or "file". Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
      */
-    "multiple"?: boolean;
+    multiple?: boolean;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
      */
-    "name"?: string;
+    name?: string;
     /**
      * Specifies the placement of the buttons for `type="number"`.
      */
-    "numberButtonType"?: InputPlacement;
+    numberButtonType?: InputPlacement;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires each time a new `value` is typed and committed.
      */
-    "onCalciteInputChange"?: (event: CalciteInputCustomEvent<void>) => void;
+    onCalciteInputChange?: (event: CalciteInputCustomEvent<void>) => void;
     /**
      * Fires each time a new `value` is typed.
      */
-    "onCalciteInputInput"?: (event: CalciteInputCustomEvent<void>) => void;
-    "onCalciteInternalInputBlur"?: (event: CalciteInputCustomEvent<void>) => void;
-    "onCalciteInternalInputFocus"?: (event: CalciteInputCustomEvent<void>) => void;
+    onCalciteInputInput?: (event: CalciteInputCustomEvent<void>) => void;
+    onCalciteInternalInputBlur?: (event: CalciteInputCustomEvent<void>) => void;
+    onCalciteInternalInputFocus?: (event: CalciteInputCustomEvent<void>) => void;
     /**
      * Specifies a regex pattern the component's `value` must match for validation. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
      */
-    "pattern"?: string;
+    pattern?: string;
     /**
      * Specifies placeholder text for the component.
      * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
      */
-    "placeholder"?: string;
+    placeholder?: string;
     /**
      * Adds text to the start of the component.
      */
-    "prefixText"?: string;
+    prefixText?: string;
     /**
      * When `true`, the component's value can be read, but cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly"?: boolean;
+    readOnly?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status"?: Status;
+    status?: Status;
     /**
      * Specifies the granularity the component's `value` must adhere to.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
      */
-    "step"?: number | "any";
+    step?: number | "any";
     /**
      * Adds text to the end of the component.
      */
-    "suffixText"?: string;
+    suffixText?: string;
     /**
      * Specifies the component type.  Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
      */
-    "type"?: | "color"
+    type?:
+      | "color"
       | "date"
       | "datetime-local"
       | "email"
@@ -9161,654 +11937,660 @@ declare namespace LocalJSX {
     /**
      * The component's value.
      */
-    "value"?: string;
+    value?: string;
   }
   interface CalciteInputDatePicker {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements"?: EffectivePlacement[];
+    flipPlacements?: EffectivePlacement[];
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled"?: boolean;
+    focusTrapDisabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * Defines the layout of the component.
      */
-    "layout"?: "horizontal" | "vertical";
+    layout?: "horizontal" | "vertical";
     /**
      * Specifies the latest allowed date ("yyyy-mm-dd").
      */
-    "max"?: string;
+    max?: string;
     /**
      * Specifies the latest allowed date as a full date object.
      */
-    "maxAsDate"?: Date;
+    maxAsDate?: Date;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<InputDatePickerMessages & DatePickerMessages>;
+    messageOverrides?: Partial<InputDatePickerMessages & DatePickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: InputDatePickerMessages;
+    messages?: InputDatePickerMessages;
     /**
      * Specifies the earliest allowed date ("yyyy-mm-dd").
      */
-    "min"?: string;
+    min?: string;
     /**
      * Specifies the earliest allowed date as a full date object.
      */
-    "minAsDate"?: Date;
+    minAsDate?: Date;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteInputDatePickerBeforeClose"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
+    onCalciteInputDatePickerBeforeClose?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteInputDatePickerBeforeOpen"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
+    onCalciteInputDatePickerBeforeOpen?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
     /**
      * Fires when the component's value changes.
      */
-    "onCalciteInputDatePickerChange"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
+    onCalciteInputDatePickerChange?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteInputDatePickerClose"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
+    onCalciteInputDatePickerClose?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteInputDatePickerOpen"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
+    onCalciteInputDatePickerOpen?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
     /**
      * When `true`, displays the `calcite-date-picker` component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Specifies the placement of the `calcite-date-picker` relative to the component.
      * @default "bottom-start"
      */
-    "placement"?: MenuPlacement;
+    placement?: MenuPlacement;
     /**
      * When `true`, disables the default behavior on the third click of narrowing or extending the range. Instead starts a new range.
      */
-    "proximitySelectionDisabled"?: boolean;
+    proximitySelectionDisabled?: boolean;
     /**
      * When `true`, activates a range for the component.
      */
-    "range"?: boolean;
+    range?: boolean;
     /**
      * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly"?: boolean;
+    readOnly?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: "s" | "m" | "l";
+    scale?: "s" | "m" | "l";
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status"?: Status;
+    status?: Status;
     /**
      * Selected date as a string in ISO format (YYYY-MM-DD)
      */
-    "value"?: string | string[];
+    value?: string | string[];
     /**
      * The component's value as a full date object.
      */
-    "valueAsDate"?: Date | Date[];
+    valueAsDate?: Date | Date[];
   }
   interface CalciteInputMessage {
     /**
      * Specifies an icon to display.
      */
-    "icon"?: boolean | string;
+    icon?: boolean | string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status"?: Status;
+    status?: Status;
   }
   interface CalciteInputNumber {
     /**
      * Specifies the text alignment of the component's value.
      */
-    "alignment"?: Position;
+    alignment?: Position;
     /**
      * Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
      */
-    "autocomplete"?: string;
+    autocomplete?: string;
     /**
      * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
      * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
      */
-    "autofocus"?: boolean;
+    autofocus?: boolean;
     /**
      * When `true`, a clear button is displayed when the component has a value.
      */
-    "clearable"?: boolean;
+    clearable?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
      */
-    "disabled"?: boolean;
-    "editingEnabled"?: boolean;
+    disabled?: boolean;
+    editingEnabled?: boolean;
     /**
      * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
      */
-    "enterKeyHint"?: string;
+    enterKeyHint?: string;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator"?: boolean;
+    groupSeparator?: boolean;
     /**
      * When `true`, the component will not be visible.
      * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
      */
-    "hidden"?: boolean;
+    hidden?: boolean;
     /**
      * Specifies an icon to display.
      * @futureBreaking Remove boolean type as it is not supported.
      */
-    "icon"?: string | boolean;
+    icon?: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
      */
-    "inputMode"?: string;
+    inputMode?: string;
     /**
      * When `true`, restricts the component to integer numbers only and disables exponential notation.
      */
-    "integer"?: boolean;
+    integer?: boolean;
     /**
      * Accessible name for the component's button or hyperlink.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, the component is in the loading state and `calcite-progress` is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Toggles locale formatting for numbers.
      */
-    "localeFormat"?: boolean;
+    localeFormat?: boolean;
     /**
      * Specifies the maximum value.
      * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
      */
-    "max"?: number;
+    max?: number;
     /**
      * Specifies the maximum length of text for the component's value.
      * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
      */
-    "maxLength"?: number;
+    maxLength?: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<InputNumberMessages>;
+    messageOverrides?: Partial<InputNumberMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: InputNumberMessages;
+    messages?: InputNumberMessages;
     /**
      * Specifies the minimum value.
      * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
      */
-    "min"?: number;
+    min?: number;
     /**
      * Specifies the minimum length of text for the component's value.
      * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
      */
-    "minLength"?: number;
+    minLength?: number;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
      */
-    "name"?: string;
+    name?: string;
     /**
      * Specifies the placement of the buttons.
      */
-    "numberButtonType"?: InputPlacement;
+    numberButtonType?: InputPlacement;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires each time a new value is typed and committed.
      */
-    "onCalciteInputNumberChange"?: (event: CalciteInputNumberCustomEvent<void>) => void;
+    onCalciteInputNumberChange?: (event: CalciteInputNumberCustomEvent<void>) => void;
     /**
      * Fires each time a new value is typed.
      */
-    "onCalciteInputNumberInput"?: (event: CalciteInputNumberCustomEvent<void>) => void;
-    "onCalciteInternalInputNumberBlur"?: (event: CalciteInputNumberCustomEvent<void>) => void;
-    "onCalciteInternalInputNumberFocus"?: (event: CalciteInputNumberCustomEvent<void>) => void;
+    onCalciteInputNumberInput?: (event: CalciteInputNumberCustomEvent<void>) => void;
+    onCalciteInternalInputNumberBlur?: (event: CalciteInputNumberCustomEvent<void>) => void;
+    onCalciteInternalInputNumberFocus?: (event: CalciteInputNumberCustomEvent<void>) => void;
     /**
      * Specifies placeholder text for the component.
      * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
      */
-    "placeholder"?: string;
+    placeholder?: string;
     /**
      * Adds text to the start of the component.
      */
-    "prefixText"?: string;
+    prefixText?: string;
     /**
      * When `true`, the component's value can be read, but cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly"?: boolean;
+    readOnly?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status"?: Status;
+    status?: Status;
     /**
      * Specifies the granularity that the component's value must adhere to.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
      */
-    "step"?: number | "any";
+    step?: number | "any";
     /**
      * Adds text to the end of the component.
      */
-    "suffixText"?: string;
+    suffixText?: string;
     /**
      * The component's value.
      */
-    "value"?: string;
+    value?: string;
   }
   interface CalciteInputText {
     /**
      * Specifies the text alignment of the component's value.
      */
-    "alignment"?: Position;
+    alignment?: Position;
     /**
      * Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
      */
-    "autocomplete"?: string;
+    autocomplete?: string;
     /**
      * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
      * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
      */
-    "autofocus"?: boolean;
+    autofocus?: boolean;
     /**
      * When `true`, a clear button is displayed when the component has a value.
      */
-    "clearable"?: boolean;
+    clearable?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
      */
-    "disabled"?: boolean;
-    "editingEnabled"?: boolean;
+    disabled?: boolean;
+    editingEnabled?: boolean;
     /**
      * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
      */
-    "enterKeyHint"?: string;
+    enterKeyHint?: string;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * When `true`, the component will not be visible.
      * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
      */
-    "hidden"?: boolean;
+    hidden?: boolean;
     /**
      * Specifies an icon to display.
      * @futureBreaking Remove boolean type as it is not supported.
      */
-    "icon"?: string | boolean;
+    icon?: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
      */
-    "inputMode"?: string;
+    inputMode?: string;
     /**
      * Accessible name for the component's button or hyperlink.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, the component is in the loading state and `calcite-progress` is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Specifies the maximum length of text for the component's value.
      * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
      */
-    "maxLength"?: number;
+    maxLength?: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<InputTextMessages>;
+    messageOverrides?: Partial<InputTextMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: InputTextMessages;
+    messages?: InputTextMessages;
     /**
      * Specifies the minimum length of text for the component's value.
      * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
      */
-    "minLength"?: number;
+    minLength?: number;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
      */
-    "name"?: string;
+    name?: string;
     /**
      * Fires each time a new value is typed and committed.
      */
-    "onCalciteInputTextChange"?: (event: CalciteInputTextCustomEvent<void>) => void;
+    onCalciteInputTextChange?: (event: CalciteInputTextCustomEvent<void>) => void;
     /**
      * Fires each time a new value is typed.
      */
-    "onCalciteInputTextInput"?: (event: CalciteInputTextCustomEvent<void>) => void;
-    "onCalciteInternalInputTextBlur"?: (event: CalciteInputTextCustomEvent<{ element: HTMLInputElement; value: string }>) => void;
-    "onCalciteInternalInputTextFocus"?: (event: CalciteInputTextCustomEvent<{
-      element: HTMLInputElement;
-      value: string;
-    }>) => void;
+    onCalciteInputTextInput?: (event: CalciteInputTextCustomEvent<void>) => void;
+    onCalciteInternalInputTextBlur?: (
+      event: CalciteInputTextCustomEvent<{ element: HTMLInputElement; value: string }>
+    ) => void;
+    onCalciteInternalInputTextFocus?: (
+      event: CalciteInputTextCustomEvent<{
+        element: HTMLInputElement;
+        value: string;
+      }>
+    ) => void;
     /**
      * Specifies a regex pattern the component's `value` must match for validation. Read the native attribute's documentation on MDN for more info.
      * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
      */
-    "pattern"?: string;
+    pattern?: string;
     /**
      * Specifies placeholder text for the component.
      * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
      */
-    "placeholder"?: string;
+    placeholder?: string;
     /**
      * Adds text to the start of the component.
      */
-    "prefixText"?: string;
+    prefixText?: string;
     /**
      * When `true`, the component's value can be read, but cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly"?: boolean;
+    readOnly?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status"?: Status;
+    status?: Status;
     /**
      * Adds text to the end of the component.
      */
-    "suffixText"?: string;
+    suffixText?: string;
     /**
      * The component's value.
      */
-    "value"?: string;
+    value?: string;
   }
   interface CalciteInputTimePicker {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled"?: boolean;
+    focusTrapDisabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<InputTimePickerMessages & TimePickerMessages>;
+    messageOverrides?: Partial<InputTimePickerMessages & TimePickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: InputTimePickerMessages;
+    messages?: InputTimePickerMessages;
     /**
      * Specifies the name of the component on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteInputTimePickerBeforeClose"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
+    onCalciteInputTimePickerBeforeClose?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteInputTimePickerBeforeOpen"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
+    onCalciteInputTimePickerBeforeOpen?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
     /**
      * Fires when the time value is changed as a result of user input.
      */
-    "onCalciteInputTimePickerChange"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
+    onCalciteInputTimePickerChange?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteInputTimePickerClose"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
+    onCalciteInputTimePickerClose?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteInputTimePickerOpen"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
+    onCalciteInputTimePickerOpen?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
     /**
      * When `true`, displays the `calcite-time-picker` component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Determines where the popover will be positioned relative to the input.
      */
-    "placement"?: LogicalPlacement;
+    placement?: LogicalPlacement;
     /**
      * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly"?: boolean;
+    readOnly?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the status of the input field, which determines message and icons.
      */
-    "status"?: Status;
+    status?: Status;
     /**
      * Specifies the granularity the component's `value` must adhere to (in seconds).
      */
-    "step"?: number;
+    step?: number;
     /**
      * The time value in ISO (24-hour) format.
      */
-    "value"?: string;
+    value?: string;
   }
   interface CalciteInputTimeZone {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Specifies the component's maximum number of options to display before displaying a scrollbar.
      */
-    "maxItems"?: number;
+    maxItems?: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<InputTimeZoneMessages>;
+    messageOverrides?: Partial<InputTimeZoneMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: InputTimeZoneMessages;
+    messages?: InputTimeZoneMessages;
     /**
      * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options related
      * @default "offset"
      */
-    "mode"?: TimeZoneMode;
+    mode?: TimeZoneMode;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
-    "onCalciteInputTimeZoneBeforeClose"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
-    "onCalciteInputTimeZoneBeforeOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
-    "onCalciteInputTimeZoneChange"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
-    "onCalciteInputTimeZoneClose"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
-    "onCalciteInputTimeZoneOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+    name?: string;
+    onCalciteInputTimeZoneBeforeClose?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+    onCalciteInputTimeZoneBeforeOpen?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+    onCalciteInputTimeZoneChange?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+    onCalciteInputTimeZoneClose?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+    onCalciteInputTimeZoneOpen?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
     /**
      * When `true`, displays and positions the component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
      * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
      */
-    "referenceDate"?: Date | string;
+    referenceDate?: Date | string;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
      * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
      */
-    "value"?: string;
+    value?: string;
   }
   interface CalciteLabel {
     /**
      * Specifies the text alignment of the component.
      */
-    "alignment"?: Alignment;
+    alignment?: Alignment;
     /**
      * Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component.
      */
-    "for"?: string;
+    for?: string;
     /**
      * Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line.
      */
-    "layout"?: "inline" | "inline-space-between" | "default";
-    "onCalciteInternalLabelClick"?: (event: CalciteLabelCustomEvent<{
-      sourceEvent: MouseEvent;
-    }>) => void;
+    layout?: "inline" | "inline-space-between" | "default";
+    onCalciteInternalLabelClick?: (
+      event: CalciteLabelCustomEvent<{
+        sourceEvent: MouseEvent;
+      }>
+    ) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteLink {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value: Without a value, the browser will suggest a filename/extension See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
      */
-    "download"?: string | boolean;
+    download?: string | boolean;
     /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
      */
-    "href"?: string;
+    href?: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd"?: string;
+    iconEnd?: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: FlipContext;
+    iconFlipRtl?: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart"?: string;
+    iconStart?: string;
     /**
      * Specifies the relationship to the linked document defined in `href`.
      */
-    "rel"?: string;
+    rel?: string;
     /**
      * Specifies the frame or window to open the linked document.
      */
-    "target"?: string;
+    target?: string;
   }
   /**
    * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -9817,731 +12599,722 @@ declare namespace LocalJSX {
     /**
      * When provided, the method will be called to determine whether the element can  move from the list.
      */
-    "canPull"?: (detail: DragDetail) => boolean;
+    canPull?: (detail: DragDetail) => boolean;
     /**
      * When provided, the method will be called to determine whether the element can be added from another list.
      */
-    "canPut"?: (detail: DragDetail) => boolean;
+    canPut?: (detail: DragDetail) => boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, `calcite-list-item`s are sortable via a draggable button.
      */
-    "dragEnabled"?: boolean;
+    dragEnabled?: boolean;
     /**
      * When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.
      */
-    "filterEnabled"?: boolean;
+    filterEnabled?: boolean;
     /**
      * Placeholder text for the component's filter input field.
      */
-    "filterPlaceholder"?: string;
+    filterPlaceholder?: string;
     /**
      * Text for the component's filter input field.
      */
-    "filterText"?: string;
+    filterText?: string;
     /**
      * The currently filtered `calcite-list-item` data.
      * @readonly
      */
-    "filteredData"?: ItemData;
+    filteredData?: ItemData;
     /**
      * The currently filtered `calcite-list-item`s.
      * @readonly
      */
-    "filteredItems"?: HTMLCalciteListItemElement[];
+    filteredItems?: HTMLCalciteListItemElement[];
     /**
      * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
      */
-    "group"?: string;
+    group?: string;
     /**
      * Specifies an accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Emitted when the default slot has changes in order to notify parent lists.
      */
-    "onCalciteInternalListDefaultSlotChange"?: (event: CalciteListCustomEvent<void>) => void;
+    onCalciteInternalListDefaultSlotChange?: (event: CalciteListCustomEvent<void>) => void;
     /**
      * Emits when any of the list item selections have changed.
      */
-    "onCalciteListChange"?: (event: CalciteListCustomEvent<void>) => void;
+    onCalciteListChange?: (event: CalciteListCustomEvent<void>) => void;
     /**
      * Emits when the component's filter has changed.
      */
-    "onCalciteListFilter"?: (event: CalciteListCustomEvent<void>) => void;
+    onCalciteListFilter?: (event: CalciteListCustomEvent<void>) => void;
     /**
      * Emitted when the order of the list has changed.
      */
-    "onCalciteListOrderChange"?: (event: CalciteListCustomEvent<DragDetail>) => void;
+    onCalciteListOrderChange?: (event: CalciteListCustomEvent<DragDetail>) => void;
     /**
      * One of the items within the list can be opened.
      */
-    "openable"?: boolean;
+    openable?: boolean;
     /**
      * The currently selected items.
      * @readonly
      */
-    "selectedItems"?: HTMLCalciteListItemElement[];
+    selectedItems?: HTMLCalciteListItemElement[];
     /**
      * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
      */
-    "selectionAppearance"?: SelectionAppearance;
+    selectionAppearance?: SelectionAppearance;
     /**
      * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
      */
-    "selectionMode"?: Extract<
-      "none" | "multiple" | "single" | "single-persist",
-      SelectionMode
-    >;
+    selectionMode?: Extract<"none" | "multiple" | "single" | "single-persist", SelectionMode>;
   }
   interface CalciteListItem {
     /**
      * Sets the item as focusable. Only one item should be focusable within a list.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * When `true`, a close button is added to the component.
      */
-    "closable"?: boolean;
+    closable?: boolean;
     /**
      * When `true`, hides the component.
      */
-    "closed"?: boolean;
+    closed?: boolean;
     /**
      * A description for the component. Displays below the label text.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, the component displays a draggable button.
      */
-    "dragHandle"?: boolean;
+    dragHandle?: boolean;
     /**
      * The label text of the component. Displays above the description text.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ListItemMessages>;
+    messageOverrides?: Partial<ListItemMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ListItemMessages;
+    messages?: ListItemMessages;
     /**
      * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
      */
-    "metadata"?: Record<string, unknown>;
-    "onCalciteInternalFocusPreviousItem"?: (event: CalciteListItemCustomEvent<void>) => void;
-    "onCalciteInternalListItemActive"?: (event: CalciteListItemCustomEvent<void>) => void;
-    "onCalciteInternalListItemChange"?: (event: CalciteListItemCustomEvent<void>) => void;
-    "onCalciteInternalListItemSelect"?: (event: CalciteListItemCustomEvent<void>) => void;
+    metadata?: Record<string, unknown>;
+    onCalciteInternalFocusPreviousItem?: (event: CalciteListItemCustomEvent<void>) => void;
+    onCalciteInternalListItemActive?: (event: CalciteListItemCustomEvent<void>) => void;
+    onCalciteInternalListItemChange?: (event: CalciteListItemCustomEvent<void>) => void;
+    onCalciteInternalListItemSelect?: (event: CalciteListItemCustomEvent<void>) => void;
     /**
      * Fires when the close button is clicked.
      */
-    "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+    onCalciteListItemClose?: (event: CalciteListItemCustomEvent<void>) => void;
     /**
      * Emits when the item's content is selected.
      */
-    "onCalciteListItemSelect"?: (event: CalciteListItemCustomEvent<void>) => void;
+    onCalciteListItemSelect?: (event: CalciteListItemCustomEvent<void>) => void;
     /**
      * When `true`, the item is open to show child components.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
      */
-    "selectionAppearance"?: SelectionAppearance;
+    selectionAppearance?: SelectionAppearance;
     /**
      * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
      */
-    "selectionMode"?: Extract<
-      "none" | "multiple" | "single" | "single-persist",
-      SelectionMode
-    >;
+    selectionMode?: Extract<"none" | "multiple" | "single" | "single-persist", SelectionMode>;
     /**
      * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
      */
-    "setPosition"?: number;
+    setPosition?: number;
     /**
      * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
      */
-    "setSize"?: number;
+    setSize?: number;
     /**
      * The component's value.
      */
-    "value"?: any;
+    value?: any;
   }
   interface CalciteListItemGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The header text for all nested `calcite-list-item` rows.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * Emitted when the default slot has changes in order to notify parent lists.
      */
-    "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
+    onCalciteInternalListItemGroupDefaultSlotChange?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
   }
   interface CalciteLoader {
     /**
      * When `true`, displays smaller and appears to the left of the text.
      */
-    "inline"?: boolean;
+    inline?: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Text that displays under the component's indicator.
      */
-    "text"?: string;
+    text?: string;
     /**
      * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible.
      */
-    "type"?: "indeterminate" | "determinate";
+    type?: "indeterminate" | "determinate";
     /**
      * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
      */
-    "value"?: number;
+    value?: number;
   }
   interface CalciteMenu {
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the layout of the component.
      */
-    "layout"?: Layout;
+    layout?: Layout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<MenuMessages>;
+    messageOverrides?: Partial<MenuMessages>;
     /**
      * Made into a prop for testing purposes only.
      */
-    "messages"?: MenuMessages;
+    messages?: MenuMessages;
   }
   interface CalciteMenuItem {
     /**
      * When `true`, the component is highlighted.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * When `true`, the component displays a breadcrumb trail for use as a navigational aid.
      */
-    "breadcrumb"?: boolean;
+    breadcrumb?: boolean;
     /**
      * Specifies the URL destination of the component, which can be set as an absolute or relative path.
      */
-    "href"?: string;
+    href?: string;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd"?: string;
+    iconEnd?: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: FlipContext;
+    iconFlipRtl?: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart"?: string;
-    "isTopLevelItem"?: boolean;
+    iconStart?: string;
+    isTopLevelItem?: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
-    "layout"?: Layout;
+    label: string;
+    layout?: Layout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<MenuItemMessages>;
+    messageOverrides?: Partial<MenuItemMessages>;
     /**
      * Made into a prop for testing purposes only.
      */
-    "messages"?: MenuItemMessages;
-    "onCalciteInternalMenuItemKeyEvent"?: (event: CalciteMenuItemCustomEvent<MenuItemCustomEvent>) => void;
+    messages?: MenuItemMessages;
+    onCalciteInternalMenuItemKeyEvent?: (event: CalciteMenuItemCustomEvent<MenuItemCustomEvent>) => void;
     /**
      * Emits when the component is selected.
      */
-    "onCalciteMenuItemSelect"?: (event: CalciteMenuItemCustomEvent<void>) => void;
+    onCalciteMenuItemSelect?: (event: CalciteMenuItemCustomEvent<void>) => void;
     /**
      * When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Defines the relationship between the `href` value and the current document.
      * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
      */
-    "rel"?: string;
+    rel?: string;
     /**
      * Specifies where to open the linked document defined in the `href` property.
      * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
      */
-    "target"?: string;
+    target?: string;
     /**
      * Specifies the text to display.
      */
-    "text"?: string;
-    "topLevelMenuLayout"?: Layout;
+    text?: string;
+    topLevelMenuLayout?: Layout;
   }
   interface CalciteMeter {
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance"?: Extract<"outline" | "outline-fill" | "solid", Appearance>;
+    appearance?: Extract<"outline" | "outline-fill" | "solid", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
      */
-    "fillType"?: "single" | "range";
+    fillType?: "single" | "range";
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator"?: boolean;
+    groupSeparator?: boolean;
     /**
      * Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.
      */
-    "high"?: number;
+    high?: number;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.
      */
-    "low"?: number;
+    low?: number;
     /**
      * Specifies the highest allowed value of the component.
      */
-    "max"?: number;
+    max?: number;
     /**
      * Specifies the lowest allowed value of the component.
      */
-    "min"?: number;
+    min?: number;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * When either `rangeLabels` is `true`, specifies the format of displayed labels.
      */
-    "rangeLabelType"?: MeterLabelType;
+    rangeLabelType?: MeterLabelType;
     /**
      * When `true`, displays the values of `high`, `low`, `min`, and `max`.
      */
-    "rangeLabels"?: boolean;
+    rangeLabels?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values.
      */
-    "unitLabel"?: string;
+    unitLabel?: string;
     /**
      * Specifies the current value of the component.
      */
-    "value"?: number;
+    value?: number;
     /**
      * When `true`, displays the current value.
      */
-    "valueLabel"?: boolean;
+    valueLabel?: boolean;
     /**
      * When either `valueLabel` is `true`, specifies the format of displayed label.
      */
-    "valueLabelType"?: MeterLabelType;
+    valueLabelType?: MeterLabelType;
   }
   interface CalciteModal {
     /**
      * Passes a function to run before the component closes.
      */
-    "beforeClose"?: (el: HTMLCalciteModalElement) => Promise<void>;
+    beforeClose?: (el: HTMLCalciteModalElement) => Promise<void>;
     /**
      * When `true`, disables the component's close button.
      */
-    "closeButtonDisabled"?: boolean;
+    closeButtonDisabled?: boolean;
     /**
      * When `true`, prevents the component from expanding to the entire screen on mobile devices.
      */
-    "docked"?: boolean;
+    docked?: boolean;
     /**
      * When `true`, disables the default close on escape behavior.
      */
-    "escapeDisabled"?: boolean;
+    escapeDisabled?: boolean;
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled"?: boolean;
+    focusTrapDisabled?: boolean;
     /**
      * Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`).
      */
-    "fullscreen"?: boolean;
+    fullscreen?: boolean;
     /**
      * Specifies the kind of the component (will apply to top border).
      */
-    "kind"?: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
+    kind?: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ModalMessages>;
+    messageOverrides?: Partial<ModalMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ModalMessages;
+    messages?: ModalMessages;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteModalBeforeClose"?: (event: CalciteModalCustomEvent<void>) => void;
+    onCalciteModalBeforeClose?: (event: CalciteModalCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteModalBeforeOpen"?: (event: CalciteModalCustomEvent<void>) => void;
+    onCalciteModalBeforeOpen?: (event: CalciteModalCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteModalClose"?: (event: CalciteModalCustomEvent<void>) => void;
+    onCalciteModalClose?: (event: CalciteModalCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteModalOpen"?: (event: CalciteModalCustomEvent<void>) => void;
+    onCalciteModalOpen?: (event: CalciteModalCustomEvent<void>) => void;
     /**
      * When `true`, displays and positions the component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
      */
-    "opened"?: boolean;
+    opened?: boolean;
     /**
      * When `true`, disables the closing of the component when clicked outside.
      */
-    "outsideCloseDisabled"?: boolean;
+    outsideCloseDisabled?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
      */
-    "slottedInShell"?: boolean;
+    slottedInShell?: boolean;
     /**
      * Specifies the width of the component.
      */
-    "width"?: Scale;
+    width?: Scale;
   }
   interface CalciteNavigation {
     /**
      * When `navigationAction` is `true`, specifies the label of the `calcite-action`.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change.
      */
-    "navigationAction"?: boolean;
+    navigationAction?: boolean;
     /**
      * When `navigationAction` is true, emits when the displayed action selection changes.
      */
-    "onCalciteNavigationActionSelect"?: (event: CalciteNavigationCustomEvent<void>) => void;
+    onCalciteNavigationActionSelect?: (event: CalciteNavigationCustomEvent<void>) => void;
   }
   interface CalciteNavigationLogo {
     /**
      * When true, the component is highlighted.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * A description for the component, which displays below the `heading`.
      */
-    "description"?: string;
+    description?: string;
     /**
      * Specifies heading text for the component, such as a product or organization name.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * Specifies the URL destination of the component, which can be set as an absolute or relative path.
      */
-    "href"?: string;
+    href?: string;
     /**
      * Specifies an icon to display.
      */
-    "icon"?: string;
+    icon?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Defines the relationship between the `href` value and the current document.
      * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
      */
-    "rel"?: string;
+    rel?: string;
     /**
      * Specifies where to open the linked document defined in the `href` property.
      * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
      */
-    "target"?: string;
+    target?: string;
     /**
      * Specifies the `src` to an image.
      */
-    "thumbnail"?: string;
+    thumbnail?: string;
   }
   interface CalciteNavigationUser {
     /**
      * When true, the component is highlighted.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * Specifies the full name of the user.
      */
-    "fullName"?: string;
+    fullName?: string;
     /**
      * Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true`, hides the `fullName` and `username` contents.
      */
-    "textDisabled"?: boolean;
+    textDisabled?: boolean;
     /**
      * Specifies the `src` to an image (remember to add a token if the user is private).
      */
-    "thumbnail"?: string;
+    thumbnail?: string;
     /**
      * Specifies the unique id of the user.
      */
-    "userId"?: string;
+    userId?: string;
     /**
      * Specifies the username of the user.
      */
-    "username"?: string;
+    username?: string;
   }
   interface CalciteNotice {
     /**
      * When `true`, a close button is added to the component.
      */
-    "closable"?: boolean;
+    closable?: boolean;
     /**
      * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
      */
-    "icon"?: string | boolean;
+    icon?: string | boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies the kind of the component (will apply to top border and icon).
      */
-    "kind"?: Extract<
-      "brand" | "danger" | "info" | "success" | "warning",
-      Kind
-    >;
+    kind?: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<NoticeMessages>;
+    messageOverrides?: Partial<NoticeMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: NoticeMessages;
+    messages?: NoticeMessages;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteNoticeBeforeClose"?: (event: CalciteNoticeCustomEvent<void>) => void;
+    onCalciteNoticeBeforeClose?: (event: CalciteNoticeCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteNoticeBeforeOpen"?: (event: CalciteNoticeCustomEvent<void>) => void;
+    onCalciteNoticeBeforeOpen?: (event: CalciteNoticeCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteNoticeClose"?: (event: CalciteNoticeCustomEvent<void>) => void;
+    onCalciteNoticeClose?: (event: CalciteNoticeCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteNoticeOpen"?: (event: CalciteNoticeCustomEvent<void>) => void;
+    onCalciteNoticeOpen?: (event: CalciteNoticeCustomEvent<void>) => void;
     /**
      * When `true`, the component is visible.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the width of the component.
      */
-    "width"?: Width;
+    width?: Width;
   }
   interface CalciteOption {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
-    "onCalciteInternalOptionChange"?: (event: CalciteOptionCustomEvent<void>) => void;
+    label?: string;
+    onCalciteInternalOptionChange?: (event: CalciteOptionCustomEvent<void>) => void;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * The component's value.
      */
-    "value"?: any;
+    value?: any;
   }
   interface CalciteOptionGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Accessible name for the component.
      */
-    "label": string;
-    "onCalciteInternalOptionGroupChange"?: (event: CalciteOptionGroupCustomEvent<void>) => void;
+    label: string;
+    onCalciteInternalOptionGroupChange?: (event: CalciteOptionGroupCustomEvent<void>) => void;
   }
   interface CalcitePagination {
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator"?: boolean;
+    groupSeparator?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<PaginationMessages>;
+    messageOverrides?: Partial<PaginationMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: PaginationMessages;
+    messages?: PaginationMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Emits when the selected page changes.
      */
-    "onCalcitePaginationChange"?: (event: CalcitePaginationCustomEvent<void>) => void;
+    onCalcitePaginationChange?: (event: CalcitePaginationCustomEvent<void>) => void;
     /**
      * Specifies the number of items per page.
      */
-    "pageSize"?: number;
+    pageSize?: number;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the starting item number.
      */
-    "startItem"?: number;
+    startItem?: number;
     /**
      * Specifies the total number of items.
      */
-    "totalItems"?: number;
+    totalItems?: number;
   }
   interface CalcitePanel {
     /**
      * When `true`, displays a close button in the trailing side of the header.
      */
-    "closable"?: boolean;
+    closable?: boolean;
     /**
      * When `true`, the component will be hidden.
      */
-    "closed"?: boolean;
+    closed?: boolean;
     /**
      * Specifies the direction of the collapse.
      */
-    "collapseDirection"?: "down" | "up";
+    collapseDirection?: "down" | "up";
     /**
      * When `true`, hides the component's content area.
      */
-    "collapsed"?: boolean;
+    collapsed?: boolean;
     /**
      * When `true`, the component is collapsible.
      */
-    "collapsible"?: boolean;
+    collapsible?: boolean;
     /**
      * A description for the component.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The component header text.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * When `true`, the action menu items in the `header-menu-actions` slot are open.
      */
-    "menuOpen"?: boolean;
+    menuOpen?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<PanelMessages>;
+    messageOverrides?: Partial<PanelMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: PanelMessages;
+    messages?: PanelMessages;
     /**
      * Fires when the close button is clicked.
      */
-    "onCalcitePanelClose"?: (event: CalcitePanelCustomEvent<void>) => void;
+    onCalcitePanelClose?: (event: CalcitePanelCustomEvent<void>) => void;
     /**
      * Fires when the content is scrolled.
      */
-    "onCalcitePanelScroll"?: (event: CalcitePanelCustomEvent<void>) => void;
+    onCalcitePanelScroll?: (event: CalcitePanelCustomEvent<void>) => void;
     /**
      * Fires when the collapse button is clicked.
      */
-    "onCalcitePanelToggle"?: (event: CalcitePanelCustomEvent<void>) => void;
+    onCalcitePanelToggle?: (event: CalcitePanelCustomEvent<void>) => void;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -10550,53 +13323,53 @@ declare namespace LocalJSX {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
      */
-    "filterEnabled"?: boolean;
+    filterEnabled?: boolean;
     /**
      * Placeholder text for the filter input field.
      */
-    "filterPlaceholder"?: string;
+    filterPlaceholder?: string;
     /**
      * Text for the filter input field.
      */
-    "filterText"?: string;
+    filterText?: string;
     /**
      * The currently filtered data.
      * @readonly
      */
-    "filteredData"?: ItemData1;
+    filteredData?: ItemData1;
     /**
      * The currently filtered items.
      * @readonly
      */
-    "filteredItems"?: HTMLCalcitePickListItemElement[];
+    filteredItems?: HTMLCalcitePickListItemElement[];
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-pick-list-item`s at a time. When `false`, only a single `calcite-pick-list-item` can be selected at a time, and a new selection will deselect previous selections.
      */
-    "multiple"?: boolean;
+    multiple?: boolean;
     /**
      * Emits when any of the `calcite-pick-list-item` selections have changed.
      */
-    "onCalciteListChange"?: (event: CalcitePickListCustomEvent<Map<string, HTMLCalcitePickListItemElement>>) => void;
+    onCalciteListChange?: (event: CalcitePickListCustomEvent<Map<string, HTMLCalcitePickListItemElement>>) => void;
     /**
      * Emits when a filter has changed.
      */
-    "onCalciteListFilter"?: (event: CalcitePickListCustomEvent<void>) => void;
+    onCalciteListFilter?: (event: CalcitePickListCustomEvent<void>) => void;
     /**
      * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
      */
-    "selectionFollowsFocus"?: boolean;
+    selectionFollowsFocus?: boolean;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -10605,11 +13378,11 @@ declare namespace LocalJSX {
     /**
      * Specifies the title for all nested `calcite-pick-list-item`s.
      */
-    "groupTitle"?: string;
+    groupTitle?: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -10618,1704 +13391,1707 @@ declare namespace LocalJSX {
     /**
      * A description for the component that displays below the label text.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `false`, the component cannot be deselected by user interaction.
      */
-    "deselectDisabled"?: boolean;
+    deselectDisabled?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
      * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
      */
-    "icon"?: ICON_TYPES | null;
+    icon?: ICON_TYPES | null;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Label and accessible name for the component. Appears next to the icon.
      */
-    "label": string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<PickListItemMessages>;
+    messageOverrides?: Partial<PickListItemMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: PickListItemMessages;
+    messages?: PickListItemMessages;
     /**
      * Provides additional metadata to the component. Primary use is for a filter on the parent list.
      */
-    "metadata"?: Record<string, unknown>;
-    "nonInteractive"?: boolean;
+    metadata?: Record<string, unknown>;
+    nonInteractive?: boolean;
     /**
      * Emits when the component's label, description, value, or metadata properties are modified.
      */
-    "onCalciteInternalListItemPropsChange"?: (event: CalcitePickListItemCustomEvent<void>) => void;
+    onCalciteInternalListItemPropsChange?: (event: CalcitePickListItemCustomEvent<void>) => void;
     /**
      * Emits when the component's value property is modified.
      */
-    "onCalciteInternalListItemValueChange"?: (event: CalcitePickListItemCustomEvent<{
-      oldValue: any;
-      newValue: any;
-    }>) => void;
+    onCalciteInternalListItemValueChange?: (
+      event: CalcitePickListItemCustomEvent<{
+        oldValue: any;
+        newValue: any;
+      }>
+    ) => void;
     /**
      * Fires when the component is selected or unselected.
      */
-    "onCalciteListItemChange"?: (event: CalcitePickListItemCustomEvent<{
-      item: HTMLCalcitePickListItemElement;
-      value: any;
-      selected: boolean;
-      shiftPressed: boolean;
-    }>) => void;
+    onCalciteListItemChange?: (
+      event: CalcitePickListItemCustomEvent<{
+        item: HTMLCalcitePickListItemElement;
+        value: any;
+        selected: boolean;
+        shiftPressed: boolean;
+      }>
+    ) => void;
     /**
      * Fires when the remove button is pressed.
      */
-    "onCalciteListItemRemove"?: (event: CalcitePickListItemCustomEvent<void>) => void;
+    onCalciteListItemRemove?: (event: CalcitePickListItemCustomEvent<void>) => void;
     /**
      * When `true`, displays a remove action that removes the item from the list.
      */
-    "removable"?: boolean;
+    removable?: boolean;
     /**
      * When `true`, selects an item. Toggles when an item is checked/unchecked.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalcitePopover {
     /**
      * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
      */
-    "autoClose"?: boolean;
+    autoClose?: boolean;
     /**
      * When `true`, display a close button within the component.
      */
-    "closable"?: boolean;
+    closable?: boolean;
     /**
      * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
      */
-    "flipDisabled"?: boolean;
+    flipDisabled?: boolean;
     /**
      * Defines the available placements that can be used when a flip occurs.
      */
-    "flipPlacements"?: EffectivePlacement[];
+    flipPlacements?: EffectivePlacement[];
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled"?: boolean;
+    focusTrapDisabled?: boolean;
     /**
      * The component header text.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<PopoverMessages>;
+    messageOverrides?: Partial<PopoverMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: PopoverMessages;
+    messages?: PopoverMessages;
     /**
      * Offsets the position of the popover away from the `referenceElement`.
      * @default 6
      */
-    "offsetDistance"?: number;
+    offsetDistance?: number;
     /**
      * Offsets the position of the component along the `referenceElement`.
      */
-    "offsetSkidding"?: number;
+    offsetSkidding?: number;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalcitePopoverBeforeClose"?: (event: CalcitePopoverCustomEvent<void>) => void;
+    onCalcitePopoverBeforeClose?: (event: CalcitePopoverCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalcitePopoverBeforeOpen"?: (event: CalcitePopoverCustomEvent<void>) => void;
+    onCalcitePopoverBeforeOpen?: (event: CalcitePopoverCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalcitePopoverClose"?: (event: CalcitePopoverCustomEvent<void>) => void;
+    onCalcitePopoverClose?: (event: CalcitePopoverCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalcitePopoverOpen"?: (event: CalcitePopoverCustomEvent<void>) => void;
+    onCalcitePopoverOpen?: (event: CalcitePopoverCustomEvent<void>) => void;
     /**
      * When `true`, displays and positions the component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Determines where the component will be positioned relative to the `referenceElement`.
      */
-    "placement"?: LogicalPlacement;
+    placement?: LogicalPlacement;
     /**
      * When `true`, removes the caret pointer.
      */
-    "pointerDisabled"?: boolean;
+    pointerDisabled?: boolean;
     /**
      * The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
      */
-    "referenceElement": ReferenceElement | string;
+    referenceElement: ReferenceElement | string;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.  This property can be set to `true` to manage when the component is open.
      */
-    "triggerDisabled"?: boolean;
+    triggerDisabled?: boolean;
   }
   interface CalciteProgress {
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * When `true` and for `"indeterminate"` progress bars, reverses the animation direction.
      */
-    "reversed"?: boolean;
+    reversed?: boolean;
     /**
      * Text that displays under the component's indicator.
      */
-    "text"?: string;
+    text?: string;
     /**
      * Specifies the component type.  Use `"indeterminate"` if finding actual progress value is impossible.
      */
-    "type"?: "indeterminate" | "determinate";
+    type?: "indeterminate" | "determinate";
     /**
      * When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0.
      */
-    "value"?: number;
+    value?: number;
   }
   interface CalciteRadioButton {
     /**
      * When `true`, the component is checked.
      */
-    "checked"?: boolean;
+    checked?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The focused state of the component.
      */
-    "focused"?: boolean;
+    focused?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * The `id` of the component. When omitted, a globally unique identifier is used.
      */
-    "guid"?: string;
+    guid?: string;
     /**
      * When `true`, the component is not displayed and is not focusable or checkable.
      */
-    "hidden"?: boolean;
+    hidden?: boolean;
     /**
      * The hovered state of the component.
      */
-    "hovered"?: boolean;
+    hovered?: boolean;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Fires when the radio button is blurred.
      */
-    "onCalciteInternalRadioButtonBlur"?: (event: CalciteRadioButtonCustomEvent<void>) => void;
+    onCalciteInternalRadioButtonBlur?: (event: CalciteRadioButtonCustomEvent<void>) => void;
     /**
      * Fires when the checked property changes.  This is an internal event used for styling purposes only. Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
      */
-    "onCalciteInternalRadioButtonCheckedChange"?: (event: CalciteRadioButtonCustomEvent<void>) => void;
+    onCalciteInternalRadioButtonCheckedChange?: (event: CalciteRadioButtonCustomEvent<void>) => void;
     /**
      * Fires when the radio button is focused.
      */
-    "onCalciteInternalRadioButtonFocus"?: (event: CalciteRadioButtonCustomEvent<void>) => void;
+    onCalciteInternalRadioButtonFocus?: (event: CalciteRadioButtonCustomEvent<void>) => void;
     /**
      * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element. Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group or use the `calciteRadioButtonGroupChange` event if using this with `calcite-radio-button-group`.
      */
-    "onCalciteRadioButtonChange"?: (event: CalciteRadioButtonCustomEvent<void>) => void;
+    onCalciteRadioButtonChange?: (event: CalciteRadioButtonCustomEvent<void>) => void;
     /**
      * When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component inherited from the `calcite-radio-button-group`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface CalciteRadioButtonGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
      */
-    "hidden"?: boolean;
+    hidden?: boolean;
     /**
      * Defines the layout of the component.
      */
-    "layout"?: Layout;
+    layout?: Layout;
     /**
      * Specifies the name of the component on form submission. Must be unique to other component instances.
      */
-    "name": string;
+    name: string;
     /**
      * Fires when the component has changed.
      */
-    "onCalciteRadioButtonGroupChange"?: (event: CalciteRadioButtonGroupCustomEvent<void>) => void;
+    onCalciteRadioButtonGroupChange?: (event: CalciteRadioButtonGroupCustomEvent<void>) => void;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the component's selected item.
      * @readonly
      */
-    "selectedItem"?: HTMLCalciteRadioButtonElement;
+    selectedItem?: HTMLCalciteRadioButtonElement;
   }
   interface CalciteRating {
     /**
      * Specifies a cumulative average from previous ratings to display.
      */
-    "average"?: number;
+    average?: number;
     /**
      * Specifies the number of previous ratings to display.
      */
-    "count"?: number;
+    count?: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<RatingMessages>;
+    messageOverrides?: Partial<RatingMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: RatingMessages;
+    messages?: RatingMessages;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Fires when the component's value changes.
      */
-    "onCalciteRatingChange"?: (event: CalciteRatingCustomEvent<void>) => void;
+    onCalciteRatingChange?: (event: CalciteRatingCustomEvent<void>) => void;
     /**
      * When `true`, the component's value can be read, but cannot be modified.
      */
-    "readOnly"?: boolean;
+    readOnly?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`.
      */
-    "showChip"?: boolean;
+    showChip?: boolean;
     /**
      * The component's value.
      */
-    "value"?: number;
+    value?: number;
   }
   interface CalciteScrim {
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ScrimMessages>;
+    messageOverrides?: Partial<ScrimMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ScrimMessages;
+    messages?: ScrimMessages;
   }
   interface CalciteSegmentedControl {
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance"?: Extract<"outline" | "outline-fill" | "solid", Appearance>;
+    appearance?: Extract<"outline" | "outline-fill" | "solid", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Defines the layout of the component.
      */
-    "layout"?: Extract<"horizontal" | "vertical", Layout>;
+    layout?: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Fires when the `calcite-segmented-control-item` selection changes.
      */
-    "onCalciteSegmentedControlChange"?: (event: CalciteSegmentedControlCustomEvent<void>) => void;
+    onCalciteSegmentedControlChange?: (event: CalciteSegmentedControlCustomEvent<void>) => void;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The component's selected item `HTMLElement`.
      * @readonly
      */
-    "selectedItem"?: HTMLCalciteSegmentedControlItemElement;
+    selectedItem?: HTMLCalciteSegmentedControlItemElement;
     /**
      * The component's `selectedItem` value.
      */
-    "value"?: string;
+    value?: string;
     /**
      * Specifies the width of the component.
      */
-    "width"?: Extract<"auto" | "full", Width>;
+    width?: Extract<"auto" | "full", Width>;
   }
   interface CalciteSegmentedControlItem {
     /**
      * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `solid`.
      */
-    "appearance"?: Extract<"outline" | "outline-fill" | "solid", Appearance>;
+    appearance?: Extract<"outline" | "outline-fill" | "solid", Appearance>;
     /**
      * When `true`, the component is checked.
      */
-    "checked"?: boolean;
+    checked?: boolean;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd"?: string;
+    iconEnd?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart"?: string;
+    iconStart?: string;
     /**
      * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
      */
-    "layout"?: Layout;
+    layout?: Layout;
     /**
      * Fires when the item has been selected.
      */
-    "onCalciteInternalSegmentedControlItemChange"?: (event: CalciteSegmentedControlItemCustomEvent<void>) => void;
+    onCalciteInternalSegmentedControlItemChange?: (event: CalciteSegmentedControlItemCustomEvent<void>) => void;
     /**
      * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The component's value.
      */
-    "value"?: any | null;
+    value?: any | null;
   }
   interface CalciteSelect {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Accessible name for the component.
      */
-    "label": string;
+    label: string;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Fires when the `selectedOption` changes.
      */
-    "onCalciteSelectChange"?: (event: CalciteSelectCustomEvent<void>) => void;
+    onCalciteSelectChange?: (event: CalciteSelectCustomEvent<void>) => void;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The component's selected option `HTMLElement`.
      * @readonly
      */
-    "selectedOption"?: HTMLCalciteOptionElement;
+    selectedOption?: HTMLCalciteOptionElement;
     /**
      * The component's `selectedOption` value.
      */
-    "value"?: string;
+    value?: string;
     /**
      * Specifies the width of the component.
      */
-    "width"?: Width;
+    width?: Width;
   }
   interface CalciteSheet {
     /**
      * Passes a function to run before the component closes.
      * @returns
      */
-    "beforeClose"?: (el: HTMLCalciteSheetElement) => Promise<void>;
+    beforeClose?: (el: HTMLCalciteSheetElement) => Promise<void>;
     /**
      * Specifies the display mode - `"float"` (content is separated detached), or `"overlay"` (displays on top of center content).
      */
-    "displayMode"?: DisplayMode;
+    displayMode?: DisplayMode;
     /**
      * When `true`, disables the default close on escape behavior.
      */
-    "escapeDisabled"?: boolean;
+    escapeDisabled?: boolean;
     /**
      * When `true`, prevents focus trapping.
      */
-    "focusTrapDisabled"?: boolean;
+    focusTrapDisabled?: boolean;
     /**
      * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
      */
-    "heightScale"?: Scale;
+    heightScale?: Scale;
     /**
      * Specifies the label of the component.
      */
-    "label": string;
+    label: string;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteSheetBeforeClose"?: (event: CalciteSheetCustomEvent<void>) => void;
+    onCalciteSheetBeforeClose?: (event: CalciteSheetCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteSheetBeforeOpen"?: (event: CalciteSheetCustomEvent<void>) => void;
+    onCalciteSheetBeforeOpen?: (event: CalciteSheetCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteSheetClose"?: (event: CalciteSheetCustomEvent<void>) => void;
+    onCalciteSheetClose?: (event: CalciteSheetCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteSheetOpen"?: (event: CalciteSheetCustomEvent<void>) => void;
+    onCalciteSheetOpen?: (event: CalciteSheetCustomEvent<void>) => void;
     /**
      * When `true`, displays and positions the component.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
      */
-    "opened"?: boolean;
+    opened?: boolean;
     /**
      * When `true`, disables the closing of the component when clicked outside.
      */
-    "outsideCloseDisabled"?: boolean;
+    outsideCloseDisabled?: boolean;
     /**
      * Determines where the component will be positioned.
      */
-    "position"?: LogicalFlowPosition;
+    position?: LogicalFlowPosition;
     /**
      * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
      */
-    "slottedInShell"?: boolean;
+    slottedInShell?: boolean;
     /**
      * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
      */
-    "widthScale"?: Scale;
+    widthScale?: Scale;
   }
   interface CalciteShell {
     /**
      * Positions the center content behind any `calcite-shell-panel`s.
      */
-    "contentBehind"?: boolean;
+    contentBehind?: boolean;
   }
   interface CalciteShellCenterRow {
     /**
      * When `true`, the content area displays like a floating panel.
      */
-    "detached"?: boolean;
+    detached?: boolean;
     /**
      * Specifies the maximum height of the component.
      */
-    "heightScale"?: Scale;
+    heightScale?: Scale;
     /**
      * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "position"?: Position;
+    position?: Position;
   }
   interface CalciteShellPanel {
     /**
      * When `true`, hides the component's content area.
      */
-    "collapsed"?: boolean;
+    collapsed?: boolean;
     /**
      * When `true`, the content area displays like a floating panel.
      * @deprecated use `displayMode` instead.
      */
-    "detached"?: boolean;
+    detached?: boolean;
     /**
      * When `displayMode` is `float`, specifies the maximum height of the component.
      * @deprecated use `heightScale` instead.
      */
-    "detachedHeightScale"?: Scale;
+    detachedHeightScale?: Scale;
     /**
      * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content).
      */
-    "displayMode"?: DisplayMode1;
+    displayMode?: DisplayMode1;
     /**
      * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.
      */
-    "heightScale"?: Scale;
+    heightScale?: Scale;
     /**
      * The direction of the component.
      */
-    "layout"?: Extract<"horizontal" | "vertical", Layout>;
+    layout?: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ShellPanelMessages>;
+    messageOverrides?: Partial<ShellPanelMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ShellPanelMessages;
+    messages?: ShellPanelMessages;
     /**
      * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "position"?: Position;
+    position?: Position;
     /**
      * When `true` and `displayMode` is not `float`, the component's content area is resizable.
      */
-    "resizable"?: boolean;
+    resizable?: boolean;
     /**
      * When `layout` is `vertical`, specifies the width of the component.
      */
-    "widthScale"?: Scale;
+    widthScale?: Scale;
   }
   interface CalciteSlider {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator"?: boolean;
+    groupSeparator?: boolean;
     /**
      * When `true`, indicates a histogram is present.
      */
-    "hasHistogram"?: boolean;
+    hasHistogram?: boolean;
     /**
      * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
      * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
      */
-    "histogram"?: DataSeries;
+    histogram?: DataSeries;
     /**
      * A set of single color stops for a histogram, sorted by offset ascending.
      */
-    "histogramStops"?: ColorStop[];
+    histogramStops?: ColorStop[];
     /**
      * When `true`, displays label handles with their numeric value.
      */
-    "labelHandles"?: boolean;
+    labelHandles?: boolean;
     /**
      * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
      */
-    "labelTicks"?: boolean;
+    labelTicks?: boolean;
     /**
      * The component's maximum selectable value.
      */
-    "max"?: number;
+    max?: number;
     /**
      * For multiple selections, the accessible name for the second handle, such as `"Temperature, upper bound"`.
      */
-    "maxLabel"?: string;
+    maxLabel?: string;
     /**
      * For multiple selections, the component's upper value.
      */
-    "maxValue"?: number;
+    maxValue?: number;
     /**
      * The component's minimum selectable value.
      */
-    "min"?: number;
+    min?: number;
     /**
      * Accessible name for first (or only) handle, such as `"Temperature, lower bound"`.
      */
-    "minLabel"?: string;
+    minLabel?: string;
     /**
      * For multiple selections, the component's lower value.
      */
-    "minValue"?: number;
+    minValue?: number;
     /**
      * When `true`, the slider will display values from high to low.  Note that this value will be ignored if the slider has an associated histogram.
      */
-    "mirrored"?: boolean;
+    mirrored?: boolean;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires when the thumb is released on the component.  **Note:** If you need to constantly listen to the drag event, use `calciteSliderInput` instead.
      */
-    "onCalciteSliderChange"?: (event: CalciteSliderCustomEvent<void>) => void;
+    onCalciteSliderChange?: (event: CalciteSliderCustomEvent<void>) => void;
     /**
      * Fires on all updates to the component.  **Note:** Will be fired frequently during drag. If you are performing any expensive operations consider using a debounce or throttle to avoid locking up the main thread.
      */
-    "onCalciteSliderInput"?: (event: CalciteSliderCustomEvent<void>) => void;
+    onCalciteSliderInput?: (event: CalciteSliderCustomEvent<void>) => void;
     /**
      * Specifies the interval to move with the page up, or page down keys.
      */
-    "pageStep"?: number;
+    pageStep?: number;
     /**
      * When `true`, sets a finer point for handles.
      */
-    "precise"?: boolean;
+    precise?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, enables snap selection in coordination with `step` via a mouse.
      */
-    "snap"?: boolean;
+    snap?: boolean;
     /**
      * Specifies the interval to move with the up, or down keys.
      */
-    "step"?: number;
+    step?: number;
     /**
      * Displays tick marks on the number line at a specified interval.
      */
-    "ticks"?: number;
+    ticks?: number;
     /**
      * The component's value.
      */
-    "value"?: null | number | number[];
+    value?: null | number | number[];
   }
   interface CalciteSortableList {
     /**
      * When provided, the method will be called to determine whether the element can  move from the list.
      */
-    "canPull"?: (detail: DragDetail) => boolean;
+    canPull?: (detail: DragDetail) => boolean;
     /**
      * When provided, the method will be called to determine whether the element can be added from another list.
      */
-    "canPut"?: (detail: DragDetail) => boolean;
+    canPut?: (detail: DragDetail) => boolean;
     /**
      * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Specifies which items inside the element should be draggable.
      */
-    "dragSelector"?: string;
+    dragSelector?: string;
     /**
      * The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.
      */
-    "group"?: string;
+    group?: string;
     /**
      * The selector for the handle elements.
      */
-    "handleSelector"?: string;
+    handleSelector?: string;
     /**
      * Indicates the horizontal or vertical orientation of the component.
      */
-    "layout"?: Layout;
+    layout?: Layout;
     /**
      * When true, content is waiting to be loaded. This state shows a busy indicator.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Emitted when the order of the list has changed.
      */
-    "onCalciteListOrderChange"?: (event: CalciteSortableListCustomEvent<void>) => void;
+    onCalciteListOrderChange?: (event: CalciteSortableListCustomEvent<void>) => void;
   }
   interface CalciteSplitButton {
     /**
      * When `true`, the component is active.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * Specifies the appearance style of the component.
      */
-    "appearance"?: Extract<
-      "outline" | "outline-fill" | "solid" | "transparent",
-      Appearance
-    >;
+    appearance?: Extract<"outline" | "outline-fill" | "solid" | "transparent", Appearance>;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Specifies the icon used for the dropdown menu.
      */
-    "dropdownIconType"?: DropdownIconType;
+    dropdownIconType?: DropdownIconType;
     /**
      * Accessible name for the dropdown menu.
      */
-    "dropdownLabel"?: string;
+    dropdownLabel?: string;
     /**
      * Specifies the kind of the component (will apply to border and background if applicable).
      */
-    "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
+    kind?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
     /**
      * When `true`, a busy indicator is displayed on the primary button.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Fires when the primary button is clicked.
      */
-    "onCalciteSplitButtonPrimaryClick"?: (event: CalciteSplitButtonCustomEvent<void>) => void;
+    onCalciteSplitButtonPrimaryClick?: (event: CalciteSplitButtonCustomEvent<void>) => void;
     /**
      * Fires when the dropdown menu is clicked.
      */
-    "onCalciteSplitButtonSecondaryClick"?: (event: CalciteSplitButtonCustomEvent<void>) => void;
+    onCalciteSplitButtonSecondaryClick?: (event: CalciteSplitButtonCustomEvent<void>) => void;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Specifies an icon to display at the end of the primary button.
      */
-    "primaryIconEnd"?: string;
+    primaryIconEnd?: string;
     /**
      * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "primaryIconFlipRtl"?: FlipContext;
+    primaryIconFlipRtl?: FlipContext;
     /**
      * Specifies an icon to display at the start of the primary button.
      */
-    "primaryIconStart"?: string;
+    primaryIconStart?: string;
     /**
      * Accessible name for the primary button.
      */
-    "primaryLabel"?: string;
+    primaryLabel?: string;
     /**
      * Text displayed in the primary button.
      */
-    "primaryText"?: string;
+    primaryText?: string;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the width of the component.
      */
-    "width"?: Width;
+    width?: Width;
   }
   interface CalciteStack {
     /**
      * When `true`, content interaction is prevented and displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
   }
   interface CalciteStepper {
     /**
      * When `true`, displays a status icon in the `calcite-stepper-item` heading.
      */
-    "icon"?: boolean;
+    icon?: boolean;
     /**
      * Defines the layout of the component.
      */
-    "layout"?: Extract<"horizontal" | "vertical", Layout>;
+    layout?: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<StepperMessages>;
+    messageOverrides?: Partial<StepperMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: StepperMessages;
+    messages?: StepperMessages;
     /**
      * When `true`, displays the step number in the `calcite-stepper-item` heading.
      */
-    "numbered"?: boolean;
+    numbered?: boolean;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires when the active `calcite-stepper-item` changes.
      */
-    "onCalciteInternalStepperItemChange"?: (event: CalciteStepperCustomEvent<StepperItemChangeEventDetail>) => void;
+    onCalciteInternalStepperItemChange?: (event: CalciteStepperCustomEvent<StepperItemChangeEventDetail>) => void;
     /**
      * Fires when the active `calcite-stepper-item` changes.
      */
-    "onCalciteStepperItemChange"?: (event: CalciteStepperCustomEvent<void>) => void;
+    onCalciteStepperItemChange?: (event: CalciteStepperCustomEvent<void>) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the component's selected item.
      * @readonly
      */
-    "selectedItem"?: HTMLCalciteStepperItemElement;
+    selectedItem?: HTMLCalciteStepperItemElement;
   }
   interface CalciteStepperItem {
     /**
      * When `true`, the step has been completed.
      */
-    "complete"?: boolean;
+    complete?: boolean;
     /**
      * A description for the component. Displays below the header text.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, the component contains an error that requires resolution from the user.
      */
-    "error"?: boolean;
+    error?: boolean;
     /**
      * The component header text.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
      */
-    "icon"?: boolean;
+    icon?: boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
      */
-    "layout"?: Extract<"horizontal" | "vertical", Layout>;
+    layout?: Extract<"horizontal" | "vertical", Layout>;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<StepperItemMessages>;
+    messageOverrides?: Partial<StepperItemMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: StepperItemMessages;
+    messages?: StepperItemMessages;
     /**
      * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
      */
-    "numbered"?: boolean;
-    "numberingSystem"?: NumberingSystem;
-    "onCalciteInternalStepperItemKeyEvent"?: (event: CalciteStepperItemCustomEvent<StepperItemKeyEventDetail>) => void;
-    "onCalciteInternalStepperItemRegister"?: (event: CalciteStepperItemCustomEvent<StepperItemEventDetail>) => void;
-    "onCalciteInternalStepperItemSelect"?: (event: CalciteStepperItemCustomEvent<StepperItemEventDetail>) => void;
-    "onCalciteInternalUserRequestedStepperItemSelect"?: (event: CalciteStepperItemCustomEvent<StepperItemChangeEventDetail>) => void;
+    numbered?: boolean;
+    numberingSystem?: NumberingSystem;
+    onCalciteInternalStepperItemKeyEvent?: (event: CalciteStepperItemCustomEvent<StepperItemKeyEventDetail>) => void;
+    onCalciteInternalStepperItemRegister?: (event: CalciteStepperItemCustomEvent<StepperItemEventDetail>) => void;
+    onCalciteInternalStepperItemSelect?: (event: CalciteStepperItemCustomEvent<StepperItemEventDetail>) => void;
+    onCalciteInternalUserRequestedStepperItemSelect?: (
+      event: CalciteStepperItemCustomEvent<StepperItemChangeEventDetail>
+    ) => void;
     /**
      * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
   }
   interface CalciteSwitch {
     /**
      * When `true`, the component is checked.
      */
-    "checked"?: boolean;
+    checked?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Specifies the name of the component.  Required to pass the component's `value` on form submission.
      */
-    "name"?: string;
+    name?: string;
     /**
      * Fires when the `checked` value has changed.
      */
-    "onCalciteSwitchChange"?: (event: CalciteSwitchCustomEvent<void>) => void;
+    onCalciteSwitchChange?: (event: CalciteSwitchCustomEvent<void>) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * The component's value.
      */
-    "value"?: any;
+    value?: any;
   }
   interface CalciteTab {
-    "onCalciteInternalTabRegister"?: (event: CalciteTabCustomEvent<void>) => void;
+    onCalciteInternalTabRegister?: (event: CalciteTabCustomEvent<void>) => void;
     /**
      * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, the component's contents are selected.  Only one tab can be selected within the `calcite-tabs` parent.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * Specifies a unique name for the component.  When specified, use the same value on the `calcite-tab-title`.
      */
-    "tab"?: string;
+    tab?: string;
   }
   interface CalciteTabNav {
-    "bordered"?: boolean;
-    "indicatorOffset"?: number;
-    "indicatorWidth"?: number;
-    "layout"?: TabLayout;
-    "onCalciteInternalTabChange"?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
+    bordered?: boolean;
+    indicatorOffset?: number;
+    indicatorWidth?: number;
+    layout?: TabLayout;
+    onCalciteInternalTabChange?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
     /**
      * Emits when the selected `calcite-tab` changes.
      */
-    "onCalciteTabChange"?: (event: CalciteTabNavCustomEvent<void>) => void;
+    onCalciteTabChange?: (event: CalciteTabNavCustomEvent<void>) => void;
     /**
      * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
      */
-    "position"?: TabPosition;
+    position?: TabPosition;
     /**
      * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the component's selected tab-title.
      * @readonly
      */
-    "selectedTitle"?: HTMLCalciteTabTitleElement;
+    selectedTitle?: HTMLCalciteTabTitleElement;
     /**
      * Specifies the name when saving selected `calcite-tab` data to `localStorage`.
      */
-    "storageId"?: string;
+    storageId?: string;
     /**
      * Specifies text to update multiple components to keep in sync if one changes.
      */
-    "syncId"?: string;
+    syncId?: string;
   }
   interface CalciteTabTitle {
-    "bordered"?: boolean;
+    bordered?: boolean;
     /**
      * When `true`, a close button is added to the component.
      */
-    "closable"?: boolean;
+    closable?: boolean;
     /**
      * When `true`, does not display or position the component.
      */
-    "closed"?: boolean;
+    closed?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Specifies an icon to display at the end of the component.
      */
-    "iconEnd"?: string;
+    iconEnd?: string;
     /**
      * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: FlipContext;
+    iconFlipRtl?: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart"?: string;
-    "layout"?: TabLayout;
+    iconStart?: string;
+    layout?: TabLayout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<TabTitleMessages>;
+    messageOverrides?: Partial<TabTitleMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: TabTitleMessages;
-    "onCalciteInternalTabIconChanged"?: (event: CalciteTabTitleCustomEvent<void>) => void;
-    "onCalciteInternalTabTitleRegister"?: (event: CalciteTabTitleCustomEvent<TabID>) => void;
+    messages?: TabTitleMessages;
+    onCalciteInternalTabIconChanged?: (event: CalciteTabTitleCustomEvent<void>) => void;
+    onCalciteInternalTabTitleRegister?: (event: CalciteTabTitleCustomEvent<TabID>) => void;
     /**
      * Fires when a `calcite-tab` is selected (`event.details`).
      * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts#L1)
      */
-    "onCalciteInternalTabsActivate"?: (event: CalciteTabTitleCustomEvent<TabChangeEventDetail>) => void;
+    onCalciteInternalTabsActivate?: (event: CalciteTabTitleCustomEvent<TabChangeEventDetail>) => void;
     /**
      * Fires when `calcite-tab` is closed (`event.details`).
      * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts)
      */
-    "onCalciteInternalTabsClose"?: (event: CalciteTabTitleCustomEvent<TabCloseEventDetail>) => void;
-    "onCalciteInternalTabsFocusFirst"?: (event: CalciteTabTitleCustomEvent<void>) => void;
-    "onCalciteInternalTabsFocusLast"?: (event: CalciteTabTitleCustomEvent<void>) => void;
-    "onCalciteInternalTabsFocusNext"?: (event: CalciteTabTitleCustomEvent<void>) => void;
-    "onCalciteInternalTabsFocusPrevious"?: (event: CalciteTabTitleCustomEvent<void>) => void;
+    onCalciteInternalTabsClose?: (event: CalciteTabTitleCustomEvent<TabCloseEventDetail>) => void;
+    onCalciteInternalTabsFocusFirst?: (event: CalciteTabTitleCustomEvent<void>) => void;
+    onCalciteInternalTabsFocusLast?: (event: CalciteTabTitleCustomEvent<void>) => void;
+    onCalciteInternalTabsFocusNext?: (event: CalciteTabTitleCustomEvent<void>) => void;
+    onCalciteInternalTabsFocusPrevious?: (event: CalciteTabTitleCustomEvent<void>) => void;
     /**
      * Fires when a `calcite-tab` is selected.
      */
-    "onCalciteTabsActivate"?: (event: CalciteTabTitleCustomEvent<void>) => void;
+    onCalciteTabsActivate?: (event: CalciteTabTitleCustomEvent<void>) => void;
     /**
      * Fires when a `calcite-tab` is closed.
      */
-    "onCalciteTabsClose"?: (event: CalciteTabTitleCustomEvent<void>) => void;
+    onCalciteTabsClose?: (event: CalciteTabTitleCustomEvent<void>) => void;
     /**
      * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
      */
-    "position"?: TabPosition;
+    position?: TabPosition;
     /**
      * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * When `true`, the component and its respective `calcite-tab` contents are selected.  Only one tab can be selected within the `calcite-tabs` parent.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * Specifies a unique name for the component.  When specified, use the same value on the `calcite-tab`.
      */
-    "tab"?: string;
+    tab?: string;
   }
   interface CalciteTable {
     /**
      * When `true`, displays borders in the component.
      */
-    "bordered"?: boolean;
+    bordered?: boolean;
     /**
      * Specifies an accessible title for the component.
      */
-    "caption": string;
+    caption: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator"?: boolean;
+    groupSeparator?: boolean;
     /**
      * Specifies the layout of the component.
      */
-    "layout"?: TableLayout;
+    layout?: TableLayout;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<TableMessages>;
+    messageOverrides?: Partial<TableMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: TableMessages;
+    messages?: TableMessages;
     /**
      * When `true`, displays the position of the row in numeric form.
      */
-    "numbered"?: boolean;
+    numbered?: boolean;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
-    "onCalciteInternalTableRowFocusChange"?: (event: CalciteTableCustomEvent<TableRowFocusEvent>) => void;
+    numberingSystem?: NumberingSystem;
+    onCalciteInternalTableRowFocusChange?: (event: CalciteTableCustomEvent<TableRowFocusEvent>) => void;
     /**
      * Emits when the component's page selection changes.
      */
-    "onCalciteTablePageChange"?: (event: CalciteTableCustomEvent<void>) => void;
+    onCalciteTablePageChange?: (event: CalciteTableCustomEvent<void>) => void;
     /**
      * Emits when the component's selected rows change.
      */
-    "onCalciteTableSelect"?: (event: CalciteTableCustomEvent<void>) => void;
+    onCalciteTableSelect?: (event: CalciteTableCustomEvent<void>) => void;
     /**
      * Specifies the page size of the component. When `true`, renders `calcite-pagination`
      */
-    "pageSize"?: number;
+    pageSize?: number;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems"?: HTMLCalciteTableRowElement[];
+    selectedItems?: HTMLCalciteTableRowElement[];
     /**
      * Specifies the selection mode of the component.
      */
-    "selectionMode"?: Extract<"none" | "multiple" | "single", SelectionMode>;
+    selectionMode?: Extract<"none" | "multiple" | "single", SelectionMode>;
     /**
      * When `true`, displays zebra styling in the component.
      */
-    "zebra"?: boolean;
+    zebra?: boolean;
   }
   interface CalciteTableCell {
     /**
      * Specifies the alignment of the component.
      */
-    "alignment"?: Alignment;
+    alignment?: Alignment;
     /**
      * Specifies the number of columns the component should span.
      */
-    "colSpan"?: number;
+    colSpan?: number;
     /**
      * When true, prevents user interaction.  Notes:  This prop should use the
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<TableCellMessages>;
+    messageOverrides?: Partial<TableCellMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: TableCellMessages;
-    "numberCell"?: boolean;
-    "parentRowIsSelected"?: boolean;
-    "parentRowPositionLocalized"?: string;
-    "parentRowType"?: RowType;
-    "positionInRow"?: number;
-    "readCellContentsToAT"?: boolean;
+    messages?: TableCellMessages;
+    numberCell?: boolean;
+    parentRowIsSelected?: boolean;
+    parentRowPositionLocalized?: string;
+    parentRowType?: RowType;
+    positionInRow?: number;
+    readCellContentsToAT?: boolean;
     /**
      * Specifies the number of rows the component should span.
      */
-    "rowSpan"?: number;
-    "scale"?: Scale;
-    "selectionCell"?: boolean;
+    rowSpan?: number;
+    scale?: Scale;
+    selectionCell?: boolean;
   }
   interface CalciteTableHeader {
     /**
      * Specifies the alignment of the component.
      */
-    "alignment"?: Alignment;
-    "bodyRowCount"?: number;
+    alignment?: Alignment;
+    bodyRowCount?: number;
     /**
      * Specifies the number of columns the component should span.
      */
-    "colSpan"?: number;
+    colSpan?: number;
     /**
      * A description to display beneath heading content.
      */
-    "description"?: string;
+    description?: string;
     /**
      * A heading to display above description content.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<TableHeaderMessages>;
+    messageOverrides?: Partial<TableHeaderMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: TableHeaderMessages;
-    "numberCell"?: boolean;
-    "parentRowPosition"?: number;
-    "parentRowType"?: RowType;
-    "positionInRow"?: number;
+    messages?: TableHeaderMessages;
+    numberCell?: boolean;
+    parentRowPosition?: number;
+    parentRowType?: RowType;
+    positionInRow?: number;
     /**
      * Specifies the number of rows the component should span.
      */
-    "rowSpan"?: number;
-    "scale"?: Scale;
-    "selectedRowCount"?: number;
-    "selectedRowCountLocalized"?: string;
-    "selectionCell"?: boolean;
-    "selectionMode"?: SelectionMode;
+    rowSpan?: number;
+    scale?: Scale;
+    selectedRowCount?: number;
+    selectedRowCountLocalized?: string;
+    selectionCell?: boolean;
+    selectionMode?: SelectionMode;
   }
   interface CalciteTableRow {
-    "bodyRowCount"?: number;
-    "cellCount"?: number;
+    bodyRowCount?: number;
+    cellCount?: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
-    "numbered"?: boolean;
-    "onCalciteInternalTableRowFocusRequest"?: (event: CalciteTableRowCustomEvent<TableRowFocusEvent>) => void;
+    disabled?: boolean;
+    numbered?: boolean;
+    onCalciteInternalTableRowFocusRequest?: (event: CalciteTableRowCustomEvent<TableRowFocusEvent>) => void;
     /**
      * Fires when the selected state of the component changes.
      */
-    "onCalciteTableRowSelect"?: (event: CalciteTableRowCustomEvent<void>) => void;
-    "positionAll"?: number;
-    "positionSection"?: number;
-    "positionSectionLocalized"?: string;
-    "readCellContentsToAT"?: boolean;
-    "rowType"?: RowType;
-    "scale"?: Scale;
+    onCalciteTableRowSelect?: (event: CalciteTableRowCustomEvent<void>) => void;
+    positionAll?: number;
+    positionSection?: number;
+    positionSectionLocalized?: string;
+    readCellContentsToAT?: boolean;
+    rowType?: RowType;
+    scale?: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
-    "selectedRowCount"?: number;
-    "selectedRowCountLocalized"?: string;
-    "selectionMode"?: Extract<"multiple" | "single" | "none", SelectionMode>;
+    selected?: boolean;
+    selectedRowCount?: number;
+    selectedRowCountLocalized?: string;
+    selectionMode?: Extract<"multiple" | "single" | "none", SelectionMode>;
   }
   interface CalciteTabs {
     /**
      * When `true`, the component will display with a folder style menu.
      */
-    "bordered"?: boolean;
+    bordered?: boolean;
     /**
      * Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`).
      */
-    "layout"?: TabLayout;
+    layout?: TabLayout;
     /**
      * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
      */
-    "position"?: TabPosition;
+    position?: TabPosition;
     /**
      * Specifies the size of the component, defaults to `m`.
      */
-    "scale"?: Scale;
+    scale?: Scale;
   }
   interface CalciteTextArea {
     /**
      * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
      * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
      */
-    "autofocus"?: boolean;
+    autofocus?: boolean;
     /**
      * Specifies the component's number of columns.
      * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
      */
-    "columns"?: number;
+    columns?: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
      */
-    "form"?: string;
+    form?: string;
     /**
      * When `true`, number values are displayed with a group separator corresponding to the language and country format.
      */
-    "groupSeparator"?: boolean;
+    groupSeparator?: boolean;
     /**
      * Accessible name for the component.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Specifies the maximum number of characters allowed.
      * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
      */
-    "maxLength"?: number;
+    maxLength?: number;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<TextAreaMessages>;
+    messageOverrides?: Partial<TextAreaMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: TextAreaMessages;
+    messages?: TextAreaMessages;
     /**
      * Specifies the name of the component.
      * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
      */
-    "name"?: string;
+    name?: string;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
+    numberingSystem?: NumberingSystem;
     /**
      * Fires each time a new `value` is typed and committed.
      */
-    "onCalciteTextAreaChange"?: (event: CalciteTextAreaCustomEvent<void>) => void;
+    onCalciteTextAreaChange?: (event: CalciteTextAreaCustomEvent<void>) => void;
     /**
      * Fires each time a new `value` is typed.
      */
-    "onCalciteTextAreaInput"?: (event: CalciteTextAreaCustomEvent<void>) => void;
+    onCalciteTextAreaInput?: (event: CalciteTextAreaCustomEvent<void>) => void;
     /**
      * Specifies the placeholder text for the component.
      * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
      */
-    "placeholder"?: string;
+    placeholder?: string;
     /**
      * When `true`, the component's `value` can be read, but cannot be modified.
      * @readonly
      * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
      */
-    "readOnly"?: boolean;
+    readOnly?: boolean;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
      */
-    "required"?: boolean;
+    required?: boolean;
     /**
      * Specifies if the component is resizable.
      */
-    "resize"?: "both" | "horizontal" | "vertical" | "none";
+    resize?: "both" | "horizontal" | "vertical" | "none";
     /**
      * Specifies the component's number of rows.
      * @mdn [rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
      */
-    "rows"?: number;
+    rows?: number;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: "l" | "m" | "s";
+    scale?: "l" | "m" | "s";
     /**
      * The component's value.
      */
-    "value"?: string;
+    value?: string;
     /**
      * Specifies the wrapping mechanism for the text.
      * @mdn [wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
      */
-    "wrap"?: "soft" | "hard";
+    wrap?: "soft" | "hard";
   }
   interface CalciteTile {
     /**
      * When `true`, the component is active.
      */
-    "active"?: boolean;
+    active?: boolean;
     /**
      * A description for the component, which displays below the heading.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The component's embed mode.  When `true`, renders without a border and padding for use by other components.
      */
-    "embed"?: boolean;
+    embed?: boolean;
     /**
      * The focused state of the component.
      */
-    "focused"?: boolean;
+    focused?: boolean;
     /**
      * The component header text, which displays between the icon and description.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * When `true`, the component is not displayed and is not focusable.
      */
-    "hidden"?: boolean;
+    hidden?: boolean;
     /**
      * When embed is `"false"`, the URL for the component.
      */
-    "href"?: string;
+    href?: string;
     /**
      * Specifies an icon to display.
      */
-    "icon"?: string;
+    icon?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
   }
   interface CalciteTileSelect {
     /**
      * When `true`, the component is checked.
      */
-    "checked"?: boolean;
+    checked?: boolean;
     /**
      * A description for the component, which displays below the heading.
      */
-    "description"?: string;
+    description?: string;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * The component header text, which displays between the icon and description.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * When `true`, the component is not displayed and is not focusable or checkable.
      */
-    "hidden"?: boolean;
+    hidden?: boolean;
     /**
      * Specifies an icon to display.
      */
-    "icon"?: string;
+    icon?: string;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * When `inputEnabled` is `true`, specifies the placement of the interactive input on the component.
      */
-    "inputAlignment"?: Extract<"end" | "start", Alignment>;
+    inputAlignment?: Extract<"end" | "start", Alignment>;
     /**
      * When `true`, displays an interactive input based on the `type` property.
      */
-    "inputEnabled"?: boolean;
+    inputEnabled?: boolean;
     /**
      * Specifies the name of the component on form submission.
      */
-    "name"?: any;
+    name?: any;
     /**
      * Emits a custom change event.  For checkboxes it emits when checked or unchecked.  For radios it only emits when checked.
      */
-    "onCalciteTileSelectChange"?: (event: CalciteTileSelectCustomEvent<void>) => void;
+    onCalciteTileSelectChange?: (event: CalciteTileSelectCustomEvent<void>) => void;
     /**
      * The selection mode of the component.  Use radio for single selection, and checkbox for multiple selections.
      */
-    "type"?: TileSelectType;
+    type?: TileSelectType;
     /**
      * The component's value.
      */
-    "value"?: any;
+    value?: any;
     /**
      * Specifies the width of the component.
      */
-    "width"?: Extract<"auto" | "full", Width>;
+    width?: Extract<"auto" | "full", Width>;
   }
   interface CalciteTileSelectGroup {
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
      */
-    "layout"?: TileSelectGroupLayout;
+    layout?: TileSelectGroupLayout;
   }
   interface CalciteTimePicker {
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<TimePickerMessages>;
+    messageOverrides?: Partial<TimePickerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: TimePickerMessages;
+    messages?: TimePickerMessages;
     /**
      * Specifies the Unicode numeral system used by the component for localization.
      */
-    "numberingSystem"?: NumberingSystem;
-    "onCalciteInternalTimePickerBlur"?: (event: CalciteTimePickerCustomEvent<void>) => void;
-    "onCalciteInternalTimePickerChange"?: (event: CalciteTimePickerCustomEvent<string>) => void;
-    "onCalciteInternalTimePickerFocus"?: (event: CalciteTimePickerCustomEvent<void>) => void;
+    numberingSystem?: NumberingSystem;
+    onCalciteInternalTimePickerBlur?: (event: CalciteTimePickerCustomEvent<void>) => void;
+    onCalciteInternalTimePickerChange?: (event: CalciteTimePickerCustomEvent<string>) => void;
+    onCalciteInternalTimePickerFocus?: (event: CalciteTimePickerCustomEvent<void>) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the granularity the `value` must adhere to (in seconds).
      */
-    "step"?: number;
+    step?: number;
     /**
      * The component's value in UTC (always 24-hour format).
      */
-    "value"?: string;
+    value?: string;
   }
   interface CalciteTip {
     /**
      * When `true`, the close button is not present on the component.
      */
-    "closeDisabled"?: boolean;
+    closeDisabled?: boolean;
     /**
      * When `true`, the component does not display.
      */
-    "closed"?: boolean;
+    closed?: boolean;
     /**
      * The component header text.
      */
-    "heading"?: string;
+    heading?: string;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<TipMessages>;
+    messageOverrides?: Partial<TipMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: TipMessages;
+    messages?: TipMessages;
     /**
      * Emits when the component has been closed.
      */
-    "onCalciteTipDismiss"?: (event: CalciteTipCustomEvent<void>) => void;
+    onCalciteTipDismiss?: (event: CalciteTipCustomEvent<void>) => void;
     /**
      * When `true`, the component is selected if it has a parent `calcite-tip-manager`.  Only one tip can be selected within the `calcite-tip-manager` parent.
      */
-    "selected"?: boolean;
+    selected?: boolean;
   }
   interface CalciteTipGroup {
     /**
      * The component header text for all nested `calcite-tip`s.
      */
-    "groupTitle"?: string;
+    groupTitle?: string;
   }
   interface CalciteTipManager {
     /**
      * When `true`, does not display or position the component.
      */
-    "closed"?: boolean;
+    closed?: boolean;
     /**
      * Specifies the number at which section headings should start.
      */
-    "headingLevel"?: HeadingLevel;
+    headingLevel?: HeadingLevel;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<TipManagerMessages>;
+    messageOverrides?: Partial<TipManagerMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: TipManagerMessages;
+    messages?: TipManagerMessages;
     /**
      * Emits when the component has been closed.
      */
-    "onCalciteTipManagerClose"?: (event: CalciteTipManagerCustomEvent<void>) => void;
+    onCalciteTipManagerClose?: (event: CalciteTipManagerCustomEvent<void>) => void;
   }
   interface CalciteTooltip {
     /**
      * Closes the component when the `referenceElement` is clicked.
      */
-    "closeOnClick"?: boolean;
+    closeOnClick?: boolean;
     /**
      * Accessible name for the component.
      * @deprecated No longer necessary. Overrides the context of the component's description, which could confuse assistive technology users.
      */
-    "label"?: string;
+    label?: string;
     /**
      * Offset the position of the component away from the `referenceElement`.
      * @default 6
      */
-    "offsetDistance"?: number;
+    offsetDistance?: number;
     /**
      * Offset the position of the component along the `referenceElement`.
      */
-    "offsetSkidding"?: number;
+    offsetSkidding?: number;
     /**
      * Fires when the component is requested to be closed and before the closing transition begins.
      */
-    "onCalciteTooltipBeforeClose"?: (event: CalciteTooltipCustomEvent<void>) => void;
+    onCalciteTooltipBeforeClose?: (event: CalciteTooltipCustomEvent<void>) => void;
     /**
      * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
      */
-    "onCalciteTooltipBeforeOpen"?: (event: CalciteTooltipCustomEvent<void>) => void;
+    onCalciteTooltipBeforeOpen?: (event: CalciteTooltipCustomEvent<void>) => void;
     /**
      * Fires when the component is closed and animation is complete.
      */
-    "onCalciteTooltipClose"?: (event: CalciteTooltipCustomEvent<void>) => void;
+    onCalciteTooltipClose?: (event: CalciteTooltipCustomEvent<void>) => void;
     /**
      * Fires when the component is open and animation is complete.
      */
-    "onCalciteTooltipOpen"?: (event: CalciteTooltipCustomEvent<void>) => void;
+    onCalciteTooltipOpen?: (event: CalciteTooltipCustomEvent<void>) => void;
     /**
      * When `true`, the component is open.
      */
-    "open"?: boolean;
+    open?: boolean;
     /**
      * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  The `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
      */
-    "overlayPositioning"?: OverlayPositioning;
+    overlayPositioning?: OverlayPositioning;
     /**
      * Determines where the component will be positioned relative to the `referenceElement`.
      */
-    "placement"?: LogicalPlacement;
+    placement?: LogicalPlacement;
     /**
      * The `referenceElement` to position the component according to its `"placement"` value.  Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.  However, a string ID of the reference element can be used.
      */
-    "referenceElement"?: ReferenceElement | string;
+    referenceElement?: ReferenceElement | string;
   }
   interface CalciteTree {
-    "child"?: boolean;
+    child?: boolean;
     /**
      * Displays indentation guide lines.
      */
-    "lines"?: boolean;
+    lines?: boolean;
     /**
      * Fires when the user selects/deselects `calcite-tree-items`.
      */
-    "onCalciteTreeSelect"?: (event: CalciteTreeCustomEvent<void>) => void;
+    onCalciteTreeSelect?: (event: CalciteTreeCustomEvent<void>) => void;
     /**
      * Specifies the size of the component.
      */
-    "scale"?: Scale;
+    scale?: Scale;
     /**
      * Specifies the component's selected items.
      * @readonly
      */
-    "selectedItems"?: HTMLCalciteTreeItemElement[];
+    selectedItems?: HTMLCalciteTreeItemElement[];
     /**
      * Specifies the selection mode, where `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections, `"children"` allows any number of selections from one parent from corresponding parent and child selections, `"multichildren"` allows any number of selections from corresponding parent and child selections, `"multiple"` allows any number of selections, `"none"` allows no selections, `"single"` allows one selection, and `"single-persist"` allows and requires one selection.
      * @default "single"
      */
-    "selectionMode"?: SelectionMode;
+    selectionMode?: SelectionMode;
   }
   interface CalciteTreeItem {
-    "depth"?: number;
+    depth?: number;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, the component is expanded.
      */
-    "expanded"?: boolean;
-    "hasChildren"?: boolean;
+    expanded?: boolean;
+    hasChildren?: boolean;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: FlipContext;
+    iconFlipRtl?: FlipContext;
     /**
      * Specifies an icon to display at the start of the component.
      */
-    "iconStart"?: string;
+    iconStart?: string;
     /**
      * In ancestor selection mode, show as indeterminate when only some children are selected.
      */
-    "indeterminate"?: boolean;
-    "lines"?: boolean;
-    "onCalciteInternalTreeItemSelect"?: (event: CalciteTreeItemCustomEvent<TreeItemSelectDetail>) => void;
-    "parentExpanded"?: boolean;
-    "scale"?: Scale;
+    indeterminate?: boolean;
+    lines?: boolean;
+    onCalciteInternalTreeItemSelect?: (event: CalciteTreeItemCustomEvent<TreeItemSelectDetail>) => void;
+    parentExpanded?: boolean;
+    scale?: Scale;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
-    "selectionMode"?: SelectionMode;
+    selected?: boolean;
+    selectionMode?: SelectionMode;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -12324,77 +15100,77 @@ declare namespace LocalJSX {
     /**
      * When provided, the method will be called to determine whether the element can  move from the list.
      */
-    "canPull"?: (detail: DragDetail) => boolean;
+    canPull?: (detail: DragDetail) => boolean;
     /**
      * When provided, the method will be called to determine whether the element can be added from another list.
      */
-    "canPut"?: (detail: DragDetail) => boolean;
+    canPut?: (detail: DragDetail) => boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
+    disabled?: boolean;
     /**
      * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
      */
-    "dragEnabled"?: boolean;
+    dragEnabled?: boolean;
     /**
      * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
      */
-    "filterEnabled"?: boolean;
+    filterEnabled?: boolean;
     /**
      * Placeholder text for the filter's input field.
      */
-    "filterPlaceholder"?: string;
+    filterPlaceholder?: string;
     /**
      * Text for the filter input field.
      */
-    "filterText"?: string;
+    filterText?: string;
     /**
      * The currently filtered data.
      * @readonly
      */
-    "filteredData"?: ItemData1;
+    filteredData?: ItemData1;
     /**
      * The currently filtered items.
      * @readonly
      */
-    "filteredItems"?: HTMLCalciteValueListItemElement[];
+    filteredItems?: HTMLCalciteValueListItemElement[];
     /**
      * The component's group identifier.  To drag elements from one list into another, both lists must have the same group value.
      */
-    "group"?: string;
+    group?: string;
     /**
      * When `true`, a busy indicator is displayed.
      */
-    "loading"?: boolean;
+    loading?: boolean;
     /**
      * Use this property to override individual strings used by the component.
      */
-    "messageOverrides"?: Partial<ValueListMessages>;
+    messageOverrides?: Partial<ValueListMessages>;
     /**
      * Made into a prop for testing purposes only
      */
-    "messages"?: ValueListMessages;
+    messages?: ValueListMessages;
     /**
      * Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-value-list-item`s at a time. When `false`, only a single `calcite-value-list-item` can be selected at a time, and a new selection will deselect previous selections.
      */
-    "multiple"?: boolean;
+    multiple?: boolean;
     /**
      * Emits when any of the list item selections have changed.
      */
-    "onCalciteListChange"?: (event: CalciteValueListCustomEvent<Map<string, HTMLCalciteValueListItemElement>>) => void;
+    onCalciteListChange?: (event: CalciteValueListCustomEvent<Map<string, HTMLCalciteValueListItemElement>>) => void;
     /**
      * Emits when a filter has changed.
      */
-    "onCalciteListFilter"?: (event: CalciteValueListCustomEvent<void>) => void;
+    onCalciteListFilter?: (event: CalciteValueListCustomEvent<void>) => void;
     /**
      * Emits when the order of the list has changed.
      */
-    "onCalciteListOrderChange"?: (event: CalciteValueListCustomEvent<any[]>) => void;
+    onCalciteListOrderChange?: (event: CalciteValueListCustomEvent<any[]>) => void;
     /**
      * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
      */
-    "selectionFollowsFocus"?: boolean;
+    selectionFollowsFocus?: boolean;
   }
   /**
    * @deprecated Use the `list` component instead.
@@ -12403,60 +15179,62 @@ declare namespace LocalJSX {
     /**
      * A description for the component that displays below the label text.
      */
-    "description"?: string;
-    "deselectDisabled"?: boolean;
+    description?: string;
+    deselectDisabled?: boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
-    "disabled"?: boolean;
-    "handleActivated"?: boolean;
+    disabled?: boolean;
+    handleActivated?: boolean;
     /**
      * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
      * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
      */
-    "icon"?: ICON_TYPES | null;
+    icon?: ICON_TYPES | null;
     /**
      * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
      */
-    "iconFlipRtl"?: boolean;
+    iconFlipRtl?: boolean;
     /**
      * Label and accessible name for the component. Appears next to the icon.
      */
-    "label": string;
+    label: string;
     /**
      * Provides additional metadata to the component. Primary use is for a filter on the parent list.
      */
-    "metadata"?: Record<string, unknown>;
+    metadata?: Record<string, unknown>;
     /**
      * When `true`, prevents the content of the component from user interaction.
      */
-    "nonInteractive"?: boolean;
+    nonInteractive?: boolean;
     /**
      * Fires when the component is selected or unselected.
      */
-    "onCalciteListItemChange"?: (event: CalciteValueListItemCustomEvent<{
-      item: HTMLCalciteValueListItemElement;
-      value: any;
-      selected: boolean;
-      shiftPressed: boolean;
-    }>) => void;
+    onCalciteListItemChange?: (
+      event: CalciteValueListItemCustomEvent<{
+        item: HTMLCalciteValueListItemElement;
+        value: any;
+        selected: boolean;
+        shiftPressed: boolean;
+      }>
+    ) => void;
     /**
      * Fires when the remove button is pressed.
      */
-    "onCalciteListItemRemove"?: (event: CalciteValueListItemCustomEvent<void>) => void;
-    "onCalciteValueListItemDragHandleBlur"?: (event: CalciteValueListItemCustomEvent<ListItemAndHandle>) => void;
+    onCalciteListItemRemove?: (event: CalciteValueListItemCustomEvent<void>) => void;
+    onCalciteValueListItemDragHandleBlur?: (event: CalciteValueListItemCustomEvent<ListItemAndHandle>) => void;
     /**
      * When `true`, adds an action to remove the component.
      */
-    "removable"?: boolean;
+    removable?: boolean;
     /**
      * When `true`, the component is selected.
      */
-    "selected"?: boolean;
+    selected?: boolean;
     /**
      * The component's value.
      */
-    "value": any;
+    value: any;
   }
   interface IntrinsicElements {
     "calcite-accordion": CalciteAccordion;
@@ -12588,15 +15366,21 @@ declare module "@stencil/core" {
       "calcite-chip": LocalJSX.CalciteChip & JSXBase.HTMLAttributes<HTMLCalciteChipElement>;
       "calcite-chip-group": LocalJSX.CalciteChipGroup & JSXBase.HTMLAttributes<HTMLCalciteChipGroupElement>;
       "calcite-color-picker": LocalJSX.CalciteColorPicker & JSXBase.HTMLAttributes<HTMLCalciteColorPickerElement>;
-      "calcite-color-picker-hex-input": LocalJSX.CalciteColorPickerHexInput & JSXBase.HTMLAttributes<HTMLCalciteColorPickerHexInputElement>;
-      "calcite-color-picker-swatch": LocalJSX.CalciteColorPickerSwatch & JSXBase.HTMLAttributes<HTMLCalciteColorPickerSwatchElement>;
+      "calcite-color-picker-hex-input": LocalJSX.CalciteColorPickerHexInput &
+        JSXBase.HTMLAttributes<HTMLCalciteColorPickerHexInputElement>;
+      "calcite-color-picker-swatch": LocalJSX.CalciteColorPickerSwatch &
+        JSXBase.HTMLAttributes<HTMLCalciteColorPickerSwatchElement>;
       "calcite-combobox": LocalJSX.CalciteCombobox & JSXBase.HTMLAttributes<HTMLCalciteComboboxElement>;
       "calcite-combobox-item": LocalJSX.CalciteComboboxItem & JSXBase.HTMLAttributes<HTMLCalciteComboboxItemElement>;
-      "calcite-combobox-item-group": LocalJSX.CalciteComboboxItemGroup & JSXBase.HTMLAttributes<HTMLCalciteComboboxItemGroupElement>;
+      "calcite-combobox-item-group": LocalJSX.CalciteComboboxItemGroup &
+        JSXBase.HTMLAttributes<HTMLCalciteComboboxItemGroupElement>;
       "calcite-date-picker": LocalJSX.CalciteDatePicker & JSXBase.HTMLAttributes<HTMLCalciteDatePickerElement>;
-      "calcite-date-picker-day": LocalJSX.CalciteDatePickerDay & JSXBase.HTMLAttributes<HTMLCalciteDatePickerDayElement>;
-      "calcite-date-picker-month": LocalJSX.CalciteDatePickerMonth & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthElement>;
-      "calcite-date-picker-month-header": LocalJSX.CalciteDatePickerMonthHeader & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthHeaderElement>;
+      "calcite-date-picker-day": LocalJSX.CalciteDatePickerDay &
+        JSXBase.HTMLAttributes<HTMLCalciteDatePickerDayElement>;
+      "calcite-date-picker-month": LocalJSX.CalciteDatePickerMonth &
+        JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthElement>;
+      "calcite-date-picker-month-header": LocalJSX.CalciteDatePickerMonthHeader &
+        JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthHeaderElement>;
       "calcite-dropdown": LocalJSX.CalciteDropdown & JSXBase.HTMLAttributes<HTMLCalciteDropdownElement>;
       "calcite-dropdown-group": LocalJSX.CalciteDropdownGroup & JSXBase.HTMLAttributes<HTMLCalciteDropdownGroupElement>;
       "calcite-dropdown-item": LocalJSX.CalciteDropdownItem & JSXBase.HTMLAttributes<HTMLCalciteDropdownItemElement>;
@@ -12607,14 +15391,18 @@ declare module "@stencil/core" {
       "calcite-graph": LocalJSX.CalciteGraph & JSXBase.HTMLAttributes<HTMLCalciteGraphElement>;
       "calcite-handle": LocalJSX.CalciteHandle & JSXBase.HTMLAttributes<HTMLCalciteHandleElement>;
       "calcite-icon": LocalJSX.CalciteIcon & JSXBase.HTMLAttributes<HTMLCalciteIconElement>;
-      "calcite-inline-editable": LocalJSX.CalciteInlineEditable & JSXBase.HTMLAttributes<HTMLCalciteInlineEditableElement>;
+      "calcite-inline-editable": LocalJSX.CalciteInlineEditable &
+        JSXBase.HTMLAttributes<HTMLCalciteInlineEditableElement>;
       "calcite-input": LocalJSX.CalciteInput & JSXBase.HTMLAttributes<HTMLCalciteInputElement>;
-      "calcite-input-date-picker": LocalJSX.CalciteInputDatePicker & JSXBase.HTMLAttributes<HTMLCalciteInputDatePickerElement>;
+      "calcite-input-date-picker": LocalJSX.CalciteInputDatePicker &
+        JSXBase.HTMLAttributes<HTMLCalciteInputDatePickerElement>;
       "calcite-input-message": LocalJSX.CalciteInputMessage & JSXBase.HTMLAttributes<HTMLCalciteInputMessageElement>;
       "calcite-input-number": LocalJSX.CalciteInputNumber & JSXBase.HTMLAttributes<HTMLCalciteInputNumberElement>;
       "calcite-input-text": LocalJSX.CalciteInputText & JSXBase.HTMLAttributes<HTMLCalciteInputTextElement>;
-      "calcite-input-time-picker": LocalJSX.CalciteInputTimePicker & JSXBase.HTMLAttributes<HTMLCalciteInputTimePickerElement>;
-      "calcite-input-time-zone": LocalJSX.CalciteInputTimeZone & JSXBase.HTMLAttributes<HTMLCalciteInputTimeZoneElement>;
+      "calcite-input-time-picker": LocalJSX.CalciteInputTimePicker &
+        JSXBase.HTMLAttributes<HTMLCalciteInputTimePickerElement>;
+      "calcite-input-time-zone": LocalJSX.CalciteInputTimeZone &
+        JSXBase.HTMLAttributes<HTMLCalciteInputTimeZoneElement>;
       "calcite-label": LocalJSX.CalciteLabel & JSXBase.HTMLAttributes<HTMLCalciteLabelElement>;
       "calcite-link": LocalJSX.CalciteLink & JSXBase.HTMLAttributes<HTMLCalciteLinkElement>;
       /**
@@ -12622,15 +15410,18 @@ declare module "@stencil/core" {
        */
       "calcite-list": LocalJSX.CalciteList & JSXBase.HTMLAttributes<HTMLCalciteListElement>;
       "calcite-list-item": LocalJSX.CalciteListItem & JSXBase.HTMLAttributes<HTMLCalciteListItemElement>;
-      "calcite-list-item-group": LocalJSX.CalciteListItemGroup & JSXBase.HTMLAttributes<HTMLCalciteListItemGroupElement>;
+      "calcite-list-item-group": LocalJSX.CalciteListItemGroup &
+        JSXBase.HTMLAttributes<HTMLCalciteListItemGroupElement>;
       "calcite-loader": LocalJSX.CalciteLoader & JSXBase.HTMLAttributes<HTMLCalciteLoaderElement>;
       "calcite-menu": LocalJSX.CalciteMenu & JSXBase.HTMLAttributes<HTMLCalciteMenuElement>;
       "calcite-menu-item": LocalJSX.CalciteMenuItem & JSXBase.HTMLAttributes<HTMLCalciteMenuItemElement>;
       "calcite-meter": LocalJSX.CalciteMeter & JSXBase.HTMLAttributes<HTMLCalciteMeterElement>;
       "calcite-modal": LocalJSX.CalciteModal & JSXBase.HTMLAttributes<HTMLCalciteModalElement>;
       "calcite-navigation": LocalJSX.CalciteNavigation & JSXBase.HTMLAttributes<HTMLCalciteNavigationElement>;
-      "calcite-navigation-logo": LocalJSX.CalciteNavigationLogo & JSXBase.HTMLAttributes<HTMLCalciteNavigationLogoElement>;
-      "calcite-navigation-user": LocalJSX.CalciteNavigationUser & JSXBase.HTMLAttributes<HTMLCalciteNavigationUserElement>;
+      "calcite-navigation-logo": LocalJSX.CalciteNavigationLogo &
+        JSXBase.HTMLAttributes<HTMLCalciteNavigationLogoElement>;
+      "calcite-navigation-user": LocalJSX.CalciteNavigationUser &
+        JSXBase.HTMLAttributes<HTMLCalciteNavigationUserElement>;
       "calcite-notice": LocalJSX.CalciteNotice & JSXBase.HTMLAttributes<HTMLCalciteNoticeElement>;
       "calcite-option": LocalJSX.CalciteOption & JSXBase.HTMLAttributes<HTMLCalciteOptionElement>;
       "calcite-option-group": LocalJSX.CalciteOptionGroup & JSXBase.HTMLAttributes<HTMLCalciteOptionGroupElement>;
@@ -12643,7 +15434,8 @@ declare module "@stencil/core" {
       /**
        * @deprecated Use the `list` component instead.
        */
-      "calcite-pick-list-group": LocalJSX.CalcitePickListGroup & JSXBase.HTMLAttributes<HTMLCalcitePickListGroupElement>;
+      "calcite-pick-list-group": LocalJSX.CalcitePickListGroup &
+        JSXBase.HTMLAttributes<HTMLCalcitePickListGroupElement>;
       /**
        * @deprecated Use the `list` component instead.
        */
@@ -12651,15 +15443,19 @@ declare module "@stencil/core" {
       "calcite-popover": LocalJSX.CalcitePopover & JSXBase.HTMLAttributes<HTMLCalcitePopoverElement>;
       "calcite-progress": LocalJSX.CalciteProgress & JSXBase.HTMLAttributes<HTMLCalciteProgressElement>;
       "calcite-radio-button": LocalJSX.CalciteRadioButton & JSXBase.HTMLAttributes<HTMLCalciteRadioButtonElement>;
-      "calcite-radio-button-group": LocalJSX.CalciteRadioButtonGroup & JSXBase.HTMLAttributes<HTMLCalciteRadioButtonGroupElement>;
+      "calcite-radio-button-group": LocalJSX.CalciteRadioButtonGroup &
+        JSXBase.HTMLAttributes<HTMLCalciteRadioButtonGroupElement>;
       "calcite-rating": LocalJSX.CalciteRating & JSXBase.HTMLAttributes<HTMLCalciteRatingElement>;
       "calcite-scrim": LocalJSX.CalciteScrim & JSXBase.HTMLAttributes<HTMLCalciteScrimElement>;
-      "calcite-segmented-control": LocalJSX.CalciteSegmentedControl & JSXBase.HTMLAttributes<HTMLCalciteSegmentedControlElement>;
-      "calcite-segmented-control-item": LocalJSX.CalciteSegmentedControlItem & JSXBase.HTMLAttributes<HTMLCalciteSegmentedControlItemElement>;
+      "calcite-segmented-control": LocalJSX.CalciteSegmentedControl &
+        JSXBase.HTMLAttributes<HTMLCalciteSegmentedControlElement>;
+      "calcite-segmented-control-item": LocalJSX.CalciteSegmentedControlItem &
+        JSXBase.HTMLAttributes<HTMLCalciteSegmentedControlItemElement>;
       "calcite-select": LocalJSX.CalciteSelect & JSXBase.HTMLAttributes<HTMLCalciteSelectElement>;
       "calcite-sheet": LocalJSX.CalciteSheet & JSXBase.HTMLAttributes<HTMLCalciteSheetElement>;
       "calcite-shell": LocalJSX.CalciteShell & JSXBase.HTMLAttributes<HTMLCalciteShellElement>;
-      "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow & JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
+      "calcite-shell-center-row": LocalJSX.CalciteShellCenterRow &
+        JSXBase.HTMLAttributes<HTMLCalciteShellCenterRowElement>;
       "calcite-shell-panel": LocalJSX.CalciteShellPanel & JSXBase.HTMLAttributes<HTMLCalciteShellPanelElement>;
       "calcite-slider": LocalJSX.CalciteSlider & JSXBase.HTMLAttributes<HTMLCalciteSliderElement>;
       "calcite-sortable-list": LocalJSX.CalciteSortableList & JSXBase.HTMLAttributes<HTMLCalciteSortableListElement>;
@@ -12679,7 +15475,8 @@ declare module "@stencil/core" {
       "calcite-text-area": LocalJSX.CalciteTextArea & JSXBase.HTMLAttributes<HTMLCalciteTextAreaElement>;
       "calcite-tile": LocalJSX.CalciteTile & JSXBase.HTMLAttributes<HTMLCalciteTileElement>;
       "calcite-tile-select": LocalJSX.CalciteTileSelect & JSXBase.HTMLAttributes<HTMLCalciteTileSelectElement>;
-      "calcite-tile-select-group": LocalJSX.CalciteTileSelectGroup & JSXBase.HTMLAttributes<HTMLCalciteTileSelectGroupElement>;
+      "calcite-tile-select-group": LocalJSX.CalciteTileSelectGroup &
+        JSXBase.HTMLAttributes<HTMLCalciteTileSelectGroupElement>;
       "calcite-time-picker": LocalJSX.CalciteTimePicker & JSXBase.HTMLAttributes<HTMLCalciteTimePickerElement>;
       "calcite-tip": LocalJSX.CalciteTip & JSXBase.HTMLAttributes<HTMLCalciteTipElement>;
       "calcite-tip-group": LocalJSX.CalciteTipGroup & JSXBase.HTMLAttributes<HTMLCalciteTipGroupElement>;
@@ -12694,7 +15491,8 @@ declare module "@stencil/core" {
       /**
        * @deprecated Use the `list` component instead.
        */
-      "calcite-value-list-item": LocalJSX.CalciteValueListItem & JSXBase.HTMLAttributes<HTMLCalciteValueListItemElement>;
+      "calcite-value-list-item": LocalJSX.CalciteValueListItem &
+        JSXBase.HTMLAttributes<HTMLCalciteValueListItemElement>;
     }
   }
 }
