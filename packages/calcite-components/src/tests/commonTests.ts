@@ -1598,7 +1598,7 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
   it(`emits with animations enabled`, async () => {
     const page = await simplePageSetup(componentTagOrHTML);
     await skipAnimations(page);
-    setUpPage(componentTagOrHTML, page);
+    await setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
@@ -1611,14 +1611,14 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
         }
       `,
     });
-    setUpPage(componentTagOrHTML, page);
+    await setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
   it("emits on initialization with animations enabled", async () => {
     const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
-    setUpPage(componentTagOrHTML, page);
+    await setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
@@ -1631,7 +1631,7 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
         }
       `,
     });
-    setUpPage(componentTagOrHTML, page);
+    await setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 }
