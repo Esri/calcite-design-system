@@ -1,4 +1,3 @@
-import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 import { FunctionalComponent, h } from "@stencil/core";
 
