@@ -4,7 +4,7 @@ import type { JSXAttribute, JSXSpreadAttribute, JSXOpeningElement } from "@babel
 const rule: Rule.RuleModule = {
   meta: {
     docs: {
-      description: `This updates ref usage to work around a Stencil bug where ref is called in the specified order and not after initializing element with all its attributes/properties. This can cause attributes/properties to be outdated by the time the callback is invoked. This rule ensures the ref attribute is ordered last in a JSXElement to keep it up-to-date.`,
+      description: `This rule ensures this is a workaround for a [Stencil bug](https://github.com/ionic-team/stencil/issues/4074) where ref is called in the specified order and not after initializing element with all its attributes/properties. This can cause attributes/properties to be outdated by the time the callback is invoked. This rule ensures the ref attribute is ordered last in a JSXElement to keep it up-to-date.`,
       recommended: true,
     },
     fixable: "code",
