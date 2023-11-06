@@ -35,15 +35,15 @@ import {
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 
+const listItemSelector = "calcite-list-item";
+const listItemSelectorDirect = `:scope > calcite-list-item`;
+const parentSelector = "calcite-list-item-group, calcite-list-item";
+
 type ListDragDetail = DragDetail & {
   toEl: HTMLCalciteListElement;
   fromEl: HTMLCalciteListElement;
   dragEl: HTMLCalciteListItemElement;
 };
-
-const listItemSelector = "calcite-list-item";
-const listItemSelectorDirect = `:scope > calcite-list-item`;
-const parentSelector = "calcite-list-item-group, calcite-list-item";
 
 import {
   componentFocusable,
