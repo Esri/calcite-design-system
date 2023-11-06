@@ -91,7 +91,8 @@
 }
 
 .action-container {
-  @apply absolute flex justify-between p-1;
+  @apply absolute flex justify-between;
+  padding-block: 0.25rem;
   inline-size: 100%;
 }
 
