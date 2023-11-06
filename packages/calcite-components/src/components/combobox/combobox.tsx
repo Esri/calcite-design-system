@@ -855,10 +855,18 @@ export class Combobox
       const { fontSize, fontFamily } = getComputedStyle(textInput);
       const chipContainerElWidth = getElementWidth(chipContainerEl);
       const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
-      const inputWidth =
-        (getTextWidth(textInput.value || placeholder, `${fontSize} ${fontFamily}`) || 50) +
-        chipContainerElGap;
-      const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
+      const inputTextWidth = getTextWidth(
+        textInput.value || placeholder,
+        `${fontSize} ${fontFamily}`
+      );
+      // TODO: use the 48px token here as the minimum input width.
+      const inputWidth = (inputTextWidth || 48) + chipContainerElGap;
+      const selectedIndicatorChipElWidth = selectedIndicatorChipEl.classList.contains(
+        CSS.chipInvisible
+      )
+        ? 0
+        : getElementWidth(selectedIndicatorChipEl);
+
       let availableHorizontalChipElSpace = Math.round(
         chipContainerElWidth - (selectedIndicatorChipElWidth + chipContainerElGap + inputWidth)
       );
