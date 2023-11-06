@@ -5,11 +5,16 @@ import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
-import { JSX } from "../components";
+import type { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
-import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "./utils";
-import { InteractiveHTMLElement } from "../utils/interactive";
+import {
+  GlobalTestProps,
+  IntrinsicElementsWithProp,
+  isElementFocused,
+  newProgrammaticE2EPage,
+  skipAnimations,
+} from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -1224,10 +1229,12 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
     });
 
+    type InteractiveCalciteComponents = IntrinsicElementsWithProp<"disabled"> & HTMLElement;
+
     // this needs to run in the browser context to ensure disabling and events fire immediately after being set
     await page.$eval(
       tag,
-      (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
+      (component: InteractiveCalciteComponents, allExpectedEvents: string[]) => {
         component.disabled = false;
         allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
 
@@ -1366,9 +1373,12 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   beforeEach(async () => {
     const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
     page = e2ePage;
+
+    type CalciteComponentsWithMessages = IntrinsicElementsWithProp<"messages">;
+
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
-      return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
+      return page.$eval(tag, (component: CalciteComponentsWithMessages) => component.messages);
     };
   });
 

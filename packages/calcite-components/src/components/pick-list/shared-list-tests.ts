@@ -595,12 +595,12 @@ export function itemRemoval(listType: ListType): void {
 
     const removableItems = await page.$$eval(
       `calcite-${listType}-list-item`,
-      (items: ListElement[], listType, selector: string) => {
+      (items, listType, selector: string) => {
         items.forEach((item) => {
           listType === "pick"
             ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
             : item.shadowRoot
-                .querySelector<ListElement>("calcite-pick-list-item")
+                .querySelector<HTMLCalcitePickListItemElement>("calcite-pick-list-item")
                 .shadowRoot.querySelector<HTMLElement>(selector)
                 .click();
         });

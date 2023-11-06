@@ -1823,7 +1823,7 @@ describe("calcite-input", () => {
       await page.keyboard.down("ArrowUp");
       await page.$eval(
         "calcite-input",
-        (element: HTMLInputElement) => {
+        (element: HTMLCalciteInputElement) => {
           document.addEventListener("calciteInputInput", async () => {
             const input = element.shadowRoot.querySelector("input");
             if (input.selectionStart === 0) {
