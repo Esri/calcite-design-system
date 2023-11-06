@@ -11,6 +11,18 @@
   }
 }
 
+:host([width="auto"]) {
+  @apply w-auto;
+}
+
+:host([width="half"]) {
+  @apply w-2/4;
+}
+
+:host([width="full"]) {
+  @apply w-full;
+}
+
 :host {
   &:host([kind="brand"]) {
     --calcite-split-button-background: theme("colors.brand");
@@ -72,18 +84,6 @@
   &:host([kind="inverse"]) {
     --calcite-split-button-divider: var(--calcite-ui-inverse);
   }
-}
-
-.width-auto {
-  @apply w-auto;
-}
-
-.width-half {
-  @apply w-1/2;
-}
-
-.width-full {
-  @apply w-full;
 }
 
 .split-button__divider-container {
