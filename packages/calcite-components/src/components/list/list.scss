@@ -29,10 +29,11 @@
 }
 
 ::slotted(calcite-list-item) {
-  @apply shadow-border-bottom mb-px;
+  @apply shadow-border-top;
+  margin-block-start: 1px;
 }
 
-::slotted(calcite-list-item:last-child) {
+::slotted(calcite-list-item:first-child) {
   @apply shadow-none;
 }
 
