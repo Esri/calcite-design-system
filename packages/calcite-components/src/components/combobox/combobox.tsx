@@ -443,17 +443,6 @@ export class Combobox
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
-
-    if (this.displayMode === "fit-to-line") {
-      this.inputIntersectionObserver = createObserver(
-        "intersection",
-        this.inputIntersectionHandler,
-        {
-          root: this.chipContainerEl,
-          threshold: 1,
-        }
-      );
-    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -465,9 +454,6 @@ export class Combobox
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition(true);
-    if (this.displayMode === "fit-to-line") {
-      this.inputIntersectionObserver.observe(this.textInput);
-    }
     setComponentLoaded(this);
   }
 
@@ -546,13 +532,13 @@ export class Combobox
 
   @State() selectedHiddenChipsCount: number;
 
+  @State() selectedIndicatorChipLabel: string;
+
   @State() selectedVisibleChipsCount: number;
 
   textInput: HTMLInputElement = null;
 
   data: ItemData[];
-
-  inputIntersectionObserver: IntersectionObserver;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -834,40 +820,45 @@ export class Combobox
     chipEl.classList.add(CSS.chipInvisible);
   }
 
-  private inputIntersectionHandler = (entries): void => {
-    const selectedItemsCount = this.getSelectedItems().length;
-    entries.forEach(({ isIntersecting }) => {
-      if (!isIntersecting && !this.selectedVisibleChipsCount && selectedItemsCount > 0) {
-        this.selectedIndicatorChipEl.innerHTML = `${selectedItemsCount}`;
-      }
-    });
-  };
-
   private showChip(chipEl: HTMLCalciteChipElement): void {
     chipEl.classList.remove(CSS.chipInvisible);
   }
 
   private refreshDisplayMode = async () => {
     await componentLoaded(this);
+
     if (isSingleLike(this.selectionMode)) {
       return;
     }
+
     if (!this.textInput) {
       return;
     }
-    if (this.displayMode === "fit-to-line") {
+
+    const {
+      chipContainerEl,
+      displayMode,
+      getSelectedItems,
+      hideChip,
+      placeholder,
+      selectedIndicatorChipEl,
+      showChip,
+      textInput,
+    } = this;
+
+    const allSelected = this.isAllSelected();
+
+    if (displayMode === "fit-to-line") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-        (chipEl) => chipEl !== this.selectedIndicatorChipEl
+        (chipEl) => chipEl !== selectedIndicatorChipEl
       );
-      const { fontSize, fontFamily } = getComputedStyle(this.textInput);
-      const chipContainerElWidth = getElementWidth(this.chipContainerEl);
-      const chipContainerElGap = parseInt(
-        getComputedStyle(this.chipContainerEl).gap.replace("px", "")
-      );
+      const { fontSize, fontFamily } = getComputedStyle(textInput);
+      const chipContainerElWidth = getElementWidth(chipContainerEl);
+      const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
       const inputWidth =
-        (getTextWidth(this.textInput.value || this.placeholder, `${fontSize} ${fontFamily}`) ||
-          50) + chipContainerElGap;
-      const selectedIndicatorChipElWidth = getElementWidth(this.selectedIndicatorChipEl);
+        (getTextWidth(textInput.value || placeholder, `${fontSize} ${fontFamily}`) || 50) +
+        chipContainerElGap;
+      const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
       let availableHorizontalChipElSpace = Math.round(
         chipContainerElWidth - (selectedIndicatorChipElWidth + chipContainerElGap + inputWidth)
       );
@@ -877,31 +868,52 @@ export class Combobox
           const chipElWidth = getElementWidth(chipEl);
           if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
             availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
-            this.showChip(chipEl);
+            showChip(chipEl);
           } else {
-            this.hideChip(chipEl);
+            hideChip(chipEl);
           }
         } else {
-          this.hideChip(chipEl);
+          hideChip(chipEl);
         }
       });
 
-      let selectedVisibleChipsCount = 0;
+      let newSelectedVisibleChipsCount = 0;
       chipEls.forEach((chipEl) => {
         if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
-          selectedVisibleChipsCount++;
+          newSelectedVisibleChipsCount++;
         }
       });
 
-      const newSelectedHiddenChipsCount =
-        this.getSelectedItems().length - selectedVisibleChipsCount;
+      const newSelectedHiddenChipsCount = getSelectedItems().length - newSelectedVisibleChipsCount;
 
       if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
         this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
       }
 
-      if (selectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
-        this.selectedVisibleChipsCount = selectedVisibleChipsCount;
+      if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
+        this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
+      }
+
+      const { selectedHiddenChipsCount, selectedVisibleChipsCount } = this;
+
+      if (allSelected && selectedVisibleChipsCount !== undefined && !selectedVisibleChipsCount) {
+        this.selectedIndicatorChipLabel = "All selected";
+      } else if (selectedHiddenChipsCount > 0) {
+        this.selectedIndicatorChipLabel =
+          newSelectedVisibleChipsCount > 0
+            ? `+${selectedHiddenChipsCount}`
+            : `${selectedHiddenChipsCount} selected`;
+      } else {
+        this.selectedIndicatorChipLabel = null;
+      }
+    } else if (displayMode === "single") {
+      const selectedItemsCount = getSelectedItems().length;
+      if (allSelected) {
+        this.selectedIndicatorChipLabel = "All selected";
+      } else if (selectedItemsCount > 0) {
+        this.selectedIndicatorChipLabel = `${selectedItemsCount} selected`;
+      } else {
+        this.selectedIndicatorChipLabel = null;
       }
     }
   };
@@ -1075,7 +1087,7 @@ export class Combobox
     return this.items.filter((item) => !item.hidden);
   }
 
-  getSelectedItems(): HTMLCalciteComboboxItemElement[] {
+  private getSelectedItems = (): HTMLCalciteComboboxItemElement[] => {
     if (!this.isMulti()) {
       const match = this.items.find(({ selected }) => selected);
       return match ? [match] : [];
@@ -1097,7 +1109,7 @@ export class Combobox
           return bIdx - aIdx;
         })
     );
-  }
+  };
 
   private updateItems = (): void => {
     this.items = this.getItems();
@@ -1268,6 +1280,10 @@ export class Combobox
     }
   }
 
+  private isAllSelected = (): boolean => {
+    return this.getItems().length === this.getSelectedItems().length;
+  };
+
   isMulti(): boolean {
     return !isSingleLike(this.selectionMode);
   }
@@ -1318,40 +1334,16 @@ export class Combobox
   }
 
   renderSelectedIndicatorChip(): VNode {
-    const {
-      displayMode,
-      scale,
-      selectedHiddenChipsCount,
-      selectedVisibleChipsCount,
-      setSelectedIndicatorChipEl,
-    } = this;
-    let label;
-    const allSelected = this.getItems().length === this.getSelectedItems().length;
-    if (
-      (allSelected && displayMode === "single") ||
-      (allSelected &&
-        displayMode === "fit-to-line" &&
-        selectedVisibleChipsCount !== undefined &&
-        !selectedVisibleChipsCount)
-    ) {
-      label = "All selected";
-    } else if (displayMode === "single" && this.getSelectedItems().length > 0) {
-      label = `${this.selectedItems.length} selected`;
-    } else if (displayMode === "fit-to-line" && selectedHiddenChipsCount > 0) {
-      label =
-        selectedVisibleChipsCount > 0
-          ? `+${selectedHiddenChipsCount}`
-          : `${selectedHiddenChipsCount} selected`;
-    }
+    const { scale, selectedIndicatorChipLabel, setSelectedIndicatorChipEl } = this;
     return (
       <calcite-chip
-        class={{ chip: true, [CSS.chipInvisible]: !label }}
+        class={{ chip: true, [CSS.chipInvisible]: !selectedIndicatorChipLabel }}
         ref={setSelectedIndicatorChipEl}
         scale={scale}
-        title={label}
+        title={selectedIndicatorChipLabel}
         value=""
       >
-        {label}
+        {selectedIndicatorChipLabel}
       </calcite-chip>
     );
   }
