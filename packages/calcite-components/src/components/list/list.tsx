@@ -761,7 +761,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM"
     ) as HTMLCalciteListItemElement;
 
-    const parentEl = sortItem?.parentElement;
+    const parentEl = sortItem?.parentElement as HTMLCalciteListElement;
 
     if (!parentEl) {
       return;
@@ -806,9 +806,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
-      dragEl: sortItem as HTMLCalciteListItemElement,
-      fromEl: parentEl as HTMLCalciteListElement,
-      toEl: parentEl as HTMLCalciteListElement,
+      dragEl: sortItem,
+      fromEl: parentEl,
+      toEl: parentEl,
       newIndex,
       oldIndex,
     });
