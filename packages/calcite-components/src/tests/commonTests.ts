@@ -1374,7 +1374,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
     page = e2ePage;
 
-    type CalciteComponentsWithMessages = IntrinsicElementsWithProp<"messages">;
+    type CalciteComponentsWithMessages = IntrinsicElementsWithProp<"messages"> & HTMLElement;
 
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
