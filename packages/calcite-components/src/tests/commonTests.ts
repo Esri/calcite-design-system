@@ -1510,7 +1510,7 @@ interface OpenCloseOptions {
  * @param {object} [options] - Additional options to assert.
  */
 
-export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): Promise<void> {
+export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): void {
   const defaultOptions: OpenCloseOptions = {
     initialToggleValue: false,
     openPropName: "open",
@@ -1518,9 +1518,9 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
   const customizedOptions = { ...defaultOptions, ...options };
 
   type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
-  const eventSequence = await setUpEventSequence(componentTagOrHTML);
+  const eventSequence = setUpEventSequence(componentTagOrHTML);
 
-  async function setUpEventSequence(componentTagOrHTML: TagOrHTML): Promise<string[]> {
+  function setUpEventSequence(componentTagOrHTML: TagOrHTML): string[] {
     const tag = getTag(componentTagOrHTML);
 
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
