@@ -2,15 +2,11 @@ name: Run eslint-plugin-calcite-components tests
 
 on:
   pull_request:
-    paths:
-      - "packages/eslint-plugin-calcite-components/**"
-    branches:
-      - master
+    paths: ["packages/eslint-plugin-calcite-components/**"]
+    branches: [main, rc]
   push:
-    paths:
-      - "packages/eslint-plugin-calcite-components/**"
-    branches:
-      - master
+    paths: ["packages/eslint-plugin-calcite-components/**"]
+    branches: [main, rc]
 
 jobs:
   build:
