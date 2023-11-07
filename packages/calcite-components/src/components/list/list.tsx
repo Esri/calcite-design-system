@@ -27,6 +27,7 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
+  DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
@@ -45,7 +46,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { HandleNudge } from "../handle/interfaces";
-import { ListDragDetail } from "./interfaces";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -74,12 +74,16 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() canPull: (detail: ListDragDetail) => boolean;
+  @Prop() canPull: (
+    detail: DragDetail<HTMLCalciteListElement, HTMLCalciteListElement, HTMLCalciteListItemElement>
+  ) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() canPut: (detail: ListDragDetail) => boolean;
+  @Prop() canPut: (
+    detail: DragDetail<HTMLCalciteListElement, HTMLCalciteListElement, HTMLCalciteListItemElement>
+  ) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -192,7 +196,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<ListDragDetail>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<
+    DragDetail<HTMLCalciteListElement, HTMLCalciteListElement, HTMLCalciteListItemElement>
+  >;
 
   /**
    * Emitted when the default slot has changes in order to notify parent lists.
@@ -485,7 +491,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragSort(detail: ListDragDetail): void {
+  onDragSort(
+    detail: DragDetail<HTMLCalciteListElement, HTMLCalciteListElement, HTMLCalciteListItemElement>
+  ): void {
     this.setParentList();
     this.updateListItems();
 
