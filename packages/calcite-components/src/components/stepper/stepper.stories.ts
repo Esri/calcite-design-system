@@ -260,18 +260,6 @@ export const responsiveLayoutScaleS_TestOnly = (): string => getBreakpointsStory
 export const responsiveLayoutScaleM_TestOnly = (): string => getBreakpointsStoryTemplate({ scale: "m", width: 500 });
 export const responsiveLayoutScaleL_TestOnly = (): string => getBreakpointsStoryTemplate({ scale: "l", width: 600 });
 
-responsiveLayoutScaleL_TestOnly.parameters = {
-  chromatic: { disableSnapshot: true },
-};
-
-responsiveLayoutScaleM_TestOnly.parameters = {
-  chromatic: { disableSnapshot: true },
-};
-
-responsiveLayoutScaleS_TestOnly.parameters = {
-  chromatic: { disableSnapshot: true },
-};
-
 export const responsiveLayoutWithDisabledStepperItems_TestOnly = (): string => html`<style>
     calcite-stepper {
       width: 300px;

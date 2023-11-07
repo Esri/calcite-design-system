@@ -1,17 +1,17 @@
 :host([scale="s"]) {
-  --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
   --calcite-internal-stepper-action-inline-size: theme("spacing.8");
 }
 
 :host([scale="m"]) {
-  --calcite-stepper-item-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
   --calcite-internal-stepper-action-block-size: theme("spacing.13");
   --calcite-internal-stepper-action-inline-size: theme("spacing.10");
 }
 
 :host([scale="l"]) {
-  --calcite-stepper-item-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
   --calcite-internal-stepper-action-block-size: theme("spacing.16");
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
 }
@@ -38,15 +38,15 @@
   grid-template-areas:
     "items"
     "content";
-  gap: theme("spacing.2") var(--calcite-stepper-item-spacing-unit-s);
+  gap: theme("spacing.2") var(--calcite-internal-stepper-item-spacing-unit-s);
 }
 
 :host([layout="horizontal"][scale="s"]) {
-  gap: theme("spacing.1") var(--calcite-stepper-item-spacing-unit-s);
+  gap: theme("spacing.1") var(--calcite-internal-stepper-item-spacing-unit-s);
 }
 
 :host([layout="horizontal"][scale="l"]) {
-  gap: theme("spacing.3") var(--calcite-stepper-item-spacing-unit-s);
+  gap: theme("spacing.3") var(--calcite-internal-stepper-item-spacing-unit-s);
 }
 
 .step-bar {
