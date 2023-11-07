@@ -27,7 +27,6 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
-  DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
@@ -46,12 +45,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { HandleNudge } from "../handle/interfaces";
-
-type ListDragDetail = DragDetail<
-  HTMLCalciteListElement,
-  HTMLCalciteListElement,
-  HTMLCalciteListItemElement
->;
+import { ListDragDetail } from "./interfaces";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
