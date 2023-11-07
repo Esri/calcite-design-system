@@ -8,45 +8,47 @@ A `calcite-dropdown` can be used to provide an absolutely positioned set of sele
 
 ### Basic
 
+Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`.
+
 ```html
 <calcite-dropdown>
-  <calcite-button slot="trigger">Open Dropdown</calcite-button>
+  <calcite-button slot="trigger">Choose a fruit</calcite-button>
   <calcite-dropdown-group>
-    <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-    <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-    <calcite-dropdown-item>Title</calcite-dropdown-item>
+    <calcite-dropdown-item>Apple</calcite-dropdown-item>
+    <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
+    <calcite-dropdown-item>Banana</calcite-dropdown-item>
   </calcite-dropdown-group>
 </calcite-dropdown>
 ```
 
 ### Disabling-close-on-select
 
-You can choose to leave the dropdown open when an item is selected with the `close-on-select-disabled` attribute. Note that this will only apply when the `calcite-dropdown-group` selection mode is set to `single` or `multi` - dropdowns will always close when an item in `none` selection mode is selected.
+You can choose to leave the Dropdown open when an item is selected with the `close-on-select-disabled` attribute. Note that this will only apply when the `calcite-dropdown-group`'s `selectionMode` is set to `"single"` or `"multiple"`. Dropdowns will always close when the `calcite-dropdown-group`'s `selectionMode` is `"none"`.
 
 ```html
 <calcite-dropdown close-on-select-disabled>
-  <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-  <calcite-dropdown-group id="group-1" selection-mode="single">
-    <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+  <calcite-button id="trigger" slot="trigger">Choose a fruit</calcite-button>
+  <calcite-dropdown-group id="fruits" selection-mode="single">
+    <calcite-dropdown-item id="apple">Apple</calcite-dropdown-item>
+    <calcite-dropdown-item id="orange" selected>Orange</calcite-dropdown-item>
+    <calcite-dropdown-item id="banana">Banana</calcite-dropdown-item>
   </calcite-dropdown-group>
 </calcite-dropdown>
 ```
 
 ### Groups
 
-You can combine groups in a single dropdown, with varying selection modes:
+You can combine groups in a single Dropdown, with different `selectionMode`s:
 
 ```html
 <calcite-dropdown>
-  <calcite-button slot="trigger">Open Dropdown</calcite-button>
-  <calcite-dropdown-group group-title="Select one">
+  <calcite-button slot="trigger">Add to cart</calcite-button>
+  <calcite-dropdown-group group-title="Select one fruit">
     <calcite-dropdown-item>Apple</calcite-dropdown-item>
     <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
-    <calcite-dropdown-item>Grape</calcite-dropdown-item>
+    <calcite-dropdown-item>Banana</calcite-dropdown-item>
   </calcite-dropdown-group>
-  <calcite-dropdown-group group-title="Select multi" selection-mode="multi">
+  <calcite-dropdown-group group-title="Select multiple vegetables" selection-mode="multiple">
     <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
     <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
     <calcite-dropdown-item>Yam</calcite-dropdown-item>
@@ -89,6 +91,14 @@ You can combine groups in a single dropdown, with varying selection modes:
 ### `reposition(delayed?: boolean) => Promise<void>`
 
 Updates the position of the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
 
 #### Returns
 

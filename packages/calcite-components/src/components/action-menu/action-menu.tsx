@@ -22,8 +22,8 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { Scale } from "../interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { Appearance, Scale } from "../interfaces";
+import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
 
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
@@ -61,6 +61,9 @@ export class ActionMenu implements LoadableComponent {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /** Specifies the appearance of the component. */
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
    * When `true`, the component is expanded.
@@ -263,11 +266,12 @@ export class ActionMenu implements LoadableComponent {
   };
 
   renderMenuButton(): VNode {
-    const { label, scale, expanded } = this;
+    const { appearance, label, scale, expanded } = this;
 
     const menuButtonSlot = (
       <slot name={SLOTS.trigger} onSlotchange={this.setMenuButtonEl}>
         <calcite-action
+          appearance={appearance}
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
           scale={scale}
@@ -384,7 +388,8 @@ export class ActionMenu implements LoadableComponent {
       action.id = id;
     }
 
-    action.active = index === activeMenuItemIndex;
+    // data attribute is used to style the "activeMenuItemIndex" action using token focus styling.
+    action.toggleAttribute(activeAttr, index === activeMenuItemIndex);
   };
 
   updateActions = (actions: HTMLCalciteActionElement[]): void => {

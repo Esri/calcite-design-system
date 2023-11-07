@@ -1,4 +1,4 @@
-(async function(): Promise<void> {
+(async function (): Promise<void> {
   try {
     const childProcess = await import("child_process");
     const { promisify } = await import("util");
@@ -11,7 +11,7 @@
     const LINKED_VERSIONS_HEAD_PACKAGE = "@esri/calcite-components";
 
     // next releases will be blocked if HEAD's version is less than a TRACKING package's version
-    const LINKED_VERSIONS_TRACKING_PACKAGES = ["@esri/calcite-components-react"];
+    const LINKED_VERSIONS_TRACKING_PACKAGES = ["@esri/calcite-components-angular", "@esri/calcite-components-react"];
 
     interface PackageData {
       name: string;

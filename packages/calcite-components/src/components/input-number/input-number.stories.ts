@@ -16,7 +16,6 @@ export const simple = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-number
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
@@ -152,3 +151,6 @@ export const hebrewNumberingSystemAndMediumIconForLargeInputStyling_TestOnly = (
 
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html`<calcite-input-number lang="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;
+
+export const invalidStatus_TestOnly = (): string =>
+  html`<calcite-input-number status="invalid" value="54321"></calcite-input-number>`;

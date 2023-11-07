@@ -33,6 +33,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot - A slot for adding text.
@@ -81,7 +82,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       }
       this.calciteInternalTreeItemSelect.emit({
         modifyCurrentSelection: true,
-        forceToggle: false,
         updateItem: false,
       });
     }
@@ -217,7 +217,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         data-test-id="icon"
         icon={ICONS.chevronRight}
         onClick={this.iconClickHandler}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     ) : null;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
@@ -251,7 +251,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           [CSS_UTILITY.rtl]: rtl,
         }}
         icon={selectedIcon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     ) : null;
 
@@ -271,7 +271,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         class={CSS.iconStart}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -345,42 +345,34 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     }
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
-      forceToggle: false,
       updateItem: true,
     });
     this.userChangedValue = true;
   }
 
-  iconClickHandler = (event: MouseEvent): void => {
+  private iconClickHandler = (event: MouseEvent): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
   };
 
-  childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
+  private childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    if (this.isActionEndEvent(event)) {
+    if (this.isActionEndEvent(event) || event.defaultPrevented) {
       return;
     }
 
     switch (event.key) {
       case " ":
-        if (this.selectionMode === "none") {
-          return;
-        }
         this.userChangedValue = true;
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
-          forceToggle: false,
           updateItem: true,
         });
         event.preventDefault();
         break;
       case "Enter":
-        if (this.selectionMode === "none") {
-          return;
-        }
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
         const link = Array.from(this.el.children).find((el) =>
           el.matches("a")
@@ -394,7 +386,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         } else {
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
-            forceToggle: false,
             updateItem: true,
           });
         }

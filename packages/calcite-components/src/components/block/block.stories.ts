@@ -131,12 +131,12 @@ export const simple = (): string =>
 export const withHeaderControl = (): string =>
   create(
     "calcite-block",
-    createBlockAttributes({ exceptions: ["open", "collapsible"] }),
-    `<label slot="control">test <input placeholder="I'm a header control"/></label>`
+    createBlockAttributes({ exceptions: ["open"] }),
+    html`<label slot="control">test <input placeholder="I'm a header control" /></label>`
   );
 
 export const withIconAndHeader = (): string =>
-  create("calcite-block", createBlockAttributes({ exceptions: ["open", "collapsible"] }), `<div slot="icon">✅</div>`);
+  create("calcite-block", createBlockAttributes({ exceptions: ["open"] }), html`<div slot="icon">✅</div>`);
 
 export const disabled_TestOnly = (): string => html`<calcite-block
   heading="heading"
@@ -235,6 +235,40 @@ export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string =>
     </calcite-block>
   `;
 
+export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string =>
+  html`
+    <calcite-panel style="width:250px">
+      <calcite-block
+        collapsible
+        open
+        heading="Planes, trains, and automobiles are some examples of modes of transportation"
+        description="Planes, trains, and automobiles are some examples of modes of transportation"
+      >
+        <calcite-notice open>
+          <div slot="message">Some more complex options.</div>
+        </calcite-notice>
+        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+          <p>Block section content</p>
+        </calcite-block-section>
+        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+          <p>Block section content</p>
+        </calcite-block-section>
+      </calcite-block>
+      <calcite-block
+        collapsible
+        heading="Planes, trains, and automobiles are some examples of modes of transportation"
+        description="Planes, trains, and automobiles are some examples of modes of transportation"
+      >
+        <calcite-notice open>
+          <div slot="message">Some more complex options.</div>
+        </calcite-notice>
+        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+          <p>Block section content</p>
+        </calcite-block-section>
+      </calcite-block>
+    </calcite-panel>
+  `;
+
 export const loadingWithStatusIcon_TestOnly = (): string =>
   html`
     <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
@@ -278,3 +312,15 @@ export const scrollingContainerSetup_TestOnly = (): string => html`<style>
   </script>`;
 
 scrollingContainerSetup_TestOnly.parameters = { chromatic: { delay: 500 } };
+
+export const toggleDisplayWithLongText_TestOnly = (): string => html`<calcite-block
+  open
+  heading="Calcite block"
+  style="width:150px"
+>
+  <calcite-block-section id="block-section" open text="Calcite block superlongggggtext" toggle-display="switch">
+    <calcite-notice open>
+      <div slot="message">Some more complex options.</div>
+    </calcite-notice>
+  </calcite-block-section>
+</calcite-block>`;

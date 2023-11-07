@@ -1,0 +1,9 @@
+projects/component-library/src/lib/stencil-generated/*
+/tmp
+/out-tsc
+/bazel-out
+/.angular/cache
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings

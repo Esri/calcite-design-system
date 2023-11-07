@@ -16,7 +16,7 @@
 | `icon`               | `icon`              | Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`. | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`      |
 | `iconFlipRtl`        | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).               | `boolean`                                                   | `false`     |
 | `label` _(required)_ | `label`             | Label and accessible name for the component. Appears next to the icon.                                     | `string`                                                    | `undefined` |
-| `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                                    | `PickListItemMessages`                                      | `undefined` |
+| `messageOverrides`   | --                  | Use this property to override individual strings used by the component.                                    | `{ remove?: string; }`                                      | `undefined` |
 | `metadata`           | --                  | Provides additional metadata to the component. Primary use is for a filter on the parent list.             | `{ [x: string]: unknown; }`                                 | `undefined` |
 | `removable`          | `removable`         | When `true`, displays a remove action that removes the item from the list.                                 | `boolean`                                                   | `false`     |
 | `selected`           | `selected`          | When `true`, selects an item. Toggles when an item is checked/unchecked.                                   | `boolean`                                                   | `false`     |
@@ -47,6 +47,13 @@ The first argument allows the value to be coerced, rather than swapping values.
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot              | Description                                                                        |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| `"actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component.   |
+| `"actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component. |
 
 ## Dependencies
 

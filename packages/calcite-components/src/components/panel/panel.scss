@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
+ * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
  */
 
 :host {
@@ -11,8 +12,6 @@
   @apply relative flex w-full h-full flex-auto overflow-hidden;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
-  --calcite-panel-footer-padding: theme("spacing.2");
-  --calcite-internal-panel-header-border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
 @include disabled();
@@ -32,7 +31,7 @@
 .header {
   @apply bg-foreground-1 flex flex-col
     z-header;
-  border-block-end: var(--calcite-internal-panel-header-border-block-end);
+  border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-ui-border-3));
 }
 
 .header-container {
@@ -114,7 +113,7 @@
   justify-evenly;
 
   flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-padding);
+  padding: var(--calcite-panel-footer-padding, theme("spacing.2"));
   border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 

@@ -80,6 +80,8 @@ import {
 import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { getIconScale } from "../../utils/component";
+import { Status } from "../interfaces";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -284,6 +286,9 @@ export class InputDatePicker
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * Specifies the placement of the `calcite-date-picker` relative to the component.
@@ -542,6 +547,7 @@ export class InputDatePicker
                 readOnly={readOnly}
                 role="combobox"
                 scale={this.scale}
+                status={this.status}
                 type="text"
                 // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.setStartInput}
@@ -600,16 +606,12 @@ export class InputDatePicker
 
             {this.range && this.layout === "horizontal" && (
               <div class="horizontal-arrow-container">
-                <calcite-icon
-                  flipRtl={true}
-                  icon="arrow-right"
-                  scale={this.scale === "l" ? "m" : "s"}
-                />
+                <calcite-icon flipRtl={true} icon="arrow-right" scale={getIconScale(this.scale)} />
               </div>
             )}
             {this.range && this.layout === "vertical" && this.scale !== "s" && (
               <div class="vertical-arrow-container">
-                <calcite-icon icon="arrow-down" scale={this.scale === "l" ? "m" : "s"} />
+                <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
               </div>
             )}
             {this.range && (
@@ -640,6 +642,7 @@ export class InputDatePicker
                   readOnly={readOnly}
                   role="combobox"
                   scale={this.scale}
+                  status={this.status}
                   type="text"
                   // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setEndInput}
@@ -657,7 +660,10 @@ export class InputDatePicker
   renderToggleIcon(open: boolean): VNode {
     return (
       <span class={CSS.toggleIcon}>
-        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
       </span>
     );
   }

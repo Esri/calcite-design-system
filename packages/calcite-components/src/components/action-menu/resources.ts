@@ -11,3 +11,5 @@ export const SLOTS = {
 export const ICONS = {
   menu: "ellipsis",
 };
+
+export const activeAttr = "data-active";

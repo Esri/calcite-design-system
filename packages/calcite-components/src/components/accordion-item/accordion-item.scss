@@ -123,7 +123,7 @@
 }
 
 :host([expanded]) .expand-icon {
-  @apply text-color-1;
+  @apply text-color-3;
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
 }
 
@@ -174,9 +174,6 @@
     @apply text-color-1;
   }
   & .icon {
-    @apply text-color-1;
-  }
-  & .expand-icon {
     @apply text-color-1;
   }
   & .description {

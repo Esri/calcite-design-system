@@ -4,6 +4,7 @@ export interface Breakpoints {
     medium: number;
     small: number;
     xsmall: number;
+    xxsmall: number;
   };
 }
 
@@ -35,6 +36,7 @@ export async function getBreakpoints(): Promise<Breakpoints> {
           medium: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-md"),
           small: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-sm"),
           xsmall: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-xs"),
+          xxsmall: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-xxs"),
         },
       });
     });

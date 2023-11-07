@@ -5,7 +5,8 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
-import { GlobalTestProps, dragAndDrop, isElementFocused } from "../../tests/utils";
+import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
+import { DragDetail } from "../../utils/sortableComponent";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -108,6 +109,48 @@ describe("calcite-list", () => {
       </calcite-list>`,
       { focusTarget: "child" }
     );
+
+    it("disabling and enabling an item restores actions from being tabbable", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list selection-mode="multiple">
+          <calcite-list-item label="first">
+            <calcite-action id="action-1" icon="information" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item label="second">
+            <calcite-action id="action-2" icon="information" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item label="third">
+            <calcite-action id="action-3" icon="information" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+        </calcite-list>
+      `);
+
+      const [firstItem, secondItem] = await page.findAll("calcite-list-item");
+
+      await firstItem.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("action-3");
+
+      await secondItem.setProperty("disabled", true);
+      await page.waitForChanges();
+      await secondItem.setProperty("disabled", false);
+      await page.waitForChanges();
+
+      await firstItem.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("action-3");
+    });
   });
 
   it("navigating items after filtering", async () => {
@@ -474,6 +517,8 @@ describe("calcite-list", () => {
 
     type TestWindow = GlobalTestProps<{
       calledTimes: number;
+      newIndex: number;
+      oldIndex: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -481,9 +526,14 @@ describe("calcite-list", () => {
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
-        (window as TestWindow).calledTimes = 0;
-        list.addEventListener("calciteListOrderChange", () => {
-          (window as TestWindow).calledTimes++;
+        const testWindow = window as TestWindow;
+        testWindow.calledTimes = 0;
+        testWindow.newIndex = -1;
+        testWindow.oldIndex = -1;
+        list.addEventListener("calciteListOrderChange", (event: CustomEvent<DragDetail>) => {
+          testWindow.calledTimes++;
+          testWindow.newIndex = event?.detail?.newIndex;
+          testWindow.oldIndex = event?.detail?.oldIndex;
         });
       });
 
@@ -504,7 +554,14 @@ describe("calcite-list", () => {
       expect(await second.getProperty("value")).toBe("one");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(1);
+      const results = await page.evaluate(() => {
+        const testWindow = window as TestWindow;
+        return { calledTimes: testWindow.calledTimes, oldIndex: testWindow.oldIndex, newIndex: testWindow.newIndex };
+      });
+
+      expect(results.calledTimes).toBe(1);
+      expect(results.oldIndex).toBe(0);
+      expect(results.newIndex).toBe(1);
     });
 
     it("supports dragging items between lists", async () => {
@@ -536,11 +593,12 @@ describe("calcite-list", () => {
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.evaluate(() => {
-        (window as TestWindow).calledTimes = 0;
+        const testWindow = window as TestWindow;
+        testWindow.calledTimes = 0;
         const lists = document.querySelectorAll("calcite-list");
         lists.forEach((list) =>
           list.addEventListener("calciteListOrderChange", () => {
-            (window as TestWindow).calledTimes++;
+            testWindow.calledTimes++;
           })
         );
       });
@@ -616,16 +674,21 @@ describe("calcite-list", () => {
 
       let totalMoves = 0;
 
-      const eventSpy = await page.spyOnEvent("calciteListOrderChange");
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
+        const testWindow = window as TestWindow;
+        testWindow.calledTimes = 0;
+        list.addEventListener("calciteListOrderChange", () => {
+          testWindow.calledTimes++;
+        });
+      });
 
       async function assertKeyboardMove(
         arrowKey: "ArrowDown" | "ArrowUp",
         expectedValueOrder: string[]
       ): Promise<void> {
-        const calciteListOrderChangeEvent = page.waitForEvent("calciteListOrderChange");
         await page.waitForChanges();
         await page.keyboard.press(arrowKey);
-        await calciteListOrderChangeEvent;
         const itemsAfter = await page.findAll("calcite-list-item");
         expect(itemsAfter.length).toBe(3);
 
@@ -633,7 +696,9 @@ describe("calcite-list", () => {
           expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
         }
 
-        expect(eventSpy).toHaveReceivedEventTimes(++totalMoves);
+        const calledTimes = await page.evaluate(() => (window as TestWindow).calledTimes);
+
+        expect(calledTimes).toBe(++totalMoves);
       }
 
       await assertKeyboardMove("ArrowDown", ["two", "one", "three"]);

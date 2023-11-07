@@ -57,7 +57,7 @@ import {
   localizeTimeString,
   toISOTimeString,
 } from "../../utils/time";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
@@ -72,6 +72,7 @@ import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { getSupportedLocale } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
+import { getIconScale } from "../../utils/component";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayjsLocaleToLocaleConfigImport = new Map([
@@ -271,6 +272,9 @@ export class InputTimePicker
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -980,6 +984,7 @@ export class InputTimePicker
             readOnly={readOnly}
             role="combobox"
             scale={this.scale}
+            status={this.status}
             step={this.step}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setInputAndTransitionEl}
@@ -1022,7 +1027,10 @@ export class InputTimePicker
   renderToggleIcon(open: boolean): VNode {
     return (
       <span class={CSS.toggleIcon}>
-        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
       </span>
     );
   }

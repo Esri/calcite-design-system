@@ -5,6 +5,8 @@ export interface DragDetail {
   toEl: HTMLElement;
   fromEl: HTMLElement;
   dragEl: HTMLElement;
+  newIndex: number;
+  oldIndex: number;
 }
 
 export const CSS = {
@@ -93,10 +95,12 @@ export function connectSortableComponent(component: SortableComponent): void {
       group: {
         name: group,
         ...(!!component.canPull && {
-          pull: (to, from, dragEl) => component.canPull({ toEl: to.el, fromEl: from.el, dragEl }),
+          pull: (to, from, dragEl, { newIndex, oldIndex }) =>
+            component.canPull({ toEl: to.el, fromEl: from.el, dragEl, newIndex, oldIndex }),
         }),
         ...(!!component.canPut && {
-          put: (to, from, dragEl) => component.canPut({ toEl: to.el, fromEl: from.el, dragEl }),
+          put: (to, from, dragEl, { newIndex, oldIndex }) =>
+            component.canPut({ toEl: to.el, fromEl: from.el, dragEl, newIndex, oldIndex }),
         }),
       },
     }),
@@ -109,8 +113,8 @@ export function connectSortableComponent(component: SortableComponent): void {
       dragState.active = false;
       onDragEnd();
     },
-    onSort: ({ from: fromEl, item: dragEl, to: toEl }) => {
-      component.onDragSort({ fromEl, dragEl, toEl });
+    onSort: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+      component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
   });
 }
