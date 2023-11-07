@@ -1529,29 +1529,30 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
   }
 
-  const addEventListeners = async (): Promise<void> => {
-    const receivedEvents: string[] = [];
-
-    (window as EventOrderWindow).events = receivedEvents;
-
-    eventSequence.forEach((eventType) => {
-      document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-    });
-  };
-
   async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
-    customizedOptions.initialToggleValue
-      ? await page.evaluate(() => {
-          addEventListeners();
+    await page.evaluate(
+      (initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
+        const receivedEvents: string[] = [];
 
-          const component = document.createElement(componentTagOrHTML);
-          component[customizedOptions.openPropName] = true;
+        (window as EventOrderWindow).events = receivedEvents;
 
-          document.body.append(component);
-        })
-      : await page.evaluate(() => {
-          addEventListeners();
+        eventSequence.forEach((eventType) => {
+          document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
         });
+
+        if (!initialToggleValue) {
+          return;
+        }
+
+        const component = document.createElement(componentTagOrHTML);
+        component[openPropName] = true;
+
+        document.body.append(component);
+      },
+      customizedOptions.initialToggleValue,
+      customizedOptions.openPropName,
+      componentTagOrHTML
+    );
   }
 
   async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
