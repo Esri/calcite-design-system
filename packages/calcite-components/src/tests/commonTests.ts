@@ -1531,7 +1531,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
 
   async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
     await page.evaluate(
-      (initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
+      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
         const receivedEvents: string[] = [];
 
         (window as EventOrderWindow).events = receivedEvents;
@@ -1549,6 +1549,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
 
         document.body.append(component);
       },
+      eventSequence,
       customizedOptions.initialToggleValue,
       customizedOptions.openPropName,
       componentTagOrHTML
@@ -1566,6 +1567,8 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
       eventSequence.map(async (event) => await element.spyOnEvent(event))
     );
+
+    await page.waitForChanges();
 
     if (customizedOptions.beforeToggle) {
       await customizedOptions.beforeToggle.open(page);
@@ -1606,43 +1609,46 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
    * `skipAnimations` utility sets the animation duration to 0.01. This is a workaround for an issue with the animation utility.
    * Because this still leaves a very small duration, we can still test the animation events, but faster.
    */
-  it(`emits with animations enabled`, async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    await skipAnimations(page);
-    await setUpPage(componentTagOrHTML, page);
-    await testOpenCloseEvents(componentTagOrHTML, page);
-  });
 
-  it(`emits with animations disabled`, async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    await page.addStyleTag({
-      content: `
+  if (customizedOptions.initialToggleValue === true) {
+    it("emits on initialization with animations enabled", async () => {
+      const page = await newProgrammaticE2EPage();
+      await skipAnimations(page);
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
+
+    it("emits on initialization with animations disabled", async () => {
+      const page = await newProgrammaticE2EPage();
+      await page.addStyleTag({
+        content: `
+          :root {
+            --calcite-animation-duration: 0s;
+          }
+        `,
+      });
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
+  } else {
+    it(`emits with animations enabled`, async () => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      await skipAnimations(page);
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
+
+    it(`emits with animations disabled`, async () => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      await page.addStyleTag({
+        content: `
         :root {
           --calcite-animation-duration: 0s;
         }
       `,
+      });
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
     });
-    await setUpPage(componentTagOrHTML, page);
-    await testOpenCloseEvents(componentTagOrHTML, page);
-  });
-
-  it("emits on initialization with animations enabled", async () => {
-    const page = await newProgrammaticE2EPage();
-    await skipAnimations(page);
-    await setUpPage(componentTagOrHTML, page);
-    await testOpenCloseEvents(componentTagOrHTML, page);
-  });
-
-  it("emits on initialization with animations disabled", async () => {
-    const page = await newProgrammaticE2EPage();
-    await page.addStyleTag({
-      content: `
-        :root {
-          --calcite-animation-duration: 0s;
-        }
-      `,
-    });
-    await setUpPage(componentTagOrHTML, page);
-    await testOpenCloseEvents(componentTagOrHTML, page);
-  });
+  }
 }
