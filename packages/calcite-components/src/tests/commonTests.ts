@@ -1621,11 +1621,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     it("emits on initialization with animations disabled", async () => {
       const page = await newProgrammaticE2EPage();
       await page.addStyleTag({
-        content: `
-          :root {
-            --calcite-animation-duration: 0s;
-          }
-        `,
+        content: `:root { --calcite-duration-factor: 0; }`,
       });
       await setUpPage(componentTagOrHTML, page);
       await testOpenCloseEvents(componentTagOrHTML, page);
@@ -1641,11 +1637,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     it(`emits with animations disabled`, async () => {
       const page = await simplePageSetup(componentTagOrHTML);
       await page.addStyleTag({
-        content: `
-        :root {
-          --calcite-animation-duration: 0s;
-        }
-      `,
+        content: `:root { --calcite-duration-factor: 0; }`,
       });
       await setUpPage(componentTagOrHTML, page);
       await testOpenCloseEvents(componentTagOrHTML, page);
