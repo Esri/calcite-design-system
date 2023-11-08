@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, localizeNumberInBrowserContext, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 
@@ -1073,19 +1073,11 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
-          // using Intl.NumberFormat in the browser context to work around
-          // numberStringFormatter + useGrouping behaving differently between node and browser contexts
-          const expected = await page.evaluate(
-            (locale, value) => {
-              const formatter = new Intl.NumberFormat(locale, {
-                useGrouping: true,
-                numberingSystem: "latn",
-              } as Intl.NumberFormatOptions);
-              return formatter.format(Number(value));
-            },
+          const expected = await localizeNumberInBrowserContext(page, value, {
             locale,
-            value
-          );
+            useGrouping: true,
+            numberingSystem: "latn",
+          });
 
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(expected);

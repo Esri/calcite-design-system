@@ -1,6 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import type { JSX } from "../components";
 import { BoundingBox } from "puppeteer";
+import { NumberStringFormatOptions, TestFormatterGlobalThis } from "../utils/locale";
 
 /**
  * Util to help type global props for testing.
@@ -424,4 +425,30 @@ export function toBeNumber(): any {
       return `Expected value to be an number.`;
     },
   };
+}
+
+/**
+ * This helper is useful for tests using NumberStringFormatter in the Node/testing context where formatting is not consistent with the browser/component context, leading to test failures.
+ *
+ * Note: this utils should only be used in tests running into the aforementioned formatting issue.
+ *
+ * @param page – the E2E page
+ * @param value - the numeric value to localize
+ * @param numberFormatOptions - the number format options to use when localizing the number
+ */
+export async function localizeNumberInBrowserContext(
+  page: E2EPage,
+  value: string,
+  numberFormatOptions: NumberStringFormatOptions
+): Promise<string> {
+  return await page.evaluate(
+    async (value, options) => {
+      // using global test formatter in the browser context to work around inconsistent formatting between node and browser contexts
+      const formatter = (globalThis as TestFormatterGlobalThis).numberStringFormatter;
+      formatter.numberFormatOptions = options;
+      return formatter.localize(value);
+    },
+    value,
+    numberFormatOptions
+  );
 }
