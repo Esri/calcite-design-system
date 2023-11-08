@@ -24,4 +24,9 @@
   @apply shadow-none;
 }
 
+// removes shadow for the first item in filteredItems of the group.
+::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
+  @apply shadow-none;
+}
+
 @include base-component();
