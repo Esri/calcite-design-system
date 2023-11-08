@@ -1073,13 +1073,22 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
-          numberStringFormatter.numberFormatOptions = {
+          // using Intl.NumberFormat in the browser context to work around
+          // numberStringFormatter + useGrouping behaving differently between node and browser contexts
+          const expected = await page.evaluate(
+            (locale, value) => {
+              const formatter = new Intl.NumberFormat(locale, {
+                useGrouping: true,
+                numberingSystem: "latn",
+              } as Intl.NumberFormatOptions);
+              return formatter.format(Number(value));
+            },
             locale,
-            numberingSystem: "latn",
-            useGrouping: true,
-          };
+            value
+          );
+
           expect(await calciteInput.getProperty("value")).toBe(value);
-          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
+          expect(await input.getProperty("value")).toBe(expected);
         });
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
