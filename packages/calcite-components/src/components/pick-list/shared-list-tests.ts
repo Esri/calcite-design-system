@@ -411,8 +411,8 @@ export function selectionAndDeselection(listType: ListType): void {
       });
       const properties = await eventDetail.getProperties();
       expect(eventDetail).toBeDefined();
-      expect(properties.get("size")._remoteObject.value).toBe(1);
-      expect(properties.get("hasItem")._remoteObject.value).toBe(true);
+      expect(properties.get("size").remoteObject().value).toBe(1);
+      expect(properties.get("hasItem").remoteObject().value).toBe(true);
     });
   });
 
