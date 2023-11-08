@@ -52,6 +52,7 @@ const maxItemBreakpoints = {
   medium: 9,
   small: 7,
   xsmall: 5,
+  xxsmall: 1,
 };
 
 @Component({
@@ -147,7 +148,7 @@ export class Pagination
     };
   }
 
-  @State() maxItems = maxItemBreakpoints.xsmall;
+  @State() maxItems = maxItemBreakpoints.xxsmall;
 
   @State() totalPages: number;
 
@@ -251,7 +252,12 @@ export class Pagination
       return;
     }
 
-    this.maxItems = maxItemBreakpoints.xsmall;
+    if (width >= breakpoints.width.xxsmall) {
+      this.maxItems = maxItemBreakpoints.xxsmall;
+      return;
+    }
+
+    this.maxItems = maxItemBreakpoints.xxsmall;
   }
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
@@ -276,6 +282,7 @@ export class Pagination
 
   private showStartEllipsis() {
     return (
+      this.maxItems !== maxItemBreakpoints.xxsmall &&
       this.totalPages > this.maxItems &&
       Math.floor(this.startItem / this.pageSize) >
         this.maxItems - firstAndLastPageCount - ellipsisCount
@@ -284,6 +291,7 @@ export class Pagination
 
   private showEndEllipsis() {
     return (
+      this.maxItems !== maxItemBreakpoints.xxsmall &&
       this.totalPages > this.maxItems &&
       (this.totalItems - this.startItem) / this.pageSize >
         this.maxItems - firstAndLastPageCount - (ellipsisCount - 1)
@@ -325,7 +333,7 @@ export class Pagination
     const { totalItems, pageSize, startItem, maxItems, totalPages } = this;
     const items: VNode[] = [];
 
-    const renderFirstPage = totalItems > pageSize;
+    const renderFirstPage = maxItems !== maxItemBreakpoints.xxsmall && totalItems > pageSize;
     const renderStartEllipsis = this.showStartEllipsis();
     const renderEndEllipsis = this.showEndEllipsis();
     const lastStart = this.getLastStart();
@@ -369,16 +377,22 @@ export class Pagination
       }
     }
 
-    for (let i = 0; i < remainingItems && nextStart <= end; i++) {
-      items.push(this.renderPage(nextStart));
-      nextStart = nextStart + pageSize;
+    if (maxItems === maxItemBreakpoints.xxsmall) {
+      items.push(this.renderPage(startItem));
+    } else {
+      for (let i = 0; i < remainingItems && nextStart <= end; i++) {
+        items.push(this.renderPage(nextStart));
+        nextStart = nextStart + pageSize;
+      }
     }
 
     if (renderEndEllipsis) {
       items.push(this.renderEllipsis("end"));
     }
 
-    items.push(this.renderPage(lastStart));
+    if (maxItems !== maxItemBreakpoints.xxsmall) {
+      items.push(this.renderPage(lastStart));
+    }
 
     return items;
   }
