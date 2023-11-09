@@ -35,6 +35,12 @@ import {
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 
+type ListDragDetail = DragDetail & {
+  toEl: HTMLCalciteListElement;
+  fromEl: HTMLCalciteListElement;
+  dragEl: HTMLCalciteListItemElement;
+};
+
 const listItemSelector = "calcite-list-item";
 const listItemSelectorDirect = `:scope > calcite-list-item`;
 const parentSelector = "calcite-list-item-group, calcite-list-item";
@@ -74,12 +80,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() canPull: (detail: DragDetail) => boolean;
+  @Prop() canPull: (detail: ListDragDetail) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() canPut: (detail: DragDetail) => boolean;
+  @Prop() canPut: (detail: ListDragDetail) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -192,7 +198,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragDetail>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<ListDragDetail>;
 
   /**
    * Emitted when the default slot has changes in order to notify parent lists.
@@ -485,7 +491,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragSort(detail: DragDetail): void {
+  onDragSort(detail: ListDragDetail): void {
     this.setParentList();
     this.updateListItems();
 
