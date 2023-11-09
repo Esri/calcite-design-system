@@ -161,7 +161,7 @@ export class Pagination
     const { totalItems, pageSize, totalPages } = this;
 
     this.lastStartItem =
-      totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize;
+      (totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize) + 1;
   }
 
   @State() isExtraExtraSmall: boolean;
@@ -306,7 +306,6 @@ export class Pagination
 
   private showStartEllipsis() {
     return (
-      !this.isExtraExtraSmall &&
       this.totalPages > this.maxItems &&
       Math.floor(this.startItem / this.pageSize) >
         this.maxItems - firstAndLastPageCount - ellipsisCount
@@ -315,7 +314,6 @@ export class Pagination
 
   private showEndEllipsis() {
     return (
-      !this.isExtraExtraSmall &&
       this.totalPages > this.maxItems &&
       (this.totalItems - this.startItem) / this.pageSize >
         this.maxItems - firstAndLastPageCount - (ellipsisCount - 1)
@@ -359,7 +357,12 @@ export class Pagination
 
     const items: VNode[] = [];
 
-    const renderFirstPage = !isExtraExtraSmall && totalItems > pageSize;
+    if (isExtraExtraSmall) {
+      items.push(this.renderPage(startItem));
+      return items;
+    }
+
+    const renderFirstPage = totalItems > pageSize;
     const renderStartEllipsis = this.showStartEllipsis();
     const renderEndEllipsis = this.showEndEllipsis();
 
@@ -402,22 +405,16 @@ export class Pagination
       }
     }
 
-    if (isExtraExtraSmall) {
-      items.push(this.renderPage(startItem));
-    } else {
-      for (let i = 0; i < remainingItems && nextStart <= end; i++) {
-        items.push(this.renderPage(nextStart));
-        nextStart = nextStart + pageSize;
-      }
+    for (let i = 0; i < remainingItems && nextStart <= end; i++) {
+      items.push(this.renderPage(nextStart));
+      nextStart = nextStart + pageSize;
     }
 
     if (renderEndEllipsis) {
       items.push(this.renderEllipsis("end"));
     }
 
-    if (!isExtraExtraSmall) {
-      items.push(this.renderPage(lastStartItem));
-    }
+    items.push(this.renderPage(lastStartItem));
 
     return items;
   }
