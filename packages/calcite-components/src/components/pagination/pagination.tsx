@@ -152,6 +152,25 @@ export class Pagination
 
   @State() totalPages: number;
 
+  @State() lastStartItem: number;
+
+  @Watch("totalItems")
+  @Watch("pageSize")
+  @Watch("totalPages")
+  handleLastStartItemChange(): void {
+    const { totalItems, pageSize, totalPages } = this;
+
+    this.lastStartItem =
+      totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize;
+  }
+
+  @State() isExtraExtraSmall: boolean;
+
+  @Watch("maxItems")
+  handleIsExtraExtraSmall(): void {
+    this.isExtraExtraSmall = this.maxItems === maxItemBreakpoints.xxsmall;
+  }
+
   private breakpoints: Breakpoints;
 
   private resizeObserver = createObserver("resize", (entries) =>
@@ -186,6 +205,8 @@ export class Pagination
     this.breakpoints = breakpoints;
     setUpLoadableComponent(this);
     this.handleTotalPages();
+    this.handleLastStartItemChange();
+    this.handleIsExtraExtraSmall();
   }
 
   componentDidLoad(): void {
@@ -215,7 +236,7 @@ export class Pagination
   /** Go to the next page of results. */
   @Method()
   async nextPage(): Promise<void> {
-    this.startItem = Math.min(this.getLastStart(), this.startItem + this.pageSize);
+    this.startItem = Math.min(this.lastStartItem, this.startItem + this.pageSize);
   }
 
   /** Go to the previous page of results. */
@@ -253,7 +274,7 @@ export class Pagination
     }
 
     if (width >= breakpoints.width.xxsmall) {
-      this.maxItems = maxItemBreakpoints.xxsmall;
+      this.maxItems = maxItemBreakpoints.xsmall;
       return;
     }
 
@@ -263,12 +284,15 @@ export class Pagination
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
     this.setMaxItemsToBreakpoint(width);
 
-  private getLastStart(): number {
-    const { totalItems, pageSize, totalPages } = this;
-    const lastStart =
-      totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize;
-    return lastStart + 1;
-  }
+  private firstClicked = (): void => {
+    this.startItem = 1;
+    this.emitUpdate();
+  };
+
+  private lastClicked = (): void => {
+    this.startItem = this.lastStartItem;
+    this.emitUpdate();
+  };
 
   private previousClicked = async (): Promise<void> => {
     await this.previousPage();
@@ -282,7 +306,7 @@ export class Pagination
 
   private showStartEllipsis() {
     return (
-      this.maxItems !== maxItemBreakpoints.xxsmall &&
+      !this.isExtraExtraSmall &&
       this.totalPages > this.maxItems &&
       Math.floor(this.startItem / this.pageSize) >
         this.maxItems - firstAndLastPageCount - ellipsisCount
@@ -291,7 +315,7 @@ export class Pagination
 
   private showEndEllipsis() {
     return (
-      this.maxItems !== maxItemBreakpoints.xxsmall &&
+      !this.isExtraExtraSmall &&
       this.totalPages > this.maxItems &&
       (this.totalItems - this.startItem) / this.pageSize >
         this.maxItems - firstAndLastPageCount - (ellipsisCount - 1)
@@ -316,27 +340,28 @@ export class Pagination
 
   renderEllipsis(type: "start" | "end"): VNode {
     return (
-      <span
-        class={{
-          [CSS.ellipsis]: true,
-          [CSS.ellipsisStart]: type === "start",
-          [CSS.ellipsisEnd]: type === "end",
-        }}
-        key={type}
-      >
+      <span class={CSS.ellipsis} key={type}>
         &hellip;
       </span>
     );
   }
 
   renderItems(): VNode[] {
-    const { totalItems, pageSize, startItem, maxItems, totalPages } = this;
+    const {
+      totalItems,
+      pageSize,
+      startItem,
+      maxItems,
+      totalPages,
+      lastStartItem,
+      isExtraExtraSmall,
+    } = this;
+
     const items: VNode[] = [];
 
-    const renderFirstPage = maxItems !== maxItemBreakpoints.xxsmall && totalItems > pageSize;
+    const renderFirstPage = !isExtraExtraSmall && totalItems > pageSize;
     const renderStartEllipsis = this.showStartEllipsis();
     const renderEndEllipsis = this.showEndEllipsis();
-    const lastStart = this.getLastStart();
 
     if (renderFirstPage) {
       items.push(this.renderPage(1));
@@ -358,7 +383,7 @@ export class Pagination
     // if we don't need ellipses render the whole set
     if (totalPages - 1 <= remainingItems) {
       nextStart = 1 + pageSize;
-      end = lastStart - pageSize;
+      end = lastStartItem - pageSize;
     } else {
       // if we're within max pages of page 1
       if (startItem / pageSize < remainingItems) {
@@ -367,8 +392,8 @@ export class Pagination
       } else {
         // if we're within max pages of last page
         if (startItem + remainingItems * pageSize >= totalItems) {
-          nextStart = lastStart - remainingItems * pageSize;
-          end = lastStart - pageSize;
+          nextStart = lastStartItem - remainingItems * pageSize;
+          end = lastStartItem - pageSize;
         } else {
           // if we're within the center pages
           nextStart = startItem - pageSize * ((remainingItems - 1) / 2);
@@ -377,7 +402,7 @@ export class Pagination
       }
     }
 
-    if (maxItems === maxItemBreakpoints.xxsmall) {
+    if (isExtraExtraSmall) {
       items.push(this.renderPage(startItem));
     } else {
       for (let i = 0; i < remainingItems && nextStart <= end; i++) {
@@ -390,8 +415,8 @@ export class Pagination
       items.push(this.renderEllipsis("end"));
     }
 
-    if (maxItems !== maxItemBreakpoints.xxsmall) {
-      items.push(this.renderPage(lastStart));
+    if (!isExtraExtraSmall) {
+      items.push(this.renderPage(lastStartItem));
     }
 
     return items;
@@ -425,39 +450,99 @@ export class Pagination
     );
   }
 
-  render(): VNode {
+  renderPreviousChevron(): VNode {
+    const { pageSize, startItem, messages } = this;
+
+    const disabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
+
+    return (
+      <button
+        aria-label={messages.previous}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        disabled={disabled}
+        key="previous"
+        onClick={this.previousClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
+      </button>
+    );
+  }
+
+  renderNextChevron(): VNode {
     const { totalItems, pageSize, startItem, messages } = this;
 
-    const prevDisabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
-
-    const nextDisabled =
+    const disabled =
       pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
 
     return (
+      <button
+        aria-label={messages.next}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        disabled={disabled}
+        key="next-button"
+        onClick={this.nextClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
+      </button>
+    );
+  }
+
+  renderFirstChevron(): VNode {
+    const { messages, startItem, isExtraExtraSmall } = this;
+
+    const disabled = startItem === 1;
+
+    return isExtraExtraSmall ? (
+      <button
+        aria-label={messages.first}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        disabled={disabled}
+        key="first-button"
+        onClick={this.firstClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.first} scale={getIconScale(this.scale)} />
+      </button>
+    ) : null;
+  }
+
+  renderLastChevron(): VNode {
+    const { messages, startItem, isExtraExtraSmall, lastStartItem } = this;
+
+    const disabled = startItem === lastStartItem;
+
+    return isExtraExtraSmall ? (
+      <button
+        aria-label={messages.last}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        disabled={disabled}
+        key="last-button"
+        onClick={this.lastClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.last} scale={getIconScale(this.scale)} />
+      </button>
+    ) : null;
+  }
+
+  render(): VNode {
+    return (
       <Fragment>
-        <button
-          aria-label={messages.previous}
-          class={{
-            [CSS.previous]: true,
-            [CSS.disabled]: prevDisabled,
-          }}
-          disabled={prevDisabled}
-          onClick={this.previousClicked}
-        >
-          <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
-        </button>
+        {this.renderFirstChevron()}
+        {this.renderPreviousChevron()}
         {this.renderItems()}
-        <button
-          aria-label={messages.next}
-          class={{
-            [CSS.next]: true,
-            [CSS.disabled]: nextDisabled,
-          }}
-          disabled={nextDisabled}
-          onClick={this.nextClicked}
-        >
-          <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
-        </button>
+        {this.renderNextChevron()}
+        {this.renderLastChevron()}
       </Fragment>
     );
   }
