@@ -1090,7 +1090,6 @@ describe("calcite-input-number", () => {
             numberingSystem: "latn",
             useGrouping: true,
           };
-
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });

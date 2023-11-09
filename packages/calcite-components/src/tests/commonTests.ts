@@ -1568,8 +1568,6 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       eventSequence.map(async (event) => await element.spyOnEvent(event))
     );
 
-    await page.waitForChanges();
-
     if (customizedOptions.beforeToggle) {
       await customizedOptions.beforeToggle.open(page);
     } else {
