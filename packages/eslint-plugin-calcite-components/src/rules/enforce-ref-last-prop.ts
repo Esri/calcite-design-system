@@ -4,7 +4,7 @@ import type { JSXAttribute, JSXSpreadAttribute, JSXOpeningElement } from "@babel
 const rule: Rule.RuleModule = {
   meta: {
     docs: {
-      description: `This updates ref usage to work around a Stencil bug where ref is called in the specified order and not after initializing element with all its attributes/properties. This can cause attributes/properties to be outdated by the time the callback is invoked. This rule ensures the ref attribute is ordered last in a JSXElement to keep it up-to-date.`,
+      description: `This ensures the node passed into the ref callback is in sync with its JSX attributes/properties when invoked.`,
       recommended: true,
     },
     fixable: "code",
@@ -30,7 +30,7 @@ const rule: Rule.RuleModule = {
           if (refAttribute && attributes.indexOf(refAttribute) !== attributes.length - 1) {
             context.report({
               node,
-              message: `Attribute "ref" should be placed last in a JSXElement so node attrs/props are in sync. If it's called in the specified order, attributes/properties can be outdated by the time the callback is invoked.`,
+              message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
             });
           }
         }
