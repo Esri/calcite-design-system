@@ -1,8 +1,6 @@
-import { Build } from "@stencil/core";
 import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 import { createObserver } from "./observers";
-import type { GlobalThis } from "type-fest";
 
 export const defaultLocale = "en";
 
@@ -447,16 +445,6 @@ export class NumberStringFormat {
 }
 
 export const numberStringFormatter = new NumberStringFormat();
-
-export type TestFormatterGlobalThis = GlobalThis & { numberStringFormatter: NumberStringFormat };
-
-if (Build.isTesting) {
-  // tests using `numberStringFormatter` directly may run into an issue where formatting
-  // differs between Node (testing) and browser (test page/component) contexts
-  // we expose the formatter on the window to ensure consistent formatting in Node tests
-  // ⚠️ note that this global should only be used in tests running into the aforementioned formatting issue ⚠️
-  (globalThis as TestFormatterGlobalThis).numberStringFormatter = numberStringFormatter;
-}
 
 export type LocaleDateTimeOptionKey = string;
 

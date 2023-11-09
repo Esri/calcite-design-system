@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, localizeNumberInBrowserContext, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 
@@ -1043,10 +1043,22 @@ describe("calcite-input-number", () => {
   });
 
   describe("number locale support", () => {
-    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
-    const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
+    // locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
+    const localesWithDifferentBrowserAndNodeFormatting = [
+      "ar",
+      "bg",
+      "bs",
+      "es",
+      "es-MX",
+      "et",
+      "lv",
+      "mk",
+      "no",
+      "pl",
+      "pt-PT",
+    ];
     locales
-      .filter((locale) => !localesWithIssues.includes(locale))
+      .filter((locale) => !localesWithDifferentBrowserAndNodeFormatting.includes(locale))
       .forEach((locale) => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
@@ -1073,14 +1085,14 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
-          const expected = await localizeNumberInBrowserContext(page, value, {
+          numberStringFormatter.numberFormatOptions = {
             locale,
-            useGrouping: true,
             numberingSystem: "latn",
-          });
+            useGrouping: true,
+          };
 
           expect(await calciteInput.getProperty("value")).toBe(value);
-          expect(await input.getProperty("value")).toBe(expected);
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
