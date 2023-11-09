@@ -74,16 +74,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() canPull: (
-    detail: DragDetail<HTMLCalciteListElement, HTMLCalciteListElement, HTMLCalciteListItemElement>
-  ) => boolean;
+  @Prop() canPull: (detail: DragDetail) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() canPut: (
-    detail: DragDetail<HTMLCalciteListElement, HTMLCalciteListElement, HTMLCalciteListItemElement>
-  ) => boolean;
+  @Prop() canPut: (detail: DragDetail) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -196,9 +192,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<
-    DragDetail<HTMLCalciteListElement, HTMLCalciteListElement, HTMLCalciteListItemElement>
-  >;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragDetail>;
 
   /**
    * Emitted when the default slot has changes in order to notify parent lists.
@@ -491,9 +485,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragSort(
-    detail: DragDetail<HTMLCalciteListElement, HTMLCalciteListElement, HTMLCalciteListItemElement>
-  ): void {
+  onDragSort(detail: DragDetail): void {
     this.setParentList();
     this.updateListItems();
 
@@ -808,9 +800,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
-      dragEl: sortItem,
-      fromEl: parentEl,
-      toEl: parentEl,
+      dragEl: sortItem as HTMLCalciteListItemElement,
+      fromEl: parentEl as HTMLCalciteListElement,
+      toEl: parentEl as HTMLCalciteListElement,
       newIndex,
       oldIndex,
     });

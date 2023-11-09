@@ -1,14 +1,10 @@
 import Sortable from "sortablejs";
 const sortableComponentSet = new Set<SortableComponent>();
 
-export interface DragDetail<
-  To extends HTMLElement = HTMLElement,
-  From extends HTMLElement = HTMLElement,
-  Drag extends HTMLElement = HTMLElement
-> {
-  toEl: To;
-  fromEl: From;
-  dragEl: Drag;
+export interface DragDetail {
+  toEl: HTMLElement;
+  fromEl: HTMLElement;
+  dragEl: HTMLElement;
   newIndex: number;
   oldIndex: number;
 }
