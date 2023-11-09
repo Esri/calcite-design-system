@@ -27,19 +27,12 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
-  DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
   dragActive,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
-
-type ListDragDetail = DragDetail & {
-  toEl: HTMLCalciteListElement;
-  fromEl: HTMLCalciteListElement;
-  dragEl: HTMLCalciteListItemElement;
-};
 
 const listItemSelector = "calcite-list-item";
 const listItemSelectorDirect = `:scope > calcite-list-item`;
@@ -52,6 +45,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { HandleNudge } from "../handle/interfaces";
+import { ListDragDetail } from "./interfaces";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
