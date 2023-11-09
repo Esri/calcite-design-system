@@ -1203,10 +1203,22 @@ describe("calcite-input", () => {
   });
 
   describe("number locale support", () => {
-    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
-    const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
+    // locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
+    const localesWithDifferentBrowserAndNodeFormatting = [
+      "ar",
+      "bg",
+      "bs",
+      "es",
+      "es-MX",
+      "et",
+      "lv",
+      "mk",
+      "no",
+      "pl",
+      "pt-PT",
+    ];
     locales
-      .filter((locale) => !localesWithIssues.includes(locale))
+      .filter((locale) => !localesWithDifferentBrowserAndNodeFormatting.includes(locale))
       .forEach((locale) => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
