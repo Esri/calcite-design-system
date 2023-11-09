@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.1-next.2...@esri/calcite-components@1.10.1-next.3) (2023-11-09)
+
+### Bug Fixes
+
+- **block-section:** wraps long text over to a new line when toggle switch is displayed ([#8101](https://github.com/Esri/calcite-design-system/issues/8101)) ([3f90780](https://github.com/Esri/calcite-design-system/commit/3f90780a128f934481085c403a76d12174f6aa83)), closes [#7698](https://github.com/Esri/calcite-design-system/issues/7698)
+- **split-button:** fix width layout ([#8133](https://github.com/Esri/calcite-design-system/issues/8133)) ([051f332](https://github.com/Esri/calcite-design-system/commit/051f33235b302e1f5d41ac8d8e8a52ec0a20b6c2)), closes [#7692](https://github.com/Esri/calcite-design-system/issues/7692)
+
 ## [1.10.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.1-next.1...@esri/calcite-components@1.10.1-next.2) (2023-11-01)
 
 ### Bug Fixes
