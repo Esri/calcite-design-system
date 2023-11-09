@@ -34,6 +34,7 @@
     "@esri/calcite-colors": "6.1.0",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-typescript": "11.1.5",
+    "@stencil-community/eslint-plugin": "0.6.0",
     "@stencil/core": "4.7.1",
     "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-docs": "6.5.16",
