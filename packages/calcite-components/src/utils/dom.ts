@@ -91,7 +91,7 @@ export function getElementWidth(el: HTMLElement): number {
   if (!el) {
     return;
   }
-  return Math.round(parseFloat(getComputedStyle(el).width.replace("px", "")));
+  return Math.round(parseFloat(getComputedStyle(el).inlineSize.replace("px", "")));
 }
 
 /**
