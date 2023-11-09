@@ -338,7 +338,7 @@ export class Pagination
 
   renderEllipsis(type: "start" | "end"): VNode {
     return (
-      <span class={CSS.ellipsis} key={type}>
+      <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
         &hellip;
       </span>
     );
@@ -459,6 +459,7 @@ export class Pagination
           [CSS.chevron]: true,
           [CSS.disabled]: disabled,
         }}
+        data-test-chevron="previous"
         disabled={disabled}
         key="previous"
         onClick={this.previousClicked}
@@ -481,6 +482,7 @@ export class Pagination
           [CSS.chevron]: true,
           [CSS.disabled]: disabled,
         }}
+        data-test-chevron="next"
         disabled={disabled}
         key="next-button"
         onClick={this.nextClicked}
