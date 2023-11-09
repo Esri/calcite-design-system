@@ -800,9 +800,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
-      dragEl: sortItem as HTMLCalciteListItemElement,
-      fromEl: parentEl as HTMLCalciteListElement,
-      toEl: parentEl as HTMLCalciteListElement,
+      dragEl: sortItem,
+      fromEl: parentEl,
+      toEl: parentEl,
       newIndex,
       oldIndex,
     });
