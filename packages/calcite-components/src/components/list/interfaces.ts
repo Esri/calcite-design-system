@@ -1,7 +1,7 @@
 import { DragDetail } from "../../utils/sortableComponent";
 
-export type ListDragDetail = DragDetail & {
+export interface ListDragDetail extends DragDetail {
   toEl: HTMLCalciteListElement;
   fromEl: HTMLCalciteListElement;
   dragEl: HTMLCalciteListItemElement;
-};
+}
