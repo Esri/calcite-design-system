@@ -16,15 +16,15 @@
     "url": "https://github.com/Esri/calcite-design-system/issues"
   },
   "peerDependencies": {
-    "@angular/common": "^16.2.0",
-    "@angular/core": "^16.2.0",
+    "@angular/common": "^17.0.2",
+    "@angular/core": "^17.0.2",
     "@esri/calcite-components": "1.10.1-next.3"
   },
   "devDependencies": {
     "@esri/calcite-components": "1.10.1-next.3"
   },
   "dependencies": {
-    "tslib": "2.3.0"
+    "tslib": "2.6.2"
   },
   "lerna": {
     "command": {

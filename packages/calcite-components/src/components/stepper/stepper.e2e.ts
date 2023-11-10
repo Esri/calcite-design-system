@@ -432,41 +432,38 @@ describe("calcite-stepper", () => {
 
       await page.waitForChanges();
 
-      const finalSelectedItem = await page.evaluate(
-        async (templateHTML: string): Promise<string> => {
-          const wrapperName = "test-calcite-stepper";
+      const finalSelectedItem = await page.evaluate(async (templateHTML: string): Promise<string> => {
+        const wrapperName = "test-calcite-stepper";
 
-          customElements.define(
-            wrapperName,
-            class extends HTMLElement {
-              constructor() {
-                super();
-              }
-
-              connectedCallback(): void {
-                this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
-                const stepper = this.shadowRoot.getElementById("stepper") as HTMLCalciteStepperElement;
-                this.shadowRoot.getElementById("next").addEventListener("click", () => stepper.nextStep());
-                this.shadowRoot.getElementById("prev").addEventListener("click", () => stepper.prevStep());
-              }
+        customElements.define(
+          wrapperName,
+          class extends HTMLElement {
+            constructor() {
+              super();
             }
-          );
 
-          document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
+            connectedCallback(): void {
+              this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
+              const stepper = this.shadowRoot.getElementById("stepper") as HTMLCalciteStepperElement;
+              this.shadowRoot.getElementById("next").addEventListener("click", () => stepper.nextStep());
+              this.shadowRoot.getElementById("prev").addEventListener("click", () => stepper.prevStep());
+            }
+          }
+        );
 
-          const wrapper = document.querySelector(wrapperName);
+        document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
-          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-          const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
-          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-          item2.click();
-          wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
-          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        const wrapper = document.querySelector(wrapperName);
 
-          return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
-        },
-        [templateHTML]
-      );
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        item2.click();
+        wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+        return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
+      }, templateHTML);
 
       expect(finalSelectedItem).toBe("item-3");
     });
