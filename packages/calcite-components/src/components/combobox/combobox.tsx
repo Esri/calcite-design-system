@@ -530,11 +530,11 @@ export class Combobox
 
   @State() defaultMessages: ComboboxMessages;
 
-  @State() selectedHiddenChipsCount: number;
+  @State() selectedHiddenChipsCount = 0;
 
   @State() selectedIndicatorChipLabel: string;
 
-  @State() selectedVisibleChipsCount: number;
+  @State() selectedVisibleChipsCount = 0;
 
   textInput: HTMLInputElement = null;
 
@@ -832,6 +832,8 @@ export class Combobox
 
   private maxCompactBreakpoint: number;
 
+  @State() compactDisplayMode = false;
+
   private refreshDisplayMode = async () => {
     await componentLoaded(this);
 
@@ -845,14 +847,14 @@ export class Combobox
 
     const {
       allSelectedIndicatorChipEl,
-      allSelectedIndicatorChipCompactEl,
+      // allSelectedIndicatorChipCompactEl,
       chipContainerEl,
       displayMode,
       getSelectedItems,
       hideChip,
       placeholder,
       selectedIndicatorChipEl,
-      selectedIndicatorChipCompactEl,
+      // selectedIndicatorChipCompactEl,
       showChip,
       textInput,
     } = this;
@@ -869,6 +871,17 @@ export class Combobox
       const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
       // TODO: use the 48px token here as the minimum input width.
       const inputWidth = (inputTextWidth || 48) + chipContainerElGap;
+
+      // Determine if we are in Compact Display Mode
+      const newCompactBreakpoint = Math.round(
+        getElementWidth(allSelectedIndicatorChipEl) + chipContainerElGap + inputWidth
+      );
+      if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
+        this.maxCompactBreakpoint = newCompactBreakpoint;
+      }
+      this.compactDisplayMode = chipContainerElWidth < this.maxCompactBreakpoint;
+
+      // TODO: this probably needs rethought now that we have multiple possible indicator chips to consider
       const selectedIndicatorChipElWidth = selectedIndicatorChipEl.classList.contains(
         CSS.chipInvisible
       )
@@ -879,6 +892,7 @@ export class Combobox
         chipContainerElWidth - (selectedIndicatorChipElWidth + chipContainerElGap + inputWidth)
       );
 
+      // Refresh Selected Chips
       chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
         if (chipEl.selected) {
           const chipElWidth = getElementWidth(chipEl);
@@ -893,59 +907,20 @@ export class Combobox
         }
       });
 
+      // Calculate Visible and Hidden Selected Chips
       let newSelectedVisibleChipsCount = 0;
       chipEls.forEach((chipEl) => {
         if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
           newSelectedVisibleChipsCount++;
         }
       });
-
-      const newSelectedHiddenChipsCount = getSelectedItems().length - newSelectedVisibleChipsCount;
-
-      if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
-        this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
-      }
-
       if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
         this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
       }
-
-      const { selectedHiddenChipsCount, selectedVisibleChipsCount } = this;
-
-      const newCompactBreakpoint = Math.round(
-        getElementWidth(allSelectedIndicatorChipEl) + chipContainerElGap + inputWidth
-      );
-
-      if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
-        this.maxCompactBreakpoint = newCompactBreakpoint;
+      const newSelectedHiddenChipsCount = getSelectedItems().length - newSelectedVisibleChipsCount;
+      if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
+        this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
       }
-
-      console.log(
-        this.maxCompactBreakpoint,
-        "selectedVisibleChipsCount",
-        selectedVisibleChipsCount
-      );
-
-      if (allSelected && selectedVisibleChipsCount !== undefined && !selectedVisibleChipsCount) {
-        hideChip(selectedIndicatorChipEl);
-        // TODO: calculate the max width of the all selected chip + gap + placeholder text length to determine the compact breakpoint
-        if (chipContainerElWidth < this.maxCompactBreakpoint) {
-          hideChip(allSelectedIndicatorChipEl);
-          showChip(allSelectedIndicatorChipCompactEl);
-        } else {
-          showChip(allSelectedIndicatorChipEl);
-          hideChip(allSelectedIndicatorChipCompactEl);
-        }
-      }
-      // } else if (selectedHiddenChipsCount > 0) {
-      //   this.hideChip(allSelectedIndicatorChipEl);
-      //   this.hideChip(allSelectedIndicatorChipCompactEl);
-      //   this.showChip(selectedIndicatorChipEl);
-      // } else {
-      //   this.hideChip(allSelectedIndicatorChipEl);
-      //   this.hideChip(allSelectedIndicatorChipCompactEl);
-      //   this.hideChip(selectedIndicatorChipEl);
-      // }
     } else if (displayMode === "single") {
       const selectedItemsCount = getSelectedItems().length;
       if (allSelected) {
@@ -1386,11 +1361,24 @@ export class Combobox
   }
 
   renderAllSelectedIndicatorChip(): VNode {
-    const { scale, setAllSelectedIndicatorChipEl } = this;
+    const {
+      compactDisplayMode,
+      isAllSelected,
+      scale,
+      selectedVisibleChipsCount,
+      setAllSelectedIndicatorChipEl,
+    } = this;
     const label = this.messages.allSelected || "All selected";
     return (
       <calcite-chip
-        class={{ chip: true, [CSS.chipInvisible]: true }}
+        class={{
+          chip: true,
+          [CSS.chipInvisible]: !(
+            isAllSelected() &&
+            !selectedVisibleChipsCount &&
+            !compactDisplayMode
+          ),
+        }}
         ref={setAllSelectedIndicatorChipEl}
         scale={scale}
         title={label}
@@ -1402,11 +1390,24 @@ export class Combobox
   }
 
   renderAllSelectedIndicatorChipCompact(): VNode {
-    const { scale, setAllSelectedIndicatorChipCompactEl } = this;
+    const {
+      compactDisplayMode,
+      isAllSelected,
+      scale,
+      selectedVisibleChipsCount,
+      setAllSelectedIndicatorChipCompactEl,
+    } = this;
     const label = this.messages.all || "All";
     return (
       <calcite-chip
-        class={{ chip: true, [CSS.chipInvisible]: true }}
+        class={{
+          chip: true,
+          [CSS.chipInvisible]: !(
+            isAllSelected() &&
+            !selectedVisibleChipsCount &&
+            compactDisplayMode
+          ),
+        }}
         ref={setAllSelectedIndicatorChipCompactEl}
         scale={scale}
         title={label}
@@ -1418,11 +1419,24 @@ export class Combobox
   }
 
   renderSelectedIndicatorChip(): VNode {
-    const { scale, selectedHiddenChipsCount, setSelectedIndicatorChipEl } = this;
+    const {
+      compactDisplayMode,
+      scale,
+      selectedHiddenChipsCount,
+      selectedVisibleChipsCount,
+      setSelectedIndicatorChipEl,
+    } = this;
     const label = `+${selectedHiddenChipsCount}`;
     return (
       <calcite-chip
-        class={{ chip: true, [CSS.chipInvisible]: !selectedHiddenChipsCount }}
+        class={{
+          chip: true,
+          [CSS.chipInvisible]: !(
+            !compactDisplayMode &&
+            selectedVisibleChipsCount &&
+            selectedHiddenChipsCount
+          ),
+        }}
         ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
@@ -1435,6 +1449,8 @@ export class Combobox
 
   renderSelectedIndicatorChipCompact(): VNode {
     const {
+      compactDisplayMode,
+      isAllSelected,
       scale,
       selectedHiddenChipsCount,
       selectedVisibleChipsCount,
@@ -1445,7 +1461,12 @@ export class Combobox
       <calcite-chip
         class={{
           chip: true,
-          [CSS.chipInvisible]: selectedHiddenChipsCount > 0 && !selectedVisibleChipsCount,
+          [CSS.chipInvisible]: !(
+            compactDisplayMode &&
+            !isAllSelected() &&
+            !selectedVisibleChipsCount &&
+            selectedHiddenChipsCount
+          ),
         }}
         ref={setSelectedIndicatorChipCompactEl}
         scale={scale}
@@ -1624,9 +1645,9 @@ export class Combobox
             {this.renderIconStart()}
             {!singleSelectionMode && !singleDisplayMode && this.renderChips()}
             {!singleSelectionMode && !showAllDisplayMode && this.renderSelectedIndicatorChip()}
-            {/* {!singleSelectionMode &&
+            {!singleSelectionMode &&
               !showAllDisplayMode &&
-              this.renderSelectedIndicatorChipCompact()} */}
+              this.renderSelectedIndicatorChipCompact()}
             {!singleSelectionMode && !showAllDisplayMode && this.renderAllSelectedIndicatorChip()}
             {!singleSelectionMode &&
               !showAllDisplayMode &&
