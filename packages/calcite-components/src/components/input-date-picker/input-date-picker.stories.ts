@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
@@ -111,3 +111,21 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(html`
+    <style>
+      .breakpoint-story-container {
+        flex-wrap: wrap;
+      }
+      .breakpoint-story-container > * {
+        flex-basis: 100%;
+      }
+    </style>
+    <calcite-input-date-picker
+      scale="{scale}"
+      placeholder="Placeholder: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
+      value="2020-12-12"
+    ></calcite-input-date-picker>
+    <calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>
+  `);
