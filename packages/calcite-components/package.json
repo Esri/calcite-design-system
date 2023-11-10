@@ -19,12 +19,12 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:patch-jsdom-types && npm run util:prep-build-reqs && stencil build && npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
+    "build": "npm run util:prep-build-reqs && stencil build && npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
     "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider build-storybook --output-dir ./docs --quiet",
-    "clean": "npm run util:clean-js-files && npm run util:clean-readmes && rimraf node_modules dist www hydrate docs .turbo src/components.d.ts",
-    "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer @whitespace/storybook-addon-html && npm audit fix",
+    "clean": "npm run util:clean-js-files && npm run util:clean-readmes && rimraf node_modules dist www hydrate docs .turbo",
+    "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest @whitespace/storybook-addon-html && npm audit fix",
     "docs": "build-storybook",
     "docs:preview": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true start-storybook",
     "lint": "concurrently npm:lint:*",
@@ -47,10 +47,8 @@
     "util:generate-t9n-docs-json": "ts-node --esm support/generateT9nDocsJSON.ts",
     "util:generate-t9n-types": "ts-node --esm support/generateT9nTypes.ts",
     "util:hydration-styles": "ts-node --esm support/hydrationStyles.ts",
-    "util:patch": "npm run util:patch-esm-resolution && npm run util:patch-tree-shaking",
+    "util:patch": "npm run util:patch-esm-resolution",
     "util:patch-esm-resolution": "ts-node --esm support/patchESMResolution.ts",
-    "util:patch-tree-shaking": "ts-node --esm support/patchTreeShaking.ts",
-    "util:patch-jsdom-types": "ts-node --esm support/patchJSDOMTypes.ts",
     "util:prep-build-reqs": "npm run util:copy-assets && npm run util:generate-t9n-types",
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
     "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types=' && npm run util:clean-js-files",
@@ -65,7 +63,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "1.5.3",
-    "@stencil/core": "2.22.3",
+    "@stencil/core": "4.7.1",
     "@types/color": "3.0.5",
     "color": "4.2.3",
     "composed-offset-position": "0.0.4",
@@ -80,12 +78,12 @@
     "@esri/calcite-design-tokens": "^1.1.1-next.0",
     "@esri/calcite-ui-icons": "3.25.0",
     "@esri/eslint-plugin-calcite-components": "^0.2.3-next.5",
-    "@stencil-community/eslint-plugin": "0.5.0",
+    "@stencil-community/eslint-plugin": "0.6.0",
+    "@stencil-community/postcss": "2.2.0",
     "@stencil/angular-output-target": "0.8.3",
-    "@stencil/postcss": "2.1.0",
     "@stencil/react-output-target": "0.5.3",
     "@stencil/sass": "3.0.7",
-    "@stencil/state-tunnel": "1.0.1"
+    "jsdom": "22.1.0"
   },
   "license": "SEE LICENSE.md",
   "volta": {

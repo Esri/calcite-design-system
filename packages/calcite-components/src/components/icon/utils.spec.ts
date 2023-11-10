@@ -10,6 +10,22 @@ describe("utils", () => {
   });
 
   describe("fetchIcon", () => {
+    beforeAll(() => {
+      // we mock fetch since we are not testing the icon data itself
+      (global.fetch as jest.Mock) = jest.fn(async () =>
+        Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              /* intentionally empty */
+            }),
+        })
+      );
+    });
+
+    afterAll(() => {
+      (global.fetch as jest.Mock).mockReset();
+    });
+
     it("avoids fetching if icon data is available", async () => {
       expect(Object.keys(requestCache)).toHaveLength(0);
       expect(Object.keys(iconCache)).toHaveLength(0);
