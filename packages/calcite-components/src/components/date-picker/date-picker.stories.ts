@@ -254,3 +254,35 @@ export const thaiLangNumberingSystem_TestOnly = (): string =>
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(html`<calcite-date-picker scale="{scale}" value="2000-11-27"></calcite-date-picker>`);
+
+export const defaultWidthAllScales_TestOnly = (): string =>
+  html`
+    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+  `;
+
+export const smallerThanMinWidthAllScales_TestOnly = (): string =>
+  html`
+    <style>
+      calcite-date-picker {
+        width: 50px;
+      }
+    </style>
+    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+  `;
+
+export const greaterThanMaxWidthAllScales_TestOnly = (): string =>
+  html`
+    <style>
+      calcite-date-picker {
+        width: 1000px;
+        display: block;
+      }
+    </style>
+    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+  `;
