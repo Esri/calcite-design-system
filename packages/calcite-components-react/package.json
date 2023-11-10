@@ -7,9 +7,10 @@
   "license": "SEE LICENSE.md",
   "scripts": {
     "build": "rimraf dist && npm run compile",
-    "prebuild": "npm run patch:ssr",
+    "prebuild": "npm run patch:ssr && npm run patch:jsx-import",
     "clean": "rimraf dist node_modules .turbo",
     "compile": "npm run tsc",
+    "patch:jsx-import": "ts-node support/patchJSXImport.ts",
     "patch:ssr": "ts-node support/patchSSR.ts",
     "tsc": "tsc"
   },
