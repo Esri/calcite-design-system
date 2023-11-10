@@ -77,19 +77,4 @@ export const invalidStatus_TestOnly = (): string => html`
 `;
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
-  createBreakpointStories(html`
-    <style>
-      .breakpoint-story-container {
-        flex-wrap: wrap;
-      }
-      .breakpoint-story-container > * {
-        flex-basis: 100%;
-      }
-    </style>
-    <calcite-input-time-picker
-      scale="{scale}"
-      placeholder="Placeholder: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
-      value="12:34"
-    ></calcite-input-time-picker>
-    <calcite-input-time-picker scale="{scale}" value="12:34"></calcite-input-time-picker>
-  `);
+  createBreakpointStories(html`<calcite-input-time-picker scale="{scale}" value="12:34"></calcite-input-time-picker>`);
