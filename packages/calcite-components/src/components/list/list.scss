@@ -33,14 +33,18 @@
   margin-block-start: 1px;
 }
 
-::slotted(calcite-list-item:first-child) {
+::slotted(calcite-list-item:first-of-type) {
   @apply shadow-none;
 }
 
 // removes shadow for the first item in filteredItems of the list.
-::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
+::slotted(calcite-list-item[data-filter]) {
   @apply shadow-none;
 }
+
+// ::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
+//   @apply shadow-none;
+// }
 
 .sticky-pos {
   @apply sticky

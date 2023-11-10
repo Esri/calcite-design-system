@@ -360,6 +360,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   sortable: Sortable;
 
+  private topLevelAncestorsMap = new Map<HTMLCalciteListItemElement, HTMLCalciteListItemElement>();
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -579,6 +581,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       this.filterElements({ el: listItem, filteredItems, visibleParents })
     );
 
+    if (filteredItems.length > 0) {
+      this.findFirstFilteredItem(filteredItems);
+    }
+
     this.filteredItems = filteredItems;
 
     if (emit) {
@@ -740,6 +746,54 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
         this.focusRow(endItem);
       }
     }
+  };
+
+  private findFirstFilteredItem = (filteredItems: HTMLCalciteListItemElement[]): void => {
+    if (this.topLevelAncestorsMap.size > 0) {
+      this.topLevelAncestorsMap.forEach(
+        (value: HTMLCalciteListItemElement, key: HTMLCalciteListItemElement) => {
+          value.removeAttribute("data-filter");
+          key.removeAttribute("data-filter");
+        }
+      );
+      this.topLevelAncestorsMap.clear();
+    }
+
+    filteredItems.forEach((item) => {
+      const topLevelAnchor = this.getTopLevelAncestorItemElement(item);
+      if (topLevelAnchor) {
+        this.topLevelAncestorsMap.set(item, topLevelAnchor);
+      }
+    });
+
+    const indexOfItemWithDataAttribute = filteredItems.findIndex((item) =>
+      item.hasAttribute("data-filter")
+    );
+
+    if (indexOfItemWithDataAttribute > -1) {
+      filteredItems[indexOfItemWithDataAttribute].removeAttribute("data-filter");
+    }
+
+    filteredItems[0].setAttribute("data-filter", "0");
+    this.topLevelAncestorsMap.get(filteredItems[0])?.setAttribute("data-filter", "0");
+  };
+
+  private getTopLevelAncestorItemElement = (
+    el: HTMLCalciteListItemElement
+  ): HTMLCalciteListItemElement | null => {
+    let closestParent = el.parentElement.closest("calcite-list-item") as HTMLCalciteListItemElement;
+
+    while (closestParent) {
+      const nextClosestParent = closestParent.parentElement.closest(
+        "calcite-list-item"
+      ) as HTMLCalciteListItemElement;
+      if (nextClosestParent) {
+        closestParent = nextClosestParent;
+      } else {
+        return closestParent;
+      }
+    }
+    return null;
   };
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
