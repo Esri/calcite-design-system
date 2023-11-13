@@ -19,6 +19,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -215,23 +216,25 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         role="tab"
         tabIndex={this.selected ? 0 : -1}
       >
-        <div
-          class={{
-            container: true,
-            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
-            [`scale-${this.scale}`]: true,
-          }}
-          hidden={closed}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => this.resizeObserver?.observe(el)}
-        >
-          <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
-            {this.iconStart ? iconStartEl : null}
-            <slot />
-            {this.iconEnd ? iconEndEl : null}
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            class={{
+              container: true,
+              [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
+              [`scale-${this.scale}`]: true,
+            }}
+            hidden={closed}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => this.resizeObserver?.observe(el)}
+          >
+            <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
+              {this.iconStart ? iconStartEl : null}
+              <slot />
+              {this.iconEnd ? iconEndEl : null}
+            </div>
+            {this.renderCloseButton()}
           </div>
-          {this.renderCloseButton()}
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -261,9 +264,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, () => {
-      return this.selected;
-    });
+    updateHostInteraction(this);
   }
 
   //--------------------------------------------------------------------------

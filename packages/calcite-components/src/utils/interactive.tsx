@@ -1,4 +1,6 @@
 import { getUserAgentString } from "./browser";
+import { JSXAttributes } from "@stencil/core/internal";
+import { FunctionalComponent, h, VNode } from "@stencil/core";
 
 export interface InteractiveComponent {
   /**
@@ -88,14 +90,19 @@ const captureOnlyOptions = { capture: true } as const;
  * technically, users can override `tabindex` and restore keyboard navigation, but this will be considered user error
  *
  * @param component
- * @param hostIsTabbable – when set to true or its predicate returns true, the host is tabbable and will be managed by the helper. Set to "managed" for cases where a component's parent determines which item is tabbable (i.e., sets `tabindex` to allow tabbing).
+ * @param hostIsTabbable – [Deprecated] when set to true or its predicate returns true, the host is tabbable and will be managed by the helper. Set to "managed" for cases where a component's parent determines which item is tabbable (i.e., sets `tabindex` to allow tabbing).
  */
 export function updateHostInteraction(
   component: InteractiveComponent,
-  hostIsTabbable: boolean | HostIsTabbablePredicate | "managed" = false
+  hostIsTabbable?: boolean | HostIsTabbablePredicate | "managed"
 ): void {
+  if (hostIsTabbable !== undefined) {
+    console.warn(
+      `[${component.el.tagName}] hostIsTabbable is deprecated and should no longer be used`
+    );
+  }
+
   if (component.disabled) {
-    component.el.setAttribute("tabindex", "-1");
     component.el.setAttribute("aria-disabled", "true");
 
     if (component.el.contains(document.activeElement)) {
@@ -108,16 +115,6 @@ export function updateHostInteraction(
   }
 
   restoreInteraction(component);
-
-  if (typeof hostIsTabbable === "function") {
-    component.el.setAttribute("tabindex", hostIsTabbable.call(component) ? "0" : "-1");
-  } else if (hostIsTabbable === true) {
-    component.el.setAttribute("tabindex", "0");
-  } else if (hostIsTabbable === false) {
-    component.el.removeAttribute("tabindex");
-  } else {
-    // noop for "managed" as owning component will manage its tab index
-  }
 
   component.el.removeAttribute("aria-disabled");
 }
@@ -173,7 +170,8 @@ export function connectInteractive(component: InteractiveComponent): void {
   }
 
   const parent =
-    component.el.parentElement || component.el; /* assume element is host if it has no parent when connected */
+    component.el.parentElement ||
+    component.el; /* assume element is host if it has no parent when connected */
   interactiveElementToParent.set(component.el as InteractiveHTMLElement, parent);
   blockInteraction(component);
 }
@@ -193,4 +191,24 @@ export function disconnectInteractive(component: InteractiveComponent): void {
   // always remove on disconnect as render or connect will restore it
   interactiveElementToParent.delete(component.el as InteractiveHTMLElement);
   restoreInteraction(component);
+}
+
+export interface InteractiveContainerOptions extends JSXAttributes {
+  disabled: boolean;
+}
+
+export const CSS = {
+  container: "interaction-container",
+};
+
+export function InteractiveContainer(
+  { disabled }: InteractiveContainerOptions,
+  children: VNode[]
+): FunctionalComponent {
+  return (
+    // @ts-expect-error - inert is present in supported browsers, but can't target in tsconfig yet
+    <div class={CSS.container} inert={disabled}>
+      {...children}
+    </div>
+  );
 }
