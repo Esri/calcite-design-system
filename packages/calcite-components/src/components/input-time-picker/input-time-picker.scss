@@ -8,14 +8,23 @@
 
 :host([scale="s"]) {
   --calcite-toggle-spacing: theme("spacing.2");
+  --calcite-internal-input-text-input-padding-inline-end: calc(
+    var(--calcite-toggle-spacing) + theme("spacing.4")
+  ); // chevron gap + icon spacing
 }
 
 :host([scale="m"]) {
   --calcite-toggle-spacing: theme("spacing.3");
+  --calcite-internal-input-text-input-padding-inline-end: calc(
+    var(--calcite-toggle-spacing) + theme("spacing.6")
+  ); // chevron gap + icon spacing
 }
 
 :host([scale="l"]) {
   --calcite-toggle-spacing: theme("spacing.4");
+  --calcite-internal-input-text-input-padding-inline-end: calc(
+    var(--calcite-toggle-spacing) + theme("spacing.8")
+  ); // chevron gap + icon spacing
 }
 
 .input-wrapper {
