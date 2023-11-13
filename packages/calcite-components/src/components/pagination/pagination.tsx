@@ -35,7 +35,7 @@ import { Scale } from "../interfaces";
 import { PaginationMessages } from "./assets/pagination/t9n";
 import { CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
-import { Breakpoints, getBreakpoints } from "../../utils/responsive";
+import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 
 export interface PaginationDetail {
@@ -171,8 +171,6 @@ export class Pagination
     this.isXXSmall = this.maxItems === maxItemBreakpoints.xxsmall;
   }
 
-  private breakpoints: Breakpoints;
-
   private resizeObserver = createObserver("resize", (entries) =>
     entries.forEach(this.resizeHandler)
   );
@@ -201,8 +199,7 @@ export class Pagination
   }
 
   async componentWillLoad(): Promise<void> {
-    const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
-    this.breakpoints = breakpoints;
+    await setUpMessages(this);
     setUpLoadableComponent(this);
     this.handleTotalPages();
     this.handleLastStartItemChange();
@@ -252,8 +249,6 @@ export class Pagination
   // --------------------------------------------------------------------------
 
   private setMaxItemsToBreakpoint(width: number): void {
-    const { breakpoints } = this;
-
     if (!breakpoints || !width) {
       return;
     }
