@@ -164,11 +164,11 @@ export class Pagination
       (totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize) + 1;
   }
 
-  @State() isExtraExtraSmall: boolean;
+  @State() isXXSmall: boolean;
 
   @Watch("maxItems")
-  handleIsExtraExtraSmall(): void {
-    this.isExtraExtraSmall = this.maxItems === maxItemBreakpoints.xxsmall;
+  handleIsXXSmall(): void {
+    this.isXXSmall = this.maxItems === maxItemBreakpoints.xxsmall;
   }
 
   private breakpoints: Breakpoints;
@@ -206,7 +206,7 @@ export class Pagination
     setUpLoadableComponent(this);
     this.handleTotalPages();
     this.handleLastStartItemChange();
-    this.handleIsExtraExtraSmall();
+    this.handleIsXXSmall();
   }
 
   componentDidLoad(): void {
@@ -345,19 +345,12 @@ export class Pagination
   }
 
   renderItems(): VNode[] {
-    const {
-      totalItems,
-      pageSize,
-      startItem,
-      maxItems,
-      totalPages,
-      lastStartItem,
-      isExtraExtraSmall,
-    } = this;
+    const { totalItems, pageSize, startItem, maxItems, totalPages, lastStartItem, isXXSmall } =
+      this;
 
     const items: VNode[] = [];
 
-    if (isExtraExtraSmall) {
+    if (isXXSmall) {
       items.push(this.renderPage(startItem));
       return items;
     }
@@ -493,11 +486,11 @@ export class Pagination
   }
 
   renderFirstChevron(): VNode {
-    const { messages, startItem, isExtraExtraSmall } = this;
+    const { messages, startItem, isXXSmall } = this;
 
     const disabled = startItem === 1;
 
-    return isExtraExtraSmall ? (
+    return isXXSmall ? (
       <button
         aria-label={messages.first}
         class={{
@@ -514,11 +507,11 @@ export class Pagination
   }
 
   renderLastChevron(): VNode {
-    const { messages, startItem, isExtraExtraSmall, lastStartItem } = this;
+    const { messages, startItem, isXXSmall, lastStartItem } = this;
 
     const disabled = startItem === lastStartItem;
 
-    return isExtraExtraSmall ? (
+    return isXXSmall ? (
       <button
         aria-label={messages.last}
         class={{
