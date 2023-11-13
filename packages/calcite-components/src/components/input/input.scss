@@ -557,18 +557,21 @@ textarea::-webkit-resizer {
   @apply border-t-color-1;
 }
 
-.inline-child {
-  @apply transition-default bg-transparent;
-  .editing-enabled {
-    background-color: inherit;
+// input needed for higher specificity of these overrides
+input {
+  &.inline-child {
+    @apply transition-default bg-transparent;
+    .editing-enabled {
+      background-color: inherit;
+    }
   }
-}
 
-.inline-child:not(.editing-enabled) {
-  @apply border-color-transparent
-    flex
-    cursor-pointer text-ellipsis;
-  padding-inline-start: 0;
+  &.inline-child:not(.editing-enabled) {
+    @apply border-color-transparent
+      flex
+      cursor-pointer text-ellipsis;
+    padding-inline-start: 0;
+  }
 }
 
 @include hidden-form-input();
