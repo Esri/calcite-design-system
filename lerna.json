@@ -4,7 +4,8 @@
   "changelogPreset": "conventionalcommits",
   "command": {
     "version": {
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "allowBranch": ["main", "rc"]
     }
   }
 }
