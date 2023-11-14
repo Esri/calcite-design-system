@@ -24,9 +24,7 @@
 @include disabled();
 
 .calendar-picker-wrapper {
-  @apply static
-    w-full
-    shadow-none;
+  @apply shadow-none static;
   transform: translate3d(0, 0, 0);
 }
 
@@ -86,24 +84,6 @@
       mx-px
       px-2.5;
     inset-inline-start: 0;
-  }
-}
-
-:host([scale="s"][range]:not([layout="vertical"])) {
-  .calendar-picker-wrapper {
-    inline-size: 216px;
-  }
-}
-
-:host([scale="m"][range]:not([layout="vertical"])) {
-  .calendar-picker-wrapper {
-    inline-size: 286px;
-  }
-}
-
-:host([scale="l"][range]:not([layout="vertical"])) {
-  .calendar-picker-wrapper {
-    inline-size: 398px;
   }
 }
 
