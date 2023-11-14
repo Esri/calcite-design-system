@@ -33,7 +33,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
+import { getIconScale, toTestObject } from "../../utils/component";
 
 /**
  * @slot - A slot for adding text.
@@ -214,10 +214,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           [CSS.chevron]: true,
           [CSS_UTILITY.rtl]: rtl,
         }}
-        data-test-id="icon"
         icon={ICONS.chevronRight}
         onClick={this.iconClickHandler}
         scale={getIconScale(this.scale)}
+        {...toTestObject("id", "icon")}
       />
     ) : null;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
@@ -228,10 +228,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           <calcite-checkbox
             checked={this.selected}
             class={CSS.checkbox}
-            data-test-id="checkbox"
             indeterminate={this.hasChildren && this.indeterminate}
             scale={this.scale}
             tabIndex={-1}
+            {...toTestObject("id", "checkbox")}
           />
           {defaultSlotNode}
         </label>
@@ -313,9 +313,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
               [CSS.childrenContainer]: true,
               [CSS_UTILITY.rtl]: rtl,
             }}
-            data-test-id="calcite-tree-children"
             onClick={this.childrenClickHandler}
             role={this.hasChildren ? "group" : undefined}
+            {...toTestObject("id", "calcite-tree-children")}
           >
             <slot name={SLOTS.children} />
           </div>
