@@ -206,7 +206,8 @@ export function InteractiveContainer(
   children: VNode[]
 ): FunctionalComponent {
   return (
-    // @ts-expect-error - inert is present in supported browsers, but can't target in tsconfig yet
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore-error - `inert` is missing from Stencil's types (see https://github.com/ionic-team/stencil/issues/5071)
     <div class={CSS.container} inert={disabled}>
       {...children}
     </div>
