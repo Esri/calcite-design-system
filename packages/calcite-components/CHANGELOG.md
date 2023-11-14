@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0-rc.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.1-next.2...@esri/calcite-components@2.0.0-rc.0) (2023-11-14)
+
+### ⚠ BREAKING CHANGES
+
+- **deps:** We are treating this core version bump as a
+  precautionary measure, particularly due to its potential impact on
+  projects using `calcite-components` and Stencil.
+- **card:** Removed the `deselect` message property – this property
+
+### Features
+
+- **date-picker:** make component responsive ([#7872](https://github.com/Esri/calcite-design-system/issues/7872)) ([f131218](https://github.com/Esri/calcite-design-system/commit/f131218a01df6a4be8be3805cd172db0120954e1)), closes [#6678](https://github.com/Esri/calcite-design-system/issues/6678)
+
+### Bug Fixes
+
+- **block-section:** wraps long text over to a new line when toggle switch is displayed ([#8101](https://github.com/Esri/calcite-design-system/issues/8101)) ([3f90780](https://github.com/Esri/calcite-design-system/commit/3f90780a128f934481085c403a76d12174f6aa83)), closes [#7698](https://github.com/Esri/calcite-design-system/issues/7698)
+- **panel, flow-item:** remove overflow rule ([#8055](https://github.com/Esri/calcite-design-system/issues/8055)) ([d0c3ed2](https://github.com/Esri/calcite-design-system/commit/d0c3ed2cd675948580bdf44dba3b9c3283db9fc5)), closes [#8028](https://github.com/Esri/calcite-design-system/issues/8028)
+- **split-button:** fix width layout ([#8133](https://github.com/Esri/calcite-design-system/issues/8133)) ([051f332](https://github.com/Esri/calcite-design-system/commit/051f33235b302e1f5d41ac8d8e8a52ec0a20b6c2)), closes [#7692](https://github.com/Esri/calcite-design-system/issues/7692)
+
+### Code Refactoring
+
+- **card:** remove deprecated `deselected` message ([#8099](https://github.com/Esri/calcite-design-system/issues/8099)) ([e6e80d2](https://github.com/Esri/calcite-design-system/commit/e6e80d27f7005e75e1778dc08abdd0f62399a75b)), closes [#6660](https://github.com/Esri/calcite-design-system/issues/6660) [#6657](https://github.com/Esri/calcite-design-system/issues/6657)
+
+### Build System
+
+- **deps:** bump Stencil to v4 ([#8108](https://github.com/Esri/calcite-design-system/issues/8108)) ([349fa40](https://github.com/Esri/calcite-design-system/commit/349fa407372cb91b88d69d313438e807b868eed5)), closes [#7861](https://github.com/Esri/calcite-design-system/issues/7861)
+
 ## [1.10.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.1-next.2...@esri/calcite-components@1.10.1-next.3) (2023-11-09)
 
 ### Bug Fixes
