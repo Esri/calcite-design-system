@@ -43,6 +43,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { PanelMessages } from "./assets/panel/t9n";
+import { toTestObject } from "../../utils/component";
 
 /**
  * @slot - A slot for adding custom content.
@@ -428,22 +429,22 @@ export class Panel
       <calcite-action
         aria-expanded={toAriaBoolean(!collapsed)}
         aria-label={collapse}
-        data-test="collapse"
         icon={collapsed ? icons[0] : icons[1]}
         onClick={this.collapse}
         text={collapse}
         title={collapsed ? expand : collapse}
+        {...toTestObject("id", "collapse")}
       />
     ) : null;
 
     const closeNode = closable ? (
       <calcite-action
         aria-label={close}
-        data-test="close"
         icon={ICONS.close}
         onClick={this.close}
         text={close}
         title={close}
+        {...toTestObject("id", "close")}
       />
     ) : null;
 

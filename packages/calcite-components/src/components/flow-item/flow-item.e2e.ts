@@ -148,7 +148,7 @@ describe("calcite-flow-item", () => {
 
     await page.$eval("calcite-flow-item", (flowItem: HTMLCalciteFlowItemElement) => {
       const panel = flowItem.shadowRoot.querySelector("calcite-panel");
-      const toggleButton = panel.shadowRoot.querySelector("[data-test=collapse]") as HTMLCalciteActionElement;
+      const toggleButton = panel.shadowRoot.querySelector("[data-test-id=collapse]") as HTMLCalciteActionElement;
       toggleButton.click();
     });
 

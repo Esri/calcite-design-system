@@ -86,7 +86,7 @@ describe("calcite-panel", () => {
 
     const element = await page.find("calcite-panel");
     const container = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
-    const collapseButtonSelector = `calcite-panel >>> [data-test="collapse"]`;
+    const collapseButtonSelector = `calcite-panel >>> [data-test-id="collapse"]`;
     expect(await page.find(collapseButtonSelector)).toBeNull();
 
     await page.waitForChanges();
@@ -107,7 +107,7 @@ describe("calcite-panel", () => {
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
 
-    const closeButton = await page.find("calcite-panel >>> calcite-action[data-test=close]");
+    const closeButton = await page.find("calcite-panel >>> calcite-action[data-test-id=close]");
 
     await closeButton.click();
 
@@ -121,7 +121,7 @@ describe("calcite-panel", () => {
 
     const calcitePanelToggle = await page.spyOnEvent("calcitePanelToggle", "window");
 
-    const toggleButton = await page.find("calcite-panel >>> [data-test=collapse]");
+    const toggleButton = await page.find("calcite-panel >>> [data-test-id=collapse]");
 
     await toggleButton.click();
 
