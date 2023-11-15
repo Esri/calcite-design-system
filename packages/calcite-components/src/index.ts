@@ -9,4 +9,5 @@ export * from "./components";
 // For more details, see: https://github.com/Esri/calcite-design-system/pull/8177
 export { HandleChange } from "./components/handle/interfaces";
 export { HandleNudge } from "./components/handle/interfaces";
+export { ListDragDetail } from "./components/list/interfaces";
 export { DragDetail } from "./utils/sortableComponent";
