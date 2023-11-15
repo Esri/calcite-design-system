@@ -235,14 +235,16 @@ const breakpointsStoryTemplate = html`
   <calcite-alert icon open scale="{scale}">
     <div slot="title">title</div>
     <div slot="message">message</div>
-    <calcite-action scale="{scale}" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
-    <calcite-action scale="{scale}" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" text-enabled title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" text-enabled title="Get info" icon="attachment"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" text-enabled title="Contact us" icon="phone"></calcite-action>
   </calcite-alert>
   <calcite-alert icon scale="{scale}">
     <div slot="title">title</div>
     <div slot="message">message</div>
-    <calcite-action scale="{scale}" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
-    <calcite-action scale="{scale}" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" text-enabled title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" text-enabled title="Get info" icon="attachment"></calcite-action>
+    <calcite-action scale="{scale}" slot="actions-end" text-enabled title="Contact us" icon="phone"></calcite-action>
   </calcite-alert>
   <script>
     (async function () {
