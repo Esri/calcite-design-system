@@ -8,7 +8,7 @@
   "es2015": "dist/esm/index.js",
   "es2017": "dist/esm/index.js",
   "jsnext:main": "dist/esm/index.js",
-  "types": "dist/types/components.d.ts",
+  "types": "dist/types/index.d.ts",
   "type": "module",
   "jsdelivr": "dist/calcite/calcite.js",
   "unpkg": "dist/calcite/calcite.js",
