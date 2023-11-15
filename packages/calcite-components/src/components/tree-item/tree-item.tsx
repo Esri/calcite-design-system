@@ -27,6 +27,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -185,10 +186,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   componentDidRender(): void {
-    updateHostInteraction(
-      this,
-      () => false // programmatically focusable
-    );
+    updateHostInteraction(this);
   }
 
   //--------------------------------------------------------------------------
@@ -282,44 +280,47 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"
+        tabIndex={0}
       >
-        <div class={{ [CSS.itemExpanded]: isExpanded }}>
-          <div class={CSS.nodeAndActionsContainer}>
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={{ [CSS.itemExpanded]: isExpanded }}>
+            <div class={CSS.nodeAndActionsContainer}>
+              <div
+                class={{
+                  [CSS.nodeContainer]: true,
+                  [CSS_UTILITY.rtl]: rtl,
+                }}
+                data-selection-mode={this.selectionMode}
+                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
+              >
+                {chevron}
+                {itemIndicator}
+                {this.iconStart ? iconStartEl : null}
+                {checkbox ? checkbox : defaultSlotNode}
+              </div>
+              <div
+                class={CSS.actionsEnd}
+                hidden={!hasEndActions}
+                ref={(el) => (this.actionSlotWrapper = el as HTMLElement)}
+              >
+                {slotNode}
+              </div>
+            </div>
+
             <div
               class={{
-                [CSS.nodeContainer]: true,
+                [CSS.childrenContainer]: true,
                 [CSS_UTILITY.rtl]: rtl,
               }}
-              data-selection-mode={this.selectionMode}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
+              data-test-id="calcite-tree-children"
+              onClick={this.childrenClickHandler}
+              role={this.hasChildren ? "group" : undefined}
             >
-              {chevron}
-              {itemIndicator}
-              {this.iconStart ? iconStartEl : null}
-              {checkbox ? checkbox : defaultSlotNode}
-            </div>
-            <div
-              class={CSS.actionsEnd}
-              hidden={!hasEndActions}
-              ref={(el) => (this.actionSlotWrapper = el as HTMLElement)}
-            >
-              {slotNode}
+              <slot name={SLOTS.children} />
             </div>
           </div>
-
-          <div
-            class={{
-              [CSS.childrenContainer]: true,
-              [CSS_UTILITY.rtl]: rtl,
-            }}
-            data-test-id="calcite-tree-children"
-            onClick={this.childrenClickHandler}
-            role={this.hasChildren ? "group" : undefined}
-          >
-            <slot name={SLOTS.children} />
-          </div>
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }

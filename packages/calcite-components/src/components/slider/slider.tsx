@@ -26,6 +26,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
@@ -656,81 +657,83 @@ export class Slider
 
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
-        <div
-          aria-label={getLabelText(this)}
-          class={{
-            ["container"]: true,
-            ["container--range"]: valueIsRange,
-            [`scale--${this.scale}`]: true,
-          }}
-        >
-          {this.renderGraph()}
+        <InteractiveContainer disabled={this.disabled}>
           <div
-            class="track"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.storeTrackRef}
+            aria-label={getLabelText(this)}
+            class={{
+              ["container"]: true,
+              ["container--range"]: valueIsRange,
+              [`scale--${this.scale}`]: true,
+            }}
           >
+            {this.renderGraph()}
             <div
-              class="track__range"
-              onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
-              style={{
-                left: `${mirror ? 100 - maxInterval : minInterval}%`,
-                right: `${mirror ? minInterval : 100 - maxInterval}%`,
-              }}
-            />
-            <div class="ticks">
-              {this.tickValues.map((tick) => {
-                const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-                let activeTicks = tick >= min && tick <= value;
-                if (useMinValue) {
-                  activeTicks = tick >= this.minValue && tick <= this.maxValue;
-                }
+              class="track"
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.storeTrackRef}
+            >
+              <div
+                class="track__range"
+                onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
+                style={{
+                  left: `${mirror ? 100 - maxInterval : minInterval}%`,
+                  right: `${mirror ? minInterval : 100 - maxInterval}%`,
+                }}
+              />
+              <div class="ticks">
+                {this.tickValues.map((tick) => {
+                  const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+                  let activeTicks = tick >= min && tick <= value;
+                  if (useMinValue) {
+                    activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                  }
 
-                return (
-                  <span
-                    class={{
-                      tick: true,
-                      "tick--active": activeTicks,
-                    }}
-                    style={{
-                      left: mirror ? "" : tickOffset,
-                      right: mirror ? tickOffset : "",
-                    }}
-                  >
-                    {this.renderTickLabel(tick)}
-                  </span>
-                );
-              })}
+                  return (
+                    <span
+                      class={{
+                        tick: true,
+                        "tick--active": activeTicks,
+                      }}
+                      style={{
+                        left: mirror ? "" : tickOffset,
+                        right: mirror ? tickOffset : "",
+                      }}
+                    >
+                      {this.renderTickLabel(tick)}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+            <div class="thumb-container">
+              {!this.precise && !this.labelHandles && valueIsRange && minHandle}
+              {!this.hasHistogram &&
+                !this.precise &&
+                this.labelHandles &&
+                valueIsRange &&
+                minLabeledHandle}
+              {this.precise && !this.labelHandles && valueIsRange && minPreciseHandle}
+              {this.precise && this.labelHandles && valueIsRange && minLabeledPreciseHandle}
+              {this.hasHistogram &&
+                !this.precise &&
+                this.labelHandles &&
+                valueIsRange &&
+                minHistogramLabeledHandle}
+
+              {!this.precise && !this.labelHandles && handle}
+              {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
+              {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
+              {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
+              {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
+              {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
+              {this.hasHistogram &&
+                this.precise &&
+                this.labelHandles &&
+                histogramLabeledPreciseHandle}
+              <HiddenFormInputSlot component={this} />
             </div>
           </div>
-          <div class="thumb-container">
-            {!this.precise && !this.labelHandles && valueIsRange && minHandle}
-            {!this.hasHistogram &&
-              !this.precise &&
-              this.labelHandles &&
-              valueIsRange &&
-              minLabeledHandle}
-            {this.precise && !this.labelHandles && valueIsRange && minPreciseHandle}
-            {this.precise && this.labelHandles && valueIsRange && minLabeledPreciseHandle}
-            {this.hasHistogram &&
-              !this.precise &&
-              this.labelHandles &&
-              valueIsRange &&
-              minHistogramLabeledHandle}
-
-            {!this.precise && !this.labelHandles && handle}
-            {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
-            {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
-            {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
-            {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
-            {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
-            {this.hasHistogram &&
-              this.precise &&
-              this.labelHandles &&
-              histogramLabeledPreciseHandle}
-            <HiddenFormInputSlot component={this} />
-          </div>
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }

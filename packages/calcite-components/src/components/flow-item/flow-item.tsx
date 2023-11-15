@@ -16,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -346,36 +347,38 @@ export class FlowItem
     } = this;
     return (
       <Host>
-        <calcite-panel
-          closable={closable}
-          closed={closed}
-          collapseDirection={collapseDirection}
-          collapsed={collapsed}
-          collapsible={collapsible}
-          description={description}
-          disabled={disabled}
-          heading={heading}
-          headingLevel={headingLevel}
-          loading={loading}
-          menuOpen={menuOpen}
-          messageOverrides={messages}
-          onCalcitePanelClose={this.handlePanelClose}
-          onCalcitePanelScroll={this.handlePanelScroll}
-          onCalcitePanelToggle={this.handlePanelToggle}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setContainerRef}
-        >
-          {this.renderBackButton()}
-          <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
-          <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
-          <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
-          <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
-          <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
-          <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-          <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
-          <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
-          <slot />
-        </calcite-panel>
+        <InteractiveContainer disabled={disabled}>
+          <calcite-panel
+            closable={closable}
+            closed={closed}
+            collapseDirection={collapseDirection}
+            collapsed={collapsed}
+            collapsible={collapsible}
+            description={description}
+            disabled={disabled}
+            heading={heading}
+            headingLevel={headingLevel}
+            loading={loading}
+            menuOpen={menuOpen}
+            messageOverrides={messages}
+            onCalcitePanelClose={this.handlePanelClose}
+            onCalcitePanelScroll={this.handlePanelScroll}
+            onCalcitePanelToggle={this.handlePanelToggle}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setContainerRef}
+          >
+            {this.renderBackButton()}
+            <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+            <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+            <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+            <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+            <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+            <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+            <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
+            <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+            <slot />
+          </calcite-panel>
+        </InteractiveContainer>
       </Host>
     );
   }

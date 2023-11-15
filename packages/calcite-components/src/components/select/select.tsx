@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Listen,
   Method,
@@ -23,6 +22,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
@@ -376,12 +376,14 @@ export class Select
   }
 
   render(): VNode {
+    const { disabled } = this;
+
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         <select
           aria-label={getLabelText(this)}
           class={CSS.select}
-          disabled={this.disabled}
+          disabled={disabled}
           onChange={this.handleInternalSelectChange}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.storeSelectRef}
@@ -390,7 +392,7 @@ export class Select
         </select>
         {this.renderChevron()}
         <HiddenFormInputSlot component={this} />
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

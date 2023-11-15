@@ -30,6 +30,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
@@ -1194,30 +1195,32 @@ export class Input
 
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalDown
-            : null}
-          {this.prefixText ? prefixText : null}
-          <div class={CSS.wrapper}>
-            {localeNumberInput}
-            {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
-            {this.loading ? loader : null}
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+            {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalDown
+              : null}
+            {this.prefixText ? prefixText : null}
+            <div class={CSS.wrapper}>
+              {localeNumberInput}
+              {childEl}
+              {this.isClearable ? inputClearButton : null}
+              {this.requestedIcon ? iconEl : null}
+              {this.loading ? loader : null}
+            </div>
+            <div class={CSS.actionWrapper}>
+              <slot name={SLOTS.action} />
+            </div>
+            {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
+              ? numberButtonsVertical
+              : null}
+            {this.suffixText ? suffixText : null}
+            {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalUp
+              : null}
+            <HiddenFormInputSlot component={this} />
           </div>
-          <div class={CSS.actionWrapper}>
-            <slot name={SLOTS.action} />
-          </div>
-          {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
-            ? numberButtonsVertical
-            : null}
-          {this.suffixText ? suffixText : null}
-          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalUp
-            : null}
-          <HiddenFormInputSlot component={this} />
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }

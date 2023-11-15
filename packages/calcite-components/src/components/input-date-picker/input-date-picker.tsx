@@ -46,6 +46,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
@@ -518,125 +519,31 @@ export class InputDatePicker
 
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler}>
-        {this.localeData && (
-          <div class="input-container">
-            <div
-              class="input-wrapper"
-              onClick={this.onInputWrapperClick}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setStartWrapper}
-            >
-              <calcite-input
-                aria-autocomplete="none"
-                aria-controls={this.dialogId}
-                aria-describedby={this.placeholderTextId}
-                aria-expanded={toAriaBoolean(this.open)}
-                aria-haspopup="dialog"
-                class={`input ${
-                  this.layout === "vertical" && this.range ? `no-bottom-border` : ``
-                }`}
-                disabled={disabled}
-                icon="calendar"
-                number-button-type="none"
-                numberingSystem={numberingSystem}
-                onCalciteInputInput={this.calciteInternalInputInputHandler}
-                onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
-                onCalciteInternalInputFocus={this.startInputFocus}
-                onFocus={this.startEndInputFocus}
-                placeholder={this.localeData?.placeholder}
-                readOnly={readOnly}
-                role="combobox"
-                scale={this.scale}
-                status={this.status}
-                type="text"
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={this.setStartInput}
-              />
-              {!this.readOnly && this.renderToggleIcon(this.open && this.focusedInput === "start")}
-              <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                Date Format: {this.localeData?.placeholder}
-              </span>
-            </div>
-            <div
-              aria-hidden={toAriaBoolean(!this.open)}
-              aria-label={messages.chooseDate}
-              aria-live="polite"
-              aria-modal="true"
-              class={{
-                [CSS.menu]: true,
-                [CSS.menuActive]: this.open,
-              }}
-              id={this.dialogId}
-              role="dialog"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setFloatingEl}
-            >
-              <div
-                class={{
-                  ["calendar-picker-wrapper"]: true,
-                  ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
-                  [FloatingCSS.animation]: true,
-                  [FloatingCSS.animationActive]: this.open,
-                }}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={this.setTransitionEl}
-              >
-                <calcite-date-picker
-                  activeDate={this.datePickerActiveDate}
-                  activeRange={this.focusedInput}
-                  headingLevel={this.headingLevel}
-                  max={this.max}
-                  maxAsDate={this.maxAsDate}
-                  messageOverrides={this.messageOverrides}
-                  min={this.min}
-                  minAsDate={this.minAsDate}
-                  numberingSystem={numberingSystem}
-                  onCalciteDatePickerChange={this.handleDateChange}
-                  onCalciteDatePickerRangeChange={this.handleDateRangeChange}
-                  proximitySelectionDisabled={this.proximitySelectionDisabled}
-                  range={this.range}
-                  scale={this.scale}
-                  tabIndex={this.open ? undefined : -1}
-                  valueAsDate={this.valueAsDate}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.setDatePickerRef}
-                />
-              </div>
-            </div>
-
-            {this.range && this.layout === "horizontal" && (
-              <div class="horizontal-arrow-container">
-                <calcite-icon flipRtl={true} icon="arrow-right" scale={getIconScale(this.scale)} />
-              </div>
-            )}
-            {this.range && this.layout === "vertical" && this.scale !== "s" && (
-              <div class="vertical-arrow-container">
-                <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
-              </div>
-            )}
-            {this.range && (
+        <InteractiveContainer disabled={disabled}>
+          {this.localeData && (
+            <div class="input-container">
               <div
                 class="input-wrapper"
                 onClick={this.onInputWrapperClick}
                 // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={this.setEndWrapper}
+                ref={this.setStartWrapper}
               >
                 <calcite-input
                   aria-autocomplete="none"
                   aria-controls={this.dialogId}
+                  aria-describedby={this.placeholderTextId}
                   aria-expanded={toAriaBoolean(this.open)}
                   aria-haspopup="dialog"
-                  class={{
-                    input: true,
-                    "border-top-color-one": this.layout === "vertical" && this.range,
-                  }}
+                  class={`input ${
+                    this.layout === "vertical" && this.range ? `no-bottom-border` : ``
+                  }`}
                   disabled={disabled}
                   icon="calendar"
                   number-button-type="none"
                   numberingSystem={numberingSystem}
                   onCalciteInputInput={this.calciteInternalInputInputHandler}
                   onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
-                  onCalciteInternalInputFocus={this.endInputFocus}
+                  onCalciteInternalInputFocus={this.startInputFocus}
                   onFocus={this.startEndInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
@@ -645,14 +552,116 @@ export class InputDatePicker
                   status={this.status}
                   type="text"
                   // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.setEndInput}
+                  ref={this.setStartInput}
                 />
-                {!this.readOnly && this.renderToggleIcon(this.open && this.focusedInput === "end")}
+                {!this.readOnly &&
+                  this.renderToggleIcon(this.open && this.focusedInput === "start")}
+                <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
+                  Date Format: {this.localeData?.placeholder}
+                </span>
               </div>
-            )}
-          </div>
-        )}
-        <HiddenFormInputSlot component={this} />
+              <div
+                aria-hidden={toAriaBoolean(!this.open)}
+                aria-label={messages.chooseDate}
+                aria-live="polite"
+                aria-modal="true"
+                class={{
+                  [CSS.menu]: true,
+                  [CSS.menuActive]: this.open,
+                }}
+                id={this.dialogId}
+                role="dialog"
+                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                ref={this.setFloatingEl}
+              >
+                <div
+                  class={{
+                    ["calendar-picker-wrapper"]: true,
+                    ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
+                    [FloatingCSS.animation]: true,
+                    [FloatingCSS.animationActive]: this.open,
+                  }}
+                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                  ref={this.setTransitionEl}
+                >
+                  <calcite-date-picker
+                    activeDate={this.datePickerActiveDate}
+                    activeRange={this.focusedInput}
+                    headingLevel={this.headingLevel}
+                    max={this.max}
+                    maxAsDate={this.maxAsDate}
+                    messageOverrides={this.messageOverrides}
+                    min={this.min}
+                    minAsDate={this.minAsDate}
+                    numberingSystem={numberingSystem}
+                    onCalciteDatePickerChange={this.handleDateChange}
+                    onCalciteDatePickerRangeChange={this.handleDateRangeChange}
+                    proximitySelectionDisabled={this.proximitySelectionDisabled}
+                    range={this.range}
+                    scale={this.scale}
+                    tabIndex={this.open ? undefined : -1}
+                    valueAsDate={this.valueAsDate}
+                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                    ref={this.setDatePickerRef}
+                  />
+                </div>
+              </div>
+
+              {this.range && this.layout === "horizontal" && (
+                <div class="horizontal-arrow-container">
+                  <calcite-icon
+                    flipRtl={true}
+                    icon="arrow-right"
+                    scale={getIconScale(this.scale)}
+                  />
+                </div>
+              )}
+              {this.range && this.layout === "vertical" && this.scale !== "s" && (
+                <div class="vertical-arrow-container">
+                  <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
+                </div>
+              )}
+              {this.range && (
+                <div
+                  class="input-wrapper"
+                  onClick={this.onInputWrapperClick}
+                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                  ref={this.setEndWrapper}
+                >
+                  <calcite-input
+                    aria-autocomplete="none"
+                    aria-controls={this.dialogId}
+                    aria-expanded={toAriaBoolean(this.open)}
+                    aria-haspopup="dialog"
+                    class={{
+                      input: true,
+                      "border-top-color-one": this.layout === "vertical" && this.range,
+                    }}
+                    disabled={disabled}
+                    icon="calendar"
+                    number-button-type="none"
+                    numberingSystem={numberingSystem}
+                    onCalciteInputInput={this.calciteInternalInputInputHandler}
+                    onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
+                    onCalciteInternalInputFocus={this.endInputFocus}
+                    onFocus={this.startEndInputFocus}
+                    placeholder={this.localeData?.placeholder}
+                    readOnly={readOnly}
+                    role="combobox"
+                    scale={this.scale}
+                    status={this.status}
+                    type="text"
+                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                    ref={this.setEndInput}
+                  />
+                  {!this.readOnly &&
+                    this.renderToggleIcon(this.open && this.focusedInput === "end")}
+                </div>
+              )}
+            </div>
+          )}
+          <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }

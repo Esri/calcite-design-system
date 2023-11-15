@@ -24,6 +24,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
@@ -970,56 +971,58 @@ export class InputTimePicker
     const { disabled, messages, readOnly, dialogId } = this;
     return (
       <Host onBlur={this.hostBlurHandler} onKeyDown={this.keyDownHandler}>
-        <div class="input-wrapper" onClick={this.onInputWrapperClick}>
-          <calcite-input
-            aria-autocomplete="none"
-            aria-haspopup="dialog"
-            disabled={disabled}
-            icon="clock"
-            id={this.referenceElementId}
-            label={getLabelText(this)}
+        <InteractiveContainer disabled={disabled}>
+          <div class="input-wrapper" onClick={this.onInputWrapperClick}>
+            <calcite-input
+              aria-autocomplete="none"
+              aria-haspopup="dialog"
+              disabled={disabled}
+              icon="clock"
+              id={this.referenceElementId}
+              label={getLabelText(this)}
+              lang={this.effectiveLocale}
+              onCalciteInputInput={this.calciteInternalInputInputHandler}
+              onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
+              readOnly={readOnly}
+              role="combobox"
+              scale={this.scale}
+              status={this.status}
+              step={this.step}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.setInputAndTransitionEl}
+            />
+            {!this.readOnly && this.renderToggleIcon(this.open)}
+          </div>
+          <calcite-popover
+            focusTrapDisabled={true}
+            id={dialogId}
+            label={messages.chooseTime}
             lang={this.effectiveLocale}
-            onCalciteInputInput={this.calciteInternalInputInputHandler}
-            onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
-            readOnly={readOnly}
-            role="combobox"
-            scale={this.scale}
-            status={this.status}
-            step={this.step}
+            onCalcitePopoverClose={this.popoverCloseHandler}
+            onCalcitePopoverOpen={this.popoverOpenHandler}
+            open={this.open}
+            overlayPositioning={this.overlayPositioning}
+            placement={this.placement}
+            referenceElement={this.referenceElementId}
+            triggerDisabled={true}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setInputAndTransitionEl}
-          />
-          {!this.readOnly && this.renderToggleIcon(this.open)}
-        </div>
-        <calcite-popover
-          focusTrapDisabled={true}
-          id={dialogId}
-          label={messages.chooseTime}
-          lang={this.effectiveLocale}
-          onCalcitePopoverClose={this.popoverCloseHandler}
-          onCalcitePopoverOpen={this.popoverOpenHandler}
-          open={this.open}
-          overlayPositioning={this.overlayPositioning}
-          placement={this.placement}
-          referenceElement={this.referenceElementId}
-          triggerDisabled={true}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setCalcitePopoverEl}
-        >
-          <calcite-time-picker
-            lang={this.effectiveLocale}
-            messageOverrides={this.messageOverrides}
-            numberingSystem={this.numberingSystem}
-            onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
-            scale={this.scale}
-            step={this.step}
-            tabIndex={this.open ? undefined : -1}
-            value={this.value}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setCalciteTimePickerEl}
-          />
-        </calcite-popover>
-        <HiddenFormInputSlot component={this} />
+            ref={this.setCalcitePopoverEl}
+          >
+            <calcite-time-picker
+              lang={this.effectiveLocale}
+              messageOverrides={this.messageOverrides}
+              numberingSystem={this.numberingSystem}
+              onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
+              scale={this.scale}
+              step={this.step}
+              tabIndex={this.open ? undefined : -1}
+              value={this.value}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.setCalciteTimePickerEl}
+            />
+          </calcite-popover>
+          <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }

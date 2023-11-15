@@ -16,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -309,36 +310,38 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
       iconFlipRtl,
     } = this;
     return (
-      <div
-        class={{
-          checked,
-          container: true,
-          [CSS.description]: Boolean(description),
-          [CSS.descriptionOnly]: Boolean(!heading && !icon && description),
-          disabled,
-          focused,
-          [CSS.heading]: Boolean(heading),
-          [CSS.headingOnly]: heading && !icon && !description,
-          [CSS.icon]: Boolean(icon),
-          [CSS.iconOnly]: !heading && icon && !description,
-          [CSS.inputAlignmentEnd]: inputAlignment === "end",
-          [CSS.inputAlignmentStart]: inputAlignment === "start",
-          [CSS.inputEnabled]: inputEnabled,
-          [CSS.largeVisual]: heading && icon && !description,
-          [CSS.widthAuto]: width === "auto",
-          [CSS.widthFull]: width === "full",
-        }}
-      >
-        <calcite-tile
-          active={checked}
-          description={description}
-          embed
-          heading={heading}
-          icon={icon}
-          iconFlipRtl={iconFlipRtl}
-        />
-        <slot />
-      </div>
+      <InteractiveContainer disabled={disabled}>
+        <div
+          class={{
+            checked,
+            container: true,
+            [CSS.description]: Boolean(description),
+            [CSS.descriptionOnly]: Boolean(!heading && !icon && description),
+            disabled,
+            focused,
+            [CSS.heading]: Boolean(heading),
+            [CSS.headingOnly]: heading && !icon && !description,
+            [CSS.icon]: Boolean(icon),
+            [CSS.iconOnly]: !heading && icon && !description,
+            [CSS.inputAlignmentEnd]: inputAlignment === "end",
+            [CSS.inputAlignmentStart]: inputAlignment === "start",
+            [CSS.inputEnabled]: inputEnabled,
+            [CSS.largeVisual]: heading && icon && !description,
+            [CSS.widthAuto]: width === "auto",
+            [CSS.widthFull]: width === "full",
+          }}
+        >
+          <calcite-tile
+            active={checked}
+            description={description}
+            embed
+            heading={heading}
+            icon={icon}
+            iconFlipRtl={iconFlipRtl}
+          />
+          <slot />
+        </div>
+      </InteractiveContainer>
     );
   }
 }

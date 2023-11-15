@@ -25,6 +25,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -499,20 +500,22 @@ export class RadioButton
     const tabIndex = this.getTabIndex();
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
-        <div
-          aria-checked={toAriaBoolean(this.checked)}
-          aria-label={getLabelText(this)}
-          class={CSS.container}
-          onBlur={this.onContainerBlur}
-          onFocus={this.onContainerFocus}
-          role="radio"
-          tabIndex={tabIndex}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setContainerEl}
-        >
-          <div class="radio" />
-        </div>
-        <HiddenFormInputSlot component={this} />
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            aria-checked={toAriaBoolean(this.checked)}
+            aria-label={getLabelText(this)}
+            class={CSS.container}
+            onBlur={this.onContainerBlur}
+            onFocus={this.onContainerFocus}
+            role="radio"
+            tabIndex={tabIndex}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setContainerEl}
+          >
+            <div class="radio" />
+          </div>
+          <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }
