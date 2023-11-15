@@ -47,6 +47,7 @@ import {
 } from "../../utils/time";
 import { TimePickerMessages } from "./assets/time-picker/t9n";
 import { CSS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 import {
   componentFocusable,
@@ -934,7 +935,7 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
 
   render(): VNode {
     const hourIsNumber = isValidNumber(this.hour);
-    const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
+    const iconScale = getIconScale(this.scale);
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);

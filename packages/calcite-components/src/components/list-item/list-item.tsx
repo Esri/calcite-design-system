@@ -313,7 +313,7 @@ export class ListItem
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, "managed");
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {

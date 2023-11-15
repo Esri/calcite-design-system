@@ -10,7 +10,7 @@ describe("calcite-pagination", () => {
 
   describe("focuses previous button when not on the first page", () => {
     focusable('<calcite-pagination page-size="1" start-item="2" total-items="10"></calcite-pagination>', {
-      shadowFocusTargetSelector: `.${CSS.previous}`,
+      shadowFocusTargetSelector: `[data-test-chevron="previous"]`,
     });
   });
 
@@ -46,8 +46,8 @@ describe("calcite-pagination", () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination total-items="80"></calcite-pagination>`);
 
-      const startEllipsis = await page.find(`calcite-pagination >>> .${CSS.ellipsis}.${CSS.ellipsisStart}`);
-      const endEllipsis = await page.find(`calcite-pagination >>> .${CSS.ellipsis}.${CSS.ellipsisEnd}`);
+      const startEllipsis = await page.find(`calcite-pagination >>> [data-test-ellipsis="start"]`);
+      const endEllipsis = await page.find(`calcite-pagination >>> [data-test-ellipsis="end"]`);
       expect(startEllipsis).toBeNull();
       expect(endEllipsis).toBeNull();
     });
@@ -57,7 +57,7 @@ describe("calcite-pagination", () => {
         `<calcite-pagination style="width:400px;" start-item="101" total-items="140" page-size="20"></calcite-pagination>`
       );
 
-      const startEllipsis = await page.find(`calcite-pagination >>> .${CSS.ellipsis}.${CSS.ellipsisStart}`);
+      const startEllipsis = await page.find(`calcite-pagination >>> [data-test-ellipsis="start"]`);
       expect(startEllipsis).not.toBeNull();
     });
     it("should render end ellipsis when total pages is over 5 and the selected page more than 3 from the final page", async () => {
@@ -65,7 +65,7 @@ describe("calcite-pagination", () => {
       await page.setContent(
         `<calcite-pagination style="width:400px;" start-item="801" total-items="1200" page-size="100"></calcite-pagination>`
       );
-      const endEllipsis = await page.find(`calcite-pagination >>> .${CSS.ellipsis}.${CSS.ellipsisEnd}`);
+      const endEllipsis = await page.find(`calcite-pagination >>> [data-test-ellipsis="end"]`);
       expect(endEllipsis).not.toBeNull();
     });
   });
@@ -81,7 +81,7 @@ describe("calcite-pagination", () => {
     });
     it("next button should increase selected page by 1 when clicked", async () => {
       const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
-      const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
+      const nextButton = await page.find(`calcite-pagination >>> [data-test-chevron="next"]`);
       await nextButton.click();
       await page.waitForChanges();
 
@@ -91,18 +91,18 @@ describe("calcite-pagination", () => {
     });
     it("previous button should be disabled when selected page equals the starting page", async () => {
       const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
-      const previousButton = await page.find(`calcite-pagination >>> .${CSS.previous}`);
+      const previousButton = await page.find(`calcite-pagination >>> [data-test-chevron="previous"]`);
       await previousButton.click();
       await page.waitForChanges();
 
       expect(toggleSpy).toHaveReceivedEventTimes(0);
     });
     it("previous button should decrease selected page by 1", async () => {
-      await pagination.setAttribute("start-item", "21");
+      pagination.setAttribute("start-item", "21");
       await page.waitForChanges();
 
       const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
-      const previousButton = await page.find(`calcite-pagination >>> .${CSS.previous}`);
+      const previousButton = await page.find(`calcite-pagination >>> [data-test-chevron="previous"]`);
       await previousButton.click();
       await page.waitForChanges();
 
@@ -111,24 +111,24 @@ describe("calcite-pagination", () => {
       expect(toggleSpy).toHaveReceivedEventTimes(1);
     });
     it("next button should be disabled on last page", async () => {
-      await pagination.setAttribute("start-item", "121");
+      pagination.setAttribute("start-item", "121");
       await page.waitForChanges();
 
       const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
-      const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
+      const nextButton = await page.find(`calcite-pagination >>> [data-test-chevron="next"]`);
       await nextButton.click();
       await page.waitForChanges();
 
       expect(toggleSpy).toHaveReceivedEventTimes(0);
     });
     it("next button should be enabled if last page has only 1 result", async () => {
-      await pagination.setAttribute("total-items", "11");
-      await pagination.setAttribute("page-size", "10");
-      await pagination.setAttribute("start-item", "1");
+      pagination.setAttribute("total-items", "11");
+      pagination.setAttribute("page-size", "10");
+      pagination.setAttribute("start-item", "1");
       await page.waitForChanges();
 
       const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
-      const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
+      const nextButton = await page.find(`calcite-pagination >>> [data-test-chevron="next"]`);
       await nextButton.click();
       await page.waitForChanges();
 
@@ -170,22 +170,41 @@ describe("calcite-pagination", () => {
     });
     it("previous button should be disabled when selected page equals the starting page", async () => {
       const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
-      const previousButton = await page.find(`calcite-pagination >>> .${CSS.previous}`);
+      const previousButton = await page.find(`calcite-pagination >>> [data-test-chevron="previous"]`);
       await previousButton.click();
       await page.waitForChanges();
 
       expect(toggleSpy).toHaveReceivedEventTimes(0);
     });
     it("next button should be disabled on last page", async () => {
-      await pagination.setAttribute("start-item", "5");
+      pagination.setAttribute("start-item", "5");
       await page.waitForChanges();
 
       const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
-      const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
+      const nextButton = await page.find(`calcite-pagination >>> [data-test-chevron="next"]`);
       await nextButton.click();
       await page.waitForChanges();
 
       expect(toggleSpy).toHaveReceivedEventTimes(0);
+    });
+  });
+
+  describe("pageSize", () => {
+    it("should set pageSize to one when set to zero via attribute", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination start-item="1" total-items="5" page-size="0"></calcite-pagination>`);
+      const pagination = await page.find("calcite-pagination");
+      expect(await pagination.getProperty("pageSize")).toBe(1);
+    });
+
+    it("should set pageSize to one when set to zero programmatically", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination start-item="1" total-items="50" page-size="10"></calcite-pagination>`);
+      const pagination = await page.find("calcite-pagination");
+      expect(await pagination.getProperty("pageSize")).toBe(10);
+      pagination.setProperty("pageSize", 0);
+      await page.waitForChanges();
+      expect(await pagination.getProperty("pageSize")).toBe(1);
     });
   });
 

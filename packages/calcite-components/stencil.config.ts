@@ -3,6 +3,7 @@ import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
+import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
@@ -84,6 +85,13 @@ export const create: () => Config = () => ({
     { components: ["calcite-value-list", "calcite-value-list-item"] },
   ],
   outputTargets: [
+    angularOutputTarget({
+      componentCorePackage: "@esri/calcite-components",
+      directivesProxyFile:
+        "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/components.ts",
+      directivesArrayFile:
+        "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/index.ts",
+    }),
     reactOutputTarget({
       componentCorePackage: "@esri/calcite-components",
       proxiesFile: "../calcite-components-react/src/components.ts",
@@ -138,6 +146,10 @@ export const create: () => Config = () => ({
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    transform: {
+      "calcite-design-tokens/dist/es6/calcite-headless\\.js$":
+        "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
+    },
   },
   hydratedFlag: {
     selector: "attribute",

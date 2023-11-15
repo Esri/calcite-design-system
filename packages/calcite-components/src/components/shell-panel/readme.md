@@ -78,15 +78,18 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                                | Type                 | Default     |
-| --------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------- | ----------- |
-| `collapsed`           | `collapsed`             | When `true`, hides the component's content area.                                                           | `boolean`            | `false`     |
-| `detached`            | `detached`              | When `true`, the content area displays like a floating panel.                                              | `boolean`            | `false`     |
-| `detachedHeightScale` | `detached-height-scale` | When `detached`, specifies the maximum height of the component.                                            | `"l" \| "m" \| "s"`  | `"l"`       |
-| `messageOverrides`    | `message-overrides`     | Use this property to override individual strings used by the component.                                    | `ShellPanelMessages` | `undefined` |
-| `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). | `"end" \| "start"`   | `undefined` |
-| `resizable`           | `resizable`             | When `true` and not `detached`, the component's content area is resizable.                                 | `boolean`            | `false`     |
-| `widthScale`          | `width-scale`           | Specifies the width of the component's content area.                                                       | `"l" \| "m" \| "s"`  | `"m"`       |
+| Property              | Attribute               | Description                                                                                                                                                                                                                                                                         | Type                             | Default      |
+| --------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------ |
+| `collapsed`           | `collapsed`             | When `true`, hides the component's content area.                                                                                                                                                                                                                                    | `boolean`                        | `false`      |
+| `detached`            | `detached`              | <span style="color:red">**[DEPRECATED]**</span> use `displayMode` instead.<br/><br/>When `true`, the content area displays like a floating panel.                                                                                                                                   | `boolean`                        | `false`      |
+| `detachedHeightScale` | `detached-height-scale` | <span style="color:red">**[DEPRECATED]**</span> use `heightScale` instead.<br/><br/>When `displayMode` is `float`, specifies the maximum height of the component.                                                                                                                   | `"l" \| "m" \| "s"`              | `undefined`  |
+| `displayMode`         | `display-mode`          | Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content). | `"dock" \| "float" \| "overlay"` | `"dock"`     |
+| `heightScale`         | `height-scale`          | When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.                                                                                                                                               | `"l" \| "m" \| "s"`              | `undefined`  |
+| `layout`              | `layout`                | The direction of the component.                                                                                                                                                                                                                                                     | `"horizontal" \| "vertical"`     | `"vertical"` |
+| `messageOverrides`    | --                      | Use this property to override individual strings used by the component.                                                                                                                                                                                                             | `{ resize?: string; }`           | `undefined`  |
+| `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).                                                                                                                                                                          | `"end" \| "start"`               | `"start"`    |
+| `resizable`           | `resizable`             | When `true` and `displayMode` is not `float`, the component's content area is resizable.                                                                                                                                                                                            | `boolean`                        | `false`      |
+| `widthScale`          | `width-scale`           | When `layout` is `vertical`, specifies the width of the component.                                                                                                                                                                                                                  | `"l" \| "m" \| "s"`              | `"m"`        |
 
 ## Slots
 
@@ -97,12 +100,16 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ## CSS Custom Properties
 
-| Name                                        | Description                                                  |
-| ------------------------------------------- | ------------------------------------------------------------ |
-| `--calcite-shell-panel-detached-max-height` | The maximum height of the component when `detached` is true. |
-| `--calcite-shell-panel-max-width`           | The maximum width of the component.                          |
-| `--calcite-shell-panel-min-width`           | The minimum width of the component.                          |
-| `--calcite-shell-panel-width`               | The width of the component.                                  |
+| Name                                        | Description                                                                                                                           |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `--calcite-shell-panel-detached-max-height` | [Deprecated] Use the `heightScale` property instead. When `displayMode` is `float`, specifies the maximum height of the component.    |
+| `--calcite-shell-panel-height`              | When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the height of the component.         |
+| `--calcite-shell-panel-max-height`          | When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component. |
+| `--calcite-shell-panel-max-width`           | Specifies the maximum width of the component.                                                                                         |
+| `--calcite-shell-panel-min-height`          | When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the minimum height of the component. |
+| `--calcite-shell-panel-min-width`           | Specifies the minimum width of the component.                                                                                         |
+| `--calcite-shell-panel-width`               | Specifies the width of the component.                                                                                                 |
+| `--calcite-shell-panel-z-index`             | Specifies the z-index value for the component.                                                                                        |
 
 ---
 

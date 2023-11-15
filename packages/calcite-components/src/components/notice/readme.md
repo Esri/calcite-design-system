@@ -25,23 +25,25 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                           | Type                                                      | Default     |
-| ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
-| `closable`         | `closable`          | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
-| `icon`             | `icon`              | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
-| `iconFlipRtl`      | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
-| `kind`             | `kind`              | Specifies the kind of the component (will apply to top border and icon).                                              | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                               | `NoticeMessages`                                          | `undefined` |
-| `open`             | `open`              | When `true`, the component is visible.                                                                                | `boolean`                                                 | `false`     |
-| `scale`            | `scale`             | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
-| `width`            | `width`             | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                              | `"auto"`    |
+| Property           | Attribute       | Description                                                                                                           | Type                                                      | Default     |
+| ------------------ | --------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| `closable`         | `closable`      | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
+| `icon`             | `icon`          | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
+| `iconFlipRtl`      | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
+| `kind`             | `kind`          | Specifies the kind of the component (will apply to top border and icon).                                              | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
+| `messageOverrides` | --              | Use this property to override individual strings used by the component.                                               | `{ close?: string; }`                                     | `undefined` |
+| `open`             | `open`          | When `true`, the component is visible.                                                                                | `boolean`                                                 | `false`     |
+| `scale`            | `scale`         | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
+| `width`            | `width`         | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                              | `"auto"`    |
 
 ## Events
 
-| Event                | Description                         | Type                |
-| -------------------- | ----------------------------------- | ------------------- |
-| `calciteNoticeClose` | Fired when the component is closed. | `CustomEvent<void>` |
-| `calciteNoticeOpen`  | Fired when the component is opened. | `CustomEvent<void>` |
+| Event                      | Description                                                                                              | Type                |
+| -------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteNoticeBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
+| `calciteNoticeBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
+| `calciteNoticeClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
+| `calciteNoticeOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
 
 ## Methods
 

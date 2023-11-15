@@ -1,4 +1,6 @@
 {
   "close": "Luk",
-  "options": "Indstillinger"
+  "options": "Indstillinger",
+  "collapse": "Skjul",
+  "expand": "Udvid"
 }

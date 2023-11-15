@@ -36,12 +36,18 @@ export const headingAndThumbnail_TestOnly = (): string => html`<calcite-navigati
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
 />`;
 
+export const headingAndIcon_TestOnly = (): string => html`<calcite-navigation-logo
+  heading="ArcGIS Online"
+  icon="link-chart"
+/>`;
+
 export const descriptionAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
   description="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
 />`;
 
 export const All_TestOnly = (): string => html`<calcite-navigation-logo
+  icon="link-chart"
   heading="ArcGIS Online"
   description="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
