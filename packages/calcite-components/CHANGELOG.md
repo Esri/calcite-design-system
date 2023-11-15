@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0-rc.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.0.0-rc.0...@esri/calcite-components@2.0.0-rc.1) (2023-11-15)
+
+### Features
+
+- **input, input-date-picker, input-number, input-text, input-time-picker:** truncate value and placeholder when input is narrow ([#8160](https://github.com/Esri/calcite-design-system/issues/8160)) ([988e32b](https://github.com/Esri/calcite-design-system/commit/988e32b839383ad2d2fbdb96e6802f7bc5a9662e)), closes [#6677](https://github.com/Esri/calcite-design-system/issues/6677)
+- **list:** Specify the element types in the `calciteListOrderChange` event detail. ([#8123](https://github.com/Esri/calcite-design-system/issues/8123)) ([2202dda](https://github.com/Esri/calcite-design-system/commit/2202ddab702b04be876915c4651d773b966650ef))
+
+### Bug Fixes
+
+- **input-date-picker:** fix date-picker wrapper displaying beyond its bounds ([#8172](https://github.com/Esri/calcite-design-system/issues/8172)) ([c06aa42](https://github.com/Esri/calcite-design-system/commit/c06aa428eff909858ed326c94ce4184af6638300)), closes [#6678](https://github.com/Esri/calcite-design-system/issues/6678)
+
 ## [2.0.0-rc.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.1-next.2...@esri/calcite-components@2.0.0-rc.0) (2023-11-14)
 
 ### ⚠ BREAKING CHANGES
