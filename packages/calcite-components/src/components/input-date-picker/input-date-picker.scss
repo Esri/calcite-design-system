@@ -24,7 +24,7 @@
 @include disabled();
 
 .calendar-picker-wrapper {
-  @apply shadow-none static;
+  @apply shadow-none;
   transform: translate3d(0, 0, 0);
 }
 
