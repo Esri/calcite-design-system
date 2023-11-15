@@ -3,3 +3,10 @@
 // which enables developers to check if the asset path has been set or not
 export { getAssetPath } from "@stencil/core";
 export * from "./components";
+
+// Event detail types need to be exported from this entry point
+// because that's where the Angular output target expects them to be.
+// For more details, see: <INSERT PR LINK>
+export { HandleChange } from "./components/handle/interfaces";
+export { HandleNudge } from "./components/handle/interfaces";
+export { DragDetail } from "./utils/sortableComponent";
