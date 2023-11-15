@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 import { dateToISO } from "../../utils/date";
 
-import { closestElementCrossShadowBoundary, getElementDir, toAriaBoolean } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -21,7 +21,6 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 
 @Component({
@@ -159,7 +158,6 @@ export class DatePickerDay implements InteractiveComponent {
       };
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));
-    const dir = getElementDir(this.el);
     const dayLabel = this.dateTimeFormat.format(this.value);
 
     return (
@@ -174,10 +172,7 @@ export class DatePickerDay implements InteractiveComponent {
         tabIndex={this.active ? 0 : -1}
       >
         <InteractiveContainer disabled={this.disabled}>
-          <div
-            aria-hidden="true"
-            class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          >
+          <div aria-hidden="true" class={{ "day-v-wrapper": true }}>
             <div class="day-wrapper">
               <span class="day">
                 <span class="text">{formattedDay}</span>

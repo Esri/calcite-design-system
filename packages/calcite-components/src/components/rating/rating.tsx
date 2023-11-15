@@ -36,7 +36,7 @@ import {
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { RatingMessages } from "./assets/rating/t9n";
-import { StarIcon } from "./function/star";
+import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
 
