@@ -152,6 +152,7 @@ $border-style: 1px solid var(--calcite-ui-border-3);
 
 .footer {
   @apply flex justify-end order-1 pt-px relative w-full;
+  min-block-size: var(--calcite-alert-footer-height);
 
   &:before {
     content: "";
@@ -166,6 +167,7 @@ $border-style: 1px solid var(--calcite-ui-border-3);
   --calcite-alert-width: 40em;
   --calcite-alert-spacing-token-small: theme("spacing.2");
   --calcite-alert-spacing-token-large: theme("spacing.3");
+  --calcite-alert-footer-height: theme("height.8");
   --calcite-alert-footer-divider-gap: theme("spacing[0.5]");
 
   @include slotted("title", "*") {
@@ -189,6 +191,7 @@ $border-style: 1px solid var(--calcite-ui-border-3);
   --calcite-alert-width: 50em;
   --calcite-alert-spacing-token-small: theme("spacing.3");
   --calcite-alert-spacing-token-large: theme("spacing.4");
+  --calcite-alert-footer-height: theme("height.12");
   --calcite-alert-footer-divider-gap: theme("spacing.1");
 
   @include slotted("title", "*") {
@@ -212,6 +215,7 @@ $border-style: 1px solid var(--calcite-ui-border-3);
   --calcite-alert-width: 60em;
   --calcite-alert-spacing-token-small: theme("spacing.4");
   --calcite-alert-spacing-token-large: theme("spacing.5");
+  --calcite-alert-footer-height: theme("height.16");
   --calcite-alert-footer-divider-gap: theme("spacing.2");
 
   @include slotted("title", "*") {
@@ -316,6 +320,10 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 }
 
 @container responsive-container (min-width: #{$breakpoint-width-xs}) {
+  .footer {
+    block-size: inherit;
+  }
+
   .content {
     @apply flex-row;
   }
