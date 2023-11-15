@@ -847,14 +847,12 @@ export class Combobox
 
     const {
       allSelectedIndicatorChipEl,
-      // allSelectedIndicatorChipCompactEl,
       chipContainerEl,
       displayMode,
       getSelectedItems,
       hideChip,
       placeholder,
       selectedIndicatorChipEl,
-      // selectedIndicatorChipCompactEl,
       showChip,
       textInput,
     } = this;
@@ -882,11 +880,7 @@ export class Combobox
       this.compactDisplayMode = chipContainerElWidth < this.maxCompactBreakpoint;
 
       // TODO: this probably needs rethought now that we have multiple possible indicator chips to consider
-      const selectedIndicatorChipElWidth = selectedIndicatorChipEl.classList.contains(
-        CSS.chipInvisible
-      )
-        ? 0
-        : getElementWidth(selectedIndicatorChipEl);
+      const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
 
       let availableHorizontalChipElSpace = Math.round(
         chipContainerElWidth - (selectedIndicatorChipElWidth + chipContainerElGap + inputWidth)
@@ -1379,10 +1373,10 @@ export class Combobox
             !compactDisplayMode
           ),
         }}
-        ref={setAllSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
+        ref={setAllSelectedIndicatorChipEl}
       >
         {label}
       </calcite-chip>
@@ -1408,10 +1402,10 @@ export class Combobox
             compactDisplayMode
           ),
         }}
-        ref={setAllSelectedIndicatorChipCompactEl}
         scale={scale}
         title={label}
         value=""
+        ref={setAllSelectedIndicatorChipCompactEl}
       >
         {label}
       </calcite-chip>
@@ -1468,10 +1462,10 @@ export class Combobox
             selectedHiddenChipsCount
           ),
         }}
-        ref={setSelectedIndicatorChipCompactEl}
         scale={scale}
         title={label}
         value=""
+        ref={setSelectedIndicatorChipCompactEl}
       >
         {label}
       </calcite-chip>
