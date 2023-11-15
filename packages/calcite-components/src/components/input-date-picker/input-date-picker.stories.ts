@@ -96,9 +96,56 @@ export const invalidStatus_TestOnly = (): string => html`
 
 export const scales_TestOnly = (): string =>
   html`
-    <calcite-input-date-picker scale="s" icon value="2020-12-12"></calcite-input-date-picker>
-    <calcite-input-date-picker scale="m" icon value="2020-12-12"></calcite-input-date-picker>
-    <calcite-input-date-picker scale="l" icon value="2020-12-12"></calcite-input-date-picker>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: 1400px;
+        height: 1200px;
+        gap: 400px;
+      }
+
+      .use-case {
+        display: flex;
+        gap: 100px;
+      }
+    </style>
+    <div class="container">
+      <div class="use-case">
+        <calcite-input-date-picker scale="s" icon open value="2020-12-12"></calcite-input-date-picker>
+        <calcite-input-date-picker scale="m" icon open value="2020-12-12"></calcite-input-date-picker>
+        <calcite-input-date-picker scale="l" icon open value="2020-12-12"></calcite-input-date-picker>
+      </div>
+      <div class="use-case">
+        <calcite-input-date-picker
+          scale="s"
+          open
+          start="2020-12-12"
+          end="2020-12-16"
+          range
+          layout="horizontal"
+          value="2020-12-12"
+        ></calcite-input-date-picker>
+        <calcite-input-date-picker
+          scale="m"
+          open
+          start="2020-12-12"
+          end="2020-12-16"
+          range
+          layout="horizontal"
+          value="2020-12-12"
+        ></calcite-input-date-picker>
+        <calcite-input-date-picker
+          scale="l"
+          open
+          start="2020-12-12"
+          end="2020-12-16"
+          range
+          layout="horizontal"
+          value="2020-12-12"
+        ></calcite-input-date-picker>
+      </div>
+    </div>
   `;
 
 export const darkModeRTL_TestOnly = (): string => html`
