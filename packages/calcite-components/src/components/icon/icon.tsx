@@ -144,6 +144,7 @@ export class Icon {
 
     const pathData = await fetchIcon({ icon, scale });
 
+    // While the fetchIcon method is awaiting response, the icon requested can change. This check is to verify the response received belongs to the current icon.
     if (icon !== this.icon) {
       return;
     }

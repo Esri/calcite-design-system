@@ -9,10 +9,3 @@ export interface StepperItemKeyEventDetail {
 export interface StepperItemChangeEventDetail {
   position: number;
 }
-
-export interface StepBarProps {
-  isActive: boolean;
-  isComplete: boolean;
-  isError: boolean;
-  disabled: boolean;
-}

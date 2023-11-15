@@ -11,6 +11,7 @@ import {
   State,
   VNode,
   Watch,
+  readTask,
 } from "@stencil/core";
 import { focusElementInGroup, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Layout, Position, Scale } from "../interfaces";
@@ -148,9 +149,15 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
-    if (typeof this.currentPosition !== "number") {
+    if (typeof this.currentActivePosition !== "number") {
+      const enabledStepIndex = this.getFirstEnabledStepperPosition();
+
+      if (enabledStepIndex === 0) {
+        this.currentActivePosition = enabledStepIndex;
+      }
+
       this.calciteInternalStepperItemChange.emit({
-        position: this.getFirstEnabledStepperPosition(),
+        position: enabledStepIndex,
       });
     }
   }
@@ -169,10 +176,11 @@ export class Stepper implements LocalizedComponent, T9nComponent {
           <div class={{ [CSS.stepBarContainer]: true }}>
             {this.items.map((item, index) => (
               <StepBar
-                disabled={item.disabled && index !== this.currentPosition}
-                isActive={index === this.currentPosition}
-                isComplete={item.complete && index !== this.currentPosition && !item.error}
-                isError={item.error && index !== this.currentPosition}
+                disabled={item.disabled && index !== this.currentActivePosition}
+                isActive={index === this.currentActivePosition}
+                isComplete={item.complete && index !== this.currentActivePosition && !item.error}
+                isError={item.error && index !== this.currentActivePosition}
+                key={index}
               />
             ))}
           </div>
@@ -231,7 +239,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     const { position } = event.detail;
 
     if (typeof position === "number") {
-      this.currentPosition = position;
+      this.currentActivePosition = position;
       this.selectedItem = event.target as HTMLCalciteStepperItemElement;
     }
 
@@ -254,7 +262,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   /** Set the next `calcite-stepper-item` as active. */
   @Method()
   async nextStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentActivePosition + 1, "next");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -266,7 +274,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   /** Set the previous `calcite-stepper-item` as active. */
   @Method()
   async prevStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentActivePosition - 1, "previous");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -284,7 +292,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   async goToStep(step: number): Promise<void> {
     const position = step - 1;
 
-    if (this.currentPosition !== position) {
+    if (this.currentActivePosition !== position) {
       this.updateStep(position);
     }
   }
@@ -330,12 +338,11 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
-  /** keep track of the currently active item position */
-  @State() currentPosition: number;
+  @State() currentActivePosition: number;
 
-  @Watch("currentPosition")
+  @Watch("currentActivePosition")
   handlePositionChange(): void {
-    requestAnimationFrame(() => {
+    readTask((): void => {
       this.determineActiveStepper(true);
     });
   }
@@ -344,24 +351,23 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   @Watch("elWidth")
   handleElWidthChange(): void {
-    requestAnimationFrame(() => {
+    readTask((): void => {
       this.determineActiveStepper();
     });
   }
 
-  /** list of enabled Stepper items */
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
   private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
 
-  /** list of sorted Stepper items */
   private items: HTMLCalciteStepperItemElement[] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
+  /** Specifies if the user is viewing one `stepper-item` at a time when the page width is less than sum of min-width of each item. */
   private singleViewMode = false;
 
-  guid = `calcite-stepper-action-${guid()}`;
+  private guid = `calcite-stepper-action-${guid()}`;
 
   //--------------------------------------------------------------------------
   //
@@ -383,18 +389,18 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     });
   }
 
-  private determineActiveStepper(currentPositionChanged = false): void {
+  private determineActiveStepper(currentActivePositionChanged = false): void {
     const totalItems = this.items.length;
     if (!this.elWidth || !totalItems || this.layout !== "horizontal" || totalItems === 1) {
       return;
     }
 
-    const activePosition = this.currentPosition || 0;
+    const activePosition = this.currentActivePosition || 0;
     const totalMinWidthOfItems = totalItems * this.getMinWidthOfStepperItem();
     const totalRowGap = (totalItems - 1) * (parseInt(window.getComputedStyle(this.el).rowGap) || 0);
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
-      if (this.singleViewMode && !currentPositionChanged) {
+      if (this.singleViewMode && !currentActivePositionChanged) {
         return;
       }
       this.el.style.gridTemplateColumns = "none";
@@ -429,7 +435,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     startIndex: number,
     direction: "next" | "previous" = "next"
   ): number | null {
-    const { items, currentPosition } = this;
+    const { items, currentActivePosition } = this;
 
     let newIndex = startIndex;
 
@@ -437,13 +443,13 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
-    return newIndex !== currentPosition && newIndex < items.length && newIndex >= 0
+    return newIndex !== currentActivePosition && newIndex < items.length && newIndex >= 0
       ? newIndex
       : null;
   }
 
   private updateStep(position: number): void {
-    this.currentPosition = position;
+    this.currentActivePosition = position;
     this.calciteInternalStepperItemChange.emit({
       position,
     });
@@ -462,7 +468,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   private renderAction(position: Position): VNode {
     const isPositionStart = position === "start";
     const path = isPositionStart ? "chevron-left" : "chevron-right";
-    const { currentPosition, singleViewMode, layout } = this;
+    const { currentActivePosition, singleViewMode, layout } = this;
     const dir = getElementDir(this.el);
     const totalItems = this.items.length;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
@@ -475,38 +481,38 @@ export class Stepper implements LocalizedComponent, T9nComponent {
           [CSS.actionIcon]: true,
         }}
         compact={true}
+        data-position={position}
         disabled={
-          (currentPosition === 0 && isPositionStart) ||
-          (currentPosition === totalItems - 1 && !isPositionStart)
+          (currentActivePosition === 0 && isPositionStart) ||
+          (currentActivePosition === totalItems - 1 && !isPositionStart)
         }
         icon={path}
         iconFlipRtl={dir === "rtl"}
         id={id}
-        // eslint-disable-next-line react/jsx-no-bind
-        onClick={(event) => this.handleActionClick(event, position)}
+        onClick={this.handleActionClick}
         scale={this.scale}
         text={isPositionStart ? "Previous Step" : "Next Step"}
       />
     ) : null;
   }
 
-  private handleActionClick(event: MouseEvent, position: Position): void {
-    event.stopPropagation();
-    const currentActivePosition = this.currentPosition;
-    if (position === "start") {
+  private handleActionClick = (event: MouseEvent): void => {
+    const currentActivePosition = this.currentActivePosition;
+    const target = event.target as HTMLCalciteActionElement;
+    if (target.getAttribute("data-position") === "start") {
       this.prevStep();
     } else {
       this.nextStep();
     }
 
     if (
-      this.currentPosition &&
-      currentActivePosition !== this.currentPosition &&
-      !this.items[this.currentPosition].disabled
+      this.currentActivePosition &&
+      currentActivePosition !== this.currentActivePosition &&
+      !this.items[this.currentActivePosition].disabled
     ) {
       this.calciteStepperItemChange.emit();
     }
-  }
+  };
 
   private getFirstEnabledStepperPosition(): number {
     const enabledStepIndex = this.items.findIndex((item) => !item.disabled);
@@ -515,7 +521,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       return enabledStepIndex;
     }
 
-    this.currentPosition = 0;
     return 0;
   }
 
@@ -536,6 +541,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   };
 
   getMinWidthOfStepperItem = (): number => {
-    return parseInt(ITEM_MIN_WIDTH[this.scale]);
+    return ITEM_MIN_WIDTH[this.scale];
   };
 }

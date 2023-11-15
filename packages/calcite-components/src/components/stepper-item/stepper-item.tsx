@@ -143,6 +143,8 @@ export class StepperItem
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
+   * Specifies if the user is viewing one `stepper-item` at a time.
+   * Helps in determining if header region is tabbable.
    * @internal
    */
   @Prop({ reflect: true }) singleViewMode = false;
@@ -363,14 +365,15 @@ export class StepperItem
   };
 
   private renderIcon(): VNode {
-    const path =
-      this.selected && (this.singleViewMode ? !this.error && !this.complete : true)
-        ? "circleF"
-        : this.error
-        ? "exclamationMarkCircleF"
-        : this.complete
-        ? "checkCircleF"
-        : "circle";
+    let path = "circle";
+
+    if (this.selected && (!this.singleViewMode || (!this.error && !this.complete))) {
+      path = "circleF";
+    } else if (this.error) {
+      path = "exclamationMarkCircleF";
+    } else if (this.complete) {
+      path = "checkCircleF";
+    }
 
     return (
       <calcite-icon class="stepper-item-icon" flipRtl={this.iconFlipRtl} icon={path} scale="s" />

@@ -1,8 +1,7 @@
-//todo : replace with design tokens
 export const ITEM_MIN_WIDTH = {
-  s: "120px",
-  m: "180px",
-  l: "200px",
+  s: 120,
+  m: 180,
+  l: 200,
 };
 
 export const CSS = {

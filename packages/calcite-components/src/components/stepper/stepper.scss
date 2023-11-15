@@ -49,41 +49,6 @@
   gap: theme("spacing.3") var(--calcite-internal-stepper-item-spacing-unit-s);
 }
 
-.step-bar {
-  @apply flex;
-  block-size: 100%;
-  inline-size: 100%;
-}
-
-.step-bar-container {
-  @apply flex gap-2 absolute justify-between items-start;
-  block-size: 0.125rem;
-  inline-size: 100%;
-}
-
-.step-bar--inactive {
-  fill: var(--light-ui-border-3, #dfdfdf);
-  fill-opacity: 1;
-  block-size: 100%;
-}
-
-.step-bar--active {
-  fill: var(--calcite-ui-brand);
-}
-
-.step-bar--complete {
-  fill: var(--calcite-ui-brand);
-  fill-opacity: 0.5;
-}
-
-.step-bar--error {
-  fill: var(--calcite-ui-danger);
-}
-
-.step-bar--disabled {
-  opacity: 0.5;
-}
-
 .action-icon {
   @apply flex relative grow-0;
   block-size: var(--calcite-internal-stepper-action-block-size);
@@ -96,4 +61,42 @@
   inline-size: 100%;
 }
 
+@mixin stepBar {
+  .step-bar {
+    @apply flex;
+    block-size: 100%;
+    inline-size: 100%;
+  }
+
+  .step-bar-container {
+    @apply flex gap-2 absolute justify-between items-start;
+    block-size: 0.125rem;
+    inline-size: 100%;
+  }
+
+  .step-bar--inactive {
+    fill: var(--light-ui-border-3, #dfdfdf);
+    fill-opacity: 1;
+    block-size: 100%;
+  }
+
+  .step-bar--active {
+    fill: var(--calcite-ui-brand);
+  }
+
+  .step-bar--complete {
+    fill: var(--calcite-ui-brand);
+    fill-opacity: 0.5;
+  }
+
+  .step-bar--error {
+    fill: var(--calcite-ui-danger);
+  }
+
+  .step-bar--disabled {
+    opacity: 0.5;
+  }
+}
+
+@include stepBar();
 @include base-component();

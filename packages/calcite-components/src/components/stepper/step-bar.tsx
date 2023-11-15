@@ -1,5 +1,11 @@
 import { FunctionalComponent, h } from "@stencil/core";
-import { StepBarProps } from "./interfaces";
+interface StepBarProps {
+  isActive: boolean;
+  isComplete: boolean;
+  isError: boolean;
+  disabled: boolean;
+  key: number;
+}
 
 export const CSS = {
   stepBar: "step-bar",
@@ -15,11 +21,13 @@ export const StepBar: FunctionalComponent<StepBarProps> = ({
   isActive,
   isComplete,
   isError,
+  key,
 }) => (
   <svg
     class={{
       [CSS.stepBar]: true,
     }}
+    key={key}
   >
     <rect
       class={{

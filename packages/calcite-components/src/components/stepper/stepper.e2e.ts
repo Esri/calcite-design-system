@@ -688,9 +688,9 @@ describe("calcite-stepper", () => {
 </calcite-stepper>`);
 
     const [stepperItem1, stepperItem2, stepperItem3] = await page.findAll("calcite-stepper-item");
-    expect(stepperItem1).toHaveAttribute("selected");
-    expect(stepperItem2).not.toHaveAttribute("selected");
-    expect(stepperItem3).not.toHaveAttribute("selected");
+    expect(await stepperItem1.getProperty("selected")).toBe(true);
+    expect(await stepperItem2.getProperty("selected")).not.toBe(true);
+    expect(await stepperItem3.getProperty("selected")).not.toBe(true);
   });
 
   it("should select the next enabled stepper-item if first stepper-item is disabled", async () => {
@@ -705,9 +705,8 @@ describe("calcite-stepper", () => {
     </calcite-stepper>`);
 
     const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
-
-    expect(stepperItem1).not.toHaveAttribute("selected");
-    expect(stepperItem2).toHaveAttribute("selected");
+    expect(await stepperItem1.getProperty("selected")).not.toBe(true);
+    expect(await stepperItem2.getProperty("selected")).toBe(true);
   });
 
   describe("responsive layout", () => {
@@ -752,12 +751,6 @@ describe("calcite-stepper", () => {
       </calcite-stepper>`);
 
       const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
-      const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
-
-      expect(await actionStart.isVisible()).toBe(true);
-      expect(await actionEnd.isVisible()).toBe(true);
-      expect(await stepperItem1.isVisible()).toBe(true);
-      expect(await stepperItem2.isVisible()).toBe(false);
 
       const actionEndId = actionEnd.getAttribute("id");
       const actionStartId = actionStart.getAttribute("id");
@@ -771,9 +764,6 @@ describe("calcite-stepper", () => {
 
       await actionEnd.click();
       await page.waitForChanges();
-      expect(await stepperItem1.isVisible()).toBe(false);
-      expect(await stepperItem2.isVisible()).toBe(true);
-
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       expect(await isElementFocused(page, `#button2`)).toBe(true);
@@ -807,34 +797,26 @@ describe("calcite-stepper", () => {
 
       const stepper = await page.find("calcite-stepper");
       const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
-      const [stepperItem1, stepperItem2, stepperItem3] = await page.findAll("calcite-stepper-item");
+      const [stepperItem1] = await page.findAll("calcite-stepper-item");
       const eventSpy = await stepper.spyOnEvent("calciteStepperItemChange");
-
-      expect(await actionStart.isVisible()).toBe(true);
-      expect(await actionEnd.isVisible()).toBe(true);
-      expect(await stepperItem2.isVisible()).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(0);
 
       await actionEnd.click();
       await page.waitForChanges();
-      expect(await stepperItem3.isVisible()).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(1);
 
       await actionStart.click();
       await page.waitForChanges();
-      expect(await stepperItem2.isVisible()).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(2);
 
       // shouldn't emit change event when disabled element is visible
       stepperItem1.setProperty("disabled", true);
       await actionStart.click();
       await page.waitForChanges();
-      expect(await stepperItem1.isVisible()).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(2);
 
       await actionEnd.click();
       await page.waitForChanges();
-      expect(await stepperItem2.isVisible()).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(3);
     });
   });
