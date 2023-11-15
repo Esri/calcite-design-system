@@ -6,7 +6,7 @@ export * from "./components";
 
 // Event detail types need to be exported from this entry point
 // because that's where the Angular output target expects them to be.
-// For more details, see: <INSERT PR LINK>
+// For more details, see: https://github.com/Esri/calcite-design-system/pull/8177
 export { HandleChange } from "./components/handle/interfaces";
 export { HandleNudge } from "./components/handle/interfaces";
 export { DragDetail } from "./utils/sortableComponent";
