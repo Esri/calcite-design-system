@@ -1,4 +1,4 @@
-# This script re-builds the Angular output target before publishing to ensure the version is correclty updated.
+# This script re-builds the Angular output target before publishing to ensure the version is correctly updated.
 #
 # Angular generates a package.json file in the dist directory and expects users to `cd` into the dist and publish from there.
 # A Lerna config option for publishing from a different directory was added due to this Angular workflow. Related issues:
