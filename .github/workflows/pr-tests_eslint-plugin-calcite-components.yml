@@ -1,4 +1,4 @@
-name: Run eslint-plugin-calcite-components tests
+name: Run Tests - eslint-plugin-calcite-components
 
 on:
   pull_request:

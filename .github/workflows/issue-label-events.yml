@@ -1,0 +1,61 @@
+name: Issue Label Events
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  spike-complete:
+    if: github.event.label.name == 'spike complete'
+    permissions:
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        env:
+          managers: ${{secrets.CALCITE_MANAGERS}}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenSpikeComplete.js')
+            await action({github, context, core})
+
+  ready-for-dev:
+    if: github.event.label.name == 'ready for dev'
+    permissions:
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        env:
+          managers: ${{secrets.CALCITE_MANAGERS}}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenReadyForDev.js')
+            await action({github, context, core})
+
+  assign-for-verification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        env:
+          ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
+          CALCITE_DESIGNERS: ${{secrets.CALCITE_DESIGNERS}}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/assignForVerification.js')
+            await action({github, context, core})
+
+  notify-designer-new-component:
+    if: github.event.label.name == 'new component'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          designers: ${{secrets.CALCITE_DESIGNERS}}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutNewComponent.js')
+            await action({github, context, core})

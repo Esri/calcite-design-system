@@ -1,4 +1,4 @@
-name: Maintenance Release Merge Blocker
+name: PR Check - Maintenance Release Merge Blocker
 on:
   pull_request:
     branches: [main]

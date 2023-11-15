@@ -1,0 +1,34 @@
+name: Issue Labeler
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  product-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addEsriProductLabel.js')
+            await action({github, context, core})
+
+  package-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addCalcitePackageLabel.js')
+            await action({github, context, core})
+
+  priority-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addPriorityLabel.js')
+            await action({github, context, core})
