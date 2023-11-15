@@ -10,4 +10,5 @@ export const CSS = {
   actionIconEnd: "action-icon--end",
   actionContainer: "action-container",
   stepBarContainer: "step-bar-container",
+  singleView: "single-view",
 };

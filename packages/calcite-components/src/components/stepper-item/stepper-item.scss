@@ -335,10 +335,6 @@
   }
 }
 
-.visually-hidden {
-  @apply sr-only;
-}
-
 :host([layout="horizontal"][single-view-mode]) .stepper-item-header {
   @apply border-none 
   me-0;
@@ -363,6 +359,7 @@
     @apply text-color-2;
   }
 }
+
 :host([layout="horizontal"][single-view-mode][complete][selected]) .container {
   & .stepper-item-icon {
     @apply opacity-disabled;
@@ -370,6 +367,14 @@
   & .stepper-item-number {
     @apply text-color-3;
   }
+}
+
+:host([layout="horizontal"][data-display="hide"]) {
+  display: none;
+}
+
+.visually-hidden {
+  @apply sr-only;
 }
 
 @include base-component();

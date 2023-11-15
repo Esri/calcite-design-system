@@ -138,7 +138,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateItems();
-    this.resizeObserver?.observe(this.el);
     connectMessages(this);
     connectLocalized(this);
   }
@@ -148,6 +147,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   }
 
   componentDidLoad(): void {
+    this.resizeObserver?.observe(this.containerEl);
     // if no stepper items are set as active, default to the first one
     if (typeof this.currentActivePosition !== "number") {
       const enabledStepIndex = this.getFirstEnabledStepperPosition();
@@ -172,24 +172,29 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   render(): VNode {
     return (
       <Host aria-label={"Progress steps"} role="region">
-        {this.singleViewMode && (
-          <div class={{ [CSS.stepBarContainer]: true }}>
-            {this.items.map((item, index) => (
-              <StepBar
-                disabled={item.disabled && index !== this.currentActivePosition}
-                isActive={index === this.currentActivePosition}
-                isComplete={item.complete && index !== this.currentActivePosition && !item.error}
-                isError={item.error && index !== this.currentActivePosition}
-                key={index}
-              />
-            ))}
+        <div
+          class={{ container: true, [CSS.singleView]: this.singleViewMode }}
+          ref={this.setContainerEl}
+        >
+          {this.singleViewMode && (
+            <div class={{ [CSS.stepBarContainer]: true }}>
+              {this.items.map((item, index) => (
+                <StepBar
+                  disabled={item.disabled && index !== this.currentActivePosition}
+                  isActive={index === this.currentActivePosition}
+                  isComplete={item.complete && index !== this.currentActivePosition && !item.error}
+                  isError={item.error && index !== this.currentActivePosition}
+                  key={index}
+                />
+              ))}
+            </div>
+          )}
+          <div class={{ [CSS.actionContainer]: true }}>
+            {this.renderAction("start")}
+            {this.renderAction("end")}
           </div>
-        )}
-        <div class={{ [CSS.actionContainer]: true }}>
-          {this.renderAction("start")}
-          {this.renderAction("end")}
+          <slot onSlotchange={this.handleDefaultSlotChange} />
         </div>
-        <slot onSlotchange={this.handleDefaultSlotChange} />
       </Host>
     );
   }
@@ -369,6 +374,8 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   private guid = `calcite-stepper-action-${guid()}`;
 
+  containerEl: HTMLDivElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -397,22 +404,22 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
     const activePosition = this.currentActivePosition || 0;
     const totalMinWidthOfItems = totalItems * this.getMinWidthOfStepperItem();
-    const totalRowGap = (totalItems - 1) * (parseInt(window.getComputedStyle(this.el).rowGap) || 0);
+    const totalRowGap =
+      (totalItems - 1) * (parseInt(window.getComputedStyle(this.containerEl).rowGap) || 0);
+    const itemDataAttr = "data-display";
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
       if (this.singleViewMode && !currentActivePositionChanged) {
         return;
       }
-      this.el.style.gridTemplateColumns = "none";
+
       this.singleViewMode = true;
-      this.el.style.display = "flex";
-      this.el.style.flexDirection = "columns";
 
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
         if (index !== activePosition) {
-          item.style.display = "none";
+          item.setAttribute(itemDataAttr, "hide");
         } else {
-          item.style.display = "contents";
+          item.setAttribute(itemDataAttr, "visible");
           item.singleViewMode = true;
         }
       });
@@ -420,12 +427,11 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       if (!this.singleViewMode) {
         return;
       }
-      this.el.style.display = "grid";
+
       this.singleViewMode = false;
       this.setGridTemplateColumns(this.items);
-
       this.items.forEach((item: HTMLCalciteStepperItemElement) => {
-        item.style.display = "contents";
+        item.setAttribute(itemDataAttr, "visible");
         item.singleViewMode = false;
       });
     }
@@ -524,6 +530,10 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     return 0;
   }
 
+  private setContainerEl = (el: HTMLDivElement): void => {
+    this.containerEl = el;
+  };
+
   handleDefaultSlotChange = (event: Event): void => {
     const items = slotChangeGetAssignedElements(event).filter(
       (el) => el?.tagName === "CALCITE-STEPPER-ITEM"
@@ -536,8 +546,8 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   setGridTemplateColumns = (items: Element[]): void => {
     const minWidth = this.getMinWidthOfStepperItem();
     const spacing = Array(items.length).fill(`minmax(${minWidth}px,1fr)`).join(" ");
-    this.el.style.gridTemplateAreas = spacing;
-    this.el.style.gridTemplateColumns = spacing;
+    this.containerEl.style.gridTemplateAreas = spacing;
+    this.containerEl.style.gridTemplateColumns = spacing;
   };
 
   getMinWidthOfStepperItem = (): number => {
