@@ -106,6 +106,9 @@
   &:focus {
     @apply outline-none;
   }
+  &:placeholder-shown {
+    text-overflow: ellipsis;
+  }
 }
 
 .input--transparent {
