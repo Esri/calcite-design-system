@@ -32,12 +32,7 @@
             const messagesFile = JSON.parse(await readFile(resolve(t9nPath, messagesFilename), { encoding: "utf-8" }));
 
             for (const [key, value] of Object.entries(messagesFile)) {
-              const translationEntries = data[component][key];
-
-              // translation bundles might still have references to strings removed in the `main` and `en` bundle
-              if (translationEntries) {
-                translationEntries[lang] = value;
-              }
+              data[component][key][lang] = value;
             }
           }
         }
