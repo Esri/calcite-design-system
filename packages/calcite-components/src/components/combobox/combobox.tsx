@@ -159,8 +159,7 @@ export class Combobox
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** Accessible name for the component. */
   @Prop() label!: string;
@@ -356,7 +355,8 @@ export class Combobox
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param delayed Reposition the component after a delay
+   * @returns Promise
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -567,11 +567,7 @@ export class Combobox
 
   private allSelectedIndicatorChipEl: HTMLCalciteChipElement;
 
-  private allSelectedIndicatorChipCompactEl: HTMLCalciteChipElement;
-
   private selectedIndicatorChipEl: HTMLCalciteChipElement;
-
-  private selectedIndicatorChipCompactEl: HTMLCalciteChipElement;
 
   // --------------------------------------------------------------------------
   //
@@ -952,16 +948,8 @@ export class Combobox
     this.allSelectedIndicatorChipEl = el;
   };
 
-  setAllSelectedIndicatorChipCompactEl = (el: HTMLCalciteChipElement): void => {
-    this.allSelectedIndicatorChipCompactEl = el;
-  };
-
   setSelectedIndicatorChipEl = (el: HTMLCalciteChipElement): void => {
     this.selectedIndicatorChipEl = el;
-  };
-
-  setSelectedIndicatorChipCompactEl = (el: HTMLCalciteChipElement): void => {
-    this.selectedIndicatorChipCompactEl = el;
   };
 
   private getMaxScrollerHeight(): number {
@@ -1384,13 +1372,7 @@ export class Combobox
   }
 
   renderAllSelectedIndicatorChipCompact(): VNode {
-    const {
-      compactDisplayMode,
-      isAllSelected,
-      scale,
-      selectedVisibleChipsCount,
-      setAllSelectedIndicatorChipCompactEl,
-    } = this;
+    const { compactDisplayMode, isAllSelected, scale, selectedVisibleChipsCount } = this;
     const label = this.messages.all || "All";
     return (
       <calcite-chip
@@ -1405,7 +1387,6 @@ export class Combobox
         scale={scale}
         title={label}
         value=""
-        ref={setAllSelectedIndicatorChipCompactEl}
       >
         {label}
       </calcite-chip>
@@ -1415,21 +1396,34 @@ export class Combobox
   renderSelectedIndicatorChip(): VNode {
     const {
       compactDisplayMode,
+      displayMode,
+      isAllSelected,
       scale,
       selectedHiddenChipsCount,
       selectedVisibleChipsCount,
       setSelectedIndicatorChipEl,
     } = this;
-    const label = `+${selectedHiddenChipsCount}`;
+    let chipInvisible, label;
+    if (compactDisplayMode) {
+      chipInvisible = true;
+    } else if (displayMode === "single") {
+      label = `${selectedHiddenChipsCount} selected`;
+    } else if (displayMode === "fit-to-line") {
+      if ((isAllSelected() && selectedVisibleChipsCount === 0) || selectedHiddenChipsCount === 0) {
+        chipInvisible = true;
+      } else {
+        chipInvisible = false;
+      }
+      label =
+        selectedVisibleChipsCount > 0
+          ? `+${selectedHiddenChipsCount}`
+          : `${selectedHiddenChipsCount} selected`;
+    }
     return (
       <calcite-chip
         class={{
           chip: true,
-          [CSS.chipInvisible]: !(
-            !compactDisplayMode &&
-            selectedVisibleChipsCount &&
-            selectedHiddenChipsCount
-          ),
+          [CSS.chipInvisible]: chipInvisible,
         }}
         ref={setSelectedIndicatorChipEl}
         scale={scale}
@@ -1448,7 +1442,6 @@ export class Combobox
       scale,
       selectedHiddenChipsCount,
       selectedVisibleChipsCount,
-      setSelectedIndicatorChipCompactEl,
     } = this;
     const label = `${selectedHiddenChipsCount || 0}`;
     return (
@@ -1465,7 +1458,6 @@ export class Combobox
         scale={scale}
         title={label}
         value=""
-        ref={setSelectedIndicatorChipCompactEl}
       >
         {label}
       </calcite-chip>
@@ -1610,7 +1602,6 @@ export class Combobox
     const singleDisplayMode = displayMode === "single";
     const fitToLineDisplayMode = !singleSelectionMode && displayMode === "fit-to-line";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
-
     return (
       <Host onClick={this.comboboxFocusHandler}>
         <div
@@ -1633,7 +1624,11 @@ export class Combobox
           ref={this.setReferenceEl}
         >
           <div
-            class={{ "grid-input": true, "fit-to-line": fitToLineDisplayMode }}
+            class={{
+              "grid-input": true,
+              [CSS.displayModeFitToLine]: fitToLineDisplayMode,
+              [CSS.displayModeSingle]: singleDisplayMode,
+            }}
             ref={this.setChipContainerEl}
           >
             {this.renderIconStart()}

@@ -83,7 +83,8 @@
 
   gap: var(--calcite-combobox-item-spacing-unit-s);
 
-  &.fit-to-line {
+  &.display-mode-fit-to-line,
+  &.display-mode-single {
     @apply flex-nowrap overflow-hidden;
   }
 }
