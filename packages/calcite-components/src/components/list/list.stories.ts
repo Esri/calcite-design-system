@@ -69,8 +69,14 @@ export const stretchSlottedContent = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item label="This has no description.">
       <calcite-handle slot="actions-start"></calcite-handle>
+      <calcite-action
+        slot="actions-start"
+        appearance="transparent"
+        text="Banana"
+        icon="banana"
+        text-enabled
+      ></calcite-action>
       <calcite-action-menu appearance="transparent" slot="actions-end">
-        <calcite-action appearance="transparent" slot="trigger" text="Add" icon="banana"></calcite-action>
         <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
         <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
         <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>

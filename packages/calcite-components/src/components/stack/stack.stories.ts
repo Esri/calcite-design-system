@@ -32,7 +32,6 @@ export const stretchSlottedContent = (): string => html`
     <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
     <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
     <calcite-action-menu slot="actions-end" appearance="transparent">
-      <calcite-action appearance="transparent" slot="trigger" text="Add" icon="banana"></calcite-action>
       <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
       <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
       <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
