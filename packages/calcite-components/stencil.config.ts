@@ -156,7 +156,7 @@ export const create: () => Config = () => ({
   },
   preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.\nv${version}`,
   extras: {
-    experimentalImportInjection: true,
+    enableImportInjection: true,
     scriptDataOpts: true,
   },
 });
