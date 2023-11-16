@@ -1,0 +1,68 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-input-message-spacing-value: The top margin spacing above the component.
+ */
+
+:host([scale="m"]),
+:host([scale="l"]) {
+  --calcite-input-message-spacing-value: theme("spacing.1");
+}
+
+:host {
+  @apply text-color-1 transition-default invisible box-border flex h-0 w-full items-center font-medium opacity-0;
+}
+
+:host {
+  @apply transition-default visible h-auto opacity-100;
+}
+
+:host([scale="m"]),
+:host([scale="l"]) {
+  margin-block-start: var(--calcite-input-message-spacing-value);
+}
+
+.calcite-input-message-icon {
+  @apply transition-default
+    pointer-events-none
+    inline-flex
+    flex-shrink-0;
+  margin-inline-end: theme("margin.2");
+}
+
+:host([status="invalid"]) .calcite-input-message-icon {
+  color: var(--calcite-ui-danger);
+}
+
+:host([status="warning"]) .calcite-input-message-icon {
+  color: var(--calcite-ui-warning);
+}
+
+:host([status="valid"]) .calcite-input-message-icon {
+  color: var(--calcite-ui-success);
+}
+
+:host([status="idle"]) .calcite-input-message-icon {
+  color: var(--calcite-ui-brand);
+}
+
+// Validation Text
+:host([status]) {
+  @apply text-color-1;
+}
+
+:host([status][scale="s"]) {
+  @apply text-n3h;
+}
+
+:host([status][scale="m"]) {
+  @apply text-n2h mt-1;
+}
+
+:host([status][scale="l"]) {
+  @apply text-n1h mt-1;
+}
+
+@include base-component();

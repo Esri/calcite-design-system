@@ -1,0 +1,360 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-alert-width: Specifies the width of the component.
+ */
+
+$border-style: 1px solid var(--calcite-ui-border-3);
+
+:host {
+  --calcite-alert-edge-distance: theme("spacing.8");
+  @apply block;
+}
+
+.container {
+  @apply bg-foreground-1
+  box-border
+  fixed
+  flex
+  flex-wrap
+  items-center
+  justify-center
+  mx-auto
+  my-0
+  opacity-0
+  pointer-events-none
+  shadow-2
+  text-start
+  w-full
+  z-toast;
+
+  container: responsive-container / inline-size;
+  border-radius: var(--calcite-border-radius);
+  border-block-start: 0 solid transparent;
+  border-inline: $border-style;
+  border-block-end: $border-style;
+  inline-size: var(--calcite-alert-width);
+  max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2));
+  transition: var(--calcite-internal-animation-timing-slow) $easing-function,
+    opacity var(--calcite-internal-animation-timing-slow) $easing-function,
+    all var(--calcite-animation-timing) ease-in-out;
+
+  &--bottom,
+  &--top {
+    inset-inline-end: 0;
+    inset-inline-start: 0;
+  }
+  &[class*="bottom"] {
+    transform: translate3d(0, var(--calcite-alert-edge-distance), 0);
+    inset-block-end: var(--calcite-alert-edge-distance);
+  }
+  &[class*="top"] {
+    transform: translate3d(0, calc(-1 * var(--calcite-alert-edge-distance)), 0);
+    inset-block-start: var(--calcite-alert-edge-distance);
+  }
+  &[class*="start"] {
+    inset-inline-start: var(--calcite-alert-edge-distance);
+    inset-inline-end: auto;
+  }
+  &[class*="end"] {
+    inset-inline-end: var(--calcite-alert-edge-distance);
+    inset-inline-start: auto;
+  }
+}
+
+.content {
+  @apply box-border flex flex-auto flex-col transition-default;
+  padding-block: var(--calcite-alert-spacing-token-small);
+  padding-inline: var(--calcite-alert-spacing-token-large) var(--calcite-alert-spacing-token-small);
+}
+
+.icon {
+  @apply flex flex-col items-center justify-start p-0;
+  margin-block-end: var(--calcite-alert-spacing-token-large);
+  margin-inline-end: auto;
+}
+
+.close {
+  @apply bg-transparent border-none cursor-pointer flex items-start justify-end outline-none self-start text-color-3;
+  -webkit-appearance: none;
+  padding: var(--calcite-alert-spacing-token-large);
+
+  @apply focus-base;
+  &:focus {
+    @apply focus-inset;
+  }
+
+  &:hover,
+  &:focus {
+    @apply bg-foreground-2 text-color-1;
+  }
+
+  &:active {
+    @apply bg-foreground-3;
+  }
+}
+
+.queue-count {
+  @apply text-color-2
+  bg-foreground-1
+  transition-default
+  invisible
+  flex
+  cursor-default
+  items-center
+  justify-around
+  self-stretch
+  overflow-hidden
+  text-center
+  font-medium
+  opacity-0;
+  border-inline: 0 solid transparent;
+  border-start-end-radius: 0;
+
+  &--active {
+    @apply visible opacity-100;
+  }
+}
+
+.dismiss-progress {
+  @apply absolute
+  block
+  w-full
+  overflow-hidden;
+  inset-inline: 0;
+  inset-block-start: -2px;
+  block-size: 2px;
+  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+  &:after {
+    @apply absolute
+    top-0
+    block;
+    block-size: 2px;
+    content: "";
+    background-color: var(--calcite-alert-dismiss-progress-background);
+    inset-inline-end: 0;
+  }
+}
+
+.actions-end {
+  @apply flex self-stretch;
+}
+
+.text-container {
+  @apply flex flex-1 min-w-0 flex-col break-words;
+}
+
+.content-container {
+  @apply flex flex-1;
+}
+
+.footer {
+  @apply flex justify-end order-1 pt-px relative w-full;
+  block-size: var(--calcite-alert-footer-height);
+
+  &:before {
+    content: "";
+    @apply absolute top-0;
+    inset-inline: var(--calcite-alert-footer-divider-gap);
+    border-block-start: $border-style;
+  }
+}
+
+// scale variables
+:host([scale="s"]) {
+  --calcite-alert-width: 40em;
+  --calcite-alert-spacing-token-small: theme("spacing.2");
+  --calcite-alert-spacing-token-large: theme("spacing.3");
+  --calcite-alert-footer-height: theme("height.8");
+  --calcite-alert-footer-divider-gap: theme("spacing[0.5]");
+
+  @include slotted("title", "*") {
+    @apply text-n1-wrap;
+  }
+  @include slotted("message", "*") {
+    @apply text-n2-wrap;
+  }
+  @include slotted("link", "*") {
+    @apply text-n2-wrap;
+  }
+  .queue-count {
+    @apply mx-2;
+  }
+  .container {
+    --calcite-alert-min-height: 3.5rem;
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-alert-width: 50em;
+  --calcite-alert-spacing-token-small: theme("spacing.3");
+  --calcite-alert-spacing-token-large: theme("spacing.4");
+  --calcite-alert-footer-height: theme("height.12");
+  --calcite-alert-footer-divider-gap: theme("spacing.1");
+
+  @include slotted("title", "*") {
+    @apply text-0-wrap;
+  }
+  @include slotted("message", "*") {
+    @apply text-n1-wrap;
+  }
+  @include slotted("link", "*") {
+    @apply text-n1-wrap;
+  }
+  .queue-count {
+    @apply mx-3;
+  }
+  .container {
+    --calcite-alert-min-height: 4.1875rem;
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-alert-width: 60em;
+  --calcite-alert-spacing-token-small: theme("spacing.4");
+  --calcite-alert-spacing-token-large: theme("spacing.5");
+  --calcite-alert-footer-height: theme("height.16");
+  --calcite-alert-footer-divider-gap: theme("spacing.2");
+
+  @include slotted("title", "*") {
+    @apply text-1-wrap mb-1;
+  }
+  @include slotted("message", "*") {
+    @apply text-0-wrap;
+  }
+  @include slotted("link", "*") {
+    @apply text-0-wrap;
+  }
+  .queue-count {
+    @apply mx-4;
+  }
+  .container {
+    --calcite-alert-min-height: 5.625rem;
+  }
+}
+
+:host([open]) {
+  .container:not(.container--queued) {
+    @apply border-t-2 opacity-100;
+    pointer-events: initial;
+    &[class*="bottom"] {
+      transform: translate3d(0, calc(-1 * var(--calcite-alert-edge-distance)), inherit);
+    }
+    &[class*="top"] {
+      transform: translate3d(0, var(--calcite-alert-edge-distance), inherit);
+    }
+  }
+}
+
+:host([auto-close]) > .queue-count {
+  border-inline-end: 0 solid transparent;
+}
+
+@include slotted("title", "*") {
+  @apply text-0-wrap
+    text-color-1
+    font-medium;
+}
+
+@include slotted("message", "*") {
+  @apply text-n1-wrap
+    text-color-2
+    m-0
+    inline
+    font-normal;
+  margin-inline-end: theme("margin.2");
+}
+
+@include slotted("link", "*") {
+  @apply text-color-link inline-flex;
+}
+
+$alertKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "danger" var(--calcite-ui-danger),
+  "success" var(--calcite-ui-success), "warning" var(--calcite-ui-warning);
+
+@each $alertKind in $alertKinds {
+  $name: nth($alertKind, 1);
+  $kind: nth($alertKind, 2);
+
+  :host([kind="#{$name}"]) {
+    .container {
+      border-block-start-color: $kind;
+
+      & .icon {
+        color: $kind;
+      }
+    }
+  }
+}
+
+$alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
+
+@each $alertDuration in $alertDurations {
+  $name: nth($alertDuration, 1);
+  $duration: nth($alertDuration, 2);
+
+  :host([auto-close-duration="#{$name}"]) .dismiss-progress:after {
+    animation: dismissProgress $duration ease-out;
+  }
+  :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes dismissProgress {
+  0% {
+    @apply w-0 opacity-75;
+  }
+  100% {
+    @apply w-full opacity-100;
+  }
+}
+
+/**
+ * Conditional styles for when Alert is slotted in Shell
+ */
+.container--slotted-in-shell {
+  @apply absolute;
+}
+
+@container responsive-container (min-width: #{$breakpoint-width-xs}) {
+  .content {
+    @apply flex-row;
+  }
+
+  .close {
+    @apply items-center self-stretch;
+  }
+
+  .icon {
+    @apply justify-center;
+    margin-inline-end: 0;
+    margin-block: 0;
+    padding-inline-end: var(--calcite-alert-spacing-token-large);
+  }
+}
+
+@container responsive-container (min-width: #{$breakpoint-width-sm}) {
+  .close {
+    @apply self-stretch;
+  }
+
+  .footer {
+    @apply self-stretch w-auto;
+    order: initial;
+    block-size: inherit;
+
+    &:before {
+      content: none;
+    }
+  }
+
+  .icon {
+    padding-inline: var(--calcite-alert-spacing-token-large) 0;
+  }
+}
+
+@include base-component();
+@include calciteHydratedHidden();

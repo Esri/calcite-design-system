@@ -1,0 +1,186 @@
+:host {
+  @apply inline-block
+  relative
+  w-full
+  h-full;
+}
+
+textarea {
+  @apply text-color-1
+  relative
+  block
+  bg-foreground-1
+  box-border
+  border-color-input
+  border
+  font-sans
+  w-full
+  m-0;
+  min-inline-size: theme("spacing.48");
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+  @media screen and (max-width: 480px) {
+    @apply resize-none;
+  }
+  &:focus {
+    @apply focus-inset;
+  }
+  &.text-area--invalid {
+    @apply border-color-danger
+    border
+    border-solid
+    border-b;
+    &:focus {
+      @apply focus-inset-danger;
+    }
+  }
+  &.footer--slotted {
+    min-inline-size: theme("spacing.72");
+  }
+}
+
+.footer {
+  @apply flex
+  bg-foreground-1
+  box-border
+  border-color-input
+  border
+  border-solid
+  border-t-0
+  items-center;
+}
+
+.character-limit {
+  @apply flex
+  justify-end
+  text-color-2
+  items-center
+  font-normal
+  whitespace-nowrap;
+}
+
+.character--over-limit {
+  @apply font-bold
+  text-danger;
+}
+
+:host([resize="none"]) textarea {
+  @apply resize-none;
+}
+
+:host([resize="horizontal"]) textarea {
+  @apply resize-x;
+}
+
+:host([resize="vertical"]) textarea {
+  @apply resize-y;
+}
+
+:host([scale="s"]) {
+  @apply text-n2;
+  .footer {
+    @apply py-1
+    px-2;
+    min-block-size: 1.75rem;
+  }
+  textarea {
+    @apply py-1
+    px-2;
+  }
+}
+
+:host([scale="s"]) {
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-n2
+    pl-2;
+  }
+}
+
+:host([scale="m"]) {
+  textarea {
+    @apply py-2
+    px-3;
+  }
+  .footer {
+    @apply py-2
+    px-3;
+    min-block-size: 2.25rem;
+  }
+}
+
+:host([scale="m"]) {
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-n1
+    pl-3;
+  }
+}
+
+:host([scale="l"]) {
+  @apply text-0;
+  textarea {
+    @apply py-3
+    px-4;
+  }
+  .footer {
+    @apply py-3
+    px-4;
+    min-block-size: 2.75rem;
+  }
+}
+
+:host([scale="l"]) {
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-0
+    pl-4;
+  }
+}
+
+.readonly {
+  @apply bg-background font-medium;
+}
+
+:host([disabled]) {
+  textarea,
+  footer {
+    @apply opacity-50;
+  }
+}
+
+.border--color {
+  @apply border-b border-color-input;
+  &:focus {
+    @apply border-b-2;
+  }
+}
+
+textarea.block-size--full {
+  @apply h-full;
+}
+
+.content,
+.hide {
+  @apply hidden;
+}
+
+.container {
+  @apply flex
+  justify-between
+  w-full;
+}
+
+.footer--end-only {
+  @apply justify-end;
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+@include hidden-form-input();
+@include disabled();
+@include base-component();

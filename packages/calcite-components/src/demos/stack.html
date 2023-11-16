@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Stack</title>
+
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 40%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 18px 0;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 12%;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+    <script type="module" src="./_assets/demo-form.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <!-- Default -->
+      <div class="parent">
+        <div class="child right-aligned-text">Default</div>
+        <div class="child">
+          <calcite-stack>
+            <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
+            Hello World
+            <calcite-avatar slot="content-end" thumbnail="http://placekitten.com/105/105" scale="s"> </calcite-avatar>
+            <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
+            <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
+          </calcite-stack>
+        </div>
+      </div>
+      <!-- Panel Footer -->
+      <div class="parent">
+        <div class="child right-aligned-text">Panel Footer</div>
+        <div class="child">
+          <calcite-panel>
+            <div slot="header-content">My Panel</div>
+            <p>My content</p>
+            <calcite-stack slot="footer">
+              <calcite-action text="select" icon="check" slot="actions-start"></calcite-action>
+              <calcite-input disabled></calcite-input>
+              <calcite-avatar slot="content-start" thumbnail="http://placekitten.com/105/105" scale="s">
+              </calcite-avatar>
+              <calcite-chip slot="content-end" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
+              <calcite-action text="delete" icon="trash" slot="actions-end"></calcite-action>
+            </calcite-stack>
+          </calcite-panel>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tooltip-z-index: Sets the z-index value for the component.
+ */
+
+:host {
+  --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
+}
+
+@include floatingUIHost();
+@include floatingUIArrow();
+
+.container {
+  @apply text-color-1
+    text-n2-wrap
+    relative
+    overflow-hidden
+    rounded
+    py-3
+    px-4
+    font-medium;
+  max-inline-size: 20rem;
+  max-block-size: 20rem;
+  text-align: start;
+}
+
+.calcite-floating-ui-anim {
+  @apply bg-foreground-1
+    border-color-3
+    rounded
+    border
+    border-solid;
+}
+
+.arrow::before {
+  outline: 1px solid var(--calcite-ui-border-3);
+}
+
+@include base-component();

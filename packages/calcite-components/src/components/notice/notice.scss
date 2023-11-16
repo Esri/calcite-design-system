@@ -1,0 +1,181 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-notice-width: The width of the component.
+ */
+
+// scale variables
+:host([scale="s"]) {
+  --calcite-notice-spacing-token-small: theme("spacing.2");
+  --calcite-notice-spacing-token-large: theme("spacing.3");
+  @include slotted("title", "*", ".container") {
+    @apply text-n1-wrap my-0.5;
+  }
+  @include slotted("message", "*", ".container") {
+    @apply text-n2-wrap my-0.5;
+  }
+  ::slotted(calcite-link) {
+    @apply text-n2-wrap my-0.5;
+  }
+  .notice-close {
+    // specific padding for close button to align with calcite-action small-scale spacing
+    @apply p-2;
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-notice-spacing-token-small: theme("spacing.3");
+  --calcite-notice-spacing-token-large: theme("spacing.4");
+  @include slotted("title", "*", ".container") {
+    @apply text-0-wrap my-0.5;
+  }
+  @include slotted("message", "*", ".container") {
+    @apply text-n1-wrap my-0.5;
+  }
+  ::slotted(calcite-link) {
+    @apply text-n1-wrap my-0.5;
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-notice-spacing-token-small: theme("spacing.4");
+  --calcite-notice-spacing-token-large: theme("spacing.5");
+  @include slotted("title", "*", ".container") {
+    @apply text-1-wrap my-0.5;
+  }
+  @include slotted("message", "*", ".container") {
+    @apply text-0-wrap my-0.5;
+  }
+  ::slotted(calcite-link) {
+    @apply text-0-wrap my-0.5;
+  }
+}
+
+:host([width="auto"]) {
+  --calcite-notice-width: theme("width.auto");
+}
+
+:host([width="half"]) {
+  --calcite-notice-width: theme("width[1/2]");
+}
+
+:host([width="full"]) {
+  --calcite-notice-width: theme("width.full");
+}
+
+:host {
+  @apply mx-auto hidden max-w-full items-center;
+  inline-size: var(--calcite-notice-width);
+}
+
+.container {
+  @apply bg-foreground-1
+    pointer-events-none
+    my-0
+    box-border
+    hidden
+    w-full
+    opacity-0
+    transition-default;
+  max-block-size: 0;
+  text-align: start;
+  border-inline-start: 0px solid;
+  box-shadow: 0 0 0 0 transparent;
+}
+
+// focus styles
+.notice-close {
+  @apply focus-base;
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
+:host {
+  @apply flex;
+}
+
+:host([open]) .container {
+  @apply shadow-1
+    pointer-events-auto
+    flex
+    max-h-full
+    items-center
+    border-2
+    opacity-100;
+}
+
+@include slotted("title", "*", ".container") {
+  @apply text-color-1 m-0 font-medium;
+}
+
+@include slotted("message", "*", ".container") {
+  @apply text-color-2 m-0 inline font-normal;
+  margin-inline-end: var(--calcite-notice-spacing-token-small);
+}
+
+@mixin notice-element-base() {
+  @apply transition-default box-border;
+  padding-block: var(--calcite-notice-spacing-token-small);
+  padding-inline: var(--calcite-notice-spacing-token-large);
+  flex: 0 0 auto;
+}
+
+.notice-content {
+  @include notice-element-base;
+  @apply flex min-w-0 flex-col break-words;
+  flex: 1 1 0;
+  padding-block: var(--calcite-notice-spacing-token-small);
+  padding-inline: 0 var(--calcite-notice-spacing-token-small);
+
+  &:first-of-type:not(:only-child) {
+    padding-inline-start: var(--calcite-notice-spacing-token-large);
+  }
+  &:only-of-type {
+    padding-block: var(--calcite-notice-spacing-token-small);
+    padding-inline: var(--calcite-notice-spacing-token-large);
+  }
+}
+
+.notice-icon {
+  @apply flex items-center;
+  @include notice-element-base;
+}
+
+.notice-close {
+  @apply text-color-3 flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
+  @include notice-element-base;
+  -webkit-appearance: none;
+
+  &:hover,
+  &:focus {
+    @apply bg-foreground-2 text-color-1;
+  }
+
+  &:active {
+    @apply bg-foreground-3;
+  }
+}
+
+.actions-end {
+  @apply flex self-stretch;
+}
+
+$noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "danger" var(--calcite-ui-danger),
+  "success" var(--calcite-ui-success), "warning" var(--calcite-ui-warning);
+
+@each $noticeKind in $noticeKinds {
+  $name: nth($noticeKind, 1);
+  $kind: nth($noticeKind, 2);
+
+  :host([kind="#{$name}"]) .container {
+    border-color: $kind;
+    & .notice-icon {
+      color: $kind;
+    }
+  }
+}
+
+@include base-component();

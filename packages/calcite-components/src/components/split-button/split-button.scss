@@ -1,0 +1,137 @@
+:host {
+  @apply inline-block;
+}
+
+:host([width="auto"]) {
+  @apply w-auto;
+}
+
+:host([width="half"]) {
+  @apply w-2/4;
+}
+
+:host([width="full"]) {
+  @apply w-full;
+}
+
+:host {
+  &:host([kind="brand"]) {
+    --calcite-split-button-background: theme("colors.brand");
+    --calcite-split-button-divider: theme("colors.background.foreground.1");
+  }
+  &:host([kind="danger"]) {
+    --calcite-split-button-background: theme("colors.danger");
+    --calcite-split-button-divider: theme("colors.background.foreground.1");
+  }
+  &:host([kind="neutral"]) {
+    --calcite-split-button-background: theme("colors.background.foreground.3");
+    --calcite-split-button-divider: theme("colors.color.1");
+  }
+  &:host([kind="inverse"]) {
+    --calcite-split-button-background: var(--calcite-ui-inverse);
+    --calcite-split-button-divider: theme("colors.background.foreground.1");
+  }
+}
+
+:host([appearance="transparent"]) {
+  &:host([kind="brand"]) {
+    --calcite-split-button-divider: theme("colors.brand");
+    --calcite-split-button-background: transparent;
+  }
+  &:host([kind="danger"]) {
+    --calcite-split-button-divider: theme("colors.danger");
+    --calcite-split-button-background: transparent;
+  }
+  &:host([kind="neutral"]) {
+    --calcite-split-button-divider: theme("colors.color.1");
+    --calcite-split-button-background: transparent;
+  }
+  &:host([kind="inverse"]) {
+    --calcite-split-button-divider: theme("colors.background.foreground.1");
+    --calcite-split-button-background: transparent;
+  }
+}
+
+:host([appearance="outline"]) {
+  --calcite-split-button-background: transparent;
+}
+
+:host([appearance="outline-fill"]) {
+  --calcite-split-button-background: theme("colors.background.foreground.1");
+}
+
+:host([appearance="outline"]),
+:host([appearance="outline-fill"]) {
+  &:host([kind="brand"]) {
+    --calcite-split-button-divider: theme("colors.brand");
+  }
+  &:host([kind="danger"]) {
+    --calcite-split-button-divider: theme("colors.danger");
+  }
+  &:host([kind="neutral"]) {
+    --calcite-split-button-divider: theme("borderColor.color.1");
+    --calcite-split-button-background: theme("borderColor.color.1");
+  }
+  &:host([kind="inverse"]) {
+    --calcite-split-button-divider: var(--calcite-ui-inverse);
+  }
+}
+
+.container {
+  @apply flex items-stretch;
+  > calcite-dropdown > calcite-button {
+    @apply h-full align-top;
+  }
+}
+
+.divider-container {
+  @apply transition-default flex w-px items-stretch;
+  background-color: var(--calcite-split-button-background);
+}
+
+.divider {
+  @apply my-1 inline-block w-px;
+  background-color: var(--calcite-split-button-divider);
+}
+
+:host([appearance="outline-fill"]),
+:host([appearance="outline"]) {
+  .divider-container {
+    border-block: 1px solid var(--calcite-split-button-divider);
+  }
+  &:hover .divider-container {
+    background-color: var(--calcite-split-button-divider);
+  }
+}
+
+:host([appearance="outline-fill"]:hover),
+:host([appearance="outline"]:hover) {
+  .divider-container {
+    background-color: var(--calcite-split-button-divider);
+  }
+}
+
+:host([appearance="outline-fill"]:focus-within),
+:host([appearance="outline"]:focus-within) {
+  &:host([kind="brand"]) {
+    --calcite-split-button-divider: theme("colors.brand-press");
+  }
+  &:host([kind="danger"]) {
+    --calcite-split-button-divider: theme("colors.danger-press");
+  }
+  .divider-container {
+    background-color: var(--calcite-split-button-divider);
+  }
+}
+
+@include disabled() {
+  .divider-container {
+    @apply opacity-disabled;
+  }
+
+  calcite-dropdown > calcite-button {
+    @apply pointer-events-none;
+  }
+}
+
+@include base-component();

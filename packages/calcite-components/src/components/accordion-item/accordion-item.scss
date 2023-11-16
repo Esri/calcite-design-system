@@ -1,0 +1,214 @@
+%icon-position {
+  /* icon rotation variables */
+  --calcite-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
+  --calcite-accordion-item-active-icon-rotation: theme("rotate.0");
+  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.90");
+  --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
+}
+
+// icon position variants for child
+.icon-position--start {
+  @extend %icon-position;
+  --calcite-accordion-item-flex-direction: row-reverse;
+  --calcite-accordion-item-icon-spacing-start: 0;
+  --calcite-accordion-item-icon-spacing-end: var(--calcite-accordion-icon-margin);
+}
+
+.icon-position--end {
+  @extend %icon-position;
+  --calcite-accordion-item-flex-direction: row;
+  --calcite-accordion-item-icon-spacing-start: var(--calcite-accordion-icon-margin);
+  --calcite-accordion-item-icon-spacing-end: 0;
+}
+
+.icon-position--end:not(.icon-type--plus-minus) {
+  --calcite-accordion-item-icon-rotation: theme("rotate.0");
+  --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
+  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.0");
+  --calcite-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
+}
+
+:host {
+  @apply text-color-3
+    relative
+    flex
+    flex-col
+    no-underline;
+  background-color: var(--calcite-accordion-item-background, theme("backgroundColor.foreground.1"));
+}
+
+// focus styles
+:host .header-content {
+  @apply focus-base;
+}
+
+:host(:focus) .header-content {
+  @apply focus-inset
+  outline-none;
+}
+
+:host([expanded]) {
+  @apply text-color-1;
+  & .content {
+    @apply text-color-1 block;
+  }
+  & .header {
+    border-block-end-color: transparent;
+  }
+}
+
+// .header / content
+:host .header {
+  @apply flex items-stretch;
+}
+
+:host .icon {
+  @apply text-color-3
+    relative
+    m-0
+    inline-flex
+    duration-150
+    ease-in-out;
+  margin-inline-end: var(--calcite-accordion-item-icon-spacing-start);
+  margin-inline-start: var(--calcite-accordion-item-icon-spacing-end);
+}
+
+.icon--start {
+  @apply flex items-center;
+  margin-inline-end: var(--calcite-accordion-icon-margin);
+}
+
+.icon--end {
+  @apply flex items-center;
+  margin-inline-end: var(--calcite-accordion-icon-margin);
+  margin-inline-start: var(--calcite-accordion-icon-margin);
+}
+
+.header-container {
+  inline-size: 100%;
+}
+
+.content {
+  padding: var(--calcite-accordion-item-padding);
+}
+
+:host .content,
+:host .header {
+  border-block-end: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
+}
+
+:host .header * {
+  @apply inline-flex
+    items-center
+    duration-150
+    ease-in-out;
+  @include word-break();
+}
+
+:host .content {
+  @apply text-color-3 hidden pt-0;
+  text-align: initial;
+}
+
+// accordion item icon
+:host .expand-icon {
+  @apply text-color-3;
+  margin-inline-start: var(--calcite-accordion-item-icon-spacing-start);
+  margin-inline-end: var(--calcite-accordion-item-icon-spacing-end);
+  transform: rotate(var(--calcite-accordion-item-icon-rotation));
+}
+
+.calcite--rtl .expand-icon {
+  transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
+}
+
+:host([expanded]) .expand-icon {
+  @apply text-color-3;
+  transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
+}
+
+:host([expanded]) .calcite--rtl .expand-icon {
+  transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
+}
+
+// accordion item title
+:host .header-text {
+  @apply my-0 flex-grow flex-col py-0;
+  text-align: initial;
+  margin-inline-end: theme("margin.auto");
+}
+
+:host .heading,
+:host .description {
+  @apply flex w-full;
+}
+
+:host .heading {
+  @apply text-color-2 font-medium;
+}
+:host .description {
+  @apply text-color-3 mt-1;
+}
+
+:host(:focus),
+:host(:hover) {
+  & .heading {
+    @apply text-color-1;
+  }
+  & .icon {
+    @apply text-color-1;
+  }
+
+  & .expand-icon {
+    @apply text-color-1;
+  }
+  & .description {
+    @apply text-color-2;
+  }
+}
+
+:host(:focus),
+:host(:active),
+:host([expanded]) {
+  & .heading {
+    @apply text-color-1;
+  }
+  & .icon {
+    @apply text-color-1;
+  }
+  & .description {
+    @apply text-color-2;
+  }
+}
+
+.header-content {
+  @apply flex-grow cursor-pointer;
+  padding: var(--calcite-accordion-item-padding);
+  flex-direction: var(--calcite-accordion-item-flex-direction);
+}
+
+.actions-start,
+.actions-end {
+  @apply flex items-center;
+}
+
+@media (forced-colors: active) {
+  :host([expanded]) {
+    & .header {
+      border-block-end: none;
+    }
+    & .heading {
+      /** give visual indicator of expanded state since subtle color changes can't be done **/
+      font-weight: bolder;
+    }
+  }
+  :host(:hover),
+  :host(:focus) {
+    & .heading {
+      /** give visual indicator of expandability/click-ability since subtle color changes can't be done **/
+      text-decoration: underline;
+    }
+  }
+}
+
+@include base-component();

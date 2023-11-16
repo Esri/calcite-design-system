@@ -1,0 +1,53 @@
+:host {
+  @apply bg-foreground-1
+    text-color-2
+    text-n1
+    shadow-border-bottom
+    mb-px
+    box-border
+    flex;
+  transition: background-color var(--calcite-animation-timing), box-shadow var(--calcite-animation-timing);
+  * {
+    @apply box-border;
+  }
+}
+
+calcite-pick-list-item {
+  @apply relative
+    m-0
+    flex-grow
+    shadow-none;
+}
+
+:host([active]),
+:host([selected]) {
+  @apply shadow-outline-active;
+}
+
+.handle {
+  @apply flex
+    cursor-move
+    items-center
+    justify-center
+    border-none
+    bg-transparent
+    py-0
+    px-1;
+  color: theme("borderColor.color.input");
+  &:hover {
+    @apply bg-foreground-2 text-color-1;
+  }
+  @apply focus-base;
+  &:focus {
+    @apply focus-inset;
+  }
+  &--activated {
+    @apply bg-foreground-3 text-color-1;
+  }
+  calcite-icon {
+    color: inherit;
+  }
+}
+
+@include disabled();
+@include base-component();

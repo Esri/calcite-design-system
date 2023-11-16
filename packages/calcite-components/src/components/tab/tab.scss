@@ -1,0 +1,33 @@
+:host([selected]) {
+  section,
+  .container {
+    @apply block;
+  }
+}
+
+:host {
+  @apply hidden h-full w-full;
+}
+
+:host([selected]) {
+  @apply block h-full w-full overflow-auto;
+}
+
+.scale-s .content {
+  @apply text-n2h py-1;
+}
+
+.scale-m .content {
+  @apply text-n1h py-2;
+}
+
+.scale-l .content {
+  @apply text-0h py-2.5;
+}
+
+section,
+.container {
+  @apply hidden h-full w-full;
+}
+
+@include base-component();

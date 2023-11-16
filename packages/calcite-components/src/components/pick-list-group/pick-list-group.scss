@@ -1,0 +1,31 @@
+:host {
+  @apply text-color-2
+    text-n1
+    mb-1
+    box-border
+    block
+    bg-transparent;
+
+  * {
+    @apply box-border;
+  }
+}
+
+:host(:last-child) {
+  @apply mb-0;
+}
+
+@import "../../assets/styles/header";
+
+.heading {
+  @apply text-0h text-n1-wrap
+    text-color-3
+    my-2
+    mx-4;
+}
+
+.container--indented {
+  margin-inline-start: theme("margin.6");
+}
+
+@include base-component();

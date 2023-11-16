@@ -1,0 +1,56 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper.
+ */
+
+:host {
+  @apply block;
+}
+
+@include disabled();
+
+:host .calcite-dropdown-wrapper {
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+  @include floatingUIContainer();
+  @include floatingUIWrapper();
+}
+
+@include floatingUIElemAnim(".calcite-dropdown-wrapper");
+:host([open]) .calcite-dropdown-wrapper {
+  @include floatingUIWrapperActive();
+}
+
+:host .calcite-dropdown-content {
+  @apply bg-foreground-1
+    w-auto
+    overflow-y-auto
+    overflow-x-hidden
+    max-h-menu;
+  inline-size: var(--calcite-dropdown-width);
+}
+.calcite-trigger-container {
+  @apply relative flex flex-auto;
+}
+
+@media (forced-colors: active) {
+  /* use real border since box-shadow is removed in high contrast mode */
+  :host([open]) .calcite-dropdown-wrapper {
+    border: 1px solid canvasText;
+  }
+}
+
+// width
+:host([width="s"]) {
+  --calcite-dropdown-width: theme("spacing.48");
+}
+:host([width="m"]) {
+  --calcite-dropdown-width: theme("spacing.56");
+}
+:host([width="l"]) {
+  --calcite-dropdown-width: theme("spacing.64");
+}
+
+@include base-component();

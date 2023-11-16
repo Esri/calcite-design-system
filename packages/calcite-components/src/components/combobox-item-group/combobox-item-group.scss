@@ -1,0 +1,57 @@
+.scale--s {
+  @apply text-n2h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
+  --calcite-combobox-item-spacing-indent: theme("spacing.2");
+}
+
+.scale--m {
+  @apply text-n1h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
+  --calcite-combobox-item-spacing-indent: theme("spacing.3");
+}
+
+.scale--l {
+  @apply text-0h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
+  --calcite-combobox-item-spacing-indent: theme("spacing.4");
+}
+
+:host,
+.list {
+  @apply m-0 flex flex-col p-0;
+}
+
+:host(:focus),
+.list:focus {
+  @apply outline-none;
+}
+
+.label {
+  @apply text-color-3 box-border flex w-full min-w-0 max-w-full;
+}
+
+.title {
+  --calcite-combobox-item-indent-value: calc(
+    var(--calcite-combobox-item-spacing-indent) * var(--calcite-combobox-item-spacing-indent-multiplier)
+  );
+  border: 0 solid;
+  @apply border-b-color-3
+    text-color-2
+    word-break
+    block
+    flex-1
+    border-b
+    font-bold;
+  padding-block: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-s);
+  margin-inline-start: var(--calcite-combobox-item-indent-value);
+}
+
+::slotted(calcite-combobox-item-group:not([after-empty-group])) {
+  padding-block-start: var(--calcite-combobox-item-spacing-unit-l);
+}
+
+@include base-component();

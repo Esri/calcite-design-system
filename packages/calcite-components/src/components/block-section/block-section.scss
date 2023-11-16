@@ -1,0 +1,99 @@
+:host {
+  @apply bg-foreground-1
+    text-color-2
+    text-n1
+    box-border
+    block;
+}
+
+:host([open]) {
+  @apply border-b-color-3
+    border-0
+    border-b
+    border-solid;
+}
+
+:host(:last-child) {
+  @apply border-b-0;
+}
+
+.toggle {
+  @apply text-color-2
+    w-full
+    border-0
+    bg-transparent
+    font-sans
+    font-medium;
+}
+
+.toggle--switch,
+.section-header {
+  @apply text-n1
+    focus-base
+    mx-0
+    my-1
+    flex
+    cursor-pointer
+    select-none
+    items-center
+    px-0
+    py-2;
+
+  &:focus {
+    @apply focus-outset;
+  }
+  &:hover {
+    @apply text-color-1;
+  }
+}
+
+.section-header .status-icon {
+  @apply self-end;
+}
+
+.section-header__text {
+  @apply mx-3
+    my-0
+    flex-auto;
+
+  text-align: initial;
+  word-wrap: anywhere;
+}
+
+.toggle--switch-container {
+  @apply flex items-center relative bg-transparent w-full;
+  word-break: break-word;
+
+  .focus-guard {
+    --calcite-label-margin-bottom: 0;
+    @apply absolute pointer-events-none;
+    inset-inline-end: 0;
+    margin-inline-start: theme("margin.1");
+  }
+}
+
+.toggle--switch {
+  .status-icon {
+    margin-inline-start: theme("margin.2");
+  }
+}
+
+.toggle--switch__content {
+  @apply flex flex-auto items-center;
+}
+
+.status-icon.valid {
+  color: theme("colors.success");
+}
+
+.status-icon.invalid {
+  color: theme("colors.danger");
+}
+
+:host([toggle-display="switch"]) .toggle {
+  .toggle--switch__content {
+    @apply me-7;
+  }
+}
+
+@include base-component();

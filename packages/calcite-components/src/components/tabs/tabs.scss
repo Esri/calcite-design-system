@@ -1,0 +1,69 @@
+:host {
+  @apply flex flex-col;
+}
+
+:host([bordered]) {
+  box-shadow: inset 0 1px 0 var(--calcite-ui-border-1);
+  background-color: var(--calcite-ui-foreground-1);
+}
+
+:host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
+  margin-block-end: -1px;
+}
+
+:host([bordered][position="bottom"]) {
+  box-shadow: inset 0 1px 0 var(--calcite-ui-border-1), inset 0 -1px 0 var(--calcite-ui-border-1);
+}
+
+:host([bordered]) section {
+  @apply border-color-1 border border-solid;
+}
+
+:host([bordered][scale="s"]) section {
+  @apply p-3;
+}
+
+:host([bordered][scale="m"]) section {
+  @apply p-2;
+}
+
+:host([bordered][scale="l"]) section {
+  @apply p-4;
+}
+
+:host([position="bottom"]) {
+  @apply flex-col-reverse;
+}
+
+section {
+  @apply border-t-color-1
+    flex
+    flex-grow
+    overflow-hidden
+    border-t;
+  border-block-start-style: solid;
+}
+
+:host([position="bottom"]) section {
+  @apply border-b-color-1
+    flex-col-reverse
+    border-t-0
+    border-b;
+}
+
+:host([position="bottom"]:not([bordered])) section {
+  border-block-end-style: solid;
+}
+
+@media (forced-colors: active) {
+  :host([bordered]) section {
+    @apply border-t-0
+      border-b;
+  }
+  :host([position="bottom"][bordered]) section {
+    @apply border-t
+      border-b-0;
+  }
+}
+
+@include base-component();

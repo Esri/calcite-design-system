@@ -1,0 +1,40 @@
+:host {
+  @apply text-color-2
+    text-n1h
+    relative
+    box-border
+    flex
+    flex-shrink-0
+    flex-grow
+    flex-col
+    items-stretch
+    bg-transparent;
+
+  * {
+    @apply box-border;
+  }
+}
+
+@include disabled();
+
+:host([filter-enabled]) header {
+  @apply bg-foreground-1
+    mb-1
+    flex
+    items-stretch
+    justify-end;
+  &.sticky-pos {
+    @apply sticky top-0 z-default;
+  }
+  @apply shadow-border-bottom;
+}
+
+calcite-filter {
+  @apply mb-0;
+}
+
+:host([loading][disabled]) {
+  min-block-size: 2rem;
+}
+
+@include base-component();

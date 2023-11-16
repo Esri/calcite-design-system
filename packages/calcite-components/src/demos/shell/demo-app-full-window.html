@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Calcite Components: calcite-shell</title>
+
+    <script src="../_assets/head.js"></script>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.12/"></script>
+    <style>
+      html,
+      body,
+      main,
+      .shell-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <style>
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <script>
+      require(["esri/Map", "esri/views/MapView"], function (Map, MapView) {
+        const map = new Map({
+          basemap: "gray-vector",
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 8,
+          center: [91, 24],
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <main>
+        <div class="shell-container">
+          <calcite-shell>
+            <calcite-shell-panel resizable slot="panel-start" position="start">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
+                <calcite-action-group>
+                  <calcite-action text="Add" icon="plus"> </calcite-action>
+                  <calcite-action text="Save" disabled icon="save"> </calcite-action>
+                  <calcite-action text="Layers" active indicator icon="layers"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action text="An unbelievably long title" icon="plus"> </calcite-action>
+                  <calcite-action text="Save" disabled icon="save"> </calcite-action>
+                  <calcite-action text="Layers" indicator icon="layers"> </calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              <calcite-panel heading="This the left panel" description="I'm a summary." width-scale="m">
+                <calcite-block collapsible heading="Primary Content" summary="This is the primary.">
+                  <calcite-block-content>
+                    <calcite-action text="Side ActionPad" text-enabled indicator icon="caret-square-right">
+                    </calcite-action>
+                    <calcite-action text="Anchored Shell Floating Panel" text-enabled icon="extent"> </calcite-action>
+                    <calcite-action text="Over Shell Floating Panel" text-enabled icon="arrow-up-right">
+                    </calcite-action>
+                  </calcite-block-content>
+                </calcite-block>
+                <calcite-block collapsible heading="Transpancy by predominant percentage" open>
+                  <calcite-block-content>
+                    <calcite-block-section
+                      text="Set transparency based on the predominant percentage"
+                      toggle-display="switch"
+                      open
+                    >
+                      <label style="display: flex; flex-flow: column; margin: 15px 0">
+                        Cool
+                        <input type="text" style="padding: 0.5rem" />
+                      </label>
+                    </calcite-block-section>
+                  </calcite-block-content>
+                </calcite-block>
+                <calcite-block collapsible heading="Additional Block" summary="This is the primary." open>
+                  <calcite-block-content>
+                    <div style="height: 300px">
+                      <p>Cool thing.</p>
+                    </div>
+                  </calcite-block-content>
+                </calcite-block>
+                <calcite-block collapsible heading="More Block" summary="This is the primary.">
+                  <calcite-block-content>
+                    <div style="height: 300px">
+                      <p>Cool thang.</p>
+                    </div>
+                  </calcite-block-content>
+                </calcite-block>
+                <calcite-button width="half" scale="s" slot="footer" appearance="outline">Cancel</calcite-button>
+                <calcite-button width="half" scale="s" slot="footer">OK</calcite-button>
+              </calcite-panel>
+            </calcite-shell-panel>
+
+            <calcite-shell-panel resizable slot="panel-end" position="end" display-mode="float">
+              <calcite-action-bar slot="action-bar">
+                <calcite-action-group>
+                  <calcite-action text="Add" active icon="plus"> </calcite-action>
+                  <calcite-action text="Save" disabled icon="save"> </calcite-action>
+                  <calcite-action text="Layers" icon="layers"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action text="An unbelievably long title" icon="plus"> </calcite-action>
+                  <calcite-action text="Save" disabled icon="save"> </calcite-action>
+                  <calcite-action text="Layers" icon="layers"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group slot="actions-end">
+                  <calcite-action text="Tips" id="tip-manager-button" icon="lightbulb"> </calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              <calcite-flow id="flow">
+                <calcite-flow-item heading="Layer settings" height-scale="l" width-scale="m">
+                  <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+                  <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+                  <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+                  <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
+                    <calcite-block-content>
+                      <calcite-value-list id="one" multiple filter-enabled>
+                        <calcite-value-list-item
+                          label="2018 Population Density (Esri)"
+                          description="{POPDENS_CY}"
+                          value="POPDENS_CY"
+                        >
+                          <calcite-action
+                            slot="actions-end"
+                            scale="s"
+                            id="action-test"
+                            text="click-me"
+                            onClick="console.log('clicked');"
+                            icon="x"
+                          >
+                          </calcite-action>
+                        </calcite-value-list-item>
+                        <calcite-value-list-item
+                          label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
+                          description="{POPDENS_CY}"
+                          value="POPDENS_CY2"
+                        >
+                          <calcite-action
+                            slot="actions-end"
+                            scale="s"
+                            id="action-test"
+                            text="click-me"
+                            onClick="console.log('clicked');"
+                            icon="x"
+                          >
+                          </calcite-action>
+                        </calcite-value-list-item>
+                        <calcite-value-list-item
+                          label="2018 Total Households (Esri)"
+                          description="{TOTHH_CY}"
+                          value="TOTHH_CY"
+                        >
+                          <calcite-action
+                            slot="actions-end"
+                            scale="s"
+                            id="action-test"
+                            text="click-me"
+                            onClick="console.log('clicked');"
+                            icon="x"
+                          >
+                          </calcite-action>
+                        </calcite-value-list-item>
+                      </calcite-value-list>
+                      <calcite-block-section text="Cool things">
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                      </calcite-block-section>
+                      <calcite-block-section text="Neat things">
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                      </calcite-block-section>
+                    </calcite-block-content>
+                  </calcite-block>
+                  <calcite-button width="half" scale="s" appearance="outline" slot="footer">Save</calcite-button>
+                  <calcite-button width="half" scale="s" slot="footer">Cancel</calcite-button>
+                </calcite-flow-item>
+                <calcite-flow-item
+                  heading="A capability"
+                  description="U.S. Demographics - State"
+                  height-scale="l"
+                  width-scale="m"
+                >
+                  <calcite-action slot="header-actions-end" icon="banana" label="this is bananas" text-enabled>
+                  </calcite-action>
+                  <calcite-value-list id="one" multiple>
+                    <calcite-value-list-item
+                      label="2018PopulationDensityEsriAndEvenLonger"
+                      description="{POPDENS_CY}"
+                      value="POPDENS_CY"
+                    >
+                      <calcite-action
+                        slot="actions-end"
+                        id="action-test"
+                        text="click-me"
+                        onClick="console.log('clicked');"
+                        icon="x"
+                      >
+                      </calcite-action>
+                    </calcite-value-list-item>
+                    <calcite-value-list-item
+                      label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
+                      description="{POPDENS_CY}"
+                      value="POPDENS_CY2"
+                    >
+                      <calcite-action
+                        slot="actions-end"
+                        id="action-test"
+                        text="click-me"
+                        onClick="console.log('clicked');"
+                        icon="x"
+                      >
+                      </calcite-action>
+                    </calcite-value-list-item>
+                    <calcite-value-list-item
+                      label="2018 Total Households (Esri)"
+                      description="{TOTHH_CY}"
+                      value="TOTHH_CY"
+                    >
+                      <calcite-action
+                        slot="actions-end"
+                        id="action-test"
+                        text="click-me"
+                        onClick="console.log('clicked');"
+                        icon="x"
+                      >
+                      </calcite-action>
+                    </calcite-value-list-item>
+                  </calcite-value-list>
+                  <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
+                    <calcite-block-content>
+                      <calcite-block-section text="Cool things" toggle-display="switch">
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                      </calcite-block-section>
+                      <calcite-value-list id="one" multiple>
+                        <calcite-value-list-item
+                          label="2018 Population Density (Esri)"
+                          description="{POPDENS_CY}"
+                          value="POPDENS_CY"
+                        >
+                          <calcite-action
+                            slot="actions-end"
+                            scale="s"
+                            id="action-test"
+                            text="click-me"
+                            onClick="console.log('clicked');"
+                            icon="x"
+                          >
+                          </calcite-action>
+                        </calcite-value-list-item>
+                        <calcite-value-list-item
+                          label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
+                          description="{POPDENS_CY}"
+                          value="POPDENS_CY2"
+                        >
+                          <calcite-action
+                            slot="actions-end"
+                            scale="s"
+                            id="action-test"
+                            text="click-me"
+                            onClick="console.log('clicked');"
+                            icon="x"
+                          >
+                          </calcite-action>
+                        </calcite-value-list-item>
+                        <calcite-value-list-item
+                          label="2018 Total Households (Esri)"
+                          description="{TOTHH_CY}"
+                          value="TOTHH_CY"
+                        >
+                          <calcite-action
+                            slot="actions-end"
+                            scale="s"
+                            id="action-test"
+                            text="click-me"
+                            onClick="console.log('clicked');"
+                            icon="x"
+                          >
+                          </calcite-action>
+                        </calcite-value-list-item>
+                      </calcite-value-list>
+                      <calcite-block-section text="Cool things">
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                      </calcite-block-section>
+                      <calcite-block-section text="Neat things">
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                      </calcite-block-section>
+                    </calcite-block-content>
+                  </calcite-block>
+                  <calcite-block collapsible open heading="Even more content" summary="Select goodness">
+                    <calcite-block-content>
+                      <calcite-block-section text="Cool things" open>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                        <calcite-action text-enabled text="cool thing"></calcite-action>
+                      </calcite-block-section>
+                      <calcite-block-section text="Neat things">
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                        <calcite-action text-enabled text="neat thing"></calcite-action>
+                      </calcite-block-section>
+                    </calcite-block-content>
+                  </calcite-block>
+                  <calcite-button slot="footer" scale="s" width="half">Save</calcite-button>
+                  <calcite-button slot="footer" scale="s" width="half" appearance="outline">Cancel</calcite-button>
+                  <calcite-fab slot="fab" label="Add Item" text="Add"></calcite-fab>
+                </calcite-flow-item>
+              </calcite-flow>
+            </calcite-shell-panel>
+            <div slot="header">
+              <header class="header">
+                <h2 class="heading">My App</h2>
+              </header>
+            </div>
+            <calcite-tip-manager slot="center-row" id="tip-manager" hidden>
+              <calcite-tip-group group-title="Astronomy">
+                <calcite-tip heading="The Red Rocks and Blue Water">
+                  <img slot="thumbnail" src="https://placeimg.com/1000/600/city" alt="This is an image." />
+                  <p>
+                    This tip is how a tip should really look. It has a landscape or square image and a small amount of
+                    text content. This paragraph is in an "info" slot.
+                  </p>
+                  <p>
+                    This is another paragraph in a subsequent "info" slot. In publishing and graphic design, Lorem ipsum
+                    is a placeholder text commonly used to demonstrate the visual form of a document without relying on
+                    meaningful content (also called greeking). Replacing the actual content with placeholder text allows
+                    designers to design the form of the content before the content itself has been produced.
+                  </p>
+                  <a href="http://www.esri.com">This is the "link" slot.</a>
+                </calcite-tip>
+                <calcite-tip heading="The Long Trees">
+                  <img slot="thumbnail" src="https://placeimg.com/1000/600/nature" alt="This is an image." />
+                  <p>
+                    This tip has an image that is a pretty tall. And the text will run out before the end of the image.
+                  </p>
+                  <p>In astronomy, the terms object and body are often used interchangeably.</p>
+                  <a href="http://www.esri.com">View Esri</a>
+                </calcite-tip>
+              </calcite-tip-group>
+              <calcite-tip heading="Square Nature">
+                <img slot="thumbnail" src="https://placeimg.com/1000/1000/nature" alt="This is an image." />
+                <p>This tip has an image that is square. And the text will run out before the end of the image.</p>
+                <p>In astronomy, the terms object and body are often used interchangeably.</p>
+                <p>
+                  In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the
+                  visual form of a document without relying on meaningful content (also called greeking). Replacing the
+                  actual content with placeholder text allows designers to design the form of the content before the
+                  content itself has been produced.
+                </p>
+                <a href="http://www.esri.com">View Esri</a>
+              </calcite-tip>
+              <calcite-tip heading="The lack of imagery">
+                <p>This tip has no image. As such, the content area will take up the entire width of the tip.</p>
+                <p>
+                  This is the next paragraph and should show how wide the content area is now. Of course, the width of
+                  the overall tip will affect things. In astronomy, the terms object and body are often used
+                  interchangeably.
+                </p>
+                <a href="http://www.esri.com">View Esri</a>
+              </calcite-tip>
+            </calcite-tip-manager>
+            <div id="viewDiv"></div>
+
+            <footer slot="footer">Footer</footer>
+          </calcite-shell>
+        </div>
+        <script>
+          const tipManagerButton = document.getElementById("tip-manager-button");
+          const tipManager = document.getElementById("tip-manager");
+          tipManagerButton.addEventListener("click", function () {
+            tipManager.hasAttribute("hidden")
+              ? tipManager.removeAttribute("hidden")
+              : tipManager.setAttribute("hidden", "");
+          });
+        </script>
+      </main>
+    </demo-dom-swapper>
+  </body>
+</html>

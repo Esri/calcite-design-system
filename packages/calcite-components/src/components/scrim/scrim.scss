@@ -1,0 +1,46 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-scrim-background: Specifies the background color of the scrim.
+ */
+
+:host {
+  @apply absolute
+  inset-0
+  z-overlay
+  flex
+  h-full
+  w-full
+  flex-col
+  items-stretch;
+}
+
+@keyframes calcite-scrim-fade-in {
+  0% {
+    @apply bg-opacity-0;
+  }
+  100% {
+    @apply text-opacity-100;
+  }
+}
+
+.scrim {
+  @apply absolute
+  inset-0
+  flex
+  flex-col
+  content-center
+  items-center
+  justify-center
+  overflow-hidden;
+  animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
+  background-color: var(--calcite-scrim-background, var(--calcite-scrim-background-internal));
+}
+
+.content {
+  @apply p-4;
+}
+
+@include base-component();

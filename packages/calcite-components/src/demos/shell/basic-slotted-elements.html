@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Example of Modal / Alerts named Shell slot</title>
+
+    <script src="../_assets/head.js"></script>
+
+    <style>
+      calcite-shell {
+        position: relative;
+        width: 1200px;
+        max-width: 90%;
+        max-height: 90%;
+        height: 600px;
+        margin: 0 auto;
+      }
+
+      .padded-content {
+        padding: 0.75rem;
+      }
+
+      .padded-content calcite-notice {
+        margin-block-end: 0.75rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <main>
+        <p class="padded-content">
+          <calcite-notice width="full" open
+            ><span slot="title">Other page content outside of shell</span></calcite-notice
+          >
+          Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four
+          dollar toast DSA chicharrones, typewriter chia raw denim. Bicycle rights mustache humblebrag, mixtape
+          slow-carb retro vibecession franzen chia. Bespoke coloring book hot chicken literally bushwick succulents
+          wayfarers. Dreamcatcher taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee
+          bushwick readymade yuccie praxis enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
+        </p>
+        <calcite-shell>
+          <div class="gnav" slot="header">Header Example</div>
+          <calcite-modal open slot="modals"><span slot="header">Modal slotted in Shell</span></calcite-modal>
+          <calcite-alert open slot="alerts" placement="top-end"
+            ><span slot="title">Alert slotted in Shell</span>
+          </calcite-alert>
+          <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+            <calcite-panel closable heading="Ultrices neque"
+              ><p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+              </p>
+              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+            </calcite-panel>
+          </calcite-sheet>
+          <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Save" icon="save" indicator> </calcite-action>
+                <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+                <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action icon="layers" text="Layers" active> </calcite-action>
+                <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+                <calcite-action icon="legend" text="Legend"> </calcite-action>
+                <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+              </calcite-action-group>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel">
+              <div class="padded-content">Panel content<br />Padding is fake.</div>
+            </calcite-panel>
+          </calcite-shell-panel>
+
+          <calcite-shell-panel slot="panel-end" position="end">
+            <!-- <div slot="action-bar">
+                Actionbar
+            </div> -->
+            <calcite-action-bar slot="action-bar">
+              <calcite-tooltip slot="expand-tooltip" label="tooltip" disable-pointer>Add layers</calcite-tooltip>
+              <calcite-action-group>
+                <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+                <calcite-action text="Styles" icon="shapes"> </calcite-action>
+                <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+                <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+                <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+                </calcite-action>
+                <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+                <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+              </calcite-action-group>
+            </calcite-action-bar>
+            <calcite-flow>
+              <calcite-flow-item heading="Flow 01">
+                <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
+              </calcite-flow-item>
+              <calcite-flow-item heading="Flow 02">
+                <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
+              </calcite-flow-item>
+            </calcite-flow>
+          </calcite-shell-panel>
+
+          <calcite-panel heading="Main content">
+            <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+          </calcite-panel>
+          <footer slot="footer">Footer Example</footer>
+        </calcite-shell>
+        <p class="padded-content">
+          <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
+          Edison bulb iceland narwhal fit DSA. Activated charcoal dreamcatcher shabby chic, microdosing gluten-free
+          locavore chambray tumblr hella sus ugh cronut tofu. Vibecession air plant etsy, vape church-key narwhal
+          activated charcoal offal kombucha hella. Actually mumblecore butcher, iceland man bun prism blog taiyaki roof
+          party portland hashtag.
+        </p>
+      </main>
+      <main>
+        <p class="padded-content">
+          <calcite-notice width="full" open
+            ><span slot="title">Other page content outside of shell</span></calcite-notice
+          >
+          Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four
+          dollar toast DSA chicharrones, typewriter chia raw denim. Bicycle rights mustache humblebrag, mixtape
+          slow-carb retro vibecession franzen chia. Bespoke coloring book hot chicken literally bushwick succulents
+          wayfarers. Dreamcatcher taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee
+          bushwick readymade yuccie praxis enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
+        </p>
+        <calcite-shell>
+          <div class="gnav" slot="header">Header Example</div>
+          <calcite-modal
+            slot="modals"
+            open
+            id="js-modal-custom-size"
+            style="--calcite-modal-width: 900px; --calcite-modal-height: 600px"
+          >
+            <h3 slot="header">Test custom modal sizes in slotted modal in shell</h3>
+            <div slot="content">
+              <calcite-label>
+                --calcite-modal-width
+                <calcite-input id="css-modal-width-adjuster" value="900px" />
+              </calcite-label>
+              <calcite-label>
+                --calcite-modal-height
+                <calcite-input id="css-modal-height-adjuster" value="600px" />
+              </calcite-label>
+              <calcite-label>
+                options
+                <calcite-segmented-control id="css-modal-options-adjuster">
+                  <calcite-segmented-control-item checked value="none">none</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="fullscreen">fullscreen</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="docked">docked</calcite-segmented-control-item>
+                </calcite-segmented-control>
+              </calcite-label>
+              Expected behavior: none: css var for height + width adhered to. Below width, goes to fullscreen.
+              fullscreen: ignores css var for height + width. docked: css var for height + width adhered to. Below
+              width, docks, with provided height
+            </div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-modal>
+          <calcite-alert open slot="alerts" placement="top-end"
+            ><span slot="title">Alert slotted in Shell</span>
+          </calcite-alert>
+          <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Save" icon="save" indicator> </calcite-action>
+                <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+                <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action icon="layers" text="Layers" active> </calcite-action>
+                <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+                <calcite-action icon="legend" text="Legend"> </calcite-action>
+                <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+              </calcite-action-group>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel">
+              <div class="padded-content">Panel content<br />Padding is fake.</div>
+            </calcite-panel>
+          </calcite-shell-panel>
+
+          <calcite-shell-panel slot="panel-end" position="end">
+            <!-- <div slot="action-bar">
+                      Actionbar
+                  </div> -->
+            <calcite-action-bar slot="action-bar">
+              <calcite-tooltip slot="expand-tooltip" label="tooltip" disable-pointer>Add layers</calcite-tooltip>
+              <calcite-action-group>
+                <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+                <calcite-action text="Styles" icon="shapes"> </calcite-action>
+                <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+                <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+                <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+                </calcite-action>
+                <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+                <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+              </calcite-action-group>
+            </calcite-action-bar>
+            <calcite-flow>
+              <calcite-flow-item heading="Flow 01">
+                <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
+              </calcite-flow-item>
+              <calcite-flow-item heading="Flow 02">
+                <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
+              </calcite-flow-item>
+            </calcite-flow>
+          </calcite-shell-panel>
+
+          <calcite-panel heading="Main content">
+            <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+          </calcite-panel>
+          <footer slot="footer">Footer Example</footer>
+        </calcite-shell>
+        <p class="padded-content">
+          <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
+          Edison bulb iceland narwhal fit DSA. Activated charcoal dreamcatcher shabby chic, microdosing gluten-free
+          locavore chambray tumblr hella sus ugh cronut tofu. Vibecession air plant etsy, vape church-key narwhal
+          activated charcoal offal kombucha hella. Actually mumblecore butcher, iceland man bun prism blog taiyaki roof
+          party portland hashtag.
+        </p>
+      </main>
+    </demo-dom-swapper>
+    <script>
+      const customSizeModal = document.querySelector("#js-modal-custom-size");
+      const heightInput = document.querySelector("#css-modal-height-adjuster");
+      const widthInput = document.querySelector("#css-modal-width-adjuster");
+      const optionsSegmentedControl = document.querySelector("#css-modal-options-adjuster");
+
+      heightInput.addEventListener("calciteInputInput", (event) => {
+        customSizeModal.style.setProperty("--calcite-modal-height", event.target.value);
+      });
+      widthInput.addEventListener("calciteInputInput", (event) => {
+        customSizeModal.style.setProperty("--calcite-modal-width", event.target.value);
+      });
+
+      optionsSegmentedControl.addEventListener("calciteSegmentedControlChange", (event) => {
+        switch (event.target.selectedItem.value) {
+          case "fullscreen":
+            customSizeModal.fullscreen = true;
+            customSizeModal.docked = false;
+            break;
+          case "docked":
+            customSizeModal.fullscreen = false;
+            customSizeModal.docked = true;
+            break;
+          case "none":
+            customSizeModal.fullscreen = false;
+            customSizeModal.docked = false;
+            break;
+        }
+        customSizeModal.style.setProperty("--calcite-modal-height", heightInput.value);
+        customSizeModal.style.setProperty("--calcite-modal-width", widthInput.value);
+      });
+
+      document.addEventListener("calcitePanelClose", () => {
+        document.querySelector("calcite-sheet").open = false;
+      });
+    </script>
+  </body>
+</html>

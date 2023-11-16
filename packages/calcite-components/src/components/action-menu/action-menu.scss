@@ -1,0 +1,38 @@
+:host {
+  @apply text-color-2
+  text-1
+  box-border
+  flex
+  flex-col;
+}
+
+.menu ::slotted(calcite-action) {
+  @apply focus-base
+  m-0.5
+  flex;
+}
+
+.menu ::slotted(calcite-action[data-active]) {
+  @apply focus-outset;
+  outline-offset: 0px;
+}
+
+.default-trigger {
+  @apply relative
+  h-full
+  flex-initial
+  self-stretch;
+}
+
+@include slotted("trigger", "calcite-action") {
+  @apply relative
+  h-full
+  flex-initial
+  self-stretch;
+}
+
+.menu {
+  @apply flex-col flex-nowrap outline-none;
+}
+
+@include base-component();

@@ -1,0 +1,82 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-table-cell-background: Specifies the background color of the component.
+ * @prop --calcite-table-cell-border-color: Specifies the border color of the component.
+ */
+
+:host {
+  --calcite-internal-table-cell-background-internal: var(--calcite-table-cell-background, transparent);
+  --calcite-internal-table-cell-border-color-internal: var(--calcite-table-cell-border-color, transparent);
+  @apply contents;
+}
+
+:host([alignment="center"]) td {
+  @apply text-center;
+}
+
+:host([alignment="end"]) td {
+  @apply text-end;
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+td {
+  @apply text-start focus-base align-middle text-color-1 whitespace-normal;
+  background: var(--calcite-internal-table-cell-background);
+  border-inline-end: 1px solid var(--calcite-ui-border-3);
+  font-size: var(--calcite-internal-table-cell-font-size);
+  &:focus {
+    @apply focus-inset;
+  }
+  padding: var(--calcite-internal-table-cell-padding);
+}
+
+.number-cell {
+  @apply bg-foreground-2;
+}
+
+.footer-cell {
+  @apply bg-background font-medium text-color-1;
+  border-block-start: 1px solid var(--calcite-ui-border-3);
+}
+
+.number-cell,
+.selection-cell {
+  border-inline-end: 1px solid var(--calcite-ui-border-3);
+  inline-size: 2rem;
+  min-inline-size: 2rem;
+}
+
+.selection-cell {
+  @apply cursor-pointer text-color-3;
+  inset-inline-start: 2rem;
+}
+
+.selected-cell:not(.number-cell):not(.footer-cell) {
+  --calcite-table-cell-background: var(--calcite-ui-foreground-current);
+  background: var(--calcite-ui-foreground-current);
+}
+
+.selection-cell.selected-cell {
+  box-shadow: inset 0.25rem 0 0 0 var(--calcite-ui-brand);
+  color: var(--calcite-ui-brand);
+  & calcite-icon {
+    color: var(--calcite-ui-brand);
+  }
+}
+
+.calcite--rtl.selection-cell.selected-cell {
+  box-shadow: inset -0.25rem 0 0 0 var(--calcite-ui-brand);
+}
+
+.selection-cell {
+  @apply align-middle;
+  & ::slotted(calcite-icon) {
+    @apply pointer-events-none mt-1;
+  }
+}

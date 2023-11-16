@@ -1,0 +1,110 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-navigation-width: Specifies the width of the component's content area.
+ * @prop --calcite-navigation-background: Specifies the background color of the component.
+ * @prop --calcite-navigation-border-color: Specifies the border color of the component.
+ */
+
+@include base-component();
+
+.container {
+  @apply flex
+  flex-col
+  mx-auto
+  w-full;
+  margin-block: 0;
+  margin-inline: auto;
+  background-color: var(--calcite-navigation-background, var(--calcite-ui-foreground-1));
+  &.primary,
+  &.secondary,
+  &.tertiary {
+    border-block-end: 1px solid;
+    border-block-end-color: var(--calcite-navigation-border-color, var(--calcite-ui-border-3));
+  }
+}
+
+.user,
+.logo {
+  @apply flex;
+}
+
+.hide {
+  @apply hidden;
+}
+
+.primary {
+  @apply h-16;
+}
+
+.secondary {
+  @apply h-12;
+}
+
+.tertiary {
+  @apply h-12;
+}
+
+.container-content {
+  @apply flex
+  w-full
+  h-full
+  mx-auto;
+  margin-block: 0;
+  inline-size: var(--calcite-navigation-width, 100%);
+  max-inline-size: 100%;
+  &.progress-bar {
+    margin-block-start: 0.125rem;
+  }
+}
+
+slot[name] {
+  @apply flex flex-row;
+}
+
+slot[name="navigation-secondary"]::slotted(calcite-navigation),
+slot[name="navigation-tertiary"]::slotted(calcite-navigation) {
+  @apply w-full;
+}
+
+slot[name="content-start"]::slotted(*),
+slot[name="content-center"]::slotted(*),
+slot[name="content-end"]::slotted(*) {
+  @apply flex flex-row items-center;
+}
+
+slot[name="progress"],
+slot[name="progress"] calcite-progress {
+  inset-block-start: 0;
+  inset-inline: 0;
+}
+slot[name="content-end"] {
+  @apply ms-auto;
+}
+
+slot[name="content-start"] {
+  @apply me-auto;
+}
+
+slot[name="content-end"],
+slot[name="logo"] ~ slot[name="user"],
+slot[name="user"]:only-child {
+  @apply ms-auto;
+}
+
+slot[name="content-center"] {
+  @apply ms-auto me-auto;
+}
+
+slot[name="content-start"] ~ slot[name="content-center"] {
+  @apply ms-0;
+}
+
+slot[name="content-start"] ~ slot[name="content-end"],
+slot[name="content-center"] ~ slot[name="content-end"],
+slot[name="content-center"] ~ slot[name="user"],
+slot[name="content-end"] ~ slot[name="user"] {
+  @apply m-0;
+}

@@ -1,0 +1,17 @@
+:host {
+  @apply flex bg-transparent;
+}
+
+@include disabled();
+
+calcite-button {
+  @apply shadow-2;
+  &:hover {
+    @apply shadow-2-lg;
+  }
+  &:active {
+    @apply shadow-2-sm;
+  }
+}
+
+@include base-component();

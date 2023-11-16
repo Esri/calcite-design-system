@@ -1,0 +1,73 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-stack-padding-inline: Specifies the inline padding of the component's content.
+ * @prop --calcite-stack-padding-block: Specifies the block padding of the component's content.
+ */
+
+:host {
+  @apply flex flex-col flex-1;
+}
+
+.container {
+  @apply text-color-2
+  flex
+  flex-auto
+  font-sans
+  font-normal
+  items-stretch;
+}
+
+.content {
+  @apply flex
+    flex-auto
+    flex-col
+    justify-center
+    text-n2-wrap;
+  padding-inline: var(--calcite-stack-padding-inline, theme("padding.3"));
+  padding-block: var(--calcite-stack-padding-block, theme("padding.2"));
+}
+
+:host([disabled]) .content {
+  @extend %disabled-host-only;
+}
+
+.content-start {
+  @apply justify-start;
+}
+
+.content-end {
+  @apply justify-end;
+}
+
+.content-start,
+.content-end {
+  @apply flex-initial;
+}
+
+.actions-start,
+.actions-end,
+.content-start,
+.content-end {
+  @apply flex items-center;
+}
+
+.content-start,
+.content-end {
+  ::slotted(calcite-icon) {
+    @apply self-center mx-3;
+  }
+}
+
+.actions-start,
+.actions-end {
+  ::slotted(calcite-action) {
+    @apply self-stretch;
+
+    color: inherit;
+  }
+}
+
+@include base-component();

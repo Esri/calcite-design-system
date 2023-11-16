@@ -1,0 +1,25 @@
+:host {
+  @apply relative
+    flex
+    w-full
+    min-w-fit
+    flex-row
+    flex-wrap
+    items-stretch
+    justify-between;
+}
+
+:host([layout="vertical"]) {
+  @apply flex-auto flex-col;
+}
+
+:host([layout="horizontal"]) {
+  display: grid;
+  // grid-templates-columns are dynamically generated
+  // grid-templates-rows are dynamically generated
+  grid-template-areas:
+    "items"
+    "content";
+}
+
+@include base-component();

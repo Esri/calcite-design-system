@@ -1,0 +1,59 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-pad-expanded-max-width: optionally specify the expanded max width of the action pad when in "vertical" layout.
+ */
+
+:host {
+  @extend %component-host;
+  @apply animate-in block rounded-sm;
+  --calcite-action-pad-expanded-max-width: auto;
+  background: transparent;
+}
+
+:host([expanded][layout="vertical"]) .container {
+  max-inline-size: var(--calcite-action-pad-expanded-max-width);
+}
+
+::slotted(calcite-action-group) {
+  @apply border-color-3
+  border-0
+  border-b
+  border-solid
+  pb-0 pt-0;
+}
+
+.container {
+  @apply bg-background
+  shadow-2
+  inline-flex
+  flex-col
+  overflow-y-auto
+  rounded;
+}
+
+.action-group--bottom {
+  @apply flex-grow justify-end pb-0;
+}
+
+:host([layout="horizontal"]) {
+  .container {
+    @apply flex-row;
+    .action-group--bottom {
+      @apply p-0;
+    }
+    ::slotted(calcite-action-group) {
+      @apply border-0
+      p-0;
+      border-inline-end-width: theme("borderWidth.DEFAULT");
+    }
+  }
+}
+
+::slotted(calcite-action-group:last-child) {
+  @apply border-b-0;
+}
+
+@include base-component();

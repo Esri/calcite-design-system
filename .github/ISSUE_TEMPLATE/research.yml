@@ -1,11 +1,11 @@
 name: Research
 description: Request an investigation into a specific topic
-labels: ["research", "0 - new", "needs triage"]
+labels: ["spike", "0 - new", "needs triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. 
+        - Please [check for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
         - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
   - type: textarea
     id: background

@@ -1,0 +1,97 @@
+:host([scale="s"]) {
+  --calcite-internal-table-cell-padding: 0.25rem;
+  --calcite-internal-table-cell-font-size: var(--calcite-font-size--2);
+  --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--3);
+}
+:host([scale="m"]) {
+  --calcite-internal-table-cell-padding: 0.5rem;
+  --calcite-internal-table-cell-font-size: var(--calcite-font-size--1);
+  --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--2);
+}
+:host([scale="l"]) {
+  --calcite-internal-table-cell-padding: 1rem;
+  --calcite-internal-table-cell-font-size: var(--calcite-font-size-0);
+  --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--1);
+}
+
+:host {
+  @apply table;
+}
+
+.container {
+  max-inline-size: 100vw;
+  inline-size: 100%;
+}
+
+.table-container {
+  @apply overflow-x-auto whitespace-nowrap;
+}
+
+.table-container:not(.bordered) {
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+table {
+  @apply w-full border-collapse;
+  overflow-x: scroll;
+  border-block-start: 1px solid var(--calcite-ui-border-3);
+  border-inline-start: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+}
+
+tbody {
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+}
+
+.table--fixed {
+  @apply table-fixed;
+}
+
+.bordered {
+  ::slotted(calcite-table-row) {
+    --calcite-table-row-border-color: var(--calcite-ui-border-3);
+  }
+}
+
+.zebra {
+  ::slotted(calcite-table-row:nth-child(2n + 1)) {
+    --calcite-table-row-background: var(--calcite-ui-foreground-2);
+  }
+}
+.selection-actions {
+  @apply flex flex-row;
+  margin-inline-start: auto;
+}
+
+.selection-area {
+  @apply flex flex-row items-center;
+  padding-block: var(--calcite-internal-table-cell-padding);
+}
+
+.selection-area calcite-chip:last-of-type {
+  @apply me-2;
+}
+
+.selection-area calcite-chip:last-of-type:not(:first-of-type) {
+  @apply ms-2;
+}
+
+.selection-area calcite-button {
+  @apply me-4;
+}
+
+.pagination-area {
+  @apply flex flex-row w-full justify-center;
+  padding-block: var(--calcite-internal-table-cell-padding);
+}
+
+calcite-pagination {
+  flex: 1;
+  justify-content: center;
+}
+
+@include base-component();

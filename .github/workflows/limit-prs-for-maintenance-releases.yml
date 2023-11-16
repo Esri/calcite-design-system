@@ -1,0 +1,15 @@
+name: Maintenance Release Merge Blocker
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, labeled, unlabeled, synchronize]
+jobs:
+  check-milestone:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/limitPullRequestsForMaintenanceReleases.js')
+            await action({github, context, core})

@@ -1,0 +1,82 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-checkbox-size: Specifies the component's height and width.
+ */
+
+:host([scale="s"]) {
+  --calcite-checkbox-size: theme("spacing.3");
+}
+:host([scale="m"]) {
+  --calcite-checkbox-size: theme("fontSize.n1");
+}
+:host([scale="l"]) {
+  --calcite-checkbox-size: theme("spacing.4");
+}
+
+:host {
+  @apply relative
+    inline-flex
+    cursor-pointer
+    select-none;
+  -webkit-tap-highlight-color: transparent;
+
+  .check-svg,
+  .toggle {
+    inline-size: var(--calcite-checkbox-size);
+    block-size: var(--calcite-checkbox-size);
+  }
+
+  .check-svg {
+    @apply bg-foreground-1
+      pointer-events-none
+      box-border
+      block
+      overflow-hidden
+      fill-current
+      stroke-current
+      stroke-1
+      transition-default;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
+    color: theme("backgroundColor.background");
+  }
+}
+:host([checked]),
+:host([indeterminate]) {
+  .check-svg {
+    @apply bg-brand;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
+  }
+}
+:host([hovered]) .toggle,
+:host .toggle:hover {
+  .check-svg {
+    box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+  }
+}
+
+.toggle {
+  @apply focus-base relative;
+
+  &:active,
+  &:focus,
+  &:focus-visible {
+    @apply focus-outset;
+  }
+
+  &::after {
+    content: "";
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    min-block-size: theme("width.6");
+    min-inline-size: theme("width.6");
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+@include disabled();
+@include hidden-form-input();
+@include base-component();

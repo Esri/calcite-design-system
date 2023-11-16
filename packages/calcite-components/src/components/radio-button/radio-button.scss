@@ -1,0 +1,101 @@
+:host {
+  @apply block cursor-pointer;
+  .container {
+    @apply relative outline-none;
+  }
+  .radio {
+    @apply bg-foreground-1 cursor-pointer focus-base rounded-full transition-default;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
+  }
+}
+
+:host([hovered]),
+:host(:not([checked])[focused]:not([disabled])) {
+  .radio {
+    box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+  }
+}
+
+:host([focused]) {
+  .radio {
+    @apply focus-outset;
+  }
+}
+
+@include disabled() {
+  .radio {
+    @apply opacity-disabled cursor-default;
+  }
+}
+
+:host([hovered][disabled]) {
+  .radio {
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
+  }
+}
+
+:host([scale="s"]) {
+  --calcite-radio-size: theme("fontSize.n2");
+}
+:host([scale="m"]) {
+  --calcite-radio-size: theme("fontSize.n1");
+}
+:host([scale="l"]) {
+  --calcite-radio-size: theme("fontSize.0");
+}
+
+.radio {
+  block-size: var(--calcite-radio-size);
+  max-inline-size: var(--calcite-radio-size);
+  min-inline-size: var(--calcite-radio-size);
+}
+
+:host([scale="s"][checked]),
+:host([hovered][scale="s"][checked][disabled]) {
+  .radio {
+    box-shadow: inset 0 0 0 4px var(--calcite-ui-brand);
+  }
+}
+:host([scale="s"][focused][checked]:not([disabled])) {
+  .radio {
+    box-shadow: inset 0 0 0 4px var(--calcite-ui-brand), 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+:host([scale="m"][checked]),
+:host([hovered][scale="m"][checked][disabled]) {
+  .radio {
+    box-shadow: inset 0 0 0 5px var(--calcite-ui-brand);
+  }
+}
+:host([scale="m"][focused][checked]:not([disabled])) {
+  .radio {
+    box-shadow: inset 0 0 0 5px var(--calcite-ui-brand), 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+:host([scale="l"][checked]),
+:host([hovered][scale="l"][checked][disabled]) {
+  .radio {
+    box-shadow: inset 0 0 0 6px var(--calcite-ui-brand);
+  }
+}
+:host([scale="l"][focused][checked]:not([disabled])) {
+  .radio {
+    box-shadow: inset 0 0 0 6px var(--calcite-ui-brand), 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
+@media (forced-colors: active) {
+  :host([checked]),
+  :host([checked][disabled]) {
+    .radio::after {
+      content: "";
+      inline-size: var(--calcite-radio-size);
+      block-size: var(--calcite-radio-size);
+      background-color: windowText;
+      display: block;
+    }
+  }
+}
+
+@include hidden-form-input();
+@include base-component();
