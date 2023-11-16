@@ -1,6 +1,6 @@
 import { number, select, text } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
@@ -154,3 +154,23 @@ export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
 
 export const invalidStatus_TestOnly = (): string =>
   html`<calcite-input-number status="invalid" value="54321"></calcite-input-number>`;
+
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(html`
+    <style>
+      .breakpoint-story-container {
+        flex-wrap: wrap;
+      }
+      .breakpoint-story-container > * {
+        flex-basis: 100%;
+      }
+    </style>
+    <calcite-input-number
+      scale="{scale}"
+      placeholder="Placeholder: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
+    ></calcite-input-number>
+    <calcite-input-number
+      scale="{scale}"
+      value="123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+    ></calcite-input-number>
+  `);

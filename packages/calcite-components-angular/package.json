@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "prebuild": "ts-node ./support/patchEventDetailTypeImports.ts",
+    "prepublishOnly": "./support/prepublishBuildForCorrectVersion.sh",
     "build": "ng build",
     "clean": "rimraf dist node_modules .turbo .angular projects/component-library/dist"
   },

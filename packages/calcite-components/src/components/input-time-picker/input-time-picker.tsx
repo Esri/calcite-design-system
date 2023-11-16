@@ -971,7 +971,7 @@ export class InputTimePicker
     return (
       <Host onBlur={this.hostBlurHandler} onKeyDown={this.keyDownHandler}>
         <div class="input-wrapper" onClick={this.onInputWrapperClick}>
-          <calcite-input
+          <calcite-input-text
             aria-autocomplete="none"
             aria-haspopup="dialog"
             disabled={disabled}
@@ -979,13 +979,12 @@ export class InputTimePicker
             id={this.referenceElementId}
             label={getLabelText(this)}
             lang={this.effectiveLocale}
-            onCalciteInputInput={this.calciteInternalInputInputHandler}
-            onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
+            onCalciteInputTextInput={this.calciteInternalInputInputHandler}
+            onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
             readOnly={readOnly}
             role="combobox"
             scale={this.scale}
             status={this.status}
-            step={this.step}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setInputAndTransitionEl}
           />
