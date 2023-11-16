@@ -280,7 +280,7 @@ describe("calcite-tabs", () => {
         const tab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
         return { tabTitle, tab };
       },
-      wrappedTabTemplateHTML
+      [wrappedTabTemplateHTML]
     );
     expect(finalSelectedItem.tabTitle).toBe("title-2");
     expect(finalSelectedItem.tab).toBe("tab-2");

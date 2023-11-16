@@ -1043,22 +1043,10 @@ describe("calcite-input-number", () => {
   });
 
   describe("number locale support", () => {
-    // locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
-    const localesWithDifferentBrowserAndNodeFormatting = [
-      "ar",
-      "bg",
-      "bs",
-      "es",
-      "es-MX",
-      "et",
-      "lv",
-      "mk",
-      "no",
-      "pl",
-      "pt-PT",
-    ];
+    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
+    const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
     locales
-      .filter((locale) => !localesWithDifferentBrowserAndNodeFormatting.includes(locale))
+      .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
@@ -1607,7 +1595,7 @@ describe("calcite-input-number", () => {
       await page.keyboard.down("ArrowUp");
       await page.$eval(
         "calcite-input-number",
-        (element: HTMLCalciteInputNumberElement) => {
+        (element: HTMLInputElement) => {
           document.addEventListener("calciteInputNumberInput", async () => {
             const input = element.shadowRoot.querySelector("input");
             if (input.selectionStart === 0) {

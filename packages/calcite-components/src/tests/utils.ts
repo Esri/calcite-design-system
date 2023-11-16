@@ -1,23 +1,10 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import type { JSX } from "../components";
-import { BoundingBox } from "puppeteer";
+import { BoundingBox, JSONObject } from "puppeteer";
 
 /**
  * Util to help type global props for testing.
  */
 export type GlobalTestProps<T> = T & Window & typeof globalThis;
-
-type FilterPropsByPropertyName<T, PropName extends string> = {
-  [K in keyof T]: PropName extends keyof T[K] ? T[K] : never;
-};
-
-/**
- * Helper to extract a type by filtering the type by the property name.
- */
-export type IntrinsicElementsWithProp<T extends string> = FilterPropsByPropertyName<
-  JSX.IntrinsicElements,
-  T
->[keyof FilterPropsByPropertyName<JSX.IntrinsicElements, T>];
 
 type DragAndDropSelector = string | SelectorOptions;
 
@@ -27,7 +14,7 @@ type PointerPosition = {
   offset?: [number, number];
 };
 
-interface SelectorOptions {
+interface SelectorOptions extends JSONObject {
   element: string;
   shadow?: string;
   pointerPosition?: PointerPosition;

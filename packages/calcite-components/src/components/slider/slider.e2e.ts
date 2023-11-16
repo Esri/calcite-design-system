@@ -784,12 +784,12 @@ describe("calcite-slider", () => {
       fr: ["2500", "500000,5", "1000", "1000000,5"],
     };
     let withSeparator: string[];
-    let getDisplayedValuesArray: () => Promise<string[]>;
+    let getDisplayedValuesArray;
     let element: E2EElement;
     const formattedValuesPerLanguageObject = {
       "de-CH": ["2’500", "500’000.5", "1’000", "1’000’000.5"],
       en: ["2,500", "500,000.5", "1,000", "1,000,000.5"],
-      es: ["2.500", "500.000,5", "1.000", "1.000.000,5"],
+      es: ["2500", "500.000,5", "1000", "1.000.000,5"],
       fr: [
         ["2", "500"].join("\u00A0"),
         ["500", "000,5"].join("\u00A0"),
