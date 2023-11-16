@@ -1,0 +1,769 @@
+{
+  "semantic": {
+    "ui": {
+      "color": {
+        "brand": {
+          "default": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-060}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.blue.v-bb-160}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "hover": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-070}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-060}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "press": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-080}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-070}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          }
+        },
+        "background": {
+          "light": {
+            "value": "{core.color.neutral.blk-005}",
+            "type": "color",
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+            "extensions": {
+              "calcite.deprecated": true
+            }
+          },
+          "dark": {
+            "value": "{core.color.neutral.blk-190}",
+            "type": "color",
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+            "extensions": {
+              "calcite.deprecated": true
+            }
+          }
+        },
+        "foreground": {
+          "1": {
+            "light": {
+              "value": "{core.color.neutral.blk-000}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-200}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "2": {
+            "light": {
+              "value": "{core.color.neutral.blk-010}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-210}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "3": {
+            "light": {
+              "value": "{core.color.neutral.blk-020}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-220}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "current": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-010}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "#214155",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          }
+        },
+        "text": {
+          "1": {
+            "light": {
+              "value": "{core.color.neutral.blk-220}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-000}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "2": {
+            "light": {
+              "value": "{core.color.neutral.blk-170}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-060}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "3": {
+            "light": {
+              "value": "{core.color.neutral.blk-140}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-090}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "inverse": {
+            "light": {
+              "value": "{core.color.neutral.blk-000}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-220}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "link": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-070}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.dark.blue.d-bb-420}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          }
+        },
+        "border": {
+          "1": {
+            "light": {
+              "value": "{core.color.neutral.blk-050}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-160}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "2": {
+            "light": {
+              "value": "{core.color.neutral.blk-040}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-170}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "3": {
+            "light": {
+              "value": "{core.color.neutral.blk-030}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-180}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "input": {
+            "light": {
+              "value": "{core.color.neutral.blk-100}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-130}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          }
+        },
+        "info": {
+          "default": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-070}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.dark.blue.d-bb-420}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "hover": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-080}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.blue.v-bb-140}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "press": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.blue.h-bb-090}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.blue.v-bb-160}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          }
+        },
+        "success": {
+          "default": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.green.h-gg-060}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.dark.green.d-gg-420}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "hover": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.green.h-gg-070}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.green.v-gg-140}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "press": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.green.h-gg-080}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.green.v-gg-160}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          }
+        },
+        "warning": {
+          "default": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.yellow.h-yy-060}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.dark.yellow.d-yy-420}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "hover": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.yellow.h-yy-070}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.yellow.v-yy-140}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "press": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.yellow.h-yy-080}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.yellow.v-yy-160}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          }
+        },
+        "danger": {
+          "default": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.red.h-rr-060}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.dark.red.d-rr-420}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "hover": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.red.h-rr-070}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.red.v-rr-140}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "press": {
+            "light": {
+              "value": "{core.color.palette.high-saturation.red.h-rr-080}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.palette.vibrant.red.v-rr-160}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          },
+          "inverse": {
+            "light": {
+              "value": "{core.color.neutral.blk-190}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            },
+            "dark": {
+              "value": "{core.color.neutral.blk-005}",
+              "type": "color",
+              "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema and following the new color scheme context strategy.",
+              "extensions": {
+                "calcite.deprecated": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "color": {
+      "brand": {
+        "default": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.blue.h-bb-060}",
+            "dark": "{core.color.palette.vibrant.blue.v-bb-160}"
+          },
+          "type": "color"
+        },
+        "hover": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.blue.h-bb-070}",
+            "dark": "{core.color.palette.high-saturation.blue.h-bb-060}"
+          },
+          "type": "color"
+        },
+        "press": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.blue.h-bb-080}",
+            "dark": "{core.color.palette.high-saturation.blue.h-bb-070}"
+          },
+          "type": "color"
+        }
+      },
+      "background": {
+        "value": {
+          "light": "{core.color.neutral.blk-005}",
+          "dark": "{core.color.neutral.blk-190}"
+        },
+        "type": "color"
+      },
+      "foreground": {
+        "1": {
+          "value": {
+            "light": "{core.color.neutral.blk-000}",
+            "dark": "{core.color.neutral.blk-200}"
+          },
+          "type": "color"
+        },
+        "2": {
+          "value": {
+            "light": "{core.color.neutral.blk-010}",
+            "dark": "{core.color.neutral.blk-210}"
+          },
+          "type": "color"
+        },
+        "3": {
+          "value": { "light": "{core.color.neutral.blk-020}", "dark": "{core.color.neutral.blk-220}" },
+          "type": "color"
+        },
+
+        "current": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.blue.h-bb-010}",
+            "dark": "#214155"
+          },
+          "type": "color"
+        }
+      },
+      "text": {
+        "1": {
+          "value": { "light": "{core.color.neutral.blk-220}", "dark": "{core.color.neutral.blk-000}" },
+          "type": "color"
+        },
+        "2": {
+          "value": { "light": "{core.color.neutral.blk-170}", "dark": "{core.color.neutral.blk-060}" },
+          "type": "color"
+        },
+        "3": {
+          "value": { "light": "{core.color.neutral.blk-140}", "dark": "{core.color.neutral.blk-090}" },
+          "type": "color"
+        },
+        "inverse": {
+          "value": { "light": "{core.color.neutral.blk-000}", "dark": "{core.color.neutral.blk-220}" },
+          "type": "color"
+        },
+        "link": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.blue.h-bb-070}",
+            "dark": "{core.color.palette.dark.blue.d-bb-420}"
+          },
+          "type": "color"
+        }
+      },
+      "border": {
+        "1": {
+          "value": { "light": "{core.color.neutral.blk-050}", "dark": "{core.color.neutral.blk-160}" },
+          "type": "color"
+        },
+        "2": {
+          "value": { "light": "{core.color.neutral.blk-040}", "dark": "{core.color.neutral.blk-170}" },
+          "type": "color"
+        },
+        "3": {
+          "value": { "light": "{core.color.neutral.blk-030}", "dark": "{core.color.neutral.blk-180}" },
+          "type": "color"
+        },
+        "input": {
+          "value": { "light": "{core.color.neutral.blk-100}", "dark": "{core.color.neutral.blk-130}" },
+          "type": "color"
+        }
+      },
+      "info": {
+        "default": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.blue.h-bb-070}",
+            "dark": "{core.color.palette.dark.blue.d-bb-420}"
+          },
+          "type": "color"
+        },
+        "hover": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.blue.h-bb-080}",
+            "dark": "{core.color.palette.vibrant.blue.v-bb-140}"
+          },
+          "type": "color"
+        },
+        "press": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.blue.h-bb-090}",
+            "dark": "{core.color.palette.vibrant.blue.v-bb-160}"
+          },
+          "type": "color"
+        }
+      },
+      "success": {
+        "default": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.green.h-gg-060}",
+            "dark": "{core.color.palette.dark.green.d-gg-420}"
+          },
+          "type": "color"
+        },
+        "hover": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.green.h-gg-070}",
+            "dark": "{core.color.palette.vibrant.green.v-gg-140}"
+          },
+          "type": "color"
+        },
+        "press": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.green.h-gg-080}",
+            "dark": "{core.color.palette.vibrant.green.v-gg-160}"
+          },
+          "type": "color"
+        }
+      },
+      "warning": {
+        "default": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.yellow.h-yy-060}",
+            "dark": "{core.color.palette.dark.yellow.d-yy-420}"
+          },
+          "type": "color"
+        },
+        "hover": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.yellow.h-yy-070}",
+            "dark": "{core.color.palette.vibrant.yellow.v-yy-140}"
+          },
+          "type": "color"
+        },
+        "press": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.yellow.h-yy-080}",
+            "dark": "{core.color.palette.vibrant.yellow.v-yy-160}"
+          },
+          "type": "color"
+        }
+      },
+      "danger": {
+        "default": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.red.h-rr-060}",
+            "dark": "{core.color.palette.dark.red.d-rr-420}"
+          },
+          "type": "color"
+        },
+        "hover": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.red.h-rr-070}",
+            "dark": "{core.color.palette.vibrant.red.v-rr-140}"
+          },
+          "type": "color"
+        },
+        "press": {
+          "value": {
+            "light": "{core.color.palette.high-saturation.red.h-rr-080}",
+            "dark": "{core.color.palette.vibrant.red.v-rr-160}"
+          },
+          "type": "color"
+        }
+      },
+      "inverse": {
+        "light": {
+          "value": "{core.color.neutral.blk-190}",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{core.color.neutral.blk-005}",
+          "type": "color"
+        }
+      }
+    }
+  }
+}

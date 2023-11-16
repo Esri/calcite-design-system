@@ -1,0 +1,42 @@
+{
+  "semantic": {
+    "box-shadow": {
+      "none": {
+        "value": "{core.box-shadow.0}",
+        "type": "boxShadow"
+      },
+      "sm": {
+        "value": ["{core.box-shadow.1}", "{core.box-shadow.2}"],
+        "type": "boxShadow"
+      },
+      "md": {
+        "value": ["{core.box-shadow.3}", "{core.box-shadow.4}"],
+        "type": "boxShadow"
+      },
+      "0": {
+        "value": "{core.box-shadow.0}",
+        "type": "boxShadow",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of nominal sizing.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
+      },
+      "1": {
+        "value": ["{core.box-shadow.1}", "{core.box-shadow.2}"],
+        "type": "boxShadow",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of nominal sizing.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
+      },
+      "2": {
+        "value": ["{core.box-shadow.3}", "{core.box-shadow.4}"],
+        "type": "boxShadow",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of nominal sizing.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "semantic": {
+    "ui": {
+      "border": {
+        "border-radius": {
+          "value": "{core.border.border-radius.none}",
+          "type": "borderRadius",
+          "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of removing the \"ui\" level that doesn't match the naming schema.",
+          "extensions": {
+            "calcite.deprecated": true
+          }
+        }
+      }
+    },
+    "border": {
+      "radius": {
+        "default": {
+          "value": "{core.border.border-radius.1}",
+          "type": "borderRadius"
+        },
+        "base": {
+          "value": "{core.border.border-radius.none}",
+          "type": "borderRadius"
+        },
+        "sharp": {
+          "value": "{core.border.border-radius.none}",
+          "type": "borderRadius"
+        },
+        "round": {
+          "value": "{core.border.border-radius.1}",
+          "type": "borderRadius"
+        },
+        "circular": {
+          "value": "{core.border.border-radius.half}",
+          "type": "borderRadius"
+        },
+        "pill": {
+          "value": "{core.border.border-radius.full}",
+          "type": "borderRadius"
+        }
+      },
+      "width": {
+        "none": {
+          "value": "{core.size.default.none}",
+          "type": "borderWidth"
+        },
+        "sm": {
+          "value": "{core.size.default.0} - 1",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "{core.size.default.0}",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "{core.size.default.1}",
+          "type": "borderWidth"
+        }
+      }
+    }
+  }
+}
