@@ -51,7 +51,7 @@ import {
  * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
- * @slot content-bottom - A slot for adding content below the label and description of the component.
+ * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
 @Component({
   tag: "calcite-list-item",
