@@ -1,27 +1,31 @@
 :host {
-  @apply border-color-1
-    bg-foreground-1
-    relative
+  @extend %component-host;
+  @apply align-top
+    border
+    border-color-1
+    border-solid
     inline-block
-    w-full
     overflow-visible
     rounded-none
-    border
-    border-solid
-    align-top;
+    w-auto;
 }
 
-//FIXME: These need to be revisted by design to get scale values
 :host([scale="s"]) {
-  max-inline-size: 216px;
+  inline-size: 234px;
+  min-inline-size: 216px;
+  max-inline-size: 380px;
 }
 
 :host([scale="m"]) {
-  max-inline-size: 286px;
+  inline-size: 304px;
+  min-inline-size: 272px;
+  max-inline-size: 480px;
 }
 
 :host([scale="l"]) {
-  max-inline-size: 398px;
+  inline-size: 370px;
+  min-inline-size: 320px;
+  max-inline-size: 600px;
 }
 
 @include base-component();

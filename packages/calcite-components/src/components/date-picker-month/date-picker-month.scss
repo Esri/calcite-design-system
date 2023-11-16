@@ -26,6 +26,10 @@
   min-w-0
   justify-center;
   inline-size: calc(100% / 7);
+
+  calcite-date-picker-day {
+    @apply w-full;
+  }
 }
 
 :host([scale="s"]) .week-header {

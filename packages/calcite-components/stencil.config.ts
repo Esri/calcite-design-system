@@ -1,5 +1,5 @@
 import { Config } from "@stencil/core";
-import { postcss } from "@stencil/postcss";
+import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
@@ -100,7 +100,7 @@ export const create: () => Config = () => ({
       includeImportCustomElements: true,
     }),
     { type: "dist-hydrate-script" },
-    { type: "dist-custom-elements", autoDefineCustomElements: true },
+    { type: "dist-custom-elements", customElementsExportBehavior: "auto-define-custom-elements" },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
@@ -142,10 +142,13 @@ export const create: () => Config = () => ({
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    transform: {
+      "calcite-design-tokens/dist/es6/calcite-headless\\.js$":
+        "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
+    },
   },
   hydratedFlag: {
     selector: "attribute",

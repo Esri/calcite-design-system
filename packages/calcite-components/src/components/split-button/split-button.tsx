@@ -179,16 +179,10 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   }
 
   render(): VNode {
-    const widthClasses = {
-      [CSS.container]: true,
-      [CSS.widthAuto]: this.width === "auto",
-      [CSS.widthHalf]: this.width === "half",
-      [CSS.widthFull]: this.width === "full",
-    };
     const buttonWidth = this.width === "auto" ? "auto" : "full";
 
     return (
-      <div class={widthClasses}>
+      <div class={CSS.container}>
         <calcite-button
           appearance={this.appearance}
           disabled={this.disabled}

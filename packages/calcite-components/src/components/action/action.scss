@@ -12,6 +12,20 @@
   --calcite-action-indicator-color: theme("colors.brand");
 }
 
+@mixin action-indicator() {
+  position: relative;
+  &::after {
+    content: "";
+    @apply absolute
+      h-2
+      w-2
+      rounded-full;
+    inset-block-end: calc(-0.275rem);
+    inset-inline-end: calc(-0.275rem);
+    background-color: var(--calcite-action-indicator-color);
+  }
+}
+
 @include disabled();
 
 .button {
@@ -70,7 +84,6 @@
 
   .text-container--visible {
     @apply w-auto flex-auto opacity-100;
-    margin-inline-end: theme("spacing.4");
   }
 }
 
@@ -196,44 +209,20 @@
   @apply opacity-disabled bg-foreground-3;
 }
 
-:host([indicator]) {
-  .button::after {
-    content: "";
-    @apply absolute
-      h-2
-      w-2
-      rounded-full
-      border-2;
-
-    background-color: var(--calcite-action-indicator-color);
-    border-color: theme("colors.background.foreground.1");
-    inset-block-end: theme("spacing.3");
-    inset-inline-end: theme("spacing.3");
-  }
-  .button--text-visible {
-    &::after {
-      inset-block-end: auto;
-    }
-  }
-  .button:hover::after,
-  .button:focus::after {
-    border-color: theme("colors.background.foreground.1");
-  }
+:host([appearance="transparent"]) .button {
+  @apply bg-transparent
+    transition-shadow
+    duration-150
+    ease-in-out;
 }
 
-:host([indicator][scale="s"]) {
-  .button::after {
-    inset-block-end: theme("spacing.1");
-    inset-inline-end: theme("spacing.1");
-  }
-  .button--text-visible::after {
-    inset-block-end: auto;
-    inset-inline-end: theme("spacing.2");
-  }
+.indicator-with-icon {
+  @include action-indicator();
 }
 
-:host([indicator][active]) .button::after {
-  border-color: theme("colors.background.foreground.3");
+.indicator-without-icon {
+  @apply w-4 mx-1;
+  @include action-indicator();
 }
 
 .indicator-text {

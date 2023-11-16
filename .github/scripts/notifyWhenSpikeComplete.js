@@ -39,6 +39,15 @@ module.exports = async ({ github, context }) => {
       console.log("The '1 - assigned' label is not associated with the issue", err);
     }
 
+    try {
+      await github.rest.issues.removeLabel({
+        ...issueProps,
+        name: "2 - in development",
+      });
+    } catch (err) {
+      console.log("The '2 - in development' label is not associated with the issue", err);
+    }
+
     // Add labels
     await github.rest.issues.addLabels({
       ...issueProps,
