@@ -7,6 +7,6 @@
     placeholder="Enter your email address"
     value="invalidemailformat.com"
   ></calcite-input>
-  <calcite-input-message icon status="invalid"> Enter a valid email address </calcite-input-message>
+  <calcite-input-message icon status="invalid">Enter a valid email address </calcite-input-message>
 </calcite-label>
 ```

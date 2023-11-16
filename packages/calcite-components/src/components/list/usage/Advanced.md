@@ -2,7 +2,7 @@
 <calcite-list>
   <calcite-list-item
     label="Dog"
-    description="(Canis familiaris) A carnivorous mammal closely related to the gray wolf that has been domesticated as a pet."
+    description="Also known as Canis familiaris, a carnivorous mammal closely related to the gray wolf that has been domesticated as a pet."
   >
     <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="layer" slot="content-start"></calcite-icon>
@@ -13,7 +13,7 @@
   </calcite-list-item>
   <calcite-list-item
     label="Cat"
-    description="(Felis catus) A carnivorous mammal that has long been domesticated as a pet and for catching rats and mice."
+    description="Also known as Felis catus, a carnivorous mammal that has long been domesticated as a pet and for catching rats and mice."
   >
     <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="layer" slot="content-start"></calcite-icon>
@@ -22,10 +22,7 @@
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
   </calcite-list-item>
-  <calcite-list-item
-    label="Asteroid"
-    description="(Ursidae of the order Carnivora) large and heavy animals that have thick hair and sharp claws."
-  >
+  <calcite-list-item label="Bear" description="Carnivorous mammals of the family Ursidae.">
     <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="layer" slot="content-start"></calcite-icon>
     <calcite-avatar scale="l" slot="content-start" thumbnail="https://placebear.com/g/400/400"></calcite-avatar>
