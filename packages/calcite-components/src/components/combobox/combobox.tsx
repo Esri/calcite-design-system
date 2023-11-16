@@ -1393,6 +1393,7 @@ export class Combobox
     const {
       compactDisplayMode,
       displayMode,
+      getSelectedItems,
       isAllSelected,
       scale,
       selectedHiddenChipsCount,
@@ -1405,7 +1406,7 @@ export class Combobox
     } else {
       if (displayMode === "single") {
         chipInvisible = isAllSelected() ? true : false;
-        label = `${selectedHiddenChipsCount} selected`;
+        label = `${getSelectedItems().length} selected`;
       } else if (displayMode === "fit-to-line") {
         if (
           (isAllSelected() && selectedVisibleChipsCount === 0) ||
@@ -1440,22 +1441,28 @@ export class Combobox
   renderSelectedIndicatorChipCompact(): VNode {
     const {
       compactDisplayMode,
+      displayMode,
+      getSelectedItems,
       isAllSelected,
       scale,
       selectedHiddenChipsCount,
-      selectedVisibleChipsCount,
     } = this;
-    const label = `${selectedHiddenChipsCount || 0}`;
+    let chipInvisible, label;
+    if (compactDisplayMode) {
+      chipInvisible = isAllSelected() ? true : false;
+      if (displayMode === "fit-to-line") {
+        label = `${selectedHiddenChipsCount || 0}`;
+      } else if (displayMode === "single") {
+        label = `${getSelectedItems().length}`;
+      }
+    } else {
+      chipInvisible = true;
+    }
     return (
       <calcite-chip
         class={{
           chip: true,
-          [CSS.chipInvisible]: !(
-            compactDisplayMode &&
-            !isAllSelected() &&
-            !selectedVisibleChipsCount &&
-            selectedHiddenChipsCount
-          ),
+          [CSS.chipInvisible]: chipInvisible,
         }}
         scale={scale}
         title={label}
