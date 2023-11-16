@@ -6,7 +6,7 @@ const rule: Rule.RuleModule = {
   meta: {
     docs: {
       description: "This rule catches helps ban or warn against listened event types",
-      category: "Consistency"
+      category: "Consistency",
     },
     schema: {
       type: "array",
@@ -19,17 +19,17 @@ const rule: Rule.RuleModule = {
               event: { type: "string" },
               message: {
                 type: "string",
-                minLength: 1
-              }
+                minLength: 1,
+              },
             },
             additionalProperties: false,
-            required: ["event"]
-          }
-        ]
+            required: ["event"],
+          },
+        ],
       },
-      uniqueItems: true
+      uniqueItems: true,
     },
-    type: "problem"
+    type: "problem",
   },
 
   create: function (context): Rule.RuleListener {
@@ -54,7 +54,7 @@ const rule: Rule.RuleModule = {
           if (bannedEventToMessageLookup.has(eventName)) {
             context.report({
               node,
-              message: buildMessage(eventName)
+              message: buildMessage(eventName),
             });
           }
         }
@@ -68,13 +68,13 @@ const rule: Rule.RuleModule = {
           if (bannedEventToMessageLookup.has(eventName)) {
             context.report({
               node,
-              message: buildMessage(eventName)
+              message: buildMessage(eventName),
             });
           }
         }
-      }
+      },
     };
-  }
+  },
 };
 
 export default rule;
