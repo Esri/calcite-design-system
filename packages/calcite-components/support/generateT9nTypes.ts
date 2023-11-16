@@ -1,4 +1,4 @@
-import globby from "globby";
+import { globby } from "globby";
 import { format } from "prettier";
 import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core";
 
