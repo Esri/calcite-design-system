@@ -1,6 +1,6 @@
 import { number, select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
@@ -75,3 +75,6 @@ export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
 export const invalidStatus_TestOnly = (): string => html`
   <calcite-input-time-picker value="12:34" step="1" status="invalid" open> </calcite-input-time-picker>
 `;
+
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(html`<calcite-input-time-picker scale="{scale}" value="12:34"></calcite-input-time-picker>`);

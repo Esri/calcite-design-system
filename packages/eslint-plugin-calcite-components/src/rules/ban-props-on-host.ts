@@ -14,19 +14,19 @@ const rule: Rule.RuleModule = {
     docs: {
       description: "This rule catches usage of banned props on <Host>.",
       category: "Possible Errors",
-      recommended: true
+      recommended: true,
     },
     schema: [
       {
         type: "array",
         items: {
-          type: "string"
+          type: "string",
         },
         minLength: 1,
-        additionalProperties: false
-      }
+        additionalProperties: false,
+      },
     ],
-    type: "problem"
+    type: "problem",
   },
 
   create(context): Rule.RuleListener {
@@ -42,13 +42,15 @@ const rule: Rule.RuleModule = {
           if (unauthorizedAttributes.length > 0) {
             context.report({
               node: node,
-              message: `Avoid setting unnecessary attributes/properties on <Host>: ${unauthorizedAttributes.join(", ")}`
+              message: `Avoid setting unnecessary attributes/properties on <Host>: ${unauthorizedAttributes.join(
+                ", "
+              )}`,
             });
           }
         }
-      }
+      },
     };
-  }
+  },
 };
 
 export default rule;

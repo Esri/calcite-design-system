@@ -157,6 +157,7 @@ export function createBreakpointStories(
   // we hard-code breakpoint values because we can't read them directly from the page when setting up a story
   // based on https://github.com/Esri/calcite-design-tokens/blob/2e8fc1b8f410b5443fa53ca1c12ceef71e651b9a/tokens/core.json#L1533-L1553
   const widthBreakpoints: { name: keyof Breakpoints["width"]; maxWidth: number }[] = [
+    { name: "xxsmall", maxWidth: 320 },
     { name: "xsmall", maxWidth: 476 },
     { name: "small", maxWidth: 768 },
     { name: "medium", maxWidth: 1152 },

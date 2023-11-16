@@ -7,6 +7,11 @@
     const { resolve } = await import("path");
     const exec = promisify(childProcess.exec);
 
+    const releaseTarget = process.argv[2];
+    if (!["latest", "next", "rc"].includes(releaseTarget)) {
+      throw new Error(`Invalid release target: "${releaseTarget}"`);
+    }
+
     // TRACKING packages will be bumped to HEAD's version if they fall behind
     const LINKED_VERSIONS_HEAD_PACKAGE = "@esri/calcite-components";
 
@@ -27,7 +32,7 @@
       throw new Error(`Unable to find data for the HEAD linked package: ${LINKED_VERSIONS_HEAD_PACKAGE}`);
     }
 
-    LINKED_VERSIONS_TRACKING_PACKAGES.forEach(async (pkg) => {
+    for (const pkg of LINKED_VERSIONS_TRACKING_PACKAGES) {
       const trackingPackageData = packagesData.find((data: PackageData) => data.name === pkg);
 
       if (!trackingPackageData) {
@@ -51,7 +56,7 @@
         );
 
         // update to HEAD version in package.json and package-lock.json
-        await exec(`npm version ${headPackageData.version} --git-tag-version=false --workspace=${pkg}`);
+        await exec(`npm version ${headPackageData.version} --no-commit-hooks --no-git-tag-version --workspace=${pkg}`);
 
         // update version in changelog
         const packageChangelogPath = resolve(trackingPackageData.location, "CHANGELOG.md");
@@ -72,21 +77,20 @@
 
         await fs.writeFile(packageChangelogPath, updatedChangelogContent);
       }
+    }
 
-      // get updated data for deployable packages
-      const changedPackagesData: Array<PackageData> = JSON.parse(
-        (await exec("npx lerna changed --json")).stdout.trim()
-      );
-      console.log("Deployable packages:", changedPackagesData);
+    // get updated data for deployable packages
+    const changedPackagesData: Array<PackageData> = JSON.parse((await exec("npx lerna changed --json")).stdout.trim());
 
-      // add/commit changed files
-      await exec("git commit -am 'chore: release next'");
+    console.log("Deployable packages:", changedPackagesData);
 
-      // create git tags with the updated versions
-      changedPackagesData.forEach(async (pkg: PackageData) => {
-        await exec(`git tag -a "${pkg.name}@${pkg.version}" HEAD -m "${pkg.name}@${pkg.version}"`);
-      });
-    });
+    // add/commit changed files
+    await exec(`git add --all && git commit -m 'chore: release ${releaseTarget}'`);
+
+    // create git tags with the updated versions
+    for (const pkg of changedPackagesData) {
+      await exec(`git tag -a "${pkg.name}@${pkg.version}" HEAD -m "${pkg.name}@${pkg.version}"`);
+    }
   } catch (error) {
     console.error(error);
     process.exit(1);
