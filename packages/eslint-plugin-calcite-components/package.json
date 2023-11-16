@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "stencil-eslint-core": "0.3.1"
+    "stencil-eslint-core": "0.4.1"
   },
   "peerDependencies": {
     "eslint": ">=8.0.0"
