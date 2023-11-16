@@ -1022,7 +1022,7 @@ describe("selection modes", () => {
   it("correctly maintains selected items if they are paginated out of view", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2">
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="2" style="width:800px">
         <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1084,7 +1084,7 @@ describe("pagination event", () => {
   it("correctly emits pagination event", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1">
+      html`<calcite-table selection-mode="multiple" caption="Simple table" page-size="1" style="width:800px">
         <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1150,7 +1150,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when no pagination or selection present", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table">
+      html`<calcite-table caption="Simple table" style="width:800px">
         <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1221,7 +1221,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present and first page displayed", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table" page-size="2">
+      html`<calcite-table caption="Simple table" page-size="2" style="width:800px">
         <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1292,7 +1292,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present, and navigation to two other pages occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Simple table" page-size="2">
+      html`<calcite-table caption="Simple table" page-size="2" style="width:800px">
         <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
@@ -1672,7 +1672,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when multiple header and multiple footer rows, pagination present, and navigation to other page occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table caption="Multiple headers using col-span table" page-size="2">
+      html`<calcite-table caption="Multiple headers using col-span table" page-size="2" style="width:800px">
           <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
             <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
@@ -2209,7 +2209,7 @@ describe("keyboard navigation", () => {
   it("navigates correctly when pagination present, and selection and number and navigation to two other pages occurs", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table">
+      html`<calcite-table numbered selection-mode="single" page-size="2" caption="Simple table" style="width:800px">
         <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>

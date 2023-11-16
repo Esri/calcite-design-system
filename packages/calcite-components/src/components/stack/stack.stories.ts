@@ -24,6 +24,21 @@ const simpleHTML = html`<calcite-stack>
 
 export const simple = (): string => simpleHTML;
 
+export const stretchSlottedContent = (): string => html`
+  <calcite-stack>
+    <calcite-handle slot="actions-start"></calcite-handle>
+    <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
+    Hello World
+    <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
+    <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
+    <calcite-action-menu slot="actions-end" appearance="transparent">
+      <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
+      <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
+      <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
+    </calcite-action-menu>
+  </calcite-stack>
+`;
+
 export const simpleDarkMode_TestOnly = (): string => simpleHTML;
 simpleDarkMode_TestOnly.parameters = { modes: modesDarkDefault };
 
