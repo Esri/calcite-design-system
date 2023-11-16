@@ -121,7 +121,7 @@ describe("calcite-flow", () => {
 
         lastFlowItem?.addEventListener("calciteFlowItemBack", (event) => event.preventDefault());
 
-        lastFlowItem?.shadowRoot.querySelector<HTMLElement>(backButtonSelector)?.click();
+        lastFlowItem?.shadowRoot.querySelector(backButtonSelector)?.click();
       }, `.${ITEM_CSS.backButton}`);
       await page.waitForChanges();
 
