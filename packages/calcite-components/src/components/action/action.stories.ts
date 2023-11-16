@@ -202,6 +202,14 @@ export const indicatorTextEnabled_TestOnly = (): string => html`
   <calcite-action indicator active text="click-me" text-enabled icon="gear"></calcite-action>
 `;
 
+export const indicatorTextEnabledNoIcon_TestOnly = (): string => html`
+  <calcite-action indicator active text="click-me" text-enabled></calcite-action>
+`;
+
+export const indicatorNoTextEnabledNoIcon_TestOnly = (): string => html`
+  <calcite-action indicator active text="click-me"></calcite-action>
+`;
+
 export const arabicLocale_TestOnly = (): string => html`
   <calcite-action
     dir="rtl"
