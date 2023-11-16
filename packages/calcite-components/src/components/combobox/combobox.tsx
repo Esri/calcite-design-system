@@ -532,8 +532,6 @@ export class Combobox
 
   @State() selectedHiddenChipsCount = 0;
 
-  @State() selectedIndicatorChipLabel: string;
-
   @State() selectedVisibleChipsCount = 0;
 
   textInput: HTMLInputElement = null;
@@ -853,33 +851,38 @@ export class Combobox
       textInput,
     } = this;
 
-    const allSelected = this.isAllSelected();
+    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
+    const chipContainerElWidth = getElementWidth(chipContainerEl);
+    const { fontSize, fontFamily } = getComputedStyle(textInput);
+    const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
+    const inputWidth = (inputTextWidth || 48) + chipContainerElGap;
+    const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipEl);
+    const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
+    const largestSelectedIndicatorChipWidth = Math.max(
+      allSelectedIndicatorChipElWidth,
+      selectedIndicatorChipElWidth
+    );
+
+    // Determine if we are in Compact Display Mode
+    const newCompactBreakpoint = Math.round(
+      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth
+    );
+    if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
+      this.maxCompactBreakpoint = newCompactBreakpoint;
+    }
+    this.compactDisplayMode = chipContainerElWidth < this.maxCompactBreakpoint;
 
     if (displayMode === "fit-to-line") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
         (chipEl) => chipEl.hasAttribute("closable")
       );
-      const { fontSize, fontFamily } = getComputedStyle(textInput);
-      const chipContainerElWidth = getElementWidth(chipContainerEl);
-      const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
-      const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
-      // TODO: use the 48px token here as the minimum input width.
-      const inputWidth = (inputTextWidth || 48) + chipContainerElGap;
-
-      // Determine if we are in Compact Display Mode
-      const newCompactBreakpoint = Math.round(
-        getElementWidth(allSelectedIndicatorChipEl) + chipContainerElGap + inputWidth
-      );
-      if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
-        this.maxCompactBreakpoint = newCompactBreakpoint;
-      }
-      this.compactDisplayMode = chipContainerElWidth < this.maxCompactBreakpoint;
-
-      // TODO: this probably needs rethought now that we have multiple possible indicator chips to consider
-      const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
 
       let availableHorizontalChipElSpace = Math.round(
-        chipContainerElWidth - (selectedIndicatorChipElWidth + chipContainerElGap + inputWidth)
+        chipContainerElWidth -
+          ((this.selectedHiddenChipsCount > 0 ? selectedIndicatorChipElWidth : 0) +
+            chipContainerElGap +
+            inputWidth +
+            chipContainerElGap)
       );
 
       // Refresh Selected Chips
@@ -912,14 +915,7 @@ export class Combobox
         this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
       }
     } else if (displayMode === "single") {
-      const selectedItemsCount = getSelectedItems().length;
-      if (allSelected) {
-        this.selectedIndicatorChipLabel = "All selected";
-      } else if (selectedItemsCount > 0) {
-        this.selectedIndicatorChipLabel = `${selectedItemsCount} selected`;
-      } else {
-        this.selectedIndicatorChipLabel = null;
-      }
+      // TODO: get this working
     }
   };
 
@@ -1406,18 +1402,24 @@ export class Combobox
     let chipInvisible, label;
     if (compactDisplayMode) {
       chipInvisible = true;
-    } else if (displayMode === "single") {
-      label = `${selectedHiddenChipsCount} selected`;
-    } else if (displayMode === "fit-to-line") {
-      if ((isAllSelected() && selectedVisibleChipsCount === 0) || selectedHiddenChipsCount === 0) {
-        chipInvisible = true;
-      } else {
-        chipInvisible = false;
+    } else {
+      if (displayMode === "single") {
+        chipInvisible = isAllSelected() ? true : false;
+        label = `${selectedHiddenChipsCount} selected`;
+      } else if (displayMode === "fit-to-line") {
+        if (
+          (isAllSelected() && selectedVisibleChipsCount === 0) ||
+          selectedHiddenChipsCount === 0
+        ) {
+          chipInvisible = true;
+        } else {
+          chipInvisible = false;
+        }
+        label =
+          selectedVisibleChipsCount > 0
+            ? `+${selectedHiddenChipsCount}`
+            : `${selectedHiddenChipsCount} selected`;
       }
-      label =
-        selectedVisibleChipsCount > 0
-          ? `+${selectedHiddenChipsCount}`
-          : `${selectedHiddenChipsCount} selected`;
     }
     return (
       <calcite-chip
