@@ -24,8 +24,9 @@ const simpleHTML = html`<calcite-stack>
 
 export const simple = (): string => simpleHTML;
 
-export const stretchActionMenu = (): string => html`
+export const stretchSlottedContent = (): string => html`
   <calcite-stack>
+    <calcite-handle slot="actions-start"></calcite-handle>
     <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
     Hello World
     <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
