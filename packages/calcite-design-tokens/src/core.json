@@ -15,6 +15,13 @@
           "type": "fontFamilies"
         }
       },
+      "font-style": {
+        "italic": {
+          "value": "italic",
+          "type": "fontStyle",
+          "description": "used in ratings"
+        }
+      },
       "font-weight": {
         "ultralight": {
           "value": "UltraLight",
@@ -1282,310 +1289,750 @@
         }
       }
     },
+    "size": {
+      "default": {
+        "0": {
+          "value": "2px",
+          "type": "sizing"
+        },
+        "1": {
+          "value": "4px",
+          "type": "sizing"
+        },
+        "2": {
+          "value": "6px",
+          "type": "sizing"
+        },
+        "3": {
+          "value": "8px",
+          "type": "sizing"
+        },
+        "4": {
+          "value": "10px",
+          "type": "sizing"
+        },
+        "5": {
+          "value": "12px",
+          "type": "sizing"
+        },
+        "6": {
+          "value": "14px",
+          "type": "sizing"
+        },
+        "7": {
+          "value": "16px",
+          "type": "sizing"
+        },
+        "8": {
+          "value": "20px",
+          "type": "sizing"
+        },
+        "9": {
+          "value": "24px",
+          "type": "sizing"
+        },
+        "10": {
+          "value": "28px",
+          "type": "sizing"
+        },
+        "11": {
+          "value": "32px",
+          "type": "sizing"
+        },
+        "12": {
+          "value": "36px",
+          "type": "sizing"
+        },
+        "13": {
+          "value": "40px",
+          "type": "sizing"
+        },
+        "14": {
+          "value": "44px",
+          "type": "sizing"
+        },
+        "15": {
+          "value": "48px",
+          "type": "sizing"
+        },
+        "16": {
+          "value": "56px",
+          "type": "sizing"
+        },
+        "17": {
+          "value": "64px",
+          "type": "sizing"
+        },
+        "18": {
+          "value": "72px",
+          "type": "sizing"
+        },
+        "19": {
+          "value": "80px",
+          "type": "sizing"
+        },
+        "20": {
+          "value": "96px",
+          "type": "sizing"
+        },
+        "21": {
+          "value": "112px",
+          "type": "sizing"
+        },
+        "22": {
+          "value": "128px",
+          "type": "sizing"
+        },
+        "23": {
+          "value": "144px",
+          "type": "sizing"
+        },
+        "24": {
+          "value": "160px",
+          "type": "sizing"
+        },
+        "25": {
+          "value": "192px",
+          "type": "sizing"
+        },
+        "26": {
+          "value": "224px",
+          "type": "sizing"
+        },
+        "27": {
+          "value": "256px",
+          "type": "sizing"
+        },
+        "28": {
+          "value": "288px",
+          "type": "sizing"
+        },
+        "none": {
+          "value": "0px",
+          "type": "sizing"
+        }
+      }
+    },
     "sizing": {
       "0": {
         "value": "2px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "1": {
         "value": "4px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "2": {
         "value": "6px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "3": {
         "value": "8px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "4": {
         "value": "10px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "5": {
         "value": "12px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "6": {
         "value": "14px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "7": {
         "value": "16px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "8": {
         "value": "20px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "9": {
         "value": "24px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "10": {
         "value": "28px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "11": {
         "value": "32px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "12": {
         "value": "36px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "13": {
         "value": "40px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "14": {
         "value": "44px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "15": {
         "value": "48px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "16": {
         "value": "56px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "17": {
         "value": "64px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "18": {
         "value": "72px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "19": {
         "value": "80px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "20": {
         "value": "96px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "21": {
         "value": "112px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "22": {
         "value": "128px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "23": {
         "value": "144px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "24": {
         "value": "160px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "25": {
         "value": "192px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "26": {
         "value": "224px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "27": {
         "value": "256px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "28": {
         "value": "288px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "none": {
         "value": "0px",
-        "type": "sizing"
+        "type": "sizing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because the type \"size\" is prefered by designer",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       }
     },
     "spacing": {
       "0": {
         "value": "2px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "1": {
         "value": "4px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "2": {
         "value": "6px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "3": {
         "value": "8px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "4": {
         "value": "10px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "5": {
         "value": "12px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "6": {
         "value": "14px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "7": {
         "value": "16px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "8": {
         "value": "20px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "9": {
         "value": "24px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "10": {
         "value": "28px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "11": {
         "value": "32px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "12": {
         "value": "36px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "13": {
         "value": "40px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "14": {
         "value": "44px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "15": {
         "value": "48px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "16": {
         "value": "56px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "17": {
         "value": "64px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "18": {
         "value": "72px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "19": {
         "value": "80px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "20": {
         "value": "96px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "21": {
         "value": "112px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "22": {
         "value": "128px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "23": {
         "value": "144px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "24": {
         "value": "160px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "25": {
         "value": "192px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "26": {
         "value": "224px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "27": {
         "value": "256px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "28": {
         "value": "288px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "none": {
         "value": "0px",
-        "type": "spacing"
+        "type": "spacing",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       }
     },
     "breakpoint": {
+      "default": {
+        "0": {
+          "value": 0,
+          "type": "sizing"
+        },
+        "154": {
+          "value": 154,
+          "type": "sizing"
+        },
+        "320": {
+          "value": 320,
+          "type": "sizing"
+        },
+        "328": {
+          "value": 328,
+          "type": "sizing"
+        },
+        "476": {
+          "value": 476,
+          "type": "sizing"
+        },
+        "504": {
+          "value": 504,
+          "type": "sizing"
+        },
+        "678": {
+          "value": 678,
+          "type": "sizing"
+        },
+        "768": {
+          "value": 768,
+          "type": "sizing"
+        },
+        "854": {
+          "value": 854,
+          "type": "sizing"
+        },
+        "1152": {
+          "value": 1152,
+          "type": "sizing"
+        },
+        "1440": {
+          "value": 1440,
+          "type": "sizing"
+        }
+      },
       "height": {
         "xxs": {
           "min": {
             "value": 0,
             "type": "sizing",
-            "description": "Small handheld devices and mini-windows"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "max": {
             "value": 153,
             "type": "sizing",
-            "description": "Small handheld devices and mini-windows"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           }
         },
         "xs": {
           "max": {
             "value": 328,
             "type": "sizing",
-            "description": "Handheld devices"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "min": {
             "value": 154,
             "type": "sizing",
-            "description": "Handheld devices"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           }
         },
         "sm": {
           "max": {
             "value": 503,
             "type": "sizing",
-            "description": "Small tablets"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "min": {
             "value": 329,
             "type": "sizing",
-            "description": "Small tablets"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           }
         },
         "md": {
           "max": {
             "value": 678,
             "type": "sizing",
-            "description": "Small laptops"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "min": {
             "value": 504,
             "type": "sizing",
-            "description": "Small laptops"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           }
         },
         "lg": {
           "max": {
             "value": 853,
             "type": "sizing",
-            "description": "Large laptops and desktop computers"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "min": {
             "value": 679,
             "type": "sizing",
-            "description": "Large laptops and desktop computers"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version because spacing values duplicate size",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           }
         }
       },
@@ -1594,27 +2041,42 @@
           "xxs": {
             "value": "320px",
             "type": "sizing",
-            "description": "To be deprecated"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "xs": {
             "value": "476px",
             "type": "sizing",
-            "description": "To be deprecated"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "sm": {
             "value": "768px",
             "type": "sizing",
-            "description": "To be deprecated"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "md": {
             "value": "1152px",
             "type": "sizing",
-            "description": "To be deprecated"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           },
           "lg": {
             "value": "1440px",
             "type": "sizing",
-            "description": "To be deprecated"
+            "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+            "extensions": {
+              "calcite.deprecated": true
+            }
           }
         },
         "xxs": {
@@ -1679,11 +2141,11 @@
         }
       },
       "margin": {
-        "value": "$core.spacing.9",
+        "value": "{core.spacing.9}",
         "type": "spacing"
       },
       "gutter": {
-        "value": "$core.spacing.7",
+        "value": "{core.spacing.7}",
         "type": "spacing"
       },
       "content": {
@@ -1724,43 +2186,120 @@
     "z-index": {
       "deep": {
         "value": "-999999",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "default": {
         "value": "1",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "sticky": {
         "value": "300",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "header": {
         "value": "400",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "toast": {
         "value": "500",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "dropdown": {
         "value": "600",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "overlay": {
         "value": "700",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "modal": {
         "value": "800",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "popup": {
         "value": "900",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "tooltip": {
         "value": "901",
-        "type": "other"
+        "type": "other",
+        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major version in favor of t-shirt sizing tokens.",
+        "extensions": {
+          "calcite.deprecated": true
+        }
+      },
+
+      "0": {
+        "value": "-999999",
+        "type": "stacking"
+      },
+      "1": {
+        "value": "1",
+        "type": "stacking"
+      },
+      "3": {
+        "value": "300",
+        "type": "stacking"
+      },
+      "4": {
+        "value": "400",
+        "type": "stacking"
+      },
+      "5": {
+        "value": "500",
+        "type": "stacking"
+      },
+      "6": {
+        "value": "600",
+        "type": "stacking"
+      },
+      "7": {
+        "value": "700",
+        "type": "stacking"
+      },
+      "8": {
+        "value": "800",
+        "type": "stacking"
+      },
+      "9": {
+        "value": "900",
+        "type": "stacking"
       }
     },
     "box-shadow": {
@@ -1770,51 +2309,53 @@
           "y": "0",
           "blur": "0",
           "spread": "0",
-          "color": "rgba($core.color.neutral.blk-240, $core.opacity.0)",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
           "type": "dropShadow"
         },
         "type": "boxShadow"
       },
       "1": {
-        "value": [
-          {
-            "x": "0",
-            "y": "2",
-            "blur": "8",
-            "spread": "0",
-            "color": "rgba($core.color.neutral.blk-240, $core.opacity.4)",
-            "type": "dropShadow"
-          },
-          {
-            "x": "0",
-            "y": "4",
-            "blur": "16",
-            "spread": "0",
-            "color": "rgba($core.color.neutral.blk-240, $core.opacity.8)",
-            "type": "dropShadow"
-          }
-        ],
+        "value": {
+          "x": "0",
+          "y": "2",
+          "blur": "8",
+          "spread": "0",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+          "type": "dropShadow"
+        },
         "type": "boxShadow"
       },
       "2": {
-        "value": [
-          {
-            "x": "0",
-            "y": "4",
-            "blur": "20",
-            "spread": "0",
-            "color": "rgba($core.color.neutral.blk-240, $core.opacity.8)",
-            "type": "dropShadow"
-          },
-          {
-            "x": "0",
-            "y": "12",
-            "blur": "32",
-            "spread": "-2",
-            "color": "rgba($core.color.neutral.blk-240, $core.opacity.10)",
-            "type": "dropShadow"
-          }
-        ],
+        "value": {
+          "x": "0",
+          "y": "4",
+          "blur": "16",
+          "spread": "0",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "3": {
+        "value": {
+          "x": "0",
+          "y": "4",
+          "blur": "20",
+          "spread": "0",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "4": {
+        "value": {
+          "x": "0",
+          "y": "12",
+          "blur": "32",
+          "spread": "-2",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.10})",
+          "type": "dropShadow"
+        },
         "type": "boxShadow"
       },
       "none": {
@@ -1823,7 +2364,7 @@
           "y": "0",
           "blur": "0",
           "spread": "0",
-          "color": "rgba($core.color.neutral.blk-240, $core.opacity.0)",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
           "type": "dropShadow"
         },
         "type": "boxShadow"
