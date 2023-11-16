@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
@@ -109,3 +109,23 @@ export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
     ></calcite-input-text>
   </calcite-label>
 `;
+
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(html`
+    <style>
+      .breakpoint-story-container {
+        flex-wrap: wrap;
+      }
+      .breakpoint-story-container > * {
+        flex-basis: 100%;
+      }
+    </style>
+    <calcite-input-text
+      scale="{scale}"
+      placeholder="Placeholder: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
+    ></calcite-input-text>
+    <calcite-input-text
+      scale="{scale}"
+      value="Value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
+    ></calcite-input-text>
+  `);

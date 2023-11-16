@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "prebuild": "./support/stencilDoubleBuildTypesWorkaround.sh && ts-node ./support/patchEventDetailTypeImports.ts",
+    "prebuild": "./support/stencilDoubleBuildTypesWorkaround.sh",
+    "prepublishOnly": "./support/prepublishBuildForCorrectVersion.sh",
     "build": "ng build",
     "clean": "rimraf dist node_modules .turbo .angular projects/component-library/dist"
   },
