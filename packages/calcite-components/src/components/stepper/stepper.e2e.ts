@@ -447,28 +447,29 @@ describe("calcite-stepper", () => {
 
       await page.waitForChanges();
 
-      const finalSelectedItem = await page.evaluate(async (templateHTML: string): Promise<string> => {
-        const wrapperName = "test-calcite-stepper";
+      const finalSelectedItem = await page.evaluate(
+        async (templateHTML: string): Promise<string> => {
+          const wrapperName = "test-calcite-stepper";
 
-        customElements.define(
-          wrapperName,
-          class extends HTMLElement {
-            constructor() {
-              super();
+          customElements.define(
+            wrapperName,
+            class extends HTMLElement {
+              constructor() {
+                super();
+              }
+
+              connectedCallback(): void {
+                this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
+                const stepper = this.shadowRoot.getElementById("stepper") as HTMLCalciteStepperElement;
+                this.shadowRoot.getElementById("next").addEventListener("click", () => stepper.nextStep());
+                this.shadowRoot.getElementById("prev").addEventListener("click", () => stepper.prevStep());
+              }
             }
+          );
 
-            connectedCallback(): void {
-              this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
-              const stepper = this.shadowRoot.getElementById("stepper") as HTMLCalciteStepperElement;
-              this.shadowRoot.getElementById("next").addEventListener("click", () => stepper.nextStep());
-              this.shadowRoot.getElementById("prev").addEventListener("click", () => stepper.prevStep());
-            }
-          }
-        );
+          document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
-        document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
-
-        const wrapper = document.querySelector(wrapperName);
+          const wrapper = document.querySelector(wrapperName);
 
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
@@ -479,8 +480,10 @@ describe("calcite-stepper", () => {
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-        return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
-      }, templateHTML);
+          return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
+        },
+        [templateHTML]
+      );
 
       expect(finalSelectedItem).toBe("item-3");
     });

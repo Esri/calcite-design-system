@@ -411,8 +411,8 @@ export function selectionAndDeselection(listType: ListType): void {
       });
       const properties = await eventDetail.getProperties();
       expect(eventDetail).toBeDefined();
-      expect(properties.get("size").remoteObject().value).toBe(1);
-      expect(properties.get("hasItem").remoteObject().value).toBe(true);
+      expect(properties.get("size")._remoteObject.value).toBe(1);
+      expect(properties.get("hasItem")._remoteObject.value).toBe(true);
     });
   });
 
@@ -595,12 +595,12 @@ export function itemRemoval(listType: ListType): void {
 
     const removableItems = await page.$$eval(
       `calcite-${listType}-list-item`,
-      (items, listType, selector: string) => {
+      (items: ListElement[], listType, selector: string) => {
         items.forEach((item) => {
           listType === "pick"
             ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
             : item.shadowRoot
-                .querySelector<HTMLCalcitePickListItemElement>("calcite-pick-list-item")
+                .querySelector<ListElement>("calcite-pick-list-item")
                 .shadowRoot.querySelector<HTMLElement>(selector)
                 .click();
         });
