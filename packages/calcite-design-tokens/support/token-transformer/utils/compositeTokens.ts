@@ -1,39 +1,11 @@
-import { ExpandFilter } from "../utils/transformOptions";
-import { matchPlaceholderElement } from "./regex.js";
 import { DesignToken } from "style-dictionary/types/DesignToken";
-import { SingleToken } from "@tokens-studio/types";
 import { paramCase } from "change-case";
+import { typeMap } from "../../types/tokenTypes/typeMaps";
+import { ExpandFilter } from "../../types/styleDictionary";
+import { SingleToken } from "../../types/tokenTypes";
 
-// A customized type map based off Token Studio.
-// This determines the applied "type" associated with each Style Dictionary token value
-const typeMaps = {
-  boxShadow: {
-    x: "dimension",
-    y: "dimension",
-    blur: "dimension",
-    spread: "dimension",
-    type: "other",
-    color: "color",
-  },
-  border: {
-    width: "border-width",
-    style: "other",
-  },
-  composition: {
-    typography: "font-size",
-    fontWeight: "font-weight",
-  },
-  typography: {
-    fontFamily: "font-family",
-    fontWeight: "font-weights",
-    lineHeight: "line-heights",
-    fontSize: "font-size",
-    letterSpacing: "letter-spacing",
-    paragraphSpacing: "paragraph-spacing",
-    textDecoration: "font-style",
-    textCase: "text-case",
-  },
-};
+// Match files and tokens which include "[" or "]"
+const matchPlaceholderElement = new RegExp(/[\[\]]/, "g");
 
 /**
  * Get type from type map
@@ -42,7 +14,7 @@ const typeMaps = {
  * @param {DesignToken} compositeToken a Style Dictionary token
  * @returns {string} approved token type
  */
-export const getType = (key: string, compositeToken: DesignToken): string => typeMaps[compositeToken.type][key] ?? key;
+export const getType = (key: string, compositeToken: DesignToken): string => typeMap[compositeToken.type][key] ?? key;
 
 /**
  * This is a recursive function to dig into composite tokens and lift up the token values in a Style Dictionary format.

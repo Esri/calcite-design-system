@@ -1,6 +1,3 @@
-// Match files and tokens which include "[" or "]"
-export const matchPlaceholderElement = new RegExp(/[\[\]]/, "g");
-
 // Match custom variable indicator created by Designers in Token Studio.
 // Using the ${token.name} format in Token Studio makes it much easier for Designers to search for token references while doing their work.
 export const tokenStudioCustomVariableIndicator = new RegExp(/\$[.\w-]+/, "g");
