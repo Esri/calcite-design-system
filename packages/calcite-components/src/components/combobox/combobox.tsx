@@ -1405,7 +1405,14 @@ export class Combobox
       chipInvisible = true;
     } else {
       if (displayMode === "single") {
-        chipInvisible = isAllSelected() ? true : false;
+        const selectedItemsCount = getSelectedItems().length;
+        if (isAllSelected()) {
+          chipInvisible = true;
+        } else if (selectedItemsCount > 0) {
+          chipInvisible = false;
+        } else {
+          chipInvisible = true;
+        }
         label = `${getSelectedItems().length} selected`;
       } else if (displayMode === "fit-to-line") {
         if (
@@ -1449,10 +1456,15 @@ export class Combobox
     } = this;
     let chipInvisible, label;
     if (compactDisplayMode) {
+      const selectedItemsCount = getSelectedItems().length;
       chipInvisible = isAllSelected() ? true : false;
-      if (displayMode === "fit-to-line") {
+      if (isAllSelected()) {
+        chipInvisible = true;
+      } else if (displayMode === "fit-to-line") {
+        chipInvisible = selectedHiddenChipsCount > 0 ? false : true;
         label = `${selectedHiddenChipsCount || 0}`;
       } else if (displayMode === "single") {
+        chipInvisible = selectedItemsCount > 0 ? false : true;
         label = `${getSelectedItems().length}`;
       }
     } else {
