@@ -3,75 +3,75 @@
     "font": {
       "heading": {
         "light": {
-          "value": "$semantic.ui.color.text.1.light",
+          "value": "{semantic.ui.color.text.1.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
+          "value": "{semantic.ui.color.text.1.dark}",
           "type": "color"
         },
         "md": {
-          "value": "$semantic.font.default.medium.0h",
+          "value": "{semantic.font.default.medium.0h}",
           "type": "typography"
         }
       },
       "description": {
         "light": {
-          "value": "$semantic.ui.color.text.2.light",
+          "value": "{semantic.ui.color.text.2.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.2.dark",
+          "value": "{semantic.ui.color.text.2.dark}",
           "type": "color"
         },
         "md": {
-          "value": "$semantic.font.default.regular.-1h",
+          "value": "{semantic.font.default.regular.-1h}",
           "type": "typography"
         }
       }
     },
     "icon": {
       "light": {
-        "value": "$semantic.ui.color.text.3.light",
+        "value": "{semantic.ui.color.text.3.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
+        "value": "{semantic.ui.color.text.3.dark}",
         "type": "color"
       }
     },
     "background": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
+          "value": "{semantic.ui.color.foreground.1.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
+          "value": "{semantic.ui.color.foreground.1.dark}",
           "type": "color"
         }
       }
     },
     "border-radius": {
       "md": {
-        "value": "$core.border.border-radius.none",
+        "value": "{core.border.border-radius.none}",
         "type": "borderRadius"
       }
     },
     "icon-size": {
       "md": {
-        "value": "$core.sizing.9",
+        "value": "{core.sizing.9}",
         "type": "sizing"
       }
     },
     "border": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.border.2.light",
+          "value": "{semantic.ui.color.border.2.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.border.2.dark",
+          "value": "{semantic.ui.color.border.2.dark}",
           "type": "color"
         }
       }
