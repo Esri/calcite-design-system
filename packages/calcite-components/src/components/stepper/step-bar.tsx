@@ -1,4 +1,5 @@
 import { FunctionalComponent, h } from "@stencil/core";
+
 interface StepBarProps {
   isActive: boolean;
   isComplete: boolean;

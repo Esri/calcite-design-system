@@ -374,7 +374,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   private guid = `calcite-stepper-action-${guid()}`;
 
-  containerEl: HTMLDivElement;
+  private containerEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -406,7 +406,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     const totalMinWidthOfItems = totalItems * this.getMinWidthOfStepperItem();
     const totalRowGap =
       (totalItems - 1) * (parseInt(window.getComputedStyle(this.containerEl).rowGap) || 0);
-    const itemDataAttr = "data-display";
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
       if (this.singleViewMode && !currentActivePositionChanged) {
@@ -417,9 +416,11 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
         if (index !== activePosition) {
-          item.setAttribute(itemDataAttr, "hide");
+          item.setAttribute("hidden", "true");
+          item.setAttribute("aria-hidden", "true");
         } else {
-          item.setAttribute(itemDataAttr, "visible");
+          item.removeAttribute("hidden");
+          item.removeAttribute("aria-hidden");
           item.singleViewMode = true;
         }
       });
@@ -431,7 +432,8 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       this.singleViewMode = false;
       this.setGridTemplateColumns(this.items);
       this.items.forEach((item: HTMLCalciteStepperItemElement) => {
-        item.setAttribute(itemDataAttr, "visible");
+        item.removeAttribute("hidden");
+        item.removeAttribute("aria-hidden");
         item.singleViewMode = false;
       });
     }
@@ -497,7 +499,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
         id={id}
         onClick={this.handleActionClick}
         scale={this.scale}
-        text={isPositionStart ? "Previous Step" : "Next Step"}
+        text={isPositionStart ? this.messages.previousStep : this.messages.nextStep}
       />
     ) : null;
   }
@@ -545,7 +547,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   setGridTemplateColumns = (items: Element[]): void => {
     const minWidth = this.getMinWidthOfStepperItem();
-    const spacing = Array(items.length).fill(`minmax(${minWidth}px,1fr)`).join(" ");
+    const spacing = Array(items.length).fill(`minmax(${minWidth}px, 1fr)`).join(" ");
     this.containerEl.style.gridTemplateAreas = spacing;
     this.containerEl.style.gridTemplateColumns = spacing;
   };

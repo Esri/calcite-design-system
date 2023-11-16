@@ -16,6 +16,10 @@
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
 }
 
+:host {
+  @apply flex;
+}
+
 .container {
   @apply relative
     flex
@@ -41,7 +45,7 @@
   gap: theme("spacing.2") var(--calcite-internal-stepper-item-spacing-unit-s);
 }
 
-:host([layout="horizontal"][scale="s"]) .conatiner {
+:host([layout="horizontal"][scale="s"]) .container {
   gap: theme("spacing.1") var(--calcite-internal-stepper-item-spacing-unit-s);
 }
 
@@ -50,7 +54,7 @@
 }
 
 :host([layout="horizontal"]) .container.single-view {
-  @apply flex flex-col grid-cols-none;
+  @apply flex  grid-cols-none;
 }
 
 .action-icon {

@@ -251,15 +251,11 @@ export class StepperItem
   }
 
   render(): VNode {
-    const dataAttribute = {
-      "data-display": "visible",
-    };
     return (
       <Host
         aria-current={this.selected ? "step" : "false"}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
-        {...dataAttribute}
       >
         <div class={CSS.container}>
           {this.complete && (

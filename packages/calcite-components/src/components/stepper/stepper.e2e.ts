@@ -68,12 +68,27 @@ describe("calcite-stepper", () => {
           <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`,
-      { display: "grid" }
+      { display: "flex" }
     );
   });
 
   describe("translation support", () => {
     t9n("calcite-stepper");
+  });
+
+  it("root container display is set to grid in horizontal layout", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item heading="Step 1" id="step-1">
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>`);
+
+    const containerEl = await page.find("calcite-stepper >>> .container");
+    expect((await containerEl.getComputedStyle()).display).toBe("grid");
   });
 
   it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {

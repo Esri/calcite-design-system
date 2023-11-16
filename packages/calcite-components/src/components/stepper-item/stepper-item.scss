@@ -369,10 +369,6 @@
   }
 }
 
-:host([layout="horizontal"][data-display="hide"]) {
-  display: none;
-}
-
 .visually-hidden {
   @apply sr-only;
 }
