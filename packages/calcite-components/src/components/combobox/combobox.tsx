@@ -914,8 +914,6 @@ export class Combobox
       if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
         this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
       }
-    } else if (displayMode === "single") {
-      // TODO: get this working
     }
   };
 
