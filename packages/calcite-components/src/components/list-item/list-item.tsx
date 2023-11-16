@@ -276,6 +276,8 @@ export class ListItem
 
   @State() hasContentEnd = false;
 
+  @State() hasContentBottom = false;
+
   containerEl: HTMLTableRowElement;
 
   contentEl: HTMLTableCellElement;
@@ -474,6 +476,35 @@ export class ListItem
     );
   }
 
+  renderContentBottom(): VNode {
+    const { hasContentBottom, visualLevel } = this;
+    return (
+      <div
+        class={CSS.contentBottom}
+        hidden={!hasContentBottom}
+        style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+      >
+        <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
+      </div>
+    );
+  }
+
+  renderDefaultContainer(): VNode {
+    return (
+      <div
+        class={{
+          [CSS.nestedContainer]: true,
+          [CSS.nestedContainerHidden]: this.openable && !this.open,
+        }}
+      >
+        <slot
+          onSlotchange={this.handleDefaultSlotChange}
+          ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
+        />
+      </div>
+    );
+  }
+
   renderContentProperties(): VNode {
     const { label, description, hasCustomContent } = this;
 
@@ -535,6 +566,7 @@ export class ListItem
       selectionAppearance,
       selectionMode,
       closed,
+      visualLevel,
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -559,7 +591,7 @@ export class ListItem
           onFocus={this.focusCellNull}
           onKeyDown={this.handleItemKeyDown}
           role="row"
-          style={{ "--calcite-list-item-spacing-indent-multiplier": `${this.visualLevel}` }}
+          style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
           tabIndex={active ? 0 : -1}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
@@ -571,17 +603,8 @@ export class ListItem
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
         </tr>
-        <div
-          class={{
-            [CSS.nestedContainer]: true,
-            [CSS.nestedContainerHidden]: openable && !open,
-          }}
-        >
-          <slot
-            onSlotchange={this.handleDefaultSlotChange}
-            ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
-          />
-        </div>
+        {this.renderContentBottom()}
+        {this.renderDefaultContainer()}
       </Host>
     );
   }
@@ -619,6 +642,10 @@ export class ListItem
 
   handleContentEndSlotChange = (event: Event): void => {
     this.hasContentEnd = slotChangeHasAssignedElement(event);
+  };
+
+  handleContentBottomSlotChange = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
   };
 
   setSelectionDefaults(): void {

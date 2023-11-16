@@ -197,6 +197,34 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
   </calcite-list-item>
 </calcite-list> `;
 
+export const contentBottomSlots = (): string => html`<calcite-list ${knobsHTML()}>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+</calcite-list> `;
+
+export const contentBottomSlotsNested = (): string => html`<calcite-list ${knobsHTML()}>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+    <calcite-list
+      ><calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
+        <span slot="content-bottom">Some value or something and a <b>thing</b>.</span
+        ><calcite-list
+          ><calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+            <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+          </calcite-list-item></calcite-list
+        >
+      </calcite-list-item></calcite-list
+    >
+  </calcite-list-item>
+</calcite-list> `;
+
 export const richContent = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
