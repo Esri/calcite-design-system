@@ -1,7 +1,7 @@
 {
   "core": {
     "font": {
-      "font-family": {
+      "family": {
         "primary": {
           "value": "Avenir Next LT Pro",
           "type": "fontFamilies"
@@ -15,14 +15,14 @@
           "type": "fontFamilies"
         }
       },
-      "font-style": {
+      "style": {
         "italic": {
           "value": "italic",
           "type": "fontStyle",
           "description": "used in ratings"
         }
       },
-      "font-weight": {
+      "weight": {
         "ultralight": {
           "value": "UltraLight",
           "type": "fontWeights",
@@ -160,7 +160,7 @@
           }
         }
       },
-      "font-size": {
+      "size": {
         "0": {
           "value": "10px",
           "type": "fontSizes"

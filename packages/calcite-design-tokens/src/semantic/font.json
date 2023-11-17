@@ -3,18 +3,18 @@
     "font": {
       "family": {
         "default": {
-          "value": "{core.font.font-family.primary}",
+          "value": "{core.font.family.primary}",
           "type": "fontFamilies"
         }
       },
       "weight": {
         "light": {
-          "value": "{core.font.font-weight.light}",
+          "value": "{core.font.weight.light}",
           "type": "fontWeights",
           "description": "only for Avenir Next World (secondary font family)"
         },
         "normal": {
-          "value": "{core.font.font-weight.regular}",
+          "value": "{core.font.weight.regular}",
           "type": "fontWeights",
           "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\"",
           "extensions": {
@@ -22,19 +22,19 @@
           }
         },
         "regular": {
-          "value": "{core.font.font-weight.regular}",
+          "value": "{core.font.weight.regular}",
           "type": "fontWeights"
         },
         "medium": {
-          "value": "{core.font.font-weight.medium}",
+          "value": "{core.font.weight.medium}",
           "type": "fontWeights"
         },
         "semibold": {
-          "value": "{core.font.font-weight.demi}",
+          "value": "{core.font.weight.demi}",
           "type": "fontWeights"
         },
         "bold": {
-          "value": "{core.font.font-weight.bold}",
+          "value": "{core.font.weight.bold}",
           "type": "fontWeights"
         }
       },
@@ -70,7 +70,7 @@
       },
       "style": {
         "emphasis": {
-          "value": "{core.font.font-style.italic}",
+          "value": "{core.font.style.italic}",
           "type": "fontStyle",
           "description": "used in ratings"
         }

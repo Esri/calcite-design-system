@@ -47,22 +47,22 @@
         "font": {
           "sm": {
             "value": {
-              "typography": "{core.font.font-size.1}",
-              "fontWeights": "{core.font.font-weight.medium-italic}"
+              "typography": "{core.font.size.1}",
+              "fontWeights": "{core.font.weight.medium-italic}"
             },
             "type": "composition"
           },
           "md": {
             "value": {
-              "typography": "{core.font.font-size.2}",
-              "fontWeights": "{core.font.font-weight.medium-italic}"
+              "typography": "{core.font.size.2}",
+              "fontWeights": "{core.font.weight.medium-italic}"
             },
             "type": "composition"
           },
           "lg": {
             "value": {
-              "typography": "{core.font.font-size.3}",
-              "fontWeights": "{core.font.font-weight.medium-italic}"
+              "typography": "{core.font.size.3}",
+              "fontWeights": "{core.font.weight.medium-italic}"
             },
             "type": "composition"
           },
