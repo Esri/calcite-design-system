@@ -15,6 +15,13 @@
           "type": "fontFamilies"
         }
       },
+      "font-style": {
+        "italic": {
+          "value": "italic",
+          "type": "fontStyle",
+          "description": "used in ratings"
+        }
+      },
       "font-weight": {
         "ultralight": {
           "value": "UltraLight",
