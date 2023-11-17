@@ -513,6 +513,8 @@ export class Combobox
 
   @State() activeDescendant = "";
 
+  @State() compactDisplayMode = false;
+
   @State() selectedHiddenChipsCount = 0;
 
   @State() selectedVisibleChipsCount = 0;
@@ -558,6 +560,8 @@ export class Combobox
   private listContainerEl: HTMLDivElement;
 
   private ignoreSelectedEventsFlag = false;
+
+  private maxCompactBreakpoint: number;
 
   openTransitionProp = "opacity";
 
@@ -821,10 +825,6 @@ export class Combobox
   private showChip(chipEl: HTMLCalciteChipElement): void {
     chipEl.classList.remove(CSS.chipInvisible);
   }
-
-  private maxCompactBreakpoint: number;
-
-  @State() compactDisplayMode = false;
 
   private refreshDisplayMode = async () => {
     await componentLoaded(this);
