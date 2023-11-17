@@ -533,14 +533,17 @@ export class List
       numberingSystem,
     };
 
-    const count = numberStringFormatter.localize(enabledListItems.length.toString());
-
-    const showFilteredExt = filterEnabled && filterText && filteredData?.length;
-
     return !parentListEl ? (
       <div aria-live="polite" class={CSS.assistiveText}>
-        {showFilteredExt ? <div key="aria-filter-enabled">{messages.filterEnabled}</div> : null}
-        <div key="aria-item-count">{messages.total.replace("{count}", count)}</div>
+        {filterEnabled && filterText && filteredData?.length ? (
+          <div key="aria-filter-enabled">{messages.filterEnabled}</div>
+        ) : null}
+        <div key="aria-item-count">
+          {messages.total.replace(
+            "{count}",
+            numberStringFormatter.localize(enabledListItems.length.toString())
+          )}
+        </div>
         {enabledListItems.length ? (
           <ol key="aria-item-list">
             {enabledListItems.map((item) => (
