@@ -89,7 +89,7 @@ export function getElementProp(el: Element, attribute: string, fallbackValue: an
  */
 export function getElementWidth(el: HTMLElement): number {
   if (!el) {
-    return;
+    return 0;
   }
   return Math.round(parseFloat(getComputedStyle(el).inlineSize.replace("px", "")));
 }
@@ -125,7 +125,7 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
  */
 export function getTextWidth(text: string, font: string): number {
   if (!text) {
-    return;
+    return 0;
   }
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
