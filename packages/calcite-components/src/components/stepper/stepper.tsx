@@ -171,7 +171,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   render(): VNode {
     return (
-      <Host aria-label={"Progress steps"} role="region">
+      <Host aria-label={this.messages.label} role="region">
         <div
           class={{ container: true, [CSS.singleView]: this.singleViewMode }}
           ref={this.setContainerEl}
