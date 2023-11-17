@@ -165,7 +165,7 @@ export default {
         "2-lg": "0 12px 32px -2px rgba(0, 0, 0, 0.1), 0 4px 20px 0 rgba(0, 0, 0, 0.08)",
         "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
         "border-bottom": "0 1px 0 var(--calcite-ui-border-3)",
-        "border-top": "0px -1px 0 var(--calcite-ui-border-3)",
+        "border-top": "0 -1px 0 var(--calcite-ui-border-3)",
         "outline-active": "0 0 0 1px var(--calcite-ui-brand)",
         none: "none",
         xs: "0 0 0 1px rgba(0, 0, 0, 0.05)",

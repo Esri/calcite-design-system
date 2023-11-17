@@ -360,7 +360,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   sortable: Sortable;
 
-  private topLevelAncestorsMap = new Map<HTMLCalciteListItemElement, HTMLCalciteListItemElement>();
+  private ancestorOfFirstFilteredItem: HTMLCalciteListItemElement;
 
   // --------------------------------------------------------------------------
   //
@@ -749,41 +749,25 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   };
 
   private findAncestorOfFirstFilteredItem = (filteredItems: HTMLCalciteListItemElement[]): void => {
-    if (this.topLevelAncestorsMap.size > 0) {
-      this.topLevelAncestorsMap.forEach(
-        (value: HTMLCalciteListItemElement, key: HTMLCalciteListItemElement) => {
-          value.removeAttribute("data-filter");
-          key.removeAttribute("data-filter");
-        }
-      );
-      this.topLevelAncestorsMap.clear();
-    }
-
+    this.ancestorOfFirstFilteredItem?.removeAttribute("data-filter");
     filteredItems.forEach((item) => {
-      if (item.hasAttribute("data-filter")) {
-        item.removeAttribute("data-filter");
-      }
+      item.removeAttribute("data-filter");
     });
 
-    const firstFilteredItem = filteredItems[0];
-    const topLevelAnchor = this.getTopLevelAncestorItemElement(firstFilteredItem);
-    if (topLevelAnchor) {
-      this.topLevelAncestorsMap.set(firstFilteredItem, topLevelAnchor);
-    }
-
+    this.ancestorOfFirstFilteredItem = this.getTopLevelAncestorItemElement(filteredItems[0]);
     filteredItems[0].setAttribute("data-filter", "0");
-    this.topLevelAncestorsMap.get(filteredItems[0])?.setAttribute("data-filter", "0");
+    this.ancestorOfFirstFilteredItem?.setAttribute("data-filter", "0");
   };
 
   private getTopLevelAncestorItemElement = (
     el: HTMLCalciteListItemElement
   ): HTMLCalciteListItemElement | null => {
-    let closestParent = el.parentElement.closest("calcite-list-item") as HTMLCalciteListItemElement;
+    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
 
     while (closestParent) {
-      const closestListItemAncestor = closestParent.parentElement.closest(
-        "calcite-list-item"
-      ) as HTMLCalciteListItemElement;
+      const closestListItemAncestor =
+        closestParent.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+
       if (closestListItemAncestor) {
         closestParent = closestListItemAncestor;
       } else {
