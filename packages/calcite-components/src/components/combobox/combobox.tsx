@@ -125,7 +125,7 @@ export class Combobox
    * - "single" displays a single chip indicating the total amount of selected items
    * - "fit-to-line" only displays selected chips that fit horizontally, with a non-closable chip indicating additional selected items as needed
    */
-  @Prop() displayMode: DisplayMode = "show-all";
+  @Prop({ reflect: true }) displayMode: DisplayMode = "show-all";
 
   /**When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
