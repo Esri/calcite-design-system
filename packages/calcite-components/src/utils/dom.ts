@@ -130,7 +130,7 @@ export function getTextWidth(text: string, font: string): number {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   context.font = font;
-  return Math.ceil(context.measureText(text).width);
+  return context.measureText(text).width;
 }
 /**
  * This helper returns the host of a ShadowRoot.
