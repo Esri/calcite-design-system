@@ -872,7 +872,7 @@ export class Combobox
 
     if (displayMode === "fit-to-line") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-        (chipEl) => chipEl.hasAttribute("closable")
+        (chipEl) => chipEl.closable
       );
 
       let availableHorizontalChipElSpace = Math.round(
