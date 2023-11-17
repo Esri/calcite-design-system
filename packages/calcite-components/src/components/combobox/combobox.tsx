@@ -538,7 +538,7 @@ export class Combobox
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  resizeObserver = createObserver("resize", () => {
+  private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
     this.refreshDisplayMode();
   });
