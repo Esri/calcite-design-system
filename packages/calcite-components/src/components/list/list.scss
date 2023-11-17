@@ -40,11 +40,8 @@
 // removes shadow for the first item in filteredItems of the list.
 ::slotted(calcite-list-item[data-filter]) {
   @apply shadow-none;
+  margin-block-start: 0px;
 }
-
-// ::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
-//   @apply shadow-none;
-// }
 
 .sticky-pos {
   @apply sticky

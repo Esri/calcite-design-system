@@ -362,7 +362,7 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
   </calcite-list-item>
 </calcite-list>`;
 
-export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
+export const filteredChildListItems_TestOnly = (): string => html`<calcite-list
     filter-enabled
     filter-text="est"
     filter-placeholder="Find content"
