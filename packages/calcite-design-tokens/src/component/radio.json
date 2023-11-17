@@ -2,29 +2,29 @@
   "radio": {
     "comp-size": {
       "sm": {
-        "value": "{core.sizing.5}",
+        "value": "{core.size.default.5}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.6}",
+        "value": "{core.size.default.6}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       }
     },
     "space-between": {
       "sm": {
-        "value": "{core.sizing.3}",
+        "value": "{core.size.default.3}",
         "type": "spacing"
       },
       "md": {
-        "value": "{core.sizing.3}",
+        "value": "{core.size.default.3}",
         "type": "spacing"
       },
       "lg": {
-        "value": "{core.sizing.3}",
+        "value": "{core.size.default.3}",
         "type": "spacing"
       }
     },
@@ -108,15 +108,15 @@
     },
     "space-around": {
       "sm": {
-        "value": "{core.sizing.3}",
+        "value": "{core.size.default.3}",
         "type": "spacing"
       },
       "md": {
-        "value": "{core.sizing.5}",
+        "value": "{core.size.default.5}",
         "type": "spacing"
       },
       "lg": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "spacing"
       }
     }

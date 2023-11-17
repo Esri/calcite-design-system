@@ -31,15 +31,15 @@
     "default": {
       "comp-size": {
         "sm": {
-          "value": "{core.sizing.11}",
+          "value": "{core.size.default.11}",
           "type": "sizing"
         },
         "md": {
-          "value": "{core.sizing.17}",
+          "value": "{core.size.default.17}",
           "type": "sizing"
         },
         "lg": {
-          "value": "{core.sizing.20}",
+          "value": "{core.size.default.20}",
           "type": "sizing"
         }
       },
@@ -63,15 +63,15 @@
     "inline": {
       "comp-size": {
         "sm": {
-          "value": "{core.sizing.5}",
+          "value": "{core.size.default.5}",
           "type": "sizing"
         },
         "md": {
-          "value": "{core.sizing.7}",
+          "value": "{core.size.default.7}",
           "type": "sizing"
         },
         "lg": {
-          "value": "{core.sizing.9}",
+          "value": "{core.size.default.9}",
           "type": "sizing"
         }
       },

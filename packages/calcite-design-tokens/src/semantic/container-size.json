@@ -5,46 +5,46 @@
         "xxs": {
           "value": {
             "min": "0",
-            "max": "{core.breakpoint.default.154}"
+            "max": "{core.container-size.154}"
           },
           "type": "breakpoint",
           "description": "Small handheld devices and mini-windows"
         },
         "xs": {
           "value": {
-            "min": "{core.breakpoint.default.154} + 1",
-            "max": "{core.breakpoint.default.328}"
+            "min": "{core.container-size.154} + 1",
+            "max": "{core.container-size.328}"
           },
           "type": "breakpoint",
           "description": "Handheld devices"
         },
         "sm": {
           "value": {
-            "min": "{core.breakpoint.default.328} + 1",
-            "max": "{core.breakpoint.default.504}"
+            "min": "{core.container-size.328} + 1",
+            "max": "{core.container-size.504}"
           },
           "type": "breakpoint",
           "description": "Small tablets"
         },
         "md": {
           "value": {
-            "min": "{core.breakpoint.default.504} + 1",
-            "max": "{core.breakpoint.default.678}"
+            "min": "{core.container-size.504} + 1",
+            "max": "{core.container-size.678}"
           },
           "type": "breakpoint",
           "description": "Small laptops"
         },
         "lg": {
           "value": {
-            "min": "{core.breakpoint.default.678} + 1",
-            "max": "{core.breakpoint.default.854}"
+            "min": "{core.container-size.678} + 1",
+            "max": "{core.container-size.854}"
           },
           "type": "breakpoint",
           "description": "Large laptops and desktop computers"
         },
         "xl": {
           "value": {
-            "min": "{core.breakpoint.default.854} + 1"
+            "min": "{core.container-size.854} + 1"
           },
           "type": "breakpoint",
           "description": "Projectors and televisions"
@@ -54,46 +54,46 @@
         "xxs": {
           "value": {
             "min": 0,
-            "max": "{core.breakpoint.default.320}"
+            "max": "{core.container-size.320}"
           },
           "type": "breakpoint",
           "description": "Small handheld devices and mini-windows"
         },
         "xs": {
           "value": {
-            "min": "{core.breakpoint.default.320} + 1",
-            "max": "{core.breakpoint.default.476}"
+            "min": "{core.container-size.320} + 1",
+            "max": "{core.container-size.476}"
           },
           "type": "breakpoint",
           "description": "Handheld devices"
         },
         "sm": {
           "value": {
-            "min": "{core.breakpoint.default.476} + 1",
-            "max": "{core.breakpoint.default.768}"
+            "min": "{core.container-size.476} + 1",
+            "max": "{core.container-size.768}"
           },
           "type": "breakpoint",
           "description": "Small tablets"
         },
         "md": {
           "value": {
-            "min": "{core.breakpoint.default.768} + 1",
-            "max": "{core.breakpoint.default.1152}"
+            "min": "{core.container-size.768} + 1",
+            "max": "{core.container-size.1152}"
           },
           "type": "breakpoint",
           "description": "Small laptops"
         },
         "lg": {
           "value": {
-            "min": "{core.breakpoint.default.1152} + 1",
-            "max": "{core.breakpoint.default.1440}"
+            "min": "{core.container-size.1152} + 1",
+            "max": "{core.container-size.1440}"
           },
           "type": "breakpoint",
           "description": "Large laptops and desktop computers"
         },
         "xl": {
           "value": {
-            "min": "{core.breakpoint.default.1440} + 1"
+            "min": "{core.container-size.1440} + 1"
           },
           "type": "breakpoint",
           "description": "Projectors and televisions"

@@ -54,11 +54,11 @@
     },
     "arrow": {
       "width": {
-        "value": "{core.sizing.6}",
+        "value": "{core.size.default.6}",
         "type": "sizing"
       },
       "height": {
-        "value": "{core.sizing.2}",
+        "value": "{core.size.default.2}",
         "type": "sizing"
       }
     }

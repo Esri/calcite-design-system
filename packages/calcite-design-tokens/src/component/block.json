@@ -130,7 +130,7 @@
     },
     "icon-size": {
       "md": {
-        "value": "{core.sizing.9}",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       }
     },
@@ -172,13 +172,13 @@
     },
     "chevron-size": {
       "md": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       }
     },
     "drag-size": {
       "md": {
-        "value": "{core.sizing.9}",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       }
     },

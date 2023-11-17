@@ -40,31 +40,31 @@
       },
       "size": {
         "xs": {
-          "value": "{core.sizing.4}",
+          "value": "{core.size.default.4}",
           "type": "fontSizes"
         },
         "sm": {
-          "value": "{core.sizing.5}",
+          "value": "{core.size.default.5}",
           "type": "fontSizes"
         },
         "default": {
-          "value": "{core.sizing.6}",
+          "value": "{core.size.default.6}",
           "type": "fontSizes"
         },
         "md": {
-          "value": "{core.sizing.7}",
+          "value": "{core.size.default.7}",
           "type": "fontSizes"
         },
         "lg": {
-          "value": "{core.sizing.0} * 9",
+          "value": "{core.size.default.0} * 9",
           "type": "fontSizes"
         },
         "xl": {
-          "value": "{core.sizing.8}",
+          "value": "{core.size.default.8}",
           "type": "fontSizes"
         },
         "xxl": {
-          "value": "{core.sizing.9}",
+          "value": "{core.size.default.9}",
           "type": "fontSizes"
         }
       },
@@ -78,19 +78,19 @@
       "line-height": {
         "fixed": {
           "sm": {
-            "value": "{core.sizing.5}",
+            "value": "{core.size.default.5}",
             "type": "lineHeights"
           },
           "base": {
-            "value": "{core.sizing.7}",
+            "value": "{core.size.default.7}",
             "type": "lineHeights"
           },
           "lg": {
-            "value": "{core.sizing.8}",
+            "value": "{core.size.default.8}",
             "type": "lineHeights"
           },
           "xl": {
-            "value": "{core.sizing.9}",
+            "value": "{core.size.default.9}",
             "type": "lineHeights"
           }
         },

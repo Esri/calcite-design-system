@@ -64,7 +64,7 @@
     },
     "icon-size": {
       "md": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       }
     },
@@ -116,7 +116,7 @@
     },
     "chevron-size": {
       "md": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       }
     }

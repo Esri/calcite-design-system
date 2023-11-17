@@ -2,15 +2,15 @@
   "rating": {
     "comp-size": {
       "sm": {
-        "value": "{core.sizing.9}",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.11}",
+        "value": "{core.size.default.11}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.14}",
+        "value": "{core.size.default.14}",
         "type": "sizing"
       }
     },
@@ -90,15 +90,15 @@
     "star": {
       "comp-size": {
         "sm": {
-          "value": "{core.sizing.7}",
+          "value": "{core.size.default.7}",
           "type": "sizing"
         },
         "md": {
-          "value": "{core.sizing.9}",
+          "value": "{core.size.default.9}",
           "type": "sizing"
         },
         "lg": {
-          "value": "{core.sizing.11}",
+          "value": "{core.size.default.11}",
           "type": "sizing"
         }
       },
@@ -138,29 +138,29 @@
     "star-container": {
       "space-between": {
         "sm": {
-          "value": "{core.sizing.1}",
+          "value": "{core.size.default.1}",
           "type": "spacing"
         },
         "md": {
-          "value": "{core.sizing.3}",
+          "value": "{core.size.default.3}",
           "type": "spacing"
         },
         "lg": {
-          "value": "{core.sizing.5}",
+          "value": "{core.size.default.5}",
           "type": "spacing"
         }
       },
       "space-around": {
         "sm": {
-          "value": "{core.sizing.1}",
+          "value": "{core.size.default.1}",
           "type": "spacing"
         },
         "md": {
-          "value": "{core.sizing.1}",
+          "value": "{core.size.default.1}",
           "type": "spacing"
         },
         "lg": {
-          "value": "{core.sizing.2}",
+          "value": "{core.size.default.2}",
           "type": "spacing"
         }
       }
@@ -168,44 +168,44 @@
     "average": {
       "space-between": {
         "sm": {
-          "value": "{core.sizing.1}",
+          "value": "{core.size.default.1}",
           "type": "spacing"
         },
         "md": {
-          "value": "{core.sizing.3}",
+          "value": "{core.size.default.3}",
           "type": "spacing"
         },
         "lg": {
-          "value": "{core.sizing.5}",
+          "value": "{core.size.default.5}",
           "type": "spacing"
         }
       },
       "chip": {
         "space-between": {
           "sm": {
-            "value": "{core.sizing.1}",
+            "value": "{core.size.default.1}",
             "type": "spacing"
           },
           "md": {
-            "value": "{core.sizing.3}",
+            "value": "{core.size.default.3}",
             "type": "spacing"
           },
           "lg": {
-            "value": "{core.sizing.5}",
+            "value": "{core.size.default.5}",
             "type": "spacing"
           }
         },
         "space-arround": {
           "sm": {
-            "value": "{core.sizing.3}",
+            "value": "{core.size.default.3}",
             "type": "spacing"
           },
           "md": {
-            "value": "{core.sizing.5}",
+            "value": "{core.size.default.5}",
             "type": "spacing"
           },
           "lg": {
-            "value": "{core.sizing.7}",
+            "value": "{core.size.default.7}",
             "type": "spacing"
           }
         }

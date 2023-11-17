@@ -280,29 +280,29 @@
     },
     "comp-size": {
       "sm": {
-        "value": "{core.sizing.9}",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.11}",
+        "value": "{core.size.default.11}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.14}",
+        "value": "{core.size.default.14}",
         "type": "sizing"
       }
     },
     "icon-size": {
       "sm": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       }
     },

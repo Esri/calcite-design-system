@@ -82,29 +82,29 @@
     },
     "pointer-size": {
       "sm": {
-        "value": "{core.sizing.6}",
+        "value": "{core.size.default.6}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.6}",
+        "value": "{core.size.default.6}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.6}",
+        "value": "{core.size.default.6}",
         "type": "sizing"
       }
     },
     "icon-size": {
       "sm": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.9}",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       }
     },

@@ -74,29 +74,29 @@
     },
     "saved-size": {
       "sm": {
-        "value": "{core.sizing.8}",
+        "value": "{core.size.default.8}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.9}",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.11}",
+        "value": "{core.size.default.11}",
         "type": "sizing"
       }
     },
     "swatch-size": {
       "sm": {
-        "value": "{core.sizing.8}",
+        "value": "{core.size.default.8}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.8}",
+        "value": "{core.size.default.8}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.9}",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       }
     },

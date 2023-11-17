@@ -6,7 +6,7 @@
           "type": "typography",
           "value": {
             "fontFamily": "{semantic.font.family.default}",
-            "fontSize": "{semantic.font.size.base}",
+            "fontSize": "{semantic.font.size.default}",
             "fontWeight": "{semantic.font.weight.regular}",
             "letterSpacing": "{semantic.font.letter-spacing.normal}",
             "lineHeight": "{semantic.font.line-height.fixed.base}",

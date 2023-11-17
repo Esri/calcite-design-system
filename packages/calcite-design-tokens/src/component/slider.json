@@ -107,44 +107,44 @@
     "tick-size": {
       "width": {
         "sm": {
-          "value": "{core.sizing.1}",
+          "value": "{core.size.default.1}",
           "type": "sizing"
         },
         "md": {
-          "value": "{core.sizing.1}",
+          "value": "{core.size.default.1}",
           "type": "sizing"
         },
         "lg": {
-          "value": "{core.sizing.1}",
+          "value": "{core.size.default.1}",
           "type": "sizing"
         }
       },
       "height": {
         "sm": {
-          "value": "{core.sizing.2}",
+          "value": "{core.size.default.2}",
           "type": "sizing"
         },
         "md": {
-          "value": "{core.sizing.2}",
+          "value": "{core.size.default.2}",
           "type": "sizing"
         },
         "lg": {
-          "value": "{core.sizing.2}",
+          "value": "{core.size.default.2}",
           "type": "sizing"
         }
       }
     },
     "handle-size": {
       "sm": {
-        "value": "{core.sizing.4}",
+        "value": "{core.size.default.4}",
         "type": "sizing"
       },
       "md": {
-        "value": "{core.sizing.6}",
+        "value": "{core.size.default.6}",
         "type": "sizing"
       },
       "lg": {
-        "value": "{core.sizing.7}",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       }
     },

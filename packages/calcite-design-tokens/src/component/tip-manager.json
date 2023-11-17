@@ -46,7 +46,7 @@
     },
     "icon-size": {
       "md": {
-        "value": "{core.sizing.9}",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       }
     },
