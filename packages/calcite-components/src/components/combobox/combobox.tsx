@@ -485,6 +485,8 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
+  private allSelectedIndicatorChipEl: HTMLCalciteChipElement;
+
   @Element() el: HTMLCalciteComboboxElement;
 
   placement: LogicalPlacement = defaultMenuPlacement;
@@ -511,6 +513,10 @@ export class Combobox
 
   @State() activeDescendant = "";
 
+  @State() selectedHiddenChipsCount = 0;
+
+  @State() selectedVisibleChipsCount = 0;
+
   @State() text = "";
 
   /** when search text is cleared, reset active to  */
@@ -527,10 +533,6 @@ export class Combobox
   }
 
   @State() defaultMessages: ComboboxMessages;
-
-  @State() selectedHiddenChipsCount = 0;
-
-  @State() selectedVisibleChipsCount = 0;
 
   textInput: HTMLInputElement = null;
 
@@ -559,11 +561,9 @@ export class Combobox
 
   openTransitionProp = "opacity";
 
-  transitionEl: HTMLDivElement;
-
-  private allSelectedIndicatorChipEl: HTMLCalciteChipElement;
-
   private selectedIndicatorChipEl: HTMLCalciteChipElement;
+
+  transitionEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
