@@ -1281,9 +1281,9 @@ export class Combobox
     }
   }
 
-  private isAllSelected = (): boolean => {
+  private isAllSelected(): boolean {
     return this.getItems().length === this.getSelectedItems().length;
-  };
+  }
 
   isMulti(): boolean {
     return !isSingleLike(this.selectionMode);
@@ -1335,20 +1335,15 @@ export class Combobox
   }
 
   renderAllSelectedIndicatorChip(): VNode {
-    const {
-      compactDisplayMode,
-      isAllSelected,
-      scale,
-      selectedVisibleChipsCount,
-      setAllSelectedIndicatorChipEl,
-    } = this;
+    const { compactDisplayMode, scale, selectedVisibleChipsCount, setAllSelectedIndicatorChipEl } =
+      this;
     const label = this.messages.allSelected;
     return (
       <calcite-chip
         class={{
           chip: true,
           [CSS.chipInvisible]: !(
-            isAllSelected() &&
+            this.isAllSelected() &&
             !selectedVisibleChipsCount &&
             !compactDisplayMode
           ),
@@ -1364,14 +1359,14 @@ export class Combobox
   }
 
   renderAllSelectedIndicatorChipCompact(): VNode {
-    const { compactDisplayMode, isAllSelected, scale, selectedVisibleChipsCount } = this;
+    const { compactDisplayMode, scale, selectedVisibleChipsCount } = this;
     const label = this.messages.all || "All";
     return (
       <calcite-chip
         class={{
           chip: true,
           [CSS.chipInvisible]: !(
-            isAllSelected() &&
+            this.isAllSelected() &&
             !selectedVisibleChipsCount &&
             compactDisplayMode
           ),
@@ -1390,7 +1385,6 @@ export class Combobox
       compactDisplayMode,
       displayMode,
       getSelectedItems,
-      isAllSelected,
       scale,
       selectedHiddenChipsCount,
       selectedVisibleChipsCount,
@@ -1402,7 +1396,7 @@ export class Combobox
     } else {
       if (displayMode === "single") {
         const selectedItemsCount = getSelectedItems().length;
-        if (isAllSelected()) {
+        if (this.isAllSelected()) {
           chipInvisible = true;
         } else if (selectedItemsCount > 0) {
           chipInvisible = false;
@@ -1412,7 +1406,7 @@ export class Combobox
         label = `${selectedItemsCount} ${this.messages.selected}`;
       } else if (displayMode === "fit-to-line") {
         if (
-          (isAllSelected() && selectedVisibleChipsCount === 0) ||
+          (this.isAllSelected() && selectedVisibleChipsCount === 0) ||
           selectedHiddenChipsCount === 0
         ) {
           chipInvisible = true;
@@ -1442,18 +1436,12 @@ export class Combobox
   }
 
   renderSelectedIndicatorChipCompact(): VNode {
-    const {
-      compactDisplayMode,
-      displayMode,
-      getSelectedItems,
-      isAllSelected,
-      scale,
-      selectedHiddenChipsCount,
-    } = this;
+    const { compactDisplayMode, displayMode, getSelectedItems, scale, selectedHiddenChipsCount } =
+      this;
     let chipInvisible, label;
     if (compactDisplayMode) {
       const selectedItemsCount = getSelectedItems().length;
-      if (isAllSelected()) {
+      if (this.isAllSelected()) {
         chipInvisible = true;
       } else if (displayMode === "fit-to-line") {
         chipInvisible = selectedHiddenChipsCount > 0 ? false : true;
