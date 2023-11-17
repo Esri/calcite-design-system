@@ -107,7 +107,7 @@
     @apply outline-none;
   }
   &:placeholder-shown {
-    text-overflow: ellipsis;
+    @apply text-ellipsis;
   }
 }
 
