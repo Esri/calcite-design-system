@@ -90,12 +90,13 @@
 }
 
 .input {
-  @apply font-inherit
-  text-color-1
-  flex-grow
-  appearance-none
-  border-none
+  @apply appearance-none
   bg-transparent
+  border-none
+  flex-grow
+  font-inherit
+  text-color-1
+  text-ellipsis
   p-0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
