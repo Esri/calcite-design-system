@@ -1,0 +1,66 @@
+{
+  "semantic": {
+    "size": {
+      "xxxs": {
+        "value": "{core.size.0}",
+        "type": "spacing"
+      },
+      "xxs": {
+        "value": "{core.size.1}",
+        "type": "spacing"
+      },
+      "xs": {
+        "value": "{core.size.2}",
+        "type": "spacing"
+      },
+      "sm": {
+        "value": "{core.size.3}",
+        "type": "spacing"
+      },
+      "sm-md": {
+        "value": "{core.size.4}",
+        "type": "spacing"
+      },
+      "md-sm": {
+        "value": "{core.size.5}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.size.6}",
+        "type": "spacing"
+      },
+      "md-lg": {
+        "value": "{core.size.7}",
+        "type": "spacing"
+      },
+      "lg-md": {
+        "value": "{core.size.8}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.size.9}",
+        "type": "spacing"
+      },
+      "lg-xl": {
+        "value": "{core.size.11}",
+        "type": "spacing"
+      },
+      "xl-lg": {
+        "value": "{core.size.14}",
+        "type": "spacing"
+      },
+      "xl": {
+        "value": "{core.size.15}",
+        "type": "spacing"
+      },
+      "xxl": {
+        "value": "{core.size.17}",
+        "type": "spacing"
+      },
+      "xxxl": {
+        "value": "{core.size.20}",
+        "type": "spacing"
+      }
+    }
+  }
+}
