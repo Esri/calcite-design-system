@@ -10,7 +10,7 @@
     "prebuild": "npm run patch:ssr",
     "clean": "rimraf dist node_modules .turbo",
     "compile": "npm run tsc",
-    "patch:ssr": "ts-node support/patchSSR.ts",
+    "patch:ssr": "tsx support/patchSSR.ts",
     "tsc": "tsc"
   },
   "main": "./dist/index.js",
