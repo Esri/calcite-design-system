@@ -13,7 +13,7 @@ export default {
   ...storyFilters(),
 };
 
-export const simple = (): string => html`
+export const single = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       ${boolean("disabled", false)}
