@@ -36,6 +36,14 @@ export const stretchSlottedContent = (): string => html`
       <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
       <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
     </calcite-action-menu>
+    <calcite-dropdown slot="actions-end">
+      <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>
+      <calcite-dropdown-group selection-mode="single" group-title="Sort by">
+        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+        <calcite-dropdown-item selected="">Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item>Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
   </calcite-stack>
 `;
 

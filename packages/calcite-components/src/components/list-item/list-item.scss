@@ -146,7 +146,8 @@ td:focus {
 .actions-end {
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
-  ::slotted(calcite-handle) {
+  ::slotted(calcite-handle),
+  ::slotted(calcite-dropdown) {
     @apply self-stretch;
 
     color: inherit;
