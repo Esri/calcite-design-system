@@ -392,16 +392,23 @@ export class ListItem
     const { el, open, openable, parentListEl } = this;
     const dir = getElementDir(el);
 
+    const icon = openable
+      ? open
+        ? ICONS.open
+        : dir === "rtl"
+        ? ICONS.closedRTL
+        : ICONS.closedLTR
+      : ICONS.blank;
+
+    const iconNode = <calcite-icon icon={icon} key={icon} scale="s" />;
+
     return openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.toggleOpen}>
-        <calcite-icon
-          icon={open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR}
-          scale="s"
-        />
+      <td class={CSS.openContainer} key="open-container-openable" onClick={this.toggleOpen}>
+        {iconNode}
       </td>
     ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.itemClicked}>
-        <calcite-icon icon={ICONS.blank} scale="s" />
+      <td class={CSS.openContainer} key="open-container-blank" onClick={this.itemClicked}>
+        {iconNode}
       </td>
     ) : null;
   }
