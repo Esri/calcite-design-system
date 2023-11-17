@@ -1400,45 +1400,41 @@
       }
     },
     "z-index": {
-      "deep": {
+      "0": {
         "value": "-999999",
-        "type": "other"
+        "type": "stacking"
       },
-      "default": {
+      "1": {
         "value": "1",
-        "type": "other"
+        "type": "stacking"
       },
-      "sticky": {
+      "3": {
         "value": "300",
-        "type": "other"
+        "type": "stacking"
       },
-      "header": {
+      "4": {
         "value": "400",
-        "type": "other"
+        "type": "stacking"
       },
-      "toast": {
+      "5": {
         "value": "500",
-        "type": "other"
+        "type": "stacking"
       },
-      "dropdown": {
+      "6": {
         "value": "600",
-        "type": "other"
+        "type": "stacking"
       },
-      "overlay": {
+      "7": {
         "value": "700",
-        "type": "other"
+        "type": "stacking"
       },
-      "modal": {
+      "8": {
         "value": "800",
-        "type": "other"
+        "type": "stacking"
       },
-      "popup": {
+      "9": {
         "value": "900",
-        "type": "other"
-      },
-      "tooltip": {
-        "value": "901",
-        "type": "other"
+        "type": "stacking"
       }
     },
     "box-shadow": {
