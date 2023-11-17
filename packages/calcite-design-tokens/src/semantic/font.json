@@ -11,7 +11,7 @@
         "light": {
           "value": "{core.font.weight.light}",
           "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)"
+          "description": "For Avenir Next World (secondary font family)"
         },
         "normal": {
           "value": "{core.font.weight.regular}",
