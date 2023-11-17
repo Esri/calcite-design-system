@@ -160,22 +160,17 @@
 }
 
 :host([appearance="transparent"]) .button {
-  @apply bg-transparent
-    transition-shadow
-    duration-150
-    ease-in-out;
+  @apply bg-transparent text-color-1 fill-color-1;
 }
 
+:host([appearance="transparent"][active]) .button,
 :host([appearance="transparent"]) .button:hover,
 :host([appearance="transparent"]) .button:focus {
-  @apply bg-transparent;
-  box-shadow: 0 0 0 2px theme("borderColor.color.1") inset;
+  background-color: var(--calcite-button-transparent-hover);
 }
 
-:host([active][appearance="transparent"]) .button,
-:host([active][appearance="transparent"]) .button:hover,
-:host([active][appearance="transparent"]) .button:focus {
-  @apply text-color-1 fill-color-1 bg-foreground-3;
+:host([appearance="transparent"]) .button:active {
+  background-color: var(--calcite-button-transparent-press);
 }
 
 :host([appearance="transparent"][loading]) .button,
