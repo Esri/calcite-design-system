@@ -68,7 +68,7 @@ import {
 } from "../../utils/t9n";
 import { Scale, SelectionMode } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
-import { ComboboxChildElement } from "./interfaces";
+import { ComboboxChildElement, DisplayMode } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
@@ -78,8 +78,6 @@ interface ItemData {
   label: string;
   value: string;
 }
-
-type DisplayMode = "show-all" | "single" | "fit-to-line";
 
 const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
   el.tagName === ComboboxItemGroup;
