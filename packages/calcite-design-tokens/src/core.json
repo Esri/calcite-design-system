@@ -1348,204 +1348,55 @@
           "type": "sizing"
         },
         "full": {
-          "value": "9999px",
+          "value": "100%",
           "type": "sizing"
         }
       }
     },
-    "breakpoint": {
-      "height": {
-        "xxs": {
-          "min": {
-            "value": 0,
-            "type": "sizing",
-            "description": "Small handheld devices and mini-windows"
-          },
-          "max": {
-            "value": 153,
-            "type": "sizing",
-            "description": "Small handheld devices and mini-windows"
-          }
-        },
-        "xs": {
-          "max": {
-            "value": 328,
-            "type": "sizing",
-            "description": "Handheld devices"
-          },
-          "min": {
-            "value": 154,
-            "type": "sizing",
-            "description": "Handheld devices"
-          }
-        },
-        "sm": {
-          "max": {
-            "value": 503,
-            "type": "sizing",
-            "description": "Small tablets"
-          },
-          "min": {
-            "value": 329,
-            "type": "sizing",
-            "description": "Small tablets"
-          }
-        },
-        "md": {
-          "max": {
-            "value": 678,
-            "type": "sizing",
-            "description": "Small laptops"
-          },
-          "min": {
-            "value": 504,
-            "type": "sizing",
-            "description": "Small laptops"
-          }
-        },
-        "lg": {
-          "max": {
-            "value": 853,
-            "type": "sizing",
-            "description": "Large laptops and desktop computers"
-          },
-          "min": {
-            "value": 679,
-            "type": "sizing",
-            "description": "Large laptops and desktop computers"
-          }
-        }
+    "container-size": {
+      "0": {
+        "value": 0,
+        "type": "sizing"
       },
-      "width": {
-        "default": {
-          "xxs": {
-            "value": "320px",
-            "type": "sizing",
-            "description": "To be deprecated"
-          },
-          "xs": {
-            "value": "476px",
-            "type": "sizing",
-            "description": "To be deprecated"
-          },
-          "sm": {
-            "value": "768px",
-            "type": "sizing",
-            "description": "To be deprecated"
-          },
-          "md": {
-            "value": "1152px",
-            "type": "sizing",
-            "description": "To be deprecated"
-          },
-          "lg": {
-            "value": "1440px",
-            "type": "sizing",
-            "description": "To be deprecated"
-          }
-        },
-        "xxs": {
-          "max": {
-            "value": 320,
-            "type": "sizing",
-            "description": "Small handheld devices and mini-windows"
-          },
-          "min": {
-            "value": 0,
-            "type": "sizing",
-            "description": "Small handheld devices and mini-windows"
-          }
-        },
-        "xs": {
-          "max": {
-            "value": 476,
-            "type": "sizing",
-            "description": "Handheld devices"
-          },
-          "min": {
-            "value": 321,
-            "type": "sizing",
-            "description": "Handheld devices"
-          }
-        },
-        "sm": {
-          "max": {
-            "value": 768,
-            "type": "sizing",
-            "description": "Small tablets"
-          },
-          "min": {
-            "value": 477,
-            "type": "sizing",
-            "description": "Small tablets"
-          }
-        },
-        "md": {
-          "max": {
-            "value": 1152,
-            "type": "sizing",
-            "description": "Small laptops"
-          },
-          "min": {
-            "value": 769,
-            "type": "sizing",
-            "description": "Small laptops"
-          }
-        },
-        "lg": {
-          "max": {
-            "value": 1722,
-            "type": "sizing",
-            "description": "Large laptops and desktop computers"
-          },
-          "min": {
-            "value": 1153,
-            "type": "sizing",
-            "description": "Large laptops and desktop computers"
-          }
-        }
+      "154": {
+        "value": 154,
+        "type": "sizing"
       },
-      "margin": {
-        "value": "$core.spacing.9",
-        "type": "spacing"
+      "320": {
+        "value": 320,
+        "type": "sizing"
       },
-      "gutter": {
-        "value": "$core.spacing.7",
-        "type": "spacing"
+      "328": {
+        "value": 328,
+        "type": "sizing"
       },
-      "content": {
-        "fluid": {
-          "value": "100%",
-          "type": "sizing",
-          "description": "for fluid grid widths"
-        },
-        "fixed": {
-          "value": "1440px",
-          "type": "sizing",
-          "description": "only for lg breakpoint fixed grid width"
-        }
+      "476": {
+        "value": 476,
+        "type": "sizing"
       },
-      "cols": {
-        "xs": {
-          "value": "6",
-          "type": "other",
-          "description": "columns"
-        },
-        "sm": {
-          "value": "12",
-          "type": "other",
-          "description": "columns"
-        },
-        "md": {
-          "value": "24",
-          "type": "other",
-          "description": "columns"
-        },
-        "lg": {
-          "value": "24",
-          "type": "other",
-          "description": "columns"
-        }
+      "504": {
+        "value": 504,
+        "type": "sizing"
+      },
+      "678": {
+        "value": 678,
+        "type": "sizing"
+      },
+      "768": {
+        "value": 768,
+        "type": "sizing"
+      },
+      "854": {
+        "value": 854,
+        "type": "sizing"
+      },
+      "1152": {
+        "value": 1152,
+        "type": "sizing"
+      },
+      "1440": {
+        "value": 1440,
+        "type": "sizing"
       }
     },
     "z-index": {
