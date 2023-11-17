@@ -1409,7 +1409,7 @@ export class Combobox
         } else {
           chipInvisible = true;
         }
-        label = `${getSelectedItems().length} selected`;
+        label = `${selectedItemsCount} selected`;
       } else if (displayMode === "fit-to-line") {
         if (
           (isAllSelected() && selectedVisibleChipsCount === 0) ||
@@ -1460,7 +1460,7 @@ export class Combobox
         label = `${selectedHiddenChipsCount || 0}`;
       } else if (displayMode === "single") {
         chipInvisible = selectedItemsCount > 0 ? false : true;
-        label = `${getSelectedItems().length}`;
+        label = `${selectedItemsCount}`;
       }
     } else {
       chipInvisible = true;
