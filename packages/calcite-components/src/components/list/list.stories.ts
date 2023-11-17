@@ -65,6 +65,26 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
   </calcite-list>
 `;
 
+export const stretchSlottedContent = (): string => html`
+  <calcite-list ${knobsHTML()}>
+    <calcite-list-item label="This has no description.">
+      <calcite-handle slot="actions-start"></calcite-handle>
+      <calcite-action
+        slot="actions-start"
+        appearance="transparent"
+        text="Banana"
+        icon="banana"
+        text-enabled
+      ></calcite-action>
+      <calcite-action-menu appearance="transparent" slot="actions-end">
+        <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
+      </calcite-action-menu>
+    </calcite-list-item>
+  </calcite-list>
+`;
+
 export const nestedItems = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item
@@ -194,6 +214,34 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
     <div slot="content-end" style="display: flex; justify-content: flex-end">
       <calcite-chip class="list-chip" icon="bell" scale="s">Halp!</calcite-chip>
     </div>
+  </calcite-list-item>
+</calcite-list> `;
+
+export const contentBottomSlots = (): string => html`<calcite-list ${knobsHTML()}>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+</calcite-list> `;
+
+export const contentBottomSlotsNested = (): string => html`<calcite-list ${knobsHTML()}>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+    <calcite-list
+      ><calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
+        <span slot="content-bottom">Some value or something and a <b>thing</b>.</span
+        ><calcite-list
+          ><calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+            <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+          </calcite-list-item></calcite-list
+        >
+      </calcite-list-item></calcite-list
+    >
   </calcite-list-item>
 </calcite-list> `;
 

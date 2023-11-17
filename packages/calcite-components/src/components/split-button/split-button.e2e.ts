@@ -1,7 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests";
-import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -210,24 +209,6 @@ describe("calcite-split-button", () => {
     const dropdownButton = await page.find("calcite-split-button >>> calcite-dropdown calcite-button");
     expect(primaryButton).toEqualAttribute("split-child", "primary");
     expect(dropdownButton).toEqualAttribute("split-child", "secondary");
-  });
-
-  it("adds the relevant CSS class based on the width attribute", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-split-button width="auto"></calcite-split-button>`);
-
-    const element = await page.find(`calcite-split-button`);
-    const container = await page.find(`calcite-split-button >>> .${CSS.widthAuto}`);
-    expect(container).not.toBeNull();
-    expect(container).toHaveClass(CSS.widthAuto);
-
-    element.setAttribute("width", "half");
-    await page.waitForChanges();
-    expect(container).toHaveClass(CSS.widthHalf);
-
-    element.setAttribute("width", "full");
-    await page.waitForChanges();
-    expect(container).toHaveClass(CSS.widthFull);
   });
 
   it("should support dropdown item keyboard navigation", async () => {

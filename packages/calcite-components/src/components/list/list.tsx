@@ -27,7 +27,6 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
-  DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
@@ -55,6 +54,7 @@ import {
 } from "../../utils/t9n";
 import { ListMessages } from "./assets/list/t9n";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import { ListDragDetail } from "./interfaces";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -86,12 +86,12 @@ export class List
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() canPull: (detail: DragDetail) => boolean;
+  @Prop() canPull: (detail: ListDragDetail) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() canPut: (detail: DragDetail) => boolean;
+  @Prop() canPut: (detail: ListDragDetail) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -228,7 +228,7 @@ export class List
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragDetail>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<ListDragDetail>;
 
   /**
    * Emitted when the default slot has changes in order to notify parent lists.
@@ -578,7 +578,7 @@ export class List
     this.connectObserver();
   }
 
-  onDragSort(detail: DragDetail): void {
+  onDragSort(detail: ListDragDetail): void {
     this.setParentList();
     this.updateListItems();
 
@@ -848,7 +848,7 @@ export class List
       (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM"
     ) as HTMLCalciteListItemElement;
 
-    const parentEl = sortItem?.parentElement;
+    const parentEl = sortItem?.parentElement as HTMLCalciteListElement;
 
     if (!parentEl) {
       return;

@@ -14,6 +14,7 @@ export const CSS = {
   label: "label",
   description: "description",
   contentEnd: "content-end",
+  contentBottom: "content-bottom",
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
   openContainer: "open-container",
@@ -24,6 +25,7 @@ export const SLOTS = {
   actionsStart: "actions-start",
   contentStart: "content-start",
   content: "content",
+  contentBottom: "content-bottom",
   contentEnd: "content-end",
   actionsEnd: "actions-end",
 };

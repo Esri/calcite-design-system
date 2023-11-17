@@ -80,15 +80,11 @@ export class Checkbox
    */
   @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
-  /**
-   * Accessible name for the component.
-   *
-   * @internal
-   */
+  /** Accessible name for the component. */
   @Prop() label: string;
 
   /** Specifies the name of the component on form submission. */
-  @Prop({ reflect: true }) name;
+  @Prop({ reflect: true }) name: string;
 
   /**
    * When `true`, the component must have a value in order for the form to submit.
