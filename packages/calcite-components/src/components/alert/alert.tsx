@@ -46,8 +46,6 @@ import { KindIcons } from "../resources";
 import { AlertMessages } from "./assets/alert/t9n";
 import { AlertDuration, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
-import { createObserver } from "../../utils/observers";
-import { breakpoints } from "../../utils/responsive";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -175,9 +173,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     if (open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
-    if (this.transitionEl) {
-      this.resizeObserver?.observe(this.transitionEl);
-    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -190,7 +185,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.resizeObserver?.observe(this.transitionEl);
   }
 
   disconnectedCallback(): void {
@@ -204,7 +198,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     disconnectLocalized(this);
     disconnectMessages(this);
     this.slottedInShell = false;
-    this.resizeObserver?.disconnect();
   }
 
   render(): VNode {
@@ -215,11 +208,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     };
 
     const { hasEndActions } = this;
-    const { open, autoClose, responsiveContainerWidth, label, placement, queued } = this;
+    const { open, autoClose, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
-    const widthBreakpoints = breakpoints.width;
-    const lessThanSmall = responsiveContainerWidth < widthBreakpoints.small;
-    const greaterOrEqualThanSmall = responsiveContainerWidth >= widthBreakpoints.small;
     const hidden = !open;
     const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     const hasQueuedAlerts = this.queueLength > 1;
@@ -244,9 +234,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           ref={this.setTransitionEl}
         >
           <div class={CSS.contentContainer}>
-            {effectiveIcon && greaterOrEqualThanSmall ? this.renderIcon(effectiveIcon) : null}
+            {effectiveIcon && this.renderIcon(effectiveIcon)}
             <div class={CSS.content}>
-              {effectiveIcon && lessThanSmall ? this.renderIcon(effectiveIcon) : null}
               <div class={CSS.textContainer}>
                 <slot name={SLOTS.title} />
                 <slot name={SLOTS.message} />
@@ -254,12 +243,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
               </div>
             </div>
           </div>
-          {lessThanSmall ? this.renderCloseButton() : null}
           <div class={CSS.footer} hidden={!hasEndActions && !hasQueuedAlerts}>
             {this.renderActionsEnd()}
             {hasQueuedAlerts ? this.renderQueueCount() : null}
           </div>
-          {greaterOrEqualThanSmall ? this.renderCloseButton() : null}
+          {this.renderCloseButton()}
           {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>
@@ -434,8 +422,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** is the alert queued */
   @State() queued = false;
 
-  @State() responsiveContainerWidth: number;
-
   private autoCloseTimeoutId: number = null;
 
   private closeButton: HTMLButtonElement;
@@ -445,11 +431,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   private lastMouseOverBegin: number;
 
   private queueTimeout: number;
-
-  private resizeObserver = createObserver(
-    "resize",
-    (entries) => (this.responsiveContainerWidth = entries[0].contentRect.width)
-  );
 
   private totalOpenTime = 0;
 
