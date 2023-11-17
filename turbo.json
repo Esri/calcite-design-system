@@ -10,9 +10,6 @@
       "cache": false,
       "persistent": true
     },
-    "test": {
-      "dependsOn": ["build"]
-    },
     "clean": {
       "cache": false
     },
