@@ -1453,7 +1453,6 @@ export class Combobox
     let chipInvisible, label;
     if (compactDisplayMode) {
       const selectedItemsCount = getSelectedItems().length;
-      chipInvisible = isAllSelected() ? true : false;
       if (isAllSelected()) {
         chipInvisible = true;
       } else if (displayMode === "fit-to-line") {
