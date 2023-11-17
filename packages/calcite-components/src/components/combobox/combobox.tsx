@@ -1342,7 +1342,7 @@ export class Combobox
       selectedVisibleChipsCount,
       setAllSelectedIndicatorChipEl,
     } = this;
-    const label = this.messages.allSelected || "All selected";
+    const label = this.messages.allSelected;
     return (
       <calcite-chip
         class={{
