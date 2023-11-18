@@ -404,6 +404,30 @@ export const flexContentWithFAB_TestOnly = (): string => html`<calcite-panel
   <calcite-fab slot="fab"></calcite-fab
 ></calcite-panel>`;
 
+export const overflowContent_TestOnly = (): string => html` <style>
+    .container {
+      max-height: 300px;
+      width: 300px;
+    }
+  </style>
+  <div class="container">
+    <calcite-panel heading="My Panel">
+      <calcite-list>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+      </calcite-list>
+    </calcite-panel>
+  </div>`;
+
 export const overflowContentWithFab_TestOnly = (): string => html` <calcite-panel
   style="max-height: 300px; height: 300px; width: 500px"
   heading="My Panel"
