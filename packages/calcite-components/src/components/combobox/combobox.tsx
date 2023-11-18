@@ -826,6 +826,26 @@ export class Combobox
     chipEl.classList.remove(CSS.chipInvisible);
   }
 
+  private refreshChipDisplay({
+    chipEls,
+    availableHorizontalChipElSpace,
+    chipContainerElGap,
+  }): void {
+    chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
+      if (chipEl.selected) {
+        const chipElWidth = getElementWidth(chipEl);
+        if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
+          availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
+          this.showChip(chipEl);
+        } else {
+          this.hideChip(chipEl);
+        }
+      } else {
+        this.hideChip(chipEl);
+      }
+    });
+  }
+
   private refreshDisplayMode = async () => {
     await componentLoaded(this);
 
@@ -841,11 +861,8 @@ export class Combobox
       allSelectedIndicatorChipEl,
       chipContainerEl,
       displayMode,
-      getSelectedItems,
-      hideChip,
       placeholder,
       selectedIndicatorChipEl,
-      showChip,
       textInput,
     } = this;
 
@@ -861,14 +878,12 @@ export class Combobox
       selectedIndicatorChipElWidth
     );
 
-    // Determine if we are in Compact Display Mode
-    const newCompactBreakpoint = Math.round(
-      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth
-    );
-    if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
-      this.maxCompactBreakpoint = newCompactBreakpoint;
-    }
-    this.compactDisplayMode = chipContainerElWidth < this.maxCompactBreakpoint;
+    this.setCompactDisplayMode({
+      chipContainerElGap,
+      chipContainerElWidth,
+      inputWidth,
+      largestSelectedIndicatorChipWidth,
+    });
 
     if (displayMode === "fit-to-line") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
@@ -883,35 +898,8 @@ export class Combobox
             chipContainerElGap)
       );
 
-      // Refresh Selected Chips
-      chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
-        if (chipEl.selected) {
-          const chipElWidth = getElementWidth(chipEl);
-          if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
-            availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
-            showChip(chipEl);
-          } else {
-            hideChip(chipEl);
-          }
-        } else {
-          hideChip(chipEl);
-        }
-      });
-
-      // Calculate Visible and Hidden Selected Chips
-      let newSelectedVisibleChipsCount = 0;
-      chipEls.forEach((chipEl) => {
-        if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
-          newSelectedVisibleChipsCount++;
-        }
-      });
-      if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
-        this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
-      }
-      const newSelectedHiddenChipsCount = getSelectedItems().length - newSelectedVisibleChipsCount;
-      if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
-        this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
-      }
+      this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
+      this.setVisibleAndHiddenChips(chipEls);
     }
   };
 
@@ -919,6 +907,21 @@ export class Combobox
     this.floatingEl = el;
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
+
+  private setCompactDisplayMode({
+    chipContainerElGap,
+    chipContainerElWidth,
+    inputWidth,
+    largestSelectedIndicatorChipWidth,
+  }): void {
+    const newCompactBreakpoint = Math.round(
+      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth
+    );
+    if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
+      this.maxCompactBreakpoint = newCompactBreakpoint;
+    }
+    this.compactDisplayMode = chipContainerElWidth < this.maxCompactBreakpoint;
+  }
 
   setContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
@@ -943,6 +946,23 @@ export class Combobox
   setSelectedIndicatorChipEl = (el: HTMLCalciteChipElement): void => {
     this.selectedIndicatorChipEl = el;
   };
+
+  private setVisibleAndHiddenChips(chipEls: HTMLCalciteChipElement[]): void {
+    let newSelectedVisibleChipsCount = 0;
+    chipEls.forEach((chipEl) => {
+      if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
+        newSelectedVisibleChipsCount++;
+      }
+    });
+    if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
+      this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
+    }
+    const newSelectedHiddenChipsCount =
+      this.getSelectedItems().length - newSelectedVisibleChipsCount;
+    if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
+      this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
+    }
+  }
 
   private getMaxScrollerHeight(): number {
     const items = this.getItemsAndGroups().filter((item) => !item.hidden);
