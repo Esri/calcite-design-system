@@ -142,7 +142,6 @@ export const create: () => Config = () => ({
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
-      "^@esri/calcite-design-tokens/dist/(.*)$": "<rootDir>/../../node_modules/@esri/calcite-design-tokens/dist/$1",
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
