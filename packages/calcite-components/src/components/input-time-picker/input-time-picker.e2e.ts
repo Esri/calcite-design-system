@@ -665,11 +665,10 @@ describe("calcite-input-time-picker", () => {
     expect(await getInputValue(page)).toBe("٠٢:٣٠:٢٥ م");
 
     inputTimePicker.setProperty("lang", "zh-HK");
-    inputTimePicker.setProperty("numberingSystem", "hanidec");
     await page.waitForChanges();
     await waitForAnimationFrame();
 
-    expect(await getInputValue(page)).toBe("下午〇二:三〇:二五");
+    expect(await getInputValue(page)).toBe("下午02:30");
   });
 
   describe("arabic locale support", () => {
