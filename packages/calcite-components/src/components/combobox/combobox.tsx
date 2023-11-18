@@ -73,6 +73,7 @@ import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./r
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
 import { getIconScale } from "../../utils/component";
+import { CoreSizing15 } from "@esri/calcite-design-tokens/dist/es6/calcite-headless";
 
 interface ItemData {
   label: string;
@@ -870,7 +871,7 @@ export class Combobox
     const chipContainerElWidth = getElementWidth(chipContainerEl);
     const { fontSize, fontFamily } = getComputedStyle(textInput);
     const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
-    const inputWidth = (inputTextWidth || 48) + chipContainerElGap;
+    const inputWidth = (inputTextWidth || parseInt(CoreSizing15)) + chipContainerElGap;
     const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipEl);
     const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
     const largestSelectedIndicatorChipWidth = Math.max(
