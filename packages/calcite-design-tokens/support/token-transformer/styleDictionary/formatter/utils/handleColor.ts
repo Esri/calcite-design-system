@@ -1,6 +1,6 @@
 import { Dictionary } from "../../../../types/styleDictionary/dictionary";
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken";
-import { TokenColorSchemeUnion } from "../../../../types/tokenTypes";
+import { TokenColorSchemeUnion } from "../../../../types/tokenTypes/colorScheme";
 import { MappedFormatterArguments } from "../utils.js";
 import { handleStringValueTokens } from "./handleStringValue.js";
 

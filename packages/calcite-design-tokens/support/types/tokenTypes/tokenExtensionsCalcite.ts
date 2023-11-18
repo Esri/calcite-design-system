@@ -1,4 +1,4 @@
-import { ColorModifierOptions } from "./colorModifier.js";
+import { ColorModifierOptions } from "../tokenStudio/colorModifier.js";
 
 export enum CalciteExtensions {
   EXAMPLE = "calcite.example",

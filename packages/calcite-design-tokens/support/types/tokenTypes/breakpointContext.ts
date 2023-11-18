@@ -1,5 +1,4 @@
-/* eslint @cspell/spellchecker: 0 */
-import { ExpandableTokenTypes } from "./designTokenTypes";
+import { ExpandableTokenTypes } from "../tokenStudio/designTokenTypes";
 import { SingleGenericToken } from "./genericToken";
 
 export enum TokenBreakpointContext {

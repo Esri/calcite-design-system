@@ -7,6 +7,6 @@ export type Dictionary = SdDictionary & {
   tokens: TransformedTokens;
   allProperties: TransformedToken[];
   properties: TransformedTokens;
-  usesReference: (value: any) => boolean;
+  usesReference: SdDictionary["usesReference"];
   getReferences: (value: any) => TransformedToken[];
 };

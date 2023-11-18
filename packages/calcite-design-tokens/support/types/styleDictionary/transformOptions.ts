@@ -1,6 +1,15 @@
-import { TypeCaseUnion } from "../tokenTypes/case";
-import { ColorModifierOptions } from "../tokenTypes/colorModifier";
-import { ExpandOptions } from "./expandOptions";
+import { ColorModifierOptions } from "../tokenStudio/colorModifier";
+import { ExpandOptions } from "../tokenStudio/expandOptions";
+
+export enum TypeCase {
+  CAMEL = "camel",
+  PASCAL = "pascal",
+  SNAKE = "snake",
+  KEBAB = "kebab",
+  CONSTANT = "constant",
+}
+
+export type TypeCaseUnion = `${TypeCase}`;
 
 export interface TransformOptions {
   casing?: TypeCaseUnion;

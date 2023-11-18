@@ -8,7 +8,6 @@ import { PlatformFormats, PlatformUnion, TypescriptPlatform } from "../types/pla
 import { CalciteConfigStyleDictionaryRunner } from "../types/config.js";
 import { Options } from "../types/styleDictionary/options.js";
 import { PlatformOptions } from "../types/styleDictionary/platform.js";
-// import { setStringInObjectToPath } from "./utils/setStringInObjectToPath.js";
 import { File } from "../types/styleDictionary/file.js";
 import { transformations } from "./styleDictionary/transformer/utils.js";
 import { format } from "./styleDictionary/formatter/utils.js";

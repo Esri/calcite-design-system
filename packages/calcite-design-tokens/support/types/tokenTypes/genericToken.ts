@@ -1,5 +1,5 @@
-import { TokenTypes } from "./designTokenTypes.js";
-import { TokenStudioExtensionsMap } from "./tokenExtensionsTokenStudio.js";
+import { TokenTypes } from "../tokenStudio/designTokenTypes.js";
+import { TokenStudioExtensionsMap } from "../tokenStudio/tokenExtensionsTokenStudio.js";
 import { CalciteExtensionsMap } from "./tokenExtensionsCalcite.js";
 
 export type SingleGenericToken<T extends TokenTypes, V = string | number, Named extends boolean = true, P = unknown> = {

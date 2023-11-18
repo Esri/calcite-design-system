@@ -2,8 +2,8 @@ import { paramCase } from "change-case";
 
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";
 import { MappedFormatterArguments } from "../utils.js";
-import { getTypographyReferences } from "../expandTokens/typography/utils.js";
-import { addSCSSImportByRef } from "../expandTokens/typography/scss.js";
+import { getTypographyReferences } from "../typography/utils.js";
+import { addSCSSImportByRef } from "../typography/scss.js";
 import { Platform } from "../../../../types/platform.js";
 
 export function handleTypography(token: TransformedToken, args: MappedFormatterArguments): string {

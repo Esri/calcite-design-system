@@ -5,7 +5,7 @@ import { TokenTypes } from "@tokens-studio/types";
 
 import { fontWeightReg } from "../../parser/utils/transformFontWeights.js";
 import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
-import { FontWeight } from "../../../../types/tokenTypes/fontWeight.js";
+import { FontWeight } from "../../../../types/tokenStudio/fontWeight.js";
 
 export const matcher: Matcher = (token: TransformedToken) => {
   return (
@@ -28,8 +28,7 @@ export const transformValuesAlignFontWeightAndStyles: CalledTransformerFunction<
     token.value.fontWeight = FontWeight[fontStyleMatch?.groups?.weight.toLowerCase()] || fontStyleMatch?.groups?.weight;
   }
 
-  // eslint-disable-next-line @cspell/spellchecker
-  // Roboto Regular Italic might have only: `fontWeight: 'Italic'`
+  // Arial Regular Italic might have only: `fontWeight: 'Italic'`
   // which means that the weight is Regular and the style is Italic
   if (token.value.fontStyle.includes(token.value.fontWeight.toLowerCase())) {
     token.value.fontStyle = token.value.fontWeight.toLowerCase();

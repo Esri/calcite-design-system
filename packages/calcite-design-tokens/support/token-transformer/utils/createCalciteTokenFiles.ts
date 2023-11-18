@@ -1,4 +1,4 @@
-import { CalciteTokenFile, CalciteTokenFileArguments } from "../../types";
+import { CalciteTokenFile, CalciteTokenFileArguments } from "../../types/config.js";
 import { getFiles } from "./getFiles.js";
 
 export async function createCalciteTokenFiles(args: CalciteTokenFileArguments): Promise<CalciteTokenFile> {

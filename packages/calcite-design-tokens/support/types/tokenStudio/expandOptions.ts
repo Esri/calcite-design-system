@@ -1,6 +1,6 @@
 import { ExpandOptions as TsExpandOptions } from "@tokens-studio/sd-transforms/dist/TransformOptions";
 
-import { ExpandableTokenTypes, SingleToken } from "../tokenTypes/designTokenTypes.js";
+import { ExpandableTokenTypes, SingleToken } from "./designTokenTypes.js";
 
 export type ExpandOptions = TsExpandOptions & {
   [ExpandableTokenTypes.COLORSCHEME]: boolean;
@@ -13,6 +13,6 @@ export const expand: ExpandOptions = {
   [ExpandableTokenTypes.COLORSCHEME]: true,
   [ExpandableTokenTypes.COMPOSITION]: true,
   [ExpandableTokenTypes.TYPOGRAPHY]: true,
-};
+} as const;
 
 export type ExpandFilter<T extends SingleToken> = (token: T, filePath: string) => boolean;

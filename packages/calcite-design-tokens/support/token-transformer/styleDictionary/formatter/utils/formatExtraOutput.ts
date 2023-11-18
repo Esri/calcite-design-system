@@ -1,8 +1,8 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
-import { Platform } from "../../../../types/platform";
-import { Options } from "../../../../types/styleDictionary/options";
-import { DeepKeyTokenMap } from "../../../../types/tokenTypes";
+import { Platform } from "../../../../types/platform.js";
+import { Options } from "../../../../types/styleDictionary/options.js";
+import { DeepKeyTokenMap } from "../../../../types/tokenStudio/designTokenTypes.js";
 
 export function formatExtraOutput(
   outputObject: Record<string, (string | Record<string, string>)[]> | DeepKeyTokenMap,

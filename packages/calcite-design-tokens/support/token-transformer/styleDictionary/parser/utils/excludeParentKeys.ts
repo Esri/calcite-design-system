@@ -1,4 +1,7 @@
-import { DeepKeyTokenMap } from "../../../../types/tokenTypes/designTokenTypes";
+/**
+ * This is a copy of @tokens-studio/sd-transforms/dist/parsers/exclude-parent-key.js because it is not provided in the exports and we need to update the types.
+ */
+import { DeepKeyTokenMap } from "../../../../types/tokenStudio/designTokenTypes";
 import { TransformOptions } from "../../../../types/styleDictionary/transformOptions";
 
 export function excludeParentKeys(

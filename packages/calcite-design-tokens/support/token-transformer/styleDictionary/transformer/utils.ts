@@ -25,9 +25,14 @@ export const styles = [
   ...globalTransformations,
   "ts/descriptionToComment",
   "ts/opacity",
+  // This transformer name comes from Token Studio transformers
+  // eslint-disable-next-line @cspell/spellchecker
   "ts/size/lineheight",
+  // This transformer name comes from Token Studio transformers
   // eslint-disable-next-line @cspell/spellchecker
   "ts/size/css/letterspacing",
+  // This transformer name comes from Token Studio transformers
+  // eslint-disable-next-line @cspell/spellchecker
   "ts/color/css/hexrgba",
   "ts/shadow/css/shorthand",
   valueAssetToken,
@@ -54,7 +59,6 @@ export enum TransformerTypeEnum {
 
 export type TransformerTypeUnion = `${TransformerTypeEnum}`;
 
-// Getting these arguments to have the correct types was what finally made me sit down and extend the StyleDictionary types. It was impossible to debug when I couldn't trust the types I was seeing.
 export type TransformerArgs = PlatformOptions;
 
 export type TransformerConfig = SdNamed<SdTransform> &

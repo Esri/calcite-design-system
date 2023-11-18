@@ -1,5 +1,6 @@
-import { PlatformUnion, Platforms } from "./platform";
-import { ExpandableTokenTypes, ExpandableTokenTypesUnion, TokenColorScheme } from "./tokenTypes";
+import { PlatformUnion, Platforms } from "./platform.js";
+import { ExpandableTokenTypes, ExpandableTokenTypesUnion } from "./tokenStudio/designTokenTypes.js";
+import { TokenColorScheme } from "./tokenTypes/colorScheme.js";
 
 export type CalciteExpansionFileObject = {
   [ExpandableTokenTypes.COLORSCHEME]?: { [ColorScheme in TokenColorScheme]?: string };

@@ -1,10 +1,9 @@
-import { FontWeight } from "../../../../types/tokenTypes/fontWeight.js";
+// This is a copy/extension of sd-transforms/src/transformFontWeights.ts
+// eslint-disable-next-line @cspell/spellchecker
+// "demi" was added to align with our design terminology. This was added to utils because these named exports are not available from the node module dependency.
 
-/**
- * This is a copy/extension of sd-transforms/src/transformFontWeights.ts
- *
- * "demi" was added to align with our design terminology. This was added to utils because these named exports are not available from the node module dependency.
- */
+import { FontWeight } from "../../../../types/tokenStudio/fontWeight.js";
+
 export const fontStyles = ["italic", "oblique", "normal"];
 export const fontWeightReg = new RegExp(`(?<weight>.+?)\\s?(?<style>${fontStyles.join("|")})?$`, "i");
 

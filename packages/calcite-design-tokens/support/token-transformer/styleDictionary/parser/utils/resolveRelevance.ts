@@ -1,10 +1,10 @@
 /**
  * This is a copy/extension of sd-transforms/src/parsers/resolveReference.ts but now with better types!
  */
-import { TokenBoxshadowValue } from "@tokens-studio/types";
+import { TokenBoxshadowValue as TokenBoxShadowValue } from "@tokens-studio/types";
 import { default as usesReference } from "style-dictionary/lib/utils/references/usesReference.js";
 import { default as getReferences } from "style-dictionary/lib/utils/references/getReferences.js";
-import { DeepKeyTokenMap, SingleToken } from "../../../../types/tokenTypes/designTokenTypes";
+import { DeepKeyTokenMap, SingleToken } from "../../../../types/tokenStudio/designTokenTypes";
 
 // Type function to determine whether the obj is `tokenValue` or `{ value: tokenValue }`
 function isReferenceValue(
@@ -31,11 +31,9 @@ export function resolveReference<T extends SingleToken<false>["value"]>(
     try {
       const getRefResult = boundGetRef(ref)[0];
 
-      // eslint-disable-next-line @cspell/spellchecker
-      // If every key of the result is a number, the ref value is a multi-value, which means TokenBoxshadowValue[]
+      // If every key of the result is a number, the ref value is a multi-value, which means TokenBoxShadowValue[]
       if (Object.keys(getRefResult).every((key) => !isNaN(Number(key)))) {
-        // eslint-disable-next-line @cspell/spellchecker
-        ref = Object.values(getRefResult).map((refPart: TokenBoxshadowValue) => flattenValues(refPart)) as T;
+        ref = Object.values(getRefResult).map((refPart: TokenBoxShadowValue) => flattenValues(refPart)) as T;
       } else if (isReferenceValue(getRefResult)) {
         // this means it spit back a reference { value: '{deepRef}' }
         // and we'll continue the while loop

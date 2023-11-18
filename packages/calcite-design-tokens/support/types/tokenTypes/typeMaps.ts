@@ -1,6 +1,6 @@
 // A customized type map based off Token Studio.
 
-import { BaseTokenTypes } from "./designTokenTypes.js";
+import { BaseTokenTypes } from "../tokenStudio/designTokenTypes.js";
 
 // This determines the applied "type" associated with each Style Dictionary token value
 export const typeMap = {
@@ -32,4 +32,4 @@ export const typeMap = {
     light: BaseTokenTypes.COLOR,
     dark: BaseTokenTypes.COLOR,
   },
-};
+} as const;

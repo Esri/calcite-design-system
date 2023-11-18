@@ -3,9 +3,9 @@ import { ParserOptions } from "style-dictionary/types/Parser.js";
 
 import { addFontStyles } from "../utils/add-font-styles.js";
 import { expandComposites } from "../utils/expandComposites.js";
-import { expand } from "../../../../types/styleDictionary/expandOptions.js";
+import { expand } from "../../../../types/tokenStudio/expandOptions.js";
 import { TransformOptions } from "../../../../types/styleDictionary/transformOptions.js";
-import { DeepKeyTokenMap } from "../../../../types/tokenTypes/designTokenTypes.js";
+import { DeepKeyTokenMap } from "../../../../types/tokenStudio/designTokenTypes.js";
 import { excludeParentKeys } from "../utils/excludeParentKeys.js";
 
 export function parse(options: ParserOptions): DeepKeyTokenMap<false> {

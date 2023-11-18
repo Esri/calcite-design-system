@@ -1,7 +1,6 @@
 import { Options } from "../../../types/styleDictionary/options.js";
 import { PossibleRegistryArgs } from "../utils.js";
 import { PlatformOptions } from "../../../types/styleDictionary/platform.js";
-// import { TransformedToken } from "../../../types/styleDictionary/transformedToken.js";
 import { Named as SdNamed } from "style-dictionary/types/_helpers.js";
 import { Format as SdFormat, FormatterArguments as SdFormatterArguments } from "style-dictionary/types/Format.js";
 import { PlatformFormats, PlatformUnion } from "../../../types/platform.js";
@@ -27,7 +26,6 @@ export const format = <T extends keyof typeof formatters>(t: T): (typeof formatt
   return formatters[t];
 };
 
-// Getting these arguments to have the correct types was what finally made me sit down and extend the StyleDictionary types. It was impossible to debug when I couldn't trust the types I was seeing.
 export interface FormattingArgs<F> extends SdFormatterArguments, Dictionary {
   dictionary: Dictionary;
   file: File & {
@@ -68,7 +66,6 @@ export type FormatterOptions = {
   platform: PlatformOptions;
 };
 
-// For some reason the types are wrong for SD.FormatterArguments.
 export type FormatterArguments = MappedFormatterArguments & Dictionary & FormatterOptions;
 
 export const FormattingRules: Partial<Record<PlatformUnion | "default", FormatterRules>> = {

@@ -1,11 +1,6 @@
-import { ColorModifierOptions } from "./colorModifier";
+import { ColorModifierOptions } from "./colorModifier.js";
 
-export enum TokenStudioExtensions {
-  // eslint-disable-next-line @cspell/spellchecker
-  STUDIOTOKENS = "studio.tokens",
-}
-
-export type TokenStudioExtensionsUnion = `${TokenStudioExtensions}`;
+export type TokenStudioExtensionsUnion = "studio.tokens";
 
 export type TokenStudioTokenArguments = {
   modify?: ColorModifierOptions;
