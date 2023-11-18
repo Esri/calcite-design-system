@@ -1657,14 +1657,13 @@ export class Combobox
           >
             {this.renderIconStart()}
             {!singleSelectionMode && !singleDisplayMode && this.renderChips()}
-            {!singleSelectionMode && !showAllDisplayMode && this.renderSelectedIndicatorChip()}
             {!singleSelectionMode &&
-              !showAllDisplayMode &&
-              this.renderSelectedIndicatorChipCompact()}
-            {!singleSelectionMode && !showAllDisplayMode && this.renderAllSelectedIndicatorChip()}
-            {!singleSelectionMode &&
-              !showAllDisplayMode &&
-              this.renderAllSelectedIndicatorChipCompact()}
+              !showAllDisplayMode && [
+                this.renderSelectedIndicatorChip(),
+                this.renderSelectedIndicatorChipCompact(),
+                this.renderAllSelectedIndicatorChip(),
+                this.renderAllSelectedIndicatorChipCompact(),
+              ]}
             <label
               class="screen-readers-only"
               htmlFor={`${inputUidPrefix}${guid}`}
