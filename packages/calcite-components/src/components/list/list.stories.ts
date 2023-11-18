@@ -418,7 +418,7 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
   </calcite-list-item>
 </calcite-list>`;
 
-export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
+export const filteredChildListItems_TestOnly = (): string => html`<calcite-list
     filter-enabled
     filter-text="est"
     filter-placeholder="Find content"
@@ -599,6 +599,10 @@ export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
       </calcite-list-item>
     </calcite-list-item-group>
   </calcite-list>`;
+
+filteredChildListItems_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
 
 export const filterActions_TestOnly = (): string => html`<calcite-list
   selection-mode="single"
