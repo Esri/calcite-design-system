@@ -360,6 +360,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   sortable: Sortable;
 
+  private ancestorOfFirstFilteredItem: HTMLCalciteListItemElement;
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -579,6 +581,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       this.filterElements({ el: listItem, filteredItems, visibleParents })
     );
 
+    if (filteredItems.length > 0) {
+      this.findAncestorOfFirstFilteredItem(filteredItems);
+    }
+
     this.filteredItems = filteredItems;
 
     if (emit) {
@@ -740,6 +746,35 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
         this.focusRow(endItem);
       }
     }
+  };
+
+  private findAncestorOfFirstFilteredItem = (filteredItems: HTMLCalciteListItemElement[]): void => {
+    this.ancestorOfFirstFilteredItem?.removeAttribute("data-filter");
+    filteredItems.forEach((item) => {
+      item.removeAttribute("data-filter");
+    });
+
+    this.ancestorOfFirstFilteredItem = this.getTopLevelAncestorItemElement(filteredItems[0]);
+    filteredItems[0].setAttribute("data-filter", "0");
+    this.ancestorOfFirstFilteredItem?.setAttribute("data-filter", "0");
+  };
+
+  private getTopLevelAncestorItemElement = (
+    el: HTMLCalciteListItemElement
+  ): HTMLCalciteListItemElement | null => {
+    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+
+    while (closestParent) {
+      const closestListItemAncestor =
+        closestParent.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+
+      if (closestListItemAncestor) {
+        closestParent = closestListItemAncestor;
+      } else {
+        return closestParent;
+      }
+    }
+    return null;
   };
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
