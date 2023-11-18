@@ -1,3 +1,5 @@
 {
-  "complete": "Lõpuleviidud toiming"
+  "complete": "Lõpuleviidud toiming",
+  "previousStep": "Eelmine toiming",
+  "nextStep": "Järgmine toiming"
 }
