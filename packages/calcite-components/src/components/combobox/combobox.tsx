@@ -832,17 +832,17 @@ export class Combobox
     chipContainerElGap,
   }): void {
     chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
-      if (chipEl.selected) {
+      if (!chipEl.selected) {
+        this.hideChip(chipEl);
+      } else {
         const chipElWidth = getElementWidth(chipEl);
         if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
           availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
           this.showChip(chipEl);
-        } else {
-          this.hideChip(chipEl);
+          return;
         }
-      } else {
-        this.hideChip(chipEl);
       }
+      this.hideChip(chipEl);
     });
   }
 
