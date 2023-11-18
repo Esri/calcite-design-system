@@ -665,6 +665,7 @@ describe("calcite-input-time-picker", () => {
     expect(await getInputValue(page)).toBe("٠٢:٣٠:٢٥ م");
 
     inputTimePicker.setProperty("lang", "zh-HK");
+    inputTimePicker.setProperty("numberingSystem", "latn");
     await page.waitForChanges();
     await waitForAnimationFrame();
 
