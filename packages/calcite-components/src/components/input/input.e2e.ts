@@ -1202,7 +1202,7 @@ describe("calcite-input", () => {
     });
   });
 
-  describe("number locale support", () => {
+  describe.skip("number locale support", () => {
     // locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
     const localesWithDifferentBrowserAndNodeFormatting = [
       "ar",

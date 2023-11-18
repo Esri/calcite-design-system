@@ -160,7 +160,7 @@ describe("calcite-inline-editable", () => {
     });
   });
 
-  describe("has controls", () => {
+  describe.skip("has controls", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();

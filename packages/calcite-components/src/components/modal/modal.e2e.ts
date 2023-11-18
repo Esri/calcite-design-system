@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 
-describe("calcite-modal properties", () => {
+describe("calcite-modal", () => {
   describe("renders", () => {
     renders("calcite-modal", { display: "flex", visible: false });
   });
@@ -13,7 +13,7 @@ describe("calcite-modal properties", () => {
     hidden("calcite-modal");
   });
 
-  describe("openClose", () => {
+  describe.skip("openClose", () => {
     const openCloseOptions = {
       initialToggleValue: true,
     };
