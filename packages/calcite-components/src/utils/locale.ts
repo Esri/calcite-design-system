@@ -100,30 +100,7 @@ export const locales = [
   "zh-TW",
 ];
 
-export const numberingSystems = [
-  "arab",
-  "arabext",
-  "bali",
-  "beng",
-  "deva",
-  "fullwide",
-  "gujr",
-  "guru",
-  "hanidec",
-  "khmr",
-  "knda",
-  "laoo",
-  "latn",
-  "limb",
-  "mlym",
-  "mong",
-  "mymr",
-  "orya",
-  "tamldec",
-  "telu",
-  "thai",
-  "tibt",
-] as const;
+export const numberingSystems = ["arab", "arabext", "latn", "thai"] as const;
 
 export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as const;
 
