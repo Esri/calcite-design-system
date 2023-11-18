@@ -2,7 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
-import { isElementFocused, waitForAnimationFrame } from "../../tests/utils";
+import { isElementFocused } from "../../tests/utils";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
 async function itemClicker(item: HTMLCalciteStepperItemElement) {
@@ -471,13 +471,14 @@ describe("calcite-stepper", () => {
 
           const wrapper = document.querySelector(wrapperName);
 
-          await waitForAnimationFrame();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
-          await waitForAnimationFrame();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           item2.click();
-          await waitForAnimationFrame();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
-          await waitForAnimationFrame();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
           return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
         },
