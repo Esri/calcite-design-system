@@ -165,6 +165,7 @@ export default {
         "2-lg": "var(--calcite-box-shadow-md)",
         "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
         "border-bottom": "0 1px 0 var(--calcite-color-border-3)",
+        "border-top": "0 -1px 0 var(--calcite-color-border-3)",
         "outline-active": "0 0 0 1px var(--calcite-color-brand)",
         none: "none",
         xs: "0 0 0 1px rgba(0, 0, 0, 0.05)",
