@@ -17,7 +17,7 @@ export const single = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       ${boolean("disabled", false)}
-      display-mode="${select("display-mode", ["show-all", "fit-to-line", "single"], "show-all")}"
+      display-mode="${select("display-mode", ["show-all", "auto", "single"], "show-all")}"
       selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "single")}"
       label="${text("label (for screen readers)", "demo")}"
       max-items="${number("max-items", 0)}"
@@ -69,7 +69,7 @@ export const multiple = (): string => html`
       </calcite-combobox>
     </calcite-label>
 
-    <h2>display-mode="fit-to-line"</h2>
+    <h2>display-mode="auto"</h2>
     <calcite-label>
       Some selected with multiple visible chips
       <calcite-combobox
@@ -77,7 +77,7 @@ export const multiple = (): string => html`
         placeholder="Select items"
         max-items="10"
         scale="m"
-        display-mode="fit-to-line"
+        display-mode="auto"
         placeholder-icon="car"
       >
         <calcite-combobox-item value="Trees" text-label="Trees" selected>
@@ -96,7 +96,7 @@ export const multiple = (): string => html`
         placeholder="Select items"
         max-items="10"
         scale="m"
-        display-mode="fit-to-line"
+        display-mode="auto"
         placeholder-icon="car"
       >
         <calcite-combobox-item value="Trees" text-label="Trees" selected>
@@ -115,7 +115,7 @@ export const multiple = (): string => html`
         placeholder="Select items"
         max-items="10"
         scale="m"
-        display-mode="fit-to-line"
+        display-mode="auto"
         placeholder-icon="car"
       >
         <calcite-combobox-item value="Trees" text-label="Trees" selected>
@@ -134,7 +134,7 @@ export const multiple = (): string => html`
         placeholder="Select any items you want"
         max-items="10"
         scale="m"
-        display-mode="fit-to-line"
+        display-mode="auto"
         placeholder-icon="car"
       >
         <calcite-combobox-item value="Trees" text-label="Trees" selected>
@@ -153,7 +153,7 @@ export const multiple = (): string => html`
         placeholder="Select any items you want"
         max-items="10"
         scale="m"
-        display-mode="fit-to-line"
+        display-mode="auto"
         placeholder-icon="car"
       >
         <calcite-combobox-item value="Trees" text-label="Trees" selected>
@@ -172,7 +172,7 @@ export const multiple = (): string => html`
         placeholder="this is an unusually long string of placeholder text"
         max-items="10"
         scale="m"
-        display-mode="fit-to-line"
+        display-mode="auto"
         placeholder-icon="car"
       >
         <calcite-combobox-item value="Trees" text-label="Trees" selected>
@@ -191,7 +191,7 @@ export const multiple = (): string => html`
         placeholder="this is an unusually long string of placeholder text"
         max-items="10"
         scale="m"
-        display-mode="fit-to-line"
+        display-mode="auto"
         placeholder-icon="car"
       >
         <calcite-combobox-item value="Trees" text-label="Trees" selected>

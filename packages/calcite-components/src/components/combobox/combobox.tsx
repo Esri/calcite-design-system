@@ -124,7 +124,7 @@ export class Combobox
    * This property does not apply when selection-mode is set to "single" or "single-persist".
    * - "show-all" displays every selected chip, wrapping to the next line if necessary
    * - "single" displays a single chip indicating the total amount of selected items
-   * - "fit-to-line" only displays selected chips that fit horizontally, with a non-closable chip indicating additional selected items as needed
+   * - "auto" only displays selected chips that fit horizontally, with a non-closable chip indicating additional selected items as needed
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "show-all";
 
@@ -886,7 +886,7 @@ export class Combobox
       largestSelectedIndicatorChipWidth,
     });
 
-    if (displayMode === "fit-to-line") {
+    if (displayMode === "auto") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
         (chipEl) => chipEl.closable
       );
@@ -1425,7 +1425,7 @@ export class Combobox
           chipInvisible = true;
         }
         label = `${selectedItemsCount} ${this.messages.selected}`;
-      } else if (displayMode === "fit-to-line") {
+      } else if (displayMode === "auto") {
         if (
           (this.isAllSelected() && selectedVisibleChipsCount === 0) ||
           selectedHiddenChipsCount === 0
@@ -1464,7 +1464,7 @@ export class Combobox
       const selectedItemsCount = getSelectedItems().length;
       if (this.isAllSelected()) {
         chipInvisible = true;
-      } else if (displayMode === "fit-to-line") {
+      } else if (displayMode === "auto") {
         chipInvisible = selectedHiddenChipsCount > 0 ? false : true;
         label = `${selectedHiddenChipsCount || 0}`;
       } else if (displayMode === "single") {
@@ -1625,7 +1625,7 @@ export class Combobox
     const singleSelectionMode = isSingleLike(this.selectionMode);
     const showAllDisplayMode = displayMode === "show-all";
     const singleDisplayMode = displayMode === "single";
-    const fitToLineDisplayMode = !singleSelectionMode && displayMode === "fit-to-line";
+    const fitToLineDisplayMode = !singleSelectionMode && displayMode === "auto";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
     return (
       <Host onClick={this.comboboxFocusHandler}>
@@ -1651,7 +1651,7 @@ export class Combobox
           <div
             class={{
               "grid-input": true,
-              [CSS.displayModeFitToLine]: fitToLineDisplayMode,
+              [CSS.displayModeAuto]: fitToLineDisplayMode,
               [CSS.displayModeSingle]: singleDisplayMode,
             }}
             ref={this.setChipContainerEl}

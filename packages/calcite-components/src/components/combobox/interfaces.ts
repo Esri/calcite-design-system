@@ -4,4 +4,4 @@ export interface listItem {
 }
 
 export type ComboboxChildElement = HTMLCalciteComboboxItemElement | HTMLCalciteComboboxItemGroupElement;
-export type DisplayMode = "show-all" | "single" | "fit-to-line";
+export type DisplayMode = "show-all" | "single" | "auto";
