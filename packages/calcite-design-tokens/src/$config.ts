@@ -41,8 +41,6 @@ export const config: CalciteTokenTransformConfig = {
         breakpoint: "breakpoints.scss",
         index: {
           name: "index.scss",
-          import: ["../css/index.css"],
-          forward: ["./mixins.scss"],
           mixin: [
             ["calcite-color-scheme-light", "light"],
             ["calcite-color-scheme-dark", "dark"],
