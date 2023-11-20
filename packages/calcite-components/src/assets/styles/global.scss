@@ -1,16 +1,15 @@
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-light";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-dark";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-headless";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/light";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/dark";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/global";
+@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/index";
 @import "../../node_modules/@esri/calcite-base/dist/_index";
 
 /* CSS vars (@include in global) */
 @import "type";
 
 @mixin calcite-mode-light-extended {
-  // todo update include when calcite-colors updates to "mode" nomenclature
-  @include calcite-theme-light();
+  @include calcite-color-scheme-light();
   --calcite-mode-name: "light";
-  --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-light);
   --calcite-ui-inverse: #{$blk-190};
   --calcite-ui-inverse-hover: #{$blk-200};
   --calcite-ui-inverse-press: #{$blk-210};
@@ -22,10 +21,8 @@
 }
 
 @mixin calcite-mode-dark-extended {
-  // todo update include when calcite-colors updates to "mode" nomenclature
-  @include calcite-theme-dark();
+  @include calcite-color-scheme-dark();
   --calcite-mode-name: "dark";
-  --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-dark);
   --calcite-ui-inverse: #{$blk-005};
   --calcite-ui-inverse-hover: #{$blk-000};
   --calcite-ui-inverse-press: #{$blk-010};
@@ -38,7 +35,6 @@
 
 :root {
   @extend %type-vars;
-  @include calcite-theme-headless();
   @include calcite-mode-light-extended();
   @include floating-ui-base();
   @include animation-base();
@@ -46,20 +42,20 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --calcite-popover-z-index: var(--calcite-app-z-index-popup);
-  --calcite-border-radius: var(--calcite-semantic-border-border-radius-round, 4px);
+  --calcite-popover-z-index: var(--calcite-z-index-popup);
+  --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-panel-width-multiplier: 1;
   --calcite-ui-focus-offset-invert: 0; // should be 0 or 1
   --calcite-ui-icon-color: currentColor;
-  --calcite-ui-opacity-disabled: var(--calcite-core-opacity-50, 0.5);
+  --calcite-ui-opacity-disabled: var(--calcite-opacity-half, 0.5);
 
   @apply font-sans;
 }
 
 .calcite-mode-dark {
   @include calcite-mode-dark-extended();
-  --calcite-ui-background: var(--calcite-ui-background-1);
+  --calcite-ui-background: var(--calcite-color-background);
 }
 
 .calcite-mode-light {
