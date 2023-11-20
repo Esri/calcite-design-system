@@ -1,11 +1,10 @@
-@import "../../node_modules/@esri/calcite-base/dist/_index";
+@import "../../node_modules/@esri/calcite-base/dist/index";
 
 /* CSS vars (@include in global) */
 @import "type";
 
 @mixin calcite-mode-light-extended {
-  // todo update include when calcite-colors updates to "mode" nomenclature
-  @include calcite-theme-light();
+  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
   --calcite-button-transparent-hover: #{rgba($blk-240, 0.05)};
   --calcite-button-transparent-press: #{rgba($blk-240, 0.08)};
   --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
@@ -13,8 +12,6 @@
 }
 
 @mixin calcite-mode-dark-extended {
-  // todo update include when calcite-colors updates to "mode" nomenclature
-  @include calcite-theme-dark();
   --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
   --calcite-button-transparent-hover: #{rgba($blk-000, 0.05)};
   --calcite-button-transparent-press: #{rgba($blk-000, 0.08)};
@@ -41,14 +38,13 @@
   @apply font-sans;
 }
 
-// .calcite-mode-dark {
-//   @include calcite-mode-dark-extended();
-//   --calcite-ui-background: var(--calcite-ui-background-1);
-// }
+.calcite-mode-dark {
+  @include calcite-mode-dark-extended();
+}
 
-// .calcite-mode-light {
-//   @include calcite-mode-light-extended();
-// }
+.calcite-mode-light {
+  @include calcite-mode-light-extended();
+}
 
 .calcite-mode-auto {
   @media (prefers-color-scheme: dark) {

@@ -229,7 +229,7 @@ slot[name="image"]::slotted(*) {
 }
 
 :host([kind="inverse"]) {
-  background-color: var(--calcite-ui-inverse);
+  background-color: var(--calcite-color-inverse);
   @apply text-color-inverse;
   .container {
     border-color: transparent;
