@@ -182,7 +182,7 @@
   .day-wrapper {
     &:before,
     &:after {
-      background-color: var(--calcite-ui-foreground-current);
+      background-color: var(--calcite-color-foreground-current);
     }
   }
 }

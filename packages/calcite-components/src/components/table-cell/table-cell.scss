@@ -58,8 +58,8 @@ td {
 }
 
 .selected-cell:not(.number-cell):not(.footer-cell) {
-  --calcite-table-cell-background: var(--calcite-ui-foreground-current);
-  background: var(--calcite-ui-foreground-current);
+  --calcite-table-cell-background: var(--calcite-color-foreground-current);
+  background: var(--calcite-color-foreground-current);
 }
 
 .selection-cell.selected-cell {
