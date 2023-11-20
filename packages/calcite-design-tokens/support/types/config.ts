@@ -14,6 +14,7 @@ export type CalciteExpansionFileObject = {
     forward?: (string | string[])[];
     class?: (string | string[])[];
     mixin?: (string | string[])[];
+    media?: (string | string[])[];
   };
 };
 

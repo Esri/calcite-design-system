@@ -11,6 +11,7 @@ export function formatExtraOutput(
   if (Object.keys(outputObject).length > 0) {
     const { index } = args.expandFiles[args.platform];
     const outputFiles: Record<string, string[]> = {};
+    const ensureIfArray = (x: any) => (Array.isArray(x) ? (x as any[]) : x);
 
     if (index) {
       switch (args.platform) {
@@ -19,32 +20,41 @@ export function formatExtraOutput(
         case "sass":
           const imports = index.import
             ? index.import.map((imp) =>
-                typeof imp === "string" ? `@import "${imp}";` : `@import "${imp[0]}" ${imp.slice(1).join(" ")};`
+                typeof imp === "string"
+                  ? `@import ${imp.includes(".css") ? `url("${imp}")` : `"${imp}"`};`
+                  : `@import ${imp[0].includes(".css") ? `url("${imp[0]}")` : `"${imp[0]}"`} ${imp.slice(1).join(" ")};`
               )
             : [];
-          const forwards = index.forward ? index.forward.map((fwd) => `@import "${fwd}";`) : [];
+          const forwards = index.forward ? index.forward.map((fwd) => `@forwards "${fwd}";`) : [];
           const classes = index.class
-            ? index.class.map((cls) =>
-                cls && Array.isArray(outputObject[`${cls[1]}.${args.platform}`])
-                  ? // @ts-expect-error - this is an array
-                    `.${cls[0]} {\n\t${outputObject[`${cls[1]}.${args.platform}`].join("\n\t")}\n}`
-                  : ""
-              )
+            ? index.class.map((cls) => {
+                const c = ensureIfArray(outputObject[`${cls[1]}.${args.platform}`]);
+                return cls && Array.isArray(c) ? `.${cls[0]} {\n\t${c.join("\n\t")}\n}` : "";
+              })
             : [];
           const mixins = index.mixin
-            ? index.mixin.map(([mixinName, output]) =>
-                Array.isArray(outputObject[`${output}.${args.platform}`])
-                  ? `@mixin ${mixinName} {\n\t${outputObject[`${output}.${args.platform}`]
-                      // @ts-expect-error - this is an array
+            ? index.mixin.map(([mixinName, output]) => {
+                const m = ensureIfArray(outputObject[`${output}.${args.platform}`]);
+                return Array.isArray(m)
+                  ? `@mixin ${mixinName} {\n\t${m.map((o) => `${o}`.replace("$", "--")).join("\n\t")}\n}`
+                  : "";
+              })
+            : [];
+          const medias = index.media
+            ? index.media.map(([mediaSchemed, output]) => {
+                const m = ensureIfArray(outputObject[`${output}.${args.platform}`]);
+                return Array.isArray(m)
+                  ? `@media (${mediaSchemed}) {\n\t:root {\n\t\t${m
                       .map((o) => `${o}`.replace("$", "--"))
-                      .join("\n\t")}\n}`
-                  : ""
-              )
+                      .join("\n\t\t")}\n\t}\n}`
+                  : "";
+              })
             : [];
 
           outputFiles[index.name] = [
             ...(imports || []),
             ...(forwards || []),
+            ...(medias || []),
             ...(classes || []),
             ...(mixins || []),
           ].filter((t) => t);
@@ -60,7 +70,7 @@ export function formatExtraOutput(
           break;
       }
 
-      writeFileSync(resolve(args.buildPath, index.name), `${args.header}${outputFiles[index.name].join("\n")}\n`);
+      writeFileSync(resolve(args.buildPath, index.name), `${args.header}${outputFiles[index.name].join("\n\n")}\n`);
     }
 
     Object.entries(outputObject).forEach(([fileName, outputList]) => {
