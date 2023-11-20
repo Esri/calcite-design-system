@@ -25,7 +25,12 @@ export const formatTsPlatform: CalledFormatterFunction = (args) => {
     styleDictionary.formatHelpers.fileHeader({ file: args.file }) +
     "declare const root: RootObject\n" +
     "export default root\n" +
-    JsonToTS(args.dictionary.properties).join("\n")
+    JsonToTS(args.dictionary.tokens)
+      .map((map) => {
+        const data: { name: string; typeMap: Record<string, any> } = typeof map === "string" ? JSON.parse(map) : map;
+        return `export type ${data.name} = ${JSON.stringify(data.typeMap, null, 2)}`;
+      })
+      .join("\n\n")
   );
 };
 
