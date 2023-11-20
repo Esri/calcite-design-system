@@ -430,7 +430,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       this.singleViewMode = false;
       this.setGridTemplateColumns(this.items);
       this.items.forEach((item: HTMLCalciteStepperItemElement) => {
-        item.hidden = true;
+        item.hidden = false;
         item.singleViewMode = false;
       });
     }
