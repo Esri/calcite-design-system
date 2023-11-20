@@ -23,11 +23,10 @@ export const config: CalciteTokenTransformConfig = {
         breakpoint: "breakpoint.css",
         index: {
           name: "index.css",
-          import: [
-            "./global.css",
-            "./classes.css",
-            ["./dark.css", "(prefers-color-scheme: dark)"],
-            ["./light.css", "(prefers-color-scheme: light)"],
+          import: ["./global.css", "./classes.css"],
+          media: [
+            ["prefers-color-scheme: light", "light"],
+            ["prefers-color-scheme: dark", "dark"],
           ],
           class: [
             ["calcite-mode-light", "light"],
@@ -41,6 +40,7 @@ export const config: CalciteTokenTransformConfig = {
         breakpoint: "breakpoints.scss",
         index: {
           name: "index.scss",
+          import: ["./global.scss", "./breakpoints.scss", "./mixins.scss"],
           mixin: [
             ["calcite-mode-light", "light"],
             ["calcite-mode-dark", "dark"],
