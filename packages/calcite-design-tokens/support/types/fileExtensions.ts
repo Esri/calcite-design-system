@@ -1,4 +1,4 @@
-import { PlatformObject } from "./platform";
+import { PlatformObject } from "./platform.js";
 
 export const fileExtension: PlatformObject<string> = {
   css: ".css",

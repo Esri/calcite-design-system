@@ -1,7 +1,7 @@
 // This is a copy/extension of sd-transforms/src/parsers/add-font-styles.ts with better types
 
-import { TransformOptions } from "../../../../types/styleDictionary/transformOptions";
-import { DeepKeyTokenMap, SingleToken } from "../../../../types/tokenStudio/designTokenTypes";
+import { TransformOptions } from "../../../../types/styleDictionary/transformOptions.js";
+import { DeepKeyTokenMap, SingleToken } from "../../../../types/tokenStudio/designTokenTypes.js";
 
 function recurse(
   slice: SingleToken<false> | DeepKeyTokenMap<false>,

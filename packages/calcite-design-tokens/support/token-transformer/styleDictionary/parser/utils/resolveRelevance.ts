@@ -4,7 +4,7 @@
 import { TokenBoxshadowValue as TokenBoxShadowValue } from "@tokens-studio/types";
 import { default as usesReference } from "style-dictionary/lib/utils/references/usesReference.js";
 import { default as getReferences } from "style-dictionary/lib/utils/references/getReferences.js";
-import { DeepKeyTokenMap, SingleToken } from "../../../../types/tokenStudio/designTokenTypes";
+import { DeepKeyTokenMap, SingleToken } from "../../../../types/tokenStudio/designTokenTypes.js";
 
 // Type function to determine whether the obj is `tokenValue` or `{ value: tokenValue }`
 function isReferenceValue(

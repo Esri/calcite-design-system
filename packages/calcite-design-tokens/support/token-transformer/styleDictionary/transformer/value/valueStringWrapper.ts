@@ -1,6 +1,6 @@
 import { Core as StyleDictionary } from "style-dictionary";
-import { Matcher } from "style-dictionary/types/Matcher";
-import { CalledTransformerFunction, TransformerConfig } from "../utils";
+import { Matcher } from "style-dictionary/types/Matcher.js";
+import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 
 export const matcher: Matcher = (token) => {
   return typeof token.value === "string" && token.value.includes(" ");

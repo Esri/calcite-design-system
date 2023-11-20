@@ -1,7 +1,7 @@
 import { Core as StyleDictionary } from "style-dictionary";
-import { Matcher } from "style-dictionary/types/Matcher";
-import { TransformedToken } from "style-dictionary/types/TransformedToken";
-import { CalledTransformerFunction, TransformerConfig } from "../utils";
+import { Matcher } from "style-dictionary/types/Matcher.js";
+import { TransformedToken } from "style-dictionary/types/TransformedToken.js";
+import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 
 export const matcher: Matcher = (token: TransformedToken) => {
   return token.attributes?.category === "asset";

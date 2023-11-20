@@ -1,4 +1,4 @@
-import { Dictionary } from "../../../../types/styleDictionary/dictionary";
+import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
 
 export function sortByReference(dictionary: Dictionary): (a, b) => 1 | -1 {
   // The sorter function is recursive to account for multiple levels of nesting

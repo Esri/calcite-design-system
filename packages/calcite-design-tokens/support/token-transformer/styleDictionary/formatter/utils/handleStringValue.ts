@@ -1,4 +1,4 @@
-import { TransformedToken } from "style-dictionary/types/TransformedToken";
+import { TransformedToken } from "style-dictionary/types/TransformedToken.js";
 import { Dictionary } from "style-dictionary/types/Dictionary.js";
 import { FormattingRules, MappedFormatterArguments } from "../utils.js";
 import { getReferencesFromValue } from "./getReferenceFromValue.js";

@@ -1,6 +1,6 @@
 import { Core as StyleDictionary } from "style-dictionary";
-import { Matcher } from "style-dictionary/types/Matcher";
-import { TransformedToken } from "style-dictionary/types/TransformedToken";
+import { Matcher } from "style-dictionary/types/Matcher.js";
+import { TransformedToken } from "style-dictionary/types/TransformedToken.js";
 import { TokenTypes } from "@tokens-studio/types";
 
 import { fontWeightReg } from "../../parser/utils/transformFontWeights.js";

@@ -23,8 +23,8 @@ import {
   SingleColorToken,
 } from "@tokens-studio/types";
 
-import { SingleColorSchemeToken } from "../tokenTypes/colorScheme";
-import { SingleTypographyToken } from "../tokenTypes/typography";
+import { SingleColorSchemeToken } from "../tokenTypes/colorScheme.js";
+import { SingleTypographyToken } from "../tokenTypes/typography.js";
 
 export enum BaseTokenTypes {
   ASSET = "asset",

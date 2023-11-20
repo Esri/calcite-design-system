@@ -1,5 +1,5 @@
-import { Transform as SdTransform } from "style-dictionary/types/Transform";
-import { Named as SdNamed } from "style-dictionary/types/_helpers";
+import { Transform as SdTransform } from "style-dictionary/types/Transform.js";
+import { Named as SdNamed } from "style-dictionary/types/_helpers.js";
 
 import { PlatformOptions } from "../../../types/styleDictionary/platform.js";
 import { PossibleRegistryArgs } from "../utils.js";
