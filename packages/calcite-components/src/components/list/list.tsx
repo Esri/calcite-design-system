@@ -749,14 +749,14 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   };
 
   private findAncestorOfFirstFilteredItem = (filteredItems: HTMLCalciteListItemElement[]): void => {
-    this.ancestorOfFirstFilteredItem?.removeAttribute("data-filter");
+    this.ancestorOfFirstFilteredItem?.toggleAttribute("data-filtered-first");
     filteredItems.forEach((item) => {
-      item.removeAttribute("data-filter");
+      item.toggleAttribute("data-filtered-first");
     });
 
     this.ancestorOfFirstFilteredItem = this.getTopLevelAncestorItemElement(filteredItems[0]);
-    filteredItems[0].setAttribute("data-filter", "0");
-    this.ancestorOfFirstFilteredItem?.setAttribute("data-filter", "0");
+    filteredItems[0].toggleAttribute("data-filtered-first");
+    this.ancestorOfFirstFilteredItem?.toggleAttribute("data-filtered-first");
   };
 
   private getTopLevelAncestorItemElement = (
