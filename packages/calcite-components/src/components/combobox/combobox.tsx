@@ -122,11 +122,11 @@ export class Combobox
   /**
    * Controls the display behavior of multiple selected items.
    * This property does not apply when selection-mode is set to "single" or "single-persist".
-   * - "show-all" displays every selected chip, wrapping to the next line if necessary
+   * - "all" displays every selected chip, wrapping to the next line if necessary
    * - "single" displays a single chip indicating the total amount of selected items
    * - "auto" only displays selected chips that fit horizontally, with a non-closable chip indicating additional selected items as needed
    */
-  @Prop({ reflect: true }) displayMode: DisplayMode = "show-all";
+  @Prop({ reflect: true }) displayMode: DisplayMode = "all";
 
   /**When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -1623,7 +1623,7 @@ export class Combobox
   render(): VNode {
     const { displayMode, guid, label, open } = this;
     const singleSelectionMode = isSingleLike(this.selectionMode);
-    const showAllDisplayMode = displayMode === "show-all";
+    const showAllDisplayMode = displayMode === "all";
     const singleDisplayMode = displayMode === "single";
     const fitToLineDisplayMode = !singleSelectionMode && displayMode === "auto";
     const isClearable = !this.clearDisabled && this.value?.length > 0;

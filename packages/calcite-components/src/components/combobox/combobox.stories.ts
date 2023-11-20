@@ -17,7 +17,7 @@ export const single = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       ${boolean("disabled", false)}
-      display-mode="${select("display-mode", ["show-all", "auto", "single"], "show-all")}"
+      display-mode="${select("display-mode", ["all", "auto", "single"], "all")}"
       selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "single")}"
       label="${text("label (for screen readers)", "demo")}"
       max-items="${number("max-items", 0)}"
@@ -43,7 +43,7 @@ export const single = (): string => html`
 
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
-    <h2>display-mode="show-all" (default)</h2>
+    <h2>display-mode="all" (default)</h2>
     <calcite-label>
       Some selected
       <calcite-combobox label="test" placeholder="Select items" max-items="10" scale="m" placeholder-icon="car">
