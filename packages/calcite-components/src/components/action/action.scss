@@ -160,7 +160,7 @@
 }
 
 :host([appearance="transparent"]) .button {
-  @apply bg-transparent text-color-1 fill-color-1;
+  @apply bg-transparent;
 }
 
 :host([appearance="transparent"][active]) .button,
