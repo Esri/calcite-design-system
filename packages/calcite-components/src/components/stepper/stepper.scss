@@ -2,6 +2,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
   --calcite-internal-stepper-action-inline-size: theme("spacing.8");
+  --calcite-internal-step-bar-gap: theme("spacing.1");
 }
 
 :host([scale="m"]) {
@@ -14,6 +15,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
   --calcite-internal-stepper-action-block-size: theme("spacing.16");
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
+  --calcite-internal-step-bar-gap: theme("spacing.3");
 }
 
 :host {
@@ -77,9 +79,10 @@
   }
 
   .step-bar-container {
-    @apply flex gap-2 absolute justify-between items-start;
+    @apply flex absolute justify-between items-start;
     block-size: 0.125rem;
     inline-size: 100%;
+    gap: var(--calcite-internal-step-bar-gap, 0.5rem);
   }
 
   .step-bar--inactive {
