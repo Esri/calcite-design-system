@@ -195,12 +195,25 @@
         }
       },
       "inverse": {
-        "light": {
-          "value": "{core.color.neutral.blk-190}",
+        "default": {
+          "value": {
+            "light": "{core.color.neutral.blk-190}",
+            "dark": "{core.color.neutral.blk-005}"
+          },
           "type": "color"
         },
-        "dark": {
-          "value": "{core.color.neutral.blk-005}",
+        "hover": {
+          "value": {
+            "light": "{core.color.neutral.blk-200}",
+            "dark": "{core.color.neutral.blk-000}"
+          },
+          "type": "color"
+        },
+        "press": {
+          "value": {
+            "light": "{core.color.neutral.blk-210}",
+            "dark": "{core.color.neutral.blk-010}"
+          },
           "type": "color"
         }
       }
