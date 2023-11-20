@@ -6,7 +6,7 @@
  * @prop --calcite-alert-width: Specifies the width of the component.
  */
 
-$border-style: 1px solid var(--calcite-ui-border-3);
+$border-style: 1px solid var(--calcite-color-border-3);
 
 :host {
   --calcite-alert-edge-distance: theme("spacing.8");
@@ -271,8 +271,8 @@ $border-style: 1px solid var(--calcite-ui-border-3);
   @apply text-color-link inline-flex;
 }
 
-$alertKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "danger" var(--calcite-ui-danger),
-  "success" var(--calcite-ui-success), "warning" var(--calcite-ui-warning);
+$alertKinds: "brand" var(--calcite-color-brand), "info" var(--calcite-color-info), "danger" var(--calcite-color-danger),
+  "success" var(--calcite-color-success), "warning" var(--calcite-color-warning);
 
 @each $alertKind in $alertKinds {
   $name: nth($alertKind, 1);
@@ -319,7 +319,7 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   @apply absolute;
 }
 
-@container responsive-container (min-width: #{$breakpoint-width-xs}) {
+@container responsive-container (min-width: #{$calcite-container-size-width-xs-max}) {
   .content {
     @apply flex-row;
   }
@@ -336,7 +336,7 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   }
 }
 
-@container responsive-container (min-width: #{$breakpoint-width-sm}) {
+@container responsive-container (min-width: #{$calcite-container-size-width-sm-max}) {
   .close {
     @apply self-stretch;
   }

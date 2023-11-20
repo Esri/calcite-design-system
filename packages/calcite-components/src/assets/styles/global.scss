@@ -27,13 +27,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --calcite-popover-z-index: var(--calcite-app-z-index-popup);
-  --calcite-border-radius: var(--calcite-semantic-border-border-radius-round, 4px);
+  --calcite-popover-z-index: var(--calcite-z-index-popup);
+  --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-panel-width-multiplier: 1;
   --calcite-ui-focus-offset-invert: 0; // should be 0 or 1
   --calcite-ui-icon-color: currentColor;
-  --calcite-ui-opacity-disabled: var(--calcite-core-opacity-50, 0.5);
+  --calcite-ui-opacity-disabled: var(--calcite-opacity-half, 0.5);
 
   @apply font-sans;
 }

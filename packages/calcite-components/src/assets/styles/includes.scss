@@ -122,12 +122,12 @@
 
     border-radius: 50%;
     border-color: transparent;
-    background-color: var(--calcite-ui-foreground-2);
+    background-color: var(--calcite-color-foreground-2);
 
     &:active,
     &:hover {
       @apply text-color-1;
-      background-color: var(--calcite-ui-foreground-3);
+      background-color: var(--calcite-color-foreground-3);
     }
 
     &:active {

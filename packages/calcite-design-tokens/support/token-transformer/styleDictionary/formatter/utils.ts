@@ -19,7 +19,7 @@ const formatters: Partial<Record<PlatformFormats, string>> = {
   js: CalciteJs,
   es6: "javascript/es6",
   ts: CalciteTs,
-  es6Ts: "typescript/module-declarations",
+  es6Ts: "typescript/es6-declarations",
 } as const;
 
 export const format = <T extends keyof typeof formatters>(t: T): (typeof formatters)[T] => {

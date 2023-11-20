@@ -19,7 +19,7 @@
     "./scss": "./dist/scss/index.scss",
     "./scss/calcite/dark": "./dist/scss/dark.scss",
     "./scss/calcite/light": "./dist/scss/light.scss",
-    "./scss/headless": "./dist/scss/headless.scss",
+    "./scss/global": "./dist/scss/global.scss",
     "./js": "./dist/js/global.js",
     "./js/calcite/dark": "./dist/js/dark.js",
     "./js/calcite/light": "./dist/js/light.js",

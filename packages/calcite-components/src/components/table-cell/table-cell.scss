@@ -28,7 +28,7 @@
 td {
   @apply text-start focus-base align-middle text-color-1 whitespace-normal;
   background: var(--calcite-internal-table-cell-background);
-  border-inline-end: 1px solid var(--calcite-ui-border-3);
+  border-inline-end: 1px solid var(--calcite-color-border-3);
   font-size: var(--calcite-internal-table-cell-font-size);
   &:focus {
     @apply focus-inset;
@@ -42,12 +42,12 @@ td {
 
 .footer-cell {
   @apply bg-background font-medium text-color-1;
-  border-block-start: 1px solid var(--calcite-ui-border-3);
+  border-block-start: 1px solid var(--calcite-color-border-3);
 }
 
 .number-cell,
 .selection-cell {
-  border-inline-end: 1px solid var(--calcite-ui-border-3);
+  border-inline-end: 1px solid var(--calcite-color-border-3);
   inline-size: 2rem;
   min-inline-size: 2rem;
 }
@@ -63,15 +63,15 @@ td {
 }
 
 .selection-cell.selected-cell {
-  box-shadow: inset 0.25rem 0 0 0 var(--calcite-ui-brand);
-  color: var(--calcite-ui-brand);
+  box-shadow: inset 0.25rem 0 0 0 var(--calcite-color-brand);
+  color: var(--calcite-color-brand);
   & calcite-icon {
-    color: var(--calcite-ui-brand);
+    color: var(--calcite-color-brand);
   }
 }
 
 .calcite--rtl.selection-cell.selected-cell {
-  box-shadow: inset -0.25rem 0 0 0 var(--calcite-ui-brand);
+  box-shadow: inset -0.25rem 0 0 0 var(--calcite-color-brand);
 }
 
 .selection-cell {
