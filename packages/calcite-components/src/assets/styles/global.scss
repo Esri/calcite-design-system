@@ -1,6 +1,3 @@
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-light";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-dark";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-headless";
 @import "../../node_modules/@esri/calcite-base/dist/_index";
 
 /* CSS vars (@include in global) */
@@ -38,8 +35,6 @@
 
 :root {
   @extend %type-vars;
-  @include calcite-theme-headless();
-  @include calcite-mode-light-extended();
   @include floating-ui-base();
   @include animation-base();
 
