@@ -7,7 +7,7 @@
   margin-bottom: 1em;
   position: sticky;
   top: 0;
-  background-color: var(--calcite-ui-background);
+  background-color: var(--calcite-color-background);
   z-index: 999;
 }
 
