@@ -80,7 +80,7 @@
     // ensure lines don't overlap focus outline
     block-size: 96%;
     content: "";
-    background-color: var(--calcite-ui-border-2);
+    background-color: var(--calcite-color-border-2);
   }
 }
 
@@ -159,7 +159,7 @@
   .checkmark,
   .bullet-point {
     @apply transition-default opacity-0;
-    color: var(--calcite-ui-border-1);
+    color: var(--calcite-color-border-1);
   }
 }
 
@@ -242,7 +242,7 @@
 :host([selected]) {
   .checkmark,
   .bullet-point {
-    color: var(--calcite-ui-brand);
+    color: var(--calcite-color-brand);
   }
 }
 
