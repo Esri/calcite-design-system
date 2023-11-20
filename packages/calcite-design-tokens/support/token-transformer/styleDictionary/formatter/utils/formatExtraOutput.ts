@@ -22,7 +22,7 @@ export function formatExtraOutput(
                 typeof imp === "string" ? `@import "${imp}";` : `@import "${imp[0]}" ${imp.slice(1).join(" ")};`
               )
             : [];
-          const forwards = index.forward ? index.forward.map((fwd) => `@forward "${fwd}";`) : [];
+          const forwards = index.forward ? index.forward.map((fwd) => `@import "${fwd}";`) : [];
           const classes = index.class
             ? index.class.map((cls) =>
                 cls && Array.isArray(outputObject[`${cls[1]}.${args.platform}`])
