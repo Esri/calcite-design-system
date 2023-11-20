@@ -173,14 +173,13 @@
   background-color: var(--calcite-button-transparent-press);
 }
 
-:host([appearance="transparent"][loading]) .button,
 :host([appearance="transparent"][disabled]) .button {
   @apply bg-transparent;
 }
 
-:host([loading]) .button,
-:host([loading]) .button:hover,
-:host([loading]) .button:focus {
+:host([loading][appearance="solid"]) .button,
+:host([loading][appearance="solid"]) .button:hover,
+:host([loading][appearance="solid"]) .button:focus {
   @apply bg-foreground-1;
   .text-container {
     @apply opacity-disabled;
