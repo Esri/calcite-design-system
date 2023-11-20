@@ -30,8 +30,8 @@ export const config: CalciteTokenTransformConfig = {
             ["./light.css", "(prefers-color-scheme: light)"],
           ],
           class: [
-            ["calcite-color-scheme-light", "light"],
-            ["calcite-color-scheme-dark", "dark"],
+            ["calcite-mode-light", "light"],
+            ["calcite-mode-dark", "dark"],
           ],
         },
       },
@@ -44,8 +44,8 @@ export const config: CalciteTokenTransformConfig = {
           import: ["../css/index.css"],
           forward: ["./mixins.scss"],
           mixin: [
-            ["calcite-color-scheme-light", "light"],
-            ["calcite-color-scheme-dark", "dark"],
+            ["calcite-mode-light", "light"],
+            ["calcite-mode-dark", "dark"],
           ],
         },
       },
