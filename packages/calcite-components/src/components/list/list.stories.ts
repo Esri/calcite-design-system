@@ -81,6 +81,14 @@ export const stretchSlottedContent = (): string => html`
         <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
         <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
       </calcite-action-menu>
+      <calcite-dropdown slot="actions-end">
+        <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>
+        <calcite-dropdown-group selection-mode="single" group-title="Sort by">
+          <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+          <calcite-dropdown-item selected="">Date modified</calcite-dropdown-item>
+          <calcite-dropdown-item>Title</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
     </calcite-list-item>
   </calcite-list>
 `;
@@ -214,6 +222,34 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
     <div slot="content-end" style="display: flex; justify-content: flex-end">
       <calcite-chip class="list-chip" icon="bell" scale="s">Halp!</calcite-chip>
     </div>
+  </calcite-list-item>
+</calcite-list> `;
+
+export const contentBottomSlots = (): string => html`<calcite-list ${knobsHTML()}>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+</calcite-list> `;
+
+export const contentBottomSlotsNested = (): string => html`<calcite-list ${knobsHTML()}>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+    <calcite-list
+      ><calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
+        <span slot="content-bottom">Some value or something and a <b>thing</b>.</span
+        ><calcite-list
+          ><calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+            <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+          </calcite-list-item></calcite-list
+        >
+      </calcite-list-item></calcite-list
+    >
   </calcite-list-item>
 </calcite-list> `;
 
@@ -382,7 +418,7 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
   </calcite-list-item>
 </calcite-list>`;
 
-export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
+export const filteredChildListItems_TestOnly = (): string => html`<calcite-list
     filter-enabled
     filter-text="est"
     filter-placeholder="Find content"
@@ -563,6 +599,10 @@ export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
       </calcite-list-item>
     </calcite-list-item-group>
   </calcite-list>`;
+
+filteredChildListItems_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
 
 export const filterActions_TestOnly = (): string => html`<calcite-list
   selection-mode="single"

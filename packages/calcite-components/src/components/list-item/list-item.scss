@@ -74,7 +74,8 @@ td:focus {
 }
 
 .label,
-.description {
+.description,
+.content-bottom {
   @apply text-n2 word-break font-sans font-normal;
   &:only-child {
     @apply m-0 py-1;
@@ -100,6 +101,13 @@ td:focus {
 .content-start,
 .content-end {
   @apply flex-auto;
+}
+
+.content-bottom {
+  @apply bg-foreground-1 flex flex-col;
+  padding-inline-start: calc(
+    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
+  );
 }
 
 .content-container--has-center-content .content-start,
@@ -138,7 +146,8 @@ td:focus {
 .actions-end {
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
-  ::slotted(calcite-handle) {
+  ::slotted(calcite-handle),
+  ::slotted(calcite-dropdown) {
     @apply self-stretch;
 
     color: inherit;
