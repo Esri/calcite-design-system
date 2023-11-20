@@ -42,15 +42,15 @@
           },
           "hover": {
             "value": {
-              "light": "rgba({core.color.neutral.blk-240}, {core.opacity.05})",
-              "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.05})"
+              "light": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+              "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.4})"
             },
             "type": "color"
           },
           "press": {
             "value": {
-              "light": "rgba({core.color.neutral.blk-240}, {core.opacity.08})",
-              "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.08})"
+              "light": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+              "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.8})"
             },
             "type": "color"
           }
