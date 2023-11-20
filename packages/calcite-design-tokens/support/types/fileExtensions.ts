@@ -6,6 +6,6 @@ export const fileExtension: PlatformObject<string> = {
   scss: ".scss",
   js: ".js",
   es6: ".js",
-  ts: ".ts",
-  es6Ts: ".ts",
+  ts: ".d.ts",
+  es6Ts: ".d.ts",
 };
