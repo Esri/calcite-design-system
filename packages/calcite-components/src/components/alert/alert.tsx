@@ -207,7 +207,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       signDisplay: "always",
     };
 
-    const { hasEndActions } = this;
     const { open, autoClose, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
@@ -233,20 +232,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
-          <div class={CSS.contentContainer}>
-            {effectiveIcon && this.renderIcon(effectiveIcon)}
-            <div class={CSS.content}>
-              <div class={CSS.textContainer}>
-                <slot name={SLOTS.title} />
-                <slot name={SLOTS.message} />
-                <slot name={SLOTS.link} />
-              </div>
-            </div>
+          {effectiveIcon && this.renderIcon(effectiveIcon)}
+          <div class={CSS.textContainer}>
+            <slot name={SLOTS.title} />
+            <slot name={SLOTS.message} />
+            <slot name={SLOTS.link} />
           </div>
-          <div class={CSS.footer} hidden={!hasEndActions && !hasQueuedAlerts}>
-            {this.renderActionsEnd()}
-            {hasQueuedAlerts ? this.renderQueueCount() : null}
-          </div>
+          {this.renderActionsEnd()}
+          {hasQueuedAlerts ? this.renderQueueCount() : null}
           {this.renderCloseButton()}
           {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
