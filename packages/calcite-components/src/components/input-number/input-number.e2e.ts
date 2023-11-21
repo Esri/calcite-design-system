@@ -1748,4 +1748,28 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
     expect(await inputNumber.getProperty("value")).toEqual(value);
   });
+
+  it("should not change the value when user Tab out of the input with ArrowUp/ArrowDown keys are down", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
+    const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
+    const input = await page.find("calcite-input-number");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.down("ArrowUp");
+    // timeout is used to simulate long press.
+    await page.waitForTimeout(3000);
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    const totalNudgesUp = calciteInputNumberInput.length;
+    expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(totalNudgesUp);
+
+    await page.waitForTimeout(3000);
+    expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(totalNudgesUp);
+  });
 });
