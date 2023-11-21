@@ -4,6 +4,12 @@ const listSelector = "calcite-list";
 const listItemGroupSelector = "calcite-list-item-group";
 const listItemSelector = "calcite-list-item";
 
+export function getListItemChildLists(slotEl: HTMLSlotElement): HTMLCalciteListElement[] {
+  return Array.from(
+    slotEl.assignedElements({ flatten: true }).filter((el) => el.matches(listSelector))
+  ) as HTMLCalciteListElement[];
+}
+
 export function getListItemChildren(slotEl: HTMLSlotElement): HTMLCalciteListItemElement[] {
   const assignedElements = slotEl.assignedElements({ flatten: true });
 
