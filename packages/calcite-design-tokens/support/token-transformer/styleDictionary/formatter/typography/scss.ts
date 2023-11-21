@@ -1,5 +1,5 @@
-import { createTokenReference } from "../../../utils/createTokenReference.js";
-import { MappedFormatterArguments } from "../utils.js";
+import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
+import { createTokenReference } from "../utils/createTokenReference.js";
 
 export function addSCSSImportByRef(refs: any, args: MappedFormatterArguments, refStrings: string[]): string[] {
   if (args.dictionary.usesReference(refs)) {

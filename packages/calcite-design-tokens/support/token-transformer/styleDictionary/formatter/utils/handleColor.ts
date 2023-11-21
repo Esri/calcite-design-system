@@ -1,7 +1,7 @@
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
+import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";
 import { TokenColorSchemeUnion } from "../../../../types/tokenTypes/colorScheme.js";
-import { MappedFormatterArguments } from "../utils.js";
 import { handleStringValueTokens } from "./handleStringValue.js";
 
 export function handleColor(

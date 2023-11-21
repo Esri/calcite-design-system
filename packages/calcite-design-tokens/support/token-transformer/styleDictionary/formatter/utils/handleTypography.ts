@@ -1,10 +1,10 @@
 import { paramCase } from "change-case";
 
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";
-import { MappedFormatterArguments } from "../utils.js";
 import { getTypographyReferences } from "../typography/utils.js";
 import { addSCSSImportByRef } from "../typography/scss.js";
 import { Platform } from "../../../../types/platform.js";
+import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 
 export function handleTypography(token: TransformedToken, args: MappedFormatterArguments): string {
   const strObj = Object.keys(token.value).reduce((acc, typeKey) => {

@@ -3,10 +3,10 @@ import { checkAndEvaluateMath } from "@tokens-studio/sd-transforms";
 import { Dictionary } from "../../../../types/styleDictionary/dictionary.js";
 import { TransformedToken } from "../../../../types/styleDictionary/transformedToken.js";
 import { TokenBreakpointContextUnion } from "../../../../types/tokenTypes/breakpointContext.js";
-import { MappedFormatterArguments } from "../utils.js";
 import { handleStringValueTokens } from "./handleStringValue.js";
-import { getKebabCaseFromArray } from "../../../utils/getKebabCaseFromArray.js";
 import { Platform } from "../../../../types/platform.js";
+import { transformNamesKebabCase } from "../../transformer/name/nameKebabCase.js";
+import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 
 export function handleBreakpoint(
   token: TransformedToken,
@@ -18,7 +18,7 @@ export function handleBreakpoint(
   }
 
   const returnObject = Object.entries(token.value).reduce((acc, [minMaxKey, breakpointValue]) => {
-    const alteredToken = {
+    let alteredToken = {
       ...token,
       value: checkAndEvaluateMath(`${breakpointValue}`),
       original: {
@@ -30,8 +30,12 @@ export function handleBreakpoint(
       case "css":
       case "scss":
       case "sass":
+        alteredToken = {
+          ...alteredToken,
+          path: [...alteredToken.path, minMaxKey],
+        };
         acc[minMaxKey] = handleStringValueTokens(
-          { ...alteredToken, name: getKebabCaseFromArray([...alteredToken.path, minMaxKey], args.options.prefix) },
+          { ...alteredToken, name: transformNamesKebabCase(alteredToken, args) },
           dictionary,
           args
         );

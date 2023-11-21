@@ -1,6 +1,6 @@
 import { Dictionary } from "style-dictionary/types/Dictionary.js";
 import { PlatformOptions } from "../../../../types/styleDictionary/platform.js";
-import { createTokenReference } from "../../../utils/createTokenReference.js";
+import { createTokenReference } from "./createTokenReference.js";
 
 function hexToRgb(hex) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

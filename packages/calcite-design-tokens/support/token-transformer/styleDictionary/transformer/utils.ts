@@ -2,7 +2,7 @@ import { Transform as SdTransform } from "style-dictionary/types/Transform.js";
 import { Named as SdNamed } from "style-dictionary/types/_helpers.js";
 
 import { PlatformOptions } from "../../../types/styleDictionary/platform.js";
-import { PossibleRegistryArgs } from "../utils.js";
+import { PossibleRegistryArgs } from "../../../types/styleDictionary/registerFunctions.js";
 import { TransformedToken } from "../../../types/styleDictionary/transformedToken.js";
 import { valueAssetToken } from "./value/valueAssetToken.js";
 import { valueAlignFontWeightAndStyles } from "./value/valueAlignFontWeightAndStyle.js";
@@ -13,6 +13,16 @@ import { nameJoinPath } from "./name/nameJoinPath.js";
 import { nameCamelCase } from "./name/nameCamelCase.js";
 import { PlatformUnion } from "../../../types/platform.js";
 import { valueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
+
+export type TransformerTypeUnion = `${TransformerTypeEnum}`;
+
+export type TransformerArgs = PlatformOptions;
+
+export type TransformerConfig = SdNamed<SdTransform> &
+  Required<Pick<PossibleRegistryArgs, "name" | "transformer" | "type">> &
+  Pick<PossibleRegistryArgs, "matcher">;
+
+export type CalledTransformerFunction<R> = typeof calledTransformerFunction<R>;
 
 export const globalTransformations = [
   "ts/size/px",
@@ -57,19 +67,9 @@ export enum TransformerTypeEnum {
   "ATTRIBUTE" = "attribute",
 }
 
-export type TransformerTypeUnion = `${TransformerTypeEnum}`;
-
-export type TransformerArgs = PlatformOptions;
-
-export type TransformerConfig = SdNamed<SdTransform> &
-  Required<Pick<PossibleRegistryArgs, "name" | "transformer" | "type">> &
-  Pick<PossibleRegistryArgs, "matcher">;
-
 export declare function calledTransformerFunction<R = any>(
   token: TransformedToken,
   args: {
     [K in keyof TransformerArgs]: TransformerArgs[K];
   }
 ): R;
-
-export type CalledTransformerFunction<R> = typeof calledTransformerFunction<R>;

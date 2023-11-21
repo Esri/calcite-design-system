@@ -1,9 +1,11 @@
 import { Core as StyleDictionary } from "style-dictionary";
-import { getJoinedNameFromArray } from "../../../utils/getJoinedNameFromArray.js";
 import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 
-export const transformNamesJoinPath: CalledTransformerFunction<string> = (token) => {
-  return getJoinedNameFromArray(token.path);
+export const transformNamesJoinPath: CalledTransformerFunction<string> = (token, args) => {
+  return `${[]
+    .concat(args.options?.prefix, token.path)
+    .filter((p) => p)
+    .join(".")}`;
 };
 
 export const registerNameJoinPath = (sd: StyleDictionary): void => {

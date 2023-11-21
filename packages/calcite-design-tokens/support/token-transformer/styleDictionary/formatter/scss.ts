@@ -1,8 +1,8 @@
 import sd, { Core as StyleDictionary } from "style-dictionary";
 
 import { formatTokens } from "./utils/formatTokens.js";
-import { CalledFormatterFunction, FormatterConfig } from "./utils.js";
 import { formatExtraOutput } from "./utils/formatExtraOutput.js";
+import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments.js";
 
 export const formatScssPlatform: CalledFormatterFunction = (args) => {
   const { file, dictionary } = args;

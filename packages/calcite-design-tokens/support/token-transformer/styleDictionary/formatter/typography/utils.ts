@@ -1,6 +1,7 @@
 import { Platform } from "../../../../types/platform.js";
-import { createTokenReference } from "../../../utils/createTokenReference.js";
-import { FormattingRules, MappedFormatterArguments } from "../utils.js";
+import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
+import { FormattingRules } from "../utils.js";
+import { createTokenReference } from "../utils/createTokenReference.js";
 
 export function getTypographyReferences(
   propName: string,

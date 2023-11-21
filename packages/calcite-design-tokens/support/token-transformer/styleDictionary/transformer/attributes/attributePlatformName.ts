@@ -1,8 +1,8 @@
 import { Core as StyleDictionary } from "style-dictionary";
 
-import { setTokenNameByPlatform } from "../../../utils/setTokenNameByPlatform.js";
 import { PlatformUnion } from "../../../../types/platform.js";
 import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
+import { transformNamesSet } from "../name/nameSet.js";
 
 export const transformAttributesNamesPerPlatform: CalledTransformerFunction<{ [key: string]: any }> = (token, args) => {
   const tokenNameOutputByPlatform = args.options.platforms.reduce((acc, platform) => {
@@ -17,7 +17,7 @@ export const transformAttributesNamesPerPlatform: CalledTransformerFunction<{ [k
       platformArgs = args;
     }
 
-    acc[platform] = setTokenNameByPlatform(token, {
+    acc[platform] = transformNamesSet(token, {
       ...platformArgs,
       files: [{ ...file, format: platform }],
     });

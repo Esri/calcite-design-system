@@ -1,6 +1,6 @@
 import styleDictionary, { Core as StyleDictionary } from "style-dictionary";
 import { default as JsonToTS } from "json-to-ts/build/src/index.js";
-import { CalledFormatterFunction, FormatterConfig } from "./utils.js";
+import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
 
 export const formatJsPlatform: CalledFormatterFunction = (args) => {
   return (
