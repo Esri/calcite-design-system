@@ -22,7 +22,12 @@ import {
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
+import {
+  getDepth,
+  getListItemChildren,
+  getListItemChildLists,
+  updateListItemChildren,
+} from "./utils";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -675,8 +680,9 @@ export class ListItem
 
     const { parentListEl } = this;
     const listItemChildren = getListItemChildren(slotEl);
+    const listItemChildLists = getListItemChildLists(slotEl);
     updateListItemChildren(listItemChildren);
-    const openable = !!listItemChildren.length;
+    const openable = !!listItemChildren.length || !!listItemChildLists.length;
 
     if (openable && parentListEl && !parentListEl.openable) {
       parentListEl.openable = true;
