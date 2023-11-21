@@ -1,3 +1,5 @@
 {
-  "complete": "Tamamlanan adım"
+  "complete": "Tamamlanan adım",
+  "previousStep": "Önceki adım",
+  "nextStep": "Sonraki adım"
 }
