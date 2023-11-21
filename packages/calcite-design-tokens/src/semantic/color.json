@@ -22,6 +22,13 @@
             "dark": "{core.color.high-saturation.blue.h-bb-070}"
           },
           "type": "color"
+        },
+        "underline": {
+          "type": "color",
+          "value": {
+            "light": "rgba({core.color.high-saturation.blue.h-bb-070}, {core.opacity.40})",
+            "dark": "rgba({core.color.dark.blue.d-bb-420}, {core.opacity.40})"
+          }
         }
       },
       "background": {
@@ -35,8 +42,8 @@
         "transparent": {
           "default": {
             "value": {
-              "light": "rgba({core.color.neutral.blk-240}, {core.opacity.80})",
-              "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.80})"
+              "light": "rgba({core.color.neutral.blk-000}, {core.opacity.80})",
+              "dark": "rgba({core.color.neutral.blk-240}, {core.opacity.80})"
             },
             "type": "color"
           },
@@ -51,6 +58,13 @@
             "value": {
               "light": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
               "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.8})"
+            },
+            "type": "color"
+          },
+          "dismiss": {
+            "value": {
+              "light": "rgba({core.color.neutral.blk-000}, {core.opacity.80})",
+              "dark": "rgba({core.color.neutral.blk-200}, {core.opacity.80})"
             },
             "type": "color"
           }
