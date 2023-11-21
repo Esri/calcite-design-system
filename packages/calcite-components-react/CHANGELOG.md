@@ -3,7 +3,11 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.11.0-next.3...@esri/calcite-components-react@2.0.0-next.0) (2023-11-21)
+## [2.0.0-rc.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.0.0-rc.0...@esri/calcite-components-react@2.0.0-rc.1) (2023-11-15)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [2.0.0-rc.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.10.1-next.2...@esri/calcite-components-react@2.0.0-rc.0) (2023-11-14)
 
 ### ⚠ BREAKING CHANGES
 
@@ -11,29 +15,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   precautionary measure, particularly due to its potential impact on
   projects using `calcite-components` and Stencil.
 
-### Reverts
-
-- "Merge branch 'rc-force' into main" ([#8191](https://github.com/Esri/calcite-design-system/issues/8191)) ([c8f33df](https://github.com/Esri/calcite-design-system/commit/c8f33dfd4ef8b0badd22ee6f73a939307acbbc4c))
-
 ### Build System
 
-- **deps:** bump Stencil to v4 ([#8108](https://github.com/Esri/calcite-design-system/issues/8108)) ([d7c77c2](https://github.com/Esri/calcite-design-system/commit/d7c77c2ed6a7da0d26732410cba34074af9d0355)), closes [#7861](https://github.com/Esri/calcite-design-system/issues/7861)
-
-## [1.11.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.11.0-next.2...@esri/calcite-components-react@1.11.0-next.3) (2023-11-16)
-
-**Note:** Version bump only for package @esri/calcite-components-react
-
-## [1.11.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.11.0-next.1...@esri/calcite-components-react@1.11.0-next.2) (2023-11-15)
-
-**Note:** Version bump only for package @esri/calcite-components-react
-
-## [1.11.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.11.0-next.0...@esri/calcite-components-react@1.11.0-next.1) (2023-11-15)
-
-**Note:** Version bump only for package @esri/calcite-components-react
-
-## [1.11.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.10.1-next.2...@esri/calcite-components-react@1.11.0-next.0) (2023-11-15)
-
-**Note:** Version bump only for package @esri/calcite-components-react
+- **deps:** bump Stencil to v4 ([#8108](https://github.com/Esri/calcite-design-system/issues/8108)) ([b35f835](https://github.com/Esri/calcite-design-system/commit/b35f83531b5e392d34863d6faffd1bdd0905d2a7)), closes [#7861](https://github.com/Esri/calcite-design-system/issues/7861)
 
 ## [1.10.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.10.1-next.2...@esri/calcite-components-react@1.10.1-next.3) (2023-11-09)
 

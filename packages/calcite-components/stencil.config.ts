@@ -1,5 +1,5 @@
 import { Config } from "@stencil/core";
-import { postcss } from "@stencil/postcss";
+import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
@@ -100,7 +100,7 @@ export const create: () => Config = () => ({
       includeImportCustomElements: true,
     }),
     { type: "dist-hydrate-script" },
-    { type: "dist-custom-elements", autoDefineCustomElements: true },
+    { type: "dist-custom-elements", customElementsExportBehavior: "auto-define-custom-elements" },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
@@ -142,7 +142,7 @@ export const create: () => Config = () => ({
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
+      "^@esri/calcite-design-tokens/dist/(.*)$": "<rootDir>/../../node_modules/@esri/calcite-design-tokens/dist/$1",
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
@@ -157,7 +157,7 @@ export const create: () => Config = () => ({
   },
   preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.\nv${version}`,
   extras: {
-    experimentalImportInjection: true,
+    enableImportInjection: true,
     scriptDataOpts: true,
   },
 });
