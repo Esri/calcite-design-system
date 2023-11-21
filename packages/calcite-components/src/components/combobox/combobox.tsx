@@ -121,9 +121,7 @@ export class Combobox
 
   /**
    * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections
-   * - `"all"` (displays all selections with individual `calcite-chip`s)
-   * - `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed).
-   * - `"single"` (display one `calcite-chip` with the total number of selections)
+   * - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
    */
   @Prop({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
