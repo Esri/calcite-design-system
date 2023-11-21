@@ -133,7 +133,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     block;
     block-size: 2px;
     content: "";
-    background-color: var(--calcite-alert-dismiss-progress-background);
+    background-color: var(--calcite-color-background-transparent-dismiss);
     inset-inline-end: 0;
   }
 }

@@ -194,7 +194,7 @@ describe("calcite-chip", () => {
         html: `
         <style>
           :root {
-            --calcite-button-transparent-hover: ${overrideStyle};
+            --calcite-color-background-transparent-hover: ${overrideStyle};
           }
         </style>
         <div>${chipSnippet}</div>`,

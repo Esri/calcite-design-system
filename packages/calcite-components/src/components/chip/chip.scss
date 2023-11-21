@@ -165,8 +165,8 @@
   border-radius: 50%;
   align-content: center;
   justify-content: center;
-  --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
-  --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
+  --calcite-chip-transparent-hover: var(--calcite-color-background-transparent-hover);
+  --calcite-chip-transparent-press: var(--calcite-color-background-transparent-press);
   &:hover {
     background-color: var(--calcite-chip-transparent-hover);
   }

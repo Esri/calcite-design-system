@@ -239,8 +239,8 @@ describe("calcite-alert", () => {
       page = await newE2EPage({ html: alertSnippet });
       progressBarStyles = await page.evaluate(() => {
         const alert = document.querySelector("calcite-alert");
-        alert.style.setProperty("--calcite-alert-dismiss-progress-background", "white");
-        return window.getComputedStyle(alert).getPropertyValue("--calcite-alert-dismiss-progress-background");
+        alert.style.setProperty("--calcite-color-background-transparent-dismiss", "white");
+        return window.getComputedStyle(alert).getPropertyValue("--calcite-color-background-transparent-dismiss");
       });
       expect(progressBarStyles).toEqual("white");
     });
@@ -273,7 +273,7 @@ describe("calcite-alert", () => {
         html: `
         <style>
           :root {
-            --calcite-alert-dismiss-progress-background: ${overrideStyle};
+            --calcite-color-background-transparent-dismiss: ${overrideStyle};
           }
         </style>
         <div>${alertSnippet}</div>`,

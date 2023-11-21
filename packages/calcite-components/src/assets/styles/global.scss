@@ -1,21 +1,10 @@
 @import "~@esri/calcite-base/dist/_index";
 @import "~@esri/calcite-design-tokens/dist/scss/index";
+@import "~@esri/calcite-design-tokens/dist/scss/core";
 @import url("~@esri/calcite-design-tokens/dist/css/index.css");
 
 /* CSS vars (@include in global) */
 @import "type";
-
-@mixin calcite-mode-light-extended {
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
-  --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
-  --calcite-scrim-background-internal: #{rgba($blk-000, 0.85)};
-}
-
-@mixin calcite-mode-dark-extended {
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
-  --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
-  --calcite-scrim-background-internal: #{rgba($blk-240, 0.85)};
-}
 
 :root {
   @extend %type-vars;
@@ -36,23 +25,13 @@
   @apply font-sans;
 }
 
-.calcite-mode-dark {
-  @include calcite-mode-dark-extended();
-}
-
-.calcite-mode-light {
-  @include calcite-mode-light-extended();
-}
-
 .calcite-mode-auto {
   @media (prefers-color-scheme: dark) {
     @include calcite-mode-dark();
-    @include calcite-mode-dark-extended();
   }
 
   @media (prefers-color-scheme: light) {
     @include calcite-mode-light();
-    @include calcite-mode-light-extended();
   }
 }
 
