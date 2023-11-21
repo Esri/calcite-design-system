@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.0.0-next.0...@esri/calcite-components@2.0.0-next.1) (2023-11-21)
+
+### Features
+
+- **combobox:** limit display of selected items with new selection-display prop ([#7912](https://github.com/Esri/calcite-design-system/issues/7912)) ([58317ae](https://github.com/Esri/calcite-design-system/commit/58317ae6803a3a1716cabeaeac2061fa533a6bad)), closes [#4326](https://github.com/Esri/calcite-design-system/issues/4326)
+- **stepper:** enable responsive layout ([#7744](https://github.com/Esri/calcite-design-system/issues/7744)) ([687ca2b](https://github.com/Esri/calcite-design-system/commit/687ca2b04ed072fae15405c5ce1631adc190b449)), closes [#6694](https://github.com/Esri/calcite-design-system/issues/6694)
+
+### Reverts
+
+- feat(stepper-item)!: remove support for previousStep and nextStep in messages ([#8222](https://github.com/Esri/calcite-design-system/issues/8222)) ([#8232](https://github.com/Esri/calcite-design-system/issues/8232)) ([b597001](https://github.com/Esri/calcite-design-system/commit/b597001349d3ab5861fa647d41feb2f9ab58099b))
+
 ## [2.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.0-next.3...@esri/calcite-components@2.0.0-next.0) (2023-11-21)
 
 ### ⚠ BREAKING CHANGES
