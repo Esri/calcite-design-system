@@ -68,7 +68,7 @@ import {
 } from "../../utils/t9n";
 import { Scale, SelectionMode } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
-import { ComboboxChildElement, DisplayMode } from "./interfaces";
+import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
@@ -120,13 +120,12 @@ export class Combobox
   @Prop({ reflect: true }) clearDisabled = false;
 
   /**
-   * Controls the display behavior of multiple selected items.
-   * This property does not apply when selection-mode is set to "single" or "single-persist".
-   * - "all" displays every selected chip, wrapping to the next line if necessary
-   * - "single" displays a single chip indicating the total amount of selected items
-   * - "auto" only displays selected chips that fit horizontally, with a non-closable chip indicating additional selected items as needed
+   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections
+   * - `"all"` (displays all selections with individual `calcite-chip`s)
+   * - `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed).
+   * - `"single"` (display one `calcite-chip` with the total number of selections)
    */
-  @Prop({ reflect: true }) displayMode: DisplayMode = "all";
+  @Prop({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
   /**When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -466,7 +465,7 @@ export class Combobox
   }
 
   componentDidUpdate(): void {
-    this.refreshDisplayMode();
+    this.refreshSelectionDisplay();
   }
 
   disconnectedCallback(): void {
@@ -514,7 +513,7 @@ export class Combobox
 
   @State() activeDescendant = "";
 
-  @State() compactDisplayMode = false;
+  @State() compactSelectionDisplay = false;
 
   @State() selectedHiddenChipsCount = 0;
 
@@ -545,7 +544,7 @@ export class Combobox
 
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
-    this.refreshDisplayMode();
+    this.refreshSelectionDisplay();
   });
 
   private guid = guid();
@@ -847,7 +846,7 @@ export class Combobox
     });
   }
 
-  private refreshDisplayMode = async () => {
+  private refreshSelectionDisplay = async () => {
     await componentLoaded(this);
 
     if (isSingleLike(this.selectionMode)) {
@@ -861,7 +860,7 @@ export class Combobox
     const {
       allSelectedIndicatorChipEl,
       chipContainerEl,
-      displayMode,
+      selectionDisplay,
       placeholder,
       selectedIndicatorChipEl,
       textInput,
@@ -879,14 +878,14 @@ export class Combobox
       selectedIndicatorChipElWidth
     );
 
-    this.setCompactDisplayMode({
+    this.setCompactSelectionDisplay({
       chipContainerElGap,
       chipContainerElWidth,
       inputWidth,
       largestSelectedIndicatorChipWidth,
     });
 
-    if (displayMode === "auto") {
+    if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
         (chipEl) => chipEl.closable
       );
@@ -909,7 +908,7 @@ export class Combobox
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
-  private setCompactDisplayMode({
+  private setCompactSelectionDisplay({
     chipContainerElGap,
     chipContainerElWidth,
     inputWidth,
@@ -921,7 +920,7 @@ export class Combobox
     if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
       this.maxCompactBreakpoint = newCompactBreakpoint;
     }
-    this.compactDisplayMode = chipContainerElWidth < this.maxCompactBreakpoint;
+    this.compactSelectionDisplay = chipContainerElWidth < this.maxCompactBreakpoint;
   }
 
   setContainerEl = (el: HTMLDivElement): void => {
@@ -1356,8 +1355,12 @@ export class Combobox
   }
 
   renderAllSelectedIndicatorChip(): VNode {
-    const { compactDisplayMode, scale, selectedVisibleChipsCount, setAllSelectedIndicatorChipEl } =
-      this;
+    const {
+      compactSelectionDisplay,
+      scale,
+      selectedVisibleChipsCount,
+      setAllSelectedIndicatorChipEl,
+    } = this;
     const label = this.messages.allSelected;
     return (
       <calcite-chip
@@ -1366,7 +1369,7 @@ export class Combobox
           [CSS.chipInvisible]: !(
             this.isAllSelected() &&
             !selectedVisibleChipsCount &&
-            !compactDisplayMode
+            !compactSelectionDisplay
           ),
         }}
         scale={scale}
@@ -1380,7 +1383,7 @@ export class Combobox
   }
 
   renderAllSelectedIndicatorChipCompact(): VNode {
-    const { compactDisplayMode, scale, selectedVisibleChipsCount } = this;
+    const { compactSelectionDisplay, scale, selectedVisibleChipsCount } = this;
     const label = this.messages.all || "All";
     return (
       <calcite-chip
@@ -1389,7 +1392,7 @@ export class Combobox
           [CSS.chipInvisible]: !(
             this.isAllSelected() &&
             !selectedVisibleChipsCount &&
-            compactDisplayMode
+            compactSelectionDisplay
           ),
         }}
         scale={scale}
@@ -1403,8 +1406,8 @@ export class Combobox
 
   renderSelectedIndicatorChip(): VNode {
     const {
-      compactDisplayMode,
-      displayMode,
+      compactSelectionDisplay,
+      selectionDisplay,
       getSelectedItems,
       scale,
       selectedHiddenChipsCount,
@@ -1412,10 +1415,10 @@ export class Combobox
       setSelectedIndicatorChipEl,
     } = this;
     let chipInvisible, label;
-    if (compactDisplayMode) {
+    if (compactSelectionDisplay) {
       chipInvisible = true;
     } else {
-      if (displayMode === "single") {
+      if (selectionDisplay === "single") {
         const selectedItemsCount = getSelectedItems().length;
         if (this.isAllSelected()) {
           chipInvisible = true;
@@ -1425,7 +1428,7 @@ export class Combobox
           chipInvisible = true;
         }
         label = `${selectedItemsCount} ${this.messages.selected}`;
-      } else if (displayMode === "auto") {
+      } else if (selectionDisplay === "fit") {
         if (
           (this.isAllSelected() && selectedVisibleChipsCount === 0) ||
           selectedHiddenChipsCount === 0
@@ -1457,17 +1460,22 @@ export class Combobox
   }
 
   renderSelectedIndicatorChipCompact(): VNode {
-    const { compactDisplayMode, displayMode, getSelectedItems, scale, selectedHiddenChipsCount } =
-      this;
+    const {
+      compactSelectionDisplay,
+      selectionDisplay,
+      getSelectedItems,
+      scale,
+      selectedHiddenChipsCount,
+    } = this;
     let chipInvisible, label;
-    if (compactDisplayMode) {
+    if (compactSelectionDisplay) {
       const selectedItemsCount = getSelectedItems().length;
       if (this.isAllSelected()) {
         chipInvisible = true;
-      } else if (displayMode === "auto") {
+      } else if (selectionDisplay === "fit") {
         chipInvisible = selectedHiddenChipsCount > 0 ? false : true;
         label = `${selectedHiddenChipsCount || 0}`;
-      } else if (displayMode === "single") {
+      } else if (selectionDisplay === "single") {
         chipInvisible = selectedItemsCount > 0 ? false : true;
         label = `${selectedItemsCount}`;
       }
@@ -1621,11 +1629,11 @@ export class Combobox
   }
 
   render(): VNode {
-    const { displayMode, guid, label, open } = this;
+    const { selectionDisplay, guid, label, open } = this;
     const singleSelectionMode = isSingleLike(this.selectionMode);
-    const showAllDisplayMode = displayMode === "all";
-    const singleDisplayMode = displayMode === "single";
-    const fitToLineDisplayMode = !singleSelectionMode && displayMode === "auto";
+    const allSelectionDisplay = selectionDisplay === "all";
+    const singleSelectionDisplay = selectionDisplay === "single";
+    const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
     return (
       <Host onClick={this.comboboxFocusHandler}>
@@ -1651,15 +1659,15 @@ export class Combobox
           <div
             class={{
               "grid-input": true,
-              [CSS.displayModeAuto]: fitToLineDisplayMode,
-              [CSS.displayModeSingle]: singleDisplayMode,
+              [CSS.selectionDisplayFit]: fitSelectionDisplay,
+              [CSS.selectionDisplaySingle]: singleSelectionDisplay,
             }}
             ref={this.setChipContainerEl}
           >
             {this.renderIconStart()}
-            {!singleSelectionMode && !singleDisplayMode && this.renderChips()}
+            {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
             {!singleSelectionMode &&
-              !showAllDisplayMode && [
+              !allSelectionDisplay && [
                 this.renderSelectedIndicatorChip(),
                 this.renderSelectedIndicatorChipCompact(),
                 this.renderAllSelectedIndicatorChip(),
