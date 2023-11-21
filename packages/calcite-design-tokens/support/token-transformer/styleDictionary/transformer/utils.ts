@@ -13,6 +13,7 @@ import { nameJoinPath } from "./name/nameJoinPath.js";
 import { nameCamelCase } from "./name/nameCamelCase.js";
 import { PlatformUnion } from "../../../types/platform.js";
 import { valueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
+import { CalciteValueRGBA } from "./value/valueRGBA.js";
 
 export type TransformerTypeUnion = `${TransformerTypeEnum}`;
 
@@ -29,6 +30,7 @@ export const globalTransformations = [
   "ts/color/modifiers",
   valueAlignFontWeightAndStyles,
   valueEvaluateMath,
+  CalciteValueRGBA,
 ];
 
 export const styles = [

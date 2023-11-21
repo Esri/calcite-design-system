@@ -13,7 +13,9 @@ export function handleStringValueTokens(
   const stringValue = value || token.value;
   const formatting = FormattingRules[args.options.platform] || FormattingRules.default;
   const formattedName = `${formatting.indentation}${formatting.prefix}${token.name}${formatting.separator}`;
-  const formattedValue = getReferencesFromValue(token.original.value, stringValue, dictionary, args.platform);
+  const formattedValue = getReferencesFromValue(token.original.value, stringValue, dictionary, {
+    options: args.options,
+  });
   // the key comes from Token Studio, which is why we have to keep the misspelling
   // eslint-disable-next-line @cspell/spellchecker
   const themeAble = ["sass", "scss"].includes(args.options.platform) && !!token["themeable"] ? "!default" : false;
