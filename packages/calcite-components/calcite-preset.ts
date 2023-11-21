@@ -164,8 +164,8 @@ export default {
         2: "0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08)",
         "2-lg": "0 12px 32px -2px rgba(0, 0, 0, 0.1), 0 4px 20px 0 rgba(0, 0, 0, 0.08)",
         "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
-        "border-bottom": "0 1px 0 var(--calcite-border-3)",
-        "outline-active": "0 0 0 1px var(--calcite-brand)",
+        "border-bottom": "0 1px 0 var(--calcite-color-border-3)",
+        "outline-active": "0 0 0 1px var(--calcite-color-brand)",
         none: "none",
         xs: "0 0 0 1px rgba(0, 0, 0, 0.05)",
         outline: "0 0 0 3px rgba(66, 153, 225, 0.5)",
@@ -256,22 +256,22 @@ export default {
           "outline-color": "transparent",
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-focus-color, var(--calcite-brand))",
+          outline: "2px solid var(--calcite-focus-color, var(--calcite--color-brand))",
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-focus-color, var(--calcite-brand))",
+          outline: "2px solid var(--calcite-focus-color, var(--calcite-color-brand))",
           "outline-offset": invert("2px", "--calcite-focus-offset-invert"),
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-focus-color, var(--calcite-brand))",
+          outline: "2px solid var(--calcite-focus-color, var(--calcite-color-brand))",
           "outline-offset": invert("-2px", "--calcite-focus-offset-invert"),
         },
         ".focus-outset-danger": {
-          outline: "2px solid var(--calcite-danger)",
+          outline: "2px solid var(--calcite-color-danger)",
           "outline-offset": invert("2px", "--calcite-focus-offset-invert"),
         },
         ".focus-inset-danger": {
-          outline: "2px solid var(--calcite-danger)",
+          outline: "2px solid var(--calcite-color-danger)",
           "outline-offset": invert("-2px", "--calcite-focus-offset-invert"),
         },
         ".transition-default": {
