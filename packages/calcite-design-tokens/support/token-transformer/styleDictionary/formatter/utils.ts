@@ -1,7 +1,7 @@
 import { PlatformFormats, PlatformUnion } from "../../../types/platform.js";
 import { FormatterRules, MappedFormatterArguments } from "../../../types/styleDictionary/formatterArguments.js";
 import { CalciteCss } from "./css.js";
-import { CalciteJs, CalciteTs } from "./javascript.js";
+import { CalciteJs } from "./javascript.js";
 import { CalciteScss } from "./scss.js";
 
 const formatters: Partial<Record<PlatformFormats, string>> = {
@@ -10,7 +10,7 @@ const formatters: Partial<Record<PlatformFormats, string>> = {
   sass: CalciteScss,
   js: CalciteJs,
   es6: "javascript/es6",
-  ts: CalciteTs,
+  ts: "typescript/module-declarations",
   es6Ts: "typescript/es6-declarations",
 } as const;
 
