@@ -751,3 +751,13 @@ export const sortableNestedList_TestOnly = (): string => html`<calcite-list
   <calcite-list-item label="Hi! 6" description="hello world"></calcite-list-item>
   <calcite-list-item label="Hi! 7" description="hello world"></calcite-list-item>
 </calcite-list>`;
+
+export const listWithEmptyChildList_TestOnly = (): string => html`<calcite-list
+  drag-enabled
+  group="nested"
+  selection-mode="single"
+>
+  <calcite-list-item open label="Hi! 4" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="single"></calcite-list>
+  </calcite-list-item>
+</calcite-list>`;
