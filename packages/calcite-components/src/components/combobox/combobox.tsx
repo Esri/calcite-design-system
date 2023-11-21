@@ -1465,8 +1465,9 @@ export class Combobox
       scale,
       selectedHiddenChipsCount,
     } = this;
-    let chipInvisible;
-    let label;
+    let chipInvisible: boolean;
+    let label: string;
+
     if (compactSelectionDisplay) {
       const selectedItemsCount = getSelectedItems().length;
       if (this.isAllSelected()) {
