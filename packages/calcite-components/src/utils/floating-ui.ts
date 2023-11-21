@@ -156,9 +156,9 @@ export const positionFloatingUI =
       visibility,
       pointerEvents,
       position,
-      transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : null,
-      left: open ? `0` : null,
-      top: open ? `0` : null,
+      transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
+      left: open ? `0` : "",
+      top: open ? `0` : "",
     });
   };
 
