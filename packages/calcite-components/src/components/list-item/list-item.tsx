@@ -400,15 +400,11 @@ export class ListItem
         : ICONS.closedLTR
       : ICONS.blank;
 
-    const iconNode = <calcite-icon icon={icon} key={icon} scale="s" />;
+    const clickHandler = openable ? this.toggleOpen : this.itemClicked;
 
-    return openable ? (
-      <td class={CSS.openContainer} key="open-container-openable" onClick={this.toggleOpen}>
-        {iconNode}
-      </td>
-    ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container-blank" onClick={this.itemClicked}>
-        {iconNode}
+    return openable || parentListEl?.openable ? (
+      <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
+        <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
   }
