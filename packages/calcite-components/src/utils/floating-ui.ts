@@ -157,8 +157,8 @@ export const positionFloatingUI =
       pointerEvents,
       position,
       transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
-      left: open ? `0` : "",
-      top: open ? `0` : "",
+      left: open ? "0" : "",
+      top: open ? "0" : "",
     });
   };
 
