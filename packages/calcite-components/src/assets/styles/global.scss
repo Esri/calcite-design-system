@@ -7,16 +7,12 @@
 
 @mixin calcite-mode-light-extended {
   --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
-  --calcite-button-transparent-hover: #{rgba($blk-240, 0.05)};
-  --calcite-button-transparent-press: #{rgba($blk-240, 0.08)};
   --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
   --calcite-scrim-background-internal: #{rgba($blk-000, 0.85)};
 }
 
 @mixin calcite-mode-dark-extended {
   --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
-  --calcite-button-transparent-hover: #{rgba($blk-000, 0.05)};
-  --calcite-button-transparent-press: #{rgba($blk-000, 0.08)};
   --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
   --calcite-scrim-background-internal: #{rgba($blk-240, 0.85)};
 }
@@ -51,10 +47,12 @@
 .calcite-mode-auto {
   @media (prefers-color-scheme: dark) {
     @include calcite-mode-dark();
+    @include calcite-mode-dark-extended();
   }
 
   @media (prefers-color-scheme: light) {
     @include calcite-mode-light();
+    @include calcite-mode-light-extended();
   }
 }
 

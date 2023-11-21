@@ -522,10 +522,10 @@
     @apply bg-transparent;
     &:hover,
     &:focus {
-      background-color: var(--calcite-button-transparent-hover);
+      background-color: var(--calcite-color-background-transparent-hover);
     }
     &:active {
-      background-color: var(--calcite-button-transparent-press);
+      background-color: var(--calcite-color-background-transparent-press);
     }
   }
 }
