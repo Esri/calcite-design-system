@@ -179,12 +179,12 @@ describe("calcite-chip", () => {
         await chipCloseButton.focus();
         await page.waitForChanges();
         chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
-        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
 
         await chipCloseButton.hover();
         await page.waitForChanges();
         chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
-        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
 
