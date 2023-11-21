@@ -1,3 +1,5 @@
 {
-  "complete": "Befejezett lépés"
+  "complete": "Befejezett lépés",
+  "previousStep": "Előző lépés",
+  "nextStep": "Következő lépés"
 }
