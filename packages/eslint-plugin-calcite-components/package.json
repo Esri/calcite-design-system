@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "1.0.0-next.0",
+  "version": "0.2.3-next.6",
   "description": "ESLint rules for @esri/calcite-components",
   "main": "dist/index.js",
   "files": [
