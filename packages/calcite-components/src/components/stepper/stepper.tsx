@@ -408,10 +408,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       (totalItems - 1) * (parseInt(window.getComputedStyle(this.containerEl).rowGap) || 0);
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
-      if (!this.multipleViewMode && !currentActivePositionChanged) {
-        return;
-      }
-
       this.multipleViewMode = false;
 
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
@@ -423,7 +419,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
         }
       });
     } else if (this.elWidth > totalMinWidthOfItems + totalRowGap) {
-      if (this.multipleViewMode) {
+      if (this.multipleViewMode && !currentActivePositionChanged) {
         return;
       }
 
