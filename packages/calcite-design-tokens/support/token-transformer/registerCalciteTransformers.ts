@@ -6,7 +6,7 @@ import { registerCustomJSONParser } from "./styleDictionary/parser/calcite/index
 import { registerFilterSource } from "./styleDictionary/filter/filterSource.js";
 import { registerFormatterCss } from "./styleDictionary/formatter/css.js";
 import { registerFormatterScss } from "./styleDictionary/formatter/scss.js";
-import { registerFormatterTs, registerFormatterJs } from "./styleDictionary/formatter/javascript.js";
+import { registerFormatterJs } from "./styleDictionary/formatter/javascript.js";
 import { registerNameCamelCase } from "./styleDictionary/transformer/name/nameCamelCase.js";
 import { registerNameJoinPath } from "./styleDictionary/transformer/name/nameJoinPath.js";
 import { registerNameKebabCase } from "./styleDictionary/transformer/name/nameKebabCase.js";
@@ -33,7 +33,6 @@ export async function registerCalciteTransformers(sd: StyleDictionary): Promise<
   registerFormatterCss(sd);
   registerFormatterScss(sd);
   registerFormatterJs(sd);
-  registerFormatterTs(sd);
   registerNameCamelCase(sd);
   registerNameJoinPath(sd);
   registerNameKebabCase(sd);
