@@ -21,14 +21,14 @@ export const registerFormatterJs = (sd: StyleDictionary): void => {
 };
 
 export const formatTsPlatform: CalledFormatterFunction = (args) => {
-  const types = JsonToTS(args.dictionary.tokens);
+  const types = JsonToTS(args.dictionary.tokens) as unknown as { name: string; typeMap: Record<string, any> }[];
   return (
     styleDictionary.formatHelpers.fileHeader({ file: args.file }) +
     "declare const root: RootObject\n" +
     "export default root\n" +
     types
       .map((map) => {
-        const data: { name: string; typeMap: Record<string, any> } = typeof map === "string" ? JSON.parse(map) : map;
+        const data: { name: string; typeMap: Record<string, any> } = map;
         const typeMap = Object.entries(data.typeMap).map(([key, val]) => `${key.trim()}: ${val}`);
         return `export interface ${data.name} {\n\t${typeMap.join(";\n\t")}\n}`;
       })
