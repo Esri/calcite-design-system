@@ -176,7 +176,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
           class={{ container: true, [CSS.singleView]: !this.multipleViewMode }}
           ref={this.setContainerEl}
         >
-          {!this.multipleViewMode && (
+          {!this.multipleViewMode && this.layout === "horizontal" && (
             <div class={{ [CSS.stepBarContainer]: true }}>
               {this.items.map((item, index) => (
                 <StepBar
