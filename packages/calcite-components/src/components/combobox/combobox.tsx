@@ -888,7 +888,7 @@ export class Combobox
         (chipEl) => chipEl.closable
       );
 
-      let availableHorizontalChipElSpace = Math.round(
+      const availableHorizontalChipElSpace = Math.round(
         chipContainerElWidth -
           ((this.selectedHiddenChipsCount > 0 ? selectedIndicatorChipElWidth : 0) +
             chipContainerElGap +
@@ -1373,6 +1373,7 @@ export class Combobox
         scale={scale}
         title={label}
         value=""
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={setAllSelectedIndicatorChipEl}
       >
         {label}
@@ -1412,7 +1413,9 @@ export class Combobox
       selectedVisibleChipsCount,
       setSelectedIndicatorChipEl,
     } = this;
-    let chipInvisible, label;
+    let chipInvisible: boolean;
+    let label: string;
+
     if (compactSelectionDisplay) {
       chipInvisible = true;
     } else {
@@ -1427,14 +1430,10 @@ export class Combobox
         }
         label = `${selectedItemsCount} ${this.messages.selected}`;
       } else if (selectionDisplay === "fit") {
-        if (
+        chipInvisible = !!(
           (this.isAllSelected() && selectedVisibleChipsCount === 0) ||
           selectedHiddenChipsCount === 0
-        ) {
-          chipInvisible = true;
-        } else {
-          chipInvisible = false;
-        }
+        );
         label =
           selectedVisibleChipsCount > 0
             ? `+${selectedHiddenChipsCount}`
@@ -1447,10 +1446,11 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
-        ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={setSelectedIndicatorChipEl}
       >
         {label}
       </calcite-chip>
@@ -1465,16 +1465,18 @@ export class Combobox
       scale,
       selectedHiddenChipsCount,
     } = this;
-    let chipInvisible, label;
+    let chipInvisible: boolean;
+    let label: string;
+
     if (compactSelectionDisplay) {
       const selectedItemsCount = getSelectedItems().length;
       if (this.isAllSelected()) {
         chipInvisible = true;
       } else if (selectionDisplay === "fit") {
-        chipInvisible = selectedHiddenChipsCount > 0 ? false : true;
+        chipInvisible = !(selectedHiddenChipsCount > 0);
         label = `${selectedHiddenChipsCount || 0}`;
       } else if (selectionDisplay === "single") {
-        chipInvisible = selectedItemsCount > 0 ? false : true;
+        chipInvisible = !(selectedItemsCount > 0);
         label = `${selectedItemsCount}`;
       }
     } else {
