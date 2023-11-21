@@ -474,12 +474,12 @@ describe("calcite-button", () => {
         await buttonEl.focus();
         await page.waitForChanges();
         buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
         buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
-        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
 

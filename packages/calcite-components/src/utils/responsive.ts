@@ -4,7 +4,7 @@ import {
   calciteContainerSizeWidthSm,
   calciteContainerSizeWidthXs,
   calciteContainerSizeWidthXxs,
-} from "@esri/calcite-design-tokens/dist/es6/global.js";
+} from "@esri/calcite-design-tokens/dist/es6/global";
 
 export interface Breakpoints {
   width: {

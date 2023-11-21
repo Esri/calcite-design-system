@@ -247,7 +247,7 @@ describe("calcite-scrim", () => {
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
-        expect(scrimBgStyle).toEqual("rgba(255, 255, 255, 0.85)");
+        expect(scrimBgStyle).toEqual("rgba(255, 255, 255, 0.8)");
       });
     });
 
@@ -259,7 +259,7 @@ describe("calcite-scrim", () => {
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
-        expect(scrimBgStyle).toEqual("rgba(0, 0, 0, 0.85)");
+        expect(scrimBgStyle).toEqual("rgba(0, 0, 0, 0.8)");
       });
     });
 
