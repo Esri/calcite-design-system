@@ -1,3 +1,5 @@
 {
-  "complete": "Pas completat"
+  "complete": "Pas completat",
+  "previousStep": "Pas anterior",
+  "nextStep": "Pas següent"
 }
