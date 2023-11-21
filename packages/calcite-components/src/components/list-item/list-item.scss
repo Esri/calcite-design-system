@@ -158,4 +158,8 @@ td:focus {
   @apply border-solid border-0 border-t border-color-3;
 }
 
+::slotted(calcite-list:empty) {
+  @apply py-3;
+}
+
 @include base-component();
