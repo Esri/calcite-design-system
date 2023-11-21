@@ -3,13 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0...@esri/calcite-components@2.0.0) (2023-11-21)
-
-### ⚠ BREAKING CHANGES
-
-- **stepper-item:** Removed `previousStep` and `nextStep` in messages. They are not available for overriding via `messageOverrides`
-- **deps:** We are treating this core version bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
-- **card:** Removed the `deselect` message property – this property was deprecated in #6657 as it is no longer being rendered.
+## [1.11.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0...@esri/calcite-components@1.11.0) (2023-11-21)
 
 ### Features
 
@@ -40,25 +34,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **panel, flow-item:** Remove overflow rule ([#8055](https://github.com/Esri/calcite-design-system/issues/8055)) ([d0c3ed2](https://github.com/Esri/calcite-design-system/commit/d0c3ed2cd675948580bdf44dba3b9c3283db9fc5))
 - **split-button:** Fix width layout ([#8133](https://github.com/Esri/calcite-design-system/issues/8133)) ([051f332](https://github.com/Esri/calcite-design-system/commit/051f33235b302e1f5d41ac8d8e8a52ec0a20b6c2))
 
-### Reverts
-
-- "Merge branch 'rc-force' into main" ([#8191](https://github.com/Esri/calcite-design-system/issues/8191)) ([c8f33df](https://github.com/Esri/calcite-design-system/commit/c8f33dfd4ef8b0badd22ee6f73a939307acbbc4c))
-- Feat(alert): make component responsive ([#8195](https://github.com/Esri/calcite-design-system/issues/8195)) ([2f4ff6c](https://github.com/Esri/calcite-design-system/commit/2f4ff6c9b990b53c1e0dec5b51b183b0fa997906))
-- Feat(stepper-item)!: remove support for previousStep and nextStep in messages ([#8222](https://github.com/Esri/calcite-design-system/issues/8222)) ([#8232](https://github.com/Esri/calcite-design-system/issues/8232)) ([b597001](https://github.com/Esri/calcite-design-system/commit/b597001349d3ab5861fa647d41feb2f9ab58099b))
-
-### Code Refactoring
-
-- **card:** Remove deprecated `deselected` message ([#8099](https://github.com/Esri/calcite-design-system/issues/8099)) ([b77e7ca](https://github.com/Esri/calcite-design-system/commit/b77e7ca1d0c068ab28ec53a7f00be6f085e48cb0))
-
-### Build System
-
-- **deps:** Bump Stencil to v4 ([#8108](https://github.com/Esri/calcite-design-system/issues/8108)) ([d7c77c2](https://github.com/Esri/calcite-design-system/commit/d7c77c2ed6a7da0d26732410cba34074af9d0355))
-
 ### Dependencies
 
 - The following workspace dependencies were updated
   - devDependencies
-    - @esri/eslint-plugin-calcite-components bumped from 0.2.3-next.6 to 1.0.0
+    - @esri/eslint-plugin-calcite-components bumped from 0.2.3-next.6 to 0.2.3
 
 ## [1.10.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.9.2...@esri/calcite-components@1.10.0) (2023-10-30)
 
