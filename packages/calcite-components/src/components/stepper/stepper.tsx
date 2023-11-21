@@ -13,11 +13,11 @@ import {
   Watch,
   readTask,
 } from "@stencil/core";
-import { focusElementInGroup, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
+import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Layout, Position, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
-import { StepBar } from "./step-bar";
+import { StepBar } from "./functional/step-bar";
 import { ITEM_MIN_WIDTH, CSS } from "./resources";
 import { guid } from "../../utils/guid";
 
@@ -173,17 +173,17 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     return (
       <Host aria-label={this.messages.label} role="region">
         <div
-          class={{ container: true, [CSS.singleView]: this.singleViewMode }}
+          class={{ container: true, [CSS.singleView]: !this.multipleViewMode }}
           ref={this.setContainerEl}
         >
-          {this.singleViewMode && (
+          {!this.multipleViewMode && (
             <div class={{ [CSS.stepBarContainer]: true }}>
               {this.items.map((item, index) => (
                 <StepBar
+                  active={index === this.currentActivePosition}
+                  complete={item.complete && index !== this.currentActivePosition && !item.error}
                   disabled={item.disabled && index !== this.currentActivePosition}
-                  isActive={index === this.currentActivePosition}
-                  isComplete={item.complete && index !== this.currentActivePosition && !item.error}
-                  isError={item.error && index !== this.currentActivePosition}
+                  error={item.error && index !== this.currentActivePosition}
                   key={index}
                 />
               ))}
@@ -370,7 +370,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   /** Specifies if the user is viewing one `stepper-item` at a time when the page width is less than sum of min-width of each item. */
-  private singleViewMode = false;
+  private multipleViewMode = false;
 
   private guid = `calcite-stepper-action-${guid()}`;
 
@@ -408,30 +408,30 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       (totalItems - 1) * (parseInt(window.getComputedStyle(this.containerEl).rowGap) || 0);
 
     if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
-      if (this.singleViewMode && !currentActivePositionChanged) {
+      if (!this.multipleViewMode && !currentActivePositionChanged) {
         return;
       }
 
-      this.singleViewMode = true;
+      this.multipleViewMode = false;
 
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
         if (index !== activePosition) {
           item.hidden = true;
         } else {
           item.hidden = false;
-          item.singleViewMode = true;
+          item.multipleViewMode = false;
         }
       });
     } else if (this.elWidth > totalMinWidthOfItems + totalRowGap) {
-      if (!this.singleViewMode) {
+      if (this.multipleViewMode) {
         return;
       }
 
-      this.singleViewMode = false;
+      this.multipleViewMode = true;
       this.setGridTemplateColumns(this.items);
       this.items.forEach((item: HTMLCalciteStepperItemElement) => {
         item.hidden = false;
-        item.singleViewMode = false;
+        item.multipleViewMode = true;
       });
     }
   }
@@ -444,7 +444,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
     let newIndex = startIndex;
 
-    while (items[newIndex]?.disabled && !this.singleViewMode) {
+    while (items[newIndex]?.disabled && this.multipleViewMode) {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
@@ -473,12 +473,11 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   private renderAction(position: Position): VNode {
     const isPositionStart = position === "start";
     const path = isPositionStart ? "chevron-left" : "chevron-right";
-    const { currentActivePosition, singleViewMode, layout } = this;
-    const dir = getElementDir(this.el);
+    const { currentActivePosition, multipleViewMode, layout } = this;
     const totalItems = this.items.length;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
 
-    return layout === "horizontal" && singleViewMode ? (
+    return layout === "horizontal" && !multipleViewMode ? (
       <calcite-action
         alignment="center"
         appearance="transparent"
@@ -492,7 +491,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
           (currentActivePosition === totalItems - 1 && !isPositionStart)
         }
         icon={path}
-        iconFlipRtl={dir === "rtl"}
+        iconFlipRtl={true}
         id={id}
         onClick={this.handleActionClick}
         scale={this.scale}
