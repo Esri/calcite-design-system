@@ -142,7 +142,14 @@ export class Icon {
       return;
     }
 
-    this.pathData = await fetchIcon({ icon, scale });
+    const pathData = await fetchIcon({ icon, scale });
+
+    // While the fetchIcon method is awaiting response, the icon requested can change. This check is to verify the response received belongs to the current icon.
+    if (icon !== this.icon) {
+      return;
+    }
+
+    this.pathData = pathData;
   }
 
   private waitUntilVisible(callback: () => void): void {
