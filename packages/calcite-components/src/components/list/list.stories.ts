@@ -717,3 +717,41 @@ export const sortableNestedList_TestOnly = (): string => html`<calcite-list
   <calcite-list-item label="Hi! 6" description="hello world"></calcite-list-item>
   <calcite-list-item label="Hi! 7" description="hello world"></calcite-list-item>
 </calcite-list>`;
+
+export const emptyOpenLists_TestOnly = (): string => html`<calcite-list
+  drag-enabled
+  group="nested"
+  label="test"
+  selection-mode="multiple"
+>
+  <calcite-list-item open label="Hi! 1" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="multiple">
+      <calcite-list-item open label="Hi! 2" description="hello world">
+        <calcite-list drag-enabled group="nested" selection-mode="multiple">
+          <calcite-list-item open label="Hi! 3" description="hello world">
+            <calcite-action-menu overlay-positioning="fixed" slot="actions-end">
+              <calcite-action text-enabled text="Edit" icon="pencil"></calcite-action>
+              <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+              <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+              <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+              <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+            </calcite-action-menu>
+            <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+          </calcite-list-item>
+          <calcite-list-item open label="Hi! 4" description="hello world">
+            <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+      <calcite-list-item open label="Hi! 5" description="hello world">
+        <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+      </calcite-list-item>
+    </calcite-list>
+  </calcite-list-item>
+  <calcite-list-item open label="Hi! 6" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+  </calcite-list-item>
+  <calcite-list-item open label="Hi! 7" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+  </calcite-list-item>
+</calcite-list>`;
