@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.0...@esri/calcite-components@1.11.1-next.0) (2023-11-22)
+
+### Bug Fixes
+
+- **color-picker, popover, shell-panel, slider, tooltip:** Register events on the window instead of the document ([#8247](https://github.com/Esri/calcite-design-system/issues/8247)) ([2aaf592](https://github.com/Esri/calcite-design-system/commit/2aaf592ef6b1840a9f176b0078d26de85d50cfbc))
+- dragging floating ui components ([#8230](https://github.com/Esri/calcite-design-system/issues/8230)) ([5a81f6c](https://github.com/Esri/calcite-design-system/commit/5a81f6c01a553d3c68f02f33ba1cc0b7f3809b0e)), closes [#8214](https://github.com/Esri/calcite-design-system/issues/8214) [#7979](https://github.com/Esri/calcite-design-system/issues/7979)
+- **input:** prevents mutating value on `blur` when `type="number"` ([#8245](https://github.com/Esri/calcite-design-system/issues/8245)) ([58ededd](https://github.com/Esri/calcite-design-system/commit/58ededdb970adf0e12aff2f9a5afe857b2e9ca4d)), closes [#8243](https://github.com/Esri/calcite-design-system/issues/8243)
+- **list-item:** an item with an empty slotted list should be openable. ([#8240](https://github.com/Esri/calcite-design-system/issues/8240)) ([d615b39](https://github.com/Esri/calcite-design-system/commit/d615b396503a661de0618faa5b1aca40d2313a8d)), closes [#8241](https://github.com/Esri/calcite-design-system/issues/8241)
+- **list-item:** Reserve space for empty open lists. ([#8239](https://github.com/Esri/calcite-design-system/issues/8239)) ([484a5aa](https://github.com/Esri/calcite-design-system/commit/484a5aaa3d24cabec727cb9723e446a002d48082)), closes [#8242](https://github.com/Esri/calcite-design-system/issues/8242)
+
 ## [1.11.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.10.0...@esri/calcite-components@1.11.0) (2023-11-21)
 
 ### Features
