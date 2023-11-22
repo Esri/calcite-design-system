@@ -7,7 +7,7 @@
     <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="layer" slot="content-start"></calcite-icon>
     <calcite-avatar scale="l" slot="content-start" thumbnail="https://placedog.net/300/300"></calcite-avatar>
-    <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-color-success)"></calcite-icon>
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
   </calcite-list-item>
@@ -18,7 +18,7 @@
     <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="layer" slot="content-start"></calcite-icon>
     <calcite-avatar scale="l" slot="content-start" thumbnail="https://placekitten.com/g/300/300"></calcite-avatar>
-    <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-color-success)"></calcite-icon>
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
   </calcite-list-item>
@@ -30,7 +30,7 @@
       scale="s"
       icon="exclamation-mark-triangle"
       slot="content-end"
-      style="color: var(--calcite-ui-danger)"
+      style="color: var(--calcite-color-danger)"
     ></calcite-icon>
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>

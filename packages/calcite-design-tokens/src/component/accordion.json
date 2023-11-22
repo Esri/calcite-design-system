@@ -2,42 +2,42 @@
   "accordion": {
     "heading": {
       "light": {
-        "value": "$semantic.ui.color.text.1.light",
+        "value": "{semantic.ui.color.text.1.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.1.dark",
+        "value": "{semantic.ui.color.text.1.dark}",
         "type": "color"
       }
     },
     "description": {
       "light": {
-        "value": "$semantic.ui.color.text.3.light",
+        "value": "{semantic.ui.color.text.3.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
+        "value": "{semantic.ui.color.text.3.dark}",
         "type": "color"
       }
     },
     "icon": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.text.3.light",
+          "value": "{semantic.ui.color.text.3.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
+          "value": "{semantic.ui.color.text.3.dark}",
           "type": "color"
         }
       },
       "expanded": {
         "light": {
-          "value": "$semantic.ui.color.text.1.light",
+          "value": "{semantic.ui.color.text.1.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
+          "value": "{semantic.ui.color.text.1.dark}",
           "type": "color"
         }
       }
@@ -45,11 +45,11 @@
     "background": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
+          "value": "{semantic.ui.color.foreground.1.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
+          "value": "{semantic.ui.color.foreground.1.dark}",
           "type": "color"
         }
       }
@@ -180,11 +180,11 @@
     },
     "border": {
       "light": {
-        "value": "$semantic.ui.color.border.2.light",
+        "value": "{semantic.ui.color.border.2.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.border.2.dark",
+        "value": "{semantic.ui.color.border.2.dark}",
         "type": "color"
       }
     }
