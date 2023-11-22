@@ -91,12 +91,12 @@ export default class PopoverManager {
   };
 
   private addListeners(): void {
-    document.addEventListener("pointerdown", this.clickHandler, { capture: true });
-    document.addEventListener("keydown", this.keyHandler, { capture: true });
+    window.addEventListener("pointerdown", this.clickHandler, { capture: true });
+    window.addEventListener("keydown", this.keyHandler, { capture: true });
   }
 
   private removeListeners(): void {
-    document.removeEventListener("pointerdown", this.clickHandler, { capture: true });
-    document.removeEventListener("keydown", this.keyHandler, { capture: true });
+    window.removeEventListener("pointerdown", this.clickHandler, { capture: true });
+    window.removeEventListener("keydown", this.keyHandler, { capture: true });
   }
 }

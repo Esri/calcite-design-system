@@ -578,8 +578,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     }
 
     event.preventDefault();
-    document.removeEventListener("pointerup", this.separatorPointerUp);
-    document.removeEventListener("pointermove", this.separatorPointerMove);
+    window.removeEventListener("pointerup", this.separatorPointerUp);
+    window.removeEventListener("pointermove", this.separatorPointerMove);
   };
 
   setInitialContentHeight = (): void => {
@@ -608,8 +608,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       this.initialClientX = event.clientX;
     }
 
-    document.addEventListener("pointerup", this.separatorPointerUp);
-    document.addEventListener("pointermove", this.separatorPointerMove);
+    window.addEventListener("pointerup", this.separatorPointerUp);
+    window.addEventListener("pointermove", this.separatorPointerMove);
   };
 
   connectSeparator = (separatorEl: HTMLDivElement): void => {
