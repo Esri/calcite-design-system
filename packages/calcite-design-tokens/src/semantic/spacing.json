@@ -37,17 +37,6 @@
         "value": "{core.size.default.8}",
         "type": "spacing"
       }
-    },
-    "offset": {
-      "invert": {
-        "focus": {
-          "value": "{core.size.default.none}",
-          "type": "spacing",
-          "extensions": {
-            "calcite.options": ["0", "1"]
-          }
-        }
-      }
     }
   }
 }
