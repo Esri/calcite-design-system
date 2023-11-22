@@ -389,7 +389,7 @@ export const alignedCenterRTL_TestOnly = (): string => html`
       open
       placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      width="${select("width", ["s", "m", "l"], "m")}"
+      width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       ${boolean("close-on-select-disabled", false)}
       ${boolean("disabled", false)}
