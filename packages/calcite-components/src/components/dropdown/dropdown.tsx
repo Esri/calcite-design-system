@@ -170,7 +170,7 @@ export class Dropdown
   /**
    * Specifies the width of the component.
    */
-  @Prop({ reflect: true }) width: Scale;
+  @Prop({ reflect: true }) widthScale: Scale;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
