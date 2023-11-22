@@ -59,9 +59,9 @@ export const customTheme_NoTest = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
     style="
-    --calcite-color-brand: ${color("calcite-ui-blue-1", "#50ba5f")};
-    --calcite-color-brand-hover: ${color("calcite-ui-blue-2", "#1a6324")};
-    --calcite-color-brand-press: ${color("calcite-ui-blue-3", "#338033")};"
+    --calcite-color-brand: ${color("--calcite-color-brand", "#50ba5f")};
+    --calcite-color-brand-hover: ${color("--calcite-color-brand-hover", "#1a6324")};
+    --calcite-color-brand-press: ${color("--calcite-color-brand-press", "#338033")};"
   />
 `;
 
@@ -75,8 +75,8 @@ export const customTheme_TestOnly = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
     style="
-    --calcite-color-brand: ${color("calcite-ui-blue-1", "#50ba5f")};
-    --calcite-color-brand-hover: ${color("calcite-ui-blue-2", "#1a6324")};
-    --calcite-color-brand-press: ${color("calcite-ui-blue-3", "#338033")};"
+    --calcite-color-brand: ${color("--calcite-color-brand", "#50ba5f")};
+    --calcite-color-brand-hover: ${color("--calcite-color-brand-hover", "#1a6324")};
+    --calcite-color-brand-press: ${color("--calcite-color-brand-press", "#338033")};"
   />
 `;
