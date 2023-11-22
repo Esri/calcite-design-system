@@ -260,19 +260,19 @@ export default {
         },
         ".focus-outset": {
           outline: "2px solid var(--calcite-color-brand)",
-          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
+          "outline-offset": invert("2px", "--calcite-focus-offset-invert"),
         },
         ".focus-inset": {
           outline: "2px solid var(--calcite-color-brand)",
-          "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
+          "outline-offset": invert("-2px", "--calcite-focus-offset-invert"),
         },
         ".focus-outset-danger": {
           outline: "2px solid var(--calcite-color-danger)",
-          "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
+          "outline-offset": invert("2px", "--calcite-focus-offset-invert"),
         },
         ".focus-inset-danger": {
           outline: "2px solid var(--calcite-color-danger)",
-          "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
+          "outline-offset": invert("-2px", "--calcite-focus-offset-invert"),
         },
         ".transition-default": {
           transition: "all var(--calcite-animation-timing) ease-in-out 0s, outline 0s, outline-offset 0s",
