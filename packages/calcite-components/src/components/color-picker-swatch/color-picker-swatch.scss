@@ -30,11 +30,11 @@ $size-l: 28px;
 
 .swatch--no-color {
   rect {
-    fill: var(--calcite-ui-foreground-1);
+    fill: var(--calcite-color-foreground-1);
   }
 
   line {
-    stroke: var(--calcite-ui-danger);
+    stroke: var(--calcite-color-danger);
   }
 }
 

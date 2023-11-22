@@ -163,8 +163,8 @@
   @apply flex self-stretch;
 }
 
-$noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "danger" var(--calcite-ui-danger),
-  "success" var(--calcite-ui-success), "warning" var(--calcite-ui-warning);
+$noticeKinds: "brand" var(--calcite-color-brand), "info" var(--calcite-color-info), "danger" var(--calcite-color-danger),
+  "success" var(--calcite-color-success), "warning" var(--calcite-color-warning);
 
 @each $noticeKind in $noticeKinds {
   $name: nth($noticeKind, 1);

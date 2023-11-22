@@ -8,8 +8,8 @@
  */
 
 :host {
-  --calcite-internal-table-header-background: var(--calcite-table-header-background, var(--calcite-ui-foreground-2));
-  --calcite-internal-table-header-border-color: var(--calcite-table-border-color, var(--calcite-ui-border-3));
+  --calcite-internal-table-header-background: var(--calcite-table-header-background, var(--calcite-color-foreground-2));
+  --calcite-internal-table-header-border-color: var(--calcite-table-border-color, var(--calcite-color-border-3));
   @apply contents;
 }
 
@@ -60,7 +60,7 @@ th.footer-row {
 }
 
 .selection-cell calcite-icon.active {
-  color: var(--calcite-ui-brand);
+  color: var(--calcite-color-brand);
 }
 .number-cell calcite-icon,
 .selection-cell calcite-icon {

@@ -2,107 +2,107 @@
   "checkbox": {
     "comp-size": {
       "sm": {
-        "value": "$core.sizing.5",
+        "value": "{core.size.default.5}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.6",
+        "value": "{core.size.default.6}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.7",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       }
     },
     "space-between": {
       "sm": {
-        "value": "$core.sizing.1",
+        "value": "{core.size.default.1}",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.sizing.3",
+        "value": "{core.size.default.3}",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.sizing.3",
+        "value": "{core.size.default.3}",
         "type": "spacing"
       }
     },
     "background": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
+          "value": "{semantic.ui.color.foreground.1.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
+          "value": "{semantic.ui.color.foreground.1.dark}",
           "type": "color"
         }
       },
       "selected": {
         "light": {
-          "value": "$semantic.ui.color.brand.default.light",
+          "value": "{semantic.ui.color.brand.default.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.brand.default.dark",
+          "value": "{semantic.ui.color.brand.default.dark}",
           "type": "color"
         }
       }
     },
     "icon": {
       "light": {
-        "value": "$semantic.ui.color.text.inverse.light",
+        "value": "{semantic.ui.color.text.inverse.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.inverse.dark",
+        "value": "{semantic.ui.color.text.inverse.dark}",
         "type": "color"
       }
     },
     "border-radius": {
-      "value": "$semantic.border.border-radius.sharp",
+      "value": "{semantic.border.radius.sharp}",
       "type": "borderRadius"
     },
     "border-width": {
-      "value": "$core.border.border-width.0",
+      "value": "{core.border.border-width.0}",
       "type": "borderWidth"
     },
     "border": {
       "light": {
-        "value": "$semantic.ui.color.border.input.light",
+        "value": "{semantic.ui.color.border.input.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.border.input.dark",
+        "value": "{semantic.ui.color.border.input.dark}",
         "type": "color"
       }
     },
     "font": {
       "sm": {
-        "value": "$semantic.font.default.regular.-2h",
+        "value": "{semantic.font.default.regular.-2h}",
         "type": "typography"
       },
       "md": {
-        "value": "$semantic.font.default.regular.-1h",
+        "value": "{semantic.font.default.regular.-1h}",
         "type": "typography"
       },
       "lg": {
-        "value": "$semantic.font.default.regular.0h",
+        "value": "{semantic.font.default.regular.0h}",
         "type": "typography"
       },
       "light": {
-        "value": "$semantic.ui.color.text.1.light",
+        "value": "{semantic.ui.color.text.1.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.1.dark",
+        "value": "{semantic.ui.color.text.1.dark}",
         "type": "color"
       }
     },
     "space-around": {
       "standard": {
-        "value": "$core.spacing.5",
+        "value": "{core.spacing.5}",
         "type": "spacing"
       }
     }
