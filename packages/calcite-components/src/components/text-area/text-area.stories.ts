@@ -70,14 +70,8 @@ export const exceedingMaxLength_TestOnly = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>
 `;
 
-export const chineseLangNumberingSystem_TestOnly = (): string => html`
-  <calcite-text-area
-    value="Rocky Mountains National Park"
-    lang="zh-cn"
-    numbering-system="hanidec"
-    group-separator
-    max-length="654321"
-  >
+export const chineseLang_TestOnly = (): string => html`
+  <calcite-text-area value="Rocky Mountains National Park" lang="zh-cn" group-separator max-length="654321">
   </calcite-text-area>
 `;
 
