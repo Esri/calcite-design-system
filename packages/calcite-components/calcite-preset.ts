@@ -68,7 +68,7 @@ export default {
         3: "var(--calcite-color-text-3)",
         inverse: "var(--calcite-color-text-inverse)",
         link: "var(--calcite-color-text-link)",
-        icon: "var(--calcite-icon-color)",
+        icon: "var(--calcite-ui-icon-color)",
       },
       transparent: "transparent",
     },
