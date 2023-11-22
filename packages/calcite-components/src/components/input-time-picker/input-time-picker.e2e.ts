@@ -225,9 +225,9 @@ describe("calcite-input-time-picker", () => {
     expect(inputTimePickerValue).toBe(expectedValue);
   });
 
-  it("value displays correctly in the input when it is directly changed for a 24-hour language when a default value is present (thai lang/numberingSystem)", async () => {
-    const locale = "th";
-    const numberingSystem = "thai";
+  it("value displays correctly in the input when it is directly changed for a 24-hour language when a default value is present (arab lang/numberingSystem)", async () => {
+    const locale = "ar";
+    const numberingSystem = "arab";
     const initialValue = "11:00:00";
 
     const page = await newE2EPage();

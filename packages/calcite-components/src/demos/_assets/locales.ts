@@ -208,7 +208,6 @@ export const locales: Locale[] = [
   {
     name: "Thai (Thai digits)",
     locale: "th",
-    numberingSystem: "thai",
   },
   {
     name: "Turkish",
