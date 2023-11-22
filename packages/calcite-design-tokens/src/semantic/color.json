@@ -42,8 +42,8 @@
         "transparent": {
           "default": {
             "value": {
-              "light": "rgba({core.color.neutral.blk-000}, {core.opacity.80})",
-              "dark": "rgba({core.color.neutral.blk-240}, {core.opacity.80})"
+              "light": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
+              "dark": "rgba({core.color.neutral.blk-240}, {core.opacity.0})"
             },
             "type": "color"
           },
@@ -58,6 +58,13 @@
             "value": {
               "light": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
               "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.8})"
+            },
+            "type": "color"
+          },
+          "scrim": {
+            "value": {
+              "light": "rgba({core.color.neutral.blk-000}, {core.opacity.85})",
+              "dark": "rgba({core.color.neutral.blk-240}, {core.opacity.85})"
             },
             "type": "color"
           },
