@@ -128,7 +128,7 @@ export class Modal
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Scale = "m";
+  @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /** Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`). */
   @Prop({ reflect: true }) fullscreen: boolean;
