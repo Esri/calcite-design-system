@@ -1,10 +1,12 @@
 @import "~@esri/calcite-base/dist/_index";
 @import "~@esri/calcite-design-tokens/dist/scss/index";
 @import "~@esri/calcite-design-tokens/dist/scss/core";
-@import url("~@esri/calcite-design-tokens/dist/css/index.css");
 
 /* CSS vars (@include in global) */
 @import "type";
+
+// Add Calcite Design Tokens as CSS Custom Props
+@import url("~@esri/calcite-design-tokens/dist/css/index.css");
 
 :root {
   @extend %type-vars;
@@ -18,9 +20,7 @@
   --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-panel-width-multiplier: 1;
-  --calcite-ui-focus-offset-invert: 0; // should be 0 or 1
   --calcite-ui-icon-color: currentColor;
-  --calcite-ui-opacity-disabled: var(--calcite-opacity-half, 0.5);
 
   @apply font-sans;
 }

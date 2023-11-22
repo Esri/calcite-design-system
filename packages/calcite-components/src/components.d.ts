@@ -69,7 +69,7 @@ import { InputTimePickerMessages } from "./components/input-time-picker/assets/i
 import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 import { TimeZoneMode } from "./components/input-time-zone/interfaces";
-import { DragDetail } from "./utils/sortableComponent";
+import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
 import { SelectionAppearance } from "./components/list/resources";
 import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
@@ -90,6 +90,7 @@ import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+import { DragDetail } from "./utils/sortableComponent";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import {
   StepperItemChangeEventDetail,
@@ -176,7 +177,7 @@ export { InputTimePickerMessages } from "./components/input-time-picker/assets/i
 export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 export { TimeZoneMode } from "./components/input-time-zone/interfaces";
-export { DragDetail } from "./utils/sortableComponent";
+export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
 export { SelectionAppearance } from "./components/list/resources";
 export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
@@ -197,6 +198,7 @@ export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
+export { DragDetail } from "./utils/sortableComponent";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export {
   StepperItemChangeEventDetail,
@@ -831,7 +833,7 @@ export namespace Components {
     /**
      * Specifies the name of the component on form submission.
      */
-    name: any;
+    name: string;
     /**
      * When `true`, the component must have a value in order for the form to submit.
      */
@@ -2664,11 +2666,11 @@ export namespace Components {
     /**
      * When provided, the method will be called to determine whether the element can  move from the list.
      */
-    canPull: (detail: DragDetail) => boolean;
+    canPull: (detail: ListDragDetail) => boolean;
     /**
      * When provided, the method will be called to determine whether the element can be added from another list.
      */
-    canPut: (detail: DragDetail) => boolean;
+    canPut: (detail: ListDragDetail) => boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
@@ -7463,7 +7465,7 @@ declare global {
   interface HTMLCalciteListElementEventMap {
     calciteListChange: void;
     calciteListFilter: void;
-    calciteListOrderChange: DragDetail;
+    calciteListOrderChange: ListDragDetail;
     calciteInternalListDefaultSlotChange: void;
   }
   /**
@@ -10651,7 +10653,7 @@ declare namespace LocalJSX {
     /**
      * Specifies the name of the component on form submission.
      */
-    name?: any;
+    name?: string;
     /**
      * Emits when the component's `checked` status changes.
      */
@@ -12599,11 +12601,11 @@ declare namespace LocalJSX {
     /**
      * When provided, the method will be called to determine whether the element can  move from the list.
      */
-    canPull?: (detail: DragDetail) => boolean;
+    canPull?: (detail: ListDragDetail) => boolean;
     /**
      * When provided, the method will be called to determine whether the element can be added from another list.
      */
-    canPut?: (detail: DragDetail) => boolean;
+    canPut?: (detail: ListDragDetail) => boolean;
     /**
      * When `true`, interaction is prevented and the component is displayed with lower opacity.
      */
@@ -12661,7 +12663,7 @@ declare namespace LocalJSX {
     /**
      * Emitted when the order of the list has changed.
      */
-    onCalciteListOrderChange?: (event: CalciteListCustomEvent<DragDetail>) => void;
+    onCalciteListOrderChange?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
     /**
      * One of the items within the list can be opened.
      */

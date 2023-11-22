@@ -108,7 +108,7 @@ Inset focus style
 
 ```scss
 .my-element-class:focus {
-  @include focus-style-inset(var(--calcite-ui-brand));
+  @include focus-style-inset(var(--calcite-color-brand));
 }
 ```
 

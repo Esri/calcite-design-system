@@ -55,7 +55,7 @@ export const All_TestOnly = (): string => html`<calcite-navigation-logo
 
 export const slottedInNav_TestOnly = (): string =>
   html`
-    <calcite-navigation style="--calcite-ui-brand: #bf390f">
+    <calcite-navigation style="--calcite-color-brand: #bf390f">
       <calcite-navigation-logo
         heading="ArcGIS Online"
         description="City of AcmeCo"

@@ -633,7 +633,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **color-picker:**
 
-  - Removed `appearance` property, use `--calcite-ui-border-1:transparent`
+  - Removed `appearance` property, use `--calcite-color-border-1:transparent`
     to remove the border instead of the `"minimal"` value
 
 - **combobox-item:**

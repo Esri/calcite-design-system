@@ -1,5 +1,9 @@
 {
   "icon": {
+    "color": {
+      "value": "currentColor",
+      "type": "color"
+    },
     "size": {
       "sm": {
         "value": "{core.size.default.7}",

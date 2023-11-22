@@ -11,10 +11,10 @@ npm install @esri/calcite-design-tokens
 Reference tokens in your CSS:
 
 ```css
-@import "@esri/calcite-design-tokens/css/calcite-light";
+@import "@esri/calcite-design-tokens/css/global";
 
 :root {
-  --my-custom-token: var(--calcite-ui-brand);
+  --my-custom-token: var(--calcite-color-brand);
 }
 ```
 

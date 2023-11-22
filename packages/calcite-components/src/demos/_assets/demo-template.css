@@ -1,7 +1,7 @@
 .demo-header {
   direction: ltr;
   flex-wrap: nowrap;
-  border-bottom: 1px solid var(--calcite-ui-border-3);
+  border-bottom: 1px solid var(--calcite-color-border-3);
   align-items: stretch;
   display: flex;
   margin-bottom: 1em;
@@ -21,12 +21,12 @@
   align-items: center;
   display: flex;
   flex: 1 0 auto;
-  border-left: 1px solid var(--calcite-ui-border-3);
-  border-right: 1px solid var(--calcite-ui-border-3);
+  border-left: 1px solid var(--calcite-color-border-3);
+  border-right: 1px solid var(--calcite-color-border-3);
 }
 
 .demo-heading {
-  color: var(--calcite-ui-text-1);
+  color: var(--calcite-color-text-1);
   font-size: 1.25rem;
   font-weight: 500;
   margin: 0;
@@ -39,7 +39,7 @@
   display: grid;
   grid-template-columns: auto auto auto;
   padding: 1rem 2rem;
-  border-right: 1px solid var(--calcite-ui-border-3);
+  border-right: 1px solid var(--calcite-color-border-3);
 }
 
 .demo-switches__label {

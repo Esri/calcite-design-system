@@ -176,7 +176,7 @@
   &:focus {
     @apply focus-inset;
 
-    // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-ui-focus-offset-invert
+    // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-color-focus-offset-invert
     outline-offset: -1px;
   }
 
