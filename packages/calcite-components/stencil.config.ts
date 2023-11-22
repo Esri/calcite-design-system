@@ -97,7 +97,6 @@ export const create: () => Config = () => ({
       proxiesFile: "../calcite-components-react/src/components.ts",
       excludeComponents: ["context-consumer"],
       customElementsDir: "dist/components",
-      includeImportCustomElements: true,
     }),
     { type: "dist-hydrate-script" },
     { type: "dist-custom-elements", customElementsExportBehavior: "auto-define-custom-elements" },
