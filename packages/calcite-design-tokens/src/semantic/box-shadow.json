@@ -1,0 +1,18 @@
+{
+  "semantic": {
+    "box-shadow": {
+      "none": {
+        "value": "{core.box-shadow.0}",
+        "type": "boxShadow"
+      },
+      "sm": {
+        "value": ["{core.box-shadow.1}", "{core.box-shadow.2}"],
+        "type": "boxShadow"
+      },
+      "md": {
+        "value": ["{core.box-shadow.3}", "{core.box-shadow.4}"],
+        "type": "boxShadow"
+      }
+    }
+  }
+}

@@ -141,12 +141,11 @@ export const create: () => Config = () => ({
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
-      "^@esri/calcite-design-tokens/dist/(.*)$": "<rootDir>/../../node_modules/@esri/calcite-design-tokens/dist/$1",
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
     transform: {
-      "calcite-design-tokens/dist/es6/calcite-headless\\.js$":
+      "calcite-design-tokens/dist/es6/.*\\.js$":
         "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
     },
   },

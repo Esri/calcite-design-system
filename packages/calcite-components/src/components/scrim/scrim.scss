@@ -5,6 +5,9 @@
  *
  * @prop --calcite-scrim-background: Specifies the background color of the scrim.
  */
+:host {
+  --calcite-scrim-background: var(--calcite-color-background-transparent-scrim);
+}
 
 :host {
   @apply absolute
@@ -36,7 +39,7 @@
   justify-center
   overflow-hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
-  background-color: var(--calcite-scrim-background, var(--calcite-scrim-background-internal));
+  background-color: var(--calcite-scrim-background, var(--calcite-color-background-transparent-scrim));
 }
 
 .content {

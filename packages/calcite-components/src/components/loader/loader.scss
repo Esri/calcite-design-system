@@ -25,7 +25,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply relative mx-auto hidden items-center justify-center opacity-100;
   min-block-size: var(--calcite-loader-size);
   font-size: var(--calcite-loader-font-size);
-  stroke: var(--calcite-ui-brand);
+  stroke: var(--calcite-color-brand);
   stroke-width: $stroke-width;
   fill: none;
   transform: scale(1, 1);
@@ -114,13 +114,13 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 :host([type="determinate"]) {
   @apply animate-none;
-  stroke: var(--calcite-ui-border-3);
+  stroke: var(--calcite-color-border-3);
   .loader__svgs {
     @apply animate-none;
   }
   .loader__svg--3 {
     @apply animate-none;
-    stroke: var(--calcite-ui-brand);
+    stroke: var(--calcite-color-brand);
     stroke-dasharray: $loader-circumference;
     transform: rotate(-90deg);
     transition: all var(--calcite-internal-animation-timing-fast) linear;
@@ -211,16 +211,16 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 @keyframes loader-color-shift {
   0% {
-    stroke: var(--calcite-ui-brand);
+    stroke: var(--calcite-color-brand);
   }
   33% {
-    stroke: var(--calcite-ui-brand-press);
+    stroke: var(--calcite-color-brand-press);
   }
   66% {
-    stroke: var(--calcite-ui-brand-hover);
+    stroke: var(--calcite-color-brand-hover);
   }
   100% {
-    stroke: var(--calcite-ui-brand);
+    stroke: var(--calcite-color-brand);
   }
 }
 
