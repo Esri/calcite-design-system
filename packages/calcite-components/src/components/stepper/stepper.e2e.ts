@@ -651,13 +651,16 @@ describe("calcite-stepper", () => {
     const stepper1Number = await page.find("calcite-stepper-item[id='step-one'] >>> .stepper-item-number");
     expect(stepper1Number.textContent).toBe("1.");
 
-    stepper2.setProperty("numberingSystem", "thai");
+    stepper2.setProperty("numberingSystem", "arabext");
     await page.waitForChanges();
+
     const stepper2Number = await page.find("calcite-stepper-item[id='step-two'] >>> .stepper-item-number");
-    const thaiNumeral1 = new Intl.NumberFormat("th", { numberingSystem: "thai" } as NumberStringFormatOptions).format(
-      1
-    );
-    expect(stepper2Number.textContent).toBe(`${thaiNumeral1}.`);
+
+    const arabextNumeral1 = new Intl.NumberFormat("ar", {
+      numberingSystem: "arabext",
+    } as NumberStringFormatOptions).format(1);
+
+    expect(stepper2Number.textContent).toBe(`${arabextNumeral1}.`);
   });
 
   it("should have correct ARIA attributes", async () => {
