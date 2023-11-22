@@ -23,7 +23,7 @@ export const simple = (): string => html`
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "m")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
@@ -68,7 +68,7 @@ export const simpleFullWidth = (): string => html`
       open
       placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      width="${select("width", ["s", "m", "l"], "m")}"
+      width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       ${boolean("close-on-select-disabled", false)}
       ${boolean("disabled", false)}
@@ -91,7 +91,7 @@ export const withIcons = (): string => html`
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "m")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
@@ -129,7 +129,7 @@ export const groupsAndSelectionModes = (): string => html`
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "m")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
@@ -157,7 +157,7 @@ export const itemsAsLinks = (): string => html`
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "m")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
@@ -190,7 +190,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     class="calcite-mode-dark"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "m")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
@@ -225,7 +225,7 @@ export const itemsAsLinksDarkMode = (): string => html`
     class="calcite-mode-dark"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "m")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
@@ -259,7 +259,7 @@ export const scrollingAfterCertainItems_TestOnly = (): string => html`
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     max-items="${number("max-items", 7, { min: 0, max: 10, step: 1 })}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "m")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
@@ -343,7 +343,7 @@ export const disabled_TestOnly = (): string => html` <calcite-dropdown disabled>
 
 export const flipPositioning_TestOnly = (): string => html`
   <div style="margin:10px;">
-    <calcite-dropdown width="m" placement="${select("placement", menuPlacements, "top")}" open>
+    <calcite-dropdown width-scale="m" placement="${select("placement", menuPlacements, "top")}" open>
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group>
         <calcite-dropdown-item>1</calcite-dropdown-item>
@@ -365,7 +365,7 @@ export const alignedCenter_TestOnly = (): string => html`
       open
       placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      width="${select("width", ["s", "m", "l"], "m")}"
+      width-scale="${select("width-scale", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       ${boolean("close-on-select-disabled", false)}
       ${boolean("disabled", false)}
@@ -439,7 +439,7 @@ export const flipPlacements_TestOnly = (): string => html`
 `;
 
 export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
-  <calcite-dropdown scale="l" width="m" open>
+  <calcite-dropdown scale="l" width-scale="m" open>
     <calcite-dropdown-group group-title="View">
       <calcite-dropdown-item scale="l">Table</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="grid" scale="l">Grid</calcite-dropdown-item>
