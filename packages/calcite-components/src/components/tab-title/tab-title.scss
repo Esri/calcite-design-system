@@ -176,19 +176,19 @@
   &:focus {
     @apply focus-inset;
 
-    // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-ui-focus-offset-invert
+    // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-color-focus-offset-invert
     outline-offset: -1px;
   }
 
   &:focus,
   &:hover {
     @apply text-color-1;
-    background-color: var(--calcite-ui-foreground-2);
+    background-color: var(--calcite-color-foreground-2);
   }
 
   &:active {
     @apply text-color-1;
-    background-color: var(--calcite-ui-foreground-3);
+    background-color: var(--calcite-color-foreground-3);
   }
 
   & calcite-icon {
@@ -209,11 +209,11 @@
 }
 
 :host([bordered][selected]) {
-  box-shadow: inset 0px -2px var(--calcite-ui-foreground-1);
+  box-shadow: inset 0px -2px var(--calcite-color-foreground-1);
 }
 
 :host([bordered][selected][position="bottom"]) {
-  box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
+  box-shadow: inset 0 2px 0 var(--calcite-color-foreground-1);
 }
 
 :host([bordered]:hover),
@@ -226,7 +226,7 @@
 
 :host([bordered]:hover) {
   .container {
-    background-color: var(--calcite-button-transparent-hover);
+    background-color: var(--calcite-color-background-transparent-hover);
   }
 }
 
@@ -249,8 +249,8 @@
 }
 
 :host([selected][bordered]) .container {
-  border-inline-start-color: var(--calcite-ui-border-1);
-  border-inline-end-color: var(--calcite-ui-border-1);
+  border-inline-start-color: var(--calcite-color-border-1);
+  border-inline-end-color: var(--calcite-color-border-1);
 }
 
 :host([bordered]) {

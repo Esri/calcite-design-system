@@ -3,85 +3,85 @@
     "background": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.foreground.2.light",
+          "value": "{semantic.ui.color.foreground.2.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.foreground.2.dark",
+          "value": "{semantic.ui.color.foreground.2.dark}",
           "type": "color"
         }
       },
       "checked": {
         "light": {
-          "value": "$semantic.ui.color.brand.default.light",
+          "value": "{semantic.ui.color.brand.default.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.brand.default.dark",
+          "value": "{semantic.ui.color.brand.default.dark}",
           "type": "color"
         }
       }
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.full",
+        "value": "{core.border.border-radius.full}",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.full",
+        "value": "{core.border.border-radius.full}",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.full",
+        "value": "{core.border.border-radius.full}",
         "type": "borderRadius"
       }
     },
     "comp-size": {
       "sm": {
-        "value": "$core.sizing.9",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.11",
+        "value": "{core.size.default.11}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.15",
+        "value": "{core.size.default.15}",
         "type": "sizing"
       }
     },
     "handle-size": {
       "sm": {
-        "value": "$core.sizing.5",
+        "value": "{core.size.default.5}",
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.7",
+        "value": "{core.size.default.7}",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.9",
+        "value": "{core.size.default.9}",
         "type": "sizing"
       }
     },
     "border": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.border.1.light",
+          "value": "{semantic.ui.color.border.1.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.border.1.dark",
+          "value": "{semantic.ui.color.border.1.dark}",
           "type": "color"
         }
       },
       "checked": {
         "light": {
-          "value": "$semantic.ui.color.brand.hover.light",
+          "value": "{semantic.ui.color.brand.hover.light}",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.brand.hover.dark",
+          "value": "{semantic.ui.color.brand.hover.dark}",
           "type": "color"
         }
       }
@@ -90,21 +90,21 @@
       "background": {
         "default": {
           "light": {
-            "value": "$semantic.ui.color.foreground.1.light",
+            "value": "{semantic.ui.color.foreground.1.light}",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.foreground.1.dark",
+            "value": "{semantic.ui.color.foreground.1.dark}",
             "type": "color"
           }
         },
         "checked": {
           "light": {
-            "value": "$semantic.ui.color.foreground.1.light",
+            "value": "{semantic.ui.color.foreground.1.light}",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.foreground.1.dark",
+            "value": "{semantic.ui.color.foreground.1.dark}",
             "type": "color"
           }
         }
@@ -112,36 +112,36 @@
       "border": {
         "default": {
           "light": {
-            "value": "$semantic.ui.color.border.input.light",
+            "value": "{semantic.ui.color.border.input.light}",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.border.input.dark",
+            "value": "{semantic.ui.color.border.input.dark}",
             "type": "color"
           }
         },
         "checked": {
           "light": {
-            "value": "$semantic.ui.color.brand.default.light",
+            "value": "{semantic.ui.color.brand.default.light}",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.brand.default.dark",
+            "value": "{semantic.ui.color.brand.default.dark}",
             "type": "color"
           }
         }
       },
       "border-radius": {
         "sm": {
-          "value": "$core.border.border-radius.half",
+          "value": "{core.border.border-radius.half}",
           "type": "borderRadius"
         },
         "md": {
-          "value": "$core.border.border-radius.half",
+          "value": "{core.border.border-radius.half}",
           "type": "borderRadius"
         },
         "lg": {
-          "value": "$core.border.border-radius.half",
+          "value": "{core.border.border-radius.half}",
           "type": "borderRadius"
         }
       },

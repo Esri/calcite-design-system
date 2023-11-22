@@ -2,23 +2,23 @@
   "label": {
     "font": {
       "sm": {
-        "value": "$semantic.font.default.regular.-2h",
+        "value": "{semantic.font.default.regular.-2h}",
         "type": "typography"
       },
       "md": {
-        "value": "$semantic.font.default.regular.-1h",
+        "value": "{semantic.font.default.regular.-1h}",
         "type": "typography"
       },
       "lg": {
-        "value": "$semantic.font.default.regular.0h",
+        "value": "{semantic.font.default.regular.0h}",
         "type": "typography"
       },
       "light": {
-        "value": "$semantic.ui.color.text.1.light",
+        "value": "{semantic.ui.color.text.1.light}",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.1.dark",
+        "value": "{semantic.ui.color.text.1.dark}",
         "type": "color"
       }
     }

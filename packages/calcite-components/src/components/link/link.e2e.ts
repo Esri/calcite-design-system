@@ -268,8 +268,8 @@ describe("calcite-link", () => {
       page = await newE2EPage({ html: linkHtml });
       linkUnderlineStyle = await page.evaluate(() => {
         link = document.querySelector("calcite-link");
-        link.style.setProperty("--calcite-link-blue-underline", "red");
-        return window.getComputedStyle(link).getPropertyValue("--calcite-link-blue-underline");
+        link.style.setProperty("--calcite-color-brand-underline", "red");
+        return window.getComputedStyle(link).getPropertyValue("--calcite-color-brand-underline");
       });
       expect(linkUnderlineStyle).toEqual("red");
     });
@@ -306,7 +306,7 @@ describe("calcite-link", () => {
         html: `
         <style>
           :root {
-            --calcite-link-blue-underline: ${overrideStyle};
+            --calcite-color-brand-underline: ${overrideStyle};
           }
         </style>
         ${linkHtml}
