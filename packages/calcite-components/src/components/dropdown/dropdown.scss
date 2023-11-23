@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply inline-flex flex-initial;
+  @apply inline-block flex-initial;
 }
 
 @include disabled();
