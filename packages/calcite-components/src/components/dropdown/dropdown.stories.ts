@@ -462,3 +462,21 @@ export const triggerWordBreak_TestOnly = (): string => html`<div style="width:30
   </calcite-dropdown-group>
 </calcite-dropdown>
 </div>`;
+
+export const settingFullWidthEnablesTriggerTruncation_TestOnly = (): string => html`<div
+  style="width: 300px; border: solid"
+>
+  <calcite-dropdown style="width: 100%;">
+    <calcite-button width="full" slot="trigger"
+      >This is some really long text that will eventually overrun the container</calcite-button
+    >
+    <calcite-dropdown-group group-title="Natural places">
+      <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+      <calcite-dropdown-item>River</calcite-dropdown-item>
+      <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+      <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+      <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+      <calcite-dropdown-item>Desert</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+</div>`;
