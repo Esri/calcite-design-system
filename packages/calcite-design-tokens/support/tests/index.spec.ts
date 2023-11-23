@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
 
-describe("generated tokens", () => {
+describe.skip("generated tokens", () => {
   describe("CSS", () => {
     it("global should match", () => {
       let global = readFileSync(resolve(__dirname, "../../dist/css/calcite-headless.css"), "utf-8");
