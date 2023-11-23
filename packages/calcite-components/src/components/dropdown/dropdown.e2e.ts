@@ -58,7 +58,7 @@ describe("calcite-dropdown", () => {
     });
 
     describe("renders", () => {
-      renders(simpleDropdownHTML, { display: "inline-flex" });
+      renders(simpleDropdownHTML, { display: "inline-block" });
     });
 
     describe("honors hidden attribute", () => {
