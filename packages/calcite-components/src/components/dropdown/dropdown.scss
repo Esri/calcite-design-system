@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply inline-block flex-initial;
+  @apply inline-block;
 }
 
 @include disabled();
@@ -32,7 +32,7 @@
   inline-size: var(--calcite-dropdown-width);
 }
 .calcite-trigger-container {
-  @apply relative flex flex-auto;
+  @apply relative flex flex-auto h-full;
   @include word-break;
 }
 
