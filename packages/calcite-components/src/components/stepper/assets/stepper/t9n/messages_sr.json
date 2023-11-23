@@ -1,3 +1,5 @@
 {
-  "label": "Koraci za napredak"
+  "label": "Koraci za napredak",
+  "previousStep": "Prethodni korak",
+  "nextStep": "Sledeći korak"
 }

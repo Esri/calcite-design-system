@@ -46,8 +46,8 @@ import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
 import { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
+import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
-import { ComboboxChildElement } from "./components/combobox/interfaces";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
@@ -154,8 +154,8 @@ export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
 export { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
+export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
-export { ComboboxChildElement } from "./components/combobox/interfaces";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
@@ -1143,7 +1143,8 @@ export namespace Components {
     placeholderIconFlipRtl: boolean;
     /**
      * Updates the position of the component.
-     * @param delayed
+     * @param delayed Reposition the component after a delay
+     * @returns Promise
      */
     reposition: (delayed?: boolean) => Promise<void>;
     /**
@@ -1159,6 +1160,10 @@ export namespace Components {
      * @readonly
      */
     selectedItems: HTMLCalciteComboboxItemElement[];
+    /**
+     * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+     */
+    selectionDisplay: SelectionDisplay;
     /**
      * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
      */
@@ -1500,7 +1505,7 @@ export namespace Components {
     /**
      * Specifies the width of the component.
      */
-    width: Scale;
+    widthScale: Scale;
   }
   interface CalciteDropdownGroup {
     /**
@@ -3083,7 +3088,7 @@ export namespace Components {
     /**
      * Specifies the width of the component.
      */
-    width: Scale;
+    widthScale: Scale;
   }
   interface CalciteNavigation {
     /**
@@ -4328,6 +4333,10 @@ export namespace Components {
      * Made into a prop for testing purposes only
      */
     messages: StepperItemMessages;
+    /**
+     * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
+     */
+    multipleViewMode: boolean;
     /**
      * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
      */
@@ -11020,6 +11029,10 @@ declare namespace LocalJSX {
      */
     selectedItems?: HTMLCalciteComboboxItemElement[];
     /**
+     * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+     */
+    selectionDisplay?: SelectionDisplay;
+    /**
      * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
      */
     selectionMode?: Extract<"single" | "single-persist" | "ancestors" | "multiple", SelectionMode>;
@@ -11396,7 +11409,7 @@ declare namespace LocalJSX {
     /**
      * Specifies the width of the component.
      */
-    width?: Scale;
+    widthScale?: Scale;
   }
   interface CalciteDropdownGroup {
     /**
@@ -13040,7 +13053,7 @@ declare namespace LocalJSX {
     /**
      * Specifies the width of the component.
      */
-    width?: Scale;
+    widthScale?: Scale;
   }
   interface CalciteNavigation {
     /**
@@ -14327,6 +14340,10 @@ declare namespace LocalJSX {
      * Made into a prop for testing purposes only
      */
     messages?: StepperItemMessages;
+    /**
+     * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
+     */
+    multipleViewMode?: boolean;
     /**
      * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
      */

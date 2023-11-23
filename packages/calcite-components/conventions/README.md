@@ -7,7 +7,7 @@ This is a living document defining our best practices and reasoning for authorin
 Generally adhere to and follow these best practices for authoring components.
 
 - [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
-- [Custom Element Conformance - W3C Editor's Draft](https://w3c.github.io/webcomponents/spec/custom/#custom-element-conformance)
+- [Custom Element Conformance - W3C Editor's Draft](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element-conformance)
 
 ## Structure
 
