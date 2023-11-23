@@ -92,16 +92,16 @@
   }
 
   .step-bar--active {
-    fill: var(--calcite-ui-brand);
+    fill: var(--calcite-color-brand);
   }
 
   .step-bar--complete {
-    fill: var(--calcite-ui-brand);
+    fill: var(--calcite-color-brand);
     fill-opacity: 0.5;
   }
 
   .step-bar--error {
-    fill: var(--calcite-ui-danger);
+    fill: var(--calcite-color-danger);
   }
 
   .step-bar--disabled {
