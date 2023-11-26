@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0-rc.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.0-next.3...@esri/calcite-components@2.0.0-rc.2) (2023-11-26)
+
+### ⚠ BREAKING CHANGES
+
+- __dropdown:__ Dropdown's default `display` was changed from
+  `inline-flex` to `inline-block` to make it easier to prompt truncation
+  in trigger button text with minimal impact to layout (by setting an
+  explicit width __or__ setting `width: 100%` or `display: block` on the
+  dropdown of a width-constrained parent).
+- __dropdown:__ For consistency, renames `width` property to
+  `widthScale`.
+- __modal:__ For consistency, renames `width` property to
+  `widthScale`.
+- __react:__ Disabled `includeImportCustomElements`. Make sure to
+  import components from `@esri/calcite-components` in addition to the
+  react wrappers. For example, the first code snippet in #7185 is now
+  required, or else the custom elements will not be defined on the window.
+- __i18n:__ Removed support for the following numbering systems:
+  `bali`, `beng`, `deva`, `fullwide`, `gujr`, `guru`, `hanidec`, `khmr`,
+  `knda`, `laoo`, `limb`, `mlym`, `mong`, `mymr`, `orya`, `tamldec`,
+  `telu`, `thai`, `tibt`
+- __stepper-item:__ Removed `previousStep` and `nextStep` in messages. They
+  are not available for overriding via `messageOverrides`
+
+### Features
+
+- __combobox:__ limit display of selected items with new selection-display prop ([#7912](https://github.com/Esri/calcite-design-system/issues/7912)) ([9daa2ad](https://github.com/Esri/calcite-design-system/commit/9daa2adf73de6404f4dae12d22c21d30c577df92)), closes [#4326](https://github.com/Esri/calcite-design-system/issues/4326)
+- __list-item:__ Add content-bottom slot for placing content below the label and description of the component ([#8183](https://github.com/Esri/calcite-design-system/issues/8183)) ([ed0504d](https://github.com/Esri/calcite-design-system/commit/ed0504db5562f743f4ebf9bb5f232c9f1751c20a)), closes [#8173](https://github.com/Esri/calcite-design-system/issues/8173)
+- reduce global design tokens in calcite.css ([#8215](https://github.com/Esri/calcite-design-system/issues/8215)) ([1d93397](https://github.com/Esri/calcite-design-system/commit/1d93397ba9fe516fbe4a309377b8b869542d9832)), closes [#7325](https://github.com/Esri/calcite-design-system/issues/7325) [#8141](https://github.com/Esri/calcite-design-system/issues/8141)
+- __stepper:__ enable responsive layout ([#7744](https://github.com/Esri/calcite-design-system/issues/7744)) ([c74ee15](https://github.com/Esri/calcite-design-system/commit/c74ee157b129c061335bca5f350a284c529e5fcc)), closes [#6694](https://github.com/Esri/calcite-design-system/issues/6694)
+
+### Bug Fixes
+
+- __action:__ Ensure action content is correctly spaced ([#8184](https://github.com/Esri/calcite-design-system/issues/8184)) ([b18dcc8](https://github.com/Esri/calcite-design-system/commit/b18dcc84f739ea24917df45aa2c8c11b2f2d11f1)), closes [#6879](https://github.com/Esri/calcite-design-system/issues/6879)
+- __action:__ Update transparent action styles ([#8194](https://github.com/Esri/calcite-design-system/issues/8194)) ([7d2b61a](https://github.com/Esri/calcite-design-system/commit/7d2b61a4e5bbf21e9bd9b6a0ad384b824f267282)), closes [#3834](https://github.com/Esri/calcite-design-system/issues/3834)
+- __color-picker, popover, shell-panel, slider, tooltip:__ Register events on the window instead of the document ([#8247](https://github.com/Esri/calcite-design-system/issues/8247)) ([7c2c9eb](https://github.com/Esri/calcite-design-system/commit/7c2c9ebd4f2731a2e0bfcf15b4197a5481a2103c))
+- dragging floating ui components ([#8230](https://github.com/Esri/calcite-design-system/issues/8230)) ([35b1d41](https://github.com/Esri/calcite-design-system/commit/35b1d41f26a663048f4da4c47563b38cfa97e5d9)), closes [#8214](https://github.com/Esri/calcite-design-system/issues/8214) [#7979](https://github.com/Esri/calcite-design-system/issues/7979)
+- __dropdown:__ change display to inline-block to ease truncation setup ([#8253](https://github.com/Esri/calcite-design-system/issues/8253)) ([897a777](https://github.com/Esri/calcite-design-system/commit/897a7777cebab29fde29bdcf1693c4648e1d6ac3)), closes [#5903](https://github.com/Esri/calcite-design-system/issues/5903)
+- __dropdown:__ restore trigger container height ([51f7aee](https://github.com/Esri/calcite-design-system/commit/51f7aeef8fbc7a1ef19fc4cd2aa57c6f65e2b77c))
+- __input-number:__ prevents mutating value on blur ([#8226](https://github.com/Esri/calcite-design-system/issues/8226)) ([d0b42c1](https://github.com/Esri/calcite-design-system/commit/d0b42c16ac8e1da63655b7417a94267fcfc75ba6)), closes [#7188](https://github.com/Esri/calcite-design-system/issues/7188)
+- __input:__ prevents mutating value on `blur` when `type="number"` ([#8245](https://github.com/Esri/calcite-design-system/issues/8245)) ([6787773](https://github.com/Esri/calcite-design-system/commit/6787773610e277c78e48fec385c321da186eb04a)), closes [#8243](https://github.com/Esri/calcite-design-system/issues/8243)
+- __list-item, stack:__ stretch action-menu and handle when placed inside a list-item or stack. ([#8185](https://github.com/Esri/calcite-design-system/issues/8185)) ([8a16a69](https://github.com/Esri/calcite-design-system/commit/8a16a69caff33fa3d504f87343db9d7ffdf955ad)), closes [#8187](https://github.com/Esri/calcite-design-system/issues/8187)
+- __list-item, stack:__ stretch dropdown when placed inside a list-item or stack ([#8204](https://github.com/Esri/calcite-design-system/issues/8204)) ([eb72810](https://github.com/Esri/calcite-design-system/commit/eb728102c56bb73f4baea668613214dfeac93011)), closes [#8185](https://github.com/Esri/calcite-design-system/issues/8185)
+- __list-item:__ adds border between grouped and ungrouped list-items ([#8134](https://github.com/Esri/calcite-design-system/issues/8134)) ([d3aa1f4](https://github.com/Esri/calcite-design-system/commit/d3aa1f43cee471e3d329c683663444f73a43af93)), closes [#7546](https://github.com/Esri/calcite-design-system/issues/7546)
+- __list-item:__ an item with an empty slotted list should be openable. ([#8240](https://github.com/Esri/calcite-design-system/issues/8240)) ([6f5e6d8](https://github.com/Esri/calcite-design-system/commit/6f5e6d8527106c3494268a842bfce07c1647e7a2)), closes [#8241](https://github.com/Esri/calcite-design-system/issues/8241)
+- __list-item:__ fix rendering of open icon. ([#8207](https://github.com/Esri/calcite-design-system/issues/8207)) ([decc33d](https://github.com/Esri/calcite-design-system/commit/decc33d76770d8f216cf20f3a0638df1bf334619))
+- __list-item:__ Reserve space for empty open lists. ([#8239](https://github.com/Esri/calcite-design-system/issues/8239)) ([a8a20fa](https://github.com/Esri/calcite-design-system/commit/a8a20fa6bd07c528c4df801f29f8644abe447f39)), closes [#8242](https://github.com/Esri/calcite-design-system/issues/8242)
+- __react:__ disable includeImportCustomElements to resolve initial render issues ([#8248](https://github.com/Esri/calcite-design-system/issues/8248)) ([cc72d60](https://github.com/Esri/calcite-design-system/commit/cc72d6027ff298a0d6f8a90611e9b9431eb9818e)), closes [#8143](https://github.com/Esri/calcite-design-system/issues/8143) [#7185](https://github.com/Esri/calcite-design-system/issues/7185)
+- __stepper:__ typo in CSS variable for step bar's fill ([13af143](https://github.com/Esri/calcite-design-system/commit/13af1430e032727e3d0081257c4bd77ab00aec4f))
+
+### Reverts
+
+- feat(alert): make component responsive ([#8195](https://github.com/Esri/calcite-design-system/issues/8195)) ([bb017ed](https://github.com/Esri/calcite-design-system/commit/bb017edf914a7dc5af702d41efe17c124fbd96fd)), closes [#7755](https://github.com/Esri/calcite-design-system/issues/7755) [#2835](https://github.com/Esri/calcite-design-system/issues/2835) [/github.com/Esri/calcite-design-system/issues/7921#issuecomment-1815588607](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/7921/issues/issuecomment-1815588607)
+- feat(stepper-item)!: remove support for previousStep and nextStep in messages ([#8222](https://github.com/Esri/calcite-design-system/issues/8222)) ([#8232](https://github.com/Esri/calcite-design-system/issues/8232)) ([f583a61](https://github.com/Esri/calcite-design-system/commit/f583a61ca3a7859f21e5fb5e3fa927943ce8d2e4))
+
+### Code Refactoring
+
+- __dropdown:__ rename `width` property to `widthScale` ([#8251](https://github.com/Esri/calcite-design-system/issues/8251)) ([bf90796](https://github.com/Esri/calcite-design-system/commit/bf9079611383336e3e78a8849656af841834d730)), closes [#8250](https://github.com/Esri/calcite-design-system/issues/8250)
+- __i18n:__ reduce list of supported numbering systems ([#8217](https://github.com/Esri/calcite-design-system/issues/8217)) ([ab1a62a](https://github.com/Esri/calcite-design-system/commit/ab1a62a3055572dbb6de973c577cae44b0215cb8)), closes [#8216](https://github.com/Esri/calcite-design-system/issues/8216)
+- __modal:__ rename `width` property to `widthScale` ([#8252](https://github.com/Esri/calcite-design-system/issues/8252)) ([2bcf474](https://github.com/Esri/calcite-design-system/commit/2bcf474dc6b0b7aa823fa78cbd4e64cf5be368c2)), closes [#8250](https://github.com/Esri/calcite-design-system/issues/8250)
+- __stepper-item:__ no longer supports previousStep and nextStep messages ([#8234](https://github.com/Esri/calcite-design-system/issues/8234)) ([3d689ac](https://github.com/Esri/calcite-design-system/commit/3d689acb8df27240b1f79c4baac2a6c1b91819f8)), closes [#8223](https://github.com/Esri/calcite-design-system/issues/8223)
+
 ## [2.0.0-rc.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.0.0-rc.0...@esri/calcite-components@2.0.0-rc.1) (2023-11-15)
 
 ### Features
@@ -22,6 +84,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   precautionary measure, particularly due to its potential impact on
   projects using `calcite-components` and Stencil.
 - __card:__ Removed the `deselect` message property – this property
+  was deprecated in #6657 as it is no longer being rendered.
 
 ### Bug Fixes
 

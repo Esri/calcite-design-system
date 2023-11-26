@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0-rc.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@1.11.0-next.3...@esri/calcite-components-react@2.0.0-rc.2) (2023-11-26)
+
+### ⚠ BREAKING CHANGES
+
+- __react:__ Disabled `includeImportCustomElements`. Make sure to
+  import components from `@esri/calcite-components` in addition to the
+  react wrappers. For example, the first code snippet in #7185 is now
+  required, or else the custom elements will not be defined on the window.
+
+### Bug Fixes
+
+- __react:__ disable includeImportCustomElements to resolve initial render issues ([#8248](https://github.com/Esri/calcite-design-system/issues/8248)) ([cc72d60](https://github.com/Esri/calcite-design-system/commit/cc72d6027ff298a0d6f8a90611e9b9431eb9818e)), closes [#8143](https://github.com/Esri/calcite-design-system/issues/8143) [#7185](https://github.com/Esri/calcite-design-system/issues/7185)
+
 ## [2.0.0-rc.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.0.0-rc.0...@esri/calcite-components-react@2.0.0-rc.1) (2023-11-15)
 
 __Note:__ Version bump only for package @esri/calcite-components-react
