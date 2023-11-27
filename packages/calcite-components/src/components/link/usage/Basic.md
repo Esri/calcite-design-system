@@ -1,7 +1,7 @@
 ```html
 <div style="font-size: 16px; font-weight: 400;">
-  Some wrapping text
-  <calcite-link href="#">link text here</calcite-link>
-  around the link
+  A block of text containing valuable information.
+  <calcite-link href="#">Explore further details</calcite-link>
+  within the provided link.
 </div>
 ```
