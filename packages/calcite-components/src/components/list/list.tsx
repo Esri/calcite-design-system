@@ -380,14 +380,6 @@ export class List
     updateMessages(this, this.effectiveLocale);
   }
 
-  @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-    };
-  }
-
   @State() defaultMessages: ListMessages;
 
   @Element() el: HTMLCalciteListElement;
