@@ -1,3 +1,5 @@
 {
-  "label": "İlerleme adımları"
+  "label": "İlerleme adımları",
+  "previousStep": "Önceki adım",
+  "nextStep": "Sonraki adım"
 }

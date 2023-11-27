@@ -28,7 +28,6 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
-  DragDetail,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
@@ -47,6 +46,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { HandleNudge } from "../handle/interfaces";
+import { ListDragDetail } from "./interfaces";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -75,12 +75,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() canPull: (detail: DragDetail) => boolean;
+  @Prop() canPull: (detail: ListDragDetail) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() canPut: (detail: DragDetail) => boolean;
+  @Prop() canPut: (detail: ListDragDetail) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -193,7 +193,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragDetail>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<ListDragDetail>;
 
   /**
    * Emitted when the default slot has changes in order to notify parent lists.
@@ -361,6 +361,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   sortable: Sortable;
 
+  private ancestorOfFirstFilteredItem: HTMLCalciteListItemElement;
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -488,7 +490,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragSort(detail: DragDetail): void {
+  onDragSort(detail: ListDragDetail): void {
     this.setParentList();
     this.updateListItems();
 
@@ -581,6 +583,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     lastDescendantItems.forEach((listItem) =>
       this.filterElements({ el: listItem, filteredItems, visibleParents })
     );
+
+    if (filteredItems.length > 0) {
+      this.findAncestorOfFirstFilteredItem(filteredItems);
+    }
 
     this.filteredItems = filteredItems;
 
@@ -745,6 +751,35 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     }
   };
 
+  private findAncestorOfFirstFilteredItem = (filteredItems: HTMLCalciteListItemElement[]): void => {
+    this.ancestorOfFirstFilteredItem?.removeAttribute("data-filter");
+    filteredItems.forEach((item) => {
+      item.removeAttribute("data-filter");
+    });
+
+    this.ancestorOfFirstFilteredItem = this.getTopLevelAncestorItemElement(filteredItems[0]);
+    filteredItems[0].setAttribute("data-filter", "0");
+    this.ancestorOfFirstFilteredItem?.setAttribute("data-filter", "0");
+  };
+
+  private getTopLevelAncestorItemElement = (
+    el: HTMLCalciteListItemElement
+  ): HTMLCalciteListItemElement | null => {
+    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+
+    while (closestParent) {
+      const closestListItemAncestor =
+        closestParent.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+
+      if (closestListItemAncestor) {
+        closestParent = closestListItemAncestor;
+      } else {
+        return closestParent;
+      }
+    }
+    return null;
+  };
+
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { direction } = event.detail;
 
@@ -758,7 +793,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM"
     ) as HTMLCalciteListItemElement;
 
-    const parentEl = sortItem?.parentElement;
+    const parentEl = sortItem?.parentElement as HTMLCalciteListElement;
 
     if (!parentEl) {
       return;

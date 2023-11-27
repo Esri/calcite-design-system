@@ -1071,9 +1071,9 @@ export class Slider
     this.dragProp = prop;
     this.lastDragProp = this.dragProp;
     this.activeProp = prop;
-    document.addEventListener("pointermove", this.dragUpdate);
-    document.addEventListener("pointerup", this.pointerUpDragEnd);
-    document.addEventListener("pointercancel", this.dragEnd);
+    window.addEventListener("pointermove", this.dragUpdate);
+    window.addEventListener("pointerup", this.pointerUpDragEnd);
+    window.addEventListener("pointercancel", this.dragEnd);
   }
 
   private focusActiveHandle(valueX: number): void {
@@ -1160,9 +1160,9 @@ export class Slider
   };
 
   private removeDragListeners() {
-    document.removeEventListener("pointermove", this.dragUpdate);
-    document.removeEventListener("pointerup", this.pointerUpDragEnd);
-    document.removeEventListener("pointercancel", this.dragEnd);
+    window.removeEventListener("pointermove", this.dragUpdate);
+    window.removeEventListener("pointerup", this.pointerUpDragEnd);
+    window.removeEventListener("pointercancel", this.dragEnd);
   }
 
   /**

@@ -80,16 +80,6 @@ describe("repositioning", () => {
     expect(floatingEl.style.left).toBe("0");
   }
 
-  it("repositions for unopened components", async () => {
-    await reposition(fakeFloatingUiComponent, positionOptions);
-    assertOpenPositioning(floatingEl);
-
-    fakeFloatingUiComponent.open = true;
-
-    await reposition(fakeFloatingUiComponent, positionOptions);
-    assertOpenPositioning(floatingEl);
-  });
-
   it("repositions immediately by default", async () => {
     assertPreOpenPositioning(floatingEl);
 

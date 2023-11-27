@@ -78,11 +78,8 @@ export class Dropdown
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     if (!this.disabled) {
-      if (value) {
-        this.reposition(true);
-      }
       onToggleOpenCloseComponent(this);
       return;
     }
@@ -208,7 +205,7 @@ export class Dropdown
     this.setFilteredPlacements();
     this.reposition(true);
     if (this.open) {
-      this.openHandler(this.open);
+      this.openHandler();
       onToggleOpenCloseComponent(this);
     }
     connectInteractive(this);
@@ -549,6 +546,7 @@ export class Dropdown
   };
 
   onBeforeOpen(): void {
+    this.reposition(true);
     this.calciteDropdownBeforeOpen.emit();
   }
 
@@ -562,6 +560,7 @@ export class Dropdown
 
   onClose(): void {
     this.calciteDropdownClose.emit();
+    this.reposition(true);
   }
 
   setReferenceEl = (el: HTMLDivElement): void => {

@@ -23,7 +23,12 @@ import {
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
+import {
+  getDepth,
+  getListItemChildren,
+  getListItemChildLists,
+  updateListItemChildren,
+} from "./utils";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -52,6 +57,7 @@ import {
  * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
+ * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
 @Component({
   tag: "calcite-list-item",
@@ -277,6 +283,8 @@ export class ListItem
 
   @State() hasContentEnd = false;
 
+  @State() hasContentBottom = false;
+
   containerEl: HTMLTableRowElement;
 
   contentEl: HTMLTableCellElement;
@@ -390,16 +398,19 @@ export class ListItem
     const { el, open, openable, parentListEl } = this;
     const dir = getElementDir(el);
 
-    return openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.toggleOpen}>
-        <calcite-icon
-          icon={open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR}
-          scale="s"
-        />
-      </td>
-    ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.itemClicked}>
-        <calcite-icon icon={ICONS.blank} scale="s" />
+    const icon = openable
+      ? open
+        ? ICONS.open
+        : dir === "rtl"
+        ? ICONS.closedRTL
+        : ICONS.closedLTR
+      : ICONS.blank;
+
+    const clickHandler = openable ? this.toggleOpen : this.itemClicked;
+
+    return openable || parentListEl?.openable ? (
+      <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
+        <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
   }
@@ -475,6 +486,35 @@ export class ListItem
     );
   }
 
+  renderContentBottom(): VNode {
+    const { hasContentBottom, visualLevel } = this;
+    return (
+      <div
+        class={CSS.contentBottom}
+        hidden={!hasContentBottom}
+        style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+      >
+        <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
+      </div>
+    );
+  }
+
+  renderDefaultContainer(): VNode {
+    return (
+      <div
+        class={{
+          [CSS.nestedContainer]: true,
+          [CSS.nestedContainerHidden]: this.openable && !this.open,
+        }}
+      >
+        <slot
+          onSlotchange={this.handleDefaultSlotChange}
+          ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
+        />
+      </div>
+    );
+  }
+
   renderContentProperties(): VNode {
     const { label, description, hasCustomContent } = this;
 
@@ -536,6 +576,7 @@ export class ListItem
       selectionAppearance,
       selectionMode,
       closed,
+      visualLevel,
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -561,7 +602,7 @@ export class ListItem
             onFocus={this.focusCellNull}
             onKeyDown={this.handleItemKeyDown}
             role="row"
-            style={{ "--calcite-list-item-spacing-indent-multiplier": `${this.visualLevel}` }}
+            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
             tabIndex={active ? 0 : -1}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
@@ -573,17 +614,8 @@ export class ListItem
             {this.renderContentContainer()}
             {this.renderActionsEnd()}
           </tr>
-          <div
-            class={{
-              [CSS.nestedContainer]: true,
-              [CSS.nestedContainerHidden]: openable && !open,
-            }}
-          >
-            <slot
-              onSlotchange={this.handleDefaultSlotChange}
-              ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
-            />
-          </div>
+          {this.renderContentBottom()}
+          {this.renderDefaultContainer()}
         </InteractiveContainer>
       </Host>
     );
@@ -624,6 +656,10 @@ export class ListItem
     this.hasContentEnd = slotChangeHasAssignedElement(event);
   };
 
+  handleContentBottomSlotChange = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
+  };
+
   setSelectionDefaults(): void {
     const { parentListEl, selectionMode, selectionAppearance } = this;
 
@@ -647,8 +683,9 @@ export class ListItem
 
     const { parentListEl } = this;
     const listItemChildren = getListItemChildren(slotEl);
+    const listItemChildLists = getListItemChildLists(slotEl);
     updateListItemChildren(listItemChildren);
-    const openable = !!listItemChildren.length;
+    const openable = !!listItemChildren.length || !!listItemChildLists.length;
 
     if (openable && parentListEl && !parentListEl.openable) {
       parentListEl.openable = true;

@@ -666,6 +666,7 @@ export class Input
   };
 
   private inputBlurHandler = () => {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
     this.calciteInternalInputBlur.emit();
     this.emitChangeIfUserModified();
   };
