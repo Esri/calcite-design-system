@@ -1,4 +1,9 @@
 @mixin sortable-helper-classes() {
+  .calcite-sortable--ghost,
+  .calcite-sortable--drag {
+    overflow: hidden;
+  }
+
   .calcite-sortable--ghost::before {
     content: "";
     @apply box-border

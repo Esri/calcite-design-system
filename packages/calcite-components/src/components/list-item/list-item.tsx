@@ -22,7 +22,12 @@ import {
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
+import {
+  getDepth,
+  getListItemChildren,
+  getListItemChildLists,
+  updateListItemChildren,
+} from "./utils";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -392,16 +397,19 @@ export class ListItem
     const { el, open, openable, parentListEl } = this;
     const dir = getElementDir(el);
 
-    return openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.toggleOpen}>
-        <calcite-icon
-          icon={open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR}
-          scale="s"
-        />
-      </td>
-    ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.itemClicked}>
-        <calcite-icon icon={ICONS.blank} scale="s" />
+    const icon = openable
+      ? open
+        ? ICONS.open
+        : dir === "rtl"
+        ? ICONS.closedRTL
+        : ICONS.closedLTR
+      : ICONS.blank;
+
+    const clickHandler = openable ? this.toggleOpen : this.itemClicked;
+
+    return openable || parentListEl?.openable ? (
+      <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
+        <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
   }
@@ -672,8 +680,9 @@ export class ListItem
 
     const { parentListEl } = this;
     const listItemChildren = getListItemChildren(slotEl);
+    const listItemChildLists = getListItemChildLists(slotEl);
     updateListItemChildren(listItemChildren);
-    const openable = !!listItemChildren.length;
+    const openable = !!listItemChildren.length || !!listItemChildLists.length;
 
     if (openable && parentListEl && !parentListEl.openable) {
       parentListEl.openable = true;
