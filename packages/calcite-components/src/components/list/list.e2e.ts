@@ -1,4 +1,4 @@
-import { accessible, hidden, renders, focusable, disabled, defaults } from "../../tests/commonTests";
+import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
@@ -86,6 +86,10 @@ describe("calcite-list", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-list");
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-list");
   });
 
   describe("accessible", () => {
