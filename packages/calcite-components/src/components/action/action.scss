@@ -87,6 +87,10 @@
   }
 }
 
+:host([data-active]) .button {
+  @apply focus-inset;
+}
+
 :host([scale="s"]) {
   .button {
     @apply text-n2h px-2 py-1 font-normal;
