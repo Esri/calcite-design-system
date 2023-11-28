@@ -20,6 +20,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
@@ -223,10 +224,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
+    const { disabled } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
-    const showDot = isSingleSelect && !this.disabled;
+    const showDot = isSingleSelect && !disabled;
     const defaultIcon = isSingleSelect ? "dot" : "check";
-    const iconPath = this.disabled ? "" : defaultIcon;
+    const iconPath = disabled ? "" : defaultIcon;
 
     const classes = {
       [CSS.label]: true,
@@ -238,17 +240,19 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
     return (
       <Host aria-hidden="true">
-        <div
-          class={`container scale--${this.scale}`}
-          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
-        >
-          <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
-            {this.renderSelectIndicator(showDot, iconPath)}
-            {this.renderIcon(iconPath)}
-            <span class="title">{this.textLabel}</span>
-          </li>
-          {this.renderChildren()}
-        </div>
+        <InteractiveContainer disabled={disabled}>
+          <div
+            class={`container scale--${this.scale}`}
+            style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+          >
+            <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
+              {this.renderSelectIndicator(showDot, iconPath)}
+              {this.renderIcon(iconPath)}
+              <span class="title">{this.textLabel}</span>
+            </li>
+            {this.renderChildren()}
+          </div>
+        </InteractiveContainer>
       </Host>
     );
   }

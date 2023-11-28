@@ -17,6 +17,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 
@@ -211,32 +212,34 @@ export class TableCell
 
     return (
       <Host>
-        <td
-          aria-disabled={this.disabled}
-          class={{
-            [CSS.footerCell]: this.parentRowType === "foot",
-            [CSS.numberCell]: this.numberCell,
-            [CSS.selectionCell]: this.selectionCell,
-            [CSS.selectedCell]: this.parentRowIsSelected,
-            [CSS_UTILITY.rtl]: dir === "rtl",
-          }}
-          colSpan={this.colSpan}
-          onBlur={this.onContainerBlur}
-          onFocus={this.onContainerFocus}
-          role="gridcell"
-          rowSpan={this.rowSpan}
-          tabIndex={this.disabled ? -1 : 0}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.containerEl = el)}
-        >
-          {(this.selectionCell || this.readCellContentsToAT) && this.focused && (
-            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-              {this.selectionCell && this.selectionText}
-              {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
-            </span>
-          )}
-          <slot onSlotchange={this.updateScreenReaderContentsText} />
-        </td>
+        <InteractiveContainer disabled={this.disabled}>
+          <td
+            aria-disabled={this.disabled}
+            class={{
+              [CSS.footerCell]: this.parentRowType === "foot",
+              [CSS.numberCell]: this.numberCell,
+              [CSS.selectionCell]: this.selectionCell,
+              [CSS.selectedCell]: this.parentRowIsSelected,
+              [CSS_UTILITY.rtl]: dir === "rtl",
+            }}
+            colSpan={this.colSpan}
+            onBlur={this.onContainerBlur}
+            onFocus={this.onContainerFocus}
+            role="gridcell"
+            rowSpan={this.rowSpan}
+            tabIndex={this.disabled ? -1 : 0}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => (this.containerEl = el)}
+          >
+            {(this.selectionCell || this.readCellContentsToAT) && this.focused && (
+              <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
+                {this.selectionCell && this.selectionText}
+                {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
+              </span>
+            )}
+            <slot onSlotchange={this.updateScreenReaderContentsText} />
+          </td>
+        </InteractiveContainer>
       </Host>
     );
   }

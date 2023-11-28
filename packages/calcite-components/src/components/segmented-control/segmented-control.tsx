@@ -25,6 +25,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
@@ -173,8 +174,10 @@ export class SegmentedControl
   render(): VNode {
     return (
       <Host onClick={this.handleClick} role="radiogroup">
-        <slot />
-        <HiddenFormInputSlot component={this} />
+        <InteractiveContainer disabled={this.disabled}>
+          <slot />
+          <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }

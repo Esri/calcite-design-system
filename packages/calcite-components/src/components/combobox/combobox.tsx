@@ -46,6 +46,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -1637,73 +1638,75 @@ export class Combobox
     const isClearable = !this.clearDisabled && this.value?.length > 0;
     return (
       <Host onClick={this.comboboxFocusHandler}>
-        <div
-          aria-autocomplete="list"
-          aria-controls={`${listboxUidPrefix}${guid}`}
-          aria-expanded={toAriaBoolean(open)}
-          aria-haspopup="listbox"
-          aria-label={getLabelText(this)}
-          aria-live="polite"
-          aria-owns={`${listboxUidPrefix}${guid}`}
-          class={{
-            wrapper: true,
-            "wrapper--single": singleSelectionMode || !this.selectedItems.length,
-            "wrapper--active": open,
-          }}
-          onClick={this.clickHandler}
-          onKeyDown={this.keyDownHandler}
-          role="combobox"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setReferenceEl}
-        >
+        <InteractiveContainer disabled={this.disabled}>
           <div
+            aria-autocomplete="list"
+            aria-controls={`${listboxUidPrefix}${guid}`}
+            aria-expanded={toAriaBoolean(open)}
+            aria-haspopup="listbox"
+            aria-label={getLabelText(this)}
+            aria-live="polite"
+            aria-owns={`${listboxUidPrefix}${guid}`}
             class={{
-              "grid-input": true,
-              [CSS.selectionDisplayFit]: fitSelectionDisplay,
-              [CSS.selectionDisplaySingle]: singleSelectionDisplay,
+              wrapper: true,
+              "wrapper--single": singleSelectionMode || !this.selectedItems.length,
+              "wrapper--active": open,
             }}
-            ref={this.setChipContainerEl}
+            onClick={this.clickHandler}
+            onKeyDown={this.keyDownHandler}
+            role="combobox"
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setReferenceEl}
           >
-            {this.renderIconStart()}
-            {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
-            {!singleSelectionMode &&
-              !allSelectionDisplay && [
-                this.renderSelectedIndicatorChip(),
-                this.renderSelectedIndicatorChipCompact(),
-                this.renderAllSelectedIndicatorChip(),
-                this.renderAllSelectedIndicatorChipCompact(),
-              ]}
-            <label
-              class="screen-readers-only"
-              htmlFor={`${inputUidPrefix}${guid}`}
-              id={`${labelUidPrefix}${guid}`}
+            <div
+              class={{
+                "grid-input": true,
+                [CSS.selectionDisplayFit]: fitSelectionDisplay,
+                [CSS.selectionDisplaySingle]: singleSelectionDisplay,
+              }}
+              ref={this.setChipContainerEl}
             >
-              {label}
-            </label>
-            {this.renderInput()}
+              {this.renderIconStart()}
+              {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
+              {!singleSelectionMode &&
+                !allSelectionDisplay && [
+                  this.renderSelectedIndicatorChip(),
+                  this.renderSelectedIndicatorChipCompact(),
+                  this.renderAllSelectedIndicatorChip(),
+                  this.renderAllSelectedIndicatorChipCompact(),
+                ]}
+              <label
+                class="screen-readers-only"
+                htmlFor={`${inputUidPrefix}${guid}`}
+                id={`${labelUidPrefix}${guid}`}
+              >
+                {label}
+              </label>
+              {this.renderInput()}
+            </div>
+            {isClearable ? (
+              <XButton
+                disabled={this.disabled}
+                key="close-button"
+                label={this.messages.clear}
+                scale={this.scale}
+              />
+            ) : null}
+            {this.renderIconEnd()}
           </div>
-          {isClearable ? (
-            <XButton
-              disabled={this.disabled}
-              key="close-button"
-              label={this.messages.clear}
-              scale={this.scale}
-            />
-          ) : null}
-          {this.renderIconEnd()}
-        </div>
-        <ul
-          aria-labelledby={`${labelUidPrefix}${guid}`}
-          aria-multiselectable="true"
-          class="screen-readers-only"
-          id={`${listboxUidPrefix}${guid}`}
-          role="listbox"
-          tabIndex={-1}
-        >
-          {this.renderListBoxOptions()}
-        </ul>
-        {this.renderFloatingUIContainer()}
-        <HiddenFormInputSlot component={this} />
+          <ul
+            aria-labelledby={`${labelUidPrefix}${guid}`}
+            aria-multiselectable="true"
+            class="screen-readers-only"
+            id={`${listboxUidPrefix}${guid}`}
+            role="listbox"
+            tabIndex={-1}
+          >
+            {this.renderListBoxOptions()}
+          </ul>
+          {this.renderFloatingUIContainer()}
+          <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }
