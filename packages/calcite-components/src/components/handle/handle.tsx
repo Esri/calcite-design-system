@@ -63,6 +63,11 @@ export class Handle implements LoadableComponent, T9nComponent {
   }
 
   /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
    * Value for the button title attribute
    */
   @Prop({ reflect: true }) dragHandle: string;
@@ -207,6 +212,10 @@ export class Handle implements LoadableComponent, T9nComponent {
   }
 
   handleKeyDown = (event: KeyboardEvent): void => {
+    if (this.disabled) {
+      return;
+    }
+
     switch (event.key) {
       case " ":
         this.activated = !this.activated;
@@ -230,6 +239,10 @@ export class Handle implements LoadableComponent, T9nComponent {
   };
 
   handleBlur = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.activated = false;
   };
 
@@ -243,13 +256,13 @@ export class Handle implements LoadableComponent, T9nComponent {
     return (
       // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
       <span
-        aria-label={this.getAriaText("label")}
-        aria-pressed={toAriaBoolean(this.activated)}
-        class={{ [CSS.handle]: true, [CSS.handleActivated]: this.activated }}
+        aria-label={this.disabled ? null : this.getAriaText("label")}
+        aria-pressed={this.disabled ? null : toAriaBoolean(this.activated)}
+        class={{ [CSS.handle]: true, [CSS.handleActivated]: !this.disabled && this.activated }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
-        role="button"
-        tabindex="0"
+        role={this.disabled ? null : "button"}
+        tabIndex={this.disabled ? null : 0}
         title={this.messages?.dragHandle}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el): void => {
