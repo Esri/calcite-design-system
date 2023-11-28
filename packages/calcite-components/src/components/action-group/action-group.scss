@@ -65,14 +65,4 @@
   grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
 }
 
-::slotted(calcite-action) {
-  @apply focus-base
-  flex;
-}
-
-::slotted(calcite-action[data-active]) {
-  @apply focus-outset;
-  outline-offset: 0px;
-}
-
 @include base-component();

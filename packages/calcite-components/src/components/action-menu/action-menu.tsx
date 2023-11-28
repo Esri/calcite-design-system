@@ -401,21 +401,23 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .reduce((previousValue: HTMLCalciteActionElement[], currentValue) => {
-        if (currentValue?.matches("calcite-action")) {
-          return previousValue.push(currentValue as HTMLCalciteActionElement);
-        }
+      .reduce(
+        (previousValue: HTMLCalciteActionElement[], currentValue): HTMLCalciteActionElement[] => {
+          if (currentValue?.matches("calcite-action")) {
+            previousValue.push(currentValue as HTMLCalciteActionElement);
+            return previousValue;
+          }
 
-        if (currentValue?.matches("calcite-action-group")) {
-          const groupActions = Array.from(
-            currentValue.querySelectorAll("calcite-action")
-          ) as HTMLCalciteActionElement[];
+          if (currentValue?.matches("calcite-action-group")) {
+            return previousValue.concat(
+              Array.from(currentValue.querySelectorAll("calcite-action"))
+            );
+          }
 
-          return previousValue.concat(groupActions);
-        }
-
-        return previousValue;
-      }, []) as HTMLCalciteActionElement[];
+          return previousValue;
+        },
+        []
+      );
 
     this.actionElements = actions;
   };
