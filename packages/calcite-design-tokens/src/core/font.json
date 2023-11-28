@@ -1,0 +1,279 @@
+{
+  "core": {
+    "font": {
+      "family": {
+        "primary": {
+          "value": "Avenir Next LT Pro",
+          "type": "fontFamilies"
+        },
+        "secondary": {
+          "value": "Avenir Next World",
+          "type": "fontFamilies"
+        },
+        "code": {
+          "value": "Monaco",
+          "type": "fontFamilies"
+        }
+      },
+      "style": {
+        "italic": {
+          "value": "italic",
+          "type": "fontStyle",
+          "description": "used in ratings"
+        }
+      },
+      "weight": {
+        "ultralight": {
+          "value": "UltraLight",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "thin": {
+          "value": "Thin",
+          "type": "fontWeights"
+        },
+        "light": {
+          "value": "Light",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "regular": {
+          "value": "Regular",
+          "type": "fontWeights"
+        },
+        "medium": {
+          "value": "Medium",
+          "type": "fontWeights"
+        },
+        "medium-italic": {
+          "value": "Medium Italic",
+          "type": "fontWeights"
+        },
+        "demi": {
+          "value": "Demi",
+          "type": "fontWeights"
+        },
+        "bold": {
+          "value": "Bold",
+          "type": "fontWeights"
+        },
+        "extrabold": {
+          "value": "ExtraBold",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "black": {
+          "value": "Black",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "heavy": {
+          "value": "Heavy",
+          "type": "fontWeights"
+        }
+      },
+      "line-height": {
+        "fixed": {
+          "0": {
+            "value": "12px",
+            "type": "lineHeights"
+          },
+          "1": {
+            "value": "16px",
+            "type": "lineHeights"
+          },
+          "2": {
+            "value": "20px",
+            "type": "lineHeights"
+          },
+          "3": {
+            "value": "24px",
+            "type": "lineHeights"
+          },
+          "4": {
+            "value": "28px",
+            "type": "lineHeights"
+          },
+          "5": {
+            "value": "32px",
+            "type": "lineHeights"
+          },
+          "6": {
+            "value": "36px",
+            "type": "lineHeights"
+          },
+          "7": {
+            "value": "40px",
+            "type": "lineHeights"
+          },
+          "8": {
+            "value": "48px",
+            "type": "lineHeights"
+          },
+          "9": {
+            "value": "56px",
+            "type": "lineHeights"
+          },
+          "10": {
+            "value": "64px",
+            "type": "lineHeights"
+          },
+          "11": {
+            "value": "72px",
+            "type": "lineHeights"
+          },
+          "12": {
+            "value": "80px",
+            "type": "lineHeights"
+          }
+        },
+        "relative": {
+          "default": {
+            "value": "auto",
+            "type": "lineHeights",
+            "description": "1"
+          },
+          "tight": {
+            "value": "125%",
+            "type": "lineHeights",
+            "description": "1.25"
+          },
+          "snug": {
+            "value": "137.5%",
+            "type": "lineHeights",
+            "description": "1.375"
+          },
+          "normal": {
+            "value": "150%",
+            "type": "lineHeights",
+            "description": "1.5"
+          },
+          "relaxed": {
+            "value": "162.5%",
+            "type": "lineHeights",
+            "description": "1.625"
+          },
+          "loose": {
+            "value": "200%",
+            "type": "lineHeights",
+            "description": "2"
+          }
+        }
+      },
+      "size": {
+        "0": {
+          "value": "10px",
+          "type": "fontSizes"
+        },
+        "1": {
+          "value": "12px",
+          "type": "fontSizes"
+        },
+        "2": {
+          "value": "14px",
+          "type": "fontSizes"
+        },
+        "3": {
+          "value": "16px",
+          "type": "fontSizes"
+        },
+        "4": {
+          "value": "18px",
+          "type": "fontSizes"
+        },
+        "5": {
+          "value": "20px",
+          "type": "fontSizes"
+        },
+        "6": {
+          "value": "24px",
+          "type": "fontSizes"
+        },
+        "7": {
+          "value": "32px",
+          "type": "fontSizes"
+        },
+        "8": {
+          "value": "40px",
+          "type": "fontSizes"
+        },
+        "9": {
+          "value": "48px",
+          "type": "fontSizes"
+        },
+        "10": {
+          "value": "56px",
+          "type": "fontSizes"
+        },
+        "11": {
+          "value": "64px",
+          "type": "fontSizes"
+        },
+        "12": {
+          "value": "72px",
+          "type": "fontSizes"
+        },
+        "13": {
+          "value": "80px",
+          "type": "fontSizes"
+        },
+        "14": {
+          "value": "96px",
+          "type": "fontSizes"
+        },
+        "15": {
+          "value": "120px",
+          "type": "fontSizes"
+        }
+      },
+      "letter-spacing": {
+        "tight": {
+          "value": "-0.4px",
+          "type": "letterSpacing"
+        },
+        "normal": {
+          "value": "0px",
+          "type": "letterSpacing"
+        },
+        "wide": {
+          "value": "0.4px",
+          "type": "letterSpacing"
+        }
+      },
+      "paragraph-spacing": {
+        "normal": {
+          "value": "10px",
+          "type": "paragraphSpacing"
+        }
+      },
+      "text-decoration": {
+        "none": {
+          "value": "none",
+          "type": "textDecoration"
+        },
+        "underline": {
+          "value": "underline",
+          "type": "textDecoration"
+        }
+      },
+      "text-case": {
+        "none": {
+          "value": "none",
+          "type": "textCase"
+        },
+        "uppercase": {
+          "value": "uppercase",
+          "type": "textCase"
+        },
+        "lowercase": {
+          "value": "lowercase",
+          "type": "textCase"
+        },
+        "capitalize": {
+          "value": "capitalize",
+          "type": "textCase"
+        }
+      }
+    }
+  }
+}
