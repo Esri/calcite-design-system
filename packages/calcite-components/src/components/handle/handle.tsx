@@ -28,6 +28,12 @@ import {
 import { HandleMessages } from "./assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS } from "./resources";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 
 @Component({
   tag: "calcite-handle",
@@ -35,7 +41,7 @@ import { CSS, ICONS } from "./resources";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class Handle implements LoadableComponent, T9nComponent {
+export class Handle implements LoadableComponent, T9nComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -117,6 +123,7 @@ export class Handle implements LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectMessages(this);
     connectLocalized(this);
   }
@@ -130,7 +137,12 @@ export class Handle implements LoadableComponent, T9nComponent {
     setComponentLoaded(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectMessages(this);
     disconnectLocalized(this);
   }
@@ -256,12 +268,13 @@ export class Handle implements LoadableComponent, T9nComponent {
     return (
       // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
       <span
+        aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
         aria-label={this.disabled ? null : this.getAriaText("label")}
         aria-pressed={this.disabled ? null : toAriaBoolean(this.activated)}
         class={{ [CSS.handle]: true, [CSS.handleActivated]: !this.disabled && this.activated }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
-        role={this.disabled ? null : "button"}
+        role="button"
         tabIndex={this.disabled ? null : 0}
         title={this.messages?.dragHandle}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
