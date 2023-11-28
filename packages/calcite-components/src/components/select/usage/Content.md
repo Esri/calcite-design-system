@@ -2,8 +2,9 @@ Specify the underlying value and content for each option.
 
 ```html
 <calcite-select>
-  <calcite-option label="high">1</calcite-option>
-  <calcite-option label="medium">2</calcite-option>
-  <calcite-option label="low">3</calcite-option>
+  <calcite-option label="Java" value="java">Java Programming</calcite-option>
+  <calcite-option label="Python" value="python">Python Programming</calcite-option>
+  <calcite-option label="JavaScript" value="javascript">JavaScript Development</calcite-option>
+  <calcite-option label="C#" value="csharp" disabled>C# Programming (Disabled)</calcite-option>
 </calcite-select>
 ```
