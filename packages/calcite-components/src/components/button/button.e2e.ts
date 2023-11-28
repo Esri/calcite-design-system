@@ -90,6 +90,33 @@ describe("calcite-button", () => {
     hidden("calcite-button");
   });
 
+  it("renders child element as disabled or aria-disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button disabled>Continue</calcite-button>`);
+
+    let elementAsButton = await page.find("calcite-button >>> button");
+    let elementAsLink = await page.find("calcite-button >>> a");
+
+    expect(elementAsButton).not.toBeNull();
+    expect(elementAsLink).toBeNull();
+
+    expect(await elementAsButton.getProperty("disabled")).toBe(true);
+    expect(await elementAsButton.getProperty("ariaDisabled")).toBe(null);
+
+    const element = await page.find("calcite-button");
+    element.setProperty("href", "#anchor");
+    await page.waitForChanges();
+
+    elementAsButton = await page.find("calcite-button >>> button");
+    elementAsLink = await page.find("calcite-button >>> a");
+
+    expect(elementAsButton).toBeNull();
+    expect(elementAsLink).not.toBeNull();
+
+    expect(await elementAsLink.getProperty("disabled")).toBe(undefined);
+    expect(await elementAsLink.getProperty("ariaDisabled")).toBe("true");
+  });
+
   it("renders as a button with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);

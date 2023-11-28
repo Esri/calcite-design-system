@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.1-next.0...@esri/calcite-components@1.11.1-next.1) (2023-11-28)
+
+### Bug Fixes
+
+- **button:** Sets aria-disabled instead of disabled on internal anchor element ([#8270](https://github.com/Esri/calcite-design-system/issues/8270)) ([0926eb6](https://github.com/Esri/calcite-design-system/commit/0926eb63dcf09388146f2b5052bd8279be4d25b0)), closes [#8140](https://github.com/Esri/calcite-design-system/issues/8140)
+
 ## [1.11.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.0...@esri/calcite-components@1.11.1-next.0) (2023-11-22)
 
 ### Bug Fixes

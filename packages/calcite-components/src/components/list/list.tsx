@@ -45,6 +45,15 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { HandleNudge } from "../handle/interfaces";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { ListMessages } from "./assets/list/t9n";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { ListDragDetail } from "./interfaces";
 
 /**
@@ -58,8 +67,11 @@ import { ListDragDetail } from "./interfaces";
   tag: "calcite-list",
   styleUrl: "list.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class List implements InteractiveComponent, LoadableComponent, SortableComponent {
+export class List
+  implements InteractiveComponent, LoadableComponent, SortableComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -136,6 +148,30 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<ListMessages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: ListMessages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop() numberingSystem: NumberingSystem;
 
   /**
    * One of the items within the list can be opened.
@@ -299,6 +335,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       return;
     }
 
+    connectMessages(this);
     this.connectObserver();
     this.updateListItems();
     this.setUpSorting();
@@ -306,18 +343,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.setParentList();
   }
 
-  disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
-    this.disconnectObserver();
-    disconnectSortableComponent(this);
-    disconnectInteractive(this);
-  }
-
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidRender(): void {
@@ -328,11 +356,31 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     setComponentLoaded(this);
   }
 
+  disconnectedCallback(): void {
+    if (dragActive(this)) {
+      return;
+    }
+
+    this.disconnectObserver();
+    disconnectSortableComponent(this);
+    disconnectInteractive(this);
+    disconnectMessages(this);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: ListMessages;
 
   @Element() el: HTMLCalciteListElement;
 
@@ -409,6 +457,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
             {this.assistiveText}
           </span>
         ) : null}
+        {this.renderItemAriaLive()}
         {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         <table
           aria-busy={toAriaBoolean(loading)}
@@ -460,6 +509,45 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private renderItemAriaLive(): VNode {
+    const {
+      messages,
+      enabledListItems,
+      parentListEl,
+      effectiveLocale,
+      numberingSystem,
+      filterEnabled,
+      filterText,
+      filteredData,
+    } = this;
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: effectiveLocale,
+      numberingSystem,
+    };
+
+    return !parentListEl ? (
+      <div aria-live="polite" class={CSS.assistiveText}>
+        {filterEnabled && filterText && filteredData?.length ? (
+          <div key="aria-filter-enabled">{messages.filterEnabled}</div>
+        ) : null}
+        <div key="aria-item-count">
+          {messages.total.replace(
+            "{count}",
+            numberStringFormatter.localize(enabledListItems.length.toString())
+          )}
+        </div>
+        {enabledListItems.length ? (
+          <ol key="aria-item-list">
+            {enabledListItems.map((item) => (
+              <li>{item.label}</li>
+            ))}
+          </ol>
+        ) : null}
+      </div>
+    ) : null;
+  }
 
   private connectObserver(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
