@@ -8,6 +8,6 @@ Customize the modal by passing your content into multiple named slots: `header` 
     Back
   </calcite-button>
   <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-  <calcite-button slot="primary" width="full">Save Changes</calcite-button>
+  <calcite-button slot="primary" width="full">Save changes</calcite-button>
 </calcite-modal>
 ```
