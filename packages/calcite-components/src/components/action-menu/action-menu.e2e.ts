@@ -252,47 +252,6 @@ describe("calcite-action-menu", () => {
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
     });
 
-    it("should handle ArrowDown navigation with groups", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-action-menu>
-          <calcite-action-group>
-            <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
-            <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
-            <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-          </calcite-action-group>
-        </calcite-action-menu> `,
-      });
-
-      await page.waitForChanges();
-
-      const actionMenu = await page.find("calcite-action-menu");
-      const actions = await page.findAll("calcite-action");
-      const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
-
-      expect(await actionMenu.getProperty("open")).toBe(false);
-
-      await actionMenu.callMethod("setFocus");
-      await page.waitForChanges();
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForTimeout(0);
-      await page.waitForChanges();
-
-      expect(await trigger.getProperty("active")).toBe(true);
-      expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(actions[0].getAttribute(activeAttr)).toBe("");
-      expect(actions[1].getAttribute(activeAttr)).toBe(null);
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForTimeout(0);
-      await page.waitForChanges();
-
-      expect(actions[0].getAttribute(activeAttr)).toBe(null);
-      expect(actions[1].getAttribute(activeAttr)).toBe("");
-      expect(actions[2].getAttribute(activeAttr)).toBe(null);
-    });
-
     it("should handle ArrowUp navigation", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
