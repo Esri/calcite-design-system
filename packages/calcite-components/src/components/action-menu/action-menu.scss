@@ -32,7 +32,12 @@
 }
 
 .menu {
-  @apply flex-col flex-nowrap outline-none;
+  @apply flex-col
+  flex-nowrap
+  outline-none
+  overflow-y-auto
+  overflow-x-hidden
+  max-h-menu;
 }
 
 @include base-component();
