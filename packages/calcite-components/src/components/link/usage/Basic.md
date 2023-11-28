@@ -1,7 +1,9 @@
 ```html
 <div style="font-size: 16px; font-weight: 400;">
-  A block of text containing valuable information.
-  <calcite-link href="#">Explore further details</calcite-link>
-  within the provided link.
+  Checkout the
+  <calcite-link href="https://developers.arcgis.com/calcite-design-system/" icon-end="launch" target="_blank">
+    Calcite Design System
+  </calcite-link>
+  website for comprehensive information about Calcite
 </div>
 ```

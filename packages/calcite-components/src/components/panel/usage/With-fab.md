@@ -1,7 +1,7 @@
 Renders a panel with a fab (floating action button).
 
 ```html
-<calcite-panel heading="User layers">
+<calcite-panel heading="layer">
   <calcite-list>
     <calcite-list-item-group heading="Outdoor recreation">
       <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
@@ -12,6 +12,6 @@ Renders a panel with a fab (floating action button).
       </calcite-list-item>
     </calcite-list-item-group>
   </calcite-list>
-  <calcite-fab slot="fab" text="Add another" text-enabled></calcite-fab>
+  <calcite-fab slot="fab" text="Add layer" text-enabled></calcite-fab>
 </calcite-panel>
 ```
