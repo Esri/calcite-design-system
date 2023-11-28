@@ -147,7 +147,7 @@
           "value": { "light": "{core.color.neutral.blk-030}", "dark": "{core.color.neutral.blk-180}" },
           "type": "color"
         },
-        "input": {
+        "user-input": {
           "value": { "light": "{core.color.neutral.blk-100}", "dark": "{core.color.neutral.blk-130}" },
           "type": "color"
         }
