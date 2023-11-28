@@ -403,7 +403,7 @@ export class ActionMenu implements LoadableComponent {
       })
       .reduce((previousValue: HTMLCalciteActionElement[], currentValue) => {
         if (currentValue?.matches("calcite-action")) {
-          return [...previousValue, currentValue];
+          return previousValue.push(currentValue as HTMLCalciteActionElement);
         }
 
         if (currentValue?.matches("calcite-action-group")) {
@@ -411,7 +411,7 @@ export class ActionMenu implements LoadableComponent {
             currentValue.querySelectorAll("calcite-action")
           ) as HTMLCalciteActionElement[];
 
-          return [...previousValue, ...groupActions];
+          return previousValue.concat(groupActions);
         }
 
         return previousValue;
