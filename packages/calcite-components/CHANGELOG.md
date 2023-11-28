@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.1-next.1...@esri/calcite-components@1.11.1-next.2) (2023-11-28)
+
+### Bug Fixes
+
+- **list-item:** adds border between last item in a group and slotted item ([#8262](https://github.com/Esri/calcite-design-system/issues/8262)) ([9b5cf76](https://github.com/Esri/calcite-design-system/commit/9b5cf76c4a7d4c2d2e38f32456936ed4bd20c249)), closes [#7546](https://github.com/Esri/calcite-design-system/issues/7546)
+- **list:** Add live region for dynamically changing list items ([#8148](https://github.com/Esri/calcite-design-system/issues/8148)) ([e3c0c06](https://github.com/Esri/calcite-design-system/commit/e3c0c06b27574a21605507aadcad4932be66e2cf)), closes [#5625](https://github.com/Esri/calcite-design-system/issues/5625)
+
 ## [1.11.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.1-next.0...@esri/calcite-components@1.11.1-next.1) (2023-11-28)
 
 ### Bug Fixes
