@@ -17,6 +17,14 @@
   outline-offset: 0px;
 }
 
+::slotted(calcite-action-group) {
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+}
+
+::slotted(calcite-action-group:last-child) {
+  border-block-end: 0;
+}
+
 .default-trigger {
   @apply relative
   h-full
