@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.1-next.2...@esri/calcite-components@1.12.0-next.0) (2023-11-28)
+
+### Features
+
+- **action-menu:** set max height of the action menu ([#8275](https://github.com/Esri/calcite-design-system/issues/8275)) ([ca1be28](https://github.com/Esri/calcite-design-system/commit/ca1be2835e3a875dcb6634e567fa48f61ccb6e8f)), closes [#8274](https://github.com/Esri/calcite-design-system/issues/8274)
+- **handle:** Add disabled property ([#8283](https://github.com/Esri/calcite-design-system/issues/8283)) ([7aeecd5](https://github.com/Esri/calcite-design-system/commit/7aeecd52b93232b6d1220402663084c486219859)), closes [#8282](https://github.com/Esri/calcite-design-system/issues/8282)
+
+### Bug Fixes
+
+- **stepper:** typo in CSS variable for step bar's fill ([#8255](https://github.com/Esri/calcite-design-system/issues/8255)) ([2e643aa](https://github.com/Esri/calcite-design-system/commit/2e643aa0ff836c66ea3a13722d5b1f88726f3d27))
+
 ## [1.11.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.1-next.1...@esri/calcite-components@1.11.1-next.2) (2023-11-28)
 
 ### Bug Fixes
