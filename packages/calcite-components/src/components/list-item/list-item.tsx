@@ -225,7 +225,7 @@ export class ListItem
   /**
    * Emits when the item's content is selected.
    */
-  @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<{ multiple: boolean }>;
 
   /**
    * Fires when the close button is clicked.
@@ -724,16 +724,16 @@ export class ListItem
     this.open = !this.open;
   };
 
-  itemClicked = (event: Event): void => {
+  itemClicked = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
 
-    this.toggleSelected();
+    this.toggleSelected(event.shiftKey);
     this.calciteInternalListItemActive.emit();
   };
 
-  toggleSelected = (): void => {
+  toggleSelected = (shiftKey: boolean): void => {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -746,7 +746,7 @@ export class ListItem
       this.selected = true;
     }
 
-    this.calciteListItemSelect.emit();
+    this.calciteListItemSelect.emit({ multiple: shiftKey && selectionMode === "multiple" });
   };
 
   handleItemKeyDown = (event: KeyboardEvent): void => {
@@ -767,7 +767,7 @@ export class ListItem
       !composedPath.includes(actionsEndEl)
     ) {
       event.preventDefault();
-      this.toggleSelected();
+      this.toggleSelected(event.shiftKey);
     } else if (key === "ArrowRight") {
       event.preventDefault();
       const nextIndex = currentIndex + 1;

@@ -269,9 +269,26 @@ export class List
   }
 
   @Listen("calciteListItemSelect")
-  handleCalciteListItemSelect(): void {
+  handleCalciteListItemSelect(event: CustomEvent<{ multiple: boolean }>): void {
     if (!!this.parentListEl) {
       return;
+    }
+
+    const { enabledListItems, lastSelectedItem } = this;
+    const { multiple } = event.detail;
+    const selectedItem = event.target as HTMLCalciteListItemElement;
+
+    if (multiple && lastSelectedItem) {
+      const lastSelectedIndex = enabledListItems.indexOf(lastSelectedItem);
+      const currentIndex = enabledListItems.indexOf(selectedItem);
+      const startIndex = Math.min(lastSelectedIndex, currentIndex);
+      const endIndex = Math.max(lastSelectedIndex, currentIndex);
+
+      enabledListItems
+        .slice(startIndex, endIndex)
+        .forEach((item) => (item.selected = lastSelectedItem.selected));
+    } else {
+      this.lastSelectedItem = event.target as HTMLCalciteListItemElement;
     }
 
     this.updateSelectedItems(true);
@@ -409,6 +426,8 @@ export class List
   sortable: Sortable;
 
   private ancestorOfFirstFilteredItem: HTMLCalciteListItemElement;
+
+  private lastSelectedItem: HTMLCalciteListItemElement;
 
   // --------------------------------------------------------------------------
   //
