@@ -8,7 +8,7 @@ describe("StyleDictionary Transform Name to a spaced path", () => {
   });
 
   describe("transformer", () => {
-    it("should transform a token name to a joined path", () => {
+    it("should transform a token name to a spaced path", () => {
       const token = {
         name: "some fake name",
         path: ["tier", "group", "element", "property", "state"],
