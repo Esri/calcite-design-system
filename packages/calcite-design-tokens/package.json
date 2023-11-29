@@ -9,8 +9,8 @@
     "tokens"
   ],
   "type": "module",
-  "main": "./dist/es6/global.js",
-  "types": "./dist/es6/global.d.ts",
+  "main": "./dist/js/global.js",
+  "types": "./dist/js/global.d.ts",
   "files": [
     "./dist/**/*"
   ],
