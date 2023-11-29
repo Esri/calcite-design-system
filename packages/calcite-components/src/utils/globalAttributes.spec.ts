@@ -13,7 +13,7 @@ describe("globalAttributes", () => {
     // we clobber Stencil's custom Mock document implementation
     const { window: win } = new JSDOM();
 
-    window = win; // make window references use JSDOM
+    window = win as any; // make window references use JSDOM
     const fakeComponent = win.document.createElement("fake-component");
     win.document.body.append(fakeComponent);
 
@@ -54,7 +54,7 @@ describe("globalAttributes", () => {
     // we clobber Stencil's custom Mock document implementation
     const { window: win } = new JSDOM();
 
-    window = win; // make window references use JSDOM
+    window = win as any; // make window references use JSDOM
     const fakeComponent = win.document.createElement("fake-component");
     win.document.body.append(fakeComponent);
 
