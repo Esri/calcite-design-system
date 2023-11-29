@@ -439,6 +439,7 @@ export class Combobox
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   async componentWillLoad(): Promise<void> {

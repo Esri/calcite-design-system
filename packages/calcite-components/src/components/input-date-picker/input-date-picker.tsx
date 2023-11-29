@@ -475,6 +475,7 @@ export class InputDatePicker
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   async componentWillLoad(): Promise<void> {
