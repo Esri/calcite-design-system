@@ -17,7 +17,9 @@ export const transformNamesSet: CalledTransformerFunction<string> = (token, args
       ? transformNamesKebabCase(token, args)
       : transformNamesCamelCase(token, args),
   };
-  return platform === Platform.JS ? transformNamesJoinPath(token, args) : createTokenReference(t, args);
+  return platform === Platform.JSON || platform === Platform.JS
+    ? transformNamesJoinPath(token, args)
+    : createTokenReference(t, args);
 };
 
 export const registerNameSet = (sd: StyleDictionary): void => {

@@ -3,7 +3,7 @@ import { default as StyleDictionary } from "style-dictionary";
 import { registerCalciteTransformers } from "./registerCalciteTransformers.js";
 import { filterSource } from "./styleDictionary/filter/filterSource.js";
 import { fileExtension } from "../types/fileExtensions.js";
-import { PlatformFormats, PlatformUnion, TypescriptPlatform } from "../types/platform.js";
+import { Platform, PlatformFormats, PlatformUnion, TypescriptPlatform } from "../types/platform.js";
 
 import { CalciteConfigStyleDictionaryRunner } from "../types/config.js";
 import { Options } from "../types/styleDictionary/options.js";
@@ -25,10 +25,10 @@ const files = (platform: PlatformUnion, name: string, options?: Options): File[]
   });
 
   switch (platform) {
-    case "js":
-    case "es6":
+    case Platform.JS:
+    case Platform.ES6:
       f.push({
-        format: format(platform === "js" ? TypescriptPlatform.TS : TypescriptPlatform.ES6TS),
+        format: format(platform === Platform.JS ? TypescriptPlatform.TS : TypescriptPlatform.ES6TS),
         destination: destination(name, TypescriptPlatform.TS),
         filter: filterSource,
         options: { ...options, platform },
