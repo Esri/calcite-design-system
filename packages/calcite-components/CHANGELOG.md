@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.1...@esri/calcite-components@1.12.0-next.2) (2023-11-29)
+
+### Bug Fixes
+
+- **list-item:** focus on the first focusable element within the component when using arrow keys ([#8291](https://github.com/Esri/calcite-design-system/issues/8291)) ([b902365](https://github.com/Esri/calcite-design-system/commit/b902365828e5c4be5fd0ee5ee79e025930a322ac)), closes [#7974](https://github.com/Esri/calcite-design-system/issues/7974)
+
 ## [1.12.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.0...@esri/calcite-components@1.12.0-next.1) (2023-11-29)
 
 ### Features
