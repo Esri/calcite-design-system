@@ -69,6 +69,17 @@ describe.skip("generated tokens", () => {
     });
   });
 
+  describe("JSON", () => {
+    it("global should match", () => {
+      const global = readFileSync(resolve(__dirname, "../../dist/js/global.json"), "utf-8");
+      expect(global).toMatchSnapshot();
+    });
+    it("core should match", () => {
+      const core = readFileSync(resolve(__dirname, "../../dist/js/core.json"), "utf-8");
+      expect(core).toMatchSnapshot();
+    });
+  });
+
   describe("ES6", () => {
     it("global should match", () => {
       let global = readFileSync(resolve(__dirname, "../../dist/es6/calcite-headless.js"), "utf-8");

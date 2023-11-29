@@ -8,6 +8,7 @@ const formatters: Partial<Record<PlatformFormats, string>> = {
   css: CalciteCss,
   scss: CalciteScss,
   sass: CalciteScss,
+  json: "json",
   js: CalciteJs,
   es6: "javascript/es6",
   ts: "typescript/module-declarations",

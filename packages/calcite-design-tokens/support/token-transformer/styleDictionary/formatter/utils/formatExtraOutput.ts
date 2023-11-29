@@ -59,6 +59,7 @@ export function formatExtraOutput(
             ...(mixins || []),
           ].filter((t) => t);
           break;
+        case "json":
         case "js":
         case "es6":
           const exports = index.export?.map((exp) =>
@@ -93,6 +94,9 @@ export function formatExtraOutput(
           break;
         case Platform.JS:
           writeFileSync(absoluteFilePath, args.header + "export default " + outputList[0] + "\n");
+          break;
+        case Platform.JSON:
+          writeFileSync(absoluteFilePath, outputList[0]);
           break;
         default:
           break;
