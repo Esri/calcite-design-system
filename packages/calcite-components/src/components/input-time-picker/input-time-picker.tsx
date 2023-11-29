@@ -242,6 +242,12 @@ export class InputTimePicker
     /* wired up by t9n util */
   }
 
+  /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
+  @Prop() messageText: string;
+
+  /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
+  @Prop() messageIcon: string | boolean;
+
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;
 
@@ -1019,6 +1025,11 @@ export class InputTimePicker
           />
         </calcite-popover>
         <HiddenFormInputSlot component={this} />
+        {this.messageText ? (
+          <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+            {this.messageText}
+          </calcite-input-message>
+        ) : null}
       </Host>
     );
   }

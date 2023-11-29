@@ -47,6 +47,7 @@ import {
 } from "../../utils/interactive";
 import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
+import { Status } from "../interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -129,6 +130,12 @@ export class TextArea
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: TextAreaMessages;
 
+  /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
+  @Prop() messageText: string;
+
+  /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
+  @Prop() messageIcon: string | boolean;
+
   /**
    * Specifies the name of the component.
    *
@@ -175,6 +182,9 @@ export class TextArea
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "l" | "m" | "s" = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's value. */
   @Prop({ mutable: true }) value: string;
@@ -317,6 +327,11 @@ export class TextArea
             {this.replacePlaceHoldersInMessages()}
           </span>
         )}
+        {this.messageText ? (
+          <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+            {this.messageText}
+          </calcite-input-message>
+        ) : null}
       </Host>
     );
   }

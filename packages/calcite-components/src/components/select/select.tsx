@@ -3,8 +3,8 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -33,7 +33,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
-import { Scale, Width } from "../interfaces";
+import { Scale, Status, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
 
@@ -77,14 +77,19 @@ export class Select
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * Accessible name for the component.
    *
    */
   @Prop() label!: string;
+
+  /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
+  @Prop() messageText: string;
+
+  /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
+  @Prop() messageIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -104,6 +109,9 @@ export class Select
    * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the component. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's `selectedOption` value. */
   @Prop({ mutable: true }) value: string = null;
@@ -377,20 +385,27 @@ export class Select
 
   render(): VNode {
     return (
-      <Fragment>
-        <select
-          aria-label={getLabelText(this)}
-          class={CSS.select}
-          disabled={this.disabled}
-          onChange={this.handleInternalSelectChange}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.storeSelectRef}
-        >
-          <slot />
-        </select>
-        {this.renderChevron()}
-        <HiddenFormInputSlot component={this} />
-      </Fragment>
+      <Host>
+        <div class={CSS.wrapper}>
+          <select
+            aria-label={getLabelText(this)}
+            class={CSS.select}
+            disabled={this.disabled}
+            onChange={this.handleInternalSelectChange}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.storeSelectRef}
+          >
+            <slot />
+          </select>
+          {this.renderChevron()}
+          <HiddenFormInputSlot component={this} />
+        </div>
+        {this.messageText ? (
+          <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+            {this.messageText}
+          </calcite-input-message>
+        ) : null}
+      </Host>
     );
   }
 }

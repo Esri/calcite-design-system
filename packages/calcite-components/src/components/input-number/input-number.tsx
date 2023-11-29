@@ -210,6 +210,12 @@ export class InputNumber
    */
   @Prop({ reflect: true }) minLength: number;
 
+  /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
+  @Prop() messageText: string;
+
+  /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
+  @Prop() messageIcon: string | boolean;
+
   /**
    * Specifies the name of the component.
    *
@@ -1002,6 +1008,12 @@ export class InputNumber
 
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
+    const messageEl = (
+      <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+        {this.messageText}
+      </calcite-input-message>
+    );
+
     const childEl = (
       <input
         aria-label={getLabelText(this)}
@@ -1052,6 +1064,7 @@ export class InputNumber
             : null}
           <HiddenFormInputSlot component={this} />
         </div>
+        {this.messageText ? messageEl : null}
       </Host>
     );
   }

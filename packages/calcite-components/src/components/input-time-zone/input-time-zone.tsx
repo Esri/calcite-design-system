@@ -20,7 +20,7 @@ import {
   SupportedLocale,
 } from "../../utils/locale";
 import { TimeZoneItem, TimeZoneMode } from "./interfaces";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -119,6 +119,12 @@ export class InputTimeZone
     this.createTimeZoneItems();
   }
 
+  /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
+  @Prop() messageText: string;
+
+  /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
+  @Prop() messageIcon: string | boolean;
+
   /**
    * Specifies the name of the component.
    *
@@ -157,6 +163,9 @@ export class InputTimeZone
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
@@ -397,6 +406,11 @@ export class InputTimeZone
           })}
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
+        {this.messageText ? (
+          <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+            {this.messageText}
+          </calcite-input-message>
+        ) : null}
       </Host>
     );
   }

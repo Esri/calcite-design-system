@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Input</title>
+    <title>Input Text</title>
 
     <style>
       .parent-flex {
@@ -302,24 +302,39 @@
         <div class="child-flex">
           <calcite-label scale="s">
             Input Label
-            <calcite-input-text status="invalid" placeholder="Placeholder" scale="s"></calcite-input-text>
-            <calcite-input-message status="invalid" scale="s" icon> Error message </calcite-input-message>
+            <calcite-input-text
+              status="invalid"
+              placeholder="Placeholder"
+              scale="s"
+              message-text="Error message"
+              message-icon
+            ></calcite-input-text>
           </calcite-label>
         </div>
 
         <div class="child-flex">
           <calcite-label>
             Input Label
-            <calcite-input-text status="invalid" placeholder="Placeholder" scale="m"></calcite-input-text>
-            <calcite-input-message status="invalid" scale="m" icon> Error message </calcite-input-message>
+            <calcite-input-text
+              status="invalid"
+              placeholder="Placeholder"
+              scale="m"
+              message-text="Error message"
+              message-icon
+            ></calcite-input-text>
           </calcite-label>
         </div>
 
         <div class="child-flex">
           <calcite-label scale="l">
             Input Label
-            <calcite-input-text status="invalid" placeholder="Placeholder" scale="l"></calcite-input-text>
-            <calcite-input-message status="invalid" scale="l" icon> Error message </calcite-input-message>
+            <calcite-input-text
+              status="invalid"
+              placeholder="Placeholder"
+              scale="l"
+              message-text="Error message"
+              message-icon
+            ></calcite-input-text>
           </calcite-label>
         </div>
       </div>
@@ -336,8 +351,9 @@
               scale="s"
               prefix-text="Prefix"
               suffix-text="Suffix"
+              message-text="Error message"
+              message-icon
             ></calcite-input-text>
-            <calcite-input-message status="invalid" scale="s" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
 
@@ -350,9 +366,10 @@
               scale="m"
               prefix-text="Prefix"
               suffix-text="Suffix"
+              message-text="Error message"
+              message-icon
             >
             </calcite-input-text>
-            <calcite-input-message status="invalid" scale="m" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
 
@@ -365,9 +382,10 @@
               scale="l"
               prefix-text="Prefix"
               suffix-text="Suffix"
+              message-text="Error message"
+              message-icon
             >
             </calcite-input-text>
-            <calcite-input-message status="invalid" scale="l" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
       </div>

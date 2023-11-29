@@ -66,7 +66,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode, Status } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
@@ -177,6 +177,12 @@ export class Combobox
     this.setMaxScrollerHeight();
   }
 
+  /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
+  @Prop() messageText: string;
+
+  /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
+  @Prop() messageIcon: string | boolean;
+
   /**
    * Specifies the name of the component.
    *
@@ -223,6 +229,9 @@ export class Combobox
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   @Watch("selectionMode")
   @Watch("scale")
@@ -1705,6 +1714,11 @@ export class Combobox
         </ul>
         {this.renderFloatingUIContainer()}
         <HiddenFormInputSlot component={this} />
+        {this.messageText ? (
+          <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+            {this.messageText}
+          </calcite-input-message>
+        ) : null}
       </Host>
     );
   }

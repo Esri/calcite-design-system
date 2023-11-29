@@ -7,7 +7,7 @@
  * @prop --calcite-select-spacing: The padding around the selected option text.
  */
 
-:host {
+.wrapper {
   @extend %component-spacing;
 
   @apply relative
@@ -90,6 +90,14 @@ select:disabled {
   @apply border-color-input bg-opacity-100;
 }
 
+:host([status="invalid"]) {
+  select {
+    @apply border-color-danger;
+  }
+  select:focus {
+    @apply focus-inset-danger;
+  }
+}
 .icon-container {
   @apply border-color-input
     text-color-2
