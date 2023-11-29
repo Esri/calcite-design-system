@@ -12,7 +12,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import {
+  getElementDir,
+  getFirstTabbable,
+  slotChangeHasAssignedElement,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -355,7 +360,7 @@ export class ListItem
     const focusIndex = focusMap.get(parentListEl);
 
     if (typeof focusIndex === "number") {
-      const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
+      const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
       if (cells[focusIndex]) {
         this.focusCell(cells[focusIndex]);
       } else {
@@ -753,7 +758,7 @@ export class ListItem
     const composedPath = event.composedPath();
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
 
-    const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
+    const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
     if (
@@ -806,16 +811,20 @@ export class ListItem
       focusMap.set(parentListEl, null);
     }
 
-    [actionsStartEl, contentEl, actionsEndEl].filter(Boolean).forEach((tableCell, cellIndex) => {
-      const tabIndexAttr = "tabindex";
-      if (tableCell === focusEl) {
-        tableCell.setAttribute(tabIndexAttr, "0");
-        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
-      } else {
-        tableCell.removeAttribute(tabIndexAttr);
-      }
-    });
+    const focusedEl = getFirstTabbable(focusEl);
 
-    focusEl?.focus();
+    [actionsStartEl, contentEl, actionsEndEl]
+      .filter((el) => el && !el.hidden)
+      .forEach((tableCell, cellIndex) => {
+        const tabIndexAttr = "tabindex";
+        if (tableCell === focusEl) {
+          focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
+          saveFocusIndex && focusMap.set(parentListEl, cellIndex);
+        } else {
+          tableCell.removeAttribute(tabIndexAttr);
+        }
+      });
+
+    focusedEl?.focus();
   };
 }
