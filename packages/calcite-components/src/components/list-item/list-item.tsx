@@ -13,8 +13,8 @@ import {
   Watch,
 } from "@stencil/core";
 import {
-  focusFirstTabbable,
   getElementDir,
+  getFirstTabbable,
   slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
@@ -795,18 +795,20 @@ export class ListItem
       focusMap.set(parentListEl, null);
     }
 
+    const focusedEl = getFirstTabbable(focusEl);
+
     [actionsStartEl, contentEl, actionsEndEl]
       .filter((el) => el && !el.hidden)
       .forEach((tableCell, cellIndex) => {
         const tabIndexAttr = "tabindex";
         if (tableCell === focusEl) {
-          tableCell.setAttribute(tabIndexAttr, "0");
+          focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
           saveFocusIndex && focusMap.set(parentListEl, cellIndex);
         } else {
           tableCell.removeAttribute(tabIndexAttr);
         }
       });
 
-    focusFirstTabbable(focusEl);
+    focusedEl?.focus();
   };
 }

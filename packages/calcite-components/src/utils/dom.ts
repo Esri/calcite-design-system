@@ -285,16 +285,26 @@ export async function focusElement(el: FocusableElement): Promise<void> {
 }
 
 /**
+ * Helper to get the first tabbable element.
+ *
+ * @param {HTMLElement} element The html element containing tabbable elements.
+ * @returns the first tabbable element.
+ */
+export function getFirstTabbable(element: HTMLElement): HTMLElement {
+  if (!element) {
+    return;
+  }
+
+  return (tabbable(element, tabbableOptions)[0] ?? element) as HTMLElement;
+}
+
+/**
  * Helper to focus the first tabbable element.
  *
  * @param {HTMLElement} element The html element containing tabbable elements.
  */
 export function focusFirstTabbable(element: HTMLElement): void {
-  if (!element) {
-    return;
-  }
-
-  (tabbable(element, tabbableOptions)[0] || element).focus();
+  getFirstTabbable(element)?.focus();
 }
 
 interface GetSlottedOptions {
