@@ -78,6 +78,12 @@ export interface SortableComponent {
 export interface SortableComponentItem {
   /**
    * When `true`, the item is not draggable.
+   *
+   *
+   * Notes:
+   *
+   * This prop should use the @Prop decorator and reflect.
+   * This property should be used to set the `calcite-handle` to be disabled.
    */
   dragDisabled: boolean;
 }
