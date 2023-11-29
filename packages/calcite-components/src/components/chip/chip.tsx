@@ -373,7 +373,8 @@ export class Chip
   }
 
   render(): VNode {
-    const disableInteraction = this.disabled || (!this.disabled && !this.interactive);
+    const { disabled } = this;
+    const disableInteraction = disabled || (!disabled && !this.interactive);
     const role =
       this.selectionMode === "multiple" && this.interactive
         ? "checkbox"
@@ -384,14 +385,14 @@ export class Chip
         : undefined;
     return (
       <Host>
-        <InteractiveContainer disabled={disableInteraction}>
+        <InteractiveContainer disabled={disabled}>
           <div
             aria-checked={
               this.selectionMode !== "none" && this.interactive
                 ? toAriaBoolean(this.selected)
                 : undefined
             }
-            aria-disabled={disableInteraction ? toAriaBoolean(this.disabled) : undefined}
+            aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
             aria-label={this.label}
             class={{
               [CSS.container]: true,

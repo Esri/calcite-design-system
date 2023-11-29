@@ -14,7 +14,6 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -301,10 +300,6 @@ export class PickList<
   }
 
   render(): VNode {
-    return (
-      <InteractiveContainer disabled={this.disabled}>
-        <List onKeyDown={this.keyDownHandler} props={this} />
-      </InteractiveContainer>
-    );
+    return <List onKeyDown={this.keyDownHandler} props={this} />;
   }
 }

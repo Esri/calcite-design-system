@@ -214,7 +214,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         aria-selected={toAriaBoolean(this.selected)}
         id={id}
         role="tab"
-        tabIndex={this.selected ? 0 : -1}
+        tabIndex={this.selected && !this.disabled ? 0 : -1}
       >
         <InteractiveContainer disabled={this.disabled}>
           <div
