@@ -80,3 +80,5 @@ td {
     @apply pointer-events-none mt-1;
   }
 }
+
+@include disabled();
