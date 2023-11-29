@@ -7,7 +7,7 @@ const __dirname = dirname(__filename);
 
 export const coreTokens = await createCalciteTokenFiles({
   name: "core",
-  path: resolve(__dirname, "core.json"),
+  path: resolve(__dirname, "core"),
 });
 
 export const globalTokens = await createCalciteTokenFiles({
