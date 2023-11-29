@@ -257,7 +257,7 @@ export class StepperItem
         aria-current={this.selected ? "step" : "false"}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
-        tabIndex={0}
+        tabIndex={this.disabled ? -1 : 0}
       >
         <InteractiveContainer disabled={this.disabled}>
           <div class={CSS.container}>

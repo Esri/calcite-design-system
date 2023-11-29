@@ -169,7 +169,7 @@ export class DatePickerDay implements InteractiveComponent {
         onClick={this.onClick}
         onKeyDown={this.keyDownHandler}
         role="button"
-        tabIndex={this.active ? 0 : -1}
+        tabIndex={this.active && !this.disabled ? 0 : -1}
       >
         <InteractiveContainer disabled={this.disabled}>
           <div aria-hidden="true" class={{ "day-v-wrapper": true }}>

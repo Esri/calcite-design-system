@@ -280,7 +280,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"
-        tabIndex={0}
+        tabIndex={this.disabled ? -1 : 0}
       >
         <InteractiveContainer disabled={this.disabled}>
           <div class={{ [CSS.itemExpanded]: isExpanded }}>
