@@ -504,6 +504,70 @@ describe("calcite-list", () => {
 
       expect(await isElementFocused(page, "calcite-filter", { shadowed: true })).toBe(true);
     });
+
+    it("should navigate via ArrowRight and ArrowLeft", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list>
+          <calcite-list-item id="one" value="one" label="One" description="hello world">
+            <calcite-action
+              appearance="transparent"
+              icon="ellipsis"
+              text="menu"
+              label="menu"
+              slot="actions-end"
+            ></calcite-action>
+            <calcite-list>
+              <calcite-list-item id="two" value="two" label="Two" description="hello world">
+                <calcite-action
+                  appearance="transparent"
+                  icon="ellipsis"
+                  text="menu"
+                  label="menu"
+                  slot="actions-end"
+                ></calcite-action
+              ></calcite-list-item>
+            </calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+      const list = await page.find("calcite-list");
+      await list.callMethod("setFocus");
+      await page.waitForChanges();
+
+      const one = await page.find("#one");
+      expect(await one.getProperty("open")).toBe(false);
+
+      expect(await isElementFocused(page, "#one")).toBe(true);
+
+      await list.press("ArrowRight");
+
+      expect(await isElementFocused(page, "#one")).toBe(true);
+      expect(await one.getProperty("open")).toBe(true);
+
+      await list.press("ArrowRight");
+
+      expect(await isElementFocused(page, `.${CSS.contentContainer}`, { shadowed: true })).toBe(true);
+
+      await list.press("ArrowRight");
+
+      expect(await isElementFocused(page, "calcite-action")).toBe(true);
+
+      await list.press("ArrowLeft");
+
+      expect(await isElementFocused(page, `.${CSS.contentContainer}`, { shadowed: true })).toBe(true);
+
+      await list.press("ArrowLeft");
+
+      expect(await isElementFocused(page, "#one")).toBe(true);
+      expect(await one.getProperty("open")).toBe(true);
+
+      await list.press("ArrowLeft");
+
+      expect(await isElementFocused(page, "#one")).toBe(true);
+      expect(await one.getProperty("open")).toBe(false);
+    });
   });
 
   describe("drag and drop", () => {
