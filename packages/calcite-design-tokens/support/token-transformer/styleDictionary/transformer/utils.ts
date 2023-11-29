@@ -9,11 +9,11 @@ import { valueAlignFontWeightAndStyles } from "./value/valueAlignFontWeightAndSt
 import { valueStringWrapper } from "./value/valueStringWrapper.js";
 import { nameKebabCase } from "./name/nameKebabCase.js";
 import { attributePlatformNames } from "./attributes/attributePlatformName.js";
-import { nameJoinPath } from "./name/nameJoinPath.js";
 import { nameCamelCase } from "./name/nameCamelCase.js";
 import { PlatformUnion } from "../../../types/platform.js";
 import { valueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
 import { CalciteValueRGBA } from "./value/valueRGBA.js";
+import { nameSpacePath } from "./name/nameSpacePath.js";
 
 export type TransformerTypeUnion = `${TransformerTypeEnum}`;
 
@@ -52,13 +52,14 @@ export const styles = [
   nameKebabCase,
 ];
 
-export const js = [...globalTransformations, attributePlatformNames, nameJoinPath];
+export const js = [...globalTransformations, attributePlatformNames, nameSpacePath];
 export const es6 = [...globalTransformations, "ts/descriptionToComment", "attribute/cti", "color/hex", nameCamelCase];
 
 export const transformations: Record<PlatformUnion, string[]> = {
   css: styles,
   sass: styles,
   scss: styles,
+  json: js,
   js,
   es6,
 };
