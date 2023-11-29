@@ -53,6 +53,13 @@ export const simple = (): string => html`
       description="Vestibulum auctor dapibus neque.
     "
     ></calcite-list-item>
+    <calcite-list-item
+      drag-disabled
+      label="Vestibulum commodo felis quis tortor.
+    "
+      description="Vestibulum auctor dapibus neque.
+    "
+    ></calcite-list-item>
   </calcite-list>
 `;
 
