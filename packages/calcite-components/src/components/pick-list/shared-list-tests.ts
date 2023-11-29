@@ -548,22 +548,6 @@ export function filterBehavior(listType: ListType): void {
   });
 }
 
-export function loadingState(listType: ListType): void {
-  it("loading", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-${listType}-list loading>
-        <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
-      </calcite-${listType}-list>`);
-
-    const list = await page.find(`calcite-${listType}-list`);
-    const item1 = await list.find("[value=one]");
-    const toggleSpy = await list.spyOnEvent("calciteListChange");
-
-    await item1.click();
-    expect(toggleSpy).toHaveReceivedEventTimes(0);
-  });
-}
-
 export function itemRemoval(listType: ListType): void {
   const pickListGroupHtml = html` <calcite-pick-list-group
       label="Will be removed when slotted 'parent item' is removed"
