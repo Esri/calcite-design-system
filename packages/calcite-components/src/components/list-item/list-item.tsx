@@ -48,6 +48,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { SortableComponentItem } from "../../utils/sortableComponent";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -65,7 +66,12 @@ import {
   assetsDirs: ["assets"],
 })
 export class ListItem
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+  implements
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent,
+    SortableComponentItem
 {
   // --------------------------------------------------------------------------
   //
@@ -112,6 +118,11 @@ export class ListItem
   handleDisabledChange(): void {
     this.emitCalciteInternalListItemChange();
   }
+
+  /**
+   * When `true`, the item is not draggable.
+   */
+  @Prop({ reflect: true }) dragDisabled = false;
 
   /**
    * When `true`, the component displays a draggable button.
@@ -388,7 +399,12 @@ export class ListItem
   renderDragHandle(): VNode {
     return this.dragHandle ? (
       <td class={CSS.dragContainer} key="drag-handle-container">
-        <calcite-handle label={this.label} setPosition={this.setPosition} setSize={this.setSize} />
+        <calcite-handle
+          disabled={this.dragDisabled}
+          label={this.label}
+          setPosition={this.setPosition}
+          setSize={this.setSize}
+        />
       </td>
     ) : null;
   }

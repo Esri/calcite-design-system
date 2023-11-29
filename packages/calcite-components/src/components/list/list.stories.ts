@@ -53,6 +53,13 @@ export const simple = (): string => html`
       description="Vestibulum auctor dapibus neque.
     "
     ></calcite-list-item>
+    <calcite-list-item
+      drag-disabled
+      label="Vestibulum commodo felis quis tortor.
+    "
+      description="Vestibulum auctor dapibus neque.
+    "
+    ></calcite-list-item>
   </calcite-list>
 `;
 
@@ -695,6 +702,9 @@ export const sortableList_TestOnly = (): string => html`<calcite-list
     <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
   </calcite-list-item>
   <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item drag-disabled label="test5" value="test5" description="hello world 55">
     <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
   </calcite-list-item>
 </calcite-list>`;
