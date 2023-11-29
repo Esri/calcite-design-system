@@ -269,12 +269,12 @@ export class Button
             [CSS.iconStartEmpty]: !this.iconStart,
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
-          disabled={this.disabled || this.loading}
+          disabled={this.disabled}
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}
           onClick={this.handleClick}
           rel={childElType === "a" && this.rel}
-          tabIndex={this.disabled || this.loading ? -1 : null}
+          tabIndex={this.disabled ? -1 : null}
           target={childElType === "a" && this.target}
           title={this.tooltipText}
           type={childElType === "button" && this.type}

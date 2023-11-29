@@ -404,7 +404,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       hasFilterActionsEnd,
     } = this;
     return (
-      <InteractiveContainer disabled={disabled}>
+      <InteractiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.dragEnabled ? (
             <span aria-live="assertive" class={CSS.assistiveText}>
@@ -431,7 +431,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
                       />
                       <calcite-filter
                         aria-label={filterPlaceholder}
-                        disabled={loading || disabled}
+                        disabled={disabled}
                         items={dataForFilter}
                         onCalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
