@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.0...@esri/calcite-components@1.12.0-next.1) (2023-11-29)
+
+### Features
+
+- **action-menu:** support action-groups ([#8273](https://github.com/Esri/calcite-design-system/issues/8273)) ([c07144f](https://github.com/Esri/calcite-design-system/commit/c07144f5c2d2b06d082cda7f0ba41e4803625d14)), closes [#8202](https://github.com/Esri/calcite-design-system/issues/8202)
+- **list-item:** Add dragDisabled property ([#8285](https://github.com/Esri/calcite-design-system/issues/8285)) ([f091f26](https://github.com/Esri/calcite-design-system/commit/f091f26c77d35dc68dad156736dee9dab82f4c2b)), closes [#8284](https://github.com/Esri/calcite-design-system/issues/8284)
+
 ## [1.12.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.1-next.2...@esri/calcite-components@1.12.0-next.0) (2023-11-28)
 
 ### Features
