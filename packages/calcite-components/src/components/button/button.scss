@@ -160,15 +160,6 @@
 
 @include disabled();
 
-:host([loading]:not([disabled])) {
-  @extend %non-interactive-host-contents;
-
-  button,
-  a {
-    @apply opacity-disabled;
-  }
-}
-
 @keyframes loader-in {
   0% {
     inline-size: 0;
