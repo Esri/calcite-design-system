@@ -269,16 +269,15 @@ export class List
   }
 
   @Listen("calciteListItemSelect")
-  handleCalciteListItemSelect(event: CustomEvent<{ multiple: boolean }>): void {
+  handleCalciteListItemSelect({ target, detail }: CustomEvent<{ multiple: boolean }>): void {
     if (!!this.parentListEl) {
       return;
     }
 
     const { enabledListItems, lastSelectedItem } = this;
-    const { multiple } = event.detail;
-    const selectedItem = event.target as HTMLCalciteListItemElement;
+    const selectedItem = target as HTMLCalciteListItemElement;
 
-    if (multiple && lastSelectedItem) {
+    if (detail.multiple && !!lastSelectedItem) {
       const lastSelectedIndex = enabledListItems.indexOf(lastSelectedItem);
       const currentIndex = enabledListItems.indexOf(selectedItem);
       const startIndex = Math.min(lastSelectedIndex, currentIndex);
@@ -288,7 +287,7 @@ export class List
         .slice(startIndex, endIndex)
         .forEach((item) => (item.selected = lastSelectedItem.selected));
     } else {
-      this.lastSelectedItem = event.target as HTMLCalciteListItemElement;
+      this.lastSelectedItem = selectedItem;
     }
 
     this.updateSelectedItems(true);
