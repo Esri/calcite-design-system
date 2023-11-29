@@ -16,7 +16,6 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -516,14 +515,12 @@ export class ValueList<
 
   render(): VNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
-        <List
-          onBlur={this.handleBlur}
-          onFocusin={this.handleFocusIn}
-          onKeyDown={this.keyDownHandler}
-          props={this}
-        />
-      </InteractiveContainer>
+      <List
+        onBlur={this.handleBlur}
+        onFocusin={this.handleFocusIn}
+        onKeyDown={this.keyDownHandler}
+        props={this}
+      />
     );
   }
 }
