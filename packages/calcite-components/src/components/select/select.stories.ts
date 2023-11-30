@@ -52,6 +52,10 @@ const createOptionAttributes: () => Attributes = () => {
       name: "value",
       value: text("value", "value", group),
     },
+    {
+      name: "status",
+      value: select("status", ["idle", "invalid", "valid"], "idle", group),
+    },
   ];
 };
 

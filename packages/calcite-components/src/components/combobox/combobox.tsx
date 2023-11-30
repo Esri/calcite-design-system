@@ -66,7 +66,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode, Status } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
@@ -223,6 +223,9 @@ export class Combobox
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   @Watch("selectionMode")
   @Watch("scale")
