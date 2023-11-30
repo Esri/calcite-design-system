@@ -26,27 +26,33 @@
 @include disabled();
 
 :host([scale="s"]) {
-  @apply h-6;
   --calcite-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
+  .wrapper {
+    @apply h-6;
+  }
   .icon-container {
     @apply px-2;
   }
 }
 
 :host([scale="m"]) {
-  @apply h-8;
   --calcite-select-font-size: theme("fontSize.n1h");
   --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
+  .wrapper {
+    @apply h-8;
+  }
   .icon-container {
     @apply px-3;
   }
 }
 
 :host([scale="l"]) {
-  block-size: 44px;
   --calcite-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
+  .wrapper {
+    block-size: 44px;
+  }
   .icon-container {
     @apply px-4;
   }
@@ -98,10 +104,12 @@ select:disabled {
 }
 
 :host([status="invalid"]) {
-  select {
+  select,
+  .icon-container {
     @apply border-color-danger;
   }
-  select:focus {
+  select:focus,
+  .icon-container:focus {
     @apply focus-inset-danger;
   }
 }
