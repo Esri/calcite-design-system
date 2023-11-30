@@ -209,6 +209,7 @@ export class Dropdown
     }
     connectInteractive(this);
     this.updateItems();
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   componentWillLoad(): void {
