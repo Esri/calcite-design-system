@@ -175,6 +175,7 @@ input:focus {
 }
 
 .message-container {
+  padding-block-start: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

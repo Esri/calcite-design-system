@@ -12,12 +12,7 @@
 }
 
 :host {
-  @apply text-color-1 transition-default invisible box-border flex h-0 w-full items-center font-medium opacity-0
-  pt-1;
-}
-
-:host {
-  @apply transition-default visible h-auto opacity-100;
+  @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
 }
 
 :host([scale="m"]),
