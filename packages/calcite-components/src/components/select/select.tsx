@@ -110,7 +110,7 @@ export class Select
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the component. */
+  /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's `selectedOption` value. */
