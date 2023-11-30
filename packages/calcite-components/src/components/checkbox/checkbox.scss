@@ -43,6 +43,17 @@
     color: theme("backgroundColor.background");
   }
 }
+
+:host([status="invalid"]:not([checked])) {
+  .check-svg {
+    @apply border-color-danger;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-danger);
+  }
+  .toggle:focus {
+    @apply focus-outset-danger;
+  }
+}
+
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
