@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.4...@esri/calcite-components@1.12.0-next.5) (2023-11-30)
+
+### Bug Fixes
+
+- **input-time-zone:** update time zone items when item-dependent props change ([#8271](https://github.com/Esri/calcite-design-system/issues/8271)) ([f77532e](https://github.com/Esri/calcite-design-system/commit/f77532e8e7c85d7b4718be0509cd56aad9ed4d0a)), closes [#8007](https://github.com/Esri/calcite-design-system/issues/8007)
+
 ## [1.12.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.3...@esri/calcite-components@1.12.0-next.4) (2023-11-30)
 
 ### Features
