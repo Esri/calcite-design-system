@@ -22,7 +22,7 @@ import {
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
-import { ItemData } from "../list-item/interfaces";
+import { ItemData, ListItemSelectDetail } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
@@ -269,7 +269,7 @@ export class List
   }
 
   @Listen("calciteListItemSelect")
-  handleCalciteListItemSelect({ target, detail }: CustomEvent<{ multiple: boolean }>): void {
+  handleCalciteListItemSelect({ target, detail }: CustomEvent<ListItemSelectDetail>): void {
     if (!!this.parentListEl) {
       return;
     }
@@ -277,7 +277,7 @@ export class List
     const { enabledListItems, lastSelectedItem } = this;
     const selectedItem = target as HTMLCalciteListItemElement;
 
-    if (detail.multiple && !!lastSelectedItem) {
+    if (detail.selectMultiple && !!lastSelectedItem) {
       const lastSelectedIndex = enabledListItems.indexOf(lastSelectedItem);
       const currentIndex = enabledListItems.indexOf(selectedItem);
       const startIndex = Math.min(lastSelectedIndex, currentIndex);

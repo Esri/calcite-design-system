@@ -54,6 +54,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SortableComponentItem } from "../../utils/sortableComponent";
+import { ListItemSelectDetail } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -225,7 +226,7 @@ export class ListItem
   /**
    * Emits when the item's content is selected.
    */
-  @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<{ multiple: boolean }>;
+  @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<ListItemSelectDetail>;
 
   /**
    * Fires when the close button is clicked.
@@ -746,7 +747,7 @@ export class ListItem
       this.selected = true;
     }
 
-    this.calciteListItemSelect.emit({ multiple: shiftKey && selectionMode === "multiple" });
+    this.calciteListItemSelect.emit({ selectMultiple: shiftKey && selectionMode === "multiple" });
   };
 
   handleItemKeyDown = (event: KeyboardEvent): void => {

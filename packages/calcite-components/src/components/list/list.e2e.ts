@@ -270,7 +270,10 @@ describe("calcite-list", () => {
     const list = await page.find("calcite-list");
     const items = await page.findAll("calcite-list-item");
 
-    items.forEach(async (item) => expect(await item.getProperty("selected")).toBe(false));
+    expect(await items[0].getProperty("selected")).toBe(false);
+    expect(await items[1].getProperty("selected")).toBe(false);
+    expect(await items[2].getProperty("selected")).toBe(false);
+    expect(await items[3].getProperty("selected")).toBe(false);
 
     const eventSpy = await list.spyOnEvent("calciteListChange");
 
@@ -292,7 +295,10 @@ describe("calcite-list", () => {
     expect(eventSpy).toHaveReceivedEventTimes(2);
     expect(await list.getProperty("selectedItems")).toHaveLength(4);
 
-    items.forEach(async (item) => expect(await item.getProperty("selected")).toBe(true));
+    expect(await items[0].getProperty("selected")).toBe(true);
+    expect(await items[1].getProperty("selected")).toBe(true);
+    expect(await items[2].getProperty("selected")).toBe(true);
+    expect(await items[3].getProperty("selected")).toBe(true);
 
     await items[3].click();
 
@@ -312,7 +318,10 @@ describe("calcite-list", () => {
     expect(eventSpy).toHaveReceivedEventTimes(4);
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
 
-    items.forEach(async (item) => expect(await item.getProperty("selected")).toBe(false));
+    expect(await items[0].getProperty("selected")).toBe(false);
+    expect(await items[1].getProperty("selected")).toBe(false);
+    expect(await items[2].getProperty("selected")).toBe(false);
+    expect(await items[3].getProperty("selected")).toBe(false);
   });
 
   it("should update active item on init and click", async () => {

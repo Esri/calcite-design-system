@@ -4,3 +4,7 @@ export type ItemData = {
   metadata: Record<string, unknown>;
   value: string;
 }[];
+
+export interface ListItemSelectDetail {
+  selectMultiple: boolean;
+}
