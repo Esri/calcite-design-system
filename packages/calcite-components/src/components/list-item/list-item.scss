@@ -18,6 +18,7 @@
     var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
   );
 }
+
 .container:hover {
   @apply bg-foreground-2 cursor-pointer;
 }
@@ -44,6 +45,7 @@
 
 .content-container {
   @apply text-color-2
+    select-none
     flex
     flex-auto
     font-sans

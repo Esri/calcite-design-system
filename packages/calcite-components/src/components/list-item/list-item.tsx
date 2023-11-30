@@ -242,6 +242,15 @@ export class ListItem
    *
    * @internal
    */
+  @Event({ cancelable: false })
+  calciteInternalListItemSelectMultiple: EventEmitter<{
+    selectMultiple: boolean;
+  }>;
+
+  /**
+   *
+   * @internal
+   */
   @Event({ cancelable: false }) calciteInternalListItemActive: EventEmitter<void>;
 
   /**
@@ -724,16 +733,16 @@ export class ListItem
     this.open = !this.open;
   };
 
-  itemClicked = (event: Event): void => {
+  itemClicked = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
 
-    this.toggleSelected();
+    this.toggleSelected(event.shiftKey);
     this.calciteInternalListItemActive.emit();
   };
 
-  toggleSelected = (): void => {
+  toggleSelected = (shiftKey: boolean): void => {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -746,6 +755,9 @@ export class ListItem
       this.selected = true;
     }
 
+    this.calciteInternalListItemSelectMultiple.emit({
+      selectMultiple: shiftKey && selectionMode === "multiple",
+    });
     this.calciteListItemSelect.emit();
   };
 
@@ -767,7 +779,7 @@ export class ListItem
       !composedPath.includes(actionsEndEl)
     ) {
       event.preventDefault();
-      this.toggleSelected();
+      this.toggleSelected(event.shiftKey);
     } else if (key === "ArrowRight") {
       event.preventDefault();
       const nextIndex = currentIndex + 1;
