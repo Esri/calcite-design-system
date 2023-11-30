@@ -10,4 +10,5 @@ export * from "./components";
 export { HandleChange } from "./components/handle/interfaces";
 export { HandleNudge } from "./components/handle/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
+export { ListItemSelectDetail } from "./components/list-item/interfaces";
 export { DragDetail } from "./utils/sortableComponent";
