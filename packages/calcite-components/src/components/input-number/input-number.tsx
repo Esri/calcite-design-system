@@ -19,6 +19,7 @@ import {
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 
+import { getIconScale } from "../../utils/component";
 import {
   connectForm,
   disconnectForm,
@@ -66,7 +67,6 @@ import {
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a button next to the component.

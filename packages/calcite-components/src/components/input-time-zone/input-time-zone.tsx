@@ -11,32 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  SupportedLocale,
-} from "../../utils/locale";
-import { TimeZoneItem, TimeZoneMode } from "./interfaces";
-import { Scale, Status } from "../interfaces";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
-import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { createTimeZoneItems, getUserTimeZoneName, getUserTimeZoneOffset } from "./utils";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -44,6 +19,31 @@ import {
   FormComponent,
   HiddenFormInputSlot,
 } from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  SupportedLocale,
+} from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { Scale, Status } from "../interfaces";
+import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
+import { TimeZoneItem, TimeZoneMode } from "./interfaces";
+import { createTimeZoneItems, getUserTimeZoneName, getUserTimeZoneOffset } from "./utils";
 
 @Component({
   tag: "calcite-input-time-zone",

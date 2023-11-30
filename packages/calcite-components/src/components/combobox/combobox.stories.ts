@@ -1,9 +1,9 @@
-import { select, number, text } from "@storybook/addon-knobs";
+import { number, select, text } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../combobox-item/readme.md";
 import { html } from "../../../support/formatting";
+import readme2 from "../combobox-item/readme.md";
+import readme1 from "./readme.md";
 
 export default {
   title: "Components/Controls/Combobox",

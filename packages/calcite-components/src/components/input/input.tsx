@@ -17,7 +17,7 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon,
 } from "../../utils/dom";
-import { Scale, Status, Alignment } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 
 import {
   connectForm,
@@ -48,6 +48,7 @@ import {
   numberStringFormatter,
 } from "../../utils/locale";
 
+import { getIconScale } from "../../utils/component";
 import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
@@ -67,7 +68,6 @@ import {
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.

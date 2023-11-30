@@ -1,16 +1,16 @@
+import { boolean, select, text } from "@storybook/addon-knobs";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
+  filterComponentAttributes,
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { select, boolean, text } from "@storybook/addon-knobs";
-import selectReadme from "../select/readme.md";
-import optionReadme from "../option/readme.md";
 import optionGroupReadme from "../option-group/readme.md";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import optionReadme from "../option/readme.md";
+import selectReadme from "../select/readme.md";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] }

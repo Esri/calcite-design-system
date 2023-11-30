@@ -11,7 +11,14 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { FocusTrap } from "focus-trap";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  activateFocusTrap,
+  connectFocusTrap,
+  deactivateFocusTrap,
+  FocusTrapComponent,
+} from "../../utils/focusTrapComponent";
 import {
   connectForm,
   disconnectForm,
@@ -42,13 +49,7 @@ import {
   numberStringFormatter,
   SupportedLocale,
 } from "../../utils/locale";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrapComponent,
-} from "../../utils/focusTrapComponent";
-import { FocusTrap } from "focus-trap";
+import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import {
   formatTimePart,
   formatTimeString,
@@ -59,7 +60,6 @@ import {
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 import { CSS } from "./resources";
 
@@ -69,10 +69,10 @@ import localeData from "dayjs/esm/plugin/localeData";
 import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
-import { getSupportedLocale } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { getSupportedLocale } from "../../utils/locale";
+import { decimalPlaces } from "../../utils/math";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayjsLocaleToLocaleConfigImport = new Map([

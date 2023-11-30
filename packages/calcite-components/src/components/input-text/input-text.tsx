@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { getIconScale } from "../../utils/component";
 import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
   connectForm,
@@ -46,7 +47,6 @@ import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { InputTextMessages } from "./assets/input-text/t9n";
 import { CSS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a button next to the component.

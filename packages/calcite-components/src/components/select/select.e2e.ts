@@ -1,15 +1,15 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import {
   accessible,
   disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
   renders,
-  hidden,
 } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-select", () => {
