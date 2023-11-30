@@ -1,5 +1,5 @@
 import { select, number, text } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../combobox-item/readme.md";
@@ -23,6 +23,9 @@ export const single = (): string => html`
       max-items="${number("max-items", 0)}"
       placeholder="${text("placeholder", "placeholder")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
+      message-text="${text("message-text", "")}"
+      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
     >
       <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude" selected></calcite-combobox-item>
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
@@ -296,6 +299,9 @@ export const nestedItems = (): string => html`
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
       max-items="${number("max-items", 0)}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
+      message-text="${text("message-text", "")}"
+      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
     >
       <calcite-combobox-item value="ITEM-0-0" text-label="Level 1">
         <calcite-combobox-item value="ITEM-0-1" text-label="Level 2"></calcite-combobox-item>
@@ -714,6 +720,58 @@ export const openWithPlaceholderIconInAllScales_TestOnly = (): string => html`
     </calcite-combobox>
     <br />
     <calcite-combobox open placeholder="choose a number" placeholder-icon="number" scale="l">
+      <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+      <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+      <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+`;
+
+export const validationMessageInAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-combobox
+      placeholder="choose a number"
+      placeholder-icon="number"
+      scale="s"
+      status="invalid"
+      message-text="This field is required."
+      message-icon
+    >
+      <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+      <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+      <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <calcite-combobox
+      placeholder="choose a number"
+      placeholder-icon="number"
+      scale="m"
+      status="invalid"
+      message-text="This field is required."
+      message-icon
+    >
+      <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+      <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+      <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <calcite-combobox
+      placeholder="choose a number"
+      placeholder-icon="number"
+      scale="l"
+      status="invalid"
+      message-text="This field is required."
+      message-icon
+    >
       <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
       <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
       <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>

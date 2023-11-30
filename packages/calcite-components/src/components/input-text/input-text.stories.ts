@@ -17,7 +17,6 @@ export const simple = (): string => html`
     <calcite-input-text
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
@@ -26,32 +25,10 @@ export const simple = (): string => html`
       ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      message-text="${text("message-text", "")}"
+      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
     >
     </calcite-input-text>
-  </div>
-`;
-
-export const withInputMessage = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-input-text
-      id="input-with-label-and-input-message"
-      status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
-      alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-      prefix-text="${text("prefix-text", "", "Input")}"
-      suffix-text="${text("suffix-text", "", "Input")}"
-      ${boolean("loading", false)}
-      ${boolean("autofocus", false)}
-      ${boolean("required", false)}
-      value="${text("value", "", "Input")}"
-      placeholder="${text("placeholder", "Placeholder text", "Input")}"
-    >
-    </calcite-input-text>
-    <calcite-input-message
-      ${boolean("active", true)}
-      ${boolean("icon", false)}
-      icon="${select("icon", iconNames, "", "Input Message")}"
-      >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
-    >
   </div>
 `;
 
@@ -68,6 +45,8 @@ export const withSlottedAction = (): string => html`
       ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      message-text="${text("message-text", "")}"
+      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input-text>
@@ -129,3 +108,38 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
       value="Value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
     ></calcite-input-text>
   `);
+
+export const validationMessageAllScales_TestOnly = (): string =>
+  html`
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        height: 200px;
+        gap: 20px;
+      }
+    </style>
+    <div class="container">
+      <calcite-input-text
+        scale="s"
+        status="invalid"
+        message-text="This field is required."
+        message-icon="frown"
+      ></calcite-input-text>
+      <calcite-input-text
+        scale="m"
+        status="invalid"
+        message-text="Value must be greater than 1337"
+        message-icon
+        value="420"
+      ></calcite-input-text>
+      <calcite-input-text
+        scale="l"
+        status="invalid"
+        message-text="Exceeds the maximum length of 2 characters"
+        message-icon
+        value="test"
+      ></calcite-input-text>
+    </div>
+  `;

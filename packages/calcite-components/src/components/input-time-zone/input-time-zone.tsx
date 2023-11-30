@@ -378,6 +378,8 @@ export class InputTimeZone
           label={this.messages.chooseTimeZone}
           lang={this.effectiveLocale}
           maxItems={this.maxItems}
+          message-icon={this.messageIcon}
+          message-text={this.messageText}
           onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
           onCalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
           onCalciteComboboxChange={this.onComboboxChange}
@@ -387,6 +389,7 @@ export class InputTimeZone
           overlayPositioning={this.overlayPositioning}
           scale={this.scale}
           selectionMode="single-persist"
+          status={this.status}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setComboboxRef}
         >
@@ -406,11 +409,6 @@ export class InputTimeZone
           })}
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
-        {this.messageText ? (
-          <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
-            {this.messageText}
-          </calcite-input-message>
-        ) : null}
       </Host>
     );
   }

@@ -6,11 +6,11 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { boolean, text } from "@storybook/addon-knobs";
+import { select, boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";
 import optionGroupReadme from "../option-group/readme.md";
-import { storyFilters } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] }
@@ -52,6 +52,12 @@ const createOptionAttributes: () => Attributes = () => {
       name: "value",
       value: text("value", "value", group),
     },
+    {
+      name: "status",
+      value: select("status", ["idle", "invalid", "valid"], "idle", group),
+    },
+    { name: "message-text", value: text("message-text", "", group) },
+    { name: "message-icon", value: select("message-icon", [null, "", ...iconNames], null, group) },
   ];
 };
 
@@ -153,4 +159,30 @@ export const disabledAndLargeScaleGetsMediumChevron_TestOnly = (): string => htm
     <calcite-option label="first" value="1"></calcite-option>
     <calcite-option label="second" value="2"></calcite-option>
   </calcite-select>
+`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-select scale="s" message-text="This field is required." message-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+    <calcite-select scale="m" message-text="This field is required." message-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+    <calcite-select scale="l" message-text="This field is required." message-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+  </div>
 `;

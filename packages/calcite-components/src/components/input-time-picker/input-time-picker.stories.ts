@@ -1,5 +1,5 @@
 import { number, select, text } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -22,6 +22,8 @@ export const simple = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     step="${number("step", 1)}"
+    message-text="${text("message-text", "")}"
+    message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
     value="${text("value", "10:37")}"
   >
   </calcite-input-time-picker>
@@ -72,8 +74,39 @@ export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
   <calcite-input-time-picker read-only value="10:37"></calcite-input-time-picker>
 `;
 
-export const invalidStatus_TestOnly = (): string => html`
-  <calcite-input-time-picker value="12:34" step="1" status="invalid" open> </calcite-input-time-picker>
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input-time-picker
+      scale="s"
+      status="invalid"
+      value="13:37"
+      message-text="Choose a more recent time"
+      message-icon
+    ></calcite-input-time-picker>
+    <calcite-input-time-picker
+      scale="m"
+      status="invalid"
+      value="4:20"
+      message-text="Choose a more recent time"
+      message-icon
+    ></calcite-input-time-picker>
+    <calcite-input-time-picker
+      scale="l"
+      status="invalid"
+      value="11:11"
+      message-text="Choose a more recent time"
+      message-icon
+    ></calcite-input-time-picker>
+  </div>
 `;
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
