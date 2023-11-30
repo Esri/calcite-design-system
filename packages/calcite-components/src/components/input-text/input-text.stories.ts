@@ -26,7 +26,7 @@ export const simple = (): string => html`
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
       message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+      message-icon="${select("message-icon", ["", ...iconNames], "")}"
     >
     </calcite-input-text>
   </div>
@@ -46,7 +46,7 @@ export const withSlottedAction = (): string => html`
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
       message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+      message-icon="${select("message-icon", ["", ...iconNames], "")}"
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input-text>

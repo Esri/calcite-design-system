@@ -21,7 +21,6 @@ export const simple = (): string => html`
         ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
         "text"
       )}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
       min="${number("min", 0)}"
@@ -33,9 +32,11 @@ export const simple = (): string => html`
       ${boolean("clearable", false)}
       ${boolean("disabled", false)}
       value="${text("value", "")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       placeholder="${text("placeholder", "Placeholder text")}"
       message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+      message-icon="${select("message-icon", ["", ...iconNames], "")}"
     ></calcite-input>
   </div>
 `;
@@ -62,8 +63,10 @@ export const withSlottedAction = (): string => html`
       ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+      message-icon="${select("message-icon", ["", ...iconNames], "")}"
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input>
@@ -78,10 +81,14 @@ export const textarea = (): string => html`
       ${boolean("loading", false)}
       ${boolean("clearable", false)}
       ${boolean("disabled", false)}
+      prefix-text="${text("prefix-text", "")}"
+      suffix-text="${text("suffix-text", "")}"
       value="${text("value", "")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       placeholder="${text("placeholder", "Placeholder text")}"
       message-text="${text("message-text", "My great input message")}"
-      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+      message-icon="${select("message-icon", ["", ...iconNames], "")}"
     >
     </calcite-input>
   </div>

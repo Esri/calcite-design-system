@@ -23,7 +23,7 @@ export const simple = (): string => html`
     status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     step="${number("step", 1)}"
     message-text="${text("message-text", "")}"
-    message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+    message-icon="${select("message-icon", ["", ...iconNames], "")}"
     value="${text("value", "10:37")}"
   >
   </calcite-input-time-picker>

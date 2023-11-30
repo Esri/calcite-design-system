@@ -24,7 +24,7 @@ export const simple = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     message-text="${text("message-text", "")}"
-    message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+    message-icon="${select("message-icon", ["", ...iconNames], "")}"
   ></calcite-input-time-zone>
 `;
 

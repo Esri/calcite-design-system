@@ -57,7 +57,7 @@ const createOptionAttributes: () => Attributes = () => {
       value: select("status", ["idle", "invalid", "valid"], "idle", group),
     },
     { name: "message-text", value: text("message-text", "", group) },
-    { name: "message-icon", value: select("message-icon", [null, "", ...iconNames], null, group) },
+    { name: "message-icon", value: select("message-icon", ["", ...iconNames], "", group) },
   ];
 };
 

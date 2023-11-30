@@ -25,7 +25,7 @@ export const simple = (): string => html`
       lang="${select("locale", locales, "en")}"
       placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
       message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+      message-icon="${select("message-icon", ["", ...iconNames], "")}"
     ></calcite-input-date-picker
   </div>
 `;
@@ -43,7 +43,7 @@ export const range = (): string => html`
       range="${boolean("range", true)}"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", [null, "", ...iconNames], null)}"
+      message-icon="${select("message-icon", ["", ...iconNames], "")}"
     ></calcite-input-date-picker>
   </div>
 `;
