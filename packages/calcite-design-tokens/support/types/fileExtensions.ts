@@ -4,6 +4,7 @@ export const fileExtension: PlatformObject<string> = {
   css: ".css",
   sass: ".scss",
   scss: ".scss",
+  json: ".json",
   js: ".js",
   es6: ".js",
   ts: ".d.ts",
