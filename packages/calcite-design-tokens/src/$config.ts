@@ -15,7 +15,7 @@ export const config: CalciteTokenTransformConfig = {
   },
   output: {
     dir: resolve(__dirname, "../dist"),
-    platforms: [Platform.SCSS, Platform.CSS, Platform.JS, Platform.JSON, Platform.ES6],
+    platforms: [Platform.SCSS, Platform.CSS, Platform.JS, Platform.DOCS, Platform.ES6],
     expandFiles: {
       css: {
         typography: "classes.css",

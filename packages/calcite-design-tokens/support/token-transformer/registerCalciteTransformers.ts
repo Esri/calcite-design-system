@@ -16,6 +16,7 @@ import { registerValueStringWrapper } from "./styleDictionary/transformer/value/
 import { registerValueEvaluateMath } from "./styleDictionary/transformer/value/valueCheckEvaluateMath.js";
 import { registerValueRGBA } from "./styleDictionary/transformer/value/valueRGBA.js";
 import { registerNameSpacePath } from "./styleDictionary/transformer/name/nameSpacePath.js";
+import { registerFormatterDocs } from "./styleDictionary/formatter/docs.js";
 
 export async function registerCalciteTransformers(sd: StyleDictionary): Promise<void> {
   // Here we are registering the Transforms provided by Token Studio however,
@@ -41,4 +42,5 @@ export async function registerCalciteTransformers(sd: StyleDictionary): Promise<
   registerValueAssetToken(sd);
   registerValueStringWrapper(sd);
   registerNameSpacePath(sd);
+  registerFormatterDocs(sd);
 }
