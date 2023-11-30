@@ -401,9 +401,11 @@ export class Select
           <HiddenFormInputSlot component={this} />
         </div>
         {this.messageText ? (
-          <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
-            {this.messageText}
-          </calcite-input-message>
+          <div class={CSS.messageContainer}>
+            <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+              {this.messageText}
+            </calcite-input-message>
+          </div>
         ) : null}
       </Host>
     );

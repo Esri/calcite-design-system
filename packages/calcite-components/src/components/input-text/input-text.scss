@@ -112,6 +112,13 @@ input {
   }
 }
 
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
 // states
 input {
   @apply text-color-1

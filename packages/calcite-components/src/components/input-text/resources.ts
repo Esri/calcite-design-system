@@ -1,15 +1,16 @@
 export const CSS = {
-  loader: "loader",
+  actionWrapper: "action-wrapper",
   clearButton: "clear-button",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
   inputIcon: "icon",
+  inputWrapper: "wrapper",
+  loader: "loader",
+  messageContainer: "message-container",
   prefix: "prefix",
+  resizeIconWrapper: "resize-icon-wrapper",
   suffix: "suffix",
   wrapper: "element-wrapper",
-  inputWrapper: "wrapper",
-  actionWrapper: "action-wrapper",
-  resizeIconWrapper: "resize-icon-wrapper",
 };
 
 export const SLOTS = {

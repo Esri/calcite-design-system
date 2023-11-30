@@ -149,6 +149,13 @@ textarea {
   }
 }
 
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
 .readonly {
   @apply bg-background font-medium;
 }

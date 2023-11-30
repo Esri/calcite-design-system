@@ -207,6 +207,13 @@
   @apply sr-only;
 }
 
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
 .list-container {
   @apply bg-foreground-1
     max-h-menu

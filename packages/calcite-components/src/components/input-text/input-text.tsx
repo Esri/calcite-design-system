@@ -634,9 +634,11 @@ export class InputText
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
     const messageEl = (
-      <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
-        {this.messageText}
-      </calcite-input-message>
+      <div class={CSS.messageContainer}>
+        <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+          {this.messageText}
+        </calcite-input-message>
+      </div>
     );
 
     const childEl = (

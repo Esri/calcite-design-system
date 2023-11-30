@@ -3,4 +3,5 @@ export const CSS = {
   iconContainer: "icon-container",
   select: "select",
   wrapper: "wrapper",
+  messageContainer: "message-container",
 };

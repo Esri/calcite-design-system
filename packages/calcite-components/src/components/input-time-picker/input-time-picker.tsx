@@ -1026,9 +1026,11 @@ export class InputTimePicker
         </calcite-popover>
         <HiddenFormInputSlot component={this} />
         {this.messageText ? (
-          <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
-            {this.messageText}
-          </calcite-input-message>
+          <div class={CSS.messageContainer}>
+            <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+              {this.messageText}
+            </calcite-input-message>
+          </div>
         ) : null}
       </Host>
     );

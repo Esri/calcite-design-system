@@ -12,7 +12,8 @@
 }
 
 :host {
-  @apply text-color-1 transition-default invisible box-border flex h-0 w-full items-center font-medium opacity-0;
+  @apply text-color-1 transition-default invisible box-border flex h-0 w-full items-center font-medium opacity-0
+  pt-1;
 }
 
 :host {

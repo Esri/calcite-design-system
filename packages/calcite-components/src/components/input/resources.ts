@@ -1,18 +1,19 @@
 export const CSS = {
-  loader: "loader",
+  actionWrapper: "action-wrapper",
+  buttonItemHorizontal: "number-button-item--horizontal",
   clearButton: "clear-button",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
   inputIcon: "icon",
-  prefix: "prefix",
-  suffix: "suffix",
-  numberButtonWrapper: "number-button-wrapper",
-  buttonItemHorizontal: "number-button-item--horizontal",
-  wrapper: "element-wrapper",
   inputWrapper: "wrapper",
-  actionWrapper: "action-wrapper",
-  resizeIconWrapper: "resize-icon-wrapper",
+  loader: "loader",
+  messageContainer: "message-container",
   numberButtonItem: "number-button-item",
+  numberButtonWrapper: "number-button-wrapper",
+  prefix: "prefix",
+  resizeIconWrapper: "resize-icon-wrapper",
+  suffix: "suffix",
+  wrapper: "element-wrapper",
 };
 
 export const INPUT_TYPE_ICONS = {

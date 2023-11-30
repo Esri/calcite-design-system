@@ -16,6 +16,13 @@
   inline-size: var(--select-width);
 }
 
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
 @include disabled();
 
 :host([scale="s"]) {
