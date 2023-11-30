@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.2...@esri/calcite-components@1.12.0-next.3) (2023-11-30)
+
+### Bug Fixes
+
+- **combobox, dropdown, input-date-picker, popover, tooltip:** fix positioning of component when component is moved ([#8296](https://github.com/Esri/calcite-design-system/issues/8296)) ([2b2506d](https://github.com/Esri/calcite-design-system/commit/2b2506d07978b2fb66a63c1fed57c3f36c0d2996)), closes [#6121](https://github.com/Esri/calcite-design-system/issues/6121)
+
 ## [1.12.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.1...@esri/calcite-components@1.12.0-next.2) (2023-11-29)
 
 ### Bug Fixes
