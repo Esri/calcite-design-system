@@ -22,7 +22,7 @@ import {
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
-import { ItemData, ListItemSelectDetail } from "../list-item/interfaces";
+import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
@@ -269,25 +269,9 @@ export class List
   }
 
   @Listen("calciteListItemSelect")
-  handleCalciteListItemSelect({ target, detail }: CustomEvent<ListItemSelectDetail>): void {
+  handleCalciteListItemSelect(): void {
     if (!!this.parentListEl) {
       return;
-    }
-
-    const { enabledListItems, lastSelectedItem } = this;
-    const selectedItem = target as HTMLCalciteListItemElement;
-
-    if (detail.selectMultiple && !!lastSelectedItem) {
-      const lastSelectedIndex = enabledListItems.indexOf(lastSelectedItem);
-      const currentIndex = enabledListItems.indexOf(selectedItem);
-      const startIndex = Math.min(lastSelectedIndex, currentIndex);
-      const endIndex = Math.max(lastSelectedIndex, currentIndex);
-
-      enabledListItems
-        .slice(startIndex, endIndex)
-        .forEach((item) => (item.selected = lastSelectedItem.selected));
-    } else {
-      this.lastSelectedItem = selectedItem;
     }
 
     this.updateSelectedItems(true);
@@ -323,6 +307,35 @@ export class List
     }
 
     this.updateSelectedItems();
+  }
+
+  @Listen("calciteInternalListItemSelectMultiple")
+  handleCalciteInternalListItemSelectMultiple(
+    event: CustomEvent<{
+      selectMultiple: boolean;
+    }>
+  ): void {
+    if (!!this.parentListEl) {
+      return;
+    }
+
+    event.stopPropagation();
+    const { target, detail } = event;
+    const { enabledListItems, lastSelectedInfo } = this;
+    const selectedItem = target as HTMLCalciteListItemElement;
+
+    if (detail.selectMultiple && !!lastSelectedInfo) {
+      const currentIndex = enabledListItems.indexOf(selectedItem);
+      const lastSelectedIndex = enabledListItems.indexOf(lastSelectedInfo.selectedItem);
+      const startIndex = Math.min(lastSelectedIndex, currentIndex);
+      const endIndex = Math.max(lastSelectedIndex, currentIndex);
+
+      enabledListItems
+        .slice(startIndex, endIndex + 1)
+        .forEach((item) => (item.selected = lastSelectedInfo.selected));
+    } else {
+      this.lastSelectedInfo = { selectedItem, selected: selectedItem.selected };
+    }
   }
 
   @Listen("calciteInternalListItemChange")
@@ -426,7 +439,7 @@ export class List
 
   private ancestorOfFirstFilteredItem: HTMLCalciteListItemElement;
 
-  private lastSelectedItem: HTMLCalciteListItemElement;
+  private lastSelectedInfo: { selectedItem: HTMLCalciteListItemElement; selected: boolean };
 
   // --------------------------------------------------------------------------
   //
