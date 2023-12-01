@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { renders } from "../../tests/commonTests";
+import { DateLocaleData } from "../date-picker/utils";
 
 describe("calcite-date-picker-month-header", () => {
   describe("renders", () => {
@@ -35,7 +36,7 @@ describe("calcite-date-picker-month-header", () => {
         "diciembre",
       ],
     },
-  };
+  } as DateLocaleData;
 
   it("displays next/previous options", async () => {
     const page = await newE2EPage({
