@@ -61,18 +61,17 @@
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
-:host([status="invalid"]) {
-  & .wrapper {
-    @apply border-color-danger;
-  }
-  & .wrapper:focus {
-    @apply focus-inset-danger;
-  }
-}
-
 :host(:focus-within) .wrapper,
 .wrapper--active {
   @apply focus-inset;
+}
+
+:host([status="invalid"]) .wrapper {
+  @apply border-color-danger;
+}
+
+:host([status="invalid"]:focus-within) .wrapper {
+  @apply focus-inset-danger;
 }
 
 .wrapper--single {

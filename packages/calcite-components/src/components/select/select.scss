@@ -90,14 +90,6 @@ select:disabled {
   @apply border-color-input bg-opacity-100;
 }
 
-:host([status="invalid"]) {
-  select {
-    @apply border-color-danger;
-  }
-  select:focus {
-    @apply focus-inset-danger;
-  }
-}
 .icon-container {
   @apply border-color-input
     text-color-2
@@ -111,6 +103,17 @@ select:disabled {
     bg-transparent;
   inset-inline-end: theme("inset.0");
   border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
+}
+
+:host([status="invalid"]) {
+  select,
+  .icon-container {
+    @apply border-color-danger;
+  }
+  select:focus,
+  .icon-container:focus {
+    @apply focus-inset-danger;
+  }
 }
 
 .select:focus ~ .icon-container {

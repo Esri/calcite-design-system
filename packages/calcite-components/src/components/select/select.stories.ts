@@ -6,7 +6,7 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { boolean, text } from "@storybook/addon-knobs";
+import { select, boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";
 import optionGroupReadme from "../option-group/readme.md";
@@ -23,6 +23,30 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
         name: "disabled",
         commit(): Attribute {
           this.value = boolean("disabled", false, group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "status",
+        commit(): Attribute {
+          this.value = select("status", ["idle", "invalid", "valid"], "idle", group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "width",
+        commit(): Attribute {
+          this.value = select("width", ["auto", "full", "half"], "auto", group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "scale",
+        commit(): Attribute {
+          this.value = select("scale", ["s", "m", "l"], "m", group);
           delete this.build;
           return this;
         },
@@ -51,10 +75,6 @@ const createOptionAttributes: () => Attributes = () => {
     {
       name: "value",
       value: text("value", "value", group),
-    },
-    {
-      name: "status",
-      value: select("status", ["idle", "invalid", "valid"], "idle", group),
     },
   ];
 };
