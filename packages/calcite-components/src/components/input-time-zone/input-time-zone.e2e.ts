@@ -332,6 +332,34 @@ describe("calcite-input-time-zone", () => {
     // we assume maxItems works properly on combobox
     expect(await internalCombobox.getProperty("maxItems")).toBe(7);
   });
+
+  it("recreates time zone items when item-dependent props change", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone(testTimeZoneNamesAndOffsets[0].name);
+    await page.setContent(addTimeZoneNamePolyfill(html`<calcite-input-time-zone></calcite-input-time-zone>`));
+    const inputTimeZone = await page.find("calcite-input-time-zone");
+
+    let prevComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
+    await inputTimeZone.setProperty("lang", "es");
+    await page.waitForChanges();
+
+    let currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
+    expect(currComboboxItem).not.toBe(prevComboboxItem);
+
+    prevComboboxItem = currComboboxItem;
+    await inputTimeZone.setProperty("referenceDate", "2021-01-01");
+    await page.waitForChanges();
+
+    currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
+    expect(currComboboxItem).not.toBe(prevComboboxItem);
+
+    prevComboboxItem = currComboboxItem;
+    await inputTimeZone.setProperty("mode", "list");
+    await page.waitForChanges();
+
+    currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
+    expect(currComboboxItem).not.toBe(prevComboboxItem);
+  });
 });
 
 /**

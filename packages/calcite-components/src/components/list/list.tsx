@@ -309,6 +309,35 @@ export class List
     this.updateSelectedItems();
   }
 
+  @Listen("calciteInternalListItemSelectMultiple")
+  handleCalciteInternalListItemSelectMultiple(
+    event: CustomEvent<{
+      selectMultiple: boolean;
+    }>
+  ): void {
+    if (!!this.parentListEl) {
+      return;
+    }
+
+    event.stopPropagation();
+    const { target, detail } = event;
+    const { enabledListItems, lastSelectedInfo } = this;
+    const selectedItem = target as HTMLCalciteListItemElement;
+
+    if (detail.selectMultiple && !!lastSelectedInfo) {
+      const currentIndex = enabledListItems.indexOf(selectedItem);
+      const lastSelectedIndex = enabledListItems.indexOf(lastSelectedInfo.selectedItem);
+      const startIndex = Math.min(lastSelectedIndex, currentIndex);
+      const endIndex = Math.max(lastSelectedIndex, currentIndex);
+
+      enabledListItems
+        .slice(startIndex, endIndex + 1)
+        .forEach((item) => (item.selected = lastSelectedInfo.selected));
+    } else {
+      this.lastSelectedInfo = { selectedItem, selected: selectedItem.selected };
+    }
+  }
+
   @Listen("calciteInternalListItemChange")
   handleCalciteInternalListItemChange(event: CustomEvent): void {
     if (!!this.parentListEl) {
@@ -409,6 +438,8 @@ export class List
   sortable: Sortable;
 
   private ancestorOfFirstFilteredItem: HTMLCalciteListItemElement;
+
+  private lastSelectedInfo: { selectedItem: HTMLCalciteListItemElement; selected: boolean };
 
   // --------------------------------------------------------------------------
   //

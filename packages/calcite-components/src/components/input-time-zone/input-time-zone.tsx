@@ -111,12 +111,11 @@ export class InputTimeZone
    */
   @Prop({ reflect: true }) mode: TimeZoneMode = "offset";
 
-  @Watch("effectiveLocale")
   @Watch("messages")
   @Watch("mode")
   @Watch("referenceDate")
   handleTimeZoneItemPropsChange(): void {
-    this.createTimeZoneItems();
+    this.updateTimeZoneItemsAndSelection();
   }
 
   /**
@@ -300,6 +299,19 @@ export class InputTimeZone
     );
   }
 
+  private async updateTimeZoneItemsAndSelection(): Promise<void> {
+    this.timeZoneItems = await this.createTimeZoneItems();
+
+    const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
+    const valueToMatch = this.value ?? fallbackValue;
+
+    this.selectedTimeZoneItem = this.findTimeZoneItem(valueToMatch);
+
+    if (!this.selectedTimeZoneItem) {
+      this.selectedTimeZoneItem = this.findTimeZoneItem(fallbackValue);
+    }
+  }
+
   private async createTimeZoneItems(): Promise<TimeZoneItem[]> {
     if (!this.effectiveLocale || !this.messages) {
       return [];
@@ -339,16 +351,7 @@ export class InputTimeZone
     setUpLoadableComponent(this);
     await setUpMessages(this);
 
-    this.timeZoneItems = await this.createTimeZoneItems();
-
-    const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
-    const valueToMatch = this.value ?? fallbackValue;
-
-    this.selectedTimeZoneItem = this.findTimeZoneItem(valueToMatch);
-
-    if (!this.selectedTimeZoneItem) {
-      this.selectedTimeZoneItem = this.findTimeZoneItem(fallbackValue);
-    }
+    await this.updateTimeZoneItemsAndSelection();
 
     const selectedValue = `${this.selectedTimeZoneItem.value}`;
     afterConnectDefaultValueSet(this, selectedValue);
