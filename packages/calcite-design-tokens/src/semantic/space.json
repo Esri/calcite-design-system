@@ -40,14 +40,6 @@
       "xxxl": {
         "value": "{core.size.default.32}",
         "type": "spacing"
-      },
-      "overlap": {
-        "value": "{core.size.default.-9999}",
-        "type": "spacing"
-      },
-      "overlapBorder": {
-        "value": "{core.size.default.1} * -1",
-        "type": "spacing"
       }
     }
   }

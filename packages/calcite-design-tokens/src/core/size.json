@@ -2,10 +2,6 @@
   "core": {
     "size": {
       "default": {
-        "-9999": {
-          "value": "-9999",
-          "type": "sizing"
-        },
         "none": {
           "value": "0",
           "type": "sizing"
