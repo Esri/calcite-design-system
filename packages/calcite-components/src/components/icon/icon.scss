@@ -10,22 +10,29 @@
   @apply text-color-icon inline-flex;
 }
 
+$icon-size-s: 16px;
+$icon-size-m: 24px;
+$icon-size-l: 32px;
+
 :host([scale="s"]) {
-  @apply h-4 w-4;
-  min-inline-size: theme("spacing.4");
-  min-block-size: theme("spacing.4");
+  inline-size: $icon-size-s;
+  block-size: $icon-size-s;
+  min-inline-size: $icon-size-s;
+  min-block-size: $icon-size-s;
 }
 
 :host([scale="m"]) {
-  @apply h-6 w-6;
-  min-inline-size: theme("spacing.6");
-  min-block-size: theme("spacing.6");
+  inline-size: $icon-size-m;
+  block-size: $icon-size-m;
+  min-inline-size: $icon-size-m;
+  min-block-size: $icon-size-m;
 }
 
 :host([scale="l"]) {
-  @apply h-8 w-8;
-  min-inline-size: theme("spacing.8");
-  min-block-size: theme("spacing.8");
+  inline-size: $icon-size-l;
+  block-size: $icon-size-l;
+  min-inline-size: $icon-size-l;
+  min-block-size: $icon-size-l;
 }
 
 .flip-rtl {

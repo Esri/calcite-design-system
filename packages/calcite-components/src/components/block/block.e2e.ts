@@ -231,17 +231,6 @@ describe("calcite-block", () => {
       expect(blockCloseSpy).toHaveReceivedEventTimes(1);
     });
 
-    it("does not render collapsible icon when a control is added to the header", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block heading="test-heading" collapsible>
-          <calcite-action text="test" icon="banana" slot="${SLOTS.control}"></calcite-action>
-        </calcite-block>`
-      );
-      const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
-      expect(collapsibleIcon).toBeNull();
-    });
-
     it("displays a status icon instead of a header icon when `status` is an accepted value", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -288,17 +277,6 @@ describe("calcite-block", () => {
 
       const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
       expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
-    });
-
-    it("does not render collapsible icon when actions are added to the header menu", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block heading="test-heading" collapsible>
-          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        </calcite-block>`
-      );
-      const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
-      expect(collapsibleIcon).toBeNull();
     });
   });
 

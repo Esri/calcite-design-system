@@ -30,6 +30,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { TabNavMessages } from "./assets/tab-nav/t9n";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -65,9 +66,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @Prop({ mutable: true }) selectedTitle: HTMLCalciteTabTitleElement = null;
 
   /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+  @Prop() scale: Scale = "m";
 
   /**
    * @internal
@@ -75,9 +78,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
 
   /**
-   * @internal
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   *
+   *  @internal
    */
-  @Prop({ reflect: true, mutable: true }) position: TabPosition = "bottom";
+  @Prop() position: TabPosition = "bottom";
 
   /**
    * @internal
@@ -152,12 +157,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     connectMessages(this);
   }
 
-  disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
-    disconnectLocalized(this);
-    disconnectMessages(this);
-  }
-
   async componentWillLoad(): Promise<void> {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
@@ -171,8 +170,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const { parentTabsEl } = this;
 
     this.layout = parentTabsEl?.layout;
-    this.position = parentTabsEl?.position;
-    this.scale = parentTabsEl?.scale;
     this.bordered = parentTabsEl?.bordered;
     // fix issue with active tab-title not lining up with blue indicator
     if (this.selectedTitle) {
@@ -195,6 +192,12 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     }
   }
 
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
     const width = `${this.indicatorWidth}px`;
@@ -203,7 +206,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     return (
       <Host role="tablist">
         <div
-          class="tab-nav"
+          class={{
+            [CSS.container]: true,
+            [`scale-${this.scale}`]: true,
+            [`position-${this.position}`]: true,
+          }}
           onScroll={this.handleContainerScroll}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}

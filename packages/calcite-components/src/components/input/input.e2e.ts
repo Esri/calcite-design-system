@@ -13,7 +13,7 @@ import {
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
-import { getElementXY, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 
 describe("calcite-input", () => {
@@ -665,6 +665,57 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
       expect(await input.getProperty("value")).toBe("1.008");
+    });
+
+    it("should stop increasing the value when pointer is moved away from the increment button", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+      const input = await page.find("calcite-input");
+      expect(await input.getProperty("value")).toBe("");
+
+      const incrementButtonRect = await getElementRect(page, "calcite-input", "button");
+      await page.mouse.move(
+        incrementButtonRect.left + incrementButtonRect.width / 2,
+        incrementButtonRect.top + incrementButtonRect.height / 2
+      );
+      await page.mouse.down();
+      await page.waitForChanges();
+      // timeout is used to simulate long press.
+      await page.waitForTimeout(3000);
+      expect(await input.getProperty("value")).not.toBe("");
+
+      const value = await input.getProperty("value");
+      await page.mouse.move(incrementButtonRect.x, 2 * incrementButtonRect.bottom);
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toEqual(value);
+
+      await page.mouse.up();
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toEqual(value);
+    });
+
+    it("should not change the value when user Tab out of the input with ArrowUp/ArrowDown keys are down", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const input = await page.find("calcite-input");
+      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.down("ArrowUp");
+      // timeout is used to simulate long press.
+      await page.waitForTimeout(3000);
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const totalNudgesUp = calciteInputInput.length;
+      expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+      expect(calciteInputInput).toHaveReceivedEventTimes(totalNudgesUp);
+
+      await page.waitForTimeout(3000);
+      expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+      expect(calciteInputInput).toHaveReceivedEventTimes(totalNudgesUp);
     });
   });
 

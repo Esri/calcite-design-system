@@ -6,15 +6,12 @@
   flex-col;
 }
 
-.menu ::slotted(calcite-action) {
-  @apply focus-base
-  m-0.5
-  flex;
+::slotted(calcite-action-group) {
+  border-block-end: 1px solid var(--calcite-ui-border-3);
 }
 
-.menu ::slotted(calcite-action[data-active]) {
-  @apply focus-outset;
-  outline-offset: 0px;
+::slotted(calcite-action-group:last-child) {
+  border-block-end: 0;
 }
 
 .default-trigger {
@@ -32,7 +29,12 @@
 }
 
 .menu {
-  @apply flex-col flex-nowrap outline-none;
+  @apply flex-col
+  flex-nowrap
+  outline-none
+  overflow-y-auto
+  overflow-x-hidden
+  max-h-menu;
 }
 
 @include base-component();

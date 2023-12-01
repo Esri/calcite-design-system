@@ -33,8 +33,9 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
-import { Scale, Width } from "../interfaces";
+import { Scale, Status, Width } from "../interfaces";
 import { CSS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -76,8 +77,7 @@ export class Select
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * Accessible name for the component.
@@ -103,6 +103,9 @@ export class Select
    * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's `selectedOption` value. */
   @Prop({ mutable: true }) value: string = null;
@@ -369,7 +372,7 @@ export class Select
   renderChevron(): VNode {
     return (
       <div class={CSS.iconContainer}>
-        <calcite-icon class={CSS.icon} icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale={getIconScale(this.scale)} />
       </div>
     );
   }

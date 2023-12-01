@@ -17,7 +17,7 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon,
 } from "../../utils/dom";
-import { Scale, Status, Position } from "../interfaces";
+import { Scale, Status, Alignment } from "../interfaces";
 
 import {
   connectForm,
@@ -67,6 +67,7 @@ import {
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -93,7 +94,7 @@ export class Input
   //--------------------------------------------------------------------------
 
   /** Specifies the text alignment of the component's value. */
-  @Prop({ reflect: true }) alignment: Position = "start";
+  @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
    * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
@@ -664,6 +665,7 @@ export class Input
   };
 
   private inputBlurHandler = () => {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
     this.calciteInternalInputBlur.emit();
     this.emitChangeIfUserModified();
   };
@@ -1048,7 +1050,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -1056,7 +1058,7 @@ export class Input
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -1077,7 +1079,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="chevron-up" scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1096,7 +1098,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1185,7 +1187,7 @@ export class Input
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>
-                <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
+                <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
               </div>
             ) : null,
           ]

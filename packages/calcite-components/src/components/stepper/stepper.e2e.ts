@@ -1,14 +1,14 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
+import { isElementFocused } from "../../tests/utils";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
 async function itemClicker(item: HTMLCalciteStepperItemElement) {
   item.click();
 }
 
-// todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
   describe("defaults", () => {
     defaults("calcite-stepper", [
@@ -68,8 +68,27 @@ describe("calcite-stepper", () => {
           <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`,
-      { display: "grid" }
+      { display: "flex" }
     );
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-stepper");
+  });
+
+  it("root container display is set to grid in horizontal layout", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item heading="Step 1" id="step-1">
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>`);
+
+    const containerEl = await page.find("calcite-stepper >>> .container");
+    expect((await containerEl.getComputedStyle()).display).toBe("grid");
   });
 
   it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
@@ -453,8 +472,12 @@ describe("calcite-stepper", () => {
           const wrapper = document.querySelector(wrapperName);
 
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-          wrapper.shadowRoot.querySelector<HTMLElement>("#item-2").click();
+          const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+          item2.click();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
           return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
@@ -662,5 +685,154 @@ describe("calcite-stepper", () => {
     await page.$eval("#step-2", itemClicker);
     await page.waitForChanges();
     expect(stepperItem2.getAttribute("aria-current")).toEqual("step");
+  });
+
+  it("should select the first stepper-item if none of the stepper-item's are selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item heading="Step 1" id="step-1">
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>
+    <calcite-stepper-item heading="Step 3" id="step-3">
+    <div>Step 3content</div>
+  </calcite-stepper-item>
+</calcite-stepper>`);
+
+    const [stepperItem1, stepperItem2, stepperItem3] = await page.findAll("calcite-stepper-item");
+    expect(await stepperItem1.getProperty("selected")).toBe(true);
+    expect(await stepperItem2.getProperty("selected")).not.toBe(true);
+    expect(await stepperItem3.getProperty("selected")).not.toBe(true);
+  });
+
+  it("should select the next enabled stepper-item if first stepper-item is disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item heading="Step 1" id="step-1" disabled>
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>`);
+
+    const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+    expect(await stepperItem1.getProperty("selected")).toBe(false);
+    expect(await stepperItem2.getProperty("selected")).toBe(true);
+  });
+
+  describe("responsive layout", () => {
+    it("should display action buttons when width is smaller", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-stepper style="width: 100px">
+        <calcite-stepper-item heading="Step 1" id="step-1">
+          <div>Step 1 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>`);
+
+      const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
+      const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+
+      expect(await actionStart.isVisible()).toBe(true);
+      expect(await actionStart.getProperty("disabled")).toEqual(true);
+      expect(await actionEnd.isVisible()).toBe(true);
+      expect(await stepperItem1.isVisible()).toBe(true);
+      expect(await stepperItem2.isVisible()).toBe(false);
+
+      await actionEnd.click();
+      await page.waitForChanges();
+      expect(await stepperItem1.isVisible()).toBe(false);
+      expect(await stepperItem2.isVisible()).toBe(true);
+    });
+
+    it("focus order", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-stepper style="width: 100px">
+        <calcite-stepper-item heading="Step 1" id="step-1">
+          <calcite-button id="button1">Click</calcite-button>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 2" id="step-2">
+          <calcite-button id="button2">Click</calcite-button>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 3" id="step-2">
+          <calcite-button id="button3">Click</calcite-button>
+        </calcite-stepper-item>
+      </calcite-stepper>`);
+
+      const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
+
+      const actionEndId = actionEnd.getAttribute("id");
+      const actionStartId = actionStart.getAttribute("id");
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, `#${actionEndId}`, { shadowed: true })).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, `#button1`)).toBe(true);
+
+      await actionEnd.click();
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, `#button2`)).toBe(true);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, `#${actionEndId}`, { shadowed: true })).toBe(true);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      await page.waitForChanges();
+      expect(await isElementFocused(page, `#${actionStartId}`, { shadowed: true })).toBe(true);
+    });
+
+    it("should emit calciteStepperItemChange on user interaction", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-stepper style="width: 100px">
+        <calcite-stepper-item heading="Step 1" id="step-1" disabled>
+          <div>Step 1 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 3" id="step-2">
+          <div>Step 3 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>`);
+
+      const stepper = await page.find("calcite-stepper");
+      const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
+      const [stepperItem1] = await page.findAll("calcite-stepper-item");
+      const eventSpy = await stepper.spyOnEvent("calciteStepperItemChange");
+      expect(eventSpy).toHaveReceivedEventTimes(0);
+
+      await actionEnd.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+
+      await actionStart.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+
+      // shouldn't emit change event when disabled element is visible
+      stepperItem1.setProperty("disabled", true);
+      await actionStart.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+
+      await actionEnd.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(3);
+    });
   });
 });

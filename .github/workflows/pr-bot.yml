@@ -1,7 +1,7 @@
 name: PR Bot
 on:
   pull_request:
-    branches: [main]
+    branches: [main, rc]
 permissions:
   pull-requests: write
   issues: write

@@ -43,9 +43,10 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { SetValueOrigin } from "../input/interfaces";
-import { Position, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 import { InputTextMessages } from "./assets/input-text/t9n";
 import { CSS, SLOTS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -72,7 +73,7 @@ export class InputText
   //--------------------------------------------------------------------------
 
   /** Specifies the text alignment of the component's value. */
-  @Prop({ reflect: true }) alignment: Position = "start";
+  @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
    * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
@@ -611,7 +612,7 @@ export class InputText
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -619,7 +620,7 @@ export class InputText
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;

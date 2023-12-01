@@ -17,7 +17,7 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon,
 } from "../../utils/dom";
-import { Position, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 
 import {
   connectForm,
@@ -66,6 +66,7 @@ import {
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -92,7 +93,7 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   /** Specifies the text alignment of the component's value. */
-  @Prop({ reflect: true }) alignment: Position = "start";
+  @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
    * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
@@ -590,6 +591,7 @@ export class InputNumber
   };
 
   private inputNumberBlurHandler = () => {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
     this.calciteInternalInputNumberBlur.emit();
     this.emitChangeIfUserModified();
   };
@@ -739,11 +741,14 @@ export class InputNumber
     }, valueNudgeDelayInMs);
   };
 
-  private nudgeButtonPointerUpAndOutHandler = (event: PointerEvent): void => {
+  private nudgeButtonPointerUpHandler = (event: PointerEvent): void => {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
+    window.clearInterval(this.nudgeNumberValueIntervalId);
+  };
 
+  private nudgeButtonPointerOutHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
@@ -934,7 +939,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -942,7 +947,7 @@ export class InputNumber
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -958,12 +963,12 @@ export class InputNumber
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
-        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="chevron-up" scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -977,12 +982,12 @@ export class InputNumber
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
-        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
       </button>
     );
 

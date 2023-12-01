@@ -1,4 +1,6 @@
 {
   "next": "Seuraava",
-  "previous": "Edellinen"
+  "previous": "Edellinen",
+  "first": "First",
+  "last": "Last"
 }

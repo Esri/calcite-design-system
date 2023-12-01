@@ -52,6 +52,8 @@ import {
 } from "../../utils/t9n";
 import { ModalMessages } from "./assets/modal/t9n";
 
+import { getIconScale } from "../../utils/component";
+
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
@@ -294,12 +296,7 @@ export class Modal
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
-        <calcite-icon
-          icon={ICONS.close}
-          scale={
-            this.scale === "s" ? "s" : this.scale === "m" ? "m" : this.scale === "l" ? "l" : null
-          }
-        />
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
     ) : null;
   }

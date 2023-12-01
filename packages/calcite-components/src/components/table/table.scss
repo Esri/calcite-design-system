@@ -89,4 +89,9 @@ tbody {
   padding-block: var(--calcite-internal-table-cell-padding);
 }
 
+calcite-pagination {
+  flex: 1;
+  justify-content: center;
+}
+
 @include base-component();

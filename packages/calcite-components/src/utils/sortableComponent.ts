@@ -75,6 +75,19 @@ export interface SortableComponent {
   onDragEnd: () => void;
 }
 
+export interface SortableComponentItem {
+  /**
+   * When `true`, the item is not draggable.
+   *
+   *
+   * Notes:
+   *
+   * This property should use the @Prop decorator and reflect.
+   * This property should be used to set the `calcite-handle` disabled property.
+   */
+  dragDisabled: boolean;
+}
+
 /**
  * Helper to keep track of a SortableComponent. This should be called in the `connectedCallback` lifecycle method as well as any other method necessary to rebuild the sortable instance.
  *
@@ -105,6 +118,7 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     handle,
+    filter: "[drag-disabled]",
     onStart: () => {
       dragState.active = true;
       onDragStart();

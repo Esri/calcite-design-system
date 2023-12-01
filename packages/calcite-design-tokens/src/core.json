@@ -1527,26 +1527,155 @@
       }
     },
     "breakpoint": {
-      "width": {
+      "height": {
+        "xxs": {
+          "min": {
+            "value": 0,
+            "type": "sizing",
+            "description": "Small handheld devices and mini-windows"
+          },
+          "max": {
+            "value": 153,
+            "type": "sizing",
+            "description": "Small handheld devices and mini-windows"
+          }
+        },
         "xs": {
-          "value": "476px",
-          "type": "sizing",
-          "description": "min-width size"
+          "max": {
+            "value": 328,
+            "type": "sizing",
+            "description": "Handheld devices"
+          },
+          "min": {
+            "value": 154,
+            "type": "sizing",
+            "description": "Handheld devices"
+          }
         },
         "sm": {
-          "value": "768px",
-          "type": "sizing",
-          "description": "min-width size"
+          "max": {
+            "value": 503,
+            "type": "sizing",
+            "description": "Small tablets"
+          },
+          "min": {
+            "value": 329,
+            "type": "sizing",
+            "description": "Small tablets"
+          }
         },
         "md": {
-          "value": "1152px",
-          "type": "sizing",
-          "description": "min-width size"
+          "max": {
+            "value": 678,
+            "type": "sizing",
+            "description": "Small laptops"
+          },
+          "min": {
+            "value": 504,
+            "type": "sizing",
+            "description": "Small laptops"
+          }
         },
         "lg": {
-          "value": "1440px",
-          "type": "sizing",
-          "description": "min-width size"
+          "max": {
+            "value": 853,
+            "type": "sizing",
+            "description": "Large laptops and desktop computers"
+          },
+          "min": {
+            "value": 679,
+            "type": "sizing",
+            "description": "Large laptops and desktop computers"
+          }
+        }
+      },
+      "width": {
+        "default": {
+          "xxs": {
+            "value": "320px",
+            "type": "sizing",
+            "description": "To be deprecated"
+          },
+          "xs": {
+            "value": "476px",
+            "type": "sizing",
+            "description": "To be deprecated"
+          },
+          "sm": {
+            "value": "768px",
+            "type": "sizing",
+            "description": "To be deprecated"
+          },
+          "md": {
+            "value": "1152px",
+            "type": "sizing",
+            "description": "To be deprecated"
+          },
+          "lg": {
+            "value": "1440px",
+            "type": "sizing",
+            "description": "To be deprecated"
+          }
+        },
+        "xxs": {
+          "max": {
+            "value": 320,
+            "type": "sizing",
+            "description": "Small handheld devices and mini-windows"
+          },
+          "min": {
+            "value": 0,
+            "type": "sizing",
+            "description": "Small handheld devices and mini-windows"
+          }
+        },
+        "xs": {
+          "max": {
+            "value": 476,
+            "type": "sizing",
+            "description": "Handheld devices"
+          },
+          "min": {
+            "value": 321,
+            "type": "sizing",
+            "description": "Handheld devices"
+          }
+        },
+        "sm": {
+          "max": {
+            "value": 768,
+            "type": "sizing",
+            "description": "Small tablets"
+          },
+          "min": {
+            "value": 477,
+            "type": "sizing",
+            "description": "Small tablets"
+          }
+        },
+        "md": {
+          "max": {
+            "value": 1152,
+            "type": "sizing",
+            "description": "Small laptops"
+          },
+          "min": {
+            "value": 769,
+            "type": "sizing",
+            "description": "Small laptops"
+          }
+        },
+        "lg": {
+          "max": {
+            "value": 1722,
+            "type": "sizing",
+            "description": "Large laptops and desktop computers"
+          },
+          "min": {
+            "value": 1153,
+            "type": "sizing",
+            "description": "Large laptops and desktop computers"
+          }
         }
       },
       "margin": {

@@ -529,8 +529,8 @@ export class ColorPicker
 
     const { offsetX, offsetY } = event;
 
-    document.addEventListener("pointermove", this.globalPointerMoveHandler);
-    document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
+    window.addEventListener("pointermove", this.globalPointerMoveHandler);
+    window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
     this.activeCanvasInfo = {
       context: this.colorFieldRenderingContext,
@@ -547,8 +547,8 @@ export class ColorPicker
 
     const { offsetX } = event;
 
-    document.addEventListener("pointermove", this.globalPointerMoveHandler);
-    document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
+    window.addEventListener("pointermove", this.globalPointerMoveHandler);
+    window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
     this.activeCanvasInfo = {
       context: this.hueSliderRenderingContext,
@@ -565,8 +565,8 @@ export class ColorPicker
 
     const { offsetX } = event;
 
-    document.addEventListener("pointermove", this.globalPointerMoveHandler);
-    document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
+    window.addEventListener("pointermove", this.globalPointerMoveHandler);
+    window.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
     this.activeCanvasInfo = {
       context: this.opacitySliderRenderingContext,
@@ -695,8 +695,8 @@ export class ColorPicker
   }
 
   disconnectedCallback(): void {
-    document.removeEventListener("pointermove", this.globalPointerMoveHandler);
-    document.removeEventListener("pointerup", this.globalPointerUpHandler);
+    window.removeEventListener("pointermove", this.globalPointerMoveHandler);
+    window.removeEventListener("pointerup", this.globalPointerUpHandler);
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);

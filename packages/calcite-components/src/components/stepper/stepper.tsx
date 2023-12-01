@@ -8,15 +8,33 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch,
+  readTask,
 } from "@stencil/core";
-
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-import { NumberingSystem } from "../../utils/locale";
-import { Layout, Scale } from "../interfaces";
+import { Layout, Position, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { createObserver } from "../../utils/observers";
+import { StepBar } from "./functional/step-bar";
+import { ITEM_MIN_WIDTH, CSS } from "./resources";
+import { guid } from "../../utils/guid";
+
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+} from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { StepperMessages } from "./assets/stepper/t9n";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -25,8 +43,9 @@ import { createObserver } from "../../utils/observers";
   tag: "calcite-stepper",
   styleUrl: "stepper.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class Stepper {
+export class Stepper implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -54,6 +73,14 @@ export class Stepper {
   }
 
   /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: StepperMessages;
+
+  /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
@@ -69,6 +96,17 @@ export class Stepper {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItem: HTMLCalciteStepperItemElement = null;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<StepperMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -100,21 +138,63 @@ export class Stepper {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateItems();
+    connectMessages(this);
+    connectLocalized(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
+    this.resizeObserver?.observe(this.containerEl);
     // if no stepper items are set as active, default to the first one
-    if (typeof this.currentPosition !== "number") {
+    if (typeof this.currentActivePosition !== "number") {
+      const enabledStepIndex = this.getFirstEnabledStepperPosition();
+
+      if (enabledStepIndex === 0) {
+        this.currentActivePosition = enabledStepIndex;
+      }
+
       this.calciteInternalStepperItemChange.emit({
-        position: 0,
+        position: enabledStepIndex,
       });
     }
   }
 
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
+    disconnectMessages(this);
+    disconnectLocalized(this);
+    this.mutationObserver?.disconnect();
+  }
+
   render(): VNode {
     return (
-      <Host aria-label={"Progress steps"} role="region">
-        <slot onSlotchange={this.handleDefaultSlotChange} />
+      <Host aria-label={this.messages.label} role="region">
+        <div
+          class={{ container: true, [CSS.singleView]: !this.multipleViewMode }}
+          ref={this.setContainerEl}
+        >
+          {!this.multipleViewMode && this.layout === "horizontal" && (
+            <div class={{ [CSS.stepBarContainer]: true }}>
+              {this.items.map((item, index) => (
+                <StepBar
+                  active={index === this.currentActivePosition}
+                  complete={item.complete && index !== this.currentActivePosition && !item.error}
+                  disabled={item.disabled && index !== this.currentActivePosition}
+                  error={item.error && index !== this.currentActivePosition}
+                  key={index}
+                />
+              ))}
+            </div>
+          )}
+          <div class={{ [CSS.actionContainer]: true }}>
+            {this.renderAction("start")}
+            {this.renderAction("end")}
+          </div>
+          <slot onSlotchange={this.handleDefaultSlotChange} />
+        </div>
       </Host>
     );
   }
@@ -155,7 +235,6 @@ export class Stepper {
     const { content, position } = event.detail;
 
     this.itemMap.set(item, { position, content });
-    this.items = this.sortItems();
     this.enabledItems = this.filterItems();
     event.stopPropagation();
   }
@@ -165,7 +244,7 @@ export class Stepper {
     const { position } = event.detail;
 
     if (typeof position === "number") {
-      this.currentPosition = position;
+      this.currentActivePosition = position;
       this.selectedItem = event.target as HTMLCalciteStepperItemElement;
     }
 
@@ -188,7 +267,7 @@ export class Stepper {
   /** Set the next `calcite-stepper-item` as active. */
   @Method()
   async nextStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentActivePosition + 1, "next");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -200,7 +279,7 @@ export class Stepper {
   /** Set the previous `calcite-stepper-item` as active. */
   @Method()
   async prevStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentActivePosition - 1, "previous");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -218,7 +297,7 @@ export class Stepper {
   async goToStep(step: number): Promise<void> {
     const position = step - 1;
 
-    if (this.currentPosition !== position) {
+    if (this.currentActivePosition !== position) {
       this.updateStep(position);
     }
   }
@@ -255,18 +334,58 @@ export class Stepper {
 
   @Element() el: HTMLCalciteStepperElement;
 
-  private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
+  @State() defaultMessages: StepperMessages;
 
-  /** list of sorted Stepper items */
-  private items: HTMLCalciteStepperItemElement[] = [];
+  @State() effectiveLocale = "";
 
-  /** list of enabled Stepper items */
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() currentActivePosition: number;
+
+  @Watch("currentActivePosition")
+  handlePositionChange(): void {
+    readTask((): void => {
+      this.determineActiveStepper(true);
+    });
+  }
+
+  @State() elWidth: number;
+
+  @Watch("elWidth")
+  handleElWidthChange(): void {
+    readTask((): void => {
+      this.determineActiveStepper();
+    });
+  }
+
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
-  /** keep track of the currently active item position */
-  private currentPosition: number;
+  private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
+
+  private items: HTMLCalciteStepperItemElement[] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  /** Specifies if the user is viewing one `stepper-item` at a time when the page width is less than sum of min-width of each item. */
+  private multipleViewMode = false;
+
+  private guid = `calcite-stepper-action-${guid()}`;
+
+  private containerEl: HTMLDivElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private resizeObserver = createObserver(
+    "resize",
+    (entries) => (this.elWidth = entries[0].contentRect.width)
+  );
 
   private updateItems(): void {
     this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
@@ -277,42 +396,64 @@ export class Stepper {
     });
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  private determineActiveStepper(currentActivePositionChanged = false): void {
+    const totalItems = this.items.length;
+    if (!this.elWidth || !totalItems || this.layout !== "horizontal" || totalItems === 1) {
+      return;
+    }
+
+    const activePosition = this.currentActivePosition || 0;
+    const totalMinWidthOfItems = totalItems * this.getMinWidthOfStepperItem();
+    const totalRowGap =
+      (totalItems - 1) * (parseInt(window.getComputedStyle(this.containerEl).rowGap) || 0);
+
+    if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
+      this.multipleViewMode = false;
+
+      this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
+        if (index !== activePosition) {
+          item.hidden = true;
+        } else {
+          item.hidden = false;
+          item.multipleViewMode = false;
+        }
+      });
+    } else if (this.elWidth > totalMinWidthOfItems + totalRowGap) {
+      if (this.multipleViewMode && !currentActivePositionChanged) {
+        return;
+      }
+
+      this.multipleViewMode = true;
+      this.setGridTemplateColumns(this.items);
+      this.items.forEach((item: HTMLCalciteStepperItemElement) => {
+        item.hidden = false;
+        item.multipleViewMode = true;
+      });
+    }
+  }
 
   private getEnabledStepIndex(
     startIndex: number,
     direction: "next" | "previous" = "next"
   ): number | null {
-    const { items, currentPosition } = this;
+    const { items, currentActivePosition } = this;
 
     let newIndex = startIndex;
 
-    while (items[newIndex]?.disabled) {
+    while (items[newIndex]?.disabled && this.multipleViewMode) {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
-    return newIndex !== currentPosition && newIndex < items.length && newIndex >= 0
+    return newIndex !== currentActivePosition && newIndex < items.length && newIndex >= 0
       ? newIndex
       : null;
   }
 
   private updateStep(position: number): void {
-    this.currentPosition = position;
+    this.currentActivePosition = position;
     this.calciteInternalStepperItemChange.emit({
       position,
     });
-  }
-
-  private sortItems(): HTMLCalciteStepperItemElement[] {
-    const { itemMap } = this;
-
-    return Array.from(itemMap.keys()).sort(
-      (a, b) => itemMap.get(a).position - itemMap.get(b).position
-    );
   }
 
   private filterItems(): HTMLCalciteStepperItemElement[] {
@@ -325,12 +466,85 @@ export class Stepper {
     });
   }
 
-  private handleDefaultSlotChange = (event: Event): void => {
-    const slottedItems = slotChangeGetAssignedElements(event);
-    const items = slottedItems.filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
-    const spacing = Array(items.length).fill("1fr").join(" ");
-    this.el.style.gridTemplateAreas = spacing;
-    this.el.style.gridTemplateColumns = spacing;
+  private renderAction(position: Position): VNode {
+    const isPositionStart = position === "start";
+    const path = isPositionStart ? "chevron-left" : "chevron-right";
+    const { currentActivePosition, multipleViewMode, layout } = this;
+    const totalItems = this.items.length;
+    const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
+
+    return layout === "horizontal" && !multipleViewMode ? (
+      <calcite-action
+        alignment="center"
+        appearance="transparent"
+        class={{
+          [CSS.actionIcon]: true,
+        }}
+        compact={true}
+        data-position={position}
+        disabled={
+          (currentActivePosition === 0 && isPositionStart) ||
+          (currentActivePosition === totalItems - 1 && !isPositionStart)
+        }
+        icon={path}
+        iconFlipRtl={true}
+        id={id}
+        onClick={this.handleActionClick}
+        scale={this.scale}
+        text={isPositionStart ? this.messages.previousStep : this.messages.nextStep}
+      />
+    ) : null;
+  }
+
+  private handleActionClick = (event: MouseEvent): void => {
+    const currentActivePosition = this.currentActivePosition;
+    const target = event.target as HTMLCalciteActionElement;
+    if (target.getAttribute("data-position") === "start") {
+      this.prevStep();
+    } else {
+      this.nextStep();
+    }
+
+    if (
+      this.currentActivePosition &&
+      currentActivePosition !== this.currentActivePosition &&
+      !this.items[this.currentActivePosition].disabled
+    ) {
+      this.calciteStepperItemChange.emit();
+    }
+  };
+
+  private getFirstEnabledStepperPosition(): number {
+    const enabledStepIndex = this.items.findIndex((item) => !item.disabled);
+
+    if (enabledStepIndex > -1) {
+      return enabledStepIndex;
+    }
+
+    return 0;
+  }
+
+  private setContainerEl = (el: HTMLDivElement): void => {
+    this.containerEl = el;
+  };
+
+  handleDefaultSlotChange = (event: Event): void => {
+    const items = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.tagName === "CALCITE-STEPPER-ITEM"
+    );
+    this.items = items as HTMLCalciteStepperItemElement[];
+    this.setGridTemplateColumns(items);
     this.setStepperItemNumberingSystem();
   };
+
+  private setGridTemplateColumns(items: Element[]): void {
+    const minWidth = this.getMinWidthOfStepperItem();
+    const spacing = Array(items.length).fill(`minmax(${minWidth}px, 1fr)`).join(" ");
+    this.containerEl.style.gridTemplateAreas = spacing;
+    this.containerEl.style.gridTemplateColumns = spacing;
+  }
+
+  private getMinWidthOfStepperItem(): number {
+    return ITEM_MIN_WIDTH[this.scale];
+  }
 }

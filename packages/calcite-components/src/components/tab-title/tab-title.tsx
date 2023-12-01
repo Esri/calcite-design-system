@@ -13,7 +13,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, getElementProp, toAriaBoolean, nodeListToArray } from "../../utils/dom";
+import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -35,6 +35,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
+import { getIconScale } from "../../utils/component";
 
 /**
  * Tab-titles are optionally individually closable.
@@ -94,14 +95,18 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
   /**
-   * @internal
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   *
+   *  @internal
    */
-  @Prop({ reflect: true, mutable: true }) position: TabPosition;
+  @Prop() position: TabPosition = "top";
 
   /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) scale: Scale;
+  @Prop() scale: Scale = "m";
 
   /**
    * @internal
@@ -176,14 +181,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   componentWillRender(): void {
     if (this.parentTabsEl) {
       this.layout = this.parentTabsEl.layout;
-      this.position = this.parentTabsEl.position;
-      this.scale = this.parentTabsEl.scale;
       this.bordered = this.parentTabsEl.bordered;
-    }
-    // handle case when tab-nav is only parent
-    if (!this.parentTabsEl && this.parentTabNavEl) {
-      this.position = getElementProp(this.parentTabNavEl, "position", this.position);
-      this.scale = getElementProp(this.parentTabNavEl, "scale", this.scale);
     }
   }
 
@@ -196,7 +194,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         class={{ [CSS.titleIcon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -205,7 +203,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         class={{ [CSS.titleIcon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -221,6 +219,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
           class={{
             container: true,
             [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
+            [`scale-${this.scale}`]: true,
           }}
           hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
@@ -252,7 +251,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
-        <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
     ) : null;
   }
