@@ -48,12 +48,12 @@ export default {
       brand: "var(--calcite-color-brand)",
       "brand-hover": "var(--calcite-color-brand-hover)",
       "brand-press": "var(--calcite-color-brand-press)",
-      info: "var(--calcite-color-info)",
-      success: "var(--calcite-color-success)",
-      warning: "var(--calcite-color-warning)",
-      danger: "var(--calcite-color-danger)",
-      "danger-hover": "var(--calcite-color-danger-hover)",
-      "danger-press": "var(--calcite-color-danger-press)",
+      info: "var(--calcite-color-status-info)",
+      success: "var(--calcite-color-status-success)",
+      warning: "var(--calcite-color-status-warning)",
+      danger: "var(--calcite-color-status-danger)",
+      "danger-hover": "var(--calcite-color-status-danger-hover)",
+      "danger-press": "var(--calcite-color-status-danger-press)",
       background: {
         background: "var(--calcite-color-background)",
         foreground: {
@@ -269,11 +269,11 @@ export default {
           "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
         },
         ".focus-outset-danger": {
-          outline: "2px solid var(--calcite-color-danger)",
+          outline: "2px solid var(--calcite-color-status-danger)",
           "outline-offset": invert("2px", "--calcite-offset-invert-focus"),
         },
         ".focus-inset-danger": {
-          outline: "2px solid var(--calcite-color-danger)",
+          outline: "2px solid var(--calcite-color-status-danger)",
           "outline-offset": invert("-2px", "--calcite-offset-invert-focus"),
         },
         ".transition-default": {
