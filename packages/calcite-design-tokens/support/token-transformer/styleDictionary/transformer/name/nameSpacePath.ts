@@ -4,16 +4,13 @@ import { parseTokenPath } from "../utils/parseTokenPath.js";
 import { capitalCase } from "change-case";
 
 export const transformNamesSpacePath: CalledTransformerFunction<string> = (token, args) => {
-  const [tokenPath, negNameRef] = parseTokenPath(
+  const tokenPath = parseTokenPath(
     [].concat(args.options?.prefix, token.path).filter((p) => p && p !== args?.options?.prefix)
   );
   let name = capitalCase(tokenPath.join(" "));
 
-  for (let i = 0; i < negNameRef.length; i++) {
-    const negName = negNameRef[i];
-    const n = negName.slice(1);
-    name = name.replace(n, negName);
-  }
+  name = name.replaceAll(/Minus\s?/g, "-");
+  name = name.replaceAll(/Plus\s?/g, "+");
 
   return name;
 };

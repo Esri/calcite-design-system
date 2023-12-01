@@ -269,7 +269,7 @@ describe("calcite-scrim", () => {
         html: `
         <style>
           :root {
-            --calcite-color-background-transparent-scrim: ${overrideStyle};
+            --calcite-color-transparent-scrim: ${overrideStyle};
           }
         </style>
         ${scrimSnippet}

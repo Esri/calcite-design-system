@@ -66,7 +66,7 @@
 }
 
 .scrim {
-  --calcite-scrim-background: var(--calcite-modal-scrim-background, var(--calcite-color-background-transparent-scrim));
+  --calcite-scrim-background: var(--calcite-modal-scrim-background, var(--calcite-color-transparent-scrim));
   @apply fixed inset-0 flex overflow-y-hidden;
 }
 

@@ -1,13 +1,29 @@
 {
   "semantic": {
     "border": {
-      "radius": {
-        "default": {
-          "value": "{core.size.default.none}",
-          "type": "borderRadius"
-        },
+      "width": {
         "none": {
           "value": "{core.size.default.none}",
+          "type": "borderWidth"
+        },
+        "sm": {
+          "value": "{core.size.default.1}",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "{core.size.default.2}",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "{core.size.default.4}",
+          "type": "borderWidth"
+        }
+      }
+    },
+    "corner": {
+      "radius": {
+        "default": {
+          "value": "{semantic.corner.radius.sharp}",
           "type": "borderRadius"
         },
         "sharp": {
@@ -15,50 +31,12 @@
           "type": "borderRadius"
         },
         "round": {
-          "value": "{core.size.default.1}",
-          "type": "borderRadius"
-        },
-        "circular": {
-          "value": "{core.size.relative.half}",
+          "value": "{core.size.default.4}",
           "type": "borderRadius"
         },
         "pill": {
-          "value": "{core.size.relative.full}",
+          "value": "{core.size.relative.100}",
           "type": "borderRadius"
-        },
-        "sm": {
-          "value": "{core.size.default.1}",
-          "type": "borderRadius"
-        },
-        "md": {
-          "value": "{core.size.default.5}",
-          "type": "borderRadius"
-        },
-        "lg": {
-          "value": "{core.size.default.7}",
-          "type": "borderRadius"
-        },
-        "xl": {
-          "value": "{core.size.default.9}",
-          "type": "borderRadius"
-        }
-      },
-      "width": {
-        "none": {
-          "value": "{core.size.default.none}",
-          "type": "borderWidth"
-        },
-        "sm": {
-          "value": "{core.size.default.0} - 1",
-          "type": "borderWidth"
-        },
-        "md": {
-          "value": "{core.size.default.0}",
-          "type": "borderWidth"
-        },
-        "lg": {
-          "value": "{core.size.default.1}",
-          "type": "borderWidth"
         }
       }
     }

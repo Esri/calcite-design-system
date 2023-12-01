@@ -88,15 +88,15 @@
 }
 
 .fill-danger {
-  background-color: var(--calcite-color-danger);
+  background-color: var(--calcite-color-status-danger);
 }
 
 .fill-success {
-  background-color: var(--calcite-color-success);
+  background-color: var(--calcite-color-status-success);
 }
 
 .fill-warning {
-  background-color: var(--calcite-color-warning);
+  background-color: var(--calcite-color-status-warning);
 }
 
 .solid .fill {
@@ -108,13 +108,13 @@
 }
 
 .solid .fill-danger {
-  box-shadow: 0 0 0 1px var(--calcite-color-danger);
+  box-shadow: 0 0 0 1px var(--calcite-color-status-danger);
 }
 
 .solid .fill-success {
-  box-shadow: 0 0 0 1px var(--calcite-color-success);
+  box-shadow: 0 0 0 1px var(--calcite-color-status-success);
 }
 
 .solid .fill-warning {
-  box-shadow: 0 0 0 1px var(--calcite-color-warning);
+  box-shadow: 0 0 0 1px var(--calcite-color-status-warning);
 }
