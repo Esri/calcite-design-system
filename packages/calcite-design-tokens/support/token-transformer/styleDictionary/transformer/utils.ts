@@ -14,6 +14,7 @@ import { PlatformUnion } from "../../../types/platform.js";
 import { valueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
 import { CalciteValueRGBA } from "./value/valueRGBA.js";
 import { nameSpacePath } from "./name/nameSpacePath.js";
+import { CalciteValueToREM } from "./value/valueToREM.js";
 
 export type TransformerTypeUnion = `${TransformerTypeEnum}`;
 
@@ -49,6 +50,7 @@ export const styles = [
   "ts/shadow/css/shorthand",
   valueAssetToken,
   valueStringWrapper,
+  CalciteValueToREM,
   nameKebabCase,
 ];
 
