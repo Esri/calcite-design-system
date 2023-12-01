@@ -159,10 +159,10 @@ export default {
       boxShadow: {
         0: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
         1: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
-        "1-lg": "var(--calcite-box-shadow-sm)",
+        "1-lg": "var(--calcite-shadow-sm)",
         "1-sm": "0 1px 6px -1px rgba(0, 0, 0, 0.16), 0 1px 2px -1px rgba(0, 0, 0, 0.08)",
         2: "0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08)",
-        "2-lg": "var(--calcite-box-shadow-md)",
+        "2-lg": "var(--calcite-shadow-md)",
         "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
         "border-bottom": "0 1px 0 var(--calcite-color-border-3)",
         "border-top": "0 -1px 0 var(--calcite-color-border-3)",
