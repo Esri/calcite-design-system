@@ -239,8 +239,8 @@ describe("calcite-alert", () => {
       page = await newE2EPage({ html: alertSnippet });
       progressBarStyles = await page.evaluate(() => {
         const alert = document.querySelector("calcite-alert");
-        alert.style.setProperty("--calcite-color-transparent-dismiss", "white");
-        return window.getComputedStyle(alert).getPropertyValue("--calcite-color-transparent-dismiss");
+        alert.style.setProperty("--calcite-alert-dismiss-background", "white");
+        return window.getComputedStyle(alert).getPropertyValue("--calcite-alert-dismiss-background");
       });
       expect(progressBarStyles).toEqual("white");
     });
@@ -270,15 +270,30 @@ describe("calcite-alert", () => {
     it("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(255, 0, 0, 0.5)";
       page = await newE2EPage({
-        html: `
-        <style>
-          :root {
-            --calcite-color-transparent-dismiss: ${overrideStyle};
-          }
-        </style>
-        <div>${alertSnippet}</div>`,
+        html: `<calcite-alert
+        style="--calcite-alert-dismiss-background: ${overrideStyle}"
+        icon="i2DExplore"
+        auto-close
+        auto-close-duration="slow"
+        kind="danger"
+        open
+      >
+        <div slot="message">
+          Successfully duplicated
+          <strong>2019 Sales Demographics by County</strong>
+          layer
+        </div>
+        <calcite-link
+          slot="link"
+          title="my action"
+          role="presentation"
+        >
+          View layer
+        </calcite-link>
+      </calcite-alert>`,
       });
       await page.waitForTimeout(animationDurationInMs);
+
       alertDismissProgressBar = await page.find(`calcite-alert[open] >>> .${CSS.dismissProgress}`);
       progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
       expect(await progressBarStyles.getPropertyValue("background-color")).toEqual(overrideStyle);

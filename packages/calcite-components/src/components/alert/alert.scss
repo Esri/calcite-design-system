@@ -10,6 +10,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 :host {
   --calcite-alert-edge-distance: theme("spacing.8");
+  --calcite-alert-dismiss-background: #rgba(var(--calcite-color-foreground-1), 0.8);
   @apply block;
 }
 
@@ -129,7 +130,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     block;
     block-size: 2px;
     content: "";
-    background-color: var(--calcite-color-transparent-dismiss);
+    background-color: var(--calcite-alert-dismiss-background);
     inset-inline-end: 0;
   }
 }
