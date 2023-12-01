@@ -6,35 +6,35 @@
         "type": "spacing"
       },
       "base": {
-        "value": "{core.size.default.0}",
-        "type": "spacing"
-      },
-      "half": {
         "value": "{core.size.default.2}",
         "type": "spacing"
       },
+      "half": {
+        "value": "{core.size.default.6}",
+        "type": "spacing"
+      },
       "double": {
-        "value": "{core.size.default.8}",
+        "value": "{core.size.default.20}",
         "type": "spacing"
       },
       "xs": {
-        "value": "{core.size.default.1}",
+        "value": "{core.size.default.4}",
         "type": "spacing"
       },
       "sm": {
-        "value": "{core.size.default.3}",
+        "value": "{core.size.default.8}",
         "type": "spacing"
       },
       "md": {
-        "value": "{core.size.default.5}",
+        "value": "{core.size.default.12}",
         "type": "spacing"
       },
       "lg": {
-        "value": "{core.size.default.7}",
+        "value": "{core.size.default.16}",
         "type": "spacing"
       },
       "xl": {
-        "value": "{core.size.default.8}",
+        "value": "{core.size.default.20}",
         "type": "spacing"
       }
     }
