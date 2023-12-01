@@ -130,7 +130,7 @@ export class Modal
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
-  /** Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`). */
+  /** Sets the component to always be fullscreen (overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component (will apply to top border). */
