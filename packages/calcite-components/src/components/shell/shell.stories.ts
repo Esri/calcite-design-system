@@ -1323,3 +1323,29 @@ position:relative;
 overlayDisplayMode_TestOnly.parameters = {
   chromatic: { delay: 500 },
 };
+
+export const panelEndWithPositionStart_TestOnly = (): string => html`<calcite-shell>
+  <calcite-shell-panel slot="panel-start" width-scale="l" position="start" display-mode="block" resizable>
+    <calcite-action-bar slot="action-bar">
+      <calcite-action text="Save" icon="save" indicator></calcite-action>
+      <calcite-action active icon="map" text="Map"></calcite-action>
+      <calcite-action icon="layer" text="Layer"></calcite-action>
+    </calcite-action-bar>
+    <calcite-panel heading="Map Options">
+      <calcite-button width="half" slot="footer"> Next </calcite-button>
+      <calcite-block collapsible heading="Layer effects" description="Adjust blur, highlight, and more">
+        <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
+        <calcite-notice open>
+          <div slot="message">Use layer effects sparingly, for emphasis</div>
+        </calcite-notice>
+      </calcite-block>
+      <calcite-block collapsible heading="Symbology" description="Select type, color, and transparency">
+        <calcite-icon scale="s" slot="icon" icon="map-pin"></calcite-icon>
+        <calcite-notice open>
+          <div slot="message">The viewers are going to love this</div>
+        </calcite-notice>
+      </calcite-block>
+      <calcite-fab slot="fab"></calcite-fab>
+    </calcite-panel>
+  </calcite-shell-panel>
+</calcite-shell>`;
