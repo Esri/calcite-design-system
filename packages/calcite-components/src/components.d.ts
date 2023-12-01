@@ -1515,7 +1515,7 @@ export namespace Components {
     /**
      * Specifies the width of the component.
      */
-    width: Scale;
+    widthScale: Scale;
   }
   interface CalciteDropdownGroup {
     /**
@@ -3070,7 +3070,7 @@ export namespace Components {
      */
     focusTrapDisabled: boolean;
     /**
-     * Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`).
+     * Sets the component to always be fullscreen (overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`).
      */
     fullscreen: boolean;
     /**
@@ -3122,7 +3122,7 @@ export namespace Components {
     /**
      * Specifies the width of the component.
      */
-    width: Scale;
+    widthScale: Scale;
   }
   interface CalciteNavigation {
     /**
@@ -11462,7 +11462,7 @@ declare namespace LocalJSX {
     /**
      * Specifies the width of the component.
      */
-    width?: Scale;
+    widthScale?: Scale;
   }
   interface CalciteDropdownGroup {
     /**
@@ -13081,7 +13081,7 @@ declare namespace LocalJSX {
      */
     focusTrapDisabled?: boolean;
     /**
-     * Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`).
+     * Sets the component to always be fullscreen (overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`).
      */
     fullscreen?: boolean;
     /**
@@ -13135,7 +13135,7 @@ declare namespace LocalJSX {
     /**
      * Specifies the width of the component.
      */
-    width?: Scale;
+    widthScale?: Scale;
   }
   interface CalciteNavigation {
     /**
