@@ -47,8 +47,14 @@ function logBlur() {
 ```html
 <calcite-label for="invalid-input">
   Invalid input
-  <calcite-input status="invalid" id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message status="invalid" icon> Something doesn't look right </calcite-input-message>
+  <calcite-input
+    status="invalid"
+    id="invalid-input"
+    placeholder="Filter your files"
+    value="adfo2h2"
+    message-text="Something doesn't look right"
+    message-icon
+  ></calcite-input>
 </calcite-label>
 ```
 
@@ -62,10 +68,9 @@ function logBlur() {
     status="invalid"
     placeholder="Enter your subdomain"
     value="i-love-maps"
+    message-text="Apologies, this subdomain has already been registered."
+    message-icon="frown"
   ></calcite-input>
-  <calcite-input-message icon="frown" status="invalid">
-    Apologies, this subdomain has already been registered.
-  </calcite-input-message>
 </calcite-label>
 ```
 
