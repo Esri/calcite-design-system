@@ -15,8 +15,6 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 
-import { CoreSizing15 } from "@esri/calcite-design-tokens/dist/es6/calcite-headless";
-import { getIconScale } from "../../utils/component";
 import {
   getElementWidth,
   getTextWidth,
@@ -68,12 +66,14 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
+import { XButton, CSS as XButtonCSS } from "../functional/XButton";
+import { getIconScale } from "../../utils/component";
+import { CoreSizing15 } from "@esri/calcite-design-tokens/dist/es6/calcite-headless";
 
 interface ItemData {
   label: string;

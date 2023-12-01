@@ -13,8 +13,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { FocusTrap } from "focus-trap";
-import { getIconScale } from "../../utils/component";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -38,19 +36,12 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrapComponent,
-} from "../../utils/focusTrapComponent";
-import {
   connectForm,
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
   submitForm,
 } from "../../utils/form";
-import { guid } from "../../utils/guid";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -74,14 +65,23 @@ import {
   numberStringFormatter,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { Status } from "../interfaces";
-import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import { CSS } from "./resources";
-import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
+import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
+import {
+  activateFocusTrap,
+  connectFocusTrap,
+  deactivateFocusTrap,
+  FocusTrapComponent,
+} from "../../utils/focusTrapComponent";
+import { FocusTrap } from "focus-trap";
+import { guid } from "../../utils/guid";
+import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { getIconScale } from "../../utils/component";
+import { Status } from "../interfaces";
 
 @Component({
   tag: "calcite-input-date-picker",

@@ -1,34 +1,20 @@
 import {
   Component,
+  h,
+  Prop,
   Element,
   Event,
   EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-  State,
   VNode,
   Watch,
+  Method,
+  Host,
+  State,
 } from "@stencil/core";
-import { throttle } from "lodash-es";
-import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
-import { guid } from "../../utils/guid";
-import {
-  connectInteractive,
-  disconnectInteractive,
-  InteractiveComponent,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -38,16 +24,30 @@ import {
 } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import {
+  componentFocusable,
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
+import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Status } from "../interfaces";
 import { TextAreaMessages } from "./assets/text-area/t9n";
+import { throttle } from "lodash-es";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { CharacterLengthObj } from "./interfaces";
-import { CSS, RESIZE_TIMEOUT, SLOTS } from "./resources";
+import { guid } from "../../utils/guid";
+import { Status } from "../interfaces";
 
 /**
  * @slot - A slot for adding text.

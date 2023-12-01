@@ -1,8 +1,8 @@
-import { number, select, text } from "@storybook/addon-knobs";
+import { select, text, number } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
 import readme from "./readme.md";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Input",

@@ -11,7 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getIconScale } from "../../utils/component";
 import { focusElement } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
@@ -26,7 +25,7 @@ import {
   InteractiveComponent,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
@@ -36,6 +35,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { CSS } from "./resources";
+import { getIconScale } from "../../utils/component";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
