@@ -140,6 +140,15 @@ textarea {
   }
 }
 
+:host([status="invalid"]) {
+  textarea {
+    @apply border-color-danger;
+  }
+  textarea:focus {
+    @apply focus-inset-danger;
+  }
+}
+
 .readonly {
   @apply bg-background font-medium;
 }

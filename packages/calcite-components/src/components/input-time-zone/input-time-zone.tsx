@@ -20,7 +20,7 @@ import {
   SupportedLocale,
 } from "../../utils/locale";
 import { TimeZoneItem, TimeZoneMode } from "./interfaces";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -156,6 +156,9 @@ export class InputTimeZone
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
@@ -381,6 +384,7 @@ export class InputTimeZone
           overlayPositioning={this.overlayPositioning}
           scale={this.scale}
           selectionMode="single-persist"
+          status={this.status}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setComboboxRef}
         >

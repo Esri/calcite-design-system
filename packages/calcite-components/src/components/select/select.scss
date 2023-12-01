@@ -105,6 +105,17 @@ select:disabled {
   border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
 }
 
+:host([status="invalid"]) {
+  select,
+  .icon-container {
+    @apply border-color-danger;
+  }
+  select:focus,
+  .icon-container:focus {
+    @apply focus-inset-danger;
+  }
+}
+
 .select:focus ~ .icon-container {
   @apply border-color-transparent;
 }
