@@ -374,12 +374,15 @@ export class Dropdown
     this.closeCalciteDropdown();
   }
 
+  private getTraversableItems(): HTMLCalciteDropdownItemElement[] {
+    return this.items.filter((item) => !item.disabled);
+  }
+
   @Listen("calciteInternalDropdownItemKeyEvent")
   calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = event.detail;
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
-
-    const traversableItems = this.items.filter((item) => !item.disabled);
+    const traversableItems = this.getTraversableItems();
 
     switch (keyboardEvent.key) {
       case "Tab":
@@ -647,7 +650,9 @@ export class Dropdown
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
+    this.getFocusableElement(
+      this.getTraversableItems().find((item) => item.selected) || this.items[0]
+    );
   };
 
   private getFocusableElement(item): void {
