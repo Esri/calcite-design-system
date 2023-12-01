@@ -72,6 +72,27 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
+export const textarea_TestOnly = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input
+      id="input-with-text-area"
+      type="textarea"
+      ${boolean("loading", false)}
+      ${boolean("clearable", false)}
+      ${boolean("disabled", false)}
+      prefix-text="${text("prefix-text", "")}"
+      suffix-text="${text("suffix-text", "")}"
+      value="${text("value", "")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
+      placeholder="${text("placeholder", "Placeholder text")}"
+      message-text="${text("message-text", "My great input message")}"
+      message-icon="${select("message-icon", ["", ...iconNames], "")}"
+    >
+    </calcite-input>
+  </div>
+`;
+
 export const disabled_TestOnly = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
 export const darkModeRTL_TestOnly = (): string => html`

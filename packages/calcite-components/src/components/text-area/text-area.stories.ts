@@ -96,8 +96,8 @@ export const validationMessageAllScales_TestOnly = (): string =>
         display: flex;
         flex-direction: column;
         width: 420px;
-        height: 200px;
-        gap: 50px;
+        height: 80px;
+        gap: 45px;
       }
     </style>
     <div class="container">
