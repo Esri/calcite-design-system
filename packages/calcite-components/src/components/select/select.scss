@@ -104,17 +104,6 @@ select:disabled {
   @apply border-color-input bg-opacity-100;
 }
 
-:host([status="invalid"]) {
-  select,
-  .icon-container {
-    @apply border-color-danger;
-  }
-  select:focus,
-  .icon-container:focus {
-    @apply focus-inset-danger;
-  }
-}
-
 .icon-container {
   @apply border-color-input
     text-color-2

@@ -51,6 +51,22 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
           return this;
         },
       },
+      {
+        name: "message-text",
+        commit(): Attribute {
+          this.value = text("message-text", "", group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "message-icon",
+        commit(): Attribute {
+          this.value = select("message-icon", ["", ...iconNames], "", group);
+          delete this.build;
+          return this;
+        },
+      },
     ],
     exceptions
   );
@@ -76,12 +92,6 @@ const createOptionAttributes: () => Attributes = () => {
       name: "value",
       value: text("value", "value", group),
     },
-    {
-      name: "status",
-      value: select("status", ["idle", "invalid", "valid"], "idle", group),
-    },
-    { name: "message-text", value: text("message-text", "", group) },
-    { name: "message-icon", value: select("message-icon", ["", ...iconNames], "", group) },
   ];
 };
 

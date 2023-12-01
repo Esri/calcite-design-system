@@ -1,19 +1,19 @@
 export const CSS = {
-  actionWrapper: "action-wrapper",
-  buttonItemHorizontal: "number-button-item--horizontal",
+  loader: "loader",
   clearButton: "clear-button",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
   inputIcon: "icon",
-  inputWrapper: "wrapper",
-  loader: "loader",
-  messageContainer: "message-container",
-  numberButtonItem: "number-button-item",
-  numberButtonWrapper: "number-button-wrapper",
   prefix: "prefix",
-  resizeIconWrapper: "resize-icon-wrapper",
   suffix: "suffix",
+  numberButtonWrapper: "number-button-wrapper",
+  buttonItemHorizontal: "number-button-item--horizontal",
   wrapper: "element-wrapper",
+  inputWrapper: "wrapper",
+  actionWrapper: "action-wrapper",
+  resizeIconWrapper: "resize-icon-wrapper",
+  numberButtonItem: "number-button-item",
+  messageContainer: "message-container",
 };
 
 export const SLOTS = {

@@ -50,7 +50,6 @@ export const withSlottedAction = (): string => html`
         ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
         "text"
       )}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
       min="${number("min", 0)}"
