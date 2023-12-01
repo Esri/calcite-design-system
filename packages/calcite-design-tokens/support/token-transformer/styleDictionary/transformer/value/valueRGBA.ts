@@ -6,6 +6,10 @@ import { Matcher } from "style-dictionary/types/Matcher.js";
 const matchRGBA = (value: string) => value.match(/(rgba?).+(\#[0-9A-z]+)/g);
 
 export const matcher: Matcher = (token) => {
+  if (!["color", "shadow", "boxShadow"].includes(token.type)) {
+    return false;
+  }
+
   if (typeof token.value === "string") {
     return !!matchRGBA(token.value);
   }

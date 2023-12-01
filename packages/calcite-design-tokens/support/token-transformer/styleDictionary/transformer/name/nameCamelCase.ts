@@ -5,16 +5,9 @@ import { CalledTransformerFunction, TransformerConfig } from "../utils.js";
 import { parseTokenPath } from "../utils/parseTokenPath.js";
 
 export const transformNamesCamelCase: CalledTransformerFunction<string> = (token, args) => {
-  const [tokenPath, hasNegativeKey] = parseTokenPath(token.path);
+  const tokenPath = parseTokenPath(token.path);
   let tokenNameInParamCase = camelCase([].concat(args.options?.prefix, tokenPath).join(" "));
-
-  if (hasNegativeKey.length > 0) {
-    hasNegativeKey.forEach((originalKey) => {
-      const paramCasedKey = originalKey.replaceAll("-", "");
-      const updatedToken = tokenNameInParamCase.replace(paramCasedKey, originalKey.replaceAll("-", "_"));
-      tokenNameInParamCase = updatedToken;
-    });
-  }
+  tokenNameInParamCase = tokenNameInParamCase.replaceAll("_", "");
 
   return tokenNameInParamCase;
 };
