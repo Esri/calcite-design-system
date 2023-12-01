@@ -1325,7 +1325,7 @@ overlayDisplayMode_TestOnly.parameters = {
 };
 
 export const panelEndWithPositionStart_TestOnly = (): string => html`<calcite-shell>
-  <calcite-shell-panel slot="panel-start" width-scale="l" position="start" display-mode="block" resizable>
+  <calcite-shell-panel slot="panel-end" width-scale="l" position="start" display-mode="block" resizable>
     <calcite-action-bar slot="action-bar">
       <calcite-action text="Save" icon="save" indicator></calcite-action>
       <calcite-action active icon="map" text="Map"></calcite-action>
