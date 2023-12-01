@@ -17,7 +17,7 @@ export const transformNamesSet: CalledTransformerFunction<string> = (token, args
       ? transformNamesKebabCase(token, args)
       : transformNamesCamelCase(token, args),
   };
-  return platform === Platform.JSON || platform === Platform.JS
+  return platform === Platform.DOCS || platform === Platform.JS
     ? transformNamesJoinPath(token, args)
     : createTokenReference(t, args);
 };

@@ -2,7 +2,7 @@ export const enum Platform {
   CSS = "css",
   SCSS = "scss",
   SASS = "sass",
-  JSON = "json",
+  DOCS = "docs",
   JS = "js",
   ES6 = "es6",
 }
