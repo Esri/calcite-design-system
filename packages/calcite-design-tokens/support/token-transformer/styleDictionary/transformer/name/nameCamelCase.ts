@@ -6,7 +6,8 @@ import { parseTokenPath } from "../utils/parseTokenPath.js";
 
 export const transformNamesCamelCase: CalledTransformerFunction<string> = (token, args) => {
   const tokenPath = parseTokenPath(token.path);
-  const tokenNameInParamCase = camelCase([].concat(args.options?.prefix, tokenPath).join(" "));
+  let tokenNameInParamCase = camelCase([].concat(args.options?.prefix, tokenPath).join(" "));
+  tokenNameInParamCase = tokenNameInParamCase.replaceAll("_", "");
 
   return tokenNameInParamCase;
 };

@@ -5,56 +5,41 @@
  * @param {string[]} path the path to each token value in the Style Dictionary token object
  * @returns {string[]} an updated token path
  */
-export const parseTokenPath = (path: string[]): string[] =>
-  path.reduce((acc, p) => {
-    const tokenPath = acc;
+export const parseTokenPath = (path: string[]): string[] => {
+  const parsedPath = [];
+
+  for (let i = 0; i < path.length; i++) {
+    const p = path[i];
 
     switch (p) {
       case "core":
       case "default":
       case "semantic":
-        return acc;
+        continue;
       default:
-        const priorPathSection = tokenPath.pop();
-        let str = "";
+        const priorPathSection = parsedPath.pop();
 
-        for (let i = 0; i < p.length; i++) {
-          const s = p[i];
-          if (s === "-" || s === "+") {
-            if (str.includes(priorPathSection)) {
-              tokenPath.push(str);
-            } else {
-              tokenPath.push(priorPathSection);
-              tokenPath.push(str);
+        if (p.length > 0) {
+          if (p.includes(priorPathSection)) {
+            if (p[0] === "-") {
+              parsedPath.push("minus");
             }
-
-            str = "";
-
-            if (s === "-") {
-              tokenPath.push("minus");
-            }
-
-            if (s === "+") {
-              tokenPath.push("plus");
-            }
+            parsedPath.push(p);
           } else {
-            str += s;
+            parsedPath.push(priorPathSection);
+            if (p[0] === "-") {
+              parsedPath.push("minus");
+            }
+            parsedPath.push(p);
           }
         }
 
-        if (str.length > 0) {
-          if (str.includes(priorPathSection)) {
-            tokenPath.push(str);
-          } else {
-            tokenPath.push(priorPathSection);
-            tokenPath.push(str);
-          }
-
-          str = "";
+        if (p[p.length - 1] === "+") {
+          parsedPath.push("plus");
         }
 
         break;
     }
-
-    return tokenPath;
-  }, [] as string[]);
+  }
+  return parsedPath;
+};

@@ -7,7 +7,10 @@ export const transformNamesSpacePath: CalledTransformerFunction<string> = (token
   const tokenPath = parseTokenPath(
     [].concat(args.options?.prefix, token.path).filter((p) => p && p !== args?.options?.prefix)
   );
-  const name = capitalCase(tokenPath.join(" "));
+  let name = capitalCase(tokenPath.join(" "));
+
+  name = name.replaceAll(/Minus\s?/g, "-");
+  name = name.replaceAll(/Plus\s?/g, "+");
 
   return name;
 };
