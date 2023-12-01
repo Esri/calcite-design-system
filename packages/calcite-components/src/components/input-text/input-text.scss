@@ -112,14 +112,6 @@ input {
   }
 }
 
-.message-container {
-  padding-block-start: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
-}
-
 // states
 input {
   @apply text-color-1
@@ -345,5 +337,6 @@ input[type="text"]::-ms-reveal {
   padding-inline-start: 0;
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();

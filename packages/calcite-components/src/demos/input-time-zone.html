@@ -78,6 +78,36 @@
       </div>
 
       <div class="parent">
+        <div class="child right-aligned-text">Basic (offset mode) + validation message</div>
+        <div class="child">
+          <calcite-input-time-zone
+            scale="s"
+            status="invalid"
+            message-icon
+            message-text="This field is required."
+          ></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone
+            scale="m"
+            status="invalid"
+            message-icon
+            message-text="This field is required."
+          ></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone
+            scale="l"
+            status="invalid"
+            message-icon
+            message-text="This field is required."
+          ></calcite-input-time-zone>
+        </div>
+      </div>
+
+      <div class="parent">
         <div class="child right-aligned-text">name mode</div>
         <div class="child">
           <calcite-input-time-zone scale="s" mode="name"></calcite-input-time-zone>

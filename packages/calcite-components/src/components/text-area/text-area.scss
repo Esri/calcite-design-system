@@ -149,14 +149,6 @@ textarea {
   }
 }
 
-.message-container {
-  padding-block-start: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
-}
-
 .readonly {
   @apply bg-background font-medium;
 }
@@ -198,6 +190,7 @@ textarea.block-size--full {
   @apply sr-only;
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include disabled();
 @include base-component();

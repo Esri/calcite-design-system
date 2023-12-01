@@ -29,14 +29,6 @@
   @apply relative;
 }
 
-.message-container {
-  padding-block-start: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
-}
-
 .toggle-icon {
   @apply absolute flex cursor-pointer items-center;
   inset-inline-end: 0;
@@ -44,4 +36,5 @@
   padding-inline: var(--calcite-toggle-spacing);
 }
 
+@include form-validation-message();
 @include base-component();

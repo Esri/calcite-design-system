@@ -206,14 +206,6 @@
   @apply sr-only;
 }
 
-.message-container {
-  padding-block-start: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
-}
-
 .list-container {
   @apply bg-foreground-1
     max-h-menu
@@ -250,6 +242,7 @@ calcite-chip {
   @apply block;
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();
 
