@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Prop, State, VNode } from "@stencil/core";
+import { Component, Element, Fragment, h, Listen, Prop, State, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -38,6 +38,18 @@ export class Shell implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) contentBehind = false;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("calciteInternalShellPanelResize")
+  handleCalciteInternalShellPanelResize(event: CustomEvent<{ resizing: boolean }>): void {
+    this.resizing = !!event.detail?.resizing;
+    event.stopPropagation();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -55,6 +67,8 @@ export class Shell implements ConditionalSlotComponent {
   @State() hasModals = false;
 
   @State() hasSheets = false;
+
+  @State() resizing = false;
 
   // --------------------------------------------------------------------------
   //
@@ -158,7 +172,13 @@ export class Shell implements ConditionalSlotComponent {
   }
 
   renderContent(): VNode[] {
+    const { resizing } = this;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const defaultSlotContainerNode = resizing ? (
+      <div class={CSS.contentResizing}>{defaultSlotNode}</div>
+    ) : (
+      defaultSlotNode
+    );
     const deprecatedCenterRowSlotNode: VNode = (
       <slot key="center-row-slot" name={SLOTS.centerRow} />
     );
@@ -176,7 +196,7 @@ export class Shell implements ConditionalSlotComponent {
             }}
             key={contentContainerKey}
           >
-            {defaultSlotNode}
+            {defaultSlotContainerNode}
           </div>,
           <div class={CSS.contentBehindCenterContent}>
             {panelTopSlotNode}
@@ -187,7 +207,7 @@ export class Shell implements ConditionalSlotComponent {
       : [
           <div class={CSS.content} key={contentContainerKey}>
             {panelTopSlotNode}
-            {defaultSlotNode}
+            {defaultSlotContainerNode}
             {panelBottomSlotNode}
             {deprecatedCenterRowSlotNode}
           </div>,

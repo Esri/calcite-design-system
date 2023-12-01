@@ -1,4 +1,15 @@
-import { Component, Element, forceUpdate, h, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  forceUpdate,
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -215,6 +226,19 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   @State() hasHeader = false;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalShellPanelResize: EventEmitter<{
+    resizing: boolean;
+  }>;
 
   // --------------------------------------------------------------------------
   //
@@ -577,6 +601,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       return;
     }
 
+    this.calciteInternalShellPanelResize.emit({ resizing: false });
+
     event.preventDefault();
     window.removeEventListener("pointerup", this.separatorPointerUp);
     window.removeEventListener("pointermove", this.separatorPointerMove);
@@ -594,6 +620,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     if (!isPrimaryPointerButton(event)) {
       return;
     }
+
+    this.calciteInternalShellPanelResize.emit({ resizing: true });
 
     event.preventDefault();
     const { separatorEl } = this;
