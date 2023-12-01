@@ -379,22 +379,24 @@ export class Dropdown
     const { keyboardEvent } = event.detail;
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
 
+    const traversableItems = this.items.filter((item) => !item.disabled);
+
     switch (keyboardEvent.key) {
       case "Tab":
         this.open = false;
         this.updateTabIndexOfItems(target);
         break;
       case "ArrowDown":
-        focusElementInGroup(this.items, target, "next");
+        focusElementInGroup(traversableItems, target, "next");
         break;
       case "ArrowUp":
-        focusElementInGroup(this.items, target, "previous");
+        focusElementInGroup(traversableItems, target, "previous");
         break;
       case "Home":
-        focusElementInGroup(this.items, target, "first");
+        focusElementInGroup(traversableItems, target, "first");
         break;
       case "End":
-        focusElementInGroup(this.items, target, "last");
+        focusElementInGroup(traversableItems, target, "last");
         break;
     }
 
