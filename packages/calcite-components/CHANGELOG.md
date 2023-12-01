@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.6...@esri/calcite-components@1.12.0-next.7) (2023-12-01)
+
+### Bug Fixes
+
+- **label:** associate label to component when `for` prop is set after initialization ([#8309](https://github.com/Esri/calcite-design-system/issues/8309)) ([e81b650](https://github.com/Esri/calcite-design-system/commit/e81b650ae66b413d19eb567c3766f813dfa322c7)), closes [#7364](https://github.com/Esri/calcite-design-system/issues/7364)
+
 ## [1.12.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.5...@esri/calcite-components@1.12.0-next.6) (2023-12-01)
 
 ### Features
