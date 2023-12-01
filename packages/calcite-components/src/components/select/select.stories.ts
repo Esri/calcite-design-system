@@ -27,6 +27,30 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
           return this;
         },
       },
+      {
+        name: "status",
+        commit(): Attribute {
+          this.value = select("status", ["idle", "invalid", "valid"], "idle", group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "width",
+        commit(): Attribute {
+          this.value = select("width", ["auto", "full", "half"], "auto", group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "scale",
+        commit(): Attribute {
+          this.value = select("scale", ["s", "m", "l"], "m", group);
+          delete this.build;
+          return this;
+        },
+      },
     ],
     exceptions
   );
