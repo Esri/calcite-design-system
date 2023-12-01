@@ -51,14 +51,14 @@ describe("Set transformed name to token reference based on current platform", ()
       });
     });
 
-    describe("handle json format", () => {
+    describe("handle docs format", () => {
       it("should transform a token name to a token reference", () => {
         const token = {
           name: "some fake name",
           path: ["tier", "group", "element", "property", "state"],
         } as TransformedToken;
         const args = {
-          options: { platform: "json" },
+          options: { platform: "docs" },
         } as TransformerArgs;
         const transformedName = transformNamesSet(token, args);
         expect(transformedName).toBe("tier.group.element.property.state");
