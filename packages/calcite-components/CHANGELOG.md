@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.5...@esri/calcite-components@1.12.0-next.6) (2023-12-01)
+
+### Features
+
+- **combobox, checkbox, input-time-zone, select, text-area:** add `status` property ([#8304](https://github.com/Esri/calcite-design-system/issues/8304)) ([a44e9fe](https://github.com/Esri/calcite-design-system/commit/a44e9fe2fb3e964d2fb28871c1ed8d07fdda6800)), closes [#8057](https://github.com/Esri/calcite-design-system/issues/8057) [#3406](https://github.com/Esri/calcite-design-system/issues/3406) [#8305](https://github.com/Esri/calcite-design-system/issues/8305)
+
 ## [1.12.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.12.0-next.4...@esri/calcite-components@1.12.0-next.5) (2023-11-30)
 
 ### Bug Fixes
