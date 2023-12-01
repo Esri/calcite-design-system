@@ -2,15 +2,15 @@
   "core": {
     "font": {
       "family": {
-        "primary": {
+        "avenirNextPro": {
           "value": "Avenir Next LT Pro",
           "type": "fontFamilies"
         },
-        "secondary": {
+        "avenirNextWorld": {
           "value": "Avenir Next World",
           "type": "fontFamilies"
         },
-        "code": {
+        "monaco": {
           "value": "Monaco",
           "type": "fontFamilies"
         }

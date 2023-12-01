@@ -3,7 +3,7 @@
     "font": {
       "family": {
         "default": {
-          "value": "{core.font.family.primary}",
+          "value": "{core.font.family.avenirNextPro}",
           "type": "fontFamilies"
         }
       },
