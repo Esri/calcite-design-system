@@ -7,7 +7,7 @@
           "type": "borderWidth"
         },
         "sm": {
-          "value": "{core.size.default.2} - 1",
+          "value": "{core.size.default.1}",
           "type": "borderWidth"
         },
         "md": {
@@ -23,11 +23,7 @@
     "corner": {
       "radius": {
         "default": {
-          "value": "{core.size.default.none}",
-          "type": "borderRadius"
-        },
-        "none": {
-          "value": "{core.size.default.none}",
+          "value": "{semantic.corner.radius.sharp}",
           "type": "borderRadius"
         },
         "sharp": {
@@ -38,28 +34,8 @@
           "value": "{core.size.default.4}",
           "type": "borderRadius"
         },
-        "circular": {
-          "value": "{core.size.relative.50}",
-          "type": "borderRadius"
-        },
         "pill": {
           "value": "{core.size.relative.100}",
-          "type": "borderRadius"
-        },
-        "sm": {
-          "value": "{core.size.default.4}",
-          "type": "borderRadius"
-        },
-        "md": {
-          "value": "{core.size.default.12}",
-          "type": "borderRadius"
-        },
-        "lg": {
-          "value": "{core.size.default.16}",
-          "type": "borderRadius"
-        },
-        "xl": {
-          "value": "{core.size.default.24}",
           "type": "borderRadius"
         }
       }

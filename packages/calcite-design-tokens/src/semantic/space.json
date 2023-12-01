@@ -1,24 +1,20 @@
 {
   "semantic": {
     "spacing": {
-      "none": {
-        "value": "{core.size.default.none}",
+      "px": {
+        "value": "{core.size.default.1}",
         "type": "spacing"
       },
       "base": {
         "value": "{core.size.default.2}",
         "type": "spacing"
       },
-      "half": {
-        "value": "{core.size.default.6}",
-        "type": "spacing"
-      },
-      "double": {
-        "value": "{core.size.default.20}",
+      "xxs": {
+        "value": "{core.size.default.4}",
         "type": "spacing"
       },
       "xs": {
-        "value": "{core.size.default.4}",
+        "value": "{core.size.default.6}",
         "type": "spacing"
       },
       "sm": {
@@ -30,11 +26,27 @@
         "type": "spacing"
       },
       "lg": {
-        "value": "{core.size.default.16}",
+        "value": "{core.size.default.14}",
         "type": "spacing"
       },
       "xl": {
+        "value": "{core.size.default.16}",
+        "type": "spacing"
+      },
+      "xxl": {
         "value": "{core.size.default.20}",
+        "type": "spacing"
+      },
+      "xxxl": {
+        "value": "{core.size.default.32}",
+        "type": "spacing"
+      },
+      "overlap": {
+        "value": "{core.size.default.-9999}",
+        "type": "spacing"
+      },
+      "overlapBorder": {
+        "value": "{core.size.default.1} * -1",
         "type": "spacing"
       }
     }
