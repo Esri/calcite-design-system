@@ -1,7 +1,7 @@
 export const CSS = {
-  container: "split-button__container",
-  dividerContainer: "split-button__divider-container",
-  divider: "split-button__divider",
+  container: "container",
+  dividerContainer: "divider-container",
+  divider: "divider",
   widthAuto: "width-auto",
   widthHalf: "width-half",
   widthFull: "width-full",

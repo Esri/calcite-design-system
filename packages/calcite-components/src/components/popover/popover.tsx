@@ -192,12 +192,8 @@ export class Popover
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
-
-    if (value) {
-      this.reposition(true);
-    }
 
     this.setExpandedAttr();
   }
@@ -304,6 +300,7 @@ export class Popover
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -502,6 +499,7 @@ export class Popover
   };
 
   onBeforeOpen(): void {
+    this.reposition(true);
     this.calcitePopoverBeforeOpen.emit();
   }
 
@@ -517,6 +515,7 @@ export class Popover
   onClose(): void {
     this.calcitePopoverClose.emit();
     deactivateFocusTrap(this);
+    this.reposition(true);
   }
 
   storeArrowEl = (el: SVGElement): void => {

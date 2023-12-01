@@ -24,6 +24,7 @@ jobs:
       - name: e2e test
         run: |
           npm install
+          npm run build
           npm test
       - name: storybook/next deployment
         env:

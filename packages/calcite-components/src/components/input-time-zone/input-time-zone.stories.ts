@@ -22,6 +22,7 @@ export const simple = (): string => html`
     ${boolean("disabled", false)}
     mode="${select("mode", ["offset", "name"], "offset")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
   ></calcite-input-time-zone>
 `;
 

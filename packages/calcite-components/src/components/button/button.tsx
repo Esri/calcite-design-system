@@ -32,6 +32,7 @@ import {
   unwatchGlobalAttributes,
   watchGlobalAttributes,
 } from "../../utils/globalAttributes";
+import { toAriaBoolean } from "../../utils/dom";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -258,6 +259,7 @@ export class Button
 
     return (
       <Tag
+        aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
         aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
         aria-live="polite"
         class={{
@@ -267,7 +269,7 @@ export class Button
           [CSS.iconStartEmpty]: !this.iconStart,
           [CSS.iconEndEmpty]: !this.iconEnd,
         }}
-        disabled={this.disabled || this.loading}
+        disabled={childElType === "button" ? this.disabled || this.loading : null}
         href={childElType === "a" && this.href}
         name={childElType === "button" && this.name}
         onClick={this.handleClick}

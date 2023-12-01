@@ -14,10 +14,11 @@ export default {
 export const simple = (): string => html`
   <calcite-text-area
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     placeholder="${text("placeholder", "Add Notes")}"
     ${boolean("disabled", false)}
     columns="${number("columns", 20)}"
-    resize="${text("resize", "both")}
+    resize="${text("resize", "both")}"
     rows="${number("rows", 2)}"
     label="${text("label", "")}"
     name="${text("name", "")}"

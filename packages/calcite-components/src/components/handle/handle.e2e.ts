@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-handle", () => {
@@ -9,6 +9,10 @@ describe("calcite-handle", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-handle");
+  });
+
+  describe("disabled", () => {
+    disabled("calcite-handle");
   });
 
   describe("accessible", () => {

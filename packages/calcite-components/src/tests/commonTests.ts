@@ -646,6 +646,30 @@ export function labelable(
         shadowFocusTargetSelector,
       });
     });
+
+    it("is labelable when label's for is set after initialization", async () => {
+      const siblingHtml = html`
+        <calcite-label>${labelTitle}</calcite-label>
+        ${componentHtml}
+      `;
+      const siblingPage: E2EPage = await newE2EPage();
+      beforeContent?.(siblingPage);
+
+      await siblingPage.setContent(siblingHtml);
+      await siblingPage.waitForChanges();
+
+      const label = await siblingPage.find("calcite-label");
+      label.setProperty("for", id);
+      await siblingPage.waitForChanges();
+
+      await assertLabelable({
+        page: siblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
   });
 }
 
@@ -1598,7 +1622,7 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
   it(`emits with animations enabled`, async () => {
     const page = await simplePageSetup(componentTagOrHTML);
     await skipAnimations(page);
-    setUpPage(componentTagOrHTML, page);
+    await setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
@@ -1611,14 +1635,14 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
         }
       `,
     });
-    setUpPage(componentTagOrHTML, page);
+    await setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
   it("emits on initialization with animations enabled", async () => {
     const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
-    setUpPage(componentTagOrHTML, page);
+    await setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 
@@ -1631,7 +1655,7 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
         }
       `,
     });
-    setUpPage(componentTagOrHTML, page);
+    await setUpPage(componentTagOrHTML, page);
     await testOpenCloseEvents(componentTagOrHTML, page);
   });
 }

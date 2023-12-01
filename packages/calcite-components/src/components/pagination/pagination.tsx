@@ -35,7 +35,7 @@ import { Scale } from "../interfaces";
 import { PaginationMessages } from "./assets/pagination/t9n";
 import { CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
-import { Breakpoints, getBreakpoints } from "../../utils/responsive";
+import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 
 export interface PaginationDetail {
@@ -52,6 +52,7 @@ const maxItemBreakpoints = {
   medium: 9,
   small: 7,
   xsmall: 5,
+  xxsmall: 1,
 };
 
 @Component({
@@ -147,11 +148,28 @@ export class Pagination
     };
   }
 
-  @State() maxItems = maxItemBreakpoints.xsmall;
+  @State() maxItems = maxItemBreakpoints.xxsmall;
 
   @State() totalPages: number;
 
-  private breakpoints: Breakpoints;
+  @State() lastStartItem: number;
+
+  @Watch("totalItems")
+  @Watch("pageSize")
+  @Watch("totalPages")
+  handleLastStartItemChange(): void {
+    const { totalItems, pageSize, totalPages } = this;
+
+    this.lastStartItem =
+      (totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize) + 1;
+  }
+
+  @State() isXXSmall: boolean;
+
+  @Watch("maxItems")
+  handleIsXXSmall(): void {
+    this.isXXSmall = this.maxItems === maxItemBreakpoints.xxsmall;
+  }
 
   private resizeObserver = createObserver("resize", (entries) =>
     entries.forEach(this.resizeHandler)
@@ -181,10 +199,11 @@ export class Pagination
   }
 
   async componentWillLoad(): Promise<void> {
-    const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
-    this.breakpoints = breakpoints;
+    await setUpMessages(this);
     setUpLoadableComponent(this);
     this.handleTotalPages();
+    this.handleLastStartItemChange();
+    this.handleIsXXSmall();
   }
 
   componentDidLoad(): void {
@@ -214,7 +233,7 @@ export class Pagination
   /** Go to the next page of results. */
   @Method()
   async nextPage(): Promise<void> {
-    this.startItem = Math.min(this.getLastStart(), this.startItem + this.pageSize);
+    this.startItem = Math.min(this.lastStartItem, this.startItem + this.pageSize);
   }
 
   /** Go to the previous page of results. */
@@ -230,8 +249,6 @@ export class Pagination
   // --------------------------------------------------------------------------
 
   private setMaxItemsToBreakpoint(width: number): void {
-    const { breakpoints } = this;
-
     if (!breakpoints || !width) {
       return;
     }
@@ -251,18 +268,26 @@ export class Pagination
       return;
     }
 
-    this.maxItems = maxItemBreakpoints.xsmall;
+    if (width >= breakpoints.width.xxsmall) {
+      this.maxItems = maxItemBreakpoints.xsmall;
+      return;
+    }
+
+    this.maxItems = maxItemBreakpoints.xxsmall;
   }
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
     this.setMaxItemsToBreakpoint(width);
 
-  private getLastStart(): number {
-    const { totalItems, pageSize, totalPages } = this;
-    const lastStart =
-      totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize;
-    return lastStart + 1;
-  }
+  private firstClicked = (): void => {
+    this.startItem = 1;
+    this.emitUpdate();
+  };
+
+  private lastClicked = (): void => {
+    this.startItem = this.lastStartItem;
+    this.emitUpdate();
+  };
 
   private previousClicked = async (): Promise<void> => {
     await this.previousPage();
@@ -308,27 +333,26 @@ export class Pagination
 
   renderEllipsis(type: "start" | "end"): VNode {
     return (
-      <span
-        class={{
-          [CSS.ellipsis]: true,
-          [CSS.ellipsisStart]: type === "start",
-          [CSS.ellipsisEnd]: type === "end",
-        }}
-        key={type}
-      >
+      <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
         &hellip;
       </span>
     );
   }
 
   renderItems(): VNode[] {
-    const { totalItems, pageSize, startItem, maxItems, totalPages } = this;
+    const { totalItems, pageSize, startItem, maxItems, totalPages, lastStartItem, isXXSmall } =
+      this;
+
     const items: VNode[] = [];
+
+    if (isXXSmall) {
+      items.push(this.renderPage(startItem));
+      return items;
+    }
 
     const renderFirstPage = totalItems > pageSize;
     const renderStartEllipsis = this.showStartEllipsis();
     const renderEndEllipsis = this.showEndEllipsis();
-    const lastStart = this.getLastStart();
 
     if (renderFirstPage) {
       items.push(this.renderPage(1));
@@ -350,7 +374,7 @@ export class Pagination
     // if we don't need ellipses render the whole set
     if (totalPages - 1 <= remainingItems) {
       nextStart = 1 + pageSize;
-      end = lastStart - pageSize;
+      end = lastStartItem - pageSize;
     } else {
       // if we're within max pages of page 1
       if (startItem / pageSize < remainingItems) {
@@ -359,8 +383,8 @@ export class Pagination
       } else {
         // if we're within max pages of last page
         if (startItem + remainingItems * pageSize >= totalItems) {
-          nextStart = lastStart - remainingItems * pageSize;
-          end = lastStart - pageSize;
+          nextStart = lastStartItem - remainingItems * pageSize;
+          end = lastStartItem - pageSize;
         } else {
           // if we're within the center pages
           nextStart = startItem - pageSize * ((remainingItems - 1) / 2);
@@ -378,7 +402,7 @@ export class Pagination
       items.push(this.renderEllipsis("end"));
     }
 
-    items.push(this.renderPage(lastStart));
+    items.push(this.renderPage(lastStartItem));
 
     return items;
   }
@@ -411,39 +435,101 @@ export class Pagination
     );
   }
 
-  render(): VNode {
+  renderPreviousChevron(): VNode {
+    const { pageSize, startItem, messages } = this;
+
+    const disabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
+
+    return (
+      <button
+        aria-label={messages.previous}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        data-test-chevron="previous"
+        disabled={disabled}
+        key="previous"
+        onClick={this.previousClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
+      </button>
+    );
+  }
+
+  renderNextChevron(): VNode {
     const { totalItems, pageSize, startItem, messages } = this;
 
-    const prevDisabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
-
-    const nextDisabled =
+    const disabled =
       pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
 
     return (
+      <button
+        aria-label={messages.next}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        data-test-chevron="next"
+        disabled={disabled}
+        key="next-button"
+        onClick={this.nextClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
+      </button>
+    );
+  }
+
+  renderFirstChevron(): VNode {
+    const { messages, startItem, isXXSmall } = this;
+
+    const disabled = startItem === 1;
+
+    return isXXSmall ? (
+      <button
+        aria-label={messages.first}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        disabled={disabled}
+        key="first-button"
+        onClick={this.firstClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.first} scale={getIconScale(this.scale)} />
+      </button>
+    ) : null;
+  }
+
+  renderLastChevron(): VNode {
+    const { messages, startItem, isXXSmall, lastStartItem } = this;
+
+    const disabled = startItem === lastStartItem;
+
+    return isXXSmall ? (
+      <button
+        aria-label={messages.last}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        disabled={disabled}
+        key="last-button"
+        onClick={this.lastClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.last} scale={getIconScale(this.scale)} />
+      </button>
+    ) : null;
+  }
+
+  render(): VNode {
+    return (
       <Fragment>
-        <button
-          aria-label={messages.previous}
-          class={{
-            [CSS.previous]: true,
-            [CSS.disabled]: prevDisabled,
-          }}
-          disabled={prevDisabled}
-          onClick={this.previousClicked}
-        >
-          <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
-        </button>
+        {this.renderFirstChevron()}
+        {this.renderPreviousChevron()}
         {this.renderItems()}
-        <button
-          aria-label={messages.next}
-          class={{
-            [CSS.next]: true,
-            [CSS.disabled]: nextDisabled,
-          }}
-          disabled={nextDisabled}
-          onClick={this.nextClicked}
-        >
-          <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
-        </button>
+        {this.renderNextChevron()}
+        {this.renderLastChevron()}
       </Fragment>
     );
   }

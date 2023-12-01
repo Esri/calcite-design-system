@@ -53,6 +53,13 @@ export const simple = (): string => html`
       description="Vestibulum auctor dapibus neque.
     "
     ></calcite-list-item>
+    <calcite-list-item
+      drag-disabled
+      label="Vestibulum commodo felis quis tortor.
+    "
+      description="Vestibulum auctor dapibus neque.
+    "
+    ></calcite-list-item>
   </calcite-list>
 `;
 
@@ -62,6 +69,34 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
   </calcite-list>
   <calcite-list>
     <calcite-list-item description="This has no label."> </calcite-list-item>
+  </calcite-list>
+`;
+
+export const stretchSlottedContent = (): string => html`
+  <calcite-list ${knobsHTML()}>
+    <calcite-list-item label="This has no description.">
+      <calcite-handle slot="actions-start"></calcite-handle>
+      <calcite-action
+        slot="actions-start"
+        appearance="transparent"
+        text="Banana"
+        icon="banana"
+        text-enabled
+      ></calcite-action>
+      <calcite-action-menu appearance="transparent" slot="actions-end">
+        <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
+      </calcite-action-menu>
+      <calcite-dropdown slot="actions-end">
+        <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>
+        <calcite-dropdown-group selection-mode="single" group-title="Sort by">
+          <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+          <calcite-dropdown-item selected="">Date modified</calcite-dropdown-item>
+          <calcite-dropdown-item>Title</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </calcite-list-item>
   </calcite-list>
 `;
 
@@ -194,6 +229,34 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
     <div slot="content-end" style="display: flex; justify-content: flex-end">
       <calcite-chip class="list-chip" icon="bell" scale="s">Halp!</calcite-chip>
     </div>
+  </calcite-list-item>
+</calcite-list> `;
+
+export const contentBottomSlots = (): string => html`<calcite-list ${knobsHTML()}>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+  </calcite-list-item>
+</calcite-list> `;
+
+export const contentBottomSlotsNested = (): string => html`<calcite-list ${knobsHTML()}>
+  <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
+    <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+    <calcite-list
+      ><calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" open>
+        <span slot="content-bottom">Some value or something and a <b>thing</b>.</span
+        ><calcite-list
+          ><calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+            <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
+          </calcite-list-item></calcite-list
+        >
+      </calcite-list-item></calcite-list
+    >
   </calcite-list-item>
 </calcite-list> `;
 
@@ -362,7 +425,7 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
   </calcite-list-item>
 </calcite-list>`;
 
-export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
+export const filteredChildListItems_TestOnly = (): string => html`<calcite-list
     filter-enabled
     filter-text="est"
     filter-placeholder="Find content"
@@ -544,6 +607,10 @@ export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
     </calcite-list-item-group>
   </calcite-list>`;
 
+filteredChildListItems_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const filterActions_TestOnly = (): string => html`<calcite-list
   selection-mode="single"
   label="test"
@@ -637,6 +704,9 @@ export const sortableList_TestOnly = (): string => html`<calcite-list
   <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
     <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
   </calcite-list-item>
+  <calcite-list-item drag-disabled label="test5" value="test5" description="hello world 55">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
 </calcite-list>`;
 
 export const sortableNestedList_TestOnly = (): string => html`<calcite-list
@@ -660,4 +730,91 @@ export const sortableNestedList_TestOnly = (): string => html`<calcite-list
   </calcite-list-item>
   <calcite-list-item label="Hi! 6" description="hello world"></calcite-list-item>
   <calcite-list-item label="Hi! 7" description="hello world"></calcite-list-item>
+</calcite-list>`;
+
+export const emptyOpenLists_TestOnly = (): string => html`<calcite-list
+  drag-enabled
+  group="nested"
+  label="test"
+  selection-mode="multiple"
+>
+  <calcite-list-item open label="Hi! 1" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="multiple">
+      <calcite-list-item open label="Hi! 2" description="hello world">
+        <calcite-list drag-enabled group="nested" selection-mode="multiple">
+          <calcite-list-item open label="Hi! 3" description="hello world">
+            <calcite-action-menu overlay-positioning="fixed" slot="actions-end">
+              <calcite-action text-enabled text="Edit" icon="pencil"></calcite-action>
+              <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+              <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+              <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+              <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+            </calcite-action-menu>
+            <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+          </calcite-list-item>
+          <calcite-list-item open label="Hi! 4" description="hello world">
+            <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+      <calcite-list-item open label="Hi! 5" description="hello world">
+        <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+      </calcite-list-item>
+    </calcite-list>
+  </calcite-list-item>
+  <calcite-list-item open label="Hi! 6" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+  </calcite-list-item>
+  <calcite-list-item open label="Hi! 7" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list></calcite-list-item
+></calcite-list>`;
+
+export const listWithEmptyChildList_TestOnly = (): string => html`<calcite-list
+  drag-enabled
+  group="nested"
+  selection-mode="single"
+>
+  <calcite-list-item open label="Hi! 4" description="hello world">
+    <calcite-list drag-enabled group="nested" selection-mode="single"></calcite-list>
+  </calcite-list-item>
+</calcite-list>`;
+
+export const listWithGroupedAndSlottedItems_TestOnly = (): string => html`<calcite-list filter-enabled>
+  <calcite-list-item-group heading="Outdoor recreation">
+    <calcite-list-item label="Hiking trails" description="Designated routes for hikers to use." value="hiking-trails">
+      <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+    </calcite-list-item>
+    <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+      <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+    </calcite-list-item>
+  </calcite-list-item-group>
+  <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+    <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+  </calcite-list-item>
+  <calcite-list-item label="Estuaries" description="Where the river meets the sea." value="estuaries">
+    <calcite-action slot="actions-end" icon="layer" text="Estuaries layer"></calcite-action>
+  </calcite-list-item>
+  <calcite-list-item
+    label="Park offices"
+    description="Home base for park staff to converse with visitors."
+    value="offices"
+  >
+    <calcite-action slot="actions-end" icon="layer" text="Offices layer"></calcite-action>
+  </calcite-list-item>
+  <calcite-list-item-group heading="Buildings">
+    <calcite-list-item
+      label="Guest lodges"
+      description="Small houses available for visitors to book for stays."
+      value="lodges"
+    >
+      <calcite-action slot="actions-end" icon="layer" text="Lodges layer"></calcite-action>
+    </calcite-list-item>
+    <calcite-list-item
+      label="Yurts"
+      description="Insulated portable rounded structures similar to tents."
+      value="yurts"
+    >
+      <calcite-action slot="actions-end" icon="layer" text="Yurts layer"></calcite-action>
+    </calcite-list-item>
+  </calcite-list-item-group>
 </calcite-list>`;

@@ -5,7 +5,6 @@
 .handle {
   @apply focus-base
     flex
-    cursor-move
     items-center
     justify-center
     self-stretch
@@ -15,6 +14,14 @@
   padding-block: theme("spacing.3");
   padding-inline: theme("spacing.1");
   line-height: 0;
+
+  calcite-icon {
+    color: inherit;
+  }
+}
+
+:host(:not([disabled])) .handle {
+  @apply cursor-move;
   &:hover {
     @apply bg-foreground-2 text-color-1;
   }
@@ -24,9 +31,8 @@
   &--activated {
     @apply bg-foreground-3 text-color-1;
   }
-  calcite-icon {
-    color: inherit;
-  }
 }
+
+@include disabled();
 
 @include base-component();
