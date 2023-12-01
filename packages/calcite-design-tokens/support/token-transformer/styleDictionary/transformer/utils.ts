@@ -59,7 +59,7 @@ export const transformations: Record<PlatformUnion, string[]> = {
   css: styles,
   sass: styles,
   scss: styles,
-  json: js,
+  docs: js,
   js,
   es6,
 };

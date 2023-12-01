@@ -11,7 +11,7 @@ export const transformAttributesNamesPerPlatform: CalledTransformerFunction<{ [k
       options: {
         ...args.options,
         platform,
-        prefix: platform === Platform.JSON || platform === Platform.JS ? undefined : args.options.prefix,
+        prefix: platform === Platform.DOCS || platform === Platform.JS ? undefined : args.options.prefix,
       },
     });
 
