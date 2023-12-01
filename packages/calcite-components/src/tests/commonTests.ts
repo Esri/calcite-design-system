@@ -646,6 +646,30 @@ export function labelable(
         shadowFocusTargetSelector,
       });
     });
+
+    it("is labelable when label's for is set after initialization", async () => {
+      const siblingHtml = html`
+        <calcite-label>${labelTitle}</calcite-label>
+        ${componentHtml}
+      `;
+      const siblingPage: E2EPage = await newE2EPage();
+      beforeContent?.(siblingPage);
+
+      await siblingPage.setContent(siblingHtml);
+      await siblingPage.waitForChanges();
+
+      const label = await siblingPage.find("calcite-label");
+      label.setProperty("for", id);
+      await siblingPage.waitForChanges();
+
+      await assertLabelable({
+        page: siblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
   });
 }
 
