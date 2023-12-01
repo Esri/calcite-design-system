@@ -70,6 +70,13 @@
             "dark": "rgba({core.color.neutral.blk-240}, {core.opacity.85})"
           },
           "type": "color"
+        },
+        "tint": {
+          "value": {
+            "light": "rgba({core.color.neutral.blk-000}, {core.opacity.80})",
+            "dark": "rgba({core.color.neutral.blk-200}, {core.opacity.80})"
+          },
+          "type": "color"
         }
       },
       "brand": {
