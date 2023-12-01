@@ -632,8 +632,6 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  messageIcon={this.messageIcon}
-                  messageText={this.messageText}
                   onCalciteInputTextInput={this.calciteInternalInputInputHandler}
                   onCalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   onCalciteInternalInputTextFocus={this.endInputFocus}
@@ -652,6 +650,13 @@ export class InputDatePicker
           </div>
         )}
         <HiddenFormInputSlot component={this} />
+        {this.messageText ? (
+          <div class={CSS.messageContainer}>
+            <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
+              {this.messageText}
+            </calcite-input-message>
+          </div>
+        ) : null}
       </Host>
     );
   }

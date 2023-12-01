@@ -84,11 +84,9 @@ export const darkModeRTL_TestOnly = (): string => html`
         ${boolean("disabled", false)}
         value="${text("value", "")}"
         placeholder="${text("placeholder", "Placeholder text")}"
+        message-text="My great input message"
       >
       </calcite-input-number>
-      <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-        >${text("input message text", "My great input message")}</calcite-input-message
-      >
     </calcite-label>
   </div>
 `;

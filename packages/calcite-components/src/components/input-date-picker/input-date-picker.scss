@@ -115,6 +115,14 @@
   @apply mt-0;
 }
 
+.message-container {
+  padding-block-start: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
 :host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
   inset-block-start: theme("spacing.6");
   padding-inline-start: theme("spacing.3");

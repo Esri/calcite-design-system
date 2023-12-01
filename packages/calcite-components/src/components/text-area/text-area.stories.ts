@@ -96,8 +96,8 @@ export const validationMessageAllScales_TestOnly = (): string =>
         display: flex;
         flex-direction: column;
         width: 420px;
-        height: 240px;
-        gap: 69px;
+        height: 200px;
+        gap: 50px;
       }
     </style>
     <div class="container">
@@ -112,14 +112,14 @@ export const validationMessageAllScales_TestOnly = (): string =>
         status="invalid"
         message-text="Less than the minimum length of 6 characters"
         message-icon
-        value="HI"
+        value="Hi"
       ></calcite-text-area>
       <calcite-text-area
         scale="l"
         status="invalid"
         message-text="Exceeds the maximum length of 9 characters"
         message-icon
-        value="LOREM IPSUM"
+        value="Lorem ipsum"
       ></calcite-text-area>
     </div>
   `;
