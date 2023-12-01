@@ -46,7 +46,7 @@ export class Shell implements ConditionalSlotComponent {
 
   @Listen("calciteInternalShellPanelResize")
   handleCalciteInternalShellPanelResize(event: CustomEvent<{ resizing: boolean }>): void {
-    this.resizing = !!event.detail?.resizing;
+    this.panelIsResizing = !!event.detail?.resizing;
     event.stopPropagation();
   }
 
@@ -68,7 +68,7 @@ export class Shell implements ConditionalSlotComponent {
 
   @State() hasSheets = false;
 
-  @State() resizing = false;
+  @State() panelIsResizing = false;
 
   // --------------------------------------------------------------------------
   //
@@ -172,10 +172,10 @@ export class Shell implements ConditionalSlotComponent {
   }
 
   renderContent(): VNode[] {
-    const { resizing } = this;
+    const { panelIsResizing } = this;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
-    const defaultSlotContainerNode = resizing ? (
-      <div class={CSS.contentResizing}>{defaultSlotNode}</div>
+    const defaultSlotContainerNode = panelIsResizing ? (
+      <div class={CSS.contentNonInteractive}>{defaultSlotNode}</div>
     ) : (
       defaultSlotNode
     );

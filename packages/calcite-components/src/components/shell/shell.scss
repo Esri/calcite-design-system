@@ -30,7 +30,7 @@
 }
 
 .content,
-.content--resizing {
+.content--non-interactive {
   @apply flex
     h-full
     w-full
@@ -57,7 +57,7 @@
   display: initial;
 }
 
-.content--resizing {
+.content--non-interactive {
   @apply pointer-events-none;
 }
 
