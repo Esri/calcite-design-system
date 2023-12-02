@@ -3,11 +3,13 @@ import { FormatterRules, MappedFormatterArguments } from "../../../types/styleDi
 import { CalciteCss } from "./css.js";
 import { CalciteJs } from "./javascript.js";
 import { CalciteScss } from "./scss.js";
+import { CalciteDocs } from "./docs.js";
 
 const formatters: Partial<Record<PlatformFormats, string>> = {
   css: CalciteCss,
   scss: CalciteScss,
   sass: CalciteScss,
+  docs: CalciteDocs,
   js: CalciteJs,
   es6: "javascript/es6",
   ts: "typescript/module-declarations",
