@@ -7,9 +7,70 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
--
--
--
+- Change the default export to a tree-shakable list of design tokens in camelCase format rather than a JSON object (`import * as tokens from "@esri/calcite-design-tokens";`)
+- Use font name in core font family tokens
+- Remove unnecessary core tokens line-height, font-size, letter-spacing, paragraph-spacing as these can be exclusive to semantic and reference core size tokens
+- Core size tokens now use their pixel size in their name
+- Change `border-radius` to `corner-radius`
+- Remove unnecessary `border-width` tokens `none`, `sm`, `md`, `lg`
+- Platform output
+
+  - Remove component tokens from global output
+  - Add new platform output files
+  - Replace "headless" with "global"
+  - Remove "calcite" from filenames
+
+- Package.json exports
+
+  - `@esri/calcite-design-tokens/css/headless` is now `@esri/calcite-design-tokens/css/global`
+  - `@esri/calcite-design-tokens/scss/headless` is now `@esri/calcite-design-tokens/scss/global`
+  - `@esri/calcite-design-tokens/js/headless` is now `@esri/calcite-design-tokens/js/global`
+  - `@esri/calcite-design-tokens/es6/headless` is now `@esri/calcite-design-tokens/es6/global`
+
+- Token paths and values
+  - Border
+    - Use t-shirt sizing for border width tokens
+      - `Border.border-width.0` is now `border.width.sm`
+      - `border.border-width.1` is now `border.width.base`
+      - `border.border-width.2` is now `border.width.md`
+      - `border.border-width.3` is now `border.width.lg`
+      - `border.border-width.4` is now `border.width.xl`
+    - Remove unused border radius tokens
+      - `Core.border.border-radius.0`
+      - `Core.border.border-radius.2`
+      - `Core.border.border-radius.3`
+    - Use t-shirt sizing for border radius tokens
+      - `semantic.ui.border.border-radius` is `semantic.border.radius.default`
+      - `Core.border.border-radius.1` is now `semantic.border.radius.sm`
+      - `Core.border.border-radius.4` is now `semantic.border.radius.md`
+      - `Core.border.border-radius.5` is now `semantic.border.radius.lg`
+      - `Core.border.border-radius.6` is now `semantic.border.radius.xl`
+  - Sizing
+    - `core.sizing.` tokens are now `core.size.default.`
+  - Breakpoints
+    - Move breakpoint tokens to their own separate output file for most platform outputs (except JS)
+    - Update breakpoint token path from `.breakpoint.` to `.container-size.`
+    - Delete unused `breakpoint.cols` tokens
+  - Box Shadow
+    - Use t-shirt sizing for global box shadow tokens
+      - `box-shadow.0` is now `shadow.none`
+      - `box-shadow.1` is now `shadow.sm`
+      - `box-shadow.2` is now `shadow.md`
+  - Colors
+    - Remove "palette" from core color paths
+    - `core.color.palette.high-saturation` is now `core.color.high-saturation`
+  - Light Mode and Dark Mode
+    - Semantic color tokens now use the composite color scheme token type to reference "light" and "dark" mode instead of having separate light and dark tokens.
+    - `.calcite-mode-light` and `.calcite-mode-dark` classes as well as the color scheme media queries are now provided via `calcite-design-tokens/css/index.css`
+    - Provide light and dark mode mixins via `calcite-design-tokens/css/index.scss`
+    - Remove "ui" from output platform names in favor of "color"
+    - `--calcite-ui-background` is now `--calcite-color-background`
+    - `--calcite-ui-brand` is now `--calcite-color-brand`
+    - `--calcite-ui-success` is now `--calcite-color-status-success`
+    - `--calcite-ui-danger` is now `--calcite-color-status-danger`
+    - `--calcite-ui-warning` is now `--calcite-color-status-warning`
+    - `--calcite-ui-hint` is now `--calcite-color-status-hint`
+    - `--calcite-button-transparent-hover` is now `--calcite-color-transparent-press`
 
 ### Features
 
