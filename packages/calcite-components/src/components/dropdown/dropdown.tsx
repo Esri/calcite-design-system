@@ -648,16 +648,12 @@ export class Dropdown
     this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
   };
 
-  private getFocusableElement(item): void {
+  private getFocusableElement(item: HTMLCalciteDropdownItemElement): void {
     if (!item) {
       return;
     }
 
-    const target = item.attributes.isLink
-      ? item.shadowRoot.querySelector("a")
-      : (item as HTMLCalciteDropdownItemElement);
-
-    focusElement(target);
+    focusElement(item);
   }
 
   private toggleOpenEnd = (): void => {
