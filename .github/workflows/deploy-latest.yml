@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
       - name: Build Packages and Publish to NPM
         if: ${{ steps.release.outputs.releases_created }}
