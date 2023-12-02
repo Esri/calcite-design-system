@@ -10,13 +10,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 -
 - __button, list, pick-list, value-list:__ Setting `loading` prop to true no longer prevents interaction nor applies disabled styles. If you'd like to block interaction when loading, please set `disabled` along with `loading`.
 - __dropdown:__ Dropdown's default `display` was changed from `inline-flex` to `inline-block` to make it easier to prompt truncation in trigger button text with minimal impact to layout (by setting an explicit width __or__ setting `width: 100%` or `display: block` on the dropdown of a width-constrained parent).
-- __dropdown:__ For consistency, renames `width` property to `widthScale`.
-- __modal:__ For consistency, renames `width` property to `widthScale`.
+- __dropdown, modal:__ For consistency, renames the `width` property to `widthScale`.
 -
-- __react:__ Disabled `includeImportCustomElements`. Make sure to import components from `@esri/calcite-components` in addition to the react wrappers. For example, the first code snippet in #7185 is now required, or else the custom elements will not be defined on the window.
-- __i18n:__ Removed support for the following numbering systems: `bali`, `beng`, `deva`, `fullwide`, `gujr`, `guru`, `hanidec`, `khmr`, `knda`, `laoo`, `limb`, `mlym`, `mong`, `mymr`, `orya`, `tamldec`, `telu`, `thai`, `tibt`
-- __stepper-item:__ Removed `previousStep` and `nextStep` in messages. They are not available for overriding via `messageOverrides`
-- __card:__ Removed the `deselect` message property – this property was deprecated in #6657 as it is no longer being rendered.
+- __react:__ Disabled `includeImportCustomElements`. Make sure to import components from `@esri/calcite-components` in addition to the React wrappers. For example, the first code snippet in [#7185](https://github.com/Esri/calcite-design-system/issues/7185) is now required, or else the custom elements will not be defined in the browser.
+- __i18n:__ Reduced numbering system support to `latn`, `arab` and `arabext`. The following numbering systems were removed: `bali`, `beng`, `deva`, `fullwide`, `gujr`, `guru`, `hanidec`, `khmr`, `knda`, `laoo`, `limb`, `mlym`, `mong`, `mymr`, `orya`, `tamldec`, `telu`, `thai`, `tibt`.
+- __stepper-item:__ Removed both `previousStep` and `nextStep` message properties. These are no longer overrideable via `messageOverrides`.
+- __card:__ Removed the `deselect` message property – this property was deprecated in [#6657](https://github.com/Esri/calcite-design-system/issues/6657) as it is no longer being rendered. This is no longer overrideable via `messageOverrides`.
 - __deps:__ We are treating the `@stencil/core@v4` bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
 
 ### Features
@@ -51,10 +50,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - __list:__ Add live region for dynamically changing list items ([#8148](https://github.com/Esri/calcite-design-system/issues/8148)) ([e3c0c06](https://github.com/Esri/calcite-design-system/commit/e3c0c06b27574a21605507aadcad4932be66e2cf))
 - __react:__ Disable includeImportCustomElements to resolve initial render issues ([#8248](https://github.com/Esri/calcite-design-system/issues/8248)) ([0948c1a](https://github.com/Esri/calcite-design-system/commit/0948c1a187d91606ea58f59b36c680285c6001a1))
 - __stepper:__ Typo in CSS variable for step bar's fill ([#8255](https://github.com/Esri/calcite-design-system/issues/8255)) ([2e643aa](https://github.com/Esri/calcite-design-system/commit/2e643aa0ff836c66ea3a13722d5b1f88726f3d27))
-
-### Reverts
-
-- Feat(stepper-item)!: remove support for previousStep and nextStep in messages ([#8222](https://github.com/Esri/calcite-design-system/issues/8222)) ([#8232](https://github.com/Esri/calcite-design-system/issues/8232)) ([f49bf3b](https://github.com/Esri/calcite-design-system/commit/f49bf3b802118d6a34824ef0922154e55fb09763))
 
 ### Build System
 
