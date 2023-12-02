@@ -14,12 +14,26 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - Change `border-radius` to `corner-radius`
 - Remove unnecessary `border-width` tokens `none`, `sm`, `md`, `lg`
 - Platform output
-
   - Remove component tokens from global output
-  - Add new platform output files
+  - Add new platform output
+    - css
+      - index
+      - global
+      - light
+      - dark
+      - core
+      - breakpoint
+      - typography classes
+    - scss
+      - index
+      - global
+      - light
+      - dark
+      - core
+      - breakpoints
+      - typography mixins
   - Replace "headless" with "global"
   - Remove "calcite" from filenames
-
 - Package.json exports
 
   - `@esri/calcite-design-tokens/css/headless` is now `@esri/calcite-design-tokens/css/global`
@@ -30,23 +44,22 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - Token paths and values
   - Border
     - Use t-shirt sizing for border width tokens
-      - `Border.border-width.0` is now `border.width.sm`
-      - `border.border-width.1` is now `border.width.base`
-      - `border.border-width.2` is now `border.width.md`
-      - `border.border-width.3` is now `border.width.lg`
-      - `border.border-width.4` is now `border.width.xl`
+      - `Border.border-width.0` is now `border.width.none` (--calcite-border-width-none)
+      - `border.border-width.1` is now `border.width.sm` (--calcite-border-width-sm)
+      - `border.border-width.2` is now `border.width.md` (--calcite-border-width-md)
+      - `border.border-width.3` is now `border.width.lg` (--calcite-border-width-lg)
+      - `border.border-width.4` is removed
     - Remove unused border radius tokens
       - `Core.border.border-radius.0`
       - `Core.border.border-radius.2`
       - `Core.border.border-radius.3`
-    - Use t-shirt sizing for border radius tokens
-      - `semantic.ui.border.border-radius` is `semantic.border.radius.default`
-      - `Core.border.border-radius.1` is now `semantic.border.radius.sm`
-      - `Core.border.border-radius.4` is now `semantic.border.radius.md`
-      - `Core.border.border-radius.5` is now `semantic.border.radius.lg`
-      - `Core.border.border-radius.6` is now `semantic.border.radius.xl`
+    - Use t-shirt sizing for border radius (now called corner radius) tokens
+      - `semantic.ui.border.border-radius` is `semantic.corner.radius.default`
+      - `Core.border.border-radius.1` is now `semantic.corner.radius.sharp`
+      - `Core.border.border-radius.4` is now `semantic.corner.radius.round`
+      - `Core.border.border-radius.5` is now `semantic.corner.radius.pill`
   - Sizing
-    - `core.sizing.` tokens are now `core.size.default.`
+    - `core.sizing.` tokens are now `core.size.default`
   - Breakpoints
     - Move breakpoint tokens to their own separate output file for most platform outputs (except JS)
     - Update breakpoint token path from `.breakpoint.` to `.container-size.`
