@@ -8,7 +8,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### ⚠ BREAKING CHANGES
 
 - __react:__ Disabled `includeImportCustomElements`. Make sure to import components from `@esri/calcite-components` in addition to the react wrappers. For example, the first code snippet in #7185 is now required, or else the custom elements will not be defined on the window.
-- __deps:__ We are treating this core version bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
+- __deps:__ We are treating the `@stencil/core@v4` bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
 
 ### Bug Fixes
 

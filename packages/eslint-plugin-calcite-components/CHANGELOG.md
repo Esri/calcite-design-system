@@ -7,7 +7,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
-- __deps:__ We are treating this core version bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
+- __deps:__ We are treating the `@stencil/core@v4` bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
 
 ### Build System
 

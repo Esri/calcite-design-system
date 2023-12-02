@@ -17,7 +17,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - __i18n:__ Removed support for the following numbering systems: `bali`, `beng`, `deva`, `fullwide`, `gujr`, `guru`, `hanidec`, `khmr`, `knda`, `laoo`, `limb`, `mlym`, `mong`, `mymr`, `orya`, `tamldec`, `telu`, `thai`, `tibt`
 - __stepper-item:__ Removed `previousStep` and `nextStep` in messages. They are not available for overriding via `messageOverrides`
 - __card:__ Removed the `deselect` message property – this property was deprecated in #6657 as it is no longer being rendered.
-- __deps:__ We are treating this core version bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
+- __deps:__ We are treating the `@stencil/core@v4` bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
 
 ### Features
 
