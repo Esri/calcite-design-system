@@ -17,7 +17,7 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon,
 } from "../../utils/dom";
-import { Position, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 
 import {
   connectForm,
@@ -93,7 +93,7 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   /** Specifies the text alignment of the component's value. */
-  @Prop({ reflect: true }) alignment: Position = "start";
+  @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
    * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
@@ -591,6 +591,7 @@ export class InputNumber
   };
 
   private inputNumberBlurHandler = () => {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
     this.calciteInternalInputNumberBlur.emit();
     this.emitChangeIfUserModified();
   };
@@ -740,11 +741,14 @@ export class InputNumber
     }, valueNudgeDelayInMs);
   };
 
-  private nudgeButtonPointerUpAndOutHandler = (event: PointerEvent): void => {
+  private nudgeButtonPointerUpHandler = (event: PointerEvent): void => {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
+    window.clearInterval(this.nudgeNumberValueIntervalId);
+  };
 
+  private nudgeButtonPointerOutHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
@@ -959,8 +963,8 @@ export class InputNumber
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
-        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
         tabIndex={-1}
         type="button"
       >
@@ -978,8 +982,8 @@ export class InputNumber
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
-        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
         tabIndex={-1}
         type="button"
       >

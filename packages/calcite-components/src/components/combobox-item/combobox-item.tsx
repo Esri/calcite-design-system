@@ -160,8 +160,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.selected = !this.selected;
   }
 
-  itemClickHandler = (event: MouseEvent): void => {
-    event.preventDefault();
+  private itemClickHandler = (): void => {
     this.toggleSelected();
   };
 
@@ -227,7 +226,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     const isSingleSelect = isSingleLike(this.selectionMode);
     const showDot = isSingleSelect && !this.disabled;
     const defaultIcon = isSingleSelect ? "dot" : "check";
-    const iconPath = this.disabled ? "circle-disallowed" : defaultIcon;
+    const iconPath = this.disabled ? "" : defaultIcon;
 
     const classes = {
       [CSS.label]: true,

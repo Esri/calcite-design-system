@@ -7,7 +7,7 @@ This is a living document defining our best practices and reasoning for authorin
 Generally adhere to and follow these best practices for authoring components.
 
 - [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
-- [Custom Element Conformance - W3C Editor's Draft](https://w3c.github.io/webcomponents/spec/custom/#custom-element-conformance)
+- [Custom Element Conformance - W3C Editor's Draft](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element-conformance)
 
 ## Structure
 
@@ -17,8 +17,8 @@ We follow Stencil's suggested component structure. See their [style guide](https
 
 Calcite Components broadly targets two groups of projects inside Esri:
 
-- **Sites** like [esri.com](https://esri.com) and [developers.arcgis.com](https://developers.arcgis.com).
-- **Apps** like [ArcGIS Online](https://arcgis.com), [Vector Tile Style Editor](https://developers.arcgis.com/vector-tile-style-editor), [Workforce](https://www.esri.com/en-us/arcgis/products/workforce/overview), [ArcGIS Hub](https://hub.arcgis.com) etc...
+- __Sites__ like [esri.com](https://esri.com) and [developers.arcgis.com](https://developers.arcgis.com).
+- __Apps__ like [ArcGIS Online](https://arcgis.com), [Vector Tile Style Editor](https://developers.arcgis.com/vector-tile-style-editor), [Workforce](https://www.esri.com/en-us/arcgis/products/workforce/overview), [ArcGIS Hub](https://hub.arcgis.com) etc...
 
 Components should present the minimum possible implementation to be usable by both sites and apps and leave as much as possible to users.
 
@@ -34,10 +34,10 @@ However components are allowed to:
 - Use or implement `localStorage` if there is a specific use case.
 - Communicate with other components if a specific use case exists.
 
-**Discussed In**:
+__Discussed In__:
 
-- [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to implement for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
-- [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
+- [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . __Yes__ because such feature are difficult to implement for __Sites__ and would require lots of additional JavaScript work on the part of teams and authors
+- [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). __No__ because label place
 
 ## Events
 
@@ -55,7 +55,7 @@ Event names should be treated like global variables since they can collide with 
 - If an existing event can be listened to, don't create a new custom event. For example, there is no need to create a `calciteButtonClick` event because a standard `click` event will still be fired from the element.
 - For consistency, use `calcite<ComponentName>Change` for value change events.
 
-**Discussed In:**
+__Discussed In:__
 
 - <https://github.com/Esri/calcite-design-system/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227>
 
@@ -81,7 +81,7 @@ Only attach additional data to your event if that data cannot be determined from
 
 ### Native event cancellation
 
-When a component **handles events for its own interaction** (e.g., moving between list items, closing an open menu), if the event is tied to default browser behavior (e.g., space key scrolling the page), `Event.preventDefault()` must be called to avoid mixed behavior.
+When a component __handles events for its own interaction__ (e.g., moving between list items, closing an open menu), if the event is tied to default browser behavior (e.g., space key scrolling the page), `Event.preventDefault()` must be called to avoid mixed behavior.
 
 ```tsx
 class SomeInputTypeComponent {
@@ -179,7 +179,7 @@ interface FocusableComponent {
 type FocusId = string;
 ```
 
-**Note**: Implementations can use the [`focusElement`](https://github.com/Esri/calcite-design-system/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/utils/dom.ts#L41-L47) helper to handle focusing both native and calcite components.
+__Note__: Implementations can use the [`focusElement`](https://github.com/Esri/calcite-design-system/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/utils/dom.ts#L41-L47) helper to handle focusing both native and calcite components.
 
 Examples:
 
@@ -279,7 +279,7 @@ Stencil has the capability to build and distribute a large variety of outputs ba
 
 As a best practice we should follow [Ionic's configuration](https://github.com/ionic-team/ionic/blob/master/core/stencil.config.ts) and generate a `bundle` for each component. Stencil will then generate a loader that will dynamically load the components used on the page.
 
-**Note:** This is highly likely to change as we move closer to our first release and as Stencil improves their documentation around their specific methods and build processes.
+__Note:__ This is highly likely to change as we move closer to our first release and as Stencil improves their documentation around their specific methods and build processes.
 
 Each root component should have a corresponding bundle entry in `stencil.config.ts`.
 

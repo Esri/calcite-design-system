@@ -1,10 +1,23 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { BoundingBox, JSONObject } from "puppeteer";
+import type { JSX } from "../components";
+import { BoundingBox } from "puppeteer";
 
 /**
  * Util to help type global props for testing.
  */
 export type GlobalTestProps<T> = T & Window & typeof globalThis;
+
+type FilterPropsByPropertyName<T, PropName extends string> = {
+  [K in keyof T]: PropName extends keyof T[K] ? T[K] : never;
+};
+
+/**
+ * Helper to extract a type by filtering the type by the property name.
+ */
+export type IntrinsicElementsWithProp<T extends string> = FilterPropsByPropertyName<
+  JSX.IntrinsicElements,
+  T
+>[keyof FilterPropsByPropertyName<JSX.IntrinsicElements, T>];
 
 type DragAndDropSelector = string | SelectorOptions;
 
@@ -14,7 +27,7 @@ type PointerPosition = {
   offset?: [number, number];
 };
 
-interface SelectorOptions extends JSONObject {
+interface SelectorOptions {
   element: string;
   shadow?: string;
   pointerPosition?: PointerPosition;
@@ -132,6 +145,7 @@ export function selectText(input: E2EElement): Promise<void> {
  * @param {E2EPage} page - the e2e page
  * @param {string} elementSelector - the element selector
  * @param {string} shadowSelector - the shadowRoot selector
+ * @deprecated Use `getElementRect` instead.
  */
 export async function getElementXY(
   page: E2EPage,
@@ -145,6 +159,29 @@ export async function getElementXY(
       const { x, y } = measureTarget.getBoundingClientRect();
 
       return [x, y];
+    },
+    [elementSelector, shadowSelector]
+  );
+}
+
+/**
+ * Helper to get an E2EElement's DOMRect object.
+ *
+ * @param {E2EPage} page - the e2e page
+ * @param {string} elementSelector - the element selector
+ * @param {string} shadowSelector - the shadowRoot selector
+ * @returns {Promise<DOMRect>} Promise with DOMRect object.
+ */
+export async function getElementRect(
+  page: E2EPage,
+  elementSelector: string,
+  shadowSelector?: string
+): Promise<DOMRect> {
+  return page.evaluate(
+    ([elementSelector, shadowSelector]): DOMRect => {
+      const element = document.querySelector(elementSelector);
+      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      return measureTarget.getBoundingClientRect().toJSON();
     },
     [elementSelector, shadowSelector]
   );

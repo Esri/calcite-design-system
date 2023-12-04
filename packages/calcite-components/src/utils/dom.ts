@@ -82,6 +82,19 @@ export function getElementProp(el: Element, attribute: string, fallbackValue: an
 }
 
 /**
+ * This helper returns the computed width in pixels of a rendered HTMLElement.
+ *
+ * @param {HTMLElement} el An element.
+ * @returns {number} The element's width.
+ */
+export function getElementWidth(el: HTMLElement): number {
+  if (!el) {
+    return 0;
+  }
+  return parseFloat(getComputedStyle(el).inlineSize);
+}
+
+/**
  * This helper returns the rootNode of an element.
  *
  * @param {Element} el An element.
@@ -102,6 +115,23 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
   return "host" in rootNode ? rootNode : null;
 }
 
+/**
+ * This helper returns the computed width in pixels a given text string takes up on screen.
+ *
+ * See https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript
+ *
+ * @param {string} text The string of text to measure.
+ * @param {string} font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
+ */
+export function getTextWidth(text: string, font: string): number {
+  if (!text) {
+    return 0;
+  }
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  context.font = font;
+  return context.measureText(text).width;
+}
 /**
  * This helper returns the host of a ShadowRoot.
  *
@@ -255,16 +285,26 @@ export async function focusElement(el: FocusableElement): Promise<void> {
 }
 
 /**
+ * Helper to get the first tabbable element.
+ *
+ * @param {HTMLElement} element The html element containing tabbable elements.
+ * @returns the first tabbable element.
+ */
+export function getFirstTabbable(element: HTMLElement): HTMLElement {
+  if (!element) {
+    return;
+  }
+
+  return (tabbable(element, tabbableOptions)[0] ?? element) as HTMLElement;
+}
+
+/**
  * Helper to focus the first tabbable element.
  *
  * @param {HTMLElement} element The html element containing tabbable elements.
  */
 export function focusFirstTabbable(element: HTMLElement): void {
-  if (!element) {
-    return;
-  }
-
-  (tabbable(element, tabbableOptions)[0] || element).focus();
+  getFirstTabbable(element)?.focus();
 }
 
 interface GetSlottedOptions {

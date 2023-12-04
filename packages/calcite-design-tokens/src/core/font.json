@@ -1,0 +1,105 @@
+{
+  "core": {
+    "font": {
+      "family": {
+        "avenirNextPro": {
+          "value": "Avenir Next LT Pro",
+          "type": "fontFamilies"
+        },
+        "avenirNextWorld": {
+          "value": "Avenir Next World",
+          "type": "fontFamilies"
+        },
+        "monaco": {
+          "value": "Monaco",
+          "type": "fontFamilies"
+        }
+      },
+      "style": {
+        "italic": {
+          "value": "italic",
+          "type": "fontStyle",
+          "description": "used in ratings"
+        }
+      },
+      "weight": {
+        "ultralight": {
+          "value": "UltraLight",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "thin": {
+          "value": "Thin",
+          "type": "fontWeights"
+        },
+        "light": {
+          "value": "Light",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "regular": {
+          "value": "Regular",
+          "type": "fontWeights"
+        },
+        "medium": {
+          "value": "Medium",
+          "type": "fontWeights"
+        },
+        "medium-italic": {
+          "value": "Medium Italic",
+          "type": "fontWeights"
+        },
+        "demi": {
+          "value": "Demi",
+          "type": "fontWeights"
+        },
+        "bold": {
+          "value": "Bold",
+          "type": "fontWeights"
+        },
+        "extrabold": {
+          "value": "ExtraBold",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "black": {
+          "value": "Black",
+          "type": "fontWeights",
+          "description": "only for Avenir Next World (secondary font family)"
+        },
+        "heavy": {
+          "value": "Heavy",
+          "type": "fontWeights"
+        }
+      },
+      "text-decoration": {
+        "none": {
+          "value": "none",
+          "type": "textDecoration"
+        },
+        "underline": {
+          "value": "underline",
+          "type": "textDecoration"
+        }
+      },
+      "text-case": {
+        "none": {
+          "value": "none",
+          "type": "textCase"
+        },
+        "uppercase": {
+          "value": "uppercase",
+          "type": "textCase"
+        },
+        "lowercase": {
+          "value": "lowercase",
+          "type": "textCase"
+        },
+        "capitalize": {
+          "value": "capitalize",
+          "type": "textCase"
+        }
+      }
+    }
+  }
+}

@@ -1,44 +1,34 @@
+import {
+  calciteContainerSizeWidthLg,
+  calciteContainerSizeWidthMd,
+  calciteContainerSizeWidthSm,
+  calciteContainerSizeWidthXs,
+  calciteContainerSizeWidthXxs,
+} from "@esri/calcite-design-tokens/dist/es6/global";
+
 export interface Breakpoints {
   width: {
     large: number;
     medium: number;
     small: number;
     xsmall: number;
+    xxsmall: number;
   };
 }
 
-let getBreakpointsPromise: Promise<Breakpoints>;
-
-function breakpointTokenToNumericalValue(style: CSSStyleDeclaration, tokenName: string): number {
-  return parseInt(style.getPropertyValue(tokenName));
-}
-
 /**
- * This util will return a breakpoints lookup object.
- *
- * Note that the breakpoints will be evaluated at the root and cached for reuse.
- *
- * @returns {Promise<Breakpoints>} The Breakpoints object.
+ * A breakpoints lookup object.
  */
-export async function getBreakpoints(): Promise<Breakpoints> {
-  if (getBreakpointsPromise) {
-    return getBreakpointsPromise;
-  }
+export const breakpoints: Breakpoints = {
+  width: {
+    large: cssLengthToNumber(calciteContainerSizeWidthLg.max),
+    medium: cssLengthToNumber(calciteContainerSizeWidthMd.max),
+    small: cssLengthToNumber(calciteContainerSizeWidthSm.max),
+    xsmall: cssLengthToNumber(calciteContainerSizeWidthXs.max),
+    xxsmall: cssLengthToNumber(calciteContainerSizeWidthXxs.max),
+  },
+};
 
-  getBreakpointsPromise = new Promise<Breakpoints>((resolve) => {
-    requestAnimationFrame(() => {
-      const rootStyles = getComputedStyle(document.body);
-
-      resolve({
-        width: {
-          large: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-lg"),
-          medium: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-md"),
-          small: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-sm"),
-          xsmall: breakpointTokenToNumericalValue(rootStyles, "--calcite-app-breakpoint-width-xs"),
-        },
-      });
-    });
-  });
-
-  return getBreakpointsPromise;
+function cssLengthToNumber(length: string): number {
+  return parseInt(length);
 }

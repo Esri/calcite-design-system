@@ -1,4 +1,6 @@
 {
   "next": "次へ",
-  "previous": "前へ"
+  "previous": "前へ",
+  "first": "First",
+  "last": "Last"
 }

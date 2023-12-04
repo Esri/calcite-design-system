@@ -8,7 +8,6 @@ import {
   focusing,
   itemRemoval,
   keyboardNavigation,
-  loadingState,
   selectionAndDeselection,
 } from "../pick-list/shared-list-tests";
 import { CSS, ICON_TYPES } from "./resources";
@@ -97,10 +96,6 @@ describe("calcite-value-list", () => {
 
   describe("item removal", () => {
     itemRemoval("value");
-  });
-
-  describe("loading state", () => {
-    loadingState("value");
   });
 
   describe("setFocus", () => {

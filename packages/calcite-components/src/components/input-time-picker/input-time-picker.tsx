@@ -72,6 +72,7 @@ import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { getSupportedLocale } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
+import { getIconScale } from "../../utils/component";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayjsLocaleToLocaleConfigImport = new Map([
@@ -970,7 +971,7 @@ export class InputTimePicker
     return (
       <Host onBlur={this.hostBlurHandler} onKeyDown={this.keyDownHandler}>
         <div class="input-wrapper" onClick={this.onInputWrapperClick}>
-          <calcite-input
+          <calcite-input-text
             aria-autocomplete="none"
             aria-haspopup="dialog"
             disabled={disabled}
@@ -978,13 +979,12 @@ export class InputTimePicker
             id={this.referenceElementId}
             label={getLabelText(this)}
             lang={this.effectiveLocale}
-            onCalciteInputInput={this.calciteInternalInputInputHandler}
-            onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
+            onCalciteInputTextInput={this.calciteInternalInputInputHandler}
+            onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
             readOnly={readOnly}
             role="combobox"
             scale={this.scale}
             status={this.status}
-            step={this.step}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setInputAndTransitionEl}
           />
@@ -1026,7 +1026,10 @@ export class InputTimePicker
   renderToggleIcon(open: boolean): VNode {
     return (
       <span class={CSS.toggleIcon}>
-        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon
+          icon={open ? "chevron-up" : "chevron-down"}
+          scale={getIconScale(this.scale)}
+        />
       </span>
     );
   }

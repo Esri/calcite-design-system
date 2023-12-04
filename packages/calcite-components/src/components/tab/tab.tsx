@@ -11,6 +11,7 @@ import {
   State,
   VNode,
 } from "@stencil/core";
+import { CSS } from "./resources";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
@@ -46,9 +47,11 @@ export class Tab {
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+  @Prop() scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -61,8 +64,12 @@ export class Tab {
 
     return (
       <Host aria-labelledby={this.labeledBy} id={id}>
-        <div class="container" role="tabpanel" tabIndex={this.selected ? 0 : -1}>
-          <section>
+        <div
+          class={{ [CSS.container]: true, [`scale-${this.scale}`]: true }}
+          role="tabpanel"
+          tabIndex={this.selected ? 0 : -1}
+        >
+          <section class={CSS.content}>
             <slot />
           </section>
         </div>
@@ -76,10 +83,6 @@ export class Tab {
 
   componentDidLoad(): void {
     this.calciteInternalTabRegister.emit();
-  }
-
-  componentWillRender(): void {
-    this.scale = this.parentTabsEl?.scale;
   }
 
   disconnectedCallback(): void {

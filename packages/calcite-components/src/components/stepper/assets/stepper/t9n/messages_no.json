@@ -1,3 +1,5 @@
 {
-  "label": "Fremdriftstrinn"
+  "label": "Fremdriftstrinn",
+  "previousStep": "Forrige trinn",
+  "nextStep": "Neste trinn"
 }

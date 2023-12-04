@@ -208,7 +208,6 @@ export const locales: Locale[] = [
   {
     name: "Thai (Thai digits)",
     locale: "th",
-    numberingSystem: "thai",
   },
   {
     name: "Turkish",
@@ -227,26 +226,11 @@ export const locales: Locale[] = [
     locale: "zh-CN",
   },
   {
-    name: "Chinese (China) (Hanidec numerals)",
-    locale: "zh-CN",
-    numberingSystem: "hanidec",
-  },
-  {
     name: "Chinese (Hong Kong)",
     locale: "zh-HK",
   },
   {
-    name: "Chinese (Hong Kong) (Hanidec numerals)",
-    locale: "zh-HK",
-    numberingSystem: "hanidec",
-  },
-  {
     name: "Chinese (Taiwan)",
     locale: "zh-TW",
-  },
-  {
-    name: "Chinese (Taiwan) (Hanidec numerals)",
-    locale: "zh-TW",
-    numberingSystem: "hanidec",
   },
 ];

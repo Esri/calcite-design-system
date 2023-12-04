@@ -1,6 +1,6 @@
 import { number, select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
@@ -42,6 +42,13 @@ export const milliseconds_TestOnly = (): string => html`
 export const disabled_TestOnly = (): string =>
   html`<calcite-input-time-picker disabled scale="l" icon step="1" value="01:02"></calcite-input-time-picker>`;
 
+export const scales_TestOnly = (): string =>
+  html`
+    <calcite-input-time-picker scale="s" icon value="01:02"></calcite-input-time-picker>
+    <calcite-input-time-picker scale="m" icon value="01:02"></calcite-input-time-picker>
+    <calcite-input-time-picker scale="l" icon value="01:02"></calcite-input-time-picker>
+  `;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-input-time-picker class="calcite-mode-dark" value="22:37" step="1"> </calcite-input-time-picker>
 `;
@@ -68,3 +75,6 @@ export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
 export const invalidStatus_TestOnly = (): string => html`
   <calcite-input-time-picker value="12:34" step="1" status="invalid" open> </calcite-input-time-picker>
 `;
+
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(html`<calcite-input-time-picker scale="{scale}" value="12:34"></calcite-input-time-picker>`);

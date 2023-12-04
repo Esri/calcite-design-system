@@ -5,6 +5,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
   Attributes,
+  createBreakpointStories,
   createComponentHTML as create,
   filterComponentAttributes,
   modesDarkDefault,
@@ -240,13 +241,37 @@ arabLangNumberingSystem_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const thaiLangNumberingSystem_TestOnly = (): string =>
-  html`<div style="width: 400px">
-    ${create(
-      "calcite-date-picker",
-      createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
-        { name: "lang", value: "th" },
-        { name: "numbering-system", value: "thai" },
-      ])
-    )}
-  </div>`;
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(html`<calcite-date-picker scale="{scale}" value="2000-11-27"></calcite-date-picker>`);
+
+export const defaultWidthAllScales_TestOnly = (): string =>
+  html`
+    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+  `;
+
+export const smallerThanMinWidthAllScales_TestOnly = (): string =>
+  html`
+    <style>
+      calcite-date-picker {
+        width: 50px;
+      }
+    </style>
+    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+  `;
+
+export const greaterThanMaxWidthAllScales_TestOnly = (): string =>
+  html`
+    <style>
+      calcite-date-picker {
+        width: 1000px;
+        display: block;
+      }
+    </style>
+    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+  `;

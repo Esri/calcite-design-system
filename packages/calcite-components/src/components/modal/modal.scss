@@ -12,12 +12,16 @@
  */
 
 :host {
+  --calcite-modal-scrim-background: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
+}
+
+:host {
   @apply absolute flex inset-0 opacity-0 z-overlay;
   visibility: hidden !important;
   transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   // the modal should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
-  --calcite-modal-scrim-background-internal: #{rgba($blk-240, 0.85)};
+  --calcite-modal-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, 0.85)};
 }
 
 .content-top[hidden],
@@ -62,7 +66,7 @@
 }
 
 .scrim {
-  --calcite-scrim-background: var(--calcite-modal-scrim-background, var(--calcite-modal-scrim-background-internal));
+  --calcite-scrim-background: var(--calcite-modal-scrim-background, var(--calcite-color-transparent-scrim));
   @apply fixed inset-0 flex overflow-y-hidden;
 }
 
@@ -265,14 +269,14 @@ slot[name="primary"] {
  * Sizes
  */
 @mixin modal-size($size, $width) {
-  :host([width="#{$size}"]) .modal {
+  :host([width-scale="#{$size}"]) .modal {
     @apply max-h-full max-w-full;
     inline-size: var(--calcite-modal-width, $width);
     block-size: var(--calcite-modal-height, auto);
   }
 
   @media screen and (max-width: $width + 2 * $baseline) {
-    :host([width="#{$size}"]) {
+    :host([width-scale="#{$size}"]) {
       .modal {
         @apply m-0 h-full max-h-full w-full max-w-full;
       }
@@ -281,7 +285,7 @@ slot[name="primary"] {
         max-block-size: unset;
       }
     }
-    :host([width="#{$size}"][docked]) .container {
+    :host([width-scale="#{$size}"][docked]) .container {
       align-items: flex-end;
     }
   }

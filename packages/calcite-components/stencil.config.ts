@@ -1,8 +1,9 @@
 import { Config } from "@stencil/core";
-import { postcss } from "@stencil/postcss";
+import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
+import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
@@ -85,15 +86,21 @@ export const create: () => Config = () => ({
     { components: ["calcite-value-list", "calcite-value-list-item"] },
   ],
   outputTargets: [
+    angularOutputTarget({
+      componentCorePackage: "@esri/calcite-components",
+      directivesProxyFile:
+        "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/components.ts",
+      directivesArrayFile:
+        "../calcite-components-angular/projects/component-library/src/lib/stencil-generated/index.ts",
+    }),
     reactOutputTarget({
       componentCorePackage: "@esri/calcite-components",
       proxiesFile: "../calcite-components-react/src/components.ts",
       excludeComponents: ["context-consumer"],
       customElementsDir: "dist/components",
-      includeImportCustomElements: true,
     }),
     { type: "dist-hydrate-script" },
-    { type: "dist-custom-elements", autoDefineCustomElements: true },
+    { type: "dist-custom-elements", customElementsExportBehavior: "auto-define-custom-elements" },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
@@ -135,10 +142,13 @@ export const create: () => Config = () => ({
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    transform: {
+      "calcite-design-tokens/dist/es6/.*\\.js$":
+        "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
+    },
   },
   hydratedFlag: {
     selector: "attribute",
@@ -146,7 +156,7 @@ export const create: () => Config = () => ({
   },
   preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.\nv${version}`,
   extras: {
-    experimentalImportInjection: true,
+    enableImportInjection: true,
     scriptDataOpts: true,
   },
 });
