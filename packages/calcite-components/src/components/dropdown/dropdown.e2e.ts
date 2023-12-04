@@ -1293,15 +1293,18 @@ describe("calcite-dropdown", () => {
         expect(await isElementFocused(page, "#item-3")).toBe(true);
       });
 
-      it("skips disabled items when navigating with arrow keys", async () => {
+      it("skips disabled and hidden items when navigating with arrow keys", async () => {
         const page = await newE2EPage();
         await page.setContent(html`
           <calcite-dropdown>
             <calcite-button slot="trigger">Open</calcite-button>
             <calcite-dropdown-group selection-mode="single">
               <calcite-dropdown-item id="item-1" disabled>1</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-1.5" disabled>1.5</calcite-dropdown-item>
               <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2.5" hidden>2.5</calcite-dropdown-item>
               <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-4" hidden>4</calcite-dropdown-item>
             </calcite-dropdown-group>
           </calcite-dropdown>
         `);

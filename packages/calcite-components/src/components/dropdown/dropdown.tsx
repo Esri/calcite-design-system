@@ -375,7 +375,7 @@ export class Dropdown
   }
 
   private getTraversableItems(): HTMLCalciteDropdownItemElement[] {
-    return this.items.filter((item) => !item.disabled);
+    return this.items.filter((item) => !item.disabled && !item.hidden);
   }
 
   @Listen("calciteInternalDropdownItemKeyEvent")
