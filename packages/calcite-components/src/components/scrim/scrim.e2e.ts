@@ -263,13 +263,13 @@ describe("calcite-scrim", () => {
       });
     });
 
-    it("should allow the CSS custom property to be overridden when applied to :root", async () => {
+    it("should allow the CSS custom property to be overridden when parent token is altered at :root", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
       page = await newE2EPage({
         html: `
         <style>
           :root {
-            --calcite-scrim-background: ${overrideStyle};
+            --calcite-color-transparent-scrim: ${overrideStyle};
           }
         </style>
         ${scrimSnippet}

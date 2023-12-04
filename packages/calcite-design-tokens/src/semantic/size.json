@@ -1,0 +1,54 @@
+{
+  "semantic": {
+    "size": {
+      "px": {
+        "value": "{core.size.default.1}",
+        "type": "spacing"
+      },
+      "xxxs": {
+        "value": "{core.size.default.2}",
+        "type": "spacing"
+      },
+      "xxs": {
+        "value": "{core.size.default.4}",
+        "type": "spacing"
+      },
+      "xs": {
+        "value": "{core.size.default.6}",
+        "type": "spacing"
+      },
+      "sm": {
+        "value": "{core.size.default.8}",
+        "type": "spacing"
+      },
+      "sm+": {
+        "value": "{core.size.default.10}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{core.size.default.12}",
+        "type": "spacing"
+      },
+      "md+": {
+        "value": "{core.size.default.14}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{core.size.default.16}",
+        "type": "spacing"
+      },
+      "xl": {
+        "value": "{core.size.default.20}",
+        "type": "spacing"
+      },
+      "xxl": {
+        "value": "{core.size.default.24}",
+        "type": "spacing"
+      },
+      "xxxl": {
+        "value": "{core.size.default.32}",
+        "type": "spacing"
+      }
+    }
+  }
+}
