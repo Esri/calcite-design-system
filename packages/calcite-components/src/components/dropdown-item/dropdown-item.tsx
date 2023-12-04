@@ -22,6 +22,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { getIconScale } from "../../utils/component";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -31,15 +32,24 @@ import { getIconScale } from "../../utils/component";
   styleUrl: "dropdown-item.scss",
   shadow: true,
 })
-export class DropdownItem implements LoadableComponent {
+export class DropdownItem implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
 
-  /** When `true`, the component is selected. */
-  @Prop({ reflect: true, mutable: true }) selected = false;
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
+   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   *
+   * Determines if the component will render as an anchor.
+   */
+  @Prop({ reflect: true }) href: string;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
@@ -50,18 +60,14 @@ export class DropdownItem implements LoadableComponent {
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
-  /**
-   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
-   *
-   * Determines if the component will render as an anchor.
-   */
-  @Prop({ reflect: true }) href: string;
-
   /** Accessible name for the component. */
   @Prop() label: string;
 
   /** Specifies the relationship to the linked document defined in `href`. */
   @Prop({ reflect: true }) rel: string;
+
+  /** When `true`, the component is selected. */
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** Specifies the frame or window to open the linked document. */
   @Prop({ reflect: true }) target: string;
@@ -134,6 +140,10 @@ export class DropdownItem implements LoadableComponent {
 
   connectedCallback(): void {
     this.initialize();
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this, "managed");
   }
 
   render(): VNode {

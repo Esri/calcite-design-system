@@ -323,23 +323,43 @@ export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string => html` <
   </calcite-dropdown-group>
 </calcite-dropdown>`;
 
-export const disabled_TestOnly = (): string => html` <calcite-dropdown disabled>
-  <calcite-button slot="trigger">Open Dropdown</calcite-button>
-  <calcite-dropdown-group group-title="First group">
-    <calcite-dropdown-item>1</calcite-dropdown-item>
-    <calcite-dropdown-item>2</calcite-dropdown-item>
-    <calcite-dropdown-item>3</calcite-dropdown-item>
-    <calcite-dropdown-item>4</calcite-dropdown-item>
-    <calcite-dropdown-item>5</calcite-dropdown-item>
-  </calcite-dropdown-group>
-  <calcite-dropdown-group group-title="Second group">
-    <calcite-dropdown-item>6</calcite-dropdown-item>
-    <calcite-dropdown-item>7</calcite-dropdown-item>
-    <calcite-dropdown-item>8</calcite-dropdown-item>
-    <calcite-dropdown-item>9</calcite-dropdown-item>
-    <calcite-dropdown-item>10</calcite-dropdown-item>
-  </calcite-dropdown-group>
-</calcite-dropdown>`;
+export const disabled_TestOnly = (): string => html`
+  <calcite-dropdown disabled>
+    <calcite-button slot="trigger">Disabled dropdown</calcite-button>
+    <calcite-dropdown-group group-title="First group">
+      <calcite-dropdown-item>1</calcite-dropdown-item>
+      <calcite-dropdown-item>2</calcite-dropdown-item>
+      <calcite-dropdown-item>3</calcite-dropdown-item>
+      <calcite-dropdown-item>4</calcite-dropdown-item>
+      <calcite-dropdown-item>5</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Second group">
+      <calcite-dropdown-item>6</calcite-dropdown-item>
+      <calcite-dropdown-item>7</calcite-dropdown-item>
+      <calcite-dropdown-item>8</calcite-dropdown-item>
+      <calcite-dropdown-item>9</calcite-dropdown-item>
+      <calcite-dropdown-item>10</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+
+  <calcite-dropdown open>
+    <calcite-button slot="trigger">Disabled dropdown items</calcite-button>
+    <calcite-dropdown-group group-title="First group">
+      <calcite-dropdown-item>1</calcite-dropdown-item>
+      <calcite-dropdown-item disabled>2</calcite-dropdown-item>
+      <calcite-dropdown-item disabled>3</calcite-dropdown-item>
+      <calcite-dropdown-item disabled>4</calcite-dropdown-item>
+      <calcite-dropdown-item>5</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Second group">
+      <calcite-dropdown-item>6</calcite-dropdown-item>
+      <calcite-dropdown-item>7</calcite-dropdown-item>
+      <calcite-dropdown-item>8</calcite-dropdown-item>
+      <calcite-dropdown-item>9</calcite-dropdown-item>
+      <calcite-dropdown-item>10</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
 
 export const flipPositioning_TestOnly = (): string => html`
   <div style="margin:10px;">
