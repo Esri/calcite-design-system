@@ -509,7 +509,7 @@ export class List
                     />
                     <calcite-filter
                       aria-label={filterPlaceholder}
-                      disabled={loading || disabled}
+                      disabled={disabled}
                       items={dataForFilter}
                       onCalciteFilterChange={this.handleFilterChange}
                       placeholder={filterPlaceholder}

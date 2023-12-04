@@ -92,34 +92,20 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const hebrewNumberingSystemAndMediumIconForLargeInputStyling_TestOnly = (): string =>
+export const mediumIconForLargeInputStyling_TestOnly = (): string =>
   html`
-    <calcite-input-number
-      number-button-type="vertical"
-      lang="ar-EG"
-      numbering-system="hebr"
-      value="123456"
-      scale="l"
-    ></calcite-input-number
+    <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number
     ><calcite-input-number
       number-button-type="vertical"
       lang="ar-EG"
-      numbering-system="hebr"
       value="123456"
       scale="l"
       icon="pen"
     ></calcite-input-number>
-    <calcite-input-number
-      number-button-type="horizontal"
-      lang="ar-EG"
-      numbering-system="hebr"
-      value="123456"
-      scale="l"
-    ></calcite-input-number
+    <calcite-input-number number-button-type="horizontal" lang="ar-EG" value="123456" scale="l"></calcite-input-number
     ><calcite-input-number
       number-button-type="horizontal"
       lang="ar-EG"
-      numbering-system="hebr"
       value="123456"
       scale="l"
       icon="pen"

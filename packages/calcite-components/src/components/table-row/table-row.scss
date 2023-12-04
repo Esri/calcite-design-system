@@ -8,7 +8,7 @@
  */
 
 :host {
-  --calcite-internal-table-row-background: var(--calcite-table-row-background, var(--calcite-ui-foreground-1));
+  --calcite-internal-table-row-background: var(--calcite-table-row-background, var(--calcite-color-foreground-1));
   --calcite-internal-table-row-border-color: var(--calcite-table-row-border-color, transparent);
   @apply contents;
 }
