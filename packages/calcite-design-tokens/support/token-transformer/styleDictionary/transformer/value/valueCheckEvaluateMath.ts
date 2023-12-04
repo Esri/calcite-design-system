@@ -14,7 +14,7 @@ export function evaluateMathInValue(value: any): any {
     }, {} as Record<string, any>);
   }
 
-  return typeof value === "string" || typeof value === "number" ? checkAndEvaluateMath(`${value}`) : value;
+  return typeof value === "string" || typeof value === "number" ? `${checkAndEvaluateMath(`${value}`)}` : value;
 }
 
 export const transformValuesEvaluateMath: CalledTransformerFunction<any> = (token) => {
