@@ -44,7 +44,7 @@
     "@tokens-studio/sd-transforms": "0.12.1",
     "@types/dedent": "0.7.1",
     "@types/eslint": "8.40.2",
-    "@types/estree": "1.0.4",
+    "@types/estree": "1.0.5",
     "@types/jest": "29.5.7",
     "@types/jest-axe": "3.5.7",
     "@types/lodash-es": "4.17.10",
