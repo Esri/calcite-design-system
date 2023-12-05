@@ -236,9 +236,12 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalShellPanelResize: EventEmitter<{
-    resizing: boolean;
-  }>;
+  @Event({ cancelable: false }) calciteInternalShellPanelResizeStart: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalShellPanelResizeEnd: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -601,7 +604,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       return;
     }
 
-    this.calciteInternalShellPanelResize.emit({ resizing: false });
+    this.calciteInternalShellPanelResizeEnd.emit();
 
     event.preventDefault();
     window.removeEventListener("pointerup", this.separatorPointerUp);
@@ -621,7 +624,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       return;
     }
 
-    this.calciteInternalShellPanelResize.emit({ resizing: true });
+    this.calciteInternalShellPanelResizeStart.emit();
 
     event.preventDefault();
     const { separatorEl } = this;

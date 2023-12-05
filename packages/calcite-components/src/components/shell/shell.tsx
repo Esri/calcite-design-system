@@ -44,9 +44,15 @@ export class Shell implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalShellPanelResize")
-  handleCalciteInternalShellPanelResize(event: CustomEvent<{ resizing: boolean }>): void {
-    this.panelIsResizing = !!event.detail?.resizing;
+  @Listen("calciteInternalShellPanelResizeStart")
+  handleCalciteInternalShellPanelResizeStart(event: CustomEvent<void>): void {
+    this.panelIsResizing = true;
+    event.stopPropagation();
+  }
+
+  @Listen("calciteInternalShellPanelResizeEnd")
+  handleCalciteInternalShellPanelResizeEnd(event: CustomEvent<void>): void {
+    this.panelIsResizing = false;
     event.stopPropagation();
   }
 
