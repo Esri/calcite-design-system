@@ -811,7 +811,8 @@ export const calciteZIndex5 = "500";
 export const calciteZIndex6 = "600";
 export const calciteZIndex7 = "700";
 export const calciteZIndex8 = "800";
-export const calciteZIndex9 = "900";"
+export const calciteZIndex9 = "900";
+"
 `;
 
 exports[`generated tokens ES6 global should match 1`] = `
@@ -1013,7 +1014,8 @@ export const calciteZIndexDropdown = "600";
 export const calciteZIndexOverlay = "700";
 export const calciteZIndexModal = "800";
 export const calciteZIndexPopup = "900";
-export const calciteZIndexTooltip = "901";"
+export const calciteZIndexTooltip = "901";
+"
 `;
 
 exports[`generated tokens ES6 types should match 1`] = `
@@ -1068,26 +1070,42 @@ export const calciteColorBorder3 : { light: string, dark: string };
 export const calciteColorBorderInput : { light: string, dark: string };
 export const calciteColorBorderGhost : { light: string, dark: string };
 export const calciteColorBorderWhite : { light: string, dark: string };
-export const calciteContainerSizeHeightXxs : { min: string, max: string }; // Small handheld devices and mini-windows
-export const calciteContainerSizeHeightXs : { min: string, max: string }; // Handheld devices
-export const calciteContainerSizeHeightSm : { min: string, max: string }; // Small tablets
-export const calciteContainerSizeHeightMd : { min: string, max: string }; // Small laptops
-export const calciteContainerSizeHeightLg : { min: string, max: string }; // Large laptops and desktop computers
-export const calciteContainerSizeHeightXl : { min: string }; // Projectors and televisions
-export const calciteContainerSizeWidthXxs : { min: string, max: string }; // Small handheld devices and mini-windows
-export const calciteContainerSizeWidthXs : { min: string, max: string }; // Handheld devices
-export const calciteContainerSizeWidthSm : { min: string, max: string }; // Small tablets
-export const calciteContainerSizeWidthMd : { min: string, max: string }; // Small laptops
-export const calciteContainerSizeWidthLg : { min: string, max: string }; // Large laptops and desktop computers
-export const calciteContainerSizeWidthXl : { min: string }; // Projectors and televisions
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeHeightXxs : { min: string, max: string };
+/** Handheld devices */
+export const calciteContainerSizeHeightXs : { min: string, max: string };
+/** Small tablets */
+export const calciteContainerSizeHeightSm : { min: string, max: string };
+/** Small laptops */
+export const calciteContainerSizeHeightMd : { min: string, max: string };
+/** Large laptops and desktop computers */
+export const calciteContainerSizeHeightLg : { min: string, max: string };
+/** Projectors and televisions */
+export const calciteContainerSizeHeightXl : { min: string };
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidthXxs : { min: string, max: string };
+/** Handheld devices */
+export const calciteContainerSizeWidthXs : { min: string, max: string };
+/** Small tablets */
+export const calciteContainerSizeWidthSm : { min: string, max: string };
+/** Small laptops */
+export const calciteContainerSizeWidthMd : { min: string, max: string };
+/** Large laptops and desktop computers */
+export const calciteContainerSizeWidthLg : { min: string, max: string };
+/** Projectors and televisions */
+export const calciteContainerSizeWidthXl : { min: string };
 export const calciteContainerSizeMargin : string;
 export const calciteContainerSizeGutter : string;
-export const calciteContainerSizeContentFluid : string; // for fluid grid widths
-export const calciteContainerSizeContentFixed : string; // only for lg breakpoint fixed grid width
+/** for fluid grid widths */
+export const calciteContainerSizeContentFluid : string;
+/** only for lg breakpoint fixed grid width */
+export const calciteContainerSizeContentFixed : string;
 export const calciteFontFamily : string;
 export const calciteFontFamilyCode : string;
-export const calciteFontWeightLight : string; // For Avenir Next World (secondary font family)
-export const calciteFontWeightNormal : string; // For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"
+/** For Avenir Next World (secondary font family) */
+export const calciteFontWeightLight : string;
+/** For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
+export const calciteFontWeightNormal : string;
 export const calciteFontWeightRegular : string;
 export const calciteFontWeightMedium : string;
 export const calciteFontWeightSemibold : string;
@@ -1099,17 +1117,24 @@ export const calciteFontSizeMd : string;
 export const calciteFontSizeLg : string;
 export const calciteFontSizeXl : string;
 export const calciteFontSizeXxl : string;
-export const calciteFontStyleEmphasis : string; // used in ratings
+/** used in ratings */
+export const calciteFontStyleEmphasis : string;
 export const calciteFontLineHeightFixedSm : string;
 export const calciteFontLineHeightFixedBase : string;
 export const calciteFontLineHeightFixedLg : string;
 export const calciteFontLineHeightFixedXl : string;
-export const calciteFontLineHeightRelative : string; // 1
-export const calciteFontLineHeightRelativeTight : string; // 1.25
-export const calciteFontLineHeightRelativeSnug : string; // 1.375
-export const calciteFontLineHeightRelativeNormal : string; // 1.5
-export const calciteFontLineHeightRelativeRelaxed : string; // 1.625
-export const calciteFontLineHeightRelativeLoose : string; // 2
+/** 1 */
+export const calciteFontLineHeightRelative : string;
+/** 1.25 */
+export const calciteFontLineHeightRelativeTight : string;
+/** 1.375 */
+export const calciteFontLineHeightRelativeSnug : string;
+/** 1.5 */
+export const calciteFontLineHeightRelativeNormal : string;
+/** 1.625 */
+export const calciteFontLineHeightRelativeRelaxed : string;
+/** 2 */
+export const calciteFontLineHeightRelativeLoose : string;
 export const calciteFontLetterSpacingTight : string;
 export const calciteFontLetterSpacingNormal : string;
 export const calciteFontLetterSpacingWide : string;
@@ -1215,7 +1240,8 @@ export const calciteZIndexDropdown : string;
 export const calciteZIndexOverlay : string;
 export const calciteZIndexModal : string;
 export const calciteZIndexPopup : string;
-export const calciteZIndexTooltip : string;"
+export const calciteZIndexTooltip : string;
+"
 `;
 
 exports[`generated tokens ES6 types should match 2`] = `
@@ -1438,17 +1464,22 @@ export const calciteContainerSize1440 : string;
 export const calciteFontFamilyAvenirNextPro : string;
 export const calciteFontFamilyAvenirNextWorld : string;
 export const calciteFontFamilyMonaco : string;
-export const calciteFontStyleItalic : string; // used in ratings
-export const calciteFontWeightUltralight : string; // only for Avenir Next World (secondary font family)
+/** used in ratings */
+export const calciteFontStyleItalic : string;
+/** only for Avenir Next World (secondary font family) */
+export const calciteFontWeightUltralight : string;
 export const calciteFontWeightThin : string;
-export const calciteFontWeightLight : string; // only for Avenir Next World (secondary font family)
+/** only for Avenir Next World (secondary font family) */
+export const calciteFontWeightLight : string;
 export const calciteFontWeightRegular : string;
 export const calciteFontWeightMedium : string;
 export const calciteFontWeightMediumItalic : string;
 export const calciteFontWeightDemi : string;
 export const calciteFontWeightBold : string;
-export const calciteFontWeightExtrabold : string; // only for Avenir Next World (secondary font family)
-export const calciteFontWeightBlack : string; // only for Avenir Next World (secondary font family)
+/** only for Avenir Next World (secondary font family) */
+export const calciteFontWeightExtrabold : string;
+/** only for Avenir Next World (secondary font family) */
+export const calciteFontWeightBlack : string;
 export const calciteFontWeightHeavy : string;
 export const calciteFontTextDecorationNone : string;
 export const calciteFontTextDecorationUnderline : string;
@@ -1524,7 +1555,8 @@ export const calciteZIndex5 : string;
 export const calciteZIndex6 : string;
 export const calciteZIndex7 : string;
 export const calciteZIndex8 : string;
-export const calciteZIndex9 : string;"
+export const calciteZIndex9 : string;
+"
 `;
 
 exports[`generated tokens SCSS core should match 1`] = `
