@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "נקה ערך",
-  "removeTag": "הסר תג"
+  "removeTag": "הסר תג",
+  "selected": "selected"
 }

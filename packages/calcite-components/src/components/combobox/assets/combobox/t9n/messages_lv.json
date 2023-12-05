@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Notīrīt vērtību",
-  "removeTag": "Noņemt atslēgvārdu"
+  "removeTag": "Noņemt atslēgvārdu",
+  "selected": "selected"
 }

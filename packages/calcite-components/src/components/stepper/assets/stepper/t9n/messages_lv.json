@@ -1,5 +1,5 @@
 {
   "label": "Progresa soļi",
-  "previousStep": "Iepriekšējā darbība",
-  "nextStep": "Nākamā darbība"
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

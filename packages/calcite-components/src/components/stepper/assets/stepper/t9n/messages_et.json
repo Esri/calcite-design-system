@@ -1,5 +1,5 @@
 {
   "label": "Edenemise etapid",
-  "previousStep": "Eelmine toiming",
-  "nextStep": "Järgmine toiming"
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

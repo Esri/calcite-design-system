@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Rensa värde",
-  "removeTag": "Ta bort tagg"
+  "removeTag": "Ta bort tagg",
+  "selected": "selected"
 }

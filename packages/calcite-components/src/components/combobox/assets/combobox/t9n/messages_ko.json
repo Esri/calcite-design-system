@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "값 지우기",
-  "removeTag": "태그 제거"
+  "removeTag": "태그 제거",
+  "selected": "selected"
 }

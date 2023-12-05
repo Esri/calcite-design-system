@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Değeri temizle",
-  "removeTag": "Etiketi kaldır"
+  "removeTag": "Etiketi kaldır",
+  "selected": "selected"
 }

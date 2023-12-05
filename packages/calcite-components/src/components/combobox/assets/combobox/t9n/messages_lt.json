@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Išvalyti reikšmę",
-  "removeTag": "Pašalinti raktažodį"
+  "removeTag": "Pašalinti raktažodį",
+  "selected": "selected"
 }

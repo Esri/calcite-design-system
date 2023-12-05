@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Hapus nilai",
-  "removeTag": "Hapus tag"
+  "removeTag": "Hapus tag",
+  "selected": "selected"
 }

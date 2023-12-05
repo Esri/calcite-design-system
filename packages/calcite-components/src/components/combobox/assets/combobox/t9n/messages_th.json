@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "ล้างค่า",
-  "removeTag": "ลบแท็ก"
+  "removeTag": "ลบแท็ก",
+  "selected": "selected"
 }

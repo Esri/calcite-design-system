@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Golire valoare",
-  "removeTag": "Eliminare etichetă"
+  "removeTag": "Eliminare etichetă",
+  "selected": "selected"
 }

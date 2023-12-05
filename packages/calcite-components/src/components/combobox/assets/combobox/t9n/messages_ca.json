@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Esborra el valor",
-  "removeTag": "Elimina l'etiqueta"
+  "removeTag": "Elimina l'etiqueta",
+  "selected": "selected"
 }

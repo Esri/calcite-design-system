@@ -1,5 +1,5 @@
 {
   "label": "Statusschritte",
-  "previousStep": "Vorheriger Schritt",
-  "nextStep": "Nächster Schritt"
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

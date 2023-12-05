@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Xóa giá trị",
-  "removeTag": "Xóa thẻ"
+  "removeTag": "Xóa thẻ",
+  "selected": "selected"
 }

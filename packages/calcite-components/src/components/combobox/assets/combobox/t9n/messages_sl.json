@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Počisti vrednost",
-  "removeTag": "Odstrani oznako"
+  "removeTag": "Odstrani oznako",
+  "selected": "selected"
 }

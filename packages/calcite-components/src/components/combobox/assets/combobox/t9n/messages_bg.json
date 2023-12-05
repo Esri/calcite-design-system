@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Изчистване на стойност",
-  "removeTag": "Премахване на таг"
+  "removeTag": "Премахване на таг",
+  "selected": "selected"
 }

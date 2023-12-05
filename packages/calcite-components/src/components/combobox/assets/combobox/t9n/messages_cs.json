@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Vymazat hodnotu",
-  "removeTag": "Odebrat klíčové slovo"
+  "removeTag": "Odebrat klíčové slovo",
+  "selected": "selected"
 }

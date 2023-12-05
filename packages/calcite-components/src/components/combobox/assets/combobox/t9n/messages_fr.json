@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Effacer la valeur",
-  "removeTag": "Supprimer la balise"
+  "removeTag": "Supprimer la balise",
+  "selected": "selected"
 }

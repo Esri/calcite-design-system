@@ -1,5 +1,5 @@
 {
   "label": "进程步骤",
-  "previousStep": "上一步",
-  "nextStep": "下一步"
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

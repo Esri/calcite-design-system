@@ -1,5 +1,5 @@
 {
   "label": "Kroky průběhu",
-  "previousStep": "Předchozí krok",
-  "nextStep": "Další krok"
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

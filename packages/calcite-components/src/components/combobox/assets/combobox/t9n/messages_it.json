@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Cancella valore",
-  "removeTag": "Rimuovere tag"
+  "removeTag": "Rimuovere tag",
+  "selected": "selected"
 }

@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "مسح القيمة",
-  "removeTag": "إزالة علامة"
+  "removeTag": "إزالة علامة",
+  "selected": "selected"
 }

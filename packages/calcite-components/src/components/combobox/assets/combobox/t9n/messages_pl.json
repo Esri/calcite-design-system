@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Wyczyść wartość",
-  "removeTag": "Usuń znacznik"
+  "removeTag": "Usuń znacznik",
+  "selected": "selected"
 }

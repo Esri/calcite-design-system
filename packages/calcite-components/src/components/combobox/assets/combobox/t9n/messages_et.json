@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Eemalda väärtus",
-  "removeTag": "Eemaldage märksõna"
+  "removeTag": "Eemaldage märksõna",
+  "selected": "selected"
 }

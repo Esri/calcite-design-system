@@ -1,4 +1,7 @@
 {
+  "all": "All",
+  "allSelected": "All selected",
   "clear": "Очистить значение",
-  "removeTag": "Удалить тег"
+  "removeTag": "Удалить тег",
+  "selected": "selected"
 }
