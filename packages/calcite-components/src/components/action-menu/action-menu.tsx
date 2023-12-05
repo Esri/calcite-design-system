@@ -419,7 +419,7 @@ export class ActionMenu implements LoadableComponent {
         []
       );
 
-    this.actionElements = actions;
+    this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   };
 
   isValidKey(key: string, supportedKeys: string[]): boolean {
