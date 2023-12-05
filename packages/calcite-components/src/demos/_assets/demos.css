@@ -24,18 +24,18 @@ main {
 .example-container h3,
 .example-container h4,
 .example-container h5 {
-  font-weight: var(--calcite-app-font-weight-demi);
+  font-weight: var(--calcite-font-weight-semibold);
   /* margin: var(--calcite-app-cap-spacing) 0 0; */
 }
 .example-container h1 {
-  font-size: var(--calcite-app-font-size-2);
+  font-size: var(--calcite-font-size);
 }
 .example-container h2 {
-  font-size: var(--calcite-app-font-size-1);
+  font-size: var(--calcite-font-size-sm);
 }
 .example-container h3 {
   font-weight: var(--calcite-app-font-weight);
-  font-size: var(--calcite-app-font-size-1);
+  font-size: var(--calcite-font-size-sm);
 }
 
 /*
