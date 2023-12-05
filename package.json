@@ -42,7 +42,7 @@
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/testing-library": "0.2.2",
     "@tokens-studio/sd-transforms": "0.12.1",
-    "@types/dedent": "0.7.1",
+    "@types/dedent": "0.7.2",
     "@types/eslint": "8.40.2",
     "@types/estree": "1.0.5",
     "@types/jest": "29.5.7",
