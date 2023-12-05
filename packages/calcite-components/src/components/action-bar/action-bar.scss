@@ -41,12 +41,12 @@
 }
 
 ::slotted(calcite-action-group) {
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 :host([layout="horizontal"]) ::slotted(calcite-action-group) {
   border-block-end: 0;
-  border-inline-end: 1px solid var(--calcite-ui-border-3);
+  border-inline-end: 1px solid var(--calcite-color-border-3);
 }
 
 :host([layout="horizontal"][expand-disabled]) ::slotted(calcite-action-group:last-of-type) {

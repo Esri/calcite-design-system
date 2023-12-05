@@ -33,19 +33,19 @@
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {
-  color: var(--calcite-ui-danger);
+  color: var(--calcite-color-status-danger);
 }
 
 :host([status="warning"]) .calcite-input-message-icon {
-  color: var(--calcite-ui-warning);
+  color: var(--calcite-color-status-warning);
 }
 
 :host([status="valid"]) .calcite-input-message-icon {
-  color: var(--calcite-ui-success);
+  color: var(--calcite-color-status-success);
 }
 
 :host([status="idle"]) .calcite-input-message-icon {
-  color: var(--calcite-ui-brand);
+  color: var(--calcite-color-brand);
 }
 
 // Validation Text

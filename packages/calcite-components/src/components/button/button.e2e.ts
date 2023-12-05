@@ -481,11 +481,11 @@ describe("calcite-button", () => {
       page = await newE2EPage({ html: buttonSnippet });
       const buttonStyles = await page.evaluate(() => {
         buttonEl = document.querySelector("calcite-button");
-        buttonEl.style.setProperty("--calcite-button-transparent-hover", "rgba(34, 23, 200, 0.4)");
-        buttonEl.style.setProperty("--calcite-button-transparent-press", "rgba(1, 20, 44, 0.1");
+        buttonEl.style.setProperty("--calcite-color-transparent-hover", "rgba(34, 23, 200, 0.4)");
+        buttonEl.style.setProperty("--calcite-color-transparent-press", "rgba(1, 20, 44, 0.1");
         return {
-          hoverFocus: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-hover"),
-          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-press"),
+          hoverFocus: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-transparent-hover"),
+          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-transparent-press"),
         };
       });
       expect(buttonStyles.hoverFocus).toEqual("rgba(34, 23, 200, 0.4)");
@@ -499,12 +499,12 @@ describe("calcite-button", () => {
         await buttonEl.focus();
         await page.waitForChanges();
         buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
         buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
-        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
 
@@ -517,12 +517,12 @@ describe("calcite-button", () => {
         await buttonEl.focus();
         await page.waitForChanges();
         buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
         buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
-        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
 
@@ -532,7 +532,7 @@ describe("calcite-button", () => {
         html: `
         <style>
           :root {
-            --calcite-button-transparent-hover: ${overrideStyle};
+            --calcite-color-transparent-hover: ${overrideStyle};
           }
         </style>
         <div>${buttonSnippet}</div>`,

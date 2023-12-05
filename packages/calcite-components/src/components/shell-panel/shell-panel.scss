@@ -111,7 +111,7 @@
 :host(:focus-within) {
   .separator:not(:hover):not(:focus) {
     @apply opacity-100;
-    background-color: var(--calcite-ui-border-3);
+    background-color: var(--calcite-color-border-3);
   }
 }
 
@@ -126,7 +126,7 @@
   outline: none;
   &:hover {
     @apply opacity-100;
-    background-color: var(--calcite-ui-border-2);
+    background-color: var(--calcite-color-border-2);
   }
   &:focus {
     @apply bg-brand opacity-100;

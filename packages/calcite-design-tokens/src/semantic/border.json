@@ -1,0 +1,44 @@
+{
+  "semantic": {
+    "border": {
+      "width": {
+        "none": {
+          "value": "{core.size.default.none}",
+          "type": "borderWidth"
+        },
+        "sm": {
+          "value": "{core.size.default.1}",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "{core.size.default.2}",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "{core.size.default.4}",
+          "type": "borderWidth"
+        }
+      }
+    },
+    "corner": {
+      "radius": {
+        "default": {
+          "value": "{semantic.corner.radius.sharp}",
+          "type": "borderRadius"
+        },
+        "sharp": {
+          "value": "{core.size.default.none}",
+          "type": "borderRadius"
+        },
+        "round": {
+          "value": "{core.size.default.4}",
+          "type": "borderRadius"
+        },
+        "pill": {
+          "value": "{core.size.relative.100}",
+          "type": "borderRadius"
+        }
+      }
+    }
+  }
+}
