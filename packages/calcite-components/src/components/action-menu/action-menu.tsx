@@ -410,7 +410,9 @@ export class ActionMenu implements LoadableComponent {
 
           if (currentValue?.matches("calcite-action-group")) {
             return previousValue.concat(
-              Array.from(currentValue.querySelectorAll("calcite-action"))
+              Array.from(currentValue.querySelectorAll("calcite-action")).filter(
+                (action) => !action.disabled && !action.hidden
+              )
             );
           }
 
