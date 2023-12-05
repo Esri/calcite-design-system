@@ -404,20 +404,13 @@ export class ActionMenu implements LoadableComponent {
       .reduce(
         (previousValue: HTMLCalciteActionElement[], currentValue): HTMLCalciteActionElement[] => {
           if (currentValue?.matches("calcite-action")) {
-            const action = currentValue as HTMLCalciteActionElement;
-
-            if (!action.disabled && !action.hidden) {
-              previousValue.push(action);
-            }
-
+            previousValue.push(currentValue as HTMLCalciteActionElement);
             return previousValue;
           }
 
           if (currentValue?.matches("calcite-action-group")) {
             return previousValue.concat(
-              Array.from(currentValue.querySelectorAll("calcite-action")).filter(
-                (action) => !action.disabled && !action.hidden
-              )
+              Array.from(currentValue.querySelectorAll("calcite-action"))
             );
           }
 
@@ -426,7 +419,7 @@ export class ActionMenu implements LoadableComponent {
         []
       );
 
-    this.actionElements = actions;
+    this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   };
 
   isValidKey(key: string, supportedKeys: string[]): boolean {
