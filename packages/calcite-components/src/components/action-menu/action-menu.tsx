@@ -404,7 +404,12 @@ export class ActionMenu implements LoadableComponent {
       .reduce(
         (previousValue: HTMLCalciteActionElement[], currentValue): HTMLCalciteActionElement[] => {
           if (currentValue?.matches("calcite-action")) {
-            previousValue.push(currentValue as HTMLCalciteActionElement);
+            const action = currentValue as HTMLCalciteActionElement;
+
+            if (!action.disabled && !action.hidden) {
+              previousValue.push(action);
+            }
+
             return previousValue;
           }
 
