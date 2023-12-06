@@ -32,7 +32,9 @@ Add a class to handle the logic in the component class.
 
 ## Light Mode/Dark Mode
 
-In the [global CSS file](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/assets/styles/global.scss), we specify the values of each color for both light and dark mode. This enables theming to be inherited throughout a component tree. Consider this valid example:
+Light and Dark modes are now provided via Calcite Design Tokens.
+
+Here are some examples of their use with Calcite Components.
 
 ```html
 <div class="calcite-mode-dark">
@@ -41,21 +43,30 @@ In the [global CSS file](https://github.com/Esri/calcite-design-system/blob/main
 </div>
 ```
 
-This will cause both the button and the date picker to use the dark mode color variables declared in the global file. This makes it very easy for developers to move an entire app from light to dark mode and vice versa.
-
 To make this work, inside a component's SASS file, _you must use colors from the theme variables_. For example
 
 ```scss
-// 🙅‍♀️ using the sass var will not correctly inherit or change in light/dark mode
-:host {
-  color: $ui-brand-light;
-}
+@import "~@esri/calcite-design-tokens/dist/scss/light";
 
-// 👍 using the CSS var will inherit correctly
+// Using the sass var will set the color of host to the value of the brand color in light mode.
+// 🙅‍♀️ However, it will not correctly inherit or change it's value when swapping light/dark mode.
+:host {
+  color: $calcite-color-brand;
+}
+```
+
+```scss
+// 👍 using the CSS var will inherit the value correctly
 :host {
   color: var(--calcite-color-brand);
 }
 ```
+
+## Legacy Tokens
+
+In the release of 2.0 Calcite Component styles got a major refactor which included the removal and reassignment of legacy CSS Custom Props originally introduced through calcite-styles/calcite-colors. To see a full list of CSS Custom Prop additions, deletions, and renamed tokens please refer to the [Calcite Design Tokens 2.0 Changelog > Map of token changes](../../calcite-design-tokens/CHANGELOG.md#20-map-of-token-changes).
+
+For backwards compatibility old tokens will continue to be provided until the next major release via [\_legacy.scss](../src/assets/styles/_legacy.scss)
 
 ## Custom Themes
 
@@ -71,20 +82,23 @@ You can apply these overrides to individual components as well:
 
 ```css
 calcite-slider {
-  --calcite-color-brand: red;
+  --calcite-color-brand: blue;
 }
 ```
 
-Or, add a class to the specific instance:
+Or, add a class:
 
 ```css
 .my-custom-theme {
-  --calcite-color-brand: red;
+  --calcite-color-brand: green;
 }
 ```
 
+Or, assign the custom prop on the fly to a particular instance:
+
 ```html
-<calcite-slider class="my-custom-theme"></calcite-slider>
+<calcite-slider class="my-custom-theme" style="--calcite-color-brand: purple;"></calcite-slider>
+<!-- The final value for `--calcite-color-brand` will be "purple" -->
 ```
 
 ### Typography
