@@ -1533,6 +1533,10 @@ export namespace Components {
   }
   interface CalciteDropdownItem {
     /**
+     * When `true`, interaction is prevented and the component is displayed with lower opacity.
+     */
+    disabled: boolean;
+    /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.  Determines if the component will render as an anchor.
      */
     href: string;
@@ -5467,6 +5471,10 @@ export interface CalciteSheetCustomEvent<T> extends CustomEvent<T> {
   detail: T;
   target: HTMLCalciteSheetElement;
 }
+export interface CalciteShellPanelCustomEvent<T> extends CustomEvent<T> {
+  detail: T;
+  target: HTMLCalciteShellPanelElement;
+}
 export interface CalciteSliderCustomEvent<T> extends CustomEvent<T> {
   detail: T;
   target: HTMLCalciteSliderElement;
@@ -8747,7 +8755,58 @@ declare global {
     prototype: HTMLCalciteShellCenterRowElement;
     new (): HTMLCalciteShellCenterRowElement;
   };
-  interface HTMLCalciteShellPanelElement extends Components.CalciteShellPanel, HTMLStencilElement {}
+  interface HTMLCalciteShellPanelElementEventMap {
+    calciteInternalShellPanelResizeStart: void;
+    calciteInternalShellPanelResizeEnd: void;
+  }
+  interface HTMLCalciteShellPanelElement extends Components.CalciteShellPanel, HTMLStencilElement {
+    addEventListener<K extends keyof HTMLCalciteShellPanelElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteShellPanelElement,
+        ev: CalciteShellPanelCustomEvent<HTMLCalciteShellPanelElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteShellPanelElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteShellPanelElement,
+        ev: CalciteShellPanelCustomEvent<HTMLCalciteShellPanelElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
+  }
   var HTMLCalciteShellPanelElement: {
     prototype: HTMLCalciteShellPanelElement;
     new (): HTMLCalciteShellPanelElement;
@@ -11481,6 +11540,10 @@ declare namespace LocalJSX {
   }
   interface CalciteDropdownItem {
     /**
+     * When `true`, interaction is prevented and the component is displayed with lower opacity.
+     */
+    disabled?: boolean;
+    /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.  Determines if the component will render as an anchor.
      */
     href?: string;
@@ -14104,6 +14167,8 @@ declare namespace LocalJSX {
      * Made into a prop for testing purposes only
      */
     messages?: ShellPanelMessages;
+    onCalciteInternalShellPanelResizeEnd?: (event: CalciteShellPanelCustomEvent<void>) => void;
+    onCalciteInternalShellPanelResizeStart?: (event: CalciteShellPanelCustomEvent<void>) => void;
     /**
      * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
      */
