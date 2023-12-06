@@ -14,5 +14,7 @@ export function setTokenNameByPlatform(token: TransformedToken, args: PlatformOp
     ...token,
     name: ["css", "scss", "sass"].includes(format) ? kebabCaseName : camelCaseName,
   };
-  return format === Platform.JS ? transformNamesJoinPath(token, args) : createTokenReference(t, args);
+  return format === Platform.DOCS || format === Platform.JS
+    ? transformNamesJoinPath(token, args)
+    : createTokenReference(t, args);
 }

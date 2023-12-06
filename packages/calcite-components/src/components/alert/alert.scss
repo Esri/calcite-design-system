@@ -10,6 +10,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 :host {
   --calcite-alert-edge-distance: theme("spacing.8");
+  --calcite-alert-dismiss-progress-background: var(--calcite-color-transparent-tint);
   @apply block;
 }
 
@@ -129,7 +130,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     block;
     block-size: 2px;
     content: "";
-    background-color: var(--calcite-color-background-transparent-dismiss);
+    background-color: var(--calcite-alert-dismiss-progress-background);
     inset-inline-end: 0;
   }
 }
@@ -258,8 +259,9 @@ $border-style: 1px solid var(--calcite-color-border-3);
   @apply text-color-link inline-flex;
 }
 
-$alertKinds: "brand" var(--calcite-color-brand), "info" var(--calcite-color-info), "danger" var(--calcite-color-danger),
-  "success" var(--calcite-color-success), "warning" var(--calcite-color-warning);
+$alertKinds: "brand" var(--calcite-color-brand), "info" var(--calcite-color-status-info),
+  "danger" var(--calcite-color-status-danger), "success" var(--calcite-color-status-success),
+  "warning" var(--calcite-color-status-warning);
 
 @each $alertKind in $alertKinds {
   $name: nth($alertKind, 1);

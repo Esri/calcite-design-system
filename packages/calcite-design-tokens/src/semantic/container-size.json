@@ -100,16 +100,16 @@
         }
       },
       "margin": {
-        "value": "{core.size.default.9}",
+        "value": "{core.size.default.24}",
         "type": "spacing"
       },
       "gutter": {
-        "value": "{core.size.default.7}",
+        "value": "{core.size.default.16}",
         "type": "spacing"
       },
       "content": {
         "fluid": {
-          "value": "{core.size.relative.full}",
+          "value": "{core.size.relative.100}",
           "type": "sizing",
           "description": "for fluid grid widths"
         },

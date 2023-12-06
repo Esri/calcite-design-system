@@ -454,13 +454,11 @@ describe("calcite-button", () => {
       page = await newE2EPage({ html: buttonSnippet });
       const buttonStyles = await page.evaluate(() => {
         buttonEl = document.querySelector("calcite-button");
-        buttonEl.style.setProperty("--calcite-color-background-transparent-hover", "rgba(34, 23, 200, 0.4)");
-        buttonEl.style.setProperty("--calcite-color-background-transparent-press", "rgba(1, 20, 44, 0.1");
+        buttonEl.style.setProperty("--calcite-color-transparent-hover", "rgba(34, 23, 200, 0.4)");
+        buttonEl.style.setProperty("--calcite-color-transparent-press", "rgba(1, 20, 44, 0.1");
         return {
-          hoverFocus: window
-            .getComputedStyle(buttonEl)
-            .getPropertyValue("--calcite-color-background-transparent-hover"),
-          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-background-transparent-press"),
+          hoverFocus: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-transparent-hover"),
+          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-transparent-press"),
         };
       });
       expect(buttonStyles.hoverFocus).toEqual("rgba(34, 23, 200, 0.4)");
@@ -507,7 +505,7 @@ describe("calcite-button", () => {
         html: `
         <style>
           :root {
-            --calcite-color-background-transparent-hover: ${overrideStyle};
+            --calcite-color-transparent-hover: ${overrideStyle};
           }
         </style>
         <div>${buttonSnippet}</div>`,

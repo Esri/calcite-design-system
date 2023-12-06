@@ -3,7 +3,11 @@
     "font": {
       "family": {
         "default": {
-          "value": "{core.font.family.primary}",
+          "value": "{core.font.family.avenirNextPro}",
+          "type": "fontFamilies"
+        },
+        "code": {
+          "value": "{core.font.family.monaco}",
           "type": "fontFamilies"
         }
       },
@@ -40,31 +44,31 @@
       },
       "size": {
         "xs": {
-          "value": "{core.size.default.4}",
+          "value": "{core.size.default.10}",
           "type": "fontSizes"
         },
         "sm": {
-          "value": "{core.size.default.5}",
+          "value": "{core.size.default.12}",
           "type": "fontSizes"
         },
         "default": {
-          "value": "{core.size.default.6}",
+          "value": "{core.size.default.14}",
           "type": "fontSizes"
         },
         "md": {
-          "value": "{core.size.default.7}",
+          "value": "{core.size.default.16}",
           "type": "fontSizes"
         },
         "lg": {
-          "value": "{core.size.default.0} * 9",
+          "value": "{core.size.default.2} * 9",
           "type": "fontSizes"
         },
         "xl": {
-          "value": "{core.size.default.8}",
+          "value": "{core.size.default.20}",
           "type": "fontSizes"
         },
         "xxl": {
-          "value": "{core.size.default.9}",
+          "value": "{core.size.default.24}",
           "type": "fontSizes"
         }
       },
@@ -78,50 +82,50 @@
       "line-height": {
         "fixed": {
           "sm": {
-            "value": "{core.size.default.5}",
+            "value": "{core.size.default.12}",
             "type": "lineHeights"
           },
           "base": {
-            "value": "{core.size.default.7}",
+            "value": "{core.size.default.16}",
             "type": "lineHeights"
           },
           "lg": {
-            "value": "{core.size.default.8}",
+            "value": "{core.size.default.20}",
             "type": "lineHeights"
           },
           "xl": {
-            "value": "{core.size.default.9}",
+            "value": "{core.size.default.24}",
             "type": "lineHeights"
           }
         },
         "relative": {
           "default": {
-            "value": "{core.font.line-height.relative.default}",
+            "value": "{core.size.relative.auto}",
             "type": "lineHeights",
             "description": "1"
           },
           "tight": {
-            "value": "{core.font.line-height.relative.tight}",
+            "value": "{core.size.relative.125}",
             "type": "lineHeights",
             "description": "1.25"
           },
           "snug": {
-            "value": "{core.font.line-height.relative.snug}",
+            "value": "{core.size.relative.137}",
             "type": "lineHeights",
             "description": "1.375"
           },
           "normal": {
-            "value": "{core.font.line-height.relative.normal}",
+            "value": "{core.size.relative.150}",
             "type": "lineHeights",
             "description": "1.5"
           },
           "relaxed": {
-            "value": "{core.font.line-height.relative.relaxed}",
+            "value": "{core.size.relative.162}",
             "type": "lineHeights",
             "description": "1.625"
           },
           "loose": {
-            "value": "{core.font.line-height.relative.loose}",
+            "value": "{core.size.relative.200}",
             "type": "lineHeights",
             "description": "2"
           }
@@ -129,21 +133,21 @@
       },
       "letter-spacing": {
         "tight": {
-          "value": "{core.font.letter-spacing.tight}",
+          "value": "{core.size.default.none} - .4 ",
           "type": "letterSpacing"
         },
         "normal": {
-          "value": "{core.font.letter-spacing.normal}",
+          "value": "{core.size.default.none}",
           "type": "letterSpacing"
         },
         "wide": {
-          "value": "{core.font.letter-spacing.wide}",
+          "value": "{core.size.default.none} + .4 ",
           "type": "letterSpacing"
         }
       },
       "paragraph-spacing": {
         "normal": {
-          "value": "{core.font.paragraph-spacing.normal}",
+          "value": "{core.size.default.4}",
           "type": "paragraphSpacing"
         }
       },
