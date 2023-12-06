@@ -76,8 +76,8 @@ export const rightAligned_TestOnly = (): string => html`<div style="text-align: 
 export const transparentBG_TestOnly = (): string => html`
   <style>
     calcite-tooltip {
-      --calcite-ui-foreground-1: rgba(0, 0, 0, 0.5);
-      --calcite-ui-text-1: orange;
+      --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);
+      --calcite-color-text-1: orange;
     }
   </style>
   <div style="width: 400px;">

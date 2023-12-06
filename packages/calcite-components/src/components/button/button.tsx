@@ -274,7 +274,7 @@ export class Button
         name={childElType === "button" && this.name}
         onClick={this.handleClick}
         rel={childElType === "a" && this.rel}
-        tabIndex={this.disabled || this.loading ? -1 : null}
+        tabIndex={this.disabled ? -1 : null}
         target={childElType === "a" && this.target}
         title={this.tooltipText}
         type={childElType === "button" && this.type}

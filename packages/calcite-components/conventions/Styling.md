@@ -53,7 +53,7 @@ To make this work, inside a component's SASS file, _you must use colors from the
 
 // 👍 using the CSS var will inherit correctly
 :host {
-  color: var(--calcite-ui-brand);
+  color: var(--calcite-color-brand);
 }
 ```
 
@@ -63,7 +63,7 @@ Since Calcite Components might be used in many different contexts such as config
 
 ```css
 :root {
-  --calcite-ui-brand: red;
+  --calcite-color-brand: red;
 }
 ```
 
@@ -71,7 +71,7 @@ You can apply these overrides to individual components as well:
 
 ```css
 calcite-slider {
-  --calcite-ui-brand: red;
+  --calcite-color-brand: red;
 }
 ```
 
@@ -79,7 +79,7 @@ Or, add a class to the specific instance:
 
 ```css
 .my-custom-theme {
-  --calcite-ui-brand: red;
+  --calcite-color-brand: red;
 }
 ```
 
@@ -101,6 +101,6 @@ All components have been constructed to inherit their `font-family`. This enable
 
 The Esri color palette can be found [here](https://esri.github.io/calcite-colors/).
 
-**Discussed In**:
+__Discussed In__:
 
 - <https://github.com/Esri/calcite-design-system/issues/507>

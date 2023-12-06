@@ -2,7 +2,6 @@ import { E2EPage } from "@stencil/core/testing";
 import { disabled } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils";
 import { DATE_PICKER_FORMAT_OPTIONS } from "../date-picker/resources";
-import { Serializable } from "puppeteer";
 
 describe("calcite-date-picker-day", () => {
   describe("disabled within a tree", () => {
@@ -32,7 +31,7 @@ describe("calcite-date-picker-day", () => {
         dateEl.day = 20;
         dateEl.value = new Date("2020-02-20T08:00:00.000Z");
         document.body.append(dateEl);
-      }, DATE_PICKER_FORMAT_OPTIONS as Serializable);
+      }, DATE_PICKER_FORMAT_OPTIONS);
       await page.waitForChanges();
       const day = await page.find(`calcite-date-picker-day`);
 

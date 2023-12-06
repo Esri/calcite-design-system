@@ -4,8 +4,8 @@ $spacing: $baseline * 0.5;
   @apply block;
 
   .container {
-    background-color: var(--calcite-ui-foreground-1);
-    box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
+    background-color: var(--calcite-color-foreground-1);
+    box-shadow: 0 0 0 1px var(--calcite-color-border-2);
     box-sizing: border-box;
     cursor: pointer;
     display: inline-block;
@@ -18,7 +18,7 @@ $spacing: $baseline * 0.5;
 
     &.checked {
       @apply z-default;
-      box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+      box-shadow: 0 0 0 1px var(--calcite-color-brand);
     }
 
     &.heading-only {
@@ -38,7 +38,7 @@ $spacing: $baseline * 0.5;
         &:not(.input-enabled) {
           @apply focus-inset;
           outline-offset: -4px;
-          box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1);
+          box-shadow: 0 0 0 1px var(--calcite-color-brand), inset 0 0 0 2px var(--calcite-color-foreground-1);
         }
       }
     }
@@ -123,7 +123,7 @@ $spacing: $baseline * 0.5;
 :host(:hover) {
   .container {
     &:not(.input-enabled) {
-      box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+      box-shadow: 0 0 0 1px var(--calcite-color-brand);
     }
   }
 }
