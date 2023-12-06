@@ -22,7 +22,11 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { getIconScale } from "../../utils/component";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  InteractiveComponent,
+  InteractiveContainer,
+  updateHostInteraction,
+} from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -143,7 +147,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, "managed");
+    updateHostInteraction(this);
   }
 
   render(): VNode {
@@ -208,26 +212,28 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
     const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
 
     return (
-      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole} tabindex="0">
-        <div
-          class={{
-            [CSS.container]: true,
-            [CSS.containerLink]: !!href,
-            [`${CSS.container}--${scale}`]: true,
-            [CSS.containerMulti]: selectionMode === "multiple",
-            [CSS.containerSingle]: selectionMode === "single",
-            [CSS.containerNone]: selectionMode === "none",
-          }}
-        >
-          {selectionMode !== "none" ? (
-            <calcite-icon
-              class={CSS.icon}
-              icon={selectionMode === "multiple" ? "check" : "bullet-point"}
-              scale={getIconScale(this.scale)}
-            />
-          ) : null}
-          {contentEl}
-        </div>
+      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole}>
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            class={{
+              [CSS.container]: true,
+              [CSS.containerLink]: !!href,
+              [`${CSS.container}--${scale}`]: true,
+              [CSS.containerMulti]: selectionMode === "multiple",
+              [CSS.containerSingle]: selectionMode === "single",
+              [CSS.containerNone]: selectionMode === "none",
+            }}
+          >
+            {selectionMode !== "none" ? (
+              <calcite-icon
+                class={CSS.icon}
+                icon={selectionMode === "multiple" ? "check" : "bullet-point"}
+                scale={getIconScale(this.scale)}
+              />
+            ) : null}
+            {contentEl}
+          </div>
+        </InteractiveContainer>
       </Host>
     );
   }
