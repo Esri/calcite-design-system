@@ -451,7 +451,6 @@ export class InputDatePicker
       if (this.range) {
         this.setRangeValue(this.valueAsDate as Date[]);
       } else if (!Array.isArray(this.valueAsDate)) {
-        this.userChangedValue = true;
         this.value = dateToISO(this.valueAsDate);
       }
     }
