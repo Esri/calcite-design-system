@@ -100,6 +100,7 @@ import {
 } from "./components/stepper/interfaces";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
@@ -209,6 +210,7 @@ export {
 } from "./components/stepper/interfaces";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
@@ -1532,6 +1534,10 @@ export namespace Components {
     selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
   }
   interface CalciteDropdownItem {
+    /**
+     * When `true`, interaction is prevented and the component is displayed with lower opacity.
+     */
+    disabled: boolean;
     /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.  Determines if the component will render as an anchor.
      */
@@ -4456,6 +4462,14 @@ export namespace Components {
     indicatorWidth: number;
     layout: TabLayout;
     /**
+     * Use this property to override individual strings used by the component.
+     */
+    messageOverrides: Partial<TabNavMessages>;
+    /**
+     * Made into a prop for testing purposes only.
+     */
+    messages: TabNavMessages;
+    /**
      * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
      */
     position: TabPosition;
@@ -5466,6 +5480,10 @@ export interface CalciteSelectCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteSheetCustomEvent<T> extends CustomEvent<T> {
   detail: T;
   target: HTMLCalciteSheetElement;
+}
+export interface CalciteShellPanelCustomEvent<T> extends CustomEvent<T> {
+  detail: T;
+  target: HTMLCalciteShellPanelElement;
 }
 export interface CalciteSliderCustomEvent<T> extends CustomEvent<T> {
   detail: T;
@@ -8747,7 +8765,58 @@ declare global {
     prototype: HTMLCalciteShellCenterRowElement;
     new (): HTMLCalciteShellCenterRowElement;
   };
-  interface HTMLCalciteShellPanelElement extends Components.CalciteShellPanel, HTMLStencilElement {}
+  interface HTMLCalciteShellPanelElementEventMap {
+    calciteInternalShellPanelResizeStart: void;
+    calciteInternalShellPanelResizeEnd: void;
+  }
+  interface HTMLCalciteShellPanelElement extends Components.CalciteShellPanel, HTMLStencilElement {
+    addEventListener<K extends keyof HTMLCalciteShellPanelElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteShellPanelElement,
+        ev: CalciteShellPanelCustomEvent<HTMLCalciteShellPanelElementEventMap[K]>
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLCalciteShellPanelElementEventMap>(
+      type: K,
+      listener: (
+        this: HTMLCalciteShellPanelElement,
+        ev: CalciteShellPanelCustomEvent<HTMLCalciteShellPanelElementEventMap[K]>
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof DocumentEventMap>(
+      type: K,
+      listener: (this: Document, ev: DocumentEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
+  }
   var HTMLCalciteShellPanelElement: {
     prototype: HTMLCalciteShellPanelElement;
     new (): HTMLCalciteShellPanelElement;
@@ -11481,6 +11550,10 @@ declare namespace LocalJSX {
   }
   interface CalciteDropdownItem {
     /**
+     * When `true`, interaction is prevented and the component is displayed with lower opacity.
+     */
+    disabled?: boolean;
+    /**
      * Specifies the URL of the linked resource, which can be set as an absolute or relative path.  Determines if the component will render as an anchor.
      */
     href?: string;
@@ -14104,6 +14177,8 @@ declare namespace LocalJSX {
      * Made into a prop for testing purposes only
      */
     messages?: ShellPanelMessages;
+    onCalciteInternalShellPanelResizeEnd?: (event: CalciteShellPanelCustomEvent<void>) => void;
+    onCalciteInternalShellPanelResizeStart?: (event: CalciteShellPanelCustomEvent<void>) => void;
     /**
      * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
      */
@@ -14504,6 +14579,14 @@ declare namespace LocalJSX {
     indicatorOffset?: number;
     indicatorWidth?: number;
     layout?: TabLayout;
+    /**
+     * Use this property to override individual strings used by the component.
+     */
+    messageOverrides?: Partial<TabNavMessages>;
+    /**
+     * Made into a prop for testing purposes only.
+     */
+    messages?: TabNavMessages;
     onCalciteInternalTabChange?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
     /**
      * Emits when the selected `calcite-tab` changes.
