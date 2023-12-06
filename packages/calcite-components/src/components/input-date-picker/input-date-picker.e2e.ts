@@ -274,11 +274,8 @@ describe("calcite-input-date-picker", () => {
         element.valueAsDate = new Date(1687528800000);
       });
 
-      const expectedValue = "2023-06-23";
-      const expectedInputValue = "6/23/2023";
-
-      expect(await inputDatePickerEl.getProperty("value")).toEqual(expectedValue);
-      expect(await getDateInputValue(page)).toEqual(expectedInputValue);
+      expect(await inputDatePickerEl.getProperty("value")).toEqual("2023-06-23");
+      expect(await getDateInputValue(page)).toEqual("6/23/2023");
       expect(changeEvent).toHaveReceivedEventTimes(0);
 
       await inputDatePickerEl.click();
