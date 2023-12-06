@@ -1,5 +1,7 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
+import * as prettier from "prettier";
+
 import { Platform } from "../../../../types/platform.js";
 import { Options } from "../../../../types/styleDictionary/options.js";
 import { DeepKeyTokenMap } from "../../../../types/tokenStudio/designTokenTypes.js";
@@ -14,6 +16,8 @@ export function formatExtraOutput(
     const ensureIfArray = (x: any) => (Array.isArray(x) ? (x as any[]) : x);
 
     if (index) {
+      let parser;
+      // Set output
       switch (args.platform) {
         case "css":
         case "scss":
@@ -29,14 +33,14 @@ export function formatExtraOutput(
           const classes = index.class
             ? index.class.map((cls) => {
                 const c = ensureIfArray(outputObject[`${cls[1]}.${args.platform}`]);
-                return cls && Array.isArray(c) ? `.${cls[0]} {\n\t${c.join("\n\t")}\n}` : "";
+                return cls && Array.isArray(c) ? `.${cls[0]} {${c.join("")}}` : "";
               })
             : [];
           const mixins = index.mixin
             ? index.mixin.map(([mixinName, output]) => {
                 const m = ensureIfArray(outputObject[`${output}.${args.platform}`]);
                 return Array.isArray(m)
-                  ? `@mixin ${mixinName} {\n\t${m.map((o) => `${o}`.replaceAll("$", "--")).join("\n\t")}\n}`
+                  ? `@mixin ${mixinName} {${m.map((o) => `${o}`.replaceAll("$", "--")).join("")}}`
                   : "";
               })
             : [];
@@ -46,8 +50,8 @@ export function formatExtraOutput(
                 const cssProps = m.map((o) => `${o}`.replaceAll("$", "--"));
                 return Array.isArray(m)
                   ? `${
-                      output === "light" ? `:root {\n\t${cssProps.join("\n\t")}\n}\n` : ""
-                    }@media (${mediaSchemed}) {\n\t.calcite-mode-auto {\n\t\t${cssProps.join("\n\t\t")}\n\t}\n}`
+                      output === "light" ? `:root {${cssProps.join("")}}` : ""
+                    }@media (${mediaSchemed}) {.calcite-mode-auto {${cssProps.join("")}}}`
                   : "";
               })
             : [];
@@ -72,7 +76,28 @@ export function formatExtraOutput(
           break;
       }
 
-      writeFileSync(resolve(args.buildPath, index.name), `${args.header}${outputFiles[index.name].join("\n\n")}\n`);
+      // Set Parser
+      switch (args.platform) {
+        case "css":
+        case "scss":
+          parser = args.platform;
+          break;
+        case "sass":
+          parser = "scss";
+        case "es6":
+        case "js":
+          parser = "babel";
+          break;
+        case "docs":
+          parser = "json";
+        default:
+          break;
+      }
+
+      writeFileSync(
+        resolve(args.buildPath, index.name),
+        prettier.format(`${args.header}${outputFiles[index.name].join(" ")}`, { parser })
+      );
     }
 
     Object.entries(outputObject).forEach(([fileName, outputList]) => {
@@ -80,24 +105,26 @@ export function formatExtraOutput(
       switch (args.platform) {
         case Platform.CSS:
           if (typeof outputList[0] === "string" && outputList[0].slice(0, 2) === "--") {
-            writeFileSync(absoluteFilePath, `${args.header}:root{\n\t${outputList.join("\n\t")}\n}\n`);
+            writeFileSync(
+              absoluteFilePath,
+              prettier.format(`${args.header}:root{${outputList.join("")}}`, { parser: "css" })
+            );
           } else {
-            writeFileSync(absoluteFilePath, `${args.header}${outputList.join("\n\n")}\n`);
+            writeFileSync(absoluteFilePath, prettier.format(`${args.header}${outputList.join("")}`, { parser: "css" }));
           }
           break;
         case Platform.SCSS:
         case Platform.SASS:
-          if (typeof outputList[0] === "string" && outputList[0][0] === "$") {
-            writeFileSync(absoluteFilePath, `${args.header}${outputList.join("\n")}\n`);
-          } else {
-            writeFileSync(absoluteFilePath, `${args.header}${outputList.join("\n\n")}\n`);
-          }
+          writeFileSync(absoluteFilePath, prettier.format(`${args.header}${outputList.join("")}`, { parser: "scss" }));
           break;
         case Platform.JS:
-          writeFileSync(absoluteFilePath, args.header + "export default " + outputList[0] + "\n");
+          writeFileSync(
+            absoluteFilePath,
+            prettier.format(args.header + "export default " + outputList[0] + "", { parser: "babel" })
+          );
           break;
         case Platform.DOCS:
-          writeFileSync(absoluteFilePath, outputList[0]);
+          writeFileSync(absoluteFilePath, prettier.format(outputList[0].join(""), { parser: "json" }));
           break;
         default:
           break;

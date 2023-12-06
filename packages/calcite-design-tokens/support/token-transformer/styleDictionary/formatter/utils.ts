@@ -35,7 +35,7 @@ export const FormattingRules: Partial<Record<PlatformUnion | "default", Formatte
     commentStyle: "long",
     indentation: "  ",
     separator: ":",
-    join: "\n\t",
+    join: "",
     suffix: ";",
   },
   sass: {
@@ -43,7 +43,7 @@ export const FormattingRules: Partial<Record<PlatformUnion | "default", Formatte
     commentStyle: "short",
     indentation: "",
     separator: ":",
-    join: "\n",
+    join: "",
     suffix: ";",
   },
   scss: {
@@ -51,7 +51,7 @@ export const FormattingRules: Partial<Record<PlatformUnion | "default", Formatte
     commentStyle: "short",
     indentation: "",
     separator: ":",
-    join: "\n",
+    join: "",
     suffix: ";",
   },
 };

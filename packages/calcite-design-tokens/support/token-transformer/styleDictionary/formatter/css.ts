@@ -1,4 +1,5 @@
 import sd, { Core as StyleDictionary } from "style-dictionary";
+import * as prettier from "prettier";
 
 import { formatTokens } from "./utils/formatTokens.js";
 import { formatExtraOutput } from "./utils/formatExtraOutput.js";
@@ -12,7 +13,7 @@ export const formatCssPlatform: CalledFormatterFunction = (args) => {
   if (Object.keys(extraOutput).length > 0) {
     formatExtraOutput(extraOutput, { ...args.options, header, buildPath: args.platform.buildPath });
   }
-  return header + `:root {\n\t${tokens.join("\n\t")}\n}\n`;
+  return prettier.format(header + `:root {${tokens.join("")}}`, { parser: "css" });
 };
 
 export const registerFormatterCss = (sd: StyleDictionary): void => {
