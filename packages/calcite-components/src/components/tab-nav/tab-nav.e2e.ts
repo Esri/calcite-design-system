@@ -32,9 +32,11 @@ describe("calcite-tab-nav", () => {
     expect(activeEventSpy).toHaveReceivedEventTimes(0);
 
     await firstTabTitle.click();
+    await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(1);
 
     await page.keyboard.press("Enter");
+    await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
   });
 
