@@ -84,6 +84,8 @@
 
     console.log("Deployable packages:", changedPackagesData);
 
+    await exec("markdownlint packages/{*,calcite-components-angular/projects/component-library}/CHANGELOG.md --fix");
+
     // add/commit changed files
     await exec(`git add --all && git commit -m 'chore: release ${releaseTarget}'`);
 

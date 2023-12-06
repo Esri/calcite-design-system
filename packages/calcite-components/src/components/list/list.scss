@@ -33,6 +33,10 @@
   margin-block-start: 1px;
 }
 
+::slotted(calcite-list-item:first-of-type) {
+  @apply shadow-none;
+}
+
 // removes shadow for the first item in filteredItems of the list.
 ::slotted(calcite-list-item[data-filter]) {
   @apply shadow-none;

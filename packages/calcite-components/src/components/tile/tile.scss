@@ -81,19 +81,19 @@
 :host([href]:hover) {
   .heading {
     @apply underline;
-    color: var(--calcite-ui-text-link);
+    color: var(--calcite-color-text-link);
   }
 }
 :host(:not([embed])) {
   @apply p-3;
-  box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
+  box-shadow: 0 0 0 1px var(--calcite-color-border-2);
 }
 :host(:not([embed])[href]:hover) {
   @apply cursor-pointer;
-  box-shadow: 0 0 0 2px var(--calcite-ui-brand);
+  box-shadow: 0 0 0 2px var(--calcite-color-brand);
 }
 :host(:not([embed])[href]:active) {
-  box-shadow: 0 0 0 3px var(--calcite-ui-brand);
+  box-shadow: 0 0 0 3px var(--calcite-color-brand);
 }
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;

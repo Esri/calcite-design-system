@@ -165,8 +165,8 @@
   border-radius: 50%;
   align-content: center;
   justify-content: center;
-  --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
-  --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
+  --calcite-chip-transparent-hover: var(--calcite-color-transparent-hover);
+  --calcite-chip-transparent-press: var(--calcite-color-transparent-press);
   &:hover {
     background-color: var(--calcite-chip-transparent-hover);
   }
@@ -215,21 +215,21 @@ slot[name="image"]::slotted(*) {
 }
 
 :host([kind="neutral"]) {
-  background-color: var(--calcite-ui-foreground-2);
-  color: var(--calcite-ui-text-1);
+  background-color: var(--calcite-color-foreground-2);
+  color: var(--calcite-color-text-1);
   .container {
     border-color: transparent;
   }
   .close {
-    color: var(--calcite-ui-text-3);
+    color: var(--calcite-color-text-3);
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
+    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
   }
 }
 
 :host([kind="inverse"]) {
-  background-color: var(--calcite-ui-inverse);
+  background-color: var(--calcite-color-inverse);
   @apply text-color-inverse;
   .container {
     border-color: transparent;
@@ -238,13 +238,13 @@ slot[name="image"]::slotted(*) {
     @apply text-color-inverse;
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
+    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
 :host([kind="brand"]) {
-  background-color: var(--calcite-ui-brand);
-  color: var(--calcite-ui-text-inverse);
+  background-color: var(--calcite-color-brand);
+  color: var(--calcite-color-text-inverse);
   .container {
     border-color: transparent;
   }
@@ -252,7 +252,7 @@ slot[name="image"]::slotted(*) {
     @apply text-color-inverse;
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
+    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
@@ -263,7 +263,7 @@ slot[name="image"]::slotted(*) {
     @apply text-color-3;
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
+    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
   }
 }
 
@@ -277,23 +277,23 @@ slot[name="image"]::slotted(*) {
 
 :host([kind="neutral"][appearance="outline-fill"]) .container,
 :host([kind="neutral"][appearance="outline"]) .container {
-  border-color: var(--calcite-ui-border-1);
+  border-color: var(--calcite-color-border-1);
 }
 
 :host([kind="inverse"][appearance="outline-fill"]) .container,
 :host([kind="inverse"][appearance="outline"]) .container {
-  border-color: var(--calcite-ui-border-inverse);
+  border-color: var(--calcite-color-border-inverse);
 }
 
 :host([kind="brand"][appearance="outline-fill"]) .container,
 :host([kind="brand"][appearance="outline"]) .container {
-  border-color: var(--calcite-ui-brand);
+  border-color: var(--calcite-color-brand);
 }
 
 :host([kind="brand"][appearance="solid"]),
 :host([kind="inverse"][appearance="solid"]) {
   button {
-    outline-color: var(--calcite-ui-text-inverse);
+    outline-color: var(--calcite-color-text-inverse);
   }
 }
 

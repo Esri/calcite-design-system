@@ -91,9 +91,9 @@ describe("calcite-pick-list-item", () => {
     const properties = await eventDetail.getProperties();
 
     expect(properties.get("item")).toBeDefined();
-    expect(properties.get("value")._remoteObject.value).toBe("example");
-    expect(properties.get("selected")._remoteObject.value).toBe(true);
-    expect(properties.get("shiftPressed")._remoteObject.value).toBe(false);
+    expect(properties.get("value").remoteObject().value).toBe("example");
+    expect(properties.get("selected").remoteObject().value).toBe(true);
+    expect(properties.get("shiftPressed").remoteObject().value).toBe(false);
   });
 
   it("prevents deselection when deselectDisabled is true", async () => {
