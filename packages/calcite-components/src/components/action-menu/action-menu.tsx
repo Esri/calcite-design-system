@@ -293,7 +293,7 @@ export class ActionMenu implements LoadableComponent {
         focusTrapDisabled={true}
         label={label}
         offsetDistance={0}
-        onCalcitePopoverClose={this.close}
+        onCalcitePopoverClose={this.handlePopoverClose}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -500,7 +500,7 @@ export class ActionMenu implements LoadableComponent {
     this.open = value;
   };
 
-  close = (): void => {
+  private handlePopoverClose = (): void => {
     this.open = false;
   };
 }
