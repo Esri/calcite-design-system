@@ -1,4 +1,4 @@
-import globby from "globby";
+import * as globby from "globby";
 import { format } from "prettier";
 import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core";
 
@@ -11,7 +11,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
   const rootBundlePattern = `src/components/**/t9n/${rootBundleFile}`;
   const rootManifestFilePath = "packages/calcite-components/";
 
-  const rootBundles = await globby([rootBundlePattern]);
+  const rootBundles = await globby.globby([rootBundlePattern]);
   const manifestFilePathSeparator = "\\";
 
   console.log("starting generation of t9n string typings...", rootBundlePattern);

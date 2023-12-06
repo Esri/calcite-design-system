@@ -86,22 +86,22 @@
   }
 
   .step-bar--inactive {
-    fill: var(--light-ui-border-3, #dfdfdf);
+    fill: var(--calcite-color-border-3, #dfdfdf);
     fill-opacity: 1;
     block-size: 100%;
   }
 
   .step-bar--active {
-    fill: var(--calcite-ui-brand);
+    fill: var(--calcite-color-brand);
   }
 
   .step-bar--complete {
-    fill: var(--calcite-ui-brand);
+    fill: var(--calcite-color-brand);
     fill-opacity: 0.5;
   }
 
   .step-bar--error {
-    fill: var(--calcite-ui-danger);
+    fill: var(--calcite-color-status-danger);
   }
 
   .step-bar--disabled {

@@ -241,17 +241,6 @@ arabLangNumberingSystem_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const thaiLangNumberingSystem_TestOnly = (): string =>
-  html`<div style="width: 400px">
-    ${create(
-      "calcite-date-picker",
-      createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
-        { name: "lang", value: "th" },
-        { name: "numbering-system", value: "thai" },
-      ])
-    )}
-  </div>`;
-
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(html`<calcite-date-picker scale="{scale}" value="2000-11-27"></calcite-date-picker>`);
 

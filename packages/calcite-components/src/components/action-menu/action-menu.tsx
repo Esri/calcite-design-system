@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Listen,
   Method,
   Prop,
   State,
@@ -132,21 +131,6 @@ export class ActionMenu implements LoadableComponent {
    *
    */
   @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
-
-  @Listen("pointerdown", { target: "window" })
-  closeCalciteActionMenuOnClick(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    const composedPath = event.composedPath();
-
-    if (composedPath.includes(this.el)) {
-      return;
-    }
-
-    this.open = false;
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -304,10 +288,12 @@ export class ActionMenu implements LoadableComponent {
 
     return (
       <calcite-popover
+        autoClose={true}
         flipPlacements={flipPlacements}
         focusTrapDisabled={true}
         label={label}
         offsetDistance={0}
+        onCalcitePopoverClose={this.handlePopoverClose}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -401,9 +387,25 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+      .reduce(
+        (previousValue: HTMLCalciteActionElement[], currentValue): HTMLCalciteActionElement[] => {
+          if (currentValue?.matches("calcite-action")) {
+            previousValue.push(currentValue as HTMLCalciteActionElement);
+            return previousValue;
+          }
 
-    this.actionElements = actions;
+          if (currentValue?.matches("calcite-action-group")) {
+            return previousValue.concat(
+              Array.from(currentValue.querySelectorAll("calcite-action"))
+            );
+          }
+
+          return previousValue;
+        },
+        []
+      );
+
+    this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   };
 
   isValidKey(key: string, supportedKeys: string[]): boolean {
@@ -496,5 +498,9 @@ export class ActionMenu implements LoadableComponent {
   toggleOpen = (value = !this.open): void => {
     this.el.addEventListener("calcitePopoverOpen", this.toggleOpenEnd);
     this.open = value;
+  };
+
+  private handlePopoverClose = (): void => {
+    this.open = false;
   };
 }

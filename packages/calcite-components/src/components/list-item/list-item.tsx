@@ -12,7 +12,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import {
+  getElementDir,
+  getFirstTabbable,
+  slotChangeHasAssignedElement,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -49,6 +54,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { SortableComponentItem } from "../../utils/sortableComponent";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -66,7 +72,12 @@ import {
   assetsDirs: ["assets"],
 })
 export class ListItem
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+  implements
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent,
+    SortableComponentItem
 {
   // --------------------------------------------------------------------------
   //
@@ -113,6 +124,11 @@ export class ListItem
   handleDisabledChange(): void {
     this.emitCalciteInternalListItemChange();
   }
+
+  /**
+   * When `true`, the item is not draggable.
+   */
+  @Prop({ reflect: true }) dragDisabled = false;
 
   /**
    * When `true`, the component displays a draggable button.
@@ -222,6 +238,15 @@ export class ListItem
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalListItemSelect: EventEmitter<void>;
+
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false })
+  calciteInternalListItemSelectMultiple: EventEmitter<{
+    selectMultiple: boolean;
+  }>;
 
   /**
    *
@@ -345,7 +370,7 @@ export class ListItem
     const focusIndex = focusMap.get(parentListEl);
 
     if (typeof focusIndex === "number") {
-      const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
+      const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
       if (cells[focusIndex]) {
         this.focusCell(cells[focusIndex]);
       } else {
@@ -389,7 +414,12 @@ export class ListItem
   renderDragHandle(): VNode {
     return this.dragHandle ? (
       <td class={CSS.dragContainer} key="drag-handle-container">
-        <calcite-handle label={this.label} setPosition={this.setPosition} setSize={this.setSize} />
+        <calcite-handle
+          disabled={this.dragDisabled}
+          label={this.label}
+          setPosition={this.setPosition}
+          setSize={this.setSize}
+        />
       </td>
     ) : null;
   }
@@ -706,16 +736,16 @@ export class ListItem
     this.open = !this.open;
   };
 
-  itemClicked = (event: Event): void => {
+  itemClicked = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
 
-    this.toggleSelected();
+    this.toggleSelected(event.shiftKey);
     this.calciteInternalListItemActive.emit();
   };
 
-  toggleSelected = (): void => {
+  toggleSelected = (shiftKey: boolean): void => {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -728,6 +758,9 @@ export class ListItem
       this.selected = true;
     }
 
+    this.calciteInternalListItemSelectMultiple.emit({
+      selectMultiple: shiftKey && selectionMode === "multiple",
+    });
     this.calciteListItemSelect.emit();
   };
 
@@ -740,7 +773,7 @@ export class ListItem
     const composedPath = event.composedPath();
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
 
-    const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
+    const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
     if (
@@ -749,7 +782,7 @@ export class ListItem
       !composedPath.includes(actionsEndEl)
     ) {
       event.preventDefault();
-      this.toggleSelected();
+      this.toggleSelected(event.shiftKey);
     } else if (key === "ArrowRight") {
       event.preventDefault();
       const nextIndex = currentIndex + 1;
@@ -793,16 +826,20 @@ export class ListItem
       focusMap.set(parentListEl, null);
     }
 
-    [actionsStartEl, contentEl, actionsEndEl].filter(Boolean).forEach((tableCell, cellIndex) => {
-      const tabIndexAttr = "tabindex";
-      if (tableCell === focusEl) {
-        tableCell.setAttribute(tabIndexAttr, "0");
-        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
-      } else {
-        tableCell.removeAttribute(tabIndexAttr);
-      }
-    });
+    const focusedEl = getFirstTabbable(focusEl);
 
-    focusEl?.focus();
+    [actionsStartEl, contentEl, actionsEndEl]
+      .filter((el) => el && !el.hidden)
+      .forEach((tableCell, cellIndex) => {
+        const tabIndexAttr = "tabindex";
+        if (tableCell === focusEl) {
+          focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
+          saveFocusIndex && focusMap.set(parentListEl, cellIndex);
+        } else {
+          tableCell.removeAttribute(tabIndexAttr);
+        }
+      });
+
+    focusedEl?.focus();
   };
 }

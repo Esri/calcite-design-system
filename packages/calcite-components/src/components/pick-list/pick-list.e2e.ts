@@ -9,7 +9,6 @@ import {
   focusing,
   itemRemoval,
   keyboardNavigation,
-  loadingState,
   selectionAndDeselection,
 } from "./shared-list-tests";
 
@@ -193,10 +192,6 @@ describe("calcite-pick-list", () => {
 
   describe("item removal", () => {
     itemRemoval("pick");
-  });
-
-  describe("loading state", () => {
-    loadingState("pick");
   });
 
   describe("setFocus", () => {

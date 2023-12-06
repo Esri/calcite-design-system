@@ -67,14 +67,14 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode, Status } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
 import { getIconScale } from "../../utils/component";
-import { CoreSizing15 } from "@esri/calcite-design-tokens/dist/es6/calcite-headless";
+import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 
 interface ItemData {
   label: string;
@@ -224,6 +224,9 @@ export class Combobox
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   @Watch("selectionMode")
   @Watch("scale")
@@ -440,6 +443,7 @@ export class Combobox
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -869,7 +873,7 @@ export class Combobox
     const chipContainerElWidth = getElementWidth(chipContainerEl);
     const { fontSize, fontFamily } = getComputedStyle(textInput);
     const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
-    const inputWidth = (inputTextWidth || parseInt(CoreSizing15)) + chipContainerElGap;
+    const inputWidth = (inputTextWidth || parseInt(calciteSize48)) + chipContainerElGap;
     const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipEl);
     const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
     const largestSelectedIndicatorChipWidth = Math.max(

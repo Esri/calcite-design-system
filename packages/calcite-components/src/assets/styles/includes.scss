@@ -1,6 +1,7 @@
-@import "../../node_modules/@esri/calcite-colors/dist/colors";
-@import "../../node_modules/@esri/calcite-base/dist/_index";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-headless";
+@import "~@esri/calcite-colors/dist/colors";
+@import "~@esri/calcite-base/dist/_index";
+@import "~@esri/calcite-design-tokens/dist/scss/index";
+@import "~@esri/calcite-design-tokens/dist/scss/core";
 
 /* mixins & extensions */
 @import "animation";
@@ -126,12 +127,12 @@
 
     border-radius: 50%;
     border-color: transparent;
-    background-color: var(--calcite-ui-foreground-2);
+    background-color: var(--calcite-color-foreground-2);
 
     &:active,
     &:hover {
       @apply text-color-1;
-      background-color: var(--calcite-ui-foreground-3);
+      background-color: var(--calcite-color-foreground-3);
     }
 
     &:active {

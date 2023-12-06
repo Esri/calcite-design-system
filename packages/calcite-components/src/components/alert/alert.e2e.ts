@@ -273,7 +273,7 @@ describe("calcite-alert", () => {
         html: `
         <style>
           :root {
-            --calcite-alert-dismiss-progress-background: ${overrideStyle};
+            --calcite-color-transparent-tint: ${overrideStyle};
           }
         </style>
         <div>${alertSnippet}</div>`,

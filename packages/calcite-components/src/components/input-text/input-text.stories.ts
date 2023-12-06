@@ -17,7 +17,6 @@ export const simple = (): string => html`
     <calcite-input-text
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"

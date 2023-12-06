@@ -13,8 +13,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectInteractive,
   disconnectInteractive,
-  InteractiveComponent,
-  InteractiveContainer,
+  InteractiveComponent, InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -212,7 +211,7 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
             overlayPositioning={this.overlayPositioning}
             placement="bottom-end"
             scale={this.scale}
-            width={this.scale}
+            width-scale={this.scale}
           >
             <calcite-button
               appearance={this.appearance}

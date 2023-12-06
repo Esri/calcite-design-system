@@ -48,6 +48,7 @@ import {
 } from "../../utils/interactive";
 import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
+import { Status } from "../interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -176,6 +177,9 @@ export class TextArea
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "l" | "m" | "s" = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's value. */
   @Prop({ mutable: true }) value: string;

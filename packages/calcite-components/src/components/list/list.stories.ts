@@ -53,6 +53,13 @@ export const simple = (): string => html`
       description="Vestibulum auctor dapibus neque.
     "
     ></calcite-list-item>
+    <calcite-list-item
+      drag-disabled
+      label="Vestibulum commodo felis quis tortor.
+    "
+      description="Vestibulum auctor dapibus neque.
+    "
+    ></calcite-list-item>
   </calcite-list>
 `;
 
@@ -259,7 +266,12 @@ export const richContent = (): string => html`
       <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+      <calcite-icon
+        scale="s"
+        icon="check"
+        slot="content-end"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
@@ -267,7 +279,12 @@ export const richContent = (): string => html`
       <calcite-action icon="web" label="Finn Mertens website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+      <calcite-icon
+        scale="s"
+        icon="check"
+        slot="content-end"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
@@ -279,7 +296,7 @@ export const richContent = (): string => html`
         scale="s"
         icon="exclamation-mark-triangle"
         slot="content-end"
-        style="color: var(--calcite-ui-danger)"
+        style="color: var(--calcite-color-status-danger)"
       ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
@@ -292,7 +309,12 @@ export const richContentFilterEnabled = (): string => html`
       <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+      <calcite-icon
+        scale="s"
+        icon="check"
+        slot="content-end"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
@@ -300,7 +322,12 @@ export const richContentFilterEnabled = (): string => html`
       <calcite-action icon="web" label="Finn Mertens website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+      <calcite-icon
+        scale="s"
+        icon="check"
+        slot="content-end"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
@@ -312,7 +339,7 @@ export const richContentFilterEnabled = (): string => html`
         scale="s"
         icon="exclamation-mark-triangle"
         slot="content-end"
-        style="color: var(--calcite-ui-danger)"
+        style="color: var(--calcite-color-status-danger)"
       ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
@@ -326,7 +353,12 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+      <calcite-icon
+        scale="s"
+        icon="check"
+        slot="content-end"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
@@ -334,7 +366,12 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-action icon="web" label="Finn Mertens website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
       <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+      <calcite-icon
+        scale="s"
+        icon="check"
+        slot="content-end"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
     </calcite-list-item>
@@ -346,7 +383,7 @@ export const darkModeRTL_TestOnly = (): string => html`
         scale="s"
         icon="exclamation-mark-triangle"
         slot="content-end"
-        style="color: var(--calcite-ui-danger)"
+        style="color: var(--calcite-color-status-danger)"
       ></calcite-icon>
       <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
       <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
@@ -401,7 +438,7 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
   filter-enabled
 >
   <calcite-list-item closable label="basic" value="basic" description="hello world">
-    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
     <calcite-action
       appearance="transparent"
       icon="ellipsis"
@@ -411,10 +448,10 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
     ></calcite-action>
   </calcite-list-item>
   <calcite-list-item closable disabled label="disabled" value="disabled" description="hello world">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
   <calcite-list-item closed closable label="closed" value="closed" description="hello world">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
 </calcite-list>`;
 
@@ -638,16 +675,16 @@ export const filterActions_TestOnly = (): string => html`<calcite-list
     slot="filter-actions-end"
   ></calcite-action>
   <calcite-list-item label="test1" value="test1" description="hello world 1">
-    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
   <calcite-list-item label="test2" value="test2" description="hello world 2">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
   <calcite-list-item label="test3" value="test3" description="hello world 3">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
   <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
 </calcite-list>`;
 
@@ -686,16 +723,19 @@ export const sortableList_TestOnly = (): string => html`<calcite-list
     slot="filter-actions-end"
   ></calcite-action>
   <calcite-list-item label="test1" value="test1" description="hello world 1">
-    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
   <calcite-list-item label="test2" value="test2" description="hello world 2">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
   <calcite-list-item label="test3" value="test3" description="hello world 3">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
   <calcite-list-item disabled label="test4" value="test4" description="hello world 4">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item drag-disabled label="test5" value="test5" description="hello world 55">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-color-status-success)"></calcite-icon>
   </calcite-list-item>
 </calcite-list>`;
 
@@ -767,4 +807,44 @@ export const listWithEmptyChildList_TestOnly = (): string => html`<calcite-list
   <calcite-list-item open label="Hi! 4" description="hello world">
     <calcite-list drag-enabled group="nested" selection-mode="single"></calcite-list>
   </calcite-list-item>
+</calcite-list>`;
+
+export const listWithGroupedAndSlottedItems_TestOnly = (): string => html`<calcite-list filter-enabled>
+  <calcite-list-item-group heading="Outdoor recreation">
+    <calcite-list-item label="Hiking trails" description="Designated routes for hikers to use." value="hiking-trails">
+      <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+    </calcite-list-item>
+    <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+      <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+    </calcite-list-item>
+  </calcite-list-item-group>
+  <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+    <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+  </calcite-list-item>
+  <calcite-list-item label="Estuaries" description="Where the river meets the sea." value="estuaries">
+    <calcite-action slot="actions-end" icon="layer" text="Estuaries layer"></calcite-action>
+  </calcite-list-item>
+  <calcite-list-item
+    label="Park offices"
+    description="Home base for park staff to converse with visitors."
+    value="offices"
+  >
+    <calcite-action slot="actions-end" icon="layer" text="Offices layer"></calcite-action>
+  </calcite-list-item>
+  <calcite-list-item-group heading="Buildings">
+    <calcite-list-item
+      label="Guest lodges"
+      description="Small houses available for visitors to book for stays."
+      value="lodges"
+    >
+      <calcite-action slot="actions-end" icon="layer" text="Lodges layer"></calcite-action>
+    </calcite-list-item>
+    <calcite-list-item
+      label="Yurts"
+      description="Insulated portable rounded structures similar to tents."
+      value="yurts"
+    >
+      <calcite-action slot="actions-end" icon="layer" text="Yurts layer"></calcite-action>
+    </calcite-list-item>
+  </calcite-list-item-group>
 </calcite-list>`;

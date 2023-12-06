@@ -17,7 +17,7 @@ textarea {
   w-full
   m-0;
   min-inline-size: theme("spacing.48");
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-color-border-3);
   @media screen and (max-width: 480px) {
     @apply resize-none;
   }
@@ -137,6 +137,15 @@ textarea {
   .character-limit {
     @apply text-0
     pl-4;
+  }
+}
+
+:host([status="invalid"]) {
+  textarea {
+    @apply border-color-danger;
+  }
+  textarea:focus {
+    @apply focus-inset-danger;
   }
 }
 
