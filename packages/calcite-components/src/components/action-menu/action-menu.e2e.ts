@@ -135,6 +135,10 @@ describe("calcite-action-menu", () => {
 
     const actionMenu = await page.find("calcite-action-menu");
 
+    const popover = await page.find("calcite-action-menu >>> calcite-popover");
+
+    expect(await popover.getProperty("autoClose")).toBe(true);
+
     expect(await actionMenu.getProperty("open")).toBe(true);
 
     const outside = await page.find("#outside");
