@@ -43,10 +43,11 @@ export function formatExtraOutput(
           const medias = index.media
             ? index.media.map(([mediaSchemed, output]) => {
                 const m = ensureIfArray(outputObject[`${output}.${args.platform}`]);
+                const cssProps = m.map((o) => `${o}`.replace("$", "--"));
                 return Array.isArray(m)
-                  ? `@media (${mediaSchemed}) {\n\t:root {\n\t\t${m
-                      .map((o) => `${o}`.replace("$", "--"))
-                      .join("\n\t\t")}\n\t}\n}`
+                  ? `${
+                      output === "light" ? `:root {\n\t${cssProps.join("\n\t")}\n}\n` : ""
+                    }@media (${mediaSchemed}) {\n\t.calcite-mode-auto {\n\t\t${cssProps.join("\n\t\t")}\n\t}\n}`
                   : "";
               })
             : [];
