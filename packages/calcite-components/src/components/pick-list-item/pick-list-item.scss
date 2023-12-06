@@ -1,21 +1,14 @@
 :host {
-  @apply bg-foreground-1
-    text-n1
-    text-color-1
-    shadow-border-bottom
-    bg-foreground-1
-    text-n1h
+  @extend %component-host;
+  @apply flex
+    items-stretch
+    leading-4
     m-0
     mb-px
-    box-border
-    flex
-    items-stretch;
+    shadow-border-bottom
+    text-color-1;
   transition: background-color var(--calcite-animation-timing);
   animation: calcite-fade-in var(--calcite-animation-timing);
-
-  * {
-    @apply box-border;
-  }
 }
 
 .label {

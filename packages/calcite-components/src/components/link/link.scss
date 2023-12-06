@@ -3,8 +3,8 @@
 }
 
 // link base
-:host a,
-:host span {
+a,
+span {
   @apply font-inherit
     transition-default
     relative
@@ -24,8 +24,8 @@
 }
 
 // focus styles
-:host a,
-:host span {
+a,
+span {
   @apply focus-base;
   &:focus {
     @apply focus-outset;
@@ -45,43 +45,41 @@ calcite-icon {
 }
 
 // icon positioning and styles
-:host .calcite-link--icon.icon-start {
+.calcite-link--icon.icon-start {
   margin-inline-end: theme("margin.2");
 }
 
-:host .calcite-link--icon.icon-end {
+.calcite-link--icon.icon-end {
   margin-inline-start: theme("margin.2");
 }
 
-:host {
-  span,
-  a {
-    @apply text-color-link
-      transition-default
-      relative
-      inline
-      border-none
-      bg-transparent
-      p-0;
-    line-height: inherit;
-    white-space: initial;
-    background-image: linear-gradient(currentColor, currentColor),
-      linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
-    background-position-x: 0%, 100%;
-    background-position-y: min(1.5em, 100%);
-    background-repeat: no-repeat, no-repeat;
-    background-size: 0% 1px, 100% 1px;
+span,
+a {
+  @apply text-color-link
+    transition-default
+    relative
+    inline
+    border-none
+    bg-transparent
+    p-0;
+  line-height: inherit;
+  white-space: initial;
+  background-image: linear-gradient(currentColor, currentColor),
+    linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
+  background-position-x: 0%, 100%;
+  background-position-y: min(1.5em, 100%);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 1px, 100% 1px;
 
-    &:hover,
-    &:focus {
-      background-size: 100% 1px, 100% 1px;
-    }
-    &:active {
-      background-size: 100% 2px, 100% 2px;
-    }
-    &.calcite--rtl {
-      background-position: 100% 100%, 100% 100%;
-    }
+  &:hover,
+  &:focus {
+    background-size: 100% 1px, 100% 1px;
+  }
+  &:active {
+    background-size: 100% 2px, 100% 2px;
+  }
+  &.calcite--rtl {
+    background-position: 100% 100%, 100% 100%;
   }
 }
 

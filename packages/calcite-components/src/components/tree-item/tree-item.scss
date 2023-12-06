@@ -105,16 +105,15 @@
 // focus styles
 :host {
   @apply outline-none;
-
-  .node-container {
-    @apply focus-base;
-  }
   &:focus,
   &:active {
     .node-container {
       @apply focus-inset;
     }
   }
+}
+.node-container {
+  @apply focus-base;
 }
 
 :host(:focus:not([disabled])) {

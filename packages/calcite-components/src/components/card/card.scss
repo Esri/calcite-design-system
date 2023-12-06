@@ -1,22 +1,23 @@
 :host {
   @apply block max-w-full;
-  & .calcite-card-container {
-    @apply bg-foreground-1
-    border-color-2
-    text-color-3
-    relative
-    flex
-    h-full
-    flex-col
-    justify-between
-    border
-    border-solid
-    shadow-none
-    duration-150
-    ease-in-out
-    overflow-hidden;
-    border-radius: var(--calcite-border-radius-base);
-  }
+}
+
+.calcite-card-container {
+  @apply bg-foreground-1
+  border
+  border-color-2
+  border-solid
+  duration-150
+  ease-in-out
+  flex
+  flex-col
+  h-full
+  justify-between
+  overflow-hidden
+  relative
+  shadow-none
+  text-color-3;
+  border-radius: var(--calcite-border-radius-base);
 }
 
 .container {

@@ -1,19 +1,14 @@
 :host {
-  @apply border-color-2
-    bg-foreground-1
-    text-color-2
-    text-n1h
-    relative
-    m-4
+  @extend %component-host;
+  @apply border
+    border-color-2
+    border-solid
     box-border
     flex
     flex-row
-    border
-    border-solid;
-
-  * {
-    @apply box-border;
-  }
+    leading-4
+    m-4
+    relative;
 }
 
 .container {

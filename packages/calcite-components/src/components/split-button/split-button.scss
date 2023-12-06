@@ -14,23 +14,21 @@
   @apply w-full;
 }
 
-:host {
-  &:host([kind="brand"]) {
-    --calcite-split-button-background: theme("colors.brand");
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
-  &:host([kind="danger"]) {
-    --calcite-split-button-background: theme("colors.danger");
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
-  &:host([kind="neutral"]) {
-    --calcite-split-button-background: theme("colors.background.foreground.3");
-    --calcite-split-button-divider: theme("colors.color.1");
-  }
-  &:host([kind="inverse"]) {
-    --calcite-split-button-background: var(--calcite-color-inverse);
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
+:host([kind="brand"]) {
+  --calcite-split-button-background: theme("colors.brand");
+  --calcite-split-button-divider: theme("colors.background.foreground.1");
+}
+:host([kind="danger"]) {
+  --calcite-split-button-background: theme("colors.danger");
+  --calcite-split-button-divider: theme("colors.background.foreground.1");
+}
+:host([kind="neutral"]) {
+  --calcite-split-button-background: theme("colors.background.foreground.3");
+  --calcite-split-button-divider: theme("colors.color.1");
+}
+:host([kind="inverse"]) {
+  --calcite-split-button-background: var(--calcite-color-inverse);
+  --calcite-split-button-divider: theme("colors.background.foreground.1");
 }
 
 :host([appearance="transparent"]) {

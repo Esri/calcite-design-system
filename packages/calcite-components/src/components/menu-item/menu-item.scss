@@ -1,14 +1,15 @@
 :host {
-  @apply flex
+  @apply box-border
+  flex
   items-center
-  relative
-  box-border;
+  relative;
   flex-shrink: 0;
-  & .container,
-  & .item-content,
-  & .content {
-    min-block-size: theme("spacing.12");
-  }
+}
+
+.container,
+.item-content,
+.content {
+  min-block-size: theme("spacing.12");
 }
 
 :host([layout="vertical"]) {

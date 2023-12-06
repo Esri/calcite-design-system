@@ -1,19 +1,20 @@
 :host {
   @apply inline-flex outline-none;
-  & .button {
-    background-color: transparent;
-    border: none;
-    @apply flex
-      m-0
-      items-center
-      justify-center
-      cursor-pointer
-      transition-default
-      focus-base
-      font-sans
-      text-0h;
-    border-block-end: 2px solid transparent;
-  }
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  @apply flex
+    m-0
+    items-center
+    justify-center
+    cursor-pointer
+    transition-default
+    focus-base
+    font-sans
+    text-0h;
+  border-block-end: 2px solid transparent;
 }
 
 :host(:hover) .button,

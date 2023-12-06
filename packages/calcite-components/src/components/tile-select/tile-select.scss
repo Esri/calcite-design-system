@@ -2,120 +2,120 @@ $spacing: $baseline * 0.5;
 
 :host {
   @apply block;
+}
 
-  .container {
-    background-color: var(--calcite-color-foreground-1);
-    box-shadow: 0 0 0 1px var(--calcite-color-border-2);
-    box-sizing: border-box;
-    cursor: pointer;
-    display: inline-block;
-    block-size: 100%;
-    max-inline-size: 300px;
-    padding: $spacing;
-    position: relative;
-    vertical-align: top;
-    @apply transition-default;
+.container {
+  background-color: var(--calcite-color-foreground-1);
+  box-shadow: 0 0 0 1px var(--calcite-color-border-2);
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  block-size: 100%;
+  max-inline-size: 300px;
+  padding: $spacing;
+  position: relative;
+  vertical-align: top;
+  @apply transition-default;
 
-    &.checked {
-      @apply z-default;
-      box-shadow: 0 0 0 1px var(--calcite-color-brand);
+  &.checked {
+    @apply z-default;
+    box-shadow: 0 0 0 1px var(--calcite-color-brand);
+  }
+
+  &.heading-only {
+    align-items: center;
+  }
+
+  &:not(.input-enabled) {
+    ::slotted(calcite-checkbox),
+    ::slotted(calcite-radio-button) {
+      @apply sr-only;
     }
+  }
 
-    &.heading-only {
-      align-items: center;
-    }
-
-    &:not(.input-enabled) {
-      ::slotted(calcite-checkbox),
-      ::slotted(calcite-radio-button) {
-        @apply sr-only;
+  &.focused {
+    @apply focus-base;
+    &:not(.disabled) {
+      &:not(.input-enabled) {
+        @apply focus-inset;
+        outline-offset: -4px;
+        box-shadow: 0 0 0 1px var(--calcite-color-brand), inset 0 0 0 2px var(--calcite-color-foreground-1);
       }
     }
+  }
 
-    &.focused {
-      @apply focus-base;
-      &:not(.disabled) {
-        &:not(.input-enabled) {
-          @apply focus-inset;
-          outline-offset: -4px;
-          box-shadow: 0 0 0 1px var(--calcite-color-brand), inset 0 0 0 2px var(--calcite-color-foreground-1);
-        }
-      }
-    }
-
-    &.input-enabled {
-      &.input-alignment-start {
-        &.width-auto {
-          &.heading-only,
-          &.icon-only,
-          &.description-only,
-          &.heading.description,
-          &.icon.description,
-          &.heading.icon.description {
-            display: inline-grid;
-            grid-template-columns: max-content 1fr;
-          }
-        }
+  &.input-enabled {
+    &.input-alignment-start {
+      &.width-auto {
         &.heading-only,
         &.icon-only,
         &.description-only,
         &.heading.description,
         &.icon.description,
         &.heading.icon.description {
-          gap: $spacing;
-        }
-        calcite-tile {
-          @apply order-1;
-        }
-        &.large-visual {
-          ::slotted(calcite-checkbox),
-          ::slotted(calcite-radio-button) {
-            position: absolute;
-            inset-block-start: $spacing;
-            inset-inline-start: $spacing;
-          }
+          display: inline-grid;
+          grid-template-columns: max-content 1fr;
         }
       }
-      &.input-alignment-end {
-        &.width-auto {
-          &.heading-only,
-          &.icon-only {
-            display: inline-grid;
-            grid-gap: $spacing;
-            grid-template-columns: max-content 1fr;
-          }
-        }
-        &.heading-only,
-        &.icon-only {
-          gap: $spacing;
-        }
-        &.description-only,
-        &.heading.description,
-        &.icon.description,
-        &.heading.icon.description {
-          ::slotted(calcite-checkbox),
-          ::slotted(calcite-radio-button) {
-            position: absolute;
-            inset-block-start: $spacing;
-            inset-inline-end: $spacing;
-          }
-        }
-        &.large-visual {
-          ::slotted(calcite-checkbox),
-          ::slotted(calcite-radio-button) {
-            position: absolute;
-            inset-block-start: $spacing;
-            inset-inline-end: $spacing;
-          }
+      &.heading-only,
+      &.icon-only,
+      &.description-only,
+      &.heading.description,
+      &.icon.description,
+      &.heading.icon.description {
+        gap: $spacing;
+      }
+      calcite-tile {
+        @apply order-1;
+      }
+      &.large-visual {
+        ::slotted(calcite-checkbox),
+        ::slotted(calcite-radio-button) {
+          position: absolute;
+          inset-block-start: $spacing;
+          inset-inline-start: $spacing;
         }
       }
     }
-
-    &.width-full {
-      @apply flex max-w-none;
-      calcite-tile {
-        @apply flex-auto;
+    &.input-alignment-end {
+      &.width-auto {
+        &.heading-only,
+        &.icon-only {
+          display: inline-grid;
+          grid-gap: $spacing;
+          grid-template-columns: max-content 1fr;
+        }
       }
+      &.heading-only,
+      &.icon-only {
+        gap: $spacing;
+      }
+      &.description-only,
+      &.heading.description,
+      &.icon.description,
+      &.heading.icon.description {
+        ::slotted(calcite-checkbox),
+        ::slotted(calcite-radio-button) {
+          position: absolute;
+          inset-block-start: $spacing;
+          inset-inline-end: $spacing;
+        }
+      }
+      &.large-visual {
+        ::slotted(calcite-checkbox),
+        ::slotted(calcite-radio-button) {
+          position: absolute;
+          inset-block-start: $spacing;
+          inset-inline-end: $spacing;
+        }
+      }
+    }
+  }
+
+  &.width-full {
+    @apply flex max-w-none;
+    calcite-tile {
+      @apply flex-auto;
     }
   }
 }

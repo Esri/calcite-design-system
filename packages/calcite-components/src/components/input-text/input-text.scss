@@ -2,6 +2,10 @@
   @apply block;
 }
 
+.container {
+  @apply block;
+}
+
 // scales
 :host([scale="s"]) {
   & input {

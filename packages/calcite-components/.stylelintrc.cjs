@@ -1,4 +1,4 @@
-{
+module.exports = {
   "defaultSeverity": "warning",
   "extends": "stylelint-config-recommended-scss",
   "plugins": ["stylelint-use-logical-spec"],
@@ -11,11 +11,21 @@
       }
     ],
     "selector-disallowed-list": [
-      ["/:host-context/"],
+      ["/:host-context/", "/:host\\s*(?=\\.\\S+|\\s*\\{)/"],
       {
-        "message": ":host-context is not supported in all browsers, so it should be avoided",
+        "message": (selector) => {
+          if (selector === ":host-context") {
+            return ":host-context is not supported in all browsers, so it should be avoided";
+          }
+
+          console.log(selector, "CAUGHT");
+
+          // if (selector === ":host") {
+            return "standalone `:host` use in shadow DOM is redundant. Please remove it."
+          // }
+        },
         "severity": "error"
-      }
+      },
     ],
     "selector-max-specificity": [
       "0,5,5",

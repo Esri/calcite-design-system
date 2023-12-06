@@ -1,14 +1,8 @@
 :host {
-  @apply text-color-2
-    text-n1
-    mb-1
-    box-border
+  @extend %component-host;
+  @apply bg-transparent
     block
-    bg-transparent;
-
-  * {
-    @apply box-border;
-  }
+    mb-1;
 }
 
 :host(:last-child) {

@@ -1,15 +1,10 @@
 :host {
-  @apply bg-foreground-1
-    text-color-2
-    text-n1
-    shadow-border-bottom
+  @extend %component-host;
+  @apply box-border
+    flex
     mb-px
-    box-border
-    flex;
+    shadow-border-bottom;
   transition: background-color var(--calcite-animation-timing), box-shadow var(--calcite-animation-timing);
-  * {
-    @apply box-border;
-  }
 }
 
 calcite-pick-list-item {

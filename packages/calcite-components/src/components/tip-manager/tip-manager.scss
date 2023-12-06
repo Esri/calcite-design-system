@@ -8,15 +8,10 @@
  */
 
 :host {
-  @apply bg-foreground-1
-  text-color-2
-  text-n1h
-  box-border
-  block;
-
-  * {
-    @apply box-border;
-  }
+  @extend %component-host;
+  @apply box-border
+  block
+  leading-4;
 
   --calcite-tip-manager-height: 19vh;
 }

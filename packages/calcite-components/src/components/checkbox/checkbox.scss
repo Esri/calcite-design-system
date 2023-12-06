@@ -17,31 +17,31 @@
 }
 
 :host {
-  @apply relative
+  @apply cursor-pointer
     inline-flex
-    cursor-pointer
+    relative
     select-none;
   -webkit-tap-highlight-color: transparent;
+}
 
-  .check-svg,
-  .toggle {
-    inline-size: var(--calcite-checkbox-size);
-    block-size: var(--calcite-checkbox-size);
-  }
+.check-svg,
+.toggle {
+  inline-size: var(--calcite-checkbox-size);
+  block-size: var(--calcite-checkbox-size);
+}
 
-  .check-svg {
-    @apply bg-foreground-1
-      pointer-events-none
-      box-border
-      block
-      overflow-hidden
-      fill-current
-      stroke-current
-      stroke-1
-      transition-default;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-border-input);
-    color: theme("backgroundColor.background");
-  }
+.check-svg {
+  @apply bg-foreground-1
+    block
+    box-border
+    fill-current
+    overflow-hidden
+    pointer-events-none
+    stroke-1
+    stroke-current
+    transition-default;
+  box-shadow: inset 0 0 0 1px var(--calcite-color-border-input);
+  color: theme("backgroundColor.background");
 }
 
 :host([status="invalid"]:not([checked])) {
@@ -61,7 +61,7 @@
   }
 }
 :host([hovered]) .toggle,
-:host .toggle:hover {
+.toggle:hover {
   .check-svg {
     box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
   }

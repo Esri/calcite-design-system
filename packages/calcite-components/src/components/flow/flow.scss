@@ -1,63 +1,63 @@
 :host {
   @extend %component-host;
+  @apply bg-transparent
+  flex
+  flex-auto
+  items-stretch
+  overflow-hidden
+  relative
+  w-full;
+}
+
+.frame {
   @apply relative
+    m-0
     flex
     w-full
     flex-auto
+    flex-col
     items-stretch
-    overflow-hidden
-    bg-transparent;
+    p-0;
+}
 
-  .frame {
-    @apply relative
-      m-0
-      flex
-      w-full
-      flex-auto
-      flex-col
-      items-stretch
-      p-0;
+::slotted(calcite-flow-item),
+::slotted(calcite-panel) {
+  @apply h-full;
+}
+
+::slotted(.calcite-match-height:last-child) {
+  @apply flex
+  flex-auto
+  overflow-hidden;
+}
+
+.frame--advancing {
+  animation: calcite-frame-advance var(--calcite-animation-timing);
+}
+
+.frame--retreating {
+  animation: calcite-frame-retreat var(--calcite-animation-timing);
+}
+
+@keyframes calcite-frame-advance {
+  0% {
+    @apply bg-opacity-50;
+    transform: translate3d(50px, 0, 0);
   }
-
-  ::slotted(calcite-flow-item),
-  ::slotted(calcite-panel) {
-    @apply h-full;
+  100% {
+    @apply bg-opacity-100;
+    transform: translate3d(0, 0, 0);
   }
+}
 
-  ::slotted(.calcite-match-height:last-child) {
-    @apply flex
-    flex-auto
-    overflow-hidden;
+@keyframes calcite-frame-retreat {
+  0% {
+    @apply bg-opacity-50;
+    transform: translate3d(-50px, 0, 0);
   }
-
-  .frame--advancing {
-    animation: calcite-frame-advance var(--calcite-animation-timing);
-  }
-
-  .frame--retreating {
-    animation: calcite-frame-retreat var(--calcite-animation-timing);
-  }
-
-  @keyframes calcite-frame-advance {
-    0% {
-      @apply bg-opacity-50;
-      transform: translate3d(50px, 0, 0);
-    }
-    100% {
-      @apply bg-opacity-100;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @keyframes calcite-frame-retreat {
-    0% {
-      @apply bg-opacity-50;
-      transform: translate3d(-50px, 0, 0);
-    }
-    100% {
-      @apply bg-opacity-100;
-      transform: translate3d(0, 0, 0);
-    }
+  100% {
+    @apply bg-opacity-100;
+    transform: translate3d(0, 0, 0);
   }
 }
 

@@ -1,18 +1,13 @@
 :host {
-  @apply text-color-2
-    text-n1h
-    relative
-    box-border
+  @extend %component-host;
+  @apply bg-transparent
     flex
-    flex-shrink-0
-    flex-grow
     flex-col
+    flex-grow
+    flex-shrink-0
     items-stretch
-    bg-transparent;
-
-  * {
-    @apply box-border;
-  }
+    leading-4
+    relative;
 }
 
 @include disabled();
