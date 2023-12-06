@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Listen,
   Method,
   Prop,
   State,
@@ -132,21 +131,6 @@ export class ActionMenu implements LoadableComponent {
    *
    */
   @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
-
-  @Listen("pointerdown", { target: "window" })
-  closeCalciteActionMenuOnClick(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    const composedPath = event.composedPath();
-
-    if (composedPath.includes(this.el)) {
-      return;
-    }
-
-    this.open = false;
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -304,10 +288,12 @@ export class ActionMenu implements LoadableComponent {
 
     return (
       <calcite-popover
+        autoClose={true}
         flipPlacements={flipPlacements}
         focusTrapDisabled={true}
         label={label}
         offsetDistance={0}
+        onCalcitePopoverClose={this.close}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -512,5 +498,9 @@ export class ActionMenu implements LoadableComponent {
   toggleOpen = (value = !this.open): void => {
     this.el.addEventListener("calcitePopoverOpen", this.toggleOpenEnd);
     this.open = value;
+  };
+
+  close = (): void => {
+    this.open = false;
   };
 }
