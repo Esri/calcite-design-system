@@ -271,7 +271,7 @@ describe("calcite-input-date-picker", () => {
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
       await page.$eval("calcite-input-date-picker", (element: any) => {
-        element.valueAsDate = new Date(1687569378304);
+        element.valueAsDate = new Date(1687528800000);
       });
 
       const expectedValue = "2023-06-23";
