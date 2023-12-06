@@ -36,14 +36,14 @@ export function formatExtraOutput(
             ? index.mixin.map(([mixinName, output]) => {
                 const m = ensureIfArray(outputObject[`${output}.${args.platform}`]);
                 return Array.isArray(m)
-                  ? `@mixin ${mixinName} {\n\t${m.map((o) => `${o}`.replace("$", "--")).join("\n\t")}\n}`
+                  ? `@mixin ${mixinName} {\n\t${m.map((o) => `${o}`.replaceAll("$", "--")).join("\n\t")}\n}`
                   : "";
               })
             : [];
           const medias = index.media
             ? index.media.map(([mediaSchemed, output]) => {
                 const m = ensureIfArray(outputObject[`${output}.${args.platform}`]);
-                const cssProps = m.map((o) => `${o}`.replace("$", "--"));
+                const cssProps = m.map((o) => `${o}`.replaceAll("$", "--"));
                 return Array.isArray(m)
                   ? `${
                       output === "light" ? `:root {\n\t${cssProps.join("\n\t")}\n}\n` : ""
