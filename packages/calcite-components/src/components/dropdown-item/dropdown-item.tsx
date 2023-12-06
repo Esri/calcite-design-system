@@ -212,7 +212,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
     const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
 
     return (
-      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole}>
+      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole} tabIndex={0}>
         <InteractiveContainer disabled={this.disabled}>
           <div
             class={{
