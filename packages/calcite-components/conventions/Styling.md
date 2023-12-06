@@ -101,6 +101,6 @@ All components have been constructed to inherit their `font-family`. This enable
 
 The Esri color palette can be found [here](https://esri.github.io/calcite-colors/).
 
-**Discussed In**:
+__Discussed In__:
 
 - <https://github.com/Esri/calcite-design-system/issues/507>
