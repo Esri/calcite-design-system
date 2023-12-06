@@ -194,7 +194,7 @@ describe("calcite-split-button", () => {
       element.setProperty("scale", elementScale);
       await page.waitForChanges();
       const dropdownScale = elementScaleToDropdownScale[elementScale];
-      expect(dropdown).toEqualAttribute("width", dropdownScale);
+      expect(dropdown).toEqualAttribute("width-scale", dropdownScale);
       expect(dropdown).toEqualAttribute("scale", dropdownScale);
       expect(primaryButton).toEqualAttribute("scale", elementScaleToButtonScale[elementScale]);
     }

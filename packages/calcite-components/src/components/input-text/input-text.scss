@@ -4,15 +4,27 @@
 
 // scales
 :host([scale="s"]) {
+  & input {
+    padding-inline-start: theme("spacing.2");
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.2"));
+  }
+
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h h-6 px-2;
+    @apply text-n2h h-6;
   }
+
+  & .prefix,
+  & .suffix {
+    @apply px-2;
+  }
+
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
     @apply h-6;
   }
+
   & .clear-button {
     min-block-size: theme("spacing.6");
     min-inline-size: theme("spacing.6");
@@ -20,15 +32,27 @@
 }
 
 :host([scale="m"]) {
+  & input {
+    padding-inline-start: theme("spacing.3");
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.3"));
+  }
+
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h h-8 px-3;
+    @apply text-n1h h-8;
   }
+
+  & .prefix,
+  & .suffix {
+    @apply px-3;
+  }
+
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
     @apply h-8;
   }
+
   & .clear-button {
     min-block-size: theme("spacing.8");
     min-inline-size: theme("spacing.8");
@@ -36,15 +60,27 @@
 }
 
 :host([scale="l"]) {
+  & input {
+    padding-inline-start: theme("spacing.4");
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.4"));
+  }
+
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h h-11 px-4;
+    @apply text-0h h-11;
   }
+
+  & .prefix,
+  & .suffix {
+    @apply px-4;
+  }
+
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
     @apply h-11;
   }
+
   & .clear-button {
     min-block-size: theme("spacing.11");
     min-inline-size: theme("spacing.11");
@@ -56,19 +92,24 @@
 input {
   transition: var(--calcite-animation-timing), block-size 0, outline-offset 0s;
   -webkit-appearance: none;
-  @apply font-inherit
-    text-color-1
-    bg-foreground-1
-    relative
-    m-0
+  @apply bg-foreground-1
     box-border
     flex
-    max-h-full
-    w-full
-    max-w-full
     flex-1
+    font-inherit
+    font-normal
+    m-0
+    max-h-full
+    max-w-full
+    relative
     rounded-none
-    font-normal;
+    text-color-1
+    text-ellipsis
+    w-full;
+
+  &:placeholder-shown {
+    @apply text-ellipsis;
+  }
 }
 
 // states

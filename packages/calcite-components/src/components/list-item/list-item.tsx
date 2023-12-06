@@ -12,7 +12,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import {
+  getElementDir,
+  getFirstTabbable,
+  slotChangeHasAssignedElement,
+  toAriaBoolean,
+} from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -22,7 +27,12 @@ import {
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
+import {
+  getDepth,
+  getListItemChildren,
+  getListItemChildLists,
+  updateListItemChildren,
+} from "./utils";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -43,6 +53,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { SortableComponentItem } from "../../utils/sortableComponent";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -51,6 +62,7 @@ import {
  * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
+ * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
 @Component({
   tag: "calcite-list-item",
@@ -59,7 +71,12 @@ import {
   assetsDirs: ["assets"],
 })
 export class ListItem
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+  implements
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent,
+    SortableComponentItem
 {
   // --------------------------------------------------------------------------
   //
@@ -106,6 +123,11 @@ export class ListItem
   handleDisabledChange(): void {
     this.emitCalciteInternalListItemChange();
   }
+
+  /**
+   * When `true`, the item is not draggable.
+   */
+  @Prop({ reflect: true }) dragDisabled = false;
 
   /**
    * When `true`, the component displays a draggable button.
@@ -220,6 +242,15 @@ export class ListItem
    *
    * @internal
    */
+  @Event({ cancelable: false })
+  calciteInternalListItemSelectMultiple: EventEmitter<{
+    selectMultiple: boolean;
+  }>;
+
+  /**
+   *
+   * @internal
+   */
   @Event({ cancelable: false }) calciteInternalListItemActive: EventEmitter<void>;
 
   /**
@@ -275,6 +306,8 @@ export class ListItem
   @State() hasContentStart = false;
 
   @State() hasContentEnd = false;
+
+  @State() hasContentBottom = false;
 
   containerEl: HTMLTableRowElement;
 
@@ -336,7 +369,7 @@ export class ListItem
     const focusIndex = focusMap.get(parentListEl);
 
     if (typeof focusIndex === "number") {
-      const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
+      const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
       if (cells[focusIndex]) {
         this.focusCell(cells[focusIndex]);
       } else {
@@ -380,7 +413,12 @@ export class ListItem
   renderDragHandle(): VNode {
     return this.dragHandle ? (
       <td class={CSS.dragContainer} key="drag-handle-container">
-        <calcite-handle label={this.label} setPosition={this.setPosition} setSize={this.setSize} />
+        <calcite-handle
+          disabled={this.dragDisabled}
+          label={this.label}
+          setPosition={this.setPosition}
+          setSize={this.setSize}
+        />
       </td>
     ) : null;
   }
@@ -389,16 +427,19 @@ export class ListItem
     const { el, open, openable, parentListEl } = this;
     const dir = getElementDir(el);
 
-    return openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.toggleOpen}>
-        <calcite-icon
-          icon={open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR}
-          scale="s"
-        />
-      </td>
-    ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.itemClicked}>
-        <calcite-icon icon={ICONS.blank} scale="s" />
+    const icon = openable
+      ? open
+        ? ICONS.open
+        : dir === "rtl"
+        ? ICONS.closedRTL
+        : ICONS.closedLTR
+      : ICONS.blank;
+
+    const clickHandler = openable ? this.toggleOpen : this.itemClicked;
+
+    return openable || parentListEl?.openable ? (
+      <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
+        <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
   }
@@ -474,6 +515,35 @@ export class ListItem
     );
   }
 
+  renderContentBottom(): VNode {
+    const { hasContentBottom, visualLevel } = this;
+    return (
+      <div
+        class={CSS.contentBottom}
+        hidden={!hasContentBottom}
+        style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+      >
+        <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
+      </div>
+    );
+  }
+
+  renderDefaultContainer(): VNode {
+    return (
+      <div
+        class={{
+          [CSS.nestedContainer]: true,
+          [CSS.nestedContainerHidden]: this.openable && !this.open,
+        }}
+      >
+        <slot
+          onSlotchange={this.handleDefaultSlotChange}
+          ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
+        />
+      </div>
+    );
+  }
+
   renderContentProperties(): VNode {
     const { label, description, hasCustomContent } = this;
 
@@ -535,6 +605,7 @@ export class ListItem
       selectionAppearance,
       selectionMode,
       closed,
+      visualLevel,
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -559,7 +630,7 @@ export class ListItem
           onFocus={this.focusCellNull}
           onKeyDown={this.handleItemKeyDown}
           role="row"
-          style={{ "--calcite-list-item-spacing-indent-multiplier": `${this.visualLevel}` }}
+          style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
           tabIndex={active ? 0 : -1}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
@@ -571,17 +642,8 @@ export class ListItem
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
         </tr>
-        <div
-          class={{
-            [CSS.nestedContainer]: true,
-            [CSS.nestedContainerHidden]: openable && !open,
-          }}
-        >
-          <slot
-            onSlotchange={this.handleDefaultSlotChange}
-            ref={(el: HTMLSlotElement) => (this.defaultSlotEl = el)}
-          />
-        </div>
+        {this.renderContentBottom()}
+        {this.renderDefaultContainer()}
       </Host>
     );
   }
@@ -621,6 +683,10 @@ export class ListItem
     this.hasContentEnd = slotChangeHasAssignedElement(event);
   };
 
+  handleContentBottomSlotChange = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
+  };
+
   setSelectionDefaults(): void {
     const { parentListEl, selectionMode, selectionAppearance } = this;
 
@@ -644,8 +710,9 @@ export class ListItem
 
     const { parentListEl } = this;
     const listItemChildren = getListItemChildren(slotEl);
+    const listItemChildLists = getListItemChildLists(slotEl);
     updateListItemChildren(listItemChildren);
-    const openable = !!listItemChildren.length;
+    const openable = !!listItemChildren.length || !!listItemChildLists.length;
 
     if (openable && parentListEl && !parentListEl.openable) {
       parentListEl.openable = true;
@@ -666,16 +733,16 @@ export class ListItem
     this.open = !this.open;
   };
 
-  itemClicked = (event: Event): void => {
+  itemClicked = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
 
-    this.toggleSelected();
+    this.toggleSelected(event.shiftKey);
     this.calciteInternalListItemActive.emit();
   };
 
-  toggleSelected = (): void => {
+  toggleSelected = (shiftKey: boolean): void => {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -688,6 +755,9 @@ export class ListItem
       this.selected = true;
     }
 
+    this.calciteInternalListItemSelectMultiple.emit({
+      selectMultiple: shiftKey && selectionMode === "multiple",
+    });
     this.calciteListItemSelect.emit();
   };
 
@@ -700,7 +770,7 @@ export class ListItem
     const composedPath = event.composedPath();
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
 
-    const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
+    const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
     if (
@@ -709,7 +779,7 @@ export class ListItem
       !composedPath.includes(actionsEndEl)
     ) {
       event.preventDefault();
-      this.toggleSelected();
+      this.toggleSelected(event.shiftKey);
     } else if (key === "ArrowRight") {
       event.preventDefault();
       const nextIndex = currentIndex + 1;
@@ -753,16 +823,20 @@ export class ListItem
       focusMap.set(parentListEl, null);
     }
 
-    [actionsStartEl, contentEl, actionsEndEl].filter(Boolean).forEach((tableCell, cellIndex) => {
-      const tabIndexAttr = "tabindex";
-      if (tableCell === focusEl) {
-        tableCell.setAttribute(tabIndexAttr, "0");
-        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
-      } else {
-        tableCell.removeAttribute(tabIndexAttr);
-      }
-    });
+    const focusedEl = getFirstTabbable(focusEl);
 
-    focusEl?.focus();
+    [actionsStartEl, contentEl, actionsEndEl]
+      .filter((el) => el && !el.hidden)
+      .forEach((tableCell, cellIndex) => {
+        const tabIndexAttr = "tabindex";
+        if (tableCell === focusEl) {
+          focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
+          saveFocusIndex && focusMap.set(parentListEl, cellIndex);
+        } else {
+          tableCell.removeAttribute(tabIndexAttr);
+        }
+      });
+
+    focusedEl?.focus();
   };
 }

@@ -1,4 +1,6 @@
 {
   "next": "Kitas",
-  "previous": "Atgal"
+  "previous": "Atgal",
+  "first": "First",
+  "last": "Last"
 }
