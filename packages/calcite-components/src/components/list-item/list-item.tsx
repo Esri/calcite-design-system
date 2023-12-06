@@ -317,6 +317,8 @@ export class ListItem
 
   actionsEndEl: HTMLTableCellElement;
 
+  handleGridEl: HTMLTableCellElement;
+
   defaultSlotEl: HTMLSlotElement;
 
   // --------------------------------------------------------------------------
@@ -411,13 +413,22 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    return this.dragHandle ? (
-      <td class={CSS.dragContainer} key="drag-handle-container">
+    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+
+    return dragHandle ? (
+      <td
+        aria-label={label}
+        class={CSS.dragContainer}
+        key="drag-handle-container"
+        role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={(el) => (this.handleGridEl = el)}
+      >
         <calcite-handle
-          disabled={this.dragDisabled}
-          label={this.label}
-          setPosition={this.setPosition}
-          setSize={this.setSize}
+          disabled={dragDisabled}
+          label={label}
+          setPosition={setPosition}
+          setSize={setSize}
         />
       </td>
     ) : null;
@@ -768,9 +779,12 @@ export class ListItem
 
     const { key } = event;
     const composedPath = event.composedPath();
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
+    const { containerEl, contentEl, actionsStartEl, actionsEndEl, handleGridEl, open, openable } =
+      this;
 
-    const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
+    const cells = [handleGridEl, actionsStartEl, contentEl, actionsEndEl].filter(
+      (el) => el && !el.hidden
+    );
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
     if (
@@ -817,7 +831,7 @@ export class ListItem
   };
 
   focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
-    const { contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
+    const { contentEl, actionsStartEl, actionsEndEl, handleGridEl, parentListEl } = this;
 
     if (saveFocusIndex) {
       focusMap.set(parentListEl, null);
@@ -825,7 +839,7 @@ export class ListItem
 
     const focusedEl = getFirstTabbable(focusEl);
 
-    [actionsStartEl, contentEl, actionsEndEl]
+    [handleGridEl, actionsStartEl, contentEl, actionsEndEl]
       .filter((el) => el && !el.hidden)
       .forEach((tableCell, cellIndex) => {
         const tabIndexAttr = "tabindex";
