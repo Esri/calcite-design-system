@@ -49,8 +49,7 @@ export function formatExtraOutput(
                 const m = ensureIfArray(outputObject[`${output}.${args.platform}`]);
                 const cssProps = m.map((o) => `${o}`.replaceAll("$", "--"));
                 return Array.isArray(m)
-                  ? `${
-                      output === "light" ? `:root {${cssProps.join("")}}` : ""
+                  ? `${output === "light" ? `:root {${cssProps.join("")}}` : ""
                     }@media (${mediaSchemed}) {.calcite-mode-auto {${cssProps.join("")}}}`
                   : "";
               })
