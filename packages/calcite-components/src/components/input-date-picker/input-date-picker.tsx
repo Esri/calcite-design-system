@@ -447,8 +447,12 @@ export class InputDatePicker
         this.warnAboutInvalidValue(this.value);
         this.value = "";
       }
-    } else if (this.range && this.valueAsDate) {
-      this.setRangeValue(this.valueAsDate as Date[]);
+    } else if (this.valueAsDate) {
+      if (this.range) {
+        this.setRangeValue(this.valueAsDate as Date[]);
+      } else if (!Array.isArray(this.valueAsDate)) {
+        this.value = dateToISO(this.valueAsDate);
+      }
     }
 
     if (this.min) {
