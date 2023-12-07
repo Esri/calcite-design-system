@@ -14,9 +14,8 @@ export interface PossibleRegistryArgs<R = any> {
   matcher?: Matcher;
 }
 
-export interface RegisterTransformer<R = any>
-  extends Pick<PossibleRegistryArgs<R>, "name" | "type" | "transformer" | "matcher"> {}
+export type RegisterTransformer<R = any> = Pick<PossibleRegistryArgs<R>, "name" | "type" | "transformer" | "matcher">;
 
-export interface RegisterFormatter<R = any> extends Pick<PossibleRegistryArgs<R>, "formatter" | "name"> {}
+export type RegisterFormatter<R = any> = Pick<PossibleRegistryArgs<R>, "formatter" | "name">;
 
-export interface RegisterFilter<R = any> extends Pick<PossibleRegistryArgs<R>, "matcher" | "name"> {}
+export type RegisterFilter<R = any> = Pick<PossibleRegistryArgs<R>, "matcher" | "name">;

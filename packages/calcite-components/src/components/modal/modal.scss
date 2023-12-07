@@ -1,3 +1,5 @@
+@import "~@esri/calcite-design-tokens/dist/scss/core";
+
 /**
  * CSS Custom Properties
  *
@@ -21,7 +23,7 @@
   transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   // the modal should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
-  --calcite-modal-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, 0.85)};
+  --calcite-modal-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
 }
 
 .content-top[hidden],
