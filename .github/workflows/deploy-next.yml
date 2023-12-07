@@ -28,12 +28,13 @@ jobs:
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
         run: |
           if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
+            npm install
+
             if npm run util:is-next-deployable; then
               git config --global user.email "github-actions[bot]@users.noreply.github.com"
               git config --global user.name "github-actions[bot]"
 
-              npm install
-              # version the packages with lerna before building to ensure 
+              # version the packages with lerna before building to ensure
               # the version in the CC source code preamble is correct for deployment
               npm run version:next
               npm run build
