@@ -367,11 +367,11 @@ export class ListItem
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
+    const { containerEl, parentListEl } = this;
     const focusIndex = focusMap.get(parentListEl);
 
     if (typeof focusIndex === "number") {
-      const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
+      const cells = this.getGridCells();
       if (cells[focusIndex]) {
         this.focusCell(cells[focusIndex]);
       } else {
@@ -772,6 +772,12 @@ export class ListItem
     this.calciteListItemSelect.emit();
   };
 
+  getGridCells(): HTMLTableCellElement[] {
+    return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
+      (el) => el && !el.hidden
+    );
+  }
+
   handleItemKeyDown = (event: KeyboardEvent): void => {
     if (event.defaultPrevented) {
       return;
@@ -779,12 +785,9 @@ export class ListItem
 
     const { key } = event;
     const composedPath = event.composedPath();
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, handleGridEl, open, openable } =
-      this;
+    const { containerEl, actionsStartEl, actionsEndEl, open, openable } = this;
 
-    const cells = [handleGridEl, actionsStartEl, contentEl, actionsEndEl].filter(
-      (el) => el && !el.hidden
-    );
+    const cells = this.getGridCells();
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
     if (
@@ -831,7 +834,7 @@ export class ListItem
   };
 
   focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
-    const { contentEl, actionsStartEl, actionsEndEl, handleGridEl, parentListEl } = this;
+    const { parentListEl } = this;
 
     if (saveFocusIndex) {
       focusMap.set(parentListEl, null);
@@ -839,17 +842,15 @@ export class ListItem
 
     const focusedEl = getFirstTabbable(focusEl);
 
-    [handleGridEl, actionsStartEl, contentEl, actionsEndEl]
-      .filter((el) => el && !el.hidden)
-      .forEach((tableCell, cellIndex) => {
-        const tabIndexAttr = "tabindex";
-        if (tableCell === focusEl) {
-          focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
-          saveFocusIndex && focusMap.set(parentListEl, cellIndex);
-        } else {
-          tableCell.removeAttribute(tabIndexAttr);
-        }
-      });
+    this.getGridCells().forEach((tableCell, cellIndex) => {
+      const tabIndexAttr = "tabindex";
+      if (tableCell === focusEl) {
+        focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
+        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
+      } else {
+        tableCell.removeAttribute(tabIndexAttr);
+      }
+    });
 
     focusedEl?.focus();
   };
