@@ -32,7 +32,7 @@ Add a class to handle the logic in the component class.
 
 ## Light Mode/Dark Mode
 
-Light and Dark modes are now provided via Calcite Design Tokens.
+Light and dark modes are now provided via Calcite Design Tokens. Color context modes are important to end-users because it may help to reduce eye-strain and save power. A light or dark mode can also be set explicitly to meet team project requirements.
 
 Here are some examples of their use with Calcite Components.
 
@@ -46,39 +46,41 @@ Here are some examples of their use with Calcite Components.
 To make this work, inside a component's SASS file, _you must use colors from the theme variables_. For example
 
 ```scss
-@import "~@esri/calcite-design-tokens/dist/scss/light";
-
-// Using the sass var will set the color of host to the value of the brand color in light mode.
-// 🙅‍♀️ However, it will not correctly inherit or change it's value when swapping light/dark mode.
-:host {
-  color: $calcite-color-brand;
-}
-```
-
-```scss
-// 👍 using the CSS var will inherit the value correctly
+// 👍 Using the CSS var will inherit the value correctly
 :host {
   color: var(--calcite-color-brand);
 }
 ```
 
-## Legacy Tokens
+```scss
+@import "~@esri/calcite-design-tokens/dist/scss/light";
 
-In the release of 2.0 Calcite Component styles got a major refactor which included the removal and reassignment of legacy CSS Custom Props originally introduced through calcite-styles/calcite-colors. To see a full list of CSS Custom Prop additions, deletions, and renamed tokens please refer to the [Calcite Design Tokens 2.0 Changelog > Map of token changes](../../calcite-design-tokens/CHANGELOG.md#20-map-of-token-changes).
-
-For backwards compatibility old tokens will continue to be provided until the next major release via [\_legacy.scss](../src/assets/styles/_legacy.scss)
-
-## Custom Themes
-
-Since Calcite Components might be used in many different contexts such as configurable apps, multiple themes and appearances need to be supported. The most common use case for custom themes are applications where the end user needs to be able to customize brand colors and typography. To this end custom theming can be accomplished by overriding the [CSS Custom Properties (CSS Variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) from the main light and dark modes with new values:
-
-```css
-:root {
-  --calcite-color-brand: red;
+// Using the sass var will set the color of host to the value of the brand color in light mode
+// 🙅‍♀️ However, it will not correctly inherit or change it's value when swapping light/dark mode
+:host {
+  color: $calcite-color-brand;
 }
 ```
 
-You can apply these overrides to individual components as well:
+## Legacy Tokens
+
+In the release of 2.0 Calcite Component styles got a major refactor which included the removal and reassignment of legacy CSS Custom Properties originally introduced through calcite-styles/calcite-colors. To see a full list of CSS Custom Property additions, deletions, and renamed tokens please refer to the [Calcite Design Tokens 2.0 Changelog > Map of token changes](../../calcite-design-tokens/CHANGELOG.md#20-map-of-token-changes).
+
+For backwards compatibility, deprecated tokens will continue to be provided until the next major release via [\_legacy.scss](../src/assets/styles/_legacy.scss)
+
+## Custom Themes
+
+Since Calcite Components might be used in many different contexts such as configurable apps, multiple themes and appearances need to be supported. The most common use case for custom themes are applications where the end-user needs to be able to customize brand colors and typography. To this end, custom theming can be accomplished by overriding the [CSS Custom Properties (CSS Variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) from the main light and dark modes with new values:
+
+```css
+@media (prefers-color-scheme: light) {
+  :root {
+    --calcite-color-brand: red;
+  }
+}
+```
+
+You can override tokens on specific Calcite Components:
 
 ```css
 calcite-slider {
@@ -86,7 +88,7 @@ calcite-slider {
 }
 ```
 
-Or, add a class:
+Or, override it in a class:
 
 ```css
 .my-custom-theme {
@@ -94,11 +96,10 @@ Or, add a class:
 }
 ```
 
-Or, assign the custom prop on the fly to a particular instance:
+Additionally, inline styling on a particular instance can be achieved:
 
 ```html
 <calcite-slider class="my-custom-theme" style="--calcite-color-brand: purple;"></calcite-slider>
-<!-- The final value for `--calcite-color-brand` will be "purple" -->
 ```
 
 ### Typography
