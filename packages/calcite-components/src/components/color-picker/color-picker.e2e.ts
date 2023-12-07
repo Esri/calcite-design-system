@@ -1868,7 +1868,7 @@ describe("calcite-color-picker", () => {
         const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${storageId}`;
         const page = await newE2EPage();
         await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
-        await page.evaluate((storageKey) => localStorage.removeItem(storageKey), [storageKey]);
+        await page.evaluate((storageKey) => localStorage.removeItem(storageKey), storageKey);
       }
 
       beforeAll(clearStorage);
@@ -1968,7 +1968,7 @@ describe("calcite-color-picker", () => {
         const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${storageId}`;
         const page = await newE2EPage();
         await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
-        await page.evaluate((storageKey) => localStorage.removeItem(storageKey), [storageKey]);
+        await page.evaluate((storageKey) => localStorage.removeItem(storageKey), storageKey);
       }
 
       beforeAll(clearStorage);

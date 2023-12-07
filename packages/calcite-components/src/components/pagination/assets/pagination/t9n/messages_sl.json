@@ -1,4 +1,6 @@
 {
   "next": "Naprej",
-  "previous": "Nazaj"
+  "previous": "Nazaj",
+  "first": "First",
+  "last": "Last"
 }

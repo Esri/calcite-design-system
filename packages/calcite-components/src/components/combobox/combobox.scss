@@ -21,7 +21,7 @@
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
 
   .x-button {
-    margin-inline-end: theme("spacing.2");
+    margin-inline: theme("spacing.2");
   }
 }
 
@@ -66,6 +66,14 @@
   @apply focus-inset;
 }
 
+:host([status="invalid"]) .wrapper {
+  @apply border-color-danger;
+}
+
+:host([status="invalid"]:focus-within) .wrapper {
+  @apply focus-inset-danger;
+}
+
 .wrapper--single {
   padding-block: 0;
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
@@ -77,25 +85,38 @@
     flex-grow
     flex-wrap
     items-center
+    relative
     truncate
     p-0;
+
+  gap: var(--calcite-combobox-item-spacing-unit-s);
+
+  &.selection-display-fit,
+  &.selection-display-single {
+    @apply flex-nowrap overflow-hidden;
+  }
 }
 
 .input {
-  @apply font-inherit
-  text-color-1
-  flex-grow
-  appearance-none
-  border-none
+  @apply appearance-none
   bg-transparent
+  border-none
+  flex-grow
+  font-inherit
+  text-color-1
+  text-ellipsis
   p-0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
-  min-inline-size: 120px;
+  inline-size: 100%;
   margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
+  min-inline-size: 4.8125rem;
   &:focus {
     @apply outline-none;
+  }
+  &:placeholder-shown {
+    @apply text-ellipsis;
   }
 }
 
@@ -121,7 +142,12 @@
 
 .input--icon {
   padding-block: 0;
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-s);
+}
+
+:host([scale="m"]) .input--icon,
+:host([scale="l"]) .input--icon {
+  padding-inline: 0.25rem;
 }
 
 .input-wrap {
@@ -195,14 +221,21 @@
   @apply h-0 overflow-hidden;
 }
 
+calcite-chip {
+  --calcite-animation-timing: 0;
+}
+
 .chip {
   margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
-  margin-inline: 0 var(--calcite-combobox-item-spacing-unit-s);
   max-inline-size: 100%;
 }
 
 .chip--active {
   @apply bg-foreground-3;
+}
+
+.chip--invisible {
+  @apply absolute invisible;
 }
 
 .item {

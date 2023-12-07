@@ -1043,10 +1043,22 @@ describe("calcite-input-number", () => {
   });
 
   describe("number locale support", () => {
-    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
-    const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
+    // locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
+    const localesWithDifferentBrowserAndNodeFormatting = [
+      "ar",
+      "bg",
+      "bs",
+      "es",
+      "es-MX",
+      "et",
+      "lv",
+      "mk",
+      "no",
+      "pl",
+      "pt-PT",
+    ];
     locales
-      .filter((locale) => !localesWithIssues.includes(locale))
+      .filter((locale) => !localesWithDifferentBrowserAndNodeFormatting.includes(locale))
       .forEach((locale) => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
@@ -1595,7 +1607,7 @@ describe("calcite-input-number", () => {
       await page.keyboard.down("ArrowUp");
       await page.$eval(
         "calcite-input-number",
-        (element: HTMLInputElement) => {
+        (element: HTMLCalciteInputNumberElement) => {
           document.addEventListener("calciteInputNumberInput", async () => {
             const input = element.shadowRoot.querySelector("input");
             if (input.selectionStart === 0) {
@@ -1735,5 +1747,29 @@ describe("calcite-input-number", () => {
     await page.mouse.up();
     await page.waitForChanges();
     expect(await inputNumber.getProperty("value")).toEqual(value);
+  });
+
+  it("should not change the value when user Tab out of the input with ArrowUp/ArrowDown keys are down", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
+    const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
+    const input = await page.find("calcite-input-number");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.down("ArrowUp");
+    // timeout is used to simulate long press.
+    await page.waitForTimeout(3000);
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    const totalNudgesUp = calciteInputNumberInput.length;
+    expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(totalNudgesUp);
+
+    await page.waitForTimeout(3000);
+    expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(totalNudgesUp);
   });
 });

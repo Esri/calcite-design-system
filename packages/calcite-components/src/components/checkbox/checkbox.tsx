@@ -31,7 +31,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",
@@ -95,6 +95,9 @@ export class Checkbox
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's value. */
   @Prop() value: any;

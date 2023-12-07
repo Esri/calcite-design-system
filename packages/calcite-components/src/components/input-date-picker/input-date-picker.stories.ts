@@ -66,13 +66,12 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const laoNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string => html`
+export const mediumIconForLargeInput_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       open
       value="1/1/1"
       lang="zh-CN"
-      numbering-system="laoo"
       scale="l"
       start="2020-12-12"
       end="2020-12-16"

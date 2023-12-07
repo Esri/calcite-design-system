@@ -1,3 +1,5 @@
 {
-  "label": "Etapas de progresso"
+  "label": "Etapas de progresso",
+  "previousStep": "Etapa anterior",
+  "nextStep": "Próxima etapa"
 }

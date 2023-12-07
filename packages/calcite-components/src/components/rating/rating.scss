@@ -87,7 +87,7 @@ calcite-chip {
 }
 
 .number--count {
-  color: var(--calcite-ui-text-2);
+  color: var(--calcite-color-text-2);
   font-style: italic;
   &:not(:first-child) {
     margin-inline-start: var(--calcite-rating-spacing-unit);

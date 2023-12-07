@@ -28,7 +28,7 @@
 }
 
 .table-container:not(.bordered) {
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 .assistive-text {
@@ -38,13 +38,13 @@
 table {
   @apply w-full border-collapse;
   overflow-x: scroll;
-  border-block-start: 1px solid var(--calcite-ui-border-3);
-  border-inline-start: 1px solid var(--calcite-ui-border-3);
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-start: 1px solid var(--calcite-color-border-3);
+  border-inline-start: 1px solid var(--calcite-color-border-3);
+  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 tbody {
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 .table--fixed {
@@ -53,13 +53,13 @@ tbody {
 
 .bordered {
   ::slotted(calcite-table-row) {
-    --calcite-table-row-border-color: var(--calcite-ui-border-3);
+    --calcite-table-row-border-color: var(--calcite-color-border-3);
   }
 }
 
 .zebra {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
-    --calcite-table-row-background: var(--calcite-ui-foreground-2);
+    --calcite-table-row-background: var(--calcite-color-foreground-2);
   }
 }
 .selection-actions {

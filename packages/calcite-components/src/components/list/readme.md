@@ -20,7 +20,12 @@ A general purpose list that enables users to construct list items that conform t
       slot="content-start"
       thumbnail="https://slm-assets.secondlife.com/assets/19947929/view_large/Capture_du_2018-03-04_20-40-56.jpg?1520192584"
     ></calcite-avatar>
-    <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon
+      scale="s"
+      icon="check"
+      slot="content-end"
+      style="color: var(--calcite-color-status-success)"
+    ></calcite-icon>
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
   </calcite-list-item>
@@ -32,7 +37,12 @@ A general purpose list that enables users to construct list items that conform t
       slot="content-start"
       thumbnail="https://www.seekpng.com/png/detail/90-906849_89kib-1024x631-finn-finn-adventure-time-face.png"
     ></calcite-avatar>
-    <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-icon
+      scale="s"
+      icon="check"
+      slot="content-end"
+      style="color: var(--calcite-color-status-success)"
+    ></calcite-icon>
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
   </calcite-list-item>
@@ -48,7 +58,7 @@ A general purpose list that enables users to construct list items that conform t
       scale="s"
       icon="exclamation-mark-triangle"
       slot="content-end"
-      style="color: var(--calcite-ui-danger)"
+      style="color: var(--calcite-color-status-danger)"
     ></calcite-icon>
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>

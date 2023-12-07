@@ -33,7 +33,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
-import { Scale, Width } from "../interfaces";
+import { Scale, Status, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
 
@@ -77,8 +77,7 @@ export class Select
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * Accessible name for the component.
@@ -104,6 +103,9 @@ export class Select
    * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's `selectedOption` value. */
   @Prop({ mutable: true }) value: string = null;

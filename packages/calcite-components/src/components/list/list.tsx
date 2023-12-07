@@ -45,6 +45,15 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { HandleNudge } from "../handle/interfaces";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { ListMessages } from "./assets/list/t9n";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { ListDragDetail } from "./interfaces";
 
 /**
@@ -58,8 +67,11 @@ import { ListDragDetail } from "./interfaces";
   tag: "calcite-list",
   styleUrl: "list.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class List implements InteractiveComponent, LoadableComponent, SortableComponent {
+export class List
+  implements InteractiveComponent, LoadableComponent, SortableComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -136,6 +148,30 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<ListMessages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: ListMessages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop() numberingSystem: NumberingSystem;
 
   /**
    * One of the items within the list can be opened.
@@ -273,6 +309,35 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateSelectedItems();
   }
 
+  @Listen("calciteInternalListItemSelectMultiple")
+  handleCalciteInternalListItemSelectMultiple(
+    event: CustomEvent<{
+      selectMultiple: boolean;
+    }>
+  ): void {
+    if (!!this.parentListEl) {
+      return;
+    }
+
+    event.stopPropagation();
+    const { target, detail } = event;
+    const { enabledListItems, lastSelectedInfo } = this;
+    const selectedItem = target as HTMLCalciteListItemElement;
+
+    if (detail.selectMultiple && !!lastSelectedInfo) {
+      const currentIndex = enabledListItems.indexOf(selectedItem);
+      const lastSelectedIndex = enabledListItems.indexOf(lastSelectedInfo.selectedItem);
+      const startIndex = Math.min(lastSelectedIndex, currentIndex);
+      const endIndex = Math.max(lastSelectedIndex, currentIndex);
+
+      enabledListItems
+        .slice(startIndex, endIndex + 1)
+        .forEach((item) => (item.selected = lastSelectedInfo.selected));
+    } else {
+      this.lastSelectedInfo = { selectedItem, selected: selectedItem.selected };
+    }
+  }
+
   @Listen("calciteInternalListItemChange")
   handleCalciteInternalListItemChange(event: CustomEvent): void {
     if (!!this.parentListEl) {
@@ -299,6 +364,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       return;
     }
 
+    connectMessages(this);
     this.connectObserver();
     this.updateListItems();
     this.setUpSorting();
@@ -306,18 +372,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.setParentList();
   }
 
-  disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
-    this.disconnectObserver();
-    disconnectSortableComponent(this);
-    disconnectInteractive(this);
-  }
-
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidRender(): void {
@@ -328,11 +385,31 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     setComponentLoaded(this);
   }
 
+  disconnectedCallback(): void {
+    if (dragActive(this)) {
+      return;
+    }
+
+    this.disconnectObserver();
+    disconnectSortableComponent(this);
+    disconnectInteractive(this);
+    disconnectMessages(this);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: ListMessages;
 
   @Element() el: HTMLCalciteListElement;
 
@@ -359,6 +436,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   parentListEl: HTMLCalciteListElement;
 
   sortable: Sortable;
+
+  private ancestorOfFirstFilteredItem: HTMLCalciteListItemElement;
+
+  private lastSelectedInfo: { selectedItem: HTMLCalciteListItemElement; selected: boolean };
 
   // --------------------------------------------------------------------------
   //
@@ -407,6 +488,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
             {this.assistiveText}
           </span>
         ) : null}
+        {this.renderItemAriaLive()}
         {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         <table
           aria-busy={toAriaBoolean(loading)}
@@ -427,7 +509,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
                     />
                     <calcite-filter
                       aria-label={filterPlaceholder}
-                      disabled={loading || disabled}
+                      disabled={disabled}
                       items={dataForFilter}
                       onCalciteFilterChange={this.handleFilterChange}
                       placeholder={filterPlaceholder}
@@ -458,6 +540,45 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private renderItemAriaLive(): VNode {
+    const {
+      messages,
+      enabledListItems,
+      parentListEl,
+      effectiveLocale,
+      numberingSystem,
+      filterEnabled,
+      filterText,
+      filteredData,
+    } = this;
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: effectiveLocale,
+      numberingSystem,
+    };
+
+    return !parentListEl ? (
+      <div aria-live="polite" class={CSS.assistiveText}>
+        {filterEnabled && filterText && filteredData?.length ? (
+          <div key="aria-filter-enabled">{messages.filterEnabled}</div>
+        ) : null}
+        <div key="aria-item-count">
+          {messages.total.replace(
+            "{count}",
+            numberStringFormatter.localize(enabledListItems.length.toString())
+          )}
+        </div>
+        {enabledListItems.length ? (
+          <ol key="aria-item-list">
+            {enabledListItems.map((item) => (
+              <li>{item.label}</li>
+            ))}
+          </ol>
+        ) : null}
+      </div>
+    ) : null;
+  }
 
   private connectObserver(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -578,6 +699,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     lastDescendantItems.forEach((listItem) =>
       this.filterElements({ el: listItem, filteredItems, visibleParents })
     );
+
+    if (filteredItems.length > 0) {
+      this.findAncestorOfFirstFilteredItem(filteredItems);
+    }
 
     this.filteredItems = filteredItems;
 
@@ -740,6 +865,35 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
         this.focusRow(endItem);
       }
     }
+  };
+
+  private findAncestorOfFirstFilteredItem = (filteredItems: HTMLCalciteListItemElement[]): void => {
+    this.ancestorOfFirstFilteredItem?.removeAttribute("data-filter");
+    filteredItems.forEach((item) => {
+      item.removeAttribute("data-filter");
+    });
+
+    this.ancestorOfFirstFilteredItem = this.getTopLevelAncestorItemElement(filteredItems[0]);
+    filteredItems[0].setAttribute("data-filter", "0");
+    this.ancestorOfFirstFilteredItem?.setAttribute("data-filter", "0");
+  };
+
+  private getTopLevelAncestorItemElement = (
+    el: HTMLCalciteListItemElement
+  ): HTMLCalciteListItemElement | null => {
+    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+
+    while (closestParent) {
+      const closestListItemAncestor =
+        closestParent.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+
+      if (closestListItemAncestor) {
+        closestParent = closestListItemAncestor;
+      } else {
+        return closestParent;
+      }
+    }
+    return null;
   };
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {

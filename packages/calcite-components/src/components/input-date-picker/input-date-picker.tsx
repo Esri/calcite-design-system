@@ -258,16 +258,12 @@ export class InputDatePicker
   @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
 
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
-    }
-
-    if (value) {
-      this.reposition(true);
     }
   }
 
@@ -441,7 +437,7 @@ export class InputDatePicker
     connectLocalized(this);
 
     const { open } = this;
-    open && this.openHandler(open);
+    open && this.openHandler();
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
@@ -479,6 +475,7 @@ export class InputDatePicker
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -766,6 +763,7 @@ export class InputDatePicker
   }
 
   onBeforeOpen(): void {
+    this.reposition(true);
     this.calciteInputDatePickerBeforeOpen.emit();
   }
 
@@ -791,6 +789,7 @@ export class InputDatePicker
     this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
+    this.reposition(true);
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {

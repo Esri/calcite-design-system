@@ -1,0 +1,42 @@
+{
+  "core": {
+    "z-index": {
+      "0": {
+        "value": "-999999",
+        "type": "z-index"
+      },
+      "1": {
+        "value": "1",
+        "type": "z-index"
+      },
+      "3": {
+        "value": "300",
+        "type": "z-index"
+      },
+      "4": {
+        "value": "400",
+        "type": "z-index"
+      },
+      "5": {
+        "value": "500",
+        "type": "z-index"
+      },
+      "6": {
+        "value": "600",
+        "type": "z-index"
+      },
+      "7": {
+        "value": "700",
+        "type": "z-index"
+      },
+      "8": {
+        "value": "800",
+        "type": "z-index"
+      },
+      "9": {
+        "value": "900",
+        "type": "z-index"
+      }
+    }
+  }
+}
