@@ -374,10 +374,15 @@ export class Dropdown
     this.closeCalciteDropdown();
   }
 
+  private getTraversableItems(): HTMLCalciteDropdownItemElement[] {
+    return this.items.filter((item) => !item.disabled && !item.hidden);
+  }
+
   @Listen("calciteInternalDropdownItemKeyEvent")
   calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = event.detail;
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
+    const traversableItems = this.getTraversableItems();
 
     switch (keyboardEvent.key) {
       case "Tab":
@@ -385,16 +390,16 @@ export class Dropdown
         this.updateTabIndexOfItems(target);
         break;
       case "ArrowDown":
-        focusElementInGroup(this.items, target, "next");
+        focusElementInGroup(traversableItems, target, "next");
         break;
       case "ArrowUp":
-        focusElementInGroup(this.items, target, "previous");
+        focusElementInGroup(traversableItems, target, "previous");
         break;
       case "Home":
-        focusElementInGroup(this.items, target, "first");
+        focusElementInGroup(traversableItems, target, "first");
         break;
       case "End":
-        focusElementInGroup(this.items, target, "last");
+        focusElementInGroup(traversableItems, target, "last");
         break;
     }
 
@@ -645,19 +650,17 @@ export class Dropdown
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
+    this.getFocusableElement(
+      this.getTraversableItems().find((item) => item.selected) || this.items[0]
+    );
   };
 
-  private getFocusableElement(item): void {
+  private getFocusableElement(item: HTMLCalciteDropdownItemElement): void {
     if (!item) {
       return;
     }
 
-    const target = item.attributes.isLink
-      ? item.shadowRoot.querySelector("a")
-      : (item as HTMLCalciteDropdownItemElement);
-
-    focusElement(target);
+    focusElement(item);
   }
 
   private toggleOpenEnd = (): void => {

@@ -323,18 +323,21 @@ input[type="text"]::-ms-reveal {
   @apply border-t-color-1;
 }
 
-.inline-child {
-  @apply transition-default bg-transparent;
-  .editing-enabled {
-    background-color: inherit;
+// input needed for higher specificity of these overrides
+input {
+  &.inline-child {
+    @apply transition-default bg-transparent;
+    .editing-enabled {
+      background-color: inherit;
+    }
   }
-}
 
-.inline-child:not(.editing-enabled) {
-  @apply border-color-transparent
+  &.inline-child:not(.editing-enabled) {
+    @apply border-color-transparent
     flex
-    cursor-pointer;
-  padding-inline-start: 0;
+    cursor-pointer text-ellipsis;
+    padding-inline-start: 0;
+  }
 }
 
 @include form-validation-message();
