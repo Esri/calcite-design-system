@@ -289,10 +289,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([position="start"]:not([slot="panel-end"])),
-:host([position="start"]:not([slot="panel-end"])),
-:host([position="start"]:not([slot="panel-end"])),
-:host([position="end"][slot="panel-start"]),
-:host([position="end"][slot="panel-start"]),
 :host([position="end"][slot="panel-start"]) {
   slot[name="action-bar"]::slotted(calcite-action-bar),
   .content ::slotted(calcite-flow),
@@ -302,10 +298,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([position="end"]:not([slot="panel-start"])),
-:host([position="end"]:not([slot="panel-start"])),
-:host([position="end"]:not([slot="panel-start"])),
-:host([position="start"][slot="panel-end"]),
-:host([position="start"][slot="panel-end"]),
 :host([position="start"][slot="panel-end"]) {
   slot[name="action-bar"]::slotted(calcite-action-bar),
   .content ::slotted(calcite-flow),
