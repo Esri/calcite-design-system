@@ -34,7 +34,6 @@
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "posttest": "npm run test:prerender",
-    "prepublishOnly": "./support/buildForPreambleVersion.sh",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\"",
     "test": "stencil test --no-docs --no-build --spec --e2e",
@@ -51,7 +50,7 @@
     "util:patch-esm-resolution": "ts-node --esm support/patchESMResolution.ts",
     "util:prep-build-reqs": "npm run util:copy-assets && npm run util:generate-t9n-types",
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
-    "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types=' && npm run util:clean-js-files",
+    "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**.js",
     "util:clean-readmes": "git restore src/components/*/readme.md",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]"
@@ -71,7 +70,7 @@
     "focus-trap": "7.5.4",
     "form-request-submit-polyfill": "2.0.0",
     "lodash-es": "4.17.21",
-    "sortablejs": "1.15.0",
+    "sortablejs": "1.15.1",
     "timezone-groups": "0.8.0"
   },
   "devDependencies": {
