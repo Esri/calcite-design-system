@@ -341,6 +341,10 @@ export class ValueList<
     initializeObserver.call(this);
   }
 
+  onDragEnd(): void {}
+
+  onDragStart(): void {}
+
   onDragSort(): void {
     this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
     const values = this.items.map((item) => item.value);

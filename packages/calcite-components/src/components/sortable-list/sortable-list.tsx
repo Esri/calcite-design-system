@@ -154,6 +154,10 @@ export class SortableList implements InteractiveComponent, SortableComponent {
     this.beginObserving();
   }
 
+  onDragEnd(): void {}
+
+  onDragStart(): void {}
+
   onDragSort(): void {
     this.items = Array.from(this.el.children);
     this.calciteListOrderChange.emit();

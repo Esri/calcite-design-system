@@ -72,12 +72,12 @@ export interface SortableComponent {
   /**
    * Called when a component's dragging ends.
    */
-  onDragEnd?: (detail: DragDetail) => void;
+  onDragEnd: (detail: DragDetail) => void;
 
   /**
    * Called when a component's dragging starts.
    */
-  onDragStart?: (detail: DragDetail) => void;
+  onDragStart: (detail: DragDetail) => void;
 
   /**
    * Called by any change to the list (add / update / remove).
