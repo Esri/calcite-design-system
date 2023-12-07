@@ -333,11 +333,11 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  onDragStart(): void {
+  onGlobalDragStart(): void {
     cleanUpObserver.call(this);
   }
 
-  onDragEnd(): void {
+  onGlobalDragEnd(): void {
     initializeObserver.call(this);
   }
 

@@ -146,11 +146,11 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   //
   // --------------------------------------------------------------------------
 
-  onDragStart(): void {
+  onGlobalDragStart(): void {
     this.endObserving();
   }
 
-  onDragEnd(): void {
+  onGlobalDragEnd(): void {
     this.beginObserving();
   }
 

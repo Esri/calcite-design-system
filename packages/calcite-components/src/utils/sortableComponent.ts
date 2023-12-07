@@ -60,19 +60,29 @@ export interface SortableComponent {
   canPut: (detail: DragDetail) => boolean;
 
   /**
+   * Called when any sortable component drag starts.
+   */
+  onGlobalDragStart: () => void;
+
+  /**
+   * Called when any sortable component drag ends.
+   */
+  onGlobalDragEnd: () => void;
+
+  /**
+   * Called when a component's dragging ends.
+   */
+  onDragEnd?: (detail: DragDetail) => void;
+
+  /**
+   * Called when a component's dragging starts.
+   */
+  onDragStart?: (detail: DragDetail) => void;
+
+  /**
    * Called by any change to the list (add / update / remove).
    */
   onDragSort: (detail: DragDetail) => void;
-
-  /**
-   * Called when a sortable component drag starts.
-   */
-  onDragStart: () => void;
-
-  /**
-   * Called when a sortable component drag ends.
-   */
-  onDragEnd: () => void;
 }
 
 export interface SortableComponentItem {
@@ -119,13 +129,15 @@ export function connectSortableComponent(component: SortableComponent): void {
     }),
     handle,
     filter: "[drag-disabled]",
-    onStart: () => {
+    onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = true;
-      onDragStart();
+      onGlobalDragStart();
+      component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
-    onEnd: () => {
+    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = false;
-      onDragEnd();
+      onGlobalDragEnd();
+      component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
     onSort: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
@@ -157,10 +169,10 @@ export function dragActive(component: SortableComponent): boolean {
   return component.dragEnabled && dragState.active;
 }
 
-function onDragStart(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onDragStart());
+function onGlobalDragStart(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragStart());
 }
 
-function onDragEnd(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onDragEnd());
+function onGlobalDragEnd(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragEnd());
 }
