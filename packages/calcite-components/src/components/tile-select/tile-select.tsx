@@ -308,6 +308,14 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
       width,
       iconFlipRtl,
     } = this;
+    const isLargeVisual = heading && icon && !description;
+    const iconStyle = isLargeVisual
+      ? {
+          height: "64px",
+          width: "64px",
+        }
+      : undefined;
+    const renderIcon = Boolean(icon);
     return (
       <div
         class={{
@@ -319,24 +327,29 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
           focused,
           [CSS.heading]: Boolean(heading),
           [CSS.headingOnly]: heading && !icon && !description,
-          [CSS.icon]: Boolean(icon),
+          [CSS.icon]: renderIcon,
           [CSS.iconOnly]: !heading && icon && !description,
           [CSS.inputAlignmentEnd]: inputAlignment === "end",
           [CSS.inputAlignmentStart]: inputAlignment === "start",
           [CSS.inputEnabled]: inputEnabled,
-          [CSS.largeVisual]: heading && icon && !description,
+          [CSS.largeVisual]: isLargeVisual,
           [CSS.widthAuto]: width === "auto",
           [CSS.widthFull]: width === "full",
         }}
       >
-        <calcite-tile
-          active={checked}
-          description={description}
-          embed
-          heading={heading}
-          icon={icon}
-          iconFlipRtl={iconFlipRtl}
-        />
+        <div class={{ [CSS.tile]: true, [CSS.tileLargeVisual]: isLargeVisual }}>
+          {icon && (
+            <div class={{ [CSS.icon]: renderIcon }}>
+              <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
+            </div>
+          )}
+          <div class={CSS.tileContentContainer}>
+            <div class={CSS.tileContent}>
+              {heading && <div class={CSS.tileHeading}>{heading}</div>}
+              {description && <div class={CSS.tileDescription}>{description}</div>}
+            </div>
+          </div>
+        </div>
         <slot />
       </div>
     );

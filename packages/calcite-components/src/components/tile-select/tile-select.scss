@@ -64,7 +64,7 @@ $spacing: $baseline * 0.5;
         &.heading.icon.description {
           gap: $spacing;
         }
-        calcite-tile {
+        .tile {
           @apply order-1;
         }
         &.large-visual {
@@ -113,10 +113,85 @@ $spacing: $baseline * 0.5;
 
     &.width-full {
       @apply flex max-w-none;
-      calcite-tile {
+      .tile {
         @apply flex-auto;
       }
     }
+  }
+}
+
+.tile {
+  @apply bg-foreground-1
+    box-border
+    duration-150
+    ease-in-out
+    gap-2
+    grid
+    grid-cols-1
+    pointer-events-none
+    select-none
+    text-color-3;
+}
+
+.tile-content-container {
+  @apply flex
+    flex-auto
+    focus-base
+    items-stretch
+    p-0
+    text-color-2
+    w-full;
+}
+
+.tile-content {
+  @apply flex
+    flex-auto
+    flex-col
+    gap-2
+    justify-center;
+  // set width handles slotted content and heading word wrap
+  inline-size: 10%;
+}
+
+.tile-heading {
+  @apply break-words
+    duration-150
+    ease-in-out
+    font-medium
+    pointer-events-none
+    text-color-2
+    text-n1-wrap;
+}
+
+.tile-description {
+  @apply break-words
+    duration-150
+    ease-in-out
+    pointer-events-none
+    text-color-3
+    text-n2-wrap;
+}
+
+.tile--large-visual {
+  @apply items-center
+    text-center;
+  min-block-size: theme("spacing.48");
+  .icon {
+    @apply flex
+      justify-center
+      self-end;
+  }
+  .content-container {
+    @apply self-center;
+  }
+}
+
+:host([icon][heading]:not([description])) {
+  .icon {
+    @apply flex justify-center;
+  }
+  .tile--large-visual {
+    @apply text-center;
   }
 }
 
