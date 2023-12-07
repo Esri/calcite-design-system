@@ -69,6 +69,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 | --calcite-ui-foreground-2                      | --calcite-color-foreground-2         |
 | --calcite-ui-foreground-3                      | --calcite-color-foreground-3         |
 | --calcite-semantic-ui-color-foreground-current | --calcite-color-foreground-current   |
+| --calcite-ui-foreground-current                | --calcite-color-foreground-current   |
+| --calcite-ui-focus-offset-invert               | --calcite-offset-invert-focus        |
 |                                                | --calcite-color-transparent          |
 |                                                | --calcite-color-transparent-press    |
 |                                                | --calcite-color-transparent-hover    |
