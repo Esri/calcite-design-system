@@ -7,58 +7,68 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
-- Change the default export to a tree-shakable list of design tokens in camelCase format rather than a JSON object (`import * as tokens from "@esri/calcite-design-tokens";`)
-- Use font name in core font family tokens
-- Remove unnecessary core tokens line-height, font-size, letter-spacing, paragraph-spacing as these can be exclusive to semantic and reference core size tokens
-- Core size tokens now use their pixel size in their name
-- Change `border-radius` to `corner-radius`
-- Remove unnecessary `border-width` tokens `none`, `sm`, `md`, `lg`
-- Platform output
-  - Remove component tokens from global output
-  - Add new platform output
-    - css
-      - index
-      - global
-      - light
-      - dark
-      - core
-      - breakpoint
-      - typography classes
+- Changes
+  - Package Exports
+    - Update the default export to a tree-shakable list of design tokens in camelCase. This replaces the prior full JSON object (`import * as tokens from "@esri/calcite-design-tokens";`)
+  - Changes to token names
+    - Use font name in core font family tokens instead of "primary"|"secondary" (these terms should only be used in Semantic tier tokens)
+    - Core size token names now reference their pixel size.
+    - Use t-shirt sizing in Semantic tokens to provide more usage context.
+    - Use `container-size` in place of `breakpoints`
+    - Use `corner-radius` in place of `border-radius`
+    - Use `color` in place of `ui`
+  - Changes to token values
+    - color tokens may now use a composite token schema to define a "light" and "dark" context in their value
+  - Changes to output filenames
+    - `@esri/calcite-design-tokens/css/calcite-headless` is now `@esri/calcite-design-tokens/css/global`
+    - `@esri/calcite-design-tokens/css/calcite-light` is now `@esri/calcite-design-tokens/css/light`
+    - `@esri/calcite-design-tokens/css/calcite-dark` is now `@esri/calcite-design-tokens/css/dark`
+    - `@esri/calcite-design-tokens/scsscalcite-headless` is now `@esri/calcite-design-tokens/scss/global`
+    - `@esri/calcite-design-tokens/scss/calcite-light` is now `@esri/calcite-design-tokens/scss/light`
+    - `@esri/calcite-design-tokens/scss/calcite-dark` is now `@esri/calcite-design-tokens/scss/dark`
+    - `@esri/calcite-design-tokens/js/calcite-headless` is now `@esri/calcite-design-tokens/js/global`
+    - `@esri/calcite-design-tokens/es6/calcite-headless` is now `@esri/calcite-design-tokens/es6/global`
+- Deprecations
+  - Deprecate core tokens "line-height", "font-size", "letter-spacing", and "paragraph-spacing". These tokens all reference Core tier size tokens and can be exclusive to the Semantic tier.
+  - Deprecate unused `border-width` tokens `none`, `sm`, `md`, `lg`
+  - Deprecate core tokens included in "global" output (Core tokens may be imported separately if necessary)
+  - Deprecate component tokens (these were unused)
+  - Deprecate light and dark tokens (tokens may now have a light and dark context)
+- Additions
+  - New platform output files
+    - CSS, SCSS, JS, ES6
+      - `global`
+        - Includes all Semantic tier tokens, except those captured in other platform output files (light, dark, etc.)
+      - `core`
+        - Includes all Core tier tokens
+    - CSS
+      - `index.css`
+        - Includes `.calcite-mode-light`, `.calcite-mode-dark`, and `prefers-color-scheme` media queries which sets `.calcite-mode-auto` classes built from "light" and "dark" composite color tokens. Sets tokens to their "light" context by default.
+      - `light.css`
+        - Includes all composite color tokens assigned the value of their "light" color context.
+      - `dark.css`
+        - Includes all composite color tokens assigned the value of their "dark" color context.
+      - `breakpoint.css`
+        - Includes all media breakpoints
+      - `classes.css`
+        - Includes all helper typography classes
     - scss
-      - index
-      - global
-      - light
-      - dark
-      - core
-      - breakpoints
-      - typography mixins
-  - Replace "headless" with "global"
-  - Remove "calcite" from filenames
-- Package.json exports
+      - `index.css`
+        - Includes `.calcite-mode-light`, `.calcite-mode-dark`, and `prefers-color-scheme` media queries which sets `.calcite-mode-auto` classes built from "light" and "dark" composite color tokens. Sets tokens to their "light" context by default.
+      - `light.css`
+        - Includes all composite color tokens assigned the value of their "light" color context.
+      - `dark.css`
+        - Includes all composite color tokens assigned the value of their "dark" color context.
+      - `breakpoint.css`
+        - Includes all media breakpoints
+      - `mixins.css`
+        - Includes all helper typography mixins
 
-  - `@esri/calcite-design-tokens/css/headless` is now `@esri/calcite-design-tokens/css/global`
-  - `@esri/calcite-design-tokens/scss/headless` is now `@esri/calcite-design-tokens/scss/global`
-  - `@esri/calcite-design-tokens/js/headless` is now `@esri/calcite-design-tokens/js/global`
-  - `@esri/calcite-design-tokens/es6/headless` is now `@esri/calcite-design-tokens/es6/global`
-
-- Token paths and values
-  - Overview
-    - use t-shirt sizing to provide more usage context.
-    - `breakpoints` becomes `container-size`
-    - `border-radius` becomes `corner-radius`
-    - Remove "ui" from output platform names in favor of "color"
-    - remove core color tokens
-    - remove unused component tokens
-    - Light Mode and Dark Mode
-      - Semantic color tokens now use the composite color scheme token type to reference "light" and "dark" mode instead of having separate light and dark tokens.
-      - `.calcite-mode-light` and `.calcite-mode-dark` classes as well as the color scheme media queries are now provided via `calcite-design-tokens/css/index.css`
-      - Provide light and dark mode mixins via `calcite-design-tokens/css/index.scss`
-
-#### 2.0 Map of token changes
+#### Token changes for 2.0.0
 
 ##### Colors
 
-| old                                            | new                                  |
+| Deprecated                                     | Updated                              |
 | ---------------------------------------------- | ------------------------------------ |
 | --calcite-ui-brand                             | --calcite-color-brand                |
 | --calcite-ui-brand-hover                       | --calcite-color-brand-hover          |
@@ -105,7 +115,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ##### Z-index
 
-| old                            | new                        |
+| Deprecated                     | Updated                    |
 | ------------------------------ | -------------------------- |
 | --calcite-app-z-index          | --calcite-z-index          |
 | --calcite-app-z-index-tooltip  | --calcite-z-index-tooltip  |
@@ -119,7 +129,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ##### Breakpoints
 
-| old                                    | new                                    |
+| Deprecated                             | Updated                                |
 | -------------------------------------- | -------------------------------------- |
 | --calcite-app-breakpoint-cols-lg       |                                        |
 | --calcite-app-breakpoint-cols-md       |                                        |
@@ -140,7 +150,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ##### Spacing/Sizing
 
-| old                        | new                    |
+| Deprecated                 | Updated                |
 | -------------------------- | ---------------------- |
 | --calcite-app-spacing-none |                        |
 | --calcite-app-spacing-28   |                        |
@@ -207,28 +217,28 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ##### Opacity
 
-| new                       | old                         |
-| ------------------------- | --------------------------- |
-| --calcite-app-opacity-100 | --calcite-app-opacity-full  |
-| --calcite-app-opacity-96  |                             |
-| --calcite-app-opacity-92  |                             |
-| --calcite-app-opacity-90  |                             |
-| --calcite-app-opacity-85  | --calcite-app-opacity-dark  |
-| --calcite-app-opacity-80  |                             |
-| --calcite-app-opacity-70  |                             |
-| --calcite-app-opacity-60  |                             |
-| --calcite-app-opacity-50  | --calcite-app-opacity-half  |
-| --calcite-app-opacity-40  | --calcite-app-opacity-light |
-| --calcite-app-opacity-30  |                             |
-| --calcite-app-opacity-20  |                             |
-| --calcite-app-opacity-10  |                             |
-| --calcite-app-opacity-8   |                             |
-| --calcite-app-opacity-4   |                             |
-| --calcite-app-opacity-0   |                             |
+| Deprecated                | Updated                 |
+| ------------------------- | ----------------------- |
+| --calcite-app-opacity-100 | --calcite-opacity-full  |
+| --calcite-app-opacity-96  |                         |
+| --calcite-app-opacity-92  |                         |
+| --calcite-app-opacity-90  |                         |
+| --calcite-app-opacity-85  | --calcite-opacity-dark  |
+| --calcite-app-opacity-80  |                         |
+| --calcite-app-opacity-70  |                         |
+| --calcite-app-opacity-60  |                         |
+| --calcite-app-opacity-50  | --calcite-opacity-half  |
+| --calcite-app-opacity-40  | --calcite-opacity-light |
+| --calcite-app-opacity-30  |                         |
+| --calcite-app-opacity-20  |                         |
+| --calcite-app-opacity-10  |                         |
+| --calcite-app-opacity-8   |                         |
+| --calcite-app-opacity-4   |                         |
+| --calcite-app-opacity-0   |                         |
 
 ##### Border
 
-| old                               | new                           |
+| Deprecated                        | Updated                       |
 | --------------------------------- | ----------------------------- |
 | --calcite-app-border-width-none   | --calcite-border-width-none   |
 | --calcite-app-border-width-4      |                               |
@@ -249,7 +259,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ##### Font
 
-| old                                             | new                                         |
+| Deprecated                                      | Updated                                     |
 | ----------------------------------------------- | ------------------------------------------- |
 | --calcite-app-font-text-case-capitalize         | --calcite-font-text-case-capitalize         |
 | --calcite-app-font-text-case-lowercase          | --calcite-font-text-case-lowercase          |
