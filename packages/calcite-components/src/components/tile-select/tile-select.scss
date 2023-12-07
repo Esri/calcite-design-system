@@ -125,9 +125,9 @@ $spacing: $baseline * 0.5;
     box-border
     duration-150
     ease-in-out
+    flex
+    flex-col
     gap-2
-    grid
-    grid-cols-1
     pointer-events-none
     select-none
     text-color-3;
@@ -135,7 +135,6 @@ $spacing: $baseline * 0.5;
 
 .tile-content-container {
   @apply flex
-    flex-auto
     focus-base
     items-stretch
     p-0
@@ -147,8 +146,7 @@ $spacing: $baseline * 0.5;
   @apply flex
     flex-auto
     flex-col
-    gap-2
-    justify-center;
+    gap-2;
   // set width handles slotted content and heading word wrap
   inline-size: 10%;
 }
@@ -173,25 +171,13 @@ $spacing: $baseline * 0.5;
 }
 
 .tile--large-visual {
-  @apply items-center
+  @apply flex
+    items-center
+    justify-center
     text-center;
   min-block-size: theme("spacing.48");
-  .icon {
-    @apply flex
-      justify-center
-      self-end;
-  }
-  .content-container {
+  .tile-content-container {
     @apply self-center;
-  }
-}
-
-:host([icon][heading]:not([description])) {
-  .icon {
-    @apply flex justify-center;
-  }
-  .tile--large-visual {
-    @apply text-center;
   }
 }
 

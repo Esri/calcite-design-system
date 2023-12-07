@@ -8,7 +8,6 @@
     <style>
       .parent {
         display: flex;
-        align-items: center;
         color: var(--calcite-color-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
@@ -25,6 +24,7 @@
       .right-aligned-text {
         text-align: right;
         flex: 0 0 21%;
+        align-self: center;
       }
 
       hr {
@@ -175,17 +175,455 @@
         </div>
       </div>
 
-      <!-- input-enabled, radio start, heading only -->
+      <!-- radio -->
       <div class="parent">
-        <div class="child right-aligned-text">input-enabled, radio start, heading only</div>
+        <div class="child right-aligned-text">radio group</div>
 
         <div class="child">
           <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
               checked
-              name="start-radio-heading-only"
+              icon="layers"
+              name="radio"
               value="one"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              icon="layers"
+              name="radio"
+              value="two"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              icon="layers"
+              name="radio"
+              value="three"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              icon="layers"
+              name="radio"
+              value="four"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+          </calcite-tile-select-group>
+        </div>
+
+        <div class="child">
+          <calcite-tile-select-group>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-radio"
+              value="one"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-radio"
+              value="two"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-radio"
+              value="three"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-radio"
+              value="four"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+          </calcite-tile-select-group>
+        </div>
+      </div>
+
+      <!-- full width radio -->
+      <div class="parent">
+        <div class="child right-aligned-text">full width radio group</div>
+
+        <div class="child">
+          <calcite-tile-select-group>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              checked
+              icon="layers"
+              name="radio"
+              value="one"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              icon="layers"
+              name="radio"
+              value="two"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              icon="layers"
+              name="radio"
+              value="three"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              icon="layers"
+              name="radio"
+              value="four"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+          </calcite-tile-select-group>
+        </div>
+
+        <div class="child">
+          <calcite-tile-select-group>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-radio"
+              value="one"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-radio"
+              value="two"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-radio"
+              value="three"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-radio"
+              value="four"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+          </calcite-tile-select-group>
+        </div>
+      </div>
+
+      <!-- checkbox -->
+      <div class="parent">
+        <div class="child right-aligned-text">checkbox group</div>
+
+        <div class="child">
+          <calcite-tile-select-group>
+            <calcite-tile-select
+              input-enabled
+              icon="layers"
+              type="checkbox"
+              name="checkbox"
+              value="one"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              checked
+              icon="layers"
+              type="checkbox"
+              name="checkbox"
+              value="two"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              checked
+              input-enabled
+              icon="layers"
+              type="checkbox"
+              name="checkbox"
+              value="three"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              icon="layers"
+              type="checkbox"
+              name="checkbox"
+              value="four"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+          </calcite-tile-select-group>
+        </div>
+
+        <div class="child">
+          <calcite-tile-select-group>
+            <calcite-tile-select
+              input-enabled
+              checked
+              input-alignment="end"
+              icon="layers"
+              type="checkbox"
+              name="end-checkbox"
+              value="one"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              icon="layers"
+              type="checkbox"
+              name="end-checkbox"
+              value="two"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              icon="layers"
+              type="checkbox"
+              name="end-checkbox"
+              value="three"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              checked
+              input-alignment="end"
+              icon="layers"
+              type="checkbox"
+              name="end-checkbox"
+              value="four"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+          </calcite-tile-select-group>
+        </div>
+      </div>
+
+      <!-- full width checkbox -->
+      <div class="parent">
+        <div class="child right-aligned-text">full width checkbox group</div>
+
+        <div class="child">
+          <calcite-tile-select-group>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              icon="layers"
+              type="checkbox"
+              name="checkbox"
+              value="one"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              checked
+              icon="layers"
+              type="checkbox"
+              name="checkbox"
+              value="two"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              checked
+              input-enabled
+              icon="layers"
+              type="checkbox"
+              name="checkbox"
+              value="three"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              icon="layers"
+              type="checkbox"
+              name="checkbox"
+              value="four"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+          </calcite-tile-select-group>
+        </div>
+
+        <div class="child">
+          <calcite-tile-select-group>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              checked
+              input-alignment="end"
+              icon="layers"
+              type="checkbox"
+              name="end-checkbox"
+              value="one"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              input-alignment="end"
+              icon="layers"
+              type="checkbox"
+              name="end-checkbox"
+              value="two"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              input-alignment="end"
+              icon="layers"
+              type="checkbox"
+              name="end-checkbox"
+              value="three"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              width="full"
+              input-enabled
+              checked
+              input-alignment="end"
+              icon="layers"
+              type="checkbox"
+              name="end-checkbox"
+              value="four"
+              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+          </calcite-tile-select-group>
+        </div>
+      </div>
+
+      <!-- heading only -->
+      <div class="parent">
+        <div class="child right-aligned-text">heading only</div>
+
+        <div class="child">
+          <calcite-tile-select-group>
+            <calcite-tile-select
+              input-enabled
+              name="radio-heading"
+              value="one"
+              heading="Tile title lorem ipsum"
+              width="full"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              checked
+              name="radio-heading"
+              value="two"
+              heading="Tile title lorem ipsum"
+              width="full"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              name="radio-heading"
+              value="three"
+              heading="Tile title lorem ipsum"
+              width="full"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              name="radio-heading"
+              value="four"
               heading="Tile title lorem ipsum"
               width="full"
             >
@@ -197,9 +635,37 @@
           <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
-              checked
-              name="start-radio-heading-only"
+              input-alignment="end"
+              name="end-radio-heading-only"
               value="one"
+              heading="Tile title lorem ipsum"
+              width="full"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              name="end-radio-heading-only"
+              value="two"
+              heading="Tile title lorem ipsum"
+              width="full"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              name="end-radio-heading-only"
+              value="three"
+              heading="Tile title lorem ipsum"
+              width="full"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              name="end-radio-heading-only"
+              value="four"
               heading="Tile title lorem ipsum"
               width="full"
             >
@@ -208,80 +674,38 @@
         </div>
       </div>
 
-      <!-- input-enabled, radio end, heading only -->
+      <!-- checkbox heading only -->
       <div class="parent">
-        <div class="child right-aligned-text">input-enabled, radio end, heading only</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
-              input-alignment="end"
-              checked
-              name="start-radio-heading-only"
-              value="one"
-              heading="Tile title lorem ipsum"
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
-              input-alignment="end"
-              checked
-              name="start-radio-heading-only"
-              value="one"
-              heading="Tile title lorem ipsum"
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, start checkbox, heading only -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, start checkbox, heading only</div>
+        <div class="child right-aligned-text">checkbox heading only</div>
 
         <div class="child">
           <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
               checked
-              name="start-checkbox-heading-only-one"
+              name="checkbox-heading-only"
               type="checkbox"
               heading="Tile title lorem ipsum"
             >
             </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-
-        <div class="child">
-          <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
-              checked
-              name="start-checkbox-heading-only-one"
+              name="checkbox-heading-only"
               type="checkbox"
               heading="Tile title lorem ipsum"
             >
             </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, end checkbox, heading only -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, end checkbox, heading only</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
+            <calcite-tile-select
+              checked
+              input-enabled
+              name="checkbox-heading-only"
+              type="checkbox"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
             <calcite-tile-select
               input-enabled
-              input-alignment="end"
-              name="end-checkbox-heading-only-one"
+              name="checkbox-heading-only"
               type="checkbox"
               heading="Tile title lorem ipsum"
             >
@@ -294,7 +718,33 @@
             <calcite-tile-select
               input-enabled
               input-alignment="end"
-              name="end-checkbox-heading-only-one"
+              checked
+              name="end-checkbox-heading-only"
+              type="checkbox"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              name="end-checkbox-heading-only"
+              type="checkbox"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              name="end-checkbox-heading-only"
+              type="checkbox"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              name="end-checkbox-heading-only"
               type="checkbox"
               heading="Tile title lorem ipsum"
             >
@@ -303,28 +753,37 @@
         </div>
       </div>
 
-      <!-- checkbox only with heading -->
+      <!-- heading only no input -->
       <div class="parent">
-        <div class="child right-aligned-text">checkbox only with heading</div>
+        <div class="child right-aligned-text">heading only no input (radio and checkbox)</div>
 
         <div class="child">
           <calcite-tile-select-group>
-            <calcite-tile-select
-              checked
-              type="checkbox"
-              name="basic-heading-only-checkbox-one"
-              heading="Tile title lorem ipsum"
-            >
+            <calcite-tile-select name="heading-only-no-input" heading="Tile title lorem ipsum"> </calcite-tile-select>
+            <calcite-tile-select checked name="heading-only-no-input" heading="Tile title lorem ipsum">
             </calcite-tile-select>
+            <calcite-tile-select name="heading-only-no-input" heading="Tile title lorem ipsum"> </calcite-tile-select>
+            <calcite-tile-select name="heading-only-no-input" heading="Tile title lorem ipsum"> </calcite-tile-select>
           </calcite-tile-select-group>
         </div>
 
         <div class="child">
           <calcite-tile-select-group>
+            <calcite-tile-select type="checkbox" name="heading-only-checkbox-no-input" heading="Tile title lorem ipsum">
+            </calcite-tile-select>
             <calcite-tile-select
               checked
               type="checkbox"
-              name="basic-heading-only-checkbox-one"
+              name="heading-only-checkbox-no-input"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select type="checkbox" name="heading-only-checkbox-no-input" heading="Tile title lorem ipsum">
+            </calcite-tile-select>
+            <calcite-tile-select
+              checked
+              type="checkbox"
+              name="heading-only-checkbox-no-input"
               heading="Tile title lorem ipsum"
             >
             </calcite-tile-select>
@@ -339,42 +798,35 @@
         <div class="child">
           <calcite-tile-select-group>
             <calcite-tile-select
-              checked
-              icon="layers"
-              name="large-visual-radio"
-              value="one"
-              heading="Tile title lorem ipsum"
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              checked
-              icon="layers"
-              name="large-visual-radio"
-              value="one"
-              heading="Tile title lorem ipsum"
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, start radio, large visual -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, start radio, large visual</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
               input-enabled
               checked
               icon="layers"
-              name="start-radio-large-visual"
+              name="radio-start-large-visual"
               value="one"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              icon="layers"
+              name="radio-start-large-visual"
+              value="two"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              icon="layers"
+              name="radio-start-large-visual"
+              value="three"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              icon="layers"
+              name="radio-start-large-visual"
+              value="four"
               heading="Tile title lorem ipsum"
             >
             </calcite-tile-select>
@@ -385,45 +837,38 @@
           <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
+              input-alignment="end"
               checked
               icon="layers"
-              name="start-radio-large-visual"
+              name="radio-end-large-visual"
               value="one"
               heading="Tile title lorem ipsum"
             >
             </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, end radio, large visual -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, end radio, large visual</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
-              checked
               input-alignment="end"
               icon="layers"
-              name="start-radio-large-visual"
-              value="one"
+              name="radio-end-large-visual"
+              value="two"
               heading="Tile title lorem ipsum"
             >
             </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-
-        <div class="child">
-          <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
-              checked
               input-alignment="end"
               icon="layers"
-              name="start-radio-large-visual"
-              value="one"
+              name="radio-end-large-visual"
+              value="three"
+              heading="Tile title lorem ipsum"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              icon="layers"
+              name="radio-end-large-visual"
+              value="four"
               heading="Tile title lorem ipsum"
             >
             </calcite-tile-select>
@@ -431,9 +876,9 @@
         </div>
       </div>
 
-      <!-- input-enabled, start checkbox, large visual -->
+      <!-- checkbox large visual -->
       <div class="parent">
-        <div class="child right-aligned-text">input-enabled, start checkbox, large visual</div>
+        <div class="child right-aligned-text">checkbox large visual</div>
 
         <div class="child">
           <calcite-tile-select-group>
@@ -441,78 +886,40 @@
               input-enabled
               checked
               icon="layers"
-              name="start-checkbox-large-visual-one"
+              name="checkbox-large-visual"
               type="checkbox"
               heading="Tile title lorem ipsum"
+              value="one"
             >
             </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-
-        <div class="child">
-          <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
               checked
               icon="layers"
-              name="start-checkbox-large-visual-one"
+              name="checkbox-large-visual"
               type="checkbox"
               heading="Tile title lorem ipsum"
+              value="two"
             >
             </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, end checkbox, large visual -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, end checkbox, large visual</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
               checked
-              input-alignment="end"
               icon="layers"
-              name="start-checkbox-large-visual-one"
+              name="checkbox-large-visual"
               type="checkbox"
               heading="Tile title lorem ipsum"
+              value="three"
             >
             </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-
-        <div class="child">
-          <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
               checked
-              input-alignment="end"
               icon="layers"
-              name="start-checkbox-large-visual-one"
+              name="checkbox-large-visual"
               type="checkbox"
               heading="Tile title lorem ipsum"
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, start radio -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, start radio</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
-              checked
-              icon="layers"
-              name="start-radio"
-              value="one"
-              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+              value="four"
             >
             </calcite-tile-select>
           </calcite-tile-select-group>
@@ -522,128 +929,110 @@
           <calcite-tile-select-group>
             <calcite-tile-select
               input-enabled
-              checked
-              icon="layers"
-              name="start-radio"
-              value="one"
-              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, end radio -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, end radio</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
-              checked
               input-alignment="end"
-              icon="layers"
-              name="start-radio"
-              value="one"
-              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
-              checked
-              input-alignment="end"
-              icon="layers"
-              name="start-radio"
-              value="one"
-              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, start checkbox -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, start checkbox</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
               checked
               icon="layers"
-              type="checbox"
-              name="start-checkbox"
-              value="one"
-              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
-              checked
-              icon="layers"
-              type="checbox"
-              name="start-checkbox"
-              value="one"
-              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
-        </div>
-      </div>
-
-      <!-- input-enabled, end checkbox -->
-      <div class="parent">
-        <div class="child right-aligned-text">input-enabled, end checkbox</div>
-
-        <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
-              checked
-              input-alignment="end"
-              icon="layers"
+              name="end-checkbox-large-visual"
               type="checkbox"
-              name="start-checkbox"
+              heading="Tile title lorem ipsum"
               value="one"
-              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-checkbox-large-visual"
+              type="checkbox"
+              heading="Tile title lorem ipsum"
+              value="two"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-checkbox-large-visual"
+              type="checkbox"
+              heading="Tile title lorem ipsum"
+              value="three"
+            >
+            </calcite-tile-select>
+            <calcite-tile-select
+              input-enabled
+              input-alignment="end"
+              checked
+              icon="layers"
+              name="end-checkbox-large-visual"
+              type="checkbox"
+              heading="Tile title lorem ipsum"
+              value="four"
             >
             </calcite-tile-select>
           </calcite-tile-select-group>
         </div>
+      </div>
 
+      <!-- large visual full width -->
+      <div class="parent">
+        <div class="child right-aligned-text">large visual full width</div>
         <div class="child">
-          <calcite-tile-select-group>
-            <calcite-tile-select
-              input-enabled
-              checked
-              input-alignment="end"
-              icon="layers"
-              type="checkbox"
-              name="start-checkbox"
-              value="one"
-              heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-            >
-            </calcite-tile-select>
-          </calcite-tile-select-group>
+          <calcite-tile-select
+            input-enabled
+            checked
+            icon="layers"
+            name="large-visual-full-width"
+            value="one"
+            heading="Tile title lorem ipsum"
+            width="full"
+          >
+          </calcite-tile-select>
+        </div>
+        <div class="child">
+          <calcite-tile-select
+            input-enabled
+            input-alignment="end"
+            checked
+            icon="layers"
+            name="large-visual-full-width"
+            value="one"
+            heading="Tile title lorem ipsum"
+            width="full"
+          >
+          </calcite-tile-select>
+        </div>
+      </div>
+
+      <!-- large visual checkbox full width -->
+      <div class="parent">
+        <div class="child right-aligned-text">large visual checkbox full width</div>
+        <div class="child">
+          <calcite-tile-select
+            checked
+            input-enabled
+            icon="layers"
+            name="large-visual-full-width-checkbox"
+            type="checkbox"
+            value="one"
+            heading="Tile title lorem ipsum"
+            width="full"
+          >
+          </calcite-tile-select>
+        </div>
+        <div class="child">
+          <calcite-tile-select
+            input-enabled
+            input-alignment="end"
+            icon="layers"
+            name="large-visual-full-width-checkbox"
+            type="checkbox"
+            value="one"
+            heading="Tile title lorem ipsum"
+            width="full"
+          >
+          </calcite-tile-select>
         </div>
       </div>
     </demo-dom-swapper>
