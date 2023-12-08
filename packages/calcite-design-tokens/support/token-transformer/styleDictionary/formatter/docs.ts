@@ -1,4 +1,6 @@
 import { Core as StyleDictionary } from "style-dictionary";
+import * as prettier from "prettier";
+
 import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
 
 export const formatDocsPlatform: CalledFormatterFunction = (args) => {
@@ -15,7 +17,7 @@ export const formatDocsPlatform: CalledFormatterFunction = (args) => {
     output.tokens[token.type].push(token);
   }
 
-  return JSON.stringify(output, null, 2);
+  return prettier.format(JSON.stringify(output, null, 2), { parser: "json" });
 };
 
 export const registerFormatterDocs = (sd: StyleDictionary): void => {

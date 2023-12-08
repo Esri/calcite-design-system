@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.0.1-next.0...@esri/calcite-design-tokens@2.0.1-next.1) (2023-12-07)
+
+### Bug Fixes
+
+- replace "\n" to support Windows for tokens output ([#8352](https://github.com/Esri/calcite-design-system/issues/8352)) ([02cf5d5](https://github.com/Esri/calcite-design-system/commit/02cf5d5abaad73a7159bdc7c00b0e33636f64314)), closes [#8350](https://github.com/Esri/calcite-design-system/issues/8350)
+
+## [2.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.0.0...@esri/calcite-design-tokens@2.0.1-next.0) (2023-12-07)
+
+### Bug Fixes
+
+- __color-context tokens:__ only apply when `.calcite-mode-auto` is applied ([#8344](https://github.com/Esri/calcite-design-system/issues/8344)) ([19de817](https://github.com/Esri/calcite-design-system/commit/19de8178a97ee6933d5b1f03bfb2f98afc846149)), closes [#8343](https://github.com/Esri/calcite-design-system/issues/8343)
+
 ## [2.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@1.1.0...@esri/calcite-design-tokens@2.0.0) (2023-12-02)
 
 ### ⚠ BREAKING CHANGES
