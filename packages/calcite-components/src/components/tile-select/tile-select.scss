@@ -171,11 +171,12 @@ $spacing: $baseline * 0.5;
 }
 
 .tile--large-visual {
-  @apply flex
-    items-center
-    justify-center
+  @apply grid justify-center
     text-center;
   min-block-size: theme("spacing.48");
+  .icon {
+    @apply self-end;
+  }
   calcite-icon {
     block-size: 64px;
     inline-size: 64px;
