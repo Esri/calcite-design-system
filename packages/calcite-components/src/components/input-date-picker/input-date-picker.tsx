@@ -58,7 +58,7 @@ import {
 } from "../../utils/loadable";
 import {
   connectLocalized,
-  defaultNumberingSystem,
+  getSupportedNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
@@ -133,8 +133,7 @@ export class InputDatePicker
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
@@ -1009,14 +1008,12 @@ export class InputDatePicker
     const formattingOptions = {
       // we explicitly set numberingSystem to prevent the browser-inferred value
       // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
-      numberingSystem: defaultNumberingSystem,
+      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
     };
 
-    const localizedDate =
-      date && this.formatNumerals(date.toLocaleDateString(this.effectiveLocale, formattingOptions));
+    const localizedDate = date && date.toLocaleDateString(this.effectiveLocale, formattingOptions);
     const localizedEndDate =
-      endDate &&
-      this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale, formattingOptions));
+      endDate && endDate.toLocaleDateString(this.effectiveLocale, formattingOptions);
 
     this.setInputValue(localizedDate ?? "", "start");
     this.setInputValue((this.range && localizedEndDate) ?? "", "end");
