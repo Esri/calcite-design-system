@@ -659,6 +659,8 @@ describe("calcite-list", () => {
       calledTimes: number;
       newIndex: number;
       oldIndex: number;
+      startCalledTimes: number;
+      endCalledTimes: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -670,10 +672,18 @@ describe("calcite-list", () => {
         testWindow.calledTimes = 0;
         testWindow.newIndex = -1;
         testWindow.oldIndex = -1;
+        testWindow.startCalledTimes = 0;
+        testWindow.endCalledTimes = 0;
         list.addEventListener("calciteListOrderChange", (event: CustomEvent<DragDetail>) => {
           testWindow.calledTimes++;
           testWindow.newIndex = event?.detail?.newIndex;
           testWindow.oldIndex = event?.detail?.oldIndex;
+        });
+        list.addEventListener("calciteListDragEnd", () => {
+          testWindow.endCalledTimes++;
+        });
+        list.addEventListener("calciteListDragStart", () => {
+          testWindow.startCalledTimes++;
         });
       });
 
@@ -696,10 +706,19 @@ describe("calcite-list", () => {
 
       const results = await page.evaluate(() => {
         const testWindow = window as TestWindow;
-        return { calledTimes: testWindow.calledTimes, oldIndex: testWindow.oldIndex, newIndex: testWindow.newIndex };
+
+        return {
+          calledTimes: testWindow.calledTimes,
+          oldIndex: testWindow.oldIndex,
+          newIndex: testWindow.newIndex,
+          endCalledTimes: testWindow.endCalledTimes,
+          startCalledTimes: testWindow.startCalledTimes,
+        };
       });
 
       expect(results.calledTimes).toBe(1);
+      expect(results.startCalledTimes).toBe(1);
+      expect(results.endCalledTimes).toBe(1);
       expect(results.oldIndex).toBe(0);
       expect(results.newIndex).toBe(1);
     });
