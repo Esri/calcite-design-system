@@ -309,12 +309,6 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
       iconFlipRtl,
     } = this;
     const isLargeVisual = heading && icon && !description;
-    const iconStyle = isLargeVisual
-      ? {
-          height: "64px",
-          width: "64px",
-        }
-      : undefined;
     const renderIcon = Boolean(icon);
     return (
       <div
@@ -340,7 +334,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
         <div class={{ [CSS.tile]: true, [CSS.tileLargeVisual]: isLargeVisual }}>
           {icon && (
             <div class={{ [CSS.icon]: renderIcon }}>
-              <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
+              <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />
             </div>
           )}
           <div class={CSS.tileContentContainer}>

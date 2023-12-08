@@ -176,6 +176,10 @@ $spacing: $baseline * 0.5;
     justify-center
     text-center;
   min-block-size: theme("spacing.48");
+  calcite-icon {
+    block-size: 64px;
+    inline-size: 64px;
+  }
   .tile-content-container {
     @apply self-center;
   }
