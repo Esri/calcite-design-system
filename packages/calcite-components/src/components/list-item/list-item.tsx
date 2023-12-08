@@ -317,6 +317,8 @@ export class ListItem
 
   actionsEndEl: HTMLTableCellElement;
 
+  handleGridEl: HTMLTableCellElement;
+
   defaultSlotEl: HTMLSlotElement;
 
   // --------------------------------------------------------------------------
@@ -365,11 +367,11 @@ export class ListItem
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
+    const { containerEl, parentListEl } = this;
     const focusIndex = focusMap.get(parentListEl);
 
     if (typeof focusIndex === "number") {
-      const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
+      const cells = this.getGridCells();
       if (cells[focusIndex]) {
         this.focusCell(cells[focusIndex]);
       } else {
@@ -411,13 +413,22 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    return this.dragHandle ? (
-      <td class={CSS.dragContainer} key="drag-handle-container">
+    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+
+    return dragHandle ? (
+      <td
+        aria-label={label}
+        class={CSS.dragContainer}
+        key="drag-handle-container"
+        role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={(el) => (this.handleGridEl = el)}
+      >
         <calcite-handle
-          disabled={this.dragDisabled}
-          label={this.label}
-          setPosition={this.setPosition}
-          setSize={this.setSize}
+          disabled={dragDisabled}
+          label={label}
+          setPosition={setPosition}
+          setSize={setSize}
         />
       </td>
     ) : null;
@@ -761,6 +772,12 @@ export class ListItem
     this.calciteListItemSelect.emit();
   };
 
+  getGridCells(): HTMLTableCellElement[] {
+    return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
+      (el) => el && !el.hidden
+    );
+  }
+
   handleItemKeyDown = (event: KeyboardEvent): void => {
     if (event.defaultPrevented) {
       return;
@@ -768,9 +785,9 @@ export class ListItem
 
     const { key } = event;
     const composedPath = event.composedPath();
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
+    const { containerEl, actionsStartEl, actionsEndEl, open, openable } = this;
 
-    const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
+    const cells = this.getGridCells();
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
     if (
@@ -817,7 +834,7 @@ export class ListItem
   };
 
   focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
-    const { contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
+    const { parentListEl } = this;
 
     if (saveFocusIndex) {
       focusMap.set(parentListEl, null);
@@ -825,17 +842,15 @@ export class ListItem
 
     const focusedEl = getFirstTabbable(focusEl);
 
-    [actionsStartEl, contentEl, actionsEndEl]
-      .filter((el) => el && !el.hidden)
-      .forEach((tableCell, cellIndex) => {
-        const tabIndexAttr = "tabindex";
-        if (tableCell === focusEl) {
-          focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
-          saveFocusIndex && focusMap.set(parentListEl, cellIndex);
-        } else {
-          tableCell.removeAttribute(tabIndexAttr);
-        }
-      });
+    this.getGridCells().forEach((tableCell, cellIndex) => {
+      // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
+      if (tableCell === focusEl) {
+        tableCell.tabIndex = focusEl === focusedEl ? 0 : -1;
+        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
+      } else {
+        tableCell.tabIndex = -1;
+      }
+    });
 
     focusedEl?.focus();
   };
