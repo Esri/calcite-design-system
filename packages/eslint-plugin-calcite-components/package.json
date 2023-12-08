@@ -20,5 +20,8 @@
   "packageManager": "npm@8.19.4",
   "volta": {
     "extends": "../../package.json"
+  },
+  "devDependencies": {
+    "ts-node": "10.9.2"
   }
 }
