@@ -60,12 +60,12 @@ export interface SortableComponent {
   canPut: (detail: DragDetail) => boolean;
 
   /**
-   * Called when any sortable component drag starts.
+   * Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`.
    */
   onGlobalDragStart: () => void;
 
   /**
-   * Called when any sortable component drag ends.
+   * Called when any sortable component drag ends. For internal use only. Any public drag events should emit within `onDragEnd()`.
    */
   onGlobalDragEnd: () => void;
 
