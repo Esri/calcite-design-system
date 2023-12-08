@@ -26,9 +26,10 @@ jobs:
           token: ${{ secrets.ADMIN_TOKEN }}
           ref: main
       - name: Setup Node
+        if: ${{ steps.release.outputs.releases_created }}
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
       - name: Build Packages and Publish to NPM
         if: ${{ steps.release.outputs.releases_created }}

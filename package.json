@@ -116,8 +116,8 @@
   "overrides": {
     "@jest/transform": "29.7.0"
   },
-  "packageManager": "npm@9.8.1",
+  "packageManager": "npm@10.2.3",
   "volta": {
-    "node": "18.18.2"
+    "node": "20.10.0"
   }
 }
