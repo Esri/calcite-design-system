@@ -25,7 +25,7 @@
     "url": "https://github.com/Esri/calcite-design-system/issues"
   },
   "scripts": {
-    "build": "ts-node --esm support/run.ts",
+    "build": "tsx support/run.ts",
     "clean": "rimraf dist",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore && prettier --write \"**/*.md\" >/dev/null",

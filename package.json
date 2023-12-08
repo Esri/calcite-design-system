@@ -21,11 +21,11 @@
     "test": "turbo run test --log-order=stream",
     "util:is-in-sync-with-origin-main": "[ \"$(git rev-parse --abbrev-ref HEAD)\" = \"main\" ] && [ \"$(git rev-parse main)\" = \"$(git rev-parse origin/main)\" ]",
     "util:is-in-sync-with-origin-rc": "[ \"$(git rev-parse --abbrev-ref HEAD)\" = \"rc\" ] && [ \"$(git rev-parse rc)\" = \"$(git rev-parse origin/rc)\" ]",
-    "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
+    "util:is-next-deployable": "tsx support/isNextDeployable.ts",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]",
     "util:push-tags": "git push origin main --follow-tags",
-    "util:remove-next-changelog-entries": "ts-node --esm support/removeNextChangelogEntries.ts",
-    "util:sync-linked-package-versions": "ts-node --esm support/syncLinkedPackageVersions.ts"
+    "util:remove-next-changelog-entries": "tsx support/removeNextChangelogEntries.ts",
+    "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
     "@babel/preset-react": "7.22.15",
@@ -105,7 +105,7 @@
     "stylelint-use-logical-spec": "5.0.0",
     "tailwindcss": "3.3.6",
     "ts-jest": "29.1.1",
-    "ts-node": "10.9.1",
+    "tsx": "4.1.2",
     "turbo": "1.10.16",
     "type-fest": "3.11.1",
     "typescript": "5.2.2",
@@ -116,8 +116,8 @@
   "overrides": {
     "@jest/transform": "29.7.0"
   },
-  "packageManager": "npm@9.8.1",
+  "packageManager": "npm@10.2.3",
   "volta": {
-    "node": "18.18.2"
+    "node": "20.10.0"
   }
 }
