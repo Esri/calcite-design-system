@@ -189,5 +189,15 @@ $spacing: $baseline * 0.5;
   }
 }
 
+:host(:hover),
+.checked {
+  .tile-heading {
+    @apply text-color-1;
+  }
+  .tile-description {
+    @apply text-color-2;
+  }
+}
+
 @include disabled();
 @include base-component();
