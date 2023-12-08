@@ -262,6 +262,31 @@ describe("calcite-input-date-picker", () => {
       expect(changeEvent).toHaveReceivedEventTimes(0);
       expect(await getDateInputValue(page)).toBe("3/7/");
     });
+
+    it("should emit change event only once when valueAsDate is parsed as Unix Time Stamp programmatically and user updates the date", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-input-date-picker></calcite-input-date-picker>`);
+
+      const inputDatePickerEl = await page.find("calcite-input-date-picker");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+
+      await page.$eval("calcite-input-date-picker", (element: any) => {
+        element.valueAsDate = new Date(1687528800000);
+      });
+
+      expect(await inputDatePickerEl.getProperty("value")).toEqual("2023-06-23");
+      expect(await getDateInputValue(page)).toEqual("6/23/2023");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      await inputDatePickerEl.click();
+      await page.waitForChanges();
+      await selectDayInMonth(page, 28);
+      await page.waitForChanges();
+
+      expect(await inputDatePickerEl.getProperty("value")).toEqual("2023-06-28");
+      expect(await getDateInputValue(page)).toEqual("6/28/2023");
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
   });
 
   it("should clear active date properly when deleted and committed via keyboard", async () => {

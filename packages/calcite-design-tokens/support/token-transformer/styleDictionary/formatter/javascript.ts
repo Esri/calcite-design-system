@@ -1,12 +1,15 @@
 import styleDictionary, { Core as StyleDictionary } from "style-dictionary";
+import * as prettier from "prettier";
+
 import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
 
 export const formatJsPlatform: CalledFormatterFunction = (args) => {
-  return (
+  return prettier.format(
     styleDictionary.formatHelpers.fileHeader({ file: args.file }) +
-    "export default " +
-    JSON.stringify(args.dictionary.properties, null, 2) +
-    ";\n"
+      "export default " +
+      JSON.stringify(args.dictionary.properties, null, 2) +
+      ";",
+    { parser: "babel" }
   );
 };
 
