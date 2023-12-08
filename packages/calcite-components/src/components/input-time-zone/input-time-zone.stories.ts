@@ -23,8 +23,8 @@ export const simple = (): string => html`
     mode="${select("mode", ["offset", "name"], "offset")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-    message-text="${text("message-text", "")}"
-    message-icon="${select("message-icon", ["", ...iconNames], "")}"
+    validation-message="${text("validation-message", "")}"
+    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
   ></calcite-input-time-zone>
 `;
 
@@ -81,22 +81,22 @@ export const validationMessageAllScales_TestOnly = (): string => html`
       scale="s"
       status="invalid"
       value="America/Phoenix"
-      message-text="Choose a closer time zone"
-      message-icon
+      validation-message="Choose a closer time zone"
+      validation-icon
     ></calcite-input-time-zone>
     <calcite-input-time-zone
       scale="m"
       status="invalid"
       value="America/Phoenix"
-      message-text="Choose a closer time zone"
-      message-icon
+      validation-message="Choose a closer time zone"
+      validation-icon
     ></calcite-input-time-zone>
     <calcite-input-time-zone
       scale="l"
       status="invalid"
       value="America/Phoenix"
-      message-text="Choose a closer time zone"
-      message-icon
+      validation-message="Choose a closer time zone"
+      validation-icon
     ></calcite-input-time-zone>
   </div>
 `;

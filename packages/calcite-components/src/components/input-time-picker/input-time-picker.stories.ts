@@ -22,8 +22,8 @@ export const simple = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     step="${number("step", 1)}"
-    message-text="${text("message-text", "")}"
-    message-icon="${select("message-icon", ["", ...iconNames], "")}"
+    validation-message="${text("validation-message", "")}"
+    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     value="${text("value", "10:37")}"
   >
   </calcite-input-time-picker>
@@ -89,22 +89,22 @@ export const validationMessageAllScales_TestOnly = (): string => html`
       scale="s"
       status="invalid"
       value="13:37"
-      message-text="Choose a more recent time"
-      message-icon
+      validation-message="Choose a more recent time"
+      validation-icon
     ></calcite-input-time-picker>
     <calcite-input-time-picker
       scale="m"
       status="invalid"
       value="4:20"
-      message-text="Choose a more recent time"
-      message-icon
+      validation-message="Choose a more recent time"
+      validation-icon
     ></calcite-input-time-picker>
     <calcite-input-time-picker
       scale="l"
       status="invalid"
       value="11:11"
-      message-text="Choose a more recent time"
-      message-icon
+      validation-message="Choose a more recent time"
+      validation-icon
     ></calcite-input-time-picker>
   </div>
 `;

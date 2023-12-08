@@ -268,10 +268,10 @@ export class InputDatePicker
   }
 
   /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
-  @Prop() messageText: string;
+  @Prop() validationMessage: string;
 
   /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
-  @Prop() messageIcon: string | boolean;
+  @Prop() validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -654,10 +654,14 @@ export class InputDatePicker
           </div>
         )}
         <HiddenFormInputSlot component={this} />
-        {this.messageText ? (
+        {this.validationMessage ? (
           <div class={CSS.messageContainer}>
-            <calcite-input-message icon={this.messageIcon} scale={this.scale} status={this.status}>
-              {this.messageText}
+            <calcite-input-message
+              icon={this.validationIcon}
+              scale={this.scale}
+              status={this.status}
+            >
+              {this.validationMessage}
             </calcite-input-message>
           </div>
         ) : null}

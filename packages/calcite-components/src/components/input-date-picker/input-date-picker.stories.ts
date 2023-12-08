@@ -24,8 +24,8 @@ export const simple = (): string => html`
       max="${text("max", "2023-12-18")}"
       lang="${select("locale", locales, "en")}"
       placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-      message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", ["", ...iconNames], "")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     ></calcite-input-date-picker
   </div>
 `;
@@ -42,8 +42,8 @@ export const range = (): string => html`
       prev-month-label="${text("prev-month-label", "Previous month")}"
       range="${boolean("range", true)}"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-      message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", ["", ...iconNames], "")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     ></calcite-input-date-picker>
   </div>
 `;
@@ -106,22 +106,22 @@ export const validationMessageAllScales_TestOnly = (): string => html`
       scale="s"
       status="invalid"
       value="2020-12-12"
-      message-text="Choose a more recent date"
-      message-icon
+      validation-message="Choose a more recent date"
+      validation-icon
     ></calcite-input-date-picker>
     <calcite-input-date-picker
       scale="m"
       status="invalid"
       value="2020-12-12"
-      message-text="Choose a more recent date"
-      message-icon
+      validation-message="Choose a more recent date"
+      validation-icon
     ></calcite-input-date-picker>
     <calcite-input-date-picker
       scale="l"
       status="invalid"
       value="2020-12-12"
-      message-text="Choose a more recent date"
-      message-icon
+      validation-message="Choose a more recent date"
+      validation-icon
     ></calcite-input-date-picker>
   </div>
 `;

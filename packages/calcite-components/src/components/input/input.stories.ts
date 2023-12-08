@@ -35,8 +35,8 @@ export const simple = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       placeholder="${text("placeholder", "Placeholder text")}"
-      message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", ["", ...iconNames], "")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     ></calcite-input>
   </div>
 `;
@@ -64,8 +64,8 @@ export const withSlottedAction = (): string => html`
       placeholder="${text("placeholder", "Placeholder text")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", ["", ...iconNames], "")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input>
@@ -86,8 +86,8 @@ export const textarea_TestOnly = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       placeholder="${text("placeholder", "Placeholder text")}"
-      message-text="${text("message-text", "My great input message")}"
-      message-icon="${select("message-icon", ["", ...iconNames], "")}"
+      validation-message="${text("validation-message", "My great input message")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     >
     </calcite-input>
   </div>
@@ -123,7 +123,7 @@ export const darkModeRTL_TestOnly = (): string => html`
         ${boolean("disabled", false)}
         value="${text("value", "")}"
         placeholder="${text("placeholder", "Placeholder text")}"
-        message-text="My great input message"
+        validation-message="My great input message"
       >
       </calcite-input>
     </calcite-label>
@@ -150,23 +150,23 @@ export const validationMessageAllScales_TestOnly = (): string =>
         type="number"
         scale="s"
         status="invalid"
-        message-text="This field is required."
-        message-icon="frown"
+        validation-message="This field is required."
+        validation-icon="frown"
       ></calcite-input>
       <calcite-input
         type="number"
         scale="m"
         status="invalid"
-        message-text="Value must be greater than 1337"
-        message-icon
+        validation-message="Value must be greater than 1337"
+        validation-icon
         value="420"
       ></calcite-input>
       <calcite-input
         type="number"
         scale="l"
         status="invalid"
-        message-text="Exceeds the maximum length of 2 characters"
-        message-icon
+        validation-message="Exceeds the maximum length of 2 characters"
+        validation-icon
         value="123"
       ></calcite-input>
     </div>

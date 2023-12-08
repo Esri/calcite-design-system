@@ -52,17 +52,17 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
         },
       },
       {
-        name: "message-text",
+        name: "validation-message",
         commit(): Attribute {
-          this.value = text("message-text", "", group);
+          this.value = text("validation-message", "", group);
           delete this.build;
           return this;
         },
       },
       {
-        name: "message-icon",
+        name: "validation-icon",
         commit(): Attribute {
-          this.value = select("message-icon", ["", ...iconNames], "", group);
+          this.value = select("validation-icon", ["", ...iconNames], "", group);
           delete this.build;
           return this;
         },
@@ -206,15 +206,15 @@ export const validationMessageAllScales_TestOnly = (): string => html`
     }
   </style>
   <div class="container">
-    <calcite-select scale="s" message-text="This field is required." message-icon status="invalid">
+    <calcite-select scale="s" validation-message="This field is required." validation-icon status="invalid">
       <calcite-option label="first" value="1"></calcite-option>
       <calcite-option label="second" value="2"></calcite-option>
     </calcite-select>
-    <calcite-select scale="m" message-text="This field is required." message-icon status="invalid">
+    <calcite-select scale="m" validation-message="This field is required." validation-icon status="invalid">
       <calcite-option label="first" value="1"></calcite-option>
       <calcite-option label="second" value="2"></calcite-option>
     </calcite-select>
-    <calcite-select scale="l" message-text="This field is required." message-icon status="invalid">
+    <calcite-select scale="l" validation-message="This field is required." validation-icon status="invalid">
       <calcite-option label="first" value="1"></calcite-option>
       <calcite-option label="second" value="2"></calcite-option>
     </calcite-select>

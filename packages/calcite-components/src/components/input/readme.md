@@ -52,8 +52,8 @@ function logBlur() {
     id="invalid-input"
     placeholder="Filter your files"
     value="adfo2h2"
-    message-text="Something doesn't look right"
-    message-icon
+    validation-message="Something doesn't look right"
+    validation-icon
   ></calcite-input>
 </calcite-label>
 ```
@@ -68,8 +68,8 @@ function logBlur() {
     status="invalid"
     placeholder="Enter your subdomain"
     value="i-love-maps"
-    message-text="Apologies, this subdomain has already been registered."
-    message-icon="frown"
+    validation-message="Apologies, this subdomain has already been registered."
+    validation-icon="frown"
   ></calcite-input>
 </calcite-label>
 ```

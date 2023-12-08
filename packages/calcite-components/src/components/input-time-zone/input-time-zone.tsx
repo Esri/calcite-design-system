@@ -119,10 +119,10 @@ export class InputTimeZone
   }
 
   /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
-  @Prop() messageText: string;
+  @Prop() validationMessage: string;
 
   /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
-  @Prop() messageIcon: string | boolean;
+  @Prop() validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -381,8 +381,6 @@ export class InputTimeZone
           label={this.messages.chooseTimeZone}
           lang={this.effectiveLocale}
           maxItems={this.maxItems}
-          message-icon={this.messageIcon}
-          message-text={this.messageText}
           onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
           onCalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
           onCalciteComboboxChange={this.onComboboxChange}
@@ -393,6 +391,8 @@ export class InputTimeZone
           scale={this.scale}
           selectionMode="single-persist"
           status={this.status}
+          validation-icon={this.validationIcon}
+          validation-message={this.validationMessage}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setComboboxRef}
         >

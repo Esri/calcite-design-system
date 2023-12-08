@@ -22,8 +22,8 @@ export const simple = (): string => html`
     rows="${number("rows", 2)}"
     label="${text("label", "")}"
     name="${text("name", "")}"
-    message-text="${text("message-text", "")}"
-    message-icon="${select("message-icon", ["", ...iconNames], "")}"
+    validation-message="${text("validation-message", "")}"
+    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
   >
   </calcite-text-area>
 `;
@@ -45,8 +45,8 @@ export const withSlottedElements = (): string => html`
     ${boolean("readonly", false)}
     label="${text("label", "")}"
     name="${text("name", "")}"
-    message-text="${text("message-text", "")}"
-    message-icon="${select("message-icon", ["", ...iconNames], "")}"
+    validation-message="${text("validation-message", "")}"
+    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
   >
     <calcite-button slot="${text("slot", "footer-start")}">RESET</calcite-button>
     <calcite-action icon="code" slot="${text("slot", "footer-end")}"></calcite-action>
@@ -98,21 +98,21 @@ export const validationMessageAllScales_TestOnly = (): string =>
       <calcite-text-area
         scale="s"
         status="invalid"
-        message-text="This field is required."
-        message-icon="frown"
+        validation-message="This field is required."
+        validation-icon="frown"
       ></calcite-text-area>
       <calcite-text-area
         scale="m"
         status="invalid"
-        message-text="Less than the minimum length of 6 characters"
-        message-icon
+        validation-message="Less than the minimum length of 6 characters"
+        validation-icon
         value="Hi"
       ></calcite-text-area>
       <calcite-text-area
         scale="l"
         status="invalid"
-        message-text="Exceeds the maximum length of 9 characters"
-        message-icon
+        validation-message="Exceeds the maximum length of 9 characters"
+        validation-icon
         value="Lorem ipsum"
       ></calcite-text-area>
     </div>

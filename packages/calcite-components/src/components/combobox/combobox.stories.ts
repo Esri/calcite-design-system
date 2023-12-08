@@ -24,8 +24,8 @@ export const single = (): string => html`
       placeholder="${text("placeholder", "placeholder")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", ["", ...iconNames], "")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     >
       <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude" selected></calcite-combobox-item>
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
@@ -300,8 +300,8 @@ export const nestedItems = (): string => html`
       ${boolean("allow-custom-values", false)}
       max-items="${number("max-items", 0)}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      message-text="${text("message-text", "")}"
-      message-icon="${select("message-icon", ["", ...iconNames], "")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     >
       <calcite-combobox-item value="ITEM-0-0" text-label="Level 1">
         <calcite-combobox-item value="ITEM-0-1" text-label="Level 2"></calcite-combobox-item>
@@ -743,8 +743,8 @@ export const validationMessageInAllScales_TestOnly = (): string => html`
       placeholder-icon="number"
       scale="s"
       status="invalid"
-      message-text="This field is required."
-      message-icon
+      validation-message="This field is required."
+      validation-icon
     >
       <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
       <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
@@ -756,8 +756,8 @@ export const validationMessageInAllScales_TestOnly = (): string => html`
       placeholder-icon="number"
       scale="m"
       status="invalid"
-      message-text="This field is required."
-      message-icon
+      validation-message="This field is required."
+      validation-icon
     >
       <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
       <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
@@ -769,8 +769,8 @@ export const validationMessageInAllScales_TestOnly = (): string => html`
       placeholder-icon="number"
       scale="l"
       status="invalid"
-      message-text="This field is required."
-      message-icon
+      validation-message="This field is required."
+      validation-icon
     >
       <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
       <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
