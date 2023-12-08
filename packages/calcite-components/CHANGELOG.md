@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.2...@esri/calcite-components@2.1.0-next.3) (2023-12-08)
+
+### Bug Fixes
+
+- __list-item:__ drag grid cell should be accessible via arrow keys. ([#8353](https://github.com/Esri/calcite-design-system/issues/8353)) ([2718ab3](https://github.com/Esri/calcite-design-system/commit/2718ab3420035c33dca7dd97321c8596944d3894)), closes [#8366](https://github.com/Esri/calcite-design-system/issues/8366)
+
 ## [2.1.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.1...@esri/calcite-components@2.1.0-next.2) (2023-12-08)
 
 ### Features
