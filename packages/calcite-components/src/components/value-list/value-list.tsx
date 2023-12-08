@@ -333,13 +333,17 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  onDragStart(): void {
+  onGlobalDragStart(): void {
     cleanUpObserver.call(this);
   }
 
-  onDragEnd(): void {
+  onGlobalDragEnd(): void {
     initializeObserver.call(this);
   }
+
+  onDragEnd(): void {}
+
+  onDragStart(): void {}
 
   onDragSort(): void {
     this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));

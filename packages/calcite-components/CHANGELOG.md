@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.1...@esri/calcite-components@2.1.0-next.2) (2023-12-08)
+
+### Features
+
+- __list:__ Add `calciteListDragStart` and `calciteListDragEnd` events for when a drag starts and ends. ([#8361](https://github.com/Esri/calcite-design-system/issues/8361)) ([1314605](https://github.com/Esri/calcite-design-system/commit/131460537f47f2d77d6118a8fb324dc829f77ea9)), closes [#8367](https://github.com/Esri/calcite-design-system/issues/8367)
+
+## [2.1.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.0...@esri/calcite-components@2.1.0-next.1) (2023-12-07)
+
+### Bug Fixes
+
+- replace "\n" to support Windows for tokens output ([#8352](https://github.com/Esri/calcite-design-system/issues/8352)) ([02cf5d5](https://github.com/Esri/calcite-design-system/commit/02cf5d5abaad73a7159bdc7c00b0e33636f64314)), closes [#8350](https://github.com/Esri/calcite-design-system/issues/8350)
+
 ## [2.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.0.0...@esri/calcite-components@2.1.0-next.0) (2023-12-07)
 
 ### Features
