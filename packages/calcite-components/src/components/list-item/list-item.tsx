@@ -843,12 +843,12 @@ export class ListItem
     const focusedEl = getFirstTabbable(focusEl);
 
     this.getGridCells().forEach((tableCell, cellIndex) => {
-      const tabIndexAttr = "tabindex";
+      // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
       if (tableCell === focusEl) {
-        focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
+        tableCell.tabIndex = focusEl === focusedEl ? 0 : -1;
         saveFocusIndex && focusMap.set(parentListEl, cellIndex);
       } else {
-        tableCell.removeAttribute(tabIndexAttr);
+        tableCell.tabIndex = -1;
       }
     });
 
