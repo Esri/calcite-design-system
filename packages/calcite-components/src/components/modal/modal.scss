@@ -277,6 +277,8 @@ slot[name="primary"] {
     block-size: var(--calcite-modal-height, auto);
   }
 
+  $baseline: 1.5rem;
+
   @media screen and (max-width: $width + 2 * $baseline) {
     :host([width-scale="#{$size}"]) {
       .modal {
@@ -378,7 +380,7 @@ slot[name="primary"] {
 /**
  * Tablet
  */
-@media screen and (max-width: $viewport-medium) {
+@media screen and (max-width: $calcite-container-size-height-lg-max) {
   @include slotted("header", "content-top", "*") {
     @apply text-1;
   }
@@ -391,7 +393,7 @@ slot[name="primary"] {
 /**
  * Mobile
  */
-@media screen and (max-width: $viewport-small) {
+@media screen and (max-width: $calcite-container-size-width-xs-max) {
   .footer,
   .content-bottom {
     @apply flex-col;

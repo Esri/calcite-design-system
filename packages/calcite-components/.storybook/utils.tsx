@@ -16,27 +16,31 @@ import {
 } from "@storybook/addon-knobs";
 import { CSS_UTILITY } from "../src/utils/resources";
 
-import { colors } from "../../../node_modules/@esri/calcite-colors/dist/colors";
 import { Description, DocsPage } from "@storybook/addon-docs";
 import { Theme as Mode } from "storybook-addon-themes/dist/models/Theme";
 import React from "react";
 import { Scale } from "../src/components/interfaces";
 import { html } from "../support/formatting";
 import { Breakpoints } from "../src/utils/responsive";
+import {
+  calciteColorNeutralBlk005,
+  calciteColorNeutralBlk200,
+  calciteColorNeutralBlk210,
+} from "@esri/calcite-design-tokens/dist/es6/core";
 
 const autoValue = {
   name: "Auto",
-  value: colors["blk-200"],
+  value: calciteColorNeutralBlk200,
 };
 
 const lightValue = {
   name: "Light",
-  value: colors["blk-005"],
+  value: calciteColorNeutralBlk005,
 };
 
 const darkValue = {
   name: "Dark",
-  value: colors["blk-210"],
+  value: calciteColorNeutralBlk210,
 };
 
 const list: Mode[] = [

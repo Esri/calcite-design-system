@@ -30,8 +30,6 @@
   "devDependencies": {
     "@babel/preset-react": "7.22.15",
     "@cspell/eslint-plugin": "7.3.9",
-    "@esri/calcite-base": "1.2.0",
-    "@esri/calcite-colors": "6.1.0",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-typescript": "11.1.5",
     "@storybook/addon-a11y": "6.5.16",

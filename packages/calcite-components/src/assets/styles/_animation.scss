@@ -1,3 +1,5 @@
+$easing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88) !default;
+
 @mixin animation-helper-classes() {
   @keyframes in {
     0% {

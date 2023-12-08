@@ -2,19 +2,15 @@
 
 When building any component in `packages/calcite-components`, please use these set of global variables (CSS variables and Sass mixins or variables)
 
-## From [calcite-colors](https://github.com/Esri/calcite-colors)
-
-### Color
+## Color [![Outdated](https://img.shields.io/badge/doc-outdated-red.svg)](https://shields.io/)
 
 [`colors.scss`](https://github.com/Esri/calcite-colors/blob/master/dist/colors.scss): you'll find the global CSS variables for both light and dark mode.
 
-## From [calcite-base](https://github.com/esri/calcite-base)
-
-### Typography
+## Typography [![Outdated](https://img.shields.io/badge/doc-outdated-red.svg)](https://shields.io/)
 
 [typography mixins from calcite-base](https://github.com/Esri/calcite-base/blob/master/dist/_type.scss)
 
-#### Font family
+### Font family
 
 Avenir Next is the main font family in use.
 For text indicating or related to code, use this CSS variable:
@@ -23,7 +19,7 @@ For text indicating or related to code, use this CSS variable:
 font-family: --calcite-code-family;
 ```
 
-#### Font size
+### Font size
 
 Here are the most common use cases font-size (Sass):
 
@@ -46,7 +42,7 @@ CSS ouput:
 }
 ```
 
-#### Font weight
+### Font weight
 
 Two font weights are available using CSS vars.
 
@@ -63,11 +59,11 @@ Example:
 font-weight: var(--calcite-font-weight-normal);
 ```
 
-### Shadows
+## Shadows
 
 The shadow of an element usually corresponds to the priority or importance of the message or workflow. Consistently using shadow for elements like alerts, modals, page takeovers, and sheets provides users clear and familiar indications of importance.
 
-#### CSS variables for shadows
+### CSS variables for shadows [![Outdated](https://img.shields.io/badge/doc-outdated-red.svg)](https://shields.io/)
 
 ```scss
 --shadow-1
@@ -90,7 +86,7 @@ Current usage:
 |          | FAB         |
 |          | Date-picker |
 
-### Focus states
+## Focus states
 
 All focuses-able elements should use the custom focus. Use a combination of two mixins to achieve this.
 

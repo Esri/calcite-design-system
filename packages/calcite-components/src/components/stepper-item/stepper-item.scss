@@ -138,8 +138,7 @@
 @include disabled();
 
 :host([complete]) .container {
-  // todo dark mode
-  border-color: rgba($h-bb-060, 0.5);
+  border-color: rgba(var(--calcite-color-brand), 0.5);
   & .stepper-item-icon {
     color: theme("backgroundColor.brand");
   }
@@ -222,7 +221,7 @@
 }
 
 :host([layout="vertical"][complete]) .container {
-  border-color: rgba($h-bb-060, 0.5);
+  border-color: rgba(var(--calcite-color-brand), 0.5);
 }
 :host([layout="vertical"][complete]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][complete]:focus:not([disabled]):not([selected])) .container {
@@ -240,7 +239,7 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([selected])) .container {
-  border-color: rgba($h-bb-060, 0.5);
+  border-color: rgba(var(--calcite-color-brand), 0.5);
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([selected])) .container {
@@ -288,7 +287,7 @@
 }
 
 :host([layout="horizontal"][complete]) .stepper-item-header {
-  border-color: rgba($h-bb-060, 0.5);
+  border-color: rgba(var(--calcite-color-brand), 0.5);
 }
 :host([layout="horizontal"][complete]:hover:not([disabled]):not([selected])) .stepper-item-header,
 :host([layout="horizontal"][complete]:focus:not([disabled]):not([selected])) .stepper-item-header {
@@ -302,7 +301,7 @@
 }
 :host([layout="horizontal"]:hover:not([disabled]):not([selected])) .stepper-item-header,
 :host([layout="horizontal"]:focus:not([disabled]):not([selected])) .stepper-item-header {
-  border-color: rgba($h-bb-060, 0.5);
+  border-color: rgba(var(--calcite-color-brand), 0.5);
 }
 :host([layout="horizontal"][error]:hover:not([disabled]):not([selected])) .stepper-item-header,
 :host([layout="horizontal"][error]:focus:not([disabled]):not([selected])) .stepper-item-header {
@@ -336,7 +335,7 @@
 }
 
 :host([layout="horizontal"]:not([multiple-view-mode])) .stepper-item-header {
-  @apply border-none 
+  @apply border-none
   me-0;
   inline-size: 100%;
   padding-inline: calc(var(--calcite-internal-stepper-action-inline-size) + 0.5rem);
