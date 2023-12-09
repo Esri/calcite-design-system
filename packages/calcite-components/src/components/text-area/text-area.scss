@@ -13,7 +13,6 @@ textarea {
   box-border
   border-color-input
   border
-  font-sans
   w-full
   m-0;
   min-inline-size: theme("spacing.48");
@@ -86,9 +85,7 @@ textarea {
     @apply py-1
     px-2;
   }
-}
 
-:host([scale="s"]) {
   textarea,
   .footer,
   .character-limit {
@@ -107,9 +104,7 @@ textarea {
     px-3;
     min-block-size: 2.25rem;
   }
-}
 
-:host([scale="m"]) {
   textarea,
   .footer,
   .character-limit {
@@ -129,9 +124,7 @@ textarea {
     px-4;
     min-block-size: 2.75rem;
   }
-}
 
-:host([scale="l"]) {
   textarea,
   .footer,
   .character-limit {

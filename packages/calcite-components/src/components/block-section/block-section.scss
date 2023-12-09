@@ -22,8 +22,13 @@
     w-full
     border-0
     bg-transparent
-    font-sans
     font-medium;
+}
+
+.toggle--switch {
+  .status-icon {
+    margin-inline-start: theme("margin.2");
+  }
 }
 
 .toggle--switch,
@@ -69,12 +74,6 @@
     @apply absolute pointer-events-none;
     inset-inline-end: 0;
     margin-inline-start: theme("margin.1");
-  }
-}
-
-.toggle--switch {
-  .status-icon {
-    margin-inline-start: theme("margin.2");
   }
 }
 

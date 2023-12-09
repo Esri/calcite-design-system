@@ -42,7 +42,6 @@
     items-center
     justify-start
     border-none
-    font-sans
     font-medium;
 
   text-align: unset;
@@ -159,12 +158,15 @@
   @apply text-color-1 fill-color-1 bg-foreground-3;
 }
 
-:host([active]) .button:active {
-  @apply bg-foreground-1;
+:host([appearance="transparent"]) .button {
+  @apply bg-transparent
+    transition-shadow
+    duration-150
+    ease-in-out;
 }
 
-:host([appearance="transparent"]) .button {
-  @apply bg-transparent;
+:host([active]) .button:active {
+  @apply bg-foreground-1;
 }
 
 :host([appearance="transparent"][active]) .button,
@@ -185,6 +187,7 @@
 :host([loading][appearance="solid"]) .button:hover,
 :host([loading][appearance="solid"]) .button:focus {
   @apply bg-foreground-1;
+
   .text-container {
     @apply opacity-disabled;
   }
@@ -205,13 +208,6 @@
 :host([disabled][active]) .button:hover,
 :host([disabled][active]) .button:focus {
   @apply opacity-disabled bg-foreground-3;
-}
-
-:host([appearance="transparent"]) .button {
-  @apply bg-transparent
-    transition-shadow
-    duration-150
-    ease-in-out;
 }
 
 .indicator-with-icon {
