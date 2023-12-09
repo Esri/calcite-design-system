@@ -10,44 +10,9 @@
           "value": "Avenir Next World",
           "type": "fontFamilies"
         },
-        "avenir": {
-          "value": "Avenir",
-          "type": "fontFamilies",
-          "description": "Fallback for avenirNext"
-        },
-        "helveticaNeue": {
-          "value": "Helvetica Neue",
-          "type": "fontFamilies",
-          "description": "Fallback for avenirNext"
-        },
-        "sansSerif": {
-          "value": "sans-serif",
-          "type": "fontFamilies",
-          "description": "Fallback for avenirNext"
-        },
-        "consolas": {
-          "value": "Consolas",
-          "type": "fontFamilies",
-          "description": "Fallback for monaco"
-        },
-        "andaleMono": {
-          "value": "Andale Mono",
-          "type": "fontFamilies",
-          "description": "Fallback for monaco"
-        },
-        "lucidaConsole": {
-          "value": "Lucida Console",
-          "type": "fontFamilies",
-          "description": "Fallback for monaco"
-        },
         "monaco": {
           "value": "Monaco",
           "type": "fontFamilies"
-        },
-        "monospace": {
-          "value": "monospace",
-          "type": "fontFamilies",
-          "description": "Fallback for monaco"
         }
       },
       "style": {
