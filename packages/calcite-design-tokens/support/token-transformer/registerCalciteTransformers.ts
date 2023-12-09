@@ -18,6 +18,7 @@ import { registerValueRGBA } from "./styleDictionary/transformer/value/valueRGBA
 import { registerNameSpacePath } from "./styleDictionary/transformer/name/nameSpacePath.js";
 import { registerFormatterDocs } from "./styleDictionary/formatter/docs.js";
 import { registerValueToREM } from "./styleDictionary/transformer/value/valueToREM.js";
+import { registerValueFontFamilyWithFallbacks } from "./styleDictionary/transformer/value/valueFontFamilyFallbacks.js";
 
 export async function registerCalciteTransformers(sd: StyleDictionary): Promise<void> {
   // Here we are registering the Transforms provided by Token Studio however,
@@ -27,21 +28,22 @@ export async function registerCalciteTransformers(sd: StyleDictionary): Promise<
   await registerTransforms(sd, {
     expand: false,
   });
-  registerValueRGBA(sd);
-  registerValueEvaluateMath(sd);
   registerAttributePlatformNames(sd);
   registerCustomJSONParser(sd);
   registerFilterSource(sd);
   registerFormatterCss(sd);
-  registerFormatterScss(sd);
+  registerFormatterDocs(sd);
   registerFormatterJs(sd);
+  registerFormatterScss(sd);
   registerNameCamelCase(sd);
   registerNameJoinPath(sd);
   registerNameKebabCase(sd);
+  registerNameSpacePath(sd);
   registerValueAlignFontWeightAndStyles(sd);
   registerValueAssetToken(sd);
+  registerValueEvaluateMath(sd);
+  registerValueFontFamilyWithFallbacks(sd);
+  registerValueRGBA(sd);
   registerValueStringWrapper(sd);
-  registerNameSpacePath(sd);
-  registerFormatterDocs(sd);
   registerValueToREM(sd);
 }
