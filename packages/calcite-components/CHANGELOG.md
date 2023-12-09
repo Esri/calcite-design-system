@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.3...@esri/calcite-components@2.1.0-next.4) (2023-12-09)
+
+### Bug Fixes
+
+- __action-menu:__ keep internal popover open property in sync ([#8387](https://github.com/Esri/calcite-design-system/issues/8387)) ([38dff7c](https://github.com/Esri/calcite-design-system/commit/38dff7cd9eab60667ee415e59dd4287ae9ab8bb0)), closes [#7445](https://github.com/Esri/calcite-design-system/issues/7445)
+- __input-date-picker:__ respect the numberingSystem property when rendering the input ([#8383](https://github.com/Esri/calcite-design-system/issues/8383)) ([395b538](https://github.com/Esri/calcite-design-system/commit/395b5387e2df538cec99ae02702dfd7d363b16ab)), closes [#7383](https://github.com/Esri/calcite-design-system/issues/7383)
+
 ## [2.1.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.2...@esri/calcite-components@2.1.0-next.3) (2023-12-08)
 
 ### Bug Fixes
