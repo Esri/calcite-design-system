@@ -2,6 +2,11 @@
   "core": {
     "font": {
       "family": {
+        "andaleMono": {
+          "value": "Andale Mono",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco"
+        },
         "avenirNextPro": {
           "value": "Avenir Next LT Pro",
           "type": "fontFamilies"
@@ -13,32 +18,22 @@
         "avenir": {
           "value": "Avenir",
           "type": "fontFamilies",
-          "description": "Fallback for avenirNext"
-        },
-        "helveticaNeue": {
-          "value": "Helvetica Neue",
-          "type": "fontFamilies",
-          "description": "Fallback for avenirNext"
-        },
-        "sansSerif": {
-          "value": "sans-serif",
-          "type": "fontFamilies",
-          "description": "Fallback for avenirNext"
+          "description": "Fallback for Avenir Next"
         },
         "consolas": {
           "value": "Consolas",
           "type": "fontFamilies",
-          "description": "Fallback for monaco"
+          "description": "Fallback for Monaco"
         },
-        "andaleMono": {
-          "value": "Andale Mono",
+        "helveticaNeue": {
+          "value": "Helvetica Neue",
           "type": "fontFamilies",
-          "description": "Fallback for monaco"
+          "description": "Fallback for Avenir Next"
         },
         "lucidaConsole": {
           "value": "Lucida Console",
           "type": "fontFamilies",
-          "description": "Fallback for monaco"
+          "description": "Fallback for Monaco"
         },
         "monaco": {
           "value": "Monaco",
@@ -47,7 +42,12 @@
         "monospace": {
           "value": "monospace",
           "type": "fontFamilies",
-          "description": "Fallback for monaco"
+          "description": "Fallback for Monaco"
+        },
+        "sansSerif": {
+          "value": "sans-serif",
+          "type": "fontFamilies",
+          "description": "Fallback for Avenir Next"
         }
       },
       "style": {
