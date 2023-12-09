@@ -563,8 +563,6 @@ describe("calcite-modal", () => {
     expect(modal).toEqualAttribute("aria-modal", "true");
   });
 
-  // open
-
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal ></calcite-modal>`);
