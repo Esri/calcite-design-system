@@ -4,33 +4,147 @@
       "family": {
         "avenirNextPro": {
           "value": "Avenir Next LT Pro",
-          "type": "fontFamilies"
+          "type": "fontFamilies",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "family",
+              "variant": "Avenir Next LT",
+              "state": "Pro",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "avenirNextWorld": {
           "value": "Avenir Next World",
-          "type": "fontFamilies"
+          "type": "fontFamilies",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "family",
+              "variant": "Avenir Next",
+              "state": "World",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "monaco": {
           "value": "Monaco",
-          "type": "fontFamilies"
+          "type": "fontFamilies",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "family",
+              "variant": "Monaco",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "style": {
         "italic": {
           "value": "italic",
           "type": "fontStyle",
-          "description": "used in ratings"
+          "description": "used in ratings",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "style",
+              "variant": "italic",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "weight": {
         "ultralight": {
           "value": "UltraLight",
           "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)"
+          "description": "only for Avenir Next World (secondary font family)",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "ultra-light",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "thin": {
           "value": "Thin",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "thin",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "light": {
           "value": "Light",
@@ -39,65 +153,331 @@
         },
         "regular": {
           "value": "Regular",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "regular",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "medium": {
           "value": "Medium",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "medium",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "medium-italic": {
           "value": "Medium Italic",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "medium-italic",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "demi": {
           "value": "Demi",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "demi",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "bold": {
           "value": "Bold",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "bold",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "extrabold": {
           "value": "ExtraBold",
           "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)"
+          "description": "only for Avenir Next World (secondary font family)",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "extra-bold",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "black": {
           "value": "Black",
           "type": "fontWeights",
-          "description": "only for Avenir Next World (secondary font family)"
+          "description": "only for Avenir Next World (secondary font family)",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "black",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "heavy": {
           "value": "Heavy",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "weight",
+              "variant": "heavy",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "text-decoration": {
         "none": {
           "value": "none",
-          "type": "textDecoration"
+          "type": "textDecoration",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "text-decoration",
+              "variant": "none",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "underline": {
           "value": "underline",
-          "type": "textDecoration"
+          "type": "textDecoration",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "text-decoration",
+              "variant": "underline",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "text-case": {
         "none": {
           "value": "none",
-          "type": "textCase"
+          "type": "textCase",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "text-case",
+              "variant": "none",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "uppercase": {
           "value": "uppercase",
-          "type": "textCase"
+          "type": "textCase",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "text-case",
+              "variant": "uppercase",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "lowercase": {
           "value": "lowercase",
-          "type": "textCase"
+          "type": "textCase",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "text-case",
+              "variant": "lowercase",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "capitalize": {
           "value": "capitalize",
-          "type": "textCase"
+          "type": "textCase",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "group": "font",
+              "element": "",
+              "category": "",
+              "kind": "",
+              "appearance": "",
+              "property": "text-case",
+              "variant": "capitalize",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       }
     }
