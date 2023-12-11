@@ -378,3 +378,34 @@ export const updateIndicatorOffset_TestOnly = (): string => html`<calcite-tabs>
 updateIndicatorOffset_TestOnly.parameters = {
   chromatic: { delay: 1000 },
 };
+
+export const fixedHeightNoVerticalScrollbar_TestOnly = (): string => html`
+  <calcite-tabs style="height: 400px">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected> Watercraft </calcite-tab-title>
+      <calcite-tab-title>Automobiles</calcite-tab-title>
+      <calcite-tab-title>Aircrafts</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab selected>
+      <calcite-notice icon="embark" open>
+        <div slot="message">Recommended for coastal use</div>
+      </calcite-notice>
+      <calcite-notice icon="embark" open>
+        <div slot="message">Why is there a vertical scroll bar in this panel?</div>
+      </calcite-notice>
+    </calcite-tab>
+    <calcite-tab>
+      <calcite-notice icon="car" open>
+        <div slot="message">A good choice for inland adventure</div>
+      </calcite-notice>
+      <calcite-notice icon="car" open>
+        <div slot="message">A good choice for inland adventure 2</div>
+      </calcite-notice>
+    </calcite-tab>
+    <calcite-tab>
+      <calcite-notice icon="plane" open>
+        <div slot="message">Cross continents quickly</div>
+      </calcite-notice>
+    </calcite-tab>
+  </calcite-tabs>
+`;
