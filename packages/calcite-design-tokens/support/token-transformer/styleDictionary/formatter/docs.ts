@@ -2,6 +2,7 @@ import { Core as StyleDictionary } from "style-dictionary";
 import * as prettier from "prettier";
 
 import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
+import { relative, resolve } from "path";
 
 export const formatDocsPlatform: CalledFormatterFunction = (args) => {
   const output = {
@@ -10,6 +11,9 @@ export const formatDocsPlatform: CalledFormatterFunction = (args) => {
   };
   for (let i = 0; i < args.dictionary.allTokens.length; i++) {
     const token = args.dictionary.allTokens[i];
+
+    token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
+    token.filePath = relative(resolve(__dirname, "../../../../"), token.filePath);
 
     if (!output.tokens[token.type]) {
       output.tokens[token.type] = [];
