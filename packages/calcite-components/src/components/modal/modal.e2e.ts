@@ -599,7 +599,8 @@ describe("calcite-modal", () => {
 
   it("closes and allows re-opening when Close button is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal ></calcite-modal>`);
+    await page.setContent(`<calcite-modal></calcite-modal>`);
+    await skipAnimations(page);
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
     await page.waitForChanges();
