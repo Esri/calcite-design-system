@@ -3,23 +3,118 @@
     "opacity": {
       "light": {
         "value": "{core.opacity.40}",
-        "type": "opacity"
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "opacity",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "light",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "half": {
         "value": "{core.opacity.50}",
-        "type": "opacity"
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "opacity",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "half",
+            "state": "",
+            "scale": "",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "dark": {
         "value": "{core.opacity.85}",
-        "type": "opacity"
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "opacity",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "dark",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "full": {
         "value": "{core.opacity.100}",
-        "type": "opacity"
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "opacity",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "full",
+            "state": "",
+            "scale": "",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "disabled": {
         "value": "{core.opacity.50}",
-        "type": "opacity"
+        "type": "opacity",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "opacity",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "disabled",
+            "scale": "",
+            "context": "",
+            "mode": ""
+          }
+        }
       }
     }
   }

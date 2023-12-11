@@ -3,51 +3,279 @@
     "size": {
       "px": {
         "value": "{core.size.default.1}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "px",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "xxxs": {
         "value": "{core.size.default.2}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "xxxs",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "xxs": {
         "value": "{core.size.default.4}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "xxs",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "xs": {
         "value": "{core.size.default.6}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "xs",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "sm": {
         "value": "{core.size.default.8}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "sm",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "sm+": {
         "value": "{core.size.default.10}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "sm+",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "md": {
         "value": "{core.size.default.12}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "md",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "md+": {
         "value": "{core.size.default.14}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "md+",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "lg": {
         "value": "{core.size.default.16}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "lg",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "xl": {
         "value": "{core.size.default.20}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "xl",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "xxl": {
         "value": "{core.size.default.24}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "xxl",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "xxxl": {
         "value": "{core.size.default.32}",
-        "type": "spacing"
+        "type": "spacing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "group": "sizing",
+            "element": "",
+            "category": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "xxxl",
+            "context": "",
+            "mode": ""
+          }
+        }
       }
     }
   }
