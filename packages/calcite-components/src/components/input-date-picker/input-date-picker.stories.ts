@@ -147,16 +147,18 @@ export const scales_TestOnly = (): string =>
     </div>
   `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       class="calcite-mode-dark"
       dir="rtl"
       value="2020-12-12"
+      numbering-system="arab"
+      lang="ar"
     ></calcite-input-date-picker
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+arabicLocaleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(

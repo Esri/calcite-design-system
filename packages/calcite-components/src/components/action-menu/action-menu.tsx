@@ -43,6 +43,10 @@ export class ActionMenu implements LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.connectMenuButtonEl();
+  }
+
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -294,6 +298,7 @@ export class ActionMenu implements LoadableComponent {
         label={label}
         offsetDistance={0}
         onCalcitePopoverClose={this.handlePopoverClose}
+        onCalcitePopoverOpen={this.handlePopoverOpen}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -498,6 +503,10 @@ export class ActionMenu implements LoadableComponent {
   toggleOpen = (value = !this.open): void => {
     this.el.addEventListener("calcitePopoverOpen", this.toggleOpenEnd);
     this.open = value;
+  };
+
+  private handlePopoverOpen = (): void => {
+    this.open = true;
   };
 
   private handlePopoverClose = (): void => {

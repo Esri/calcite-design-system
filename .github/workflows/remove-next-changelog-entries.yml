@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: package.json
       - name: Remove Next Changelog Entries
         run: |
           git pull
