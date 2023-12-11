@@ -2,7 +2,11 @@ import { Core as StyleDictionary } from "style-dictionary";
 import * as prettier from "prettier";
 
 import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
-import { relative, resolve } from "path";
+import { dirname, relative, resolve } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const formatDocsPlatform: CalledFormatterFunction = (args) => {
   const output = {
