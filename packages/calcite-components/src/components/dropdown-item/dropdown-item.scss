@@ -121,39 +121,12 @@
   @apply bg-foreground-3;
 }
 
-:host(:hover) .container:before,
-:host(:active) .container:before,
-:host(:focus) .container:before {
-  @apply opacity-100;
-}
-
 :host([selected]) .container:not(.container--none-selection),
 :host([selected]) .container--link .dropdown-link {
   @apply text-color-1 font-medium;
-  &:before {
-    @apply opacity-100;
-    color: theme("backgroundColor.brand");
-  }
   & calcite-icon {
     color: theme("backgroundColor.brand");
   }
-}
-
-// no dot for none and multi modes
-.container--multi-selection:before,
-.container--none-selection:before {
-  @apply hidden;
-}
-
-// single select "icon"
-.container--s:before {
-  inset-inline-start: theme("spacing.2");
-}
-.container--m:before {
-  inset-inline-start: theme("spacing.3");
-}
-.container--l:before {
-  inset-inline-start: theme("spacing.4");
 }
 
 // item icon
