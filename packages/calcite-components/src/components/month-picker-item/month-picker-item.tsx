@@ -16,10 +16,10 @@ export class MonthPickerItem {
    * Emits whenever the component is selected.
    *
    */
-  @Event() calciteInternalMonthPickerItemSelect: EventEmitter<void>;
+  @Event() calciteInternalMonthPickerItemSelect: EventEmitter<string>;
 
   private handleClick = (): void => {
-    this.calciteInternalMonthPickerItemSelect.emit();
+    this.calciteInternalMonthPickerItemSelect.emit(this.value);
   };
 
   render(): VNode {

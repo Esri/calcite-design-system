@@ -57,9 +57,8 @@ export class MonthPicker implements LocalizedComponent {
   }
 
   @Listen("calciteInternalMonthPickerItemSelect")
-  handleCalciteMonthPickerItemChange(event: CustomEvent): void {
-    const target = event.target as HTMLCalciteMonthPickerItemElement;
-    this.activeMonthIndex = this.localeData?.months.wide.indexOf(target.value);
+  handleCalciteMonthPickerItemChange(event: CustomEvent<string>): void {
+    this.activeMonthIndex = this.localeData?.months.wide.indexOf(event.detail);
     this.calciteMonthPickerChange.emit();
   }
 
