@@ -13,7 +13,7 @@
     </calcite-list>
   </calcite-list-item>
   <calcite-list-item open label="Owls">
-    <caclite-list>
+    <calcite-list>
       <calcite-list-item
         label="Great Horned Owl"
         description="The great horned owl, also known as the tiger owl, or the hoot owl, is a large owl native to the Americas."
