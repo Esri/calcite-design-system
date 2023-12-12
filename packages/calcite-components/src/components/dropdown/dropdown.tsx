@@ -78,12 +78,13 @@ export class Dropdown
 
   @Watch("open")
   openHandler(): void {
-    if (!this.disabled) {
-      onToggleOpenCloseComponent(this);
+    if (this.disabled) {
+      this.open = false;
       return;
     }
 
-    this.open = false;
+    this.reposition(true);
+    onToggleOpenCloseComponent(this);
   }
 
   /**
@@ -549,7 +550,6 @@ export class Dropdown
   };
 
   onBeforeOpen(): void {
-    this.reposition(true);
     this.calciteDropdownBeforeOpen.emit();
   }
 
@@ -563,7 +563,6 @@ export class Dropdown
 
   onClose(): void {
     this.calciteDropdownClose.emit();
-    this.reposition(true);
   }
 
   setReferenceEl = (el: HTMLDivElement): void => {

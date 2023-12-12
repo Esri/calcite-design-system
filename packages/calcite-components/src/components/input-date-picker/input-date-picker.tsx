@@ -264,6 +264,8 @@ export class InputDatePicker
       this.open = false;
       return;
     }
+
+    this.reposition(true);
   }
 
   /**
@@ -766,7 +768,6 @@ export class InputDatePicker
   }
 
   onBeforeOpen(): void {
-    this.reposition(true);
     this.calciteInputDatePickerBeforeOpen.emit();
   }
 
@@ -792,7 +793,6 @@ export class InputDatePicker
     this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
-    this.reposition(true);
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {
