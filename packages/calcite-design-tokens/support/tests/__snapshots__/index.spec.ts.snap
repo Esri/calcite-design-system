@@ -2008,9 +2008,11 @@ $calcite-border-width-lg: 4px;
 $calcite-border-width-md: 2px;
 $calcite-border-width-sm: 1px;
 $calcite-border-width-none: 0;
-$calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08),
+$calcite-shadow-md:
+  0 4px 20px 0 rgba(0, 0, 0, 0.08),
   0 12px 30px rgba(0, 0, 0, 0.1);
-$calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04),
+$calcite-shadow-sm:
+  0 2px 8px 0 rgba(0, 0, 0, 0.04),
   0 4px 16px 0 rgba(0, 0, 0, 0.08);
 $calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
 $calcite-corner-radius: var(--calcite-corner-radius-sharp);
