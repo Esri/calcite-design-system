@@ -157,6 +157,9 @@ export const positionFloatingUI =
       pointerEvents,
       position,
       transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
+      width: "max-content",
+      top: "0",
+      left: "0",
     });
   };
 
@@ -491,9 +494,6 @@ export function connectFloatingUI(
 
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
     position: component.overlayPositioning,
-    width: "max-content",
-    top: "0",
-    left: "0",
   });
 
   const runAutoUpdate = Build.isBrowser
