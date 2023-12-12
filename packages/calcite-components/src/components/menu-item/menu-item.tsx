@@ -275,7 +275,9 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
       ) {
         this.open = !this.open;
       }
-      event.preventDefault();
+      if (!this.href || event.target === this.dropdownActionEl) {
+        event.preventDefault();
+      }
     } else if (event.key === "Escape") {
       if (this.open) {
         this.open = false;
