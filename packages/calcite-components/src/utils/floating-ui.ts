@@ -157,8 +157,6 @@ export const positionFloatingUI =
       pointerEvents,
       position,
       transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
-      left: open ? "0" : "",
-      top: open ? "0" : "",
     });
   };
 
@@ -427,6 +425,10 @@ export async function reposition(
   options: Parameters<typeof positionFloatingUI>[1],
   delayed = false
 ): Promise<void> {
+  if (!component.open) {
+    return;
+  }
+
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
 
   return positionFunction(component, options);
@@ -489,6 +491,7 @@ export function connectFloatingUI(
 
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
     position: component.overlayPositioning,
+    width: "max-content",
     top: "0",
     left: "0",
   });
