@@ -9,7 +9,6 @@ import {
   Watch,
   Method,
   VNode,
-  forceUpdate,
 } from "@stencil/core";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
@@ -46,8 +45,8 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   @Watch("role")
-  handleGlobalAttributesChanged(): void {
-    forceUpdate(this);
+  handleGlobalAttributesChanged(value: string): void {
+    this.menuParentRole = value;
   }
 
   //--------------------------------------------------------------------------
@@ -97,6 +96,8 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteMenuElement;
+
+  @State() private menuParentRole = "menubar";
 
   @State() defaultMessages: MenuMessages;
 
@@ -219,7 +220,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   setMenuItemLayout(items: HTMLCalciteMenuItemElement[], layout: Layout): void {
     items.forEach((item) => {
       item.layout = layout;
-      if (this.el.getAttribute("role") === "menubar") {
+      if (this.menuParentRole === "menubar") {
         item.isTopLevelItem = true;
         item.topLevelMenuLayout = this.layout;
       }
@@ -235,7 +236,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   render(): VNode {
     return (
       <Host>
-        <ul aria-label={this.label} role={this.el.getAttribute("role")}>
+        <ul aria-label={this.label} role={this.menuParentRole}>
           <slot onSlotchange={this.handleMenuSlotChange} />
         </ul>
       </Host>
