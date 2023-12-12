@@ -16,8 +16,8 @@
 :host {
   @apply flex absolute z-overlay inset-0;
   visibility: hidden !important;
-  // the sheet should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
-  --calcite-sheet-scrim-background-internal: rgba(var(--calcite-color-neutral-blk-240), 0.85);
+  // the sheet should always use a dark scrim, regardless of light / dark mode
+  --calcite-sheet-scrim-background-internal: rgba($calcite-color-neutral-blk-240, 0.85);
   --calcite-scrim-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-scrim-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08), 0 -2px 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-scrim-shadow-inline-start-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
