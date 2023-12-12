@@ -20,7 +20,7 @@
   margin-block-start: var(--calcite-input-message-spacing-value);
 }
 
-.calcite-input-validation-icon {
+.calcite-input-message-icon {
   @apply transition-default
     pointer-events-none
     inline-flex
@@ -28,19 +28,19 @@
   margin-inline-end: theme("margin.2");
 }
 
-:host([status="invalid"]) .calcite-input-validation-icon {
+:host([status="invalid"]) .calcite-input-message-icon {
   color: var(--calcite-color-status-danger);
 }
 
-:host([status="warning"]) .calcite-input-validation-icon {
+:host([status="warning"]) .calcite-input-message-icon {
   color: var(--calcite-color-status-warning);
 }
 
-:host([status="valid"]) .calcite-input-validation-icon {
+:host([status="valid"]) .calcite-input-message-icon {
   color: var(--calcite-color-status-success);
 }
 
-:host([status="idle"]) .calcite-input-validation-icon {
+:host([status="idle"]) .calcite-input-message-icon {
   color: var(--calcite-color-brand);
 }
 
