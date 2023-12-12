@@ -1,9 +1,11 @@
 ```html
-<calcite-tooltip placement="auto" reference-element="tooltip-button"
-  >This is the message of the tooltip</calcite-tooltip
->
+<calcite-tooltip placement="auto" reference-element="tooltip-button" id="tooltip-content">
+  Honeybees communicate through intricate dances, navigate using the sun's position, and play a vital role in
+  maintaining biodiversity by pollinating flowers and crops.
+</calcite-tooltip>
 <span>
-  Lorem <a id="tooltip-button" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-  incididunt ut labore et dolore magna aliqua.
+  Discover fascinating facts about the
+  <a id="tooltip-button" href="#" aria-describedby="tooltip-content">secret lives of honeybees</a> and their crucial
+  role in pollination.
 </span>
 ```
