@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.5...@esri/calcite-components@2.1.0-next.6) (2023-12-12)
+
+### Bug Fixes
+
+- __dropdown-item:__ avoid hover/active styling when disabled ([#8398](https://github.com/Esri/calcite-design-system/issues/8398)) ([35817dc](https://github.com/Esri/calcite-design-system/commit/35817dc6a8fc6eb3dd1d3e1b267869b39d6e8d8c)), closes [#6667](https://github.com/Esri/calcite-design-system/issues/6667)
+- __modal:__ ensure document overflow styles are properly restored when multiple modals are closed/removed ([#8390](https://github.com/Esri/calcite-design-system/issues/8390)) ([f2c6b09](https://github.com/Esri/calcite-design-system/commit/f2c6b0990d23e080ca665d72fb3bd05c1f3e227d)), closes [#6594](https://github.com/Esri/calcite-design-system/issues/6594)
+
 ## [2.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.4...@esri/calcite-components@2.1.0-next.5) (2023-12-11)
 
 ### Bug Fixes
