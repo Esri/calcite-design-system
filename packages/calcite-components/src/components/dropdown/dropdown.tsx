@@ -78,13 +78,14 @@ export class Dropdown
 
   @Watch("open")
   openHandler(): void {
+    onToggleOpenCloseComponent(this);
+
     if (this.disabled) {
       this.open = false;
       return;
     }
 
     this.reposition(true);
-    onToggleOpenCloseComponent(this);
   }
 
   /**
