@@ -9,6 +9,7 @@ import {
   Watch,
   Method,
   VNode,
+  forceUpdate,
 } from "@stencil/core";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
@@ -26,11 +27,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { MenuMessages } from "./assets/menu/t9n";
-import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes,
-} from "../../utils/globalAttributes";
 
 type Layout = "horizontal" | "vertical";
 
@@ -42,12 +38,21 @@ type Layout = "horizontal" | "vertical";
   },
   assetsDirs: ["assets"],
 })
-export class CalciteMenu
-  implements GlobalAttrComponent, LocalizedComponent, T9nComponent, LoadableComponent
-{
+export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
-  //  Public Properties
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("role")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
   //
   //--------------------------------------------------------------------------
 
@@ -102,10 +107,6 @@ export class CalciteMenu
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() globalAttributes = {
-    role: "menubar",
-  };
-
   menuItems: HTMLCalciteMenuItemElement[] = [];
 
   //--------------------------------------------------------------------------
@@ -117,7 +118,6 @@ export class CalciteMenu
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    watchGlobalAttributes(this, ["role"]);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -132,7 +132,6 @@ export class CalciteMenu
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-    unwatchGlobalAttributes(this);
   }
 
   //--------------------------------------------------------------------------
@@ -220,7 +219,7 @@ export class CalciteMenu
   setMenuItemLayout(items: HTMLCalciteMenuItemElement[], layout: Layout): void {
     items.forEach((item) => {
       item.layout = layout;
-      if (this.globalAttributes.role === "menubar") {
+      if (this.el.getAttribute("role") === "menubar") {
         item.isTopLevelItem = true;
         item.topLevelMenuLayout = this.layout;
       }
@@ -236,7 +235,7 @@ export class CalciteMenu
   render(): VNode {
     return (
       <Host>
-        <ul aria-label={this.label} {...this.globalAttributes}>
+        <ul aria-label={this.label} role={this.el.getAttribute("role")}>
           <slot onSlotchange={this.handleMenuSlotChange} />
         </ul>
       </Host>
