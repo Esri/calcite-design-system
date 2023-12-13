@@ -267,15 +267,15 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
 
   private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
     // opening and closing of submenu is handled here. Any other functionality is bubbled to parent menu.
+    const targetIsDropdown = event.target === this.dropdownActionEl;
     if (event.key === " " || event.key === "Enter") {
-      this.selectMenuItem(event);
-      if (
-        this.hasSubmenu &&
-        (!this.href || (this.href && event.target === this.dropdownActionEl))
-      ) {
+      if (this.hasSubmenu && (!this.href || (this.href && targetIsDropdown))) {
         this.open = !this.open;
       }
-      if (!this.href || event.target === this.dropdownActionEl) {
+      if (!(this.href && targetIsDropdown) && event.key !== "Enter") {
+        this.selectMenuItem(event);
+      }
+      if (event.key === " " || (this.href && targetIsDropdown)) {
         event.preventDefault();
       }
     } else if (event.key === "Escape") {
@@ -288,7 +288,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       if (
-        (event.target === this.dropdownActionEl || !this.href) &&
+        (targetIsDropdown || !this.href) &&
         this.hasSubmenu &&
         !this.open &&
         this.layout === "horizontal"
@@ -311,7 +311,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     } else if (event.key === "ArrowRight") {
       event.preventDefault();
       if (
-        (event.target === this.dropdownActionEl || !this.href) &&
+        (targetIsDropdown || !this.href) &&
         this.hasSubmenu &&
         !this.open &&
         this.layout === "vertical"
