@@ -346,7 +346,7 @@ export const inlineTabsJustifyAgainstTheStartOfTheNavWidth_TestOnly = (): string
   </calcite-tabs>
 `;
 
-export const TabChildrenWithPercentageHeights = (): string => html`
+export const Tab100PercentHeightNoVerticalScroll = (): string => html`
   <calcite-tabs style="height: 250px;">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Boats</calcite-tab-title>
@@ -356,7 +356,21 @@ export const TabChildrenWithPercentageHeights = (): string => html`
     </calcite-tab>
   </calcite-tabs>
 `;
-TabChildrenWithPercentageHeights.parameters = {
+Tab100PercentHeightNoVerticalScroll.parameters = {
+  chromatic: { delay: 1000 },
+};
+
+export const Tab200PercentHeightWithVerticalScroll = (): string => html`
+  <calcite-tabs style="height: 250px;">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Boats</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab style="background: pink;">
+      <div style="background: linear-gradient(to bottom, red, transparent); height: 200%;">Tab 1 content</div>
+    </calcite-tab>
+  </calcite-tabs>
+`;
+Tab200PercentHeightWithVerticalScroll.parameters = {
   chromatic: { delay: 1000 },
 };
 
