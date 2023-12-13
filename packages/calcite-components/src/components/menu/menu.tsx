@@ -9,6 +9,7 @@ import {
   Watch,
   Method,
   VNode,
+  forceUpdate,
 } from "@stencil/core";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
@@ -45,8 +46,9 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   @Watch("role")
-  handleGlobalAttributesChanged(value: string): void {
-    this.menuParentRole = value;
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+    this.setMenuItemLayout(this.menuItems, this.layout);
   }
 
   //--------------------------------------------------------------------------
@@ -96,8 +98,6 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteMenuElement;
-
-  @State() private menuParentRole = "menubar";
 
   @State() defaultMessages: MenuMessages;
 
@@ -220,11 +220,15 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   setMenuItemLayout(items: HTMLCalciteMenuItemElement[], layout: Layout): void {
     items.forEach((item) => {
       item.layout = layout;
-      if (this.menuParentRole === "menubar") {
+      if (this.getEffectiveRole() === "menubar") {
         item.isTopLevelItem = true;
         item.topLevelMenuLayout = this.layout;
       }
     });
+  }
+
+  private getEffectiveRole(): string {
+    return this.el.getAttribute("role") || "menubar";
   }
 
   // --------------------------------------------------------------------------
@@ -236,7 +240,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   render(): VNode {
     return (
       <Host>
-        <ul aria-label={this.label} role={this.menuParentRole}>
+        <ul aria-label={this.label} role={this.getEffectiveRole()}>
           <slot onSlotchange={this.handleMenuSlotChange} />
         </ul>
       </Host>
