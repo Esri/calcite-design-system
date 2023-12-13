@@ -404,7 +404,7 @@ export class Button
   private setTooltipText = (): void => {
     const { contentEl } = this;
     if (contentEl) {
-      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText : null;
+      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || null : null;
     }
   };
 
