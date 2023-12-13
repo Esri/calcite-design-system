@@ -118,8 +118,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
    * Fires when the active `calcite-stepper-item` changes.
    *
    */
-  @Event({ cancelable: false })
-  calciteStepperItemChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteStepperItemChange: EventEmitter<void>;
 
   /**
    * Fires when the active `calcite-stepper-item` changes.
@@ -242,7 +241,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   @Listen("calciteInternalStepperItemSelect")
   updateItem(event: CustomEvent): void {
     const { position } = event.detail;
-
     if (typeof position === "number") {
       this.currentActivePosition = position;
       this.selectedItem = event.target as HTMLCalciteStepperItemElement;
@@ -506,7 +504,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     }
 
     if (
-      this.currentActivePosition &&
       currentActivePosition !== this.currentActivePosition &&
       !this.items[this.currentActivePosition].disabled
     ) {
