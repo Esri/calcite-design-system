@@ -352,7 +352,7 @@ export const TabChildrenWithPercentageHeights = (): string => html`
       <calcite-tab-title selected>Boats</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab style="background: pink;">
-      <div style="background: red; height: 200%;">Tab 1 content</div>
+      <div style="background: linear-gradient(to top, red, transparent); height: 200%;">Tab 1 content</div>
     </calcite-tab>
   </calcite-tabs>
 `;
