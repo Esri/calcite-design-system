@@ -157,7 +157,6 @@ export const positionFloatingUI =
       pointerEvents,
       position,
       transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
-      width: "max-content",
       top: 0,
       left: 0,
     });
