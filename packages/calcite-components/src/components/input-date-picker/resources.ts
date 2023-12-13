@@ -1,7 +1,7 @@
 export const CSS = {
   assistiveText: "assistive-text",
   calendarWrapper: "calendar-wrapper",
-  calendarWrapperEnd: "calendar-picker-wrapper--end",
+  calendarWrapperEnd: "calendar-wrapper--end",
   horizontalArrowContainer: "horizontal-arrow-container",
   inputBorderTopColorOne: "border-top-color-one",
   inputContainer: "input-container",
