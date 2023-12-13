@@ -134,8 +134,8 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
       const wrapper = await page.waitForFunction(
-        (calendarWrapperSelector: string) =>
-          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(calendarWrapperSelector),
+        (calendarWrapperClass: string) =>
+          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(`.${calendarWrapperClass}`),
         {},
         CSS.calendarWrapper
       );
@@ -206,8 +206,8 @@ describe("calcite-input-date-picker", () => {
       await page.waitForTimeout(animationDurationInMs);
 
       const wrapper = await page.waitForFunction(
-        (calendarWrapperSelector: string) =>
-          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(calendarWrapperSelector),
+        (calendarWrapperClass: string) =>
+          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(`.${calendarWrapperClass}`),
         {},
         CSS.calendarWrapper
       );
