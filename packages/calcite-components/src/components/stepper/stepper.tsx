@@ -504,6 +504,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     }
 
     if (
+      typeof this.currentActivePosition === "number" &&
       currentActivePosition !== this.currentActivePosition &&
       !this.items[this.currentActivePosition].disabled
     ) {
