@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.7...@esri/calcite-components@2.1.0-next.8) (2023-12-13)
+
+### Bug Fixes
+
+- __floating-ui:__ improve floating element performance ([#8409](https://github.com/Esri/calcite-design-system/issues/8409)) ([4d8cfb8](https://github.com/Esri/calcite-design-system/commit/4d8cfb899857960268226db5c2a47514ea20ad18)), closes [#7979](https://github.com/Esri/calcite-design-system/issues/7979) [#8214](https://github.com/Esri/calcite-design-system/issues/8214) [#8386](https://github.com/Esri/calcite-design-system/issues/8386) [#8419](https://github.com/Esri/calcite-design-system/issues/8419) [#5697](https://github.com/Esri/calcite-design-system/issues/5697) [#8001](https://github.com/Esri/calcite-design-system/issues/8001) [#8230](https://github.com/Esri/calcite-design-system/issues/8230)
+
+## [2.1.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.6...@esri/calcite-components@2.1.0-next.7) (2023-12-13)
+
+### Bug Fixes
+
+- use Stencil watchers instead of global attributes util ([#8407](https://github.com/Esri/calcite-design-system/issues/8407)) ([c531d81](https://github.com/Esri/calcite-design-system/commit/c531d815477fb2a6629c875d585f465240e2e929)), closes [#8193](https://github.com/Esri/calcite-design-system/issues/8193)
+
 ## [2.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.5...@esri/calcite-components@2.1.0-next.6) (2023-12-12)
 
 ### Bug Fixes

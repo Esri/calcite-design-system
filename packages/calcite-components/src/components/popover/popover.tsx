@@ -194,7 +194,7 @@ export class Popover
   @Watch("open")
   openHandler(): void {
     onToggleOpenCloseComponent(this);
-
+    this.reposition(true);
     this.setExpandedAttr();
   }
 
@@ -499,7 +499,6 @@ export class Popover
   };
 
   onBeforeOpen(): void {
-    this.reposition(true);
     this.calcitePopoverBeforeOpen.emit();
   }
 
@@ -515,7 +514,6 @@ export class Popover
   onClose(): void {
     this.calcitePopoverClose.emit();
     deactivateFocusTrap(this);
-    this.reposition(true);
   }
 
   storeArrowEl = (el: SVGElement): void => {
