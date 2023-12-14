@@ -15,16 +15,15 @@
 }
 
 :host {
-  @apply table;
+  @apply flex;
 }
 
 .container {
-  max-inline-size: 100vw;
-  inline-size: 100%;
+  @apply flex flex-col w-full;
 }
 
 .table-container {
-  @apply overflow-x-auto whitespace-nowrap;
+  @apply overflow-auto whitespace-nowrap;
 }
 
 .table-container:not(.bordered) {
