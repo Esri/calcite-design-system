@@ -61,6 +61,9 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
 
+  /** When `true`, interaction is prevented on the previous action in single view mode. */
+  @Prop({ reflect: true }) previousActionDisabled = false;
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -107,6 +110,9 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /** When `true`, interaction is prevented on the next action in single view mode. */
+  @Prop({ reflect: true }) nextActionDisabled = false;
 
   //--------------------------------------------------------------------------
   //
@@ -472,7 +478,14 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     const { currentActivePosition, multipleViewMode, layout } = this;
     const totalItems = this.items.length;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
-
+    console.log(
+      "isPositionStart",
+      isPositionStart,
+      this.nextActionDisabled,
+      isPositionStart
+        ? currentActivePosition === 0 || this.previousActionDisabled
+        : currentActivePosition === totalItems - 1 || this.nextActionDisabled
+    );
     return layout === "horizontal" && !multipleViewMode ? (
       <calcite-action
         alignment="center"
@@ -483,8 +496,9 @@ export class Stepper implements LocalizedComponent, T9nComponent {
         compact={true}
         data-position={position}
         disabled={
-          (currentActivePosition === 0 && isPositionStart) ||
-          (currentActivePosition === totalItems - 1 && !isPositionStart)
+          isPositionStart
+            ? currentActivePosition === 0 || this.previousActionDisabled
+            : currentActivePosition === totalItems - 1 || this.nextActionDisabled
         }
         icon={path}
         iconFlipRtl={true}

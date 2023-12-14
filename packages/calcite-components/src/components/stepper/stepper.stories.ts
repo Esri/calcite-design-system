@@ -270,7 +270,8 @@ export const responsiveLayoutWithDisabledStepperItems_TestOnly = (): string => h
       heading="Choose method"
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
       complete
-      disabled>
+      disabled
+    >
       <calcite-notice open width="full">
         <div slot="message">Step 1 Content Goes Here</div>
       </calcite-notice>
@@ -292,5 +293,48 @@ export const responsiveLayoutWithDisabledStepperItems_TestOnly = (): string => h
       description="Some subtext"
       error
       disabled
+    />
+  </calcite-stepper>`;
+
+export const singleViewModeWithNextActionDisabled_TestOnly = (): string => html`<style>
+    calcite-stepper {
+      width: 300px;
+    }
+  </style>
+  <calcite-stepper numbered icon next-action-disabled>
+    <calcite-stepper-item
+      heading="Choose method"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
     >
+      <div>Step 1 Content Goes Here</div>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Compile member list"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      complete
+    >
+      <div>Step 2 Content Goes Here</div>
+    </calcite-stepper-item>
+  </calcite-stepper>`;
+
+export const singleViewModeWithPreviousActionDisabled_TestOnly = (): string => html`<style>
+    calcite-stepper {
+      width: 300px;
+    }
+  </style>
+  <calcite-stepper numbered icon previous-action-disabled>
+    <calcite-stepper-item
+      heading="Choose method"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    >
+      <div>Step 1 Content Goes Here</div>
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      heading="Compile member list"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      complete
+      selected
+    >
+      <div>Step 2 Content Goes Here</div>
+    </calcite-stepper-item>
   </calcite-stepper>`;
