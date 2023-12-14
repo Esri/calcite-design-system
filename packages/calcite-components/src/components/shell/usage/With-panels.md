@@ -31,7 +31,7 @@ Renders a shell with a header and panels on the left and right sides of the app.
     </calcite-action-bar>
   </calcite-shell-panel>
   <calcite-shell-center-row slot="center-row" position="end" height-scale="m">
-    <img src="https://placebear.com/1000/700" alt="placeholder" />
+    <img src="https://placebear.com/1000/700" alt="" />
   </calcite-shell-center-row>
   <p>Shell Content</p>
   <!-- insert map or fillable content here -->

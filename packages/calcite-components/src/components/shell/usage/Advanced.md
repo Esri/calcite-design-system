@@ -67,7 +67,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
   </calcite-shell-panel>
   <calcite-tip-manager slot="center-row">
     <calcite-tip heading="Be cautious of wildlife">
-      <img slot="thumbnail" src="https://placebear.com/400/200" alt="A bear in its natural habitat." />
+      <img slot="thumbnail" src="https://placebear.com/400/200" alt="" />
       <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat, reiciendis est quisquam dolor deserunt saepe
         corrupti temporibus a totam adipisci accusantium ex non quidem et veritatis asperiores molestias eligendi

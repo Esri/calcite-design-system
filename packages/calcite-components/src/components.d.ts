@@ -6260,6 +6260,8 @@ declare global {
     };
     interface HTMLCalciteListElementEventMap {
         "calciteListChange": void;
+        "calciteListDragEnd": ListDragDetail;
+        "calciteListDragStart": ListDragDetail;
         "calciteListFilter": void;
         "calciteListOrderChange": ListDragDetail;
         "calciteInternalListDefaultSlotChange": void;
@@ -9984,6 +9986,14 @@ declare namespace LocalJSX {
           * Emits when any of the list item selections have changed.
          */
         "onCalciteListChange"?: (event: CalciteListCustomEvent<void>) => void;
+        /**
+          * Emits when the component's dragging has ended.
+         */
+        "onCalciteListDragEnd"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
+        /**
+          * Emits when the component's dragging has started.
+         */
+        "onCalciteListDragStart"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
         /**
           * Emits when the component's filter has changed.
          */
