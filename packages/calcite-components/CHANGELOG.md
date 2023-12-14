@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.7...@esri/calcite-components@2.1.0-next.8) (2023-12-13)
+
+### Bug Fixes
+
+- __floating-ui:__ improve floating element performance ([#8409](https://github.com/Esri/calcite-design-system/issues/8409)) ([4d8cfb8](https://github.com/Esri/calcite-design-system/commit/4d8cfb899857960268226db5c2a47514ea20ad18)), closes [#7979](https://github.com/Esri/calcite-design-system/issues/7979) [#8214](https://github.com/Esri/calcite-design-system/issues/8214) [#8386](https://github.com/Esri/calcite-design-system/issues/8386) [#8419](https://github.com/Esri/calcite-design-system/issues/8419) [#5697](https://github.com/Esri/calcite-design-system/issues/5697) [#8001](https://github.com/Esri/calcite-design-system/issues/8001) [#8230](https://github.com/Esri/calcite-design-system/issues/8230)
+
+## [2.1.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.6...@esri/calcite-components@2.1.0-next.7) (2023-12-13)
+
+### Bug Fixes
+
+- use Stencil watchers instead of global attributes util ([#8407](https://github.com/Esri/calcite-design-system/issues/8407)) ([c531d81](https://github.com/Esri/calcite-design-system/commit/c531d815477fb2a6629c875d585f465240e2e929)), closes [#8193](https://github.com/Esri/calcite-design-system/issues/8193)
+
+## [2.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.5...@esri/calcite-components@2.1.0-next.6) (2023-12-12)
+
+### Bug Fixes
+
+- __dropdown-item:__ avoid hover/active styling when disabled ([#8398](https://github.com/Esri/calcite-design-system/issues/8398)) ([35817dc](https://github.com/Esri/calcite-design-system/commit/35817dc6a8fc6eb3dd1d3e1b267869b39d6e8d8c)), closes [#6667](https://github.com/Esri/calcite-design-system/issues/6667)
+- __modal:__ ensure document overflow styles are properly restored when multiple modals are closed/removed ([#8390](https://github.com/Esri/calcite-design-system/issues/8390)) ([f2c6b09](https://github.com/Esri/calcite-design-system/commit/f2c6b0990d23e080ca665d72fb3bd05c1f3e227d)), closes [#6594](https://github.com/Esri/calcite-design-system/issues/6594)
+
+## [2.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.4...@esri/calcite-components@2.1.0-next.5) (2023-12-11)
+
+### Bug Fixes
+
+- __tab:__ prevent vertical scrollbar on content pane when the height of outer elements are specified ([#8399](https://github.com/Esri/calcite-design-system/issues/8399)) ([9e6d901](https://github.com/Esri/calcite-design-system/commit/9e6d9013fead27aa5c816d0c21429f62c1f224af)), closes [#8139](https://github.com/Esri/calcite-design-system/issues/8139)
+
 ## [2.1.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.3...@esri/calcite-components@2.1.0-next.4) (2023-12-09)
 
 ### Bug Fixes
