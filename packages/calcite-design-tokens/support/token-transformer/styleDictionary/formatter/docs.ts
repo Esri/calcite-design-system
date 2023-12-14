@@ -11,19 +11,12 @@ const __dirname = dirname(__filename);
 export const formatDocsPlatform: CalledFormatterFunction = (args) => {
   const output = {
     timestamp: Date.now(),
-    tokens: {},
+    tokens: args.dictionary.allTokens.map((token) => {
+      token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
+      token.filePath = relative(resolve(__dirname, "../../../../"), token.filePath);
+      return token;
+    }),
   };
-  for (let i = 0; i < args.dictionary.allTokens.length; i++) {
-    const token = args.dictionary.allTokens[i];
-
-    token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
-    token.filePath = relative(resolve(__dirname, "../../../../"), token.filePath);
-
-    if (!output.tokens[token.type]) {
-      output.tokens[token.type] = [];
-    }
-    output.tokens[token.type].push(token);
-  }
 
   return prettier.format(JSON.stringify(output, null, 2), { parser: "json" });
 };
