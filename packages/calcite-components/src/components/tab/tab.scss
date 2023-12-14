@@ -13,6 +13,10 @@
   @apply block h-full w-full overflow-auto;
 }
 
+.content {
+  @apply box-border;
+}
+
 .scale-s .content {
   @apply text-n2h py-1;
 }

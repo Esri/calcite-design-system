@@ -2,7 +2,10 @@ import sd, { Core as StyleDictionary } from "style-dictionary";
 
 import { formatTokens } from "./utils/formatTokens.js";
 import { formatExtraOutput } from "./utils/formatExtraOutput.js";
+import * as prettier from "prettier";
+
 import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments.js";
+import { EOL } from "os";
 
 export const formatScssPlatform: CalledFormatterFunction = (args) => {
   const { file, dictionary } = args;
@@ -12,7 +15,7 @@ export const formatScssPlatform: CalledFormatterFunction = (args) => {
   if (Object.keys(extraOutput).length > 0) {
     formatExtraOutput(extraOutput, { ...args.options, header, buildPath: args.platform.buildPath });
   }
-  return header + tokens.join("\n");
+  return prettier.format(header + tokens.join(EOL), { parser: "scss" });
 };
 
 export const registerFormatterScss = (sd: StyleDictionary): void => {

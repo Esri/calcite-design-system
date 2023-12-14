@@ -8,6 +8,9 @@
 // Add Calcite Design Tokens as CSS Custom Props
 @import url("~@esri/calcite-design-tokens/dist/css/index.css");
 
+// Include legacy tokens for backwards compatibility
+@import "./legacy";
+
 :root {
   @extend %type-vars;
   @include floating-ui-base();

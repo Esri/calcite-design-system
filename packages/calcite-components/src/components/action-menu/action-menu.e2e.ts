@@ -135,6 +135,12 @@ describe("calcite-action-menu", () => {
 
     const actionMenu = await page.find("calcite-action-menu");
 
+    const popover = await page.find("calcite-action-menu >>> calcite-popover");
+
+    expect(await popover.getProperty("autoClose")).toBe(true);
+
+    expect(await popover.getProperty("open")).toBe(true);
+
     expect(await actionMenu.getProperty("open")).toBe(true);
 
     const outside = await page.find("#outside");
@@ -144,6 +150,8 @@ describe("calcite-action-menu", () => {
     await page.waitForChanges();
 
     expect(await actionMenu.getProperty("open")).toBe(false);
+
+    expect(await popover.getProperty("open")).toBe(false);
   });
 
   it("should close menu if slotted action is clicked", async () => {
