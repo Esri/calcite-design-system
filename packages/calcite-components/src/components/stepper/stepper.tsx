@@ -478,14 +478,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     const { currentActivePosition, multipleViewMode, layout } = this;
     const totalItems = this.items.length;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
-    console.log(
-      "isPositionStart",
-      isPositionStart,
-      this.nextActionDisabled,
-      isPositionStart
-        ? currentActivePosition === 0 || this.previousActionDisabled
-        : currentActivePosition === totalItems - 1 || this.nextActionDisabled
-    );
+
     return layout === "horizontal" && !multipleViewMode ? (
       <calcite-action
         alignment="center"
