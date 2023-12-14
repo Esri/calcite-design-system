@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "Semua",
+  "allSelected": "Semua dipilih",
   "clear": "Hapus nilai",
   "removeTag": "Hapus tag",
-  "selected": "selected"
+  "selected": "terpilih"
 }

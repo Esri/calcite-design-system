@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "全部",
+  "allSelected": "选择全部",
   "clear": "清除值",
   "removeTag": "移除标签",
-  "selected": "selected"
+  "selected": "选择"
 }

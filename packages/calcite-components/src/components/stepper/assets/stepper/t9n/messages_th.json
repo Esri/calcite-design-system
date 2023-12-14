@@ -1,5 +1,5 @@
 {
   "label": "ขั้นตอนความคืบหน้า",
-  "previousStep": "Previous step",
-  "nextStep": "Next step"
+  "previousStep": "ขั้นตอนก่อนหน้า",
+  "nextStep": "ขั้นตอนถัดไป"
 }

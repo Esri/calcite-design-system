@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "Όλα",
+  "allSelected": "Όλα τα επιλεγμένα",
   "clear": "Απαλοιφή τιμής",
   "removeTag": "Κατάργηση ετικέτας",
-  "selected": "selected"
+  "selected": "επιλέχθηκε"
 }

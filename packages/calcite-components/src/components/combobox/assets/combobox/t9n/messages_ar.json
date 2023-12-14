@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "الكل",
+  "allSelected": "تم تحديد الكل",
   "clear": "مسح القيمة",
   "removeTag": "إزالة علامة",
-  "selected": "selected"
+  "selected": "محدد"
 }

@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "Alla",
+  "allSelected": "Alla valda",
   "clear": "Rensa värde",
   "removeTag": "Ta bort tagg",
-  "selected": "selected"
+  "selected": "valt"
 }

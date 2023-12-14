@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Filter enabled.",
-  "total": "Total items: {count}."
+  "filterEnabled": "Филтърът е активиран.",
+  "total": "Общо елементи: {count}."
 }

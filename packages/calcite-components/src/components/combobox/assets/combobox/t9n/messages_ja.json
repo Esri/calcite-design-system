@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "すべて",
+  "allSelected": "すべて選択",
   "clear": "値の削除",
   "removeTag": "タグの削除",
-  "selected": "selected"
+  "selected": "選択済み"
 }

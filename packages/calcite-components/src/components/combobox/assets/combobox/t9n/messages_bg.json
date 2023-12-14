@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "Всичко",
+  "allSelected": "Всички избрани",
   "clear": "Изчистване на стойност",
   "removeTag": "Премахване на таг",
-  "selected": "selected"
+  "selected": "избрани"
 }

@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "הכל",
+  "allSelected": "כולם נבחרו",
   "clear": "נקה ערך",
   "removeTag": "הסר תג",
-  "selected": "selected"
+  "selected": "נבחר"
 }

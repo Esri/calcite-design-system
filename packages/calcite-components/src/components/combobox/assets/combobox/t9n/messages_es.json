@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "Todo",
+  "allSelected": "Todas las seleccionadas",
   "clear": "Borrar valor",
   "removeTag": "Eliminar etiqueta",
-  "selected": "selected"
+  "selected": "seleccionado"
 }

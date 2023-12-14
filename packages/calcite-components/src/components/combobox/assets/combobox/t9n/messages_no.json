@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "allSelected": "All selected",
+  "all": "Alle",
+  "allSelected": "Alle valgte",
   "clear": "Fjern verdi",
   "removeTag": "Fjern tagg",
-  "selected": "selected"
+  "selected": "valgte"
 }
