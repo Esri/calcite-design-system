@@ -235,7 +235,7 @@ export class ListItem
   /**
    * Fires when the open button is clicked.
    */
-  @Event({ cancelable: false }) calciteListItemOpenToggle: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteListItemToggle: EventEmitter<void>;
 
   /**
    *
@@ -751,7 +751,7 @@ export class ListItem
 
   toggleOpen = (value = !this.open): void => {
     this.open = value;
-    this.calciteListItemOpenToggle.emit();
+    this.calciteListItemToggle.emit();
   };
 
   handleItemClick = (event: PointerEvent): void => {
