@@ -15,7 +15,7 @@ Renders a tip manager using a group of tips as well as a single tip.
       </p>
     </calcite-tip>
     <calcite-tip heading="Whisker Wisdom" hidden>
-      <img slot="thumbnail" src="https://placekitten.com/400/200" />
+      <img slot="thumbnail" src="my-thumbnail.png" />
       <p>
         Cats use their whiskers not only for balance but also to measure openings. If a cat's whiskers fit through an
         opening, the rest of its body will too!
