@@ -2006,7 +2006,7 @@ describe("calcite-input", () => {
       },
       {
         type: "url",
-        value: "http://www.example.com",
+        value: "http://www.esri.com",
       },
       {
         type: "week",
