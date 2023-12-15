@@ -26,8 +26,9 @@
   @apply overflow-auto whitespace-nowrap;
 }
 
-.table-container:not(.bordered) {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+.table-container {
+  border: 1px solid var(--calcite-color-border-3);
+  border-inline-end: 0;
 }
 
 .assistive-text {
@@ -37,13 +38,6 @@
 table {
   @apply w-full border-collapse;
   overflow-x: scroll;
-  border-block-start: 1px solid var(--calcite-color-border-3);
-  border-inline-start: 1px solid var(--calcite-color-border-3);
-  border-block-end: 1px solid var(--calcite-color-border-3);
-}
-
-tbody {
-  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 .table--fixed {
@@ -56,11 +50,18 @@ tbody {
   }
 }
 
+.bordered {
+  ::slotted(calcite-table-row:last-of-type) {
+    --calcite-table-row-border-color: transparent;
+  }
+}
+
 .zebra {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
     --calcite-table-row-background: var(--calcite-color-foreground-2);
   }
 }
+
 .selection-actions {
   @apply flex flex-row;
   margin-inline-start: auto;
