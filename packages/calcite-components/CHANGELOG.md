@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.8...@esri/calcite-components@2.1.0-next.9) (2023-12-15)
+
+### Bug Fixes
+
+- __stepper:__ emits `calciteStepperItemChange` event when switched to first step ([#8422](https://github.com/Esri/calcite-design-system/issues/8422)) ([508979f](https://github.com/Esri/calcite-design-system/commit/508979f25196556af730c984929d232858623c78)), closes [#8397](https://github.com/Esri/calcite-design-system/issues/8397)
+
 ## [2.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.7...@esri/calcite-components@2.1.0-next.8) (2023-12-13)
 
 ### Bug Fixes
