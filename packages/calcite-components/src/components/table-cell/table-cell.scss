@@ -4,12 +4,10 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-table-cell-background: Specifies the background color of the component.
- * @prop --calcite-table-cell-border-color: Specifies the border color of the component.
  */
 
 :host {
-  --calcite-internal-table-cell-background-internal: var(--calcite-table-cell-background, transparent);
-  --calcite-internal-table-cell-border-color-internal: var(--calcite-table-cell-border-color, transparent);
+  --calcite-internal-table-cell-background: var(--calcite-table-cell-background, transparent);
   @apply contents;
 }
 
@@ -58,8 +56,7 @@ td {
 }
 
 .selected-cell:not(.number-cell):not(.footer-cell) {
-  --calcite-table-cell-background: var(--calcite-color-foreground-current);
-  background: var(--calcite-color-foreground-current);
+  --calcite-internal-table-cell-background: var(--calcite-color-foreground-current);
 }
 
 .selection-cell.selected-cell {
