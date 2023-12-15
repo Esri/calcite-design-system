@@ -283,12 +283,12 @@ describe("calcite-list-item", () => {
       ></calcite-list-item>`,
     });
 
-    const calciteListItemOpen = await page.spyOnEvent("calciteListItemOpen", "window");
+    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
 
     const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
 
     await openButton.click();
 
-    expect(calciteListItemOpen).toHaveReceivedEventTimes(1);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(1);
   });
 });
