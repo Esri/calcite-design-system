@@ -118,7 +118,7 @@ describe("calcite-tree", () => {
           <a href="#">Child 2</a>
           <calcite-tree slot="children">
             <calcite-tree-item>
-              <a href="http://www.google.com">Grandchild 1</a>
+              <a href="http://www.esri.com">Grandchild 1</a>
             </calcite-tree-item>
           </calcite-tree>
         </calcite-tree-item>
