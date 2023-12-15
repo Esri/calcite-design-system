@@ -2,44 +2,40 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ```html
 <calcite-tip-manager>
-  <calcite-tip-group group-title="Tip Manager heading">
-    <calcite-tip heading="Tip heading" selected>
-      <img slot="thumbnail" src="https://placeimg.com/200/200" alt="This is an image." />
+  <calcite-tip-group group-title="Animal Insights">
+    <calcite-tip heading="Paws for Thought" selected>
+      <img slot="thumbnail" src="https://placedog.net/400/200" />
       <p>
-        Tip description lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua.
+        Did you know that a dog's sense of smell is so powerful that it can detect certain diseases, including cancer,
+        with remarkable accuracy?
       </p>
       <p>
-        This is another slotted paragraph. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea commodo consequat.
+        Explore the incredible abilities of dogs with our
+        <calcite-link href="#" target="_blank" rel="noopener noreferrer">Canine Marvels</calcite-link>.
       </p>
-      <calcite-link href="https://www.esri.com" target="_blank" rel="noopener noreferrer">A calcite-link</calcite-link>
     </calcite-tip>
-    <calcite-tip heading="The Long Trees" hidden>
-      <img slot="thumbnail" src="https://placeimg.com/200/200" alt="This is an image." />
-      <p>This tip has an image that is a pretty tall. And the text will run out before the end of the image.</p>
-      <p>In astronomy, the terms object and body are often used interchangeably.</p>
-      <calcite-link href="https://www.esri.com" target="_blank" rel="noopener noreferrer">A calcite-link</calcite-link>
+    <calcite-tip heading="Whisker Wisdom" hidden>
+      <img slot="thumbnail" src="https://placekitten.com/400/200" />
+      <p>
+        Cats use their whiskers not only for balance but also to measure openings. If a cat's whiskers fit through an
+        opening, the rest of its body will too!
+      </p>
+      <p>
+        Discover intriguing facts about cats with our
+        <calcite-link href="#" target="_blank" rel="noopener noreferrer">Curious Cat Chronicles</calcite-link>.
+      </p>
     </calcite-tip>
   </calcite-tip-group>
-  <calcite-tip heading="Square Nature" hidden>
-    <img slot="thumbnail" src="https://placeimg.com/200/200" alt="This is an image." />
-    <p>This tip has an image that is square. And the text will run out before the end of the image.</p>
-    <p>In astronomy, the terms object and body are often used interchangeably.</p>
+  <calcite-tip heading="Bear Essentials" hidden>
+    <img slot="thumbnail" src="https://placebear.com/400/200" />
     <p>
-      In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form
-      of a document without relying on meaningful content (also called greeking). Replacing the actual content with
-      placeholder text allows designers to design the form of the content before the content itself has been produced.
+      Bears are excellent swimmers! They can swim long distances and even dive for their meals. Polar bears, in
+      particular, are known to swim for hours in search of food.
     </p>
-    <calcite-link href="https://www.esri.com" target="_blank" rel="noopener noreferrer">A calcite-link</calcite-link>
-  </calcite-tip>
-  <calcite-tip heading="The lack of imagery" hidden>
-    <p>This tip has no image. As such, the content area will take up the entire width of the tip.</p>
     <p>
-      This is the next paragraph and should show how wide the content area is now. Of course, the width of the overall
-      tip will affect things. In astronomy, the terms object and body are often used interchangeably.
+      Explore the aquatic side of bears with our
+      <calcite-link href="#" target="_blank" rel="noopener noreferrer">Bear Aquatics</calcite-link>.
     </p>
-    <calcite-link href="https://www.esri.com" target="_blank" rel="noopener noreferrer">A calcite-link</calcite-link>
   </calcite-tip>
 </calcite-tip-manager>
 ```
