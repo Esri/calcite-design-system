@@ -233,6 +233,11 @@ export class ListItem
   @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
 
   /**
+   * Fires when the open button is clicked.
+   */
+  @Event({ cancelable: false }) calciteListItemOpen: EventEmitter<void>;
+
+  /**
    *
    * @internal
    */
@@ -397,7 +402,7 @@ export class ListItem
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.itemClicked}>
+      <td class={CSS.selectionContainer} key="selection-container" onClick={this.handleItemClick}>
         <calcite-icon
           icon={
             selected
@@ -446,7 +451,7 @@ export class ListItem
         : ICONS.closedLTR
       : ICONS.blank;
 
-    const clickHandler = openable ? this.toggleOpen : this.itemClicked;
+    const clickHandler = openable ? this.handleToggleOpenClick : this.handleItemClick;
 
     return openable || parentListEl?.openable ? (
       <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
@@ -491,7 +496,7 @@ export class ListItem
             icon={ICONS.close}
             key="close-action"
             label={messages.close}
-            onClick={this.closeClickHandler}
+            onClick={this.handleCloseClick}
             text={messages.close}
           />
         ) : null}
@@ -593,7 +598,7 @@ export class ListItem
           [CSS.contentContainerHasCenterContent]: hasCenterContent,
         }}
         key="content-container"
-        onClick={this.itemClicked}
+        onClick={this.handleItemClick}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.contentEl = el)}
@@ -669,7 +674,7 @@ export class ListItem
     this.calciteInternalListItemChange.emit();
   }
 
-  closeClickHandler = (): void => {
+  handleCloseClick = (): void => {
     this.closed = true;
     this.calciteListItemClose.emit();
   };
@@ -740,11 +745,16 @@ export class ListItem
     this.handleOpenableChange(event.target as HTMLSlotElement);
   };
 
-  toggleOpen = (): void => {
-    this.open = !this.open;
+  handleToggleOpenClick = (): void => {
+    this.toggleOpen();
   };
 
-  itemClicked = (event: PointerEvent): void => {
+  toggleOpen = (value = !this.open): void => {
+    this.open = value;
+    this.calciteListItemOpen.emit();
+  };
+
+  handleItemClick = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
@@ -802,7 +812,7 @@ export class ListItem
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
         if (!open && openable) {
-          this.open = true;
+          this.toggleOpen(true);
           this.focusCell(null);
         } else if (cells[0]) {
           this.focusCell(cells[0]);
@@ -816,7 +826,7 @@ export class ListItem
       if (currentIndex === -1) {
         this.focusCell(null);
         if (open && openable) {
-          this.open = false;
+          this.toggleOpen(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
         }

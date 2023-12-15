@@ -6286,6 +6286,7 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
+        "calciteListItemOpen": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
     selectMultiple: boolean;
@@ -10079,6 +10080,10 @@ declare namespace LocalJSX {
           * Fires when the close button is clicked.
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the open button is clicked.
+         */
+        "onCalciteListItemOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Emits when the item's content is selected.
          */
