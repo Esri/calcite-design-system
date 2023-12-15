@@ -276,19 +276,19 @@ describe("calcite-list-item", () => {
     expect(calciteListItemClose).toHaveReceivedEventTimes(1);
   });
 
-  it("should fire open event when opened", async () => {
+  it("should fire calciteListItemOpenToggle event when opened", async () => {
     const page = await newE2EPage({
       html: html`<calcite-list-item
         ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
       ></calcite-list-item>`,
     });
 
-    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
+    const calciteListItemOpenToggle = await page.spyOnEvent("calciteListItemOpenToggle", "window");
 
     const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
 
     await openButton.click();
 
-    expect(calciteListItemToggle).toHaveReceivedEventTimes(1);
+    expect(calciteListItemOpenToggle).toHaveReceivedEventTimes(1);
   });
 });
