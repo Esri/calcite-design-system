@@ -58,6 +58,9 @@ export class TableCell
   @Prop() disabled: boolean;
 
   /** @internal */
+  @Prop() lastCell: boolean;
+
+  /** @internal */
   @Prop() numberCell: boolean;
 
   /** @internal */
@@ -218,6 +221,7 @@ export class TableCell
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
+            [CSS.lastCell]: this.lastCell,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
           colSpan={this.colSpan}

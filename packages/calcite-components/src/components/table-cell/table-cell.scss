@@ -35,6 +35,10 @@ td {
   padding: var(--calcite-internal-table-cell-padding);
 }
 
+td.last-cell {
+  border-inline-end: 0;
+}
+
 .number-cell {
   @apply bg-foreground-2;
 }

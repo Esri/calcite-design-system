@@ -286,6 +286,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
         cell.positionInRow = index + 1;
         cell.parentRowType = this.rowType;
         cell.scale = this.scale;
+        cell.lastCell = index === cells.length - 1;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
