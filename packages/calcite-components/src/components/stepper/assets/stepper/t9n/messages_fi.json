@@ -1,3 +1,5 @@
 {
-  "label": "Edistymisen vaiheet"
+  "label": "Edistymisen vaiheet",
+  "previousStep": "Edellinen vaihe",
+  "nextStep": "Seuraava vaihe"
 }

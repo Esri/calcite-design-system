@@ -1,4 +1,15 @@
-import { Component, Element, forceUpdate, h, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  forceUpdate,
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -87,7 +98,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /**
-   * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.
+   * When `layout` is `horizontal`, specifies the maximum height of the component.
    */
   @Prop({ reflect: true }) heightScale: Scale;
 
@@ -215,6 +226,22 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   @State() hasHeader = false;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalShellPanelResizeStart: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalShellPanelResizeEnd: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -577,9 +604,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       return;
     }
 
+    this.calciteInternalShellPanelResizeEnd.emit();
+
     event.preventDefault();
-    document.removeEventListener("pointerup", this.separatorPointerUp);
-    document.removeEventListener("pointermove", this.separatorPointerMove);
+    window.removeEventListener("pointerup", this.separatorPointerUp);
+    window.removeEventListener("pointermove", this.separatorPointerMove);
   };
 
   setInitialContentHeight = (): void => {
@@ -595,6 +624,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       return;
     }
 
+    this.calciteInternalShellPanelResizeStart.emit();
+
     event.preventDefault();
     const { separatorEl } = this;
 
@@ -608,8 +639,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       this.initialClientX = event.clientX;
     }
 
-    document.addEventListener("pointerup", this.separatorPointerUp);
-    document.addEventListener("pointermove", this.separatorPointerMove);
+    window.addEventListener("pointerup", this.separatorPointerUp);
+    window.addEventListener("pointermove", this.separatorPointerMove);
   };
 
   connectSeparator = (separatorEl: HTMLDivElement): void => {

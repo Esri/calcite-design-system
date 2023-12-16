@@ -88,7 +88,7 @@ const captureOnlyOptions = { capture: true } as const;
  * technically, users can override `tabindex` and restore keyboard navigation, but this will be considered user error
  *
  * @param component
- * @param hostIsTabbable
+ * @param hostIsTabbable – when set to true or its predicate returns true, the host is tabbable and will be managed by the helper. Set to "managed" for cases where a component's parent determines which item is tabbable (i.e., sets `tabindex` to allow tabbing).
  */
 export function updateHostInteraction(
   component: InteractiveComponent,

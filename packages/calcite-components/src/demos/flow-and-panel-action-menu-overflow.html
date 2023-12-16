@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Flow</title>
+
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 40%;
+        margin: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 10px 0;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 15%;
+      }
+      .features {
+        display: flex;
+        flex: 1;
+        width: 100%;
+      }
+
+      .main-container {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.33);
+        z-index: 1;
+        pointer-events: auto;
+        background-color: #fff;
+        width: 340px;
+        min-height: 48px;
+        max-height: 340px;
+        display: flex;
+        position: relative;
+        margin-inline-end: 0.5rem;
+        /* overflow: hidden; */
+      }
+      .panel-container {
+        display: flex;
+        flex-flow: row;
+      }
+    </style>
+
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <div class="panel-container">
+        <div class="main-container">
+          <div class="features">
+            <calcite-flow>
+              <calcite-flow-item heading="I'm the second FlowItem"> Wee! </calcite-flow-item>
+              <calcite-flow-item heading="I have a FlowItem" class="content-feature">
+                <!--         <calcite-action icon="minimize" slot="header-actions-end"></calcite-action>
+              <calcite-action icon="chevron-down" slot="header-actions-end"></calcite-action> -->
+                <calcite-action icon="x" slot="header-actions-end"></calcite-action>
+
+                <calcite-action-bar slot="action-bar" expand-disabled expanded>
+                  <calcite-action-group scale="s" overlay-positioning="fixed">
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                  </calcite-action-group>
+                </calcite-action-bar>
+                <calcite-list>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                </calcite-list>
+
+                <div class="features-footer" slot="footer">
+                  <calcite-action-bar
+                    class="pagination-action-bar"
+                    expand-disabled=""
+                    layout="horizontal"
+                    overflow-actions-disabled=""
+                    scale="s"
+                  >
+                    <calcite-action-group layout="horizontal" overlay-positioning="absolute" scale="s">
+                      <calcite-action
+                        class="pagination-previous"
+                        title="Previous"
+                        appearance="solid"
+                        icon="chevron-left"
+                        scale="s"
+                      ></calcite-action>
+                      <calcite-action title="Next" appearance="solid" icon="chevron-right" scale="s"></calcite-action>
+                    </calcite-action-group>
+                  </calcite-action-bar>
+                  <calcite-action
+                    title="Select feature"
+                    appearance="solid"
+                    scale="s"
+                    text-enabled=""
+                    icon="list"
+                  ></calcite-action>
+                </div>
+              </calcite-flow-item>
+            </calcite-flow>
+          </div>
+        </div>
+
+        <div class="main-container">
+          <div class="features">
+            <calcite-flow>
+              <calcite-panel heading="I have a Panel" class="content-feature">
+                <!--         <calcite-action icon="minimize" slot="header-actions-end"></calcite-action>
+              <calcite-action icon="chevron-down" slot="header-actions-end"></calcite-action> -->
+                <calcite-action icon="x" slot="header-actions-end"></calcite-action>
+
+                <calcite-action-bar slot="action-bar" expand-disabled expanded>
+                  <calcite-action-group scale="s" overlay-positioning="fixed">
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                    <calcite-action scale="s" text="Shoes not slippers" icon="banana" text-enabled></calcite-action>
+                  </calcite-action-group>
+                </calcite-action-bar>
+                <calcite-list>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                  <calcite-list-item label="I'm a list item"></calcite-list-item>
+                </calcite-list>
+                <div class="features-footer" slot="footer">
+                  <calcite-action-bar
+                    class="pagination-action-bar"
+                    expand-disabled=""
+                    layout="horizontal"
+                    overflow-actions-disabled=""
+                    scale="s"
+                  >
+                    <calcite-action-group layout="horizontal" overlay-positioning="absolute" scale="s">
+                      <calcite-action
+                        class="pagination-previous"
+                        title="Previous"
+                        appearance="solid"
+                        icon="chevron-left"
+                        scale="s"
+                      ></calcite-action>
+                      <calcite-action title="Next" appearance="solid" icon="chevron-right" scale="s"></calcite-action>
+                    </calcite-action-group>
+                  </calcite-action-bar>
+                  <calcite-action
+                    title="Select feature"
+                    appearance="solid"
+                    scale="s"
+                    text-enabled=""
+                    icon="list"
+                  ></calcite-action>
+                </div>
+              </calcite-panel>
+            </calcite-flow>
+          </div>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

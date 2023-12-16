@@ -14,10 +14,11 @@ export default {
 export const simple = (): string => html`
   <calcite-text-area
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     placeholder="${text("placeholder", "Add Notes")}"
     ${boolean("disabled", false)}
     columns="${number("columns", 20)}"
-    resize="${text("resize", "both")}
+    resize="${text("resize", "both")}"
     rows="${number("rows", 2)}"
     label="${text("label", "")}"
     name="${text("name", "")}"
@@ -70,14 +71,8 @@ export const exceedingMaxLength_TestOnly = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>
 `;
 
-export const chineseLangNumberingSystem_TestOnly = (): string => html`
-  <calcite-text-area
-    value="Rocky Mountains National Park"
-    lang="zh-cn"
-    numbering-system="hanidec"
-    group-separator
-    max-length="654321"
-  >
+export const chineseLang_TestOnly = (): string => html`
+  <calcite-text-area value="Rocky Mountains National Park" lang="zh-cn" group-separator max-length="654321">
   </calcite-text-area>
 `;
 

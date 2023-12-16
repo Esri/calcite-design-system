@@ -1,0 +1,50 @@
+{
+  "core": {
+    "container-size": {
+      "0": {
+        "value": 0,
+        "type": "sizing"
+      },
+      "154": {
+        "value": 154,
+        "type": "sizing"
+      },
+      "320": {
+        "value": 320,
+        "type": "sizing"
+      },
+      "328": {
+        "value": 328,
+        "type": "sizing"
+      },
+      "476": {
+        "value": 476,
+        "type": "sizing"
+      },
+      "504": {
+        "value": 504,
+        "type": "sizing"
+      },
+      "678": {
+        "value": 678,
+        "type": "sizing"
+      },
+      "768": {
+        "value": 768,
+        "type": "sizing"
+      },
+      "854": {
+        "value": 854,
+        "type": "sizing"
+      },
+      "1152": {
+        "value": 1152,
+        "type": "sizing"
+      },
+      "1440": {
+        "value": 1440,
+        "type": "sizing"
+      }
+    }
+  }
+}

@@ -73,6 +73,18 @@ tibt
 
 ## sizing
 xsmall
+xxsmall
+
+## style dictionary transforms for tokens studio
+demi
+dreiviertelfett
+extrafett
+extraleicht
+extralight
+fett
+halbfett
+kräftig
+leicht
 
 ## svg
 svgs

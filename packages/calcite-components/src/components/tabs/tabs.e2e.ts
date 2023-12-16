@@ -1,10 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
+import { Scale } from "../interfaces";
+import { TabPosition } from "../tabs/interfaces";
 
 describe("calcite-tabs", () => {
-  const tabsContent = `
+  const tabsContent = html`
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
@@ -16,7 +18,7 @@ describe("calcite-tabs", () => {
     <calcite-tab>Tab 3 Content</calcite-tab>
     <calcite-tab>Tab 4 Content</calcite-tab>
   `;
-  const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
+  const tabsSnippet = html`<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
   describe("renders", () => {
     renders(tabsSnippet, { display: "flex" });
@@ -31,6 +33,14 @@ describe("calcite-tabs", () => {
       { propertyName: "layout", defaultValue: "inline" },
       { propertyName: "position", defaultValue: "top" },
       { propertyName: "scale", defaultValue: "m" },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-tabs", [
+      { propertyName: "layout", value: "inline" },
+      { propertyName: "position", value: "top" },
+      { propertyName: "scale", value: "m" },
     ]);
   });
 
@@ -117,47 +127,37 @@ describe("calcite-tabs", () => {
     }
   });
 
-  describe("when no scale is provided", () => {
-    it("should render itself and child tab elements with default medium scale", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs>${tabsContent}</calcite-tabs>`,
-      });
-      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "m");
-    });
-  });
+  function testTabsScaleAndPosition(scale: Scale, position: TabPosition) {
+    const scaleName = scale === "m" ? "default medium" : scale;
 
-  describe("when scale is provided", () => {
-    it("should render itself and child tab elements with corresponding scale (small)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`,
-      });
-      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
-      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "s");
-      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "s");
-    });
+    it(`should render itself and child tab elements with corresponding scale (${scaleName}) and position (${position})`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs scale="${scale}" position="${position}">${tabsContent}</calcite-tabs>`);
+      await page.waitForChanges();
 
-    it("should render itself and child tab elements with corresponding scale (medium)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`,
-      });
-      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "m");
-    });
+      const tabs = await page.find("calcite-tabs");
+      const tab = await page.find("calcite-tab");
+      const tabTitle = await page.find("calcite-tab-title");
+      const tabNav = await page.find("calcite-tab-nav");
 
-    it("should render itself and child tab elements with corresponding scale (large)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`,
+      expect(await tabs.getProperty("scale")).toBe(scale);
+      expect(await tabs.getProperty("position")).toBe(position);
+      expect(await tabNav.getProperty("scale")).toBe(scale);
+      expect(await tabNav.getProperty("position")).toBe(position);
+      expect(await tabTitle.getProperty("scale")).toBe(scale);
+      expect(await tabTitle.getProperty("position")).toBe(position);
+      expect(await tab.getProperty("scale")).toBe(scale);
+    });
+  }
+
+  describe("calcite-tabs inheritable props", () => {
+    const scales: Scale[] = ["s", "m", "l"];
+    const positions: TabPosition[] = ["top", "bottom"];
+
+    scales.forEach((scale) => {
+      positions.forEach((position) => {
+        testTabsScaleAndPosition(scale, position);
       });
-      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "l");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
-      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "l");
-      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "l");
     });
   });
 
@@ -258,15 +258,29 @@ describe("calcite-tabs", () => {
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
         const wrapper = document.querySelector(wrapperName);
+
+        async function waitForAnimationFrames(count) {
+          async function frame() {
+            if (count > 0) {
+              await new Promise((resolve) => requestAnimationFrame(resolve));
+              count--;
+              await frame();
+            }
+          }
+
+          await frame();
+        }
+
         wrapper.shadowRoot.querySelector<HTMLElement>("#title-2").click();
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await waitForAnimationFrames(4);
 
         const tabTitle = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
+        await waitForAnimationFrames(2);
+
         const tab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
         return { tabTitle, tab };
       },
-      [wrappedTabTemplateHTML]
+      wrappedTabTemplateHTML
     );
     expect(finalSelectedItem.tabTitle).toBe("title-2");
     expect(finalSelectedItem.tab).toBe("tab-2");

@@ -192,13 +192,9 @@ export class Popover
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
-
-    if (value) {
-      this.reposition(true);
-    }
-
+    this.reposition(true);
     this.setExpandedAttr();
   }
 
@@ -304,6 +300,7 @@ export class Popover
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {

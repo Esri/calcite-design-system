@@ -11,6 +11,12 @@ export const CSS = {
   inputAlignmentStart: "input-alignment-start",
   inputEnabled: "input-enabled",
   largeVisual: "large-visual",
+  tile: "tile",
+  tileContentContainer: "tile-content-container",
+  tileContent: "tile-content",
+  tileDescription: "tile-description",
+  tileHeading: "tile-heading",
+  tileLargeVisual: "tile--large-visual",
   widthAuto: "width-auto",
   widthFull: "width-full",
 };

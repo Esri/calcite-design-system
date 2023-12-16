@@ -51,7 +51,7 @@ export const primarySlots_TestOnly = (): string =>
 
 export const primaryAndSecondarySlots_TestOnly = (): string =>
   html`
-    <calcite-navigation style="--calcite-ui-brand: #bf390f">
+    <calcite-navigation style="--calcite-color-brand: #bf390f">
       <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
       </calcite-navigation-logo>
       <calcite-menu slot="content-start">
@@ -81,7 +81,7 @@ export const primaryAndSecondarySlots_TestOnly = (): string =>
 
 export const primaryWithAllLogoAndUserSlots_TestOnly = (): string =>
   html`
-      <calcite-navigation style="--calcite-ui-brand: #bf390f">
+      <calcite-navigation style="--calcite-color-brand: #bf390f">
         <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
         </calcite-navigation-logo>
         <calcite-menu slot="content-start">
@@ -96,7 +96,7 @@ export const primaryWithAllLogoAndUserSlots_TestOnly = (): string =>
 
 export const allSlots_TestOnly = (): string =>
   html`
-    <calcite-navigation style="--calcite-ui-brand: #bf390f">
+    <calcite-navigation style="--calcite-color-brand: #bf390f">
       <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
       </calcite-navigation-logo>
       <calcite-menu slot="content-start">
@@ -137,7 +137,7 @@ export const allSlots_TestOnly = (): string =>
 export const allSlots_darkModeRTL_TestOnly = (): string =>
   html`
     <div class="calcite-mode-dark" dir="rtl">
-      <calcite-navigation style="--calcite-ui-brand: #bf390f">
+      <calcite-navigation style="--calcite-color-brand: #bf390f">
         <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
         </calcite-navigation-logo>
         <calcite-menu slot="content-start">

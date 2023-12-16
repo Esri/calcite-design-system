@@ -21,14 +21,14 @@
 .container {
   @apply flex relative items-center w-full m-0;
   block-size: var(--calcite-meter-height-internal);
-  background-color: var(--calcite-ui-foreground-2);
-  border: 1px solid var(--calcite-ui-border-3);
+  background-color: var(--calcite-color-foreground-2);
+  border: 1px solid var(--calcite-color-border-3);
   border-radius: var(--calcite-meter-height-internal);
 }
 
 .solid {
-  border: 1px solid var(--calcite-ui-foreground-3);
-  background-color: var(--calcite-ui-foreground-3);
+  border: 1px solid var(--calcite-color-foreground-3);
+  background-color: var(--calcite-color-foreground-3);
 }
 
 .outline {
@@ -46,7 +46,7 @@
 .step-line {
   @apply block absolute inset-y-0;
   inline-size: var(--calcite-meter-space-internal);
-  background-color: var(--calcite-ui-border-3);
+  background-color: var(--calcite-color-border-3);
 }
 
 .label {
@@ -61,7 +61,7 @@
 .label-value {
   inset-block-end: calc(100% + 0.5em);
   font-weight: var(--calcite-font-weight-bold);
-  color: var(--calcite-ui-text-1);
+  color: var(--calcite-color-text-1);
 }
 
 .label-range {
@@ -88,15 +88,15 @@
 }
 
 .fill-danger {
-  background-color: var(--calcite-ui-danger);
+  background-color: var(--calcite-color-status-danger);
 }
 
 .fill-success {
-  background-color: var(--calcite-ui-success);
+  background-color: var(--calcite-color-status-success);
 }
 
 .fill-warning {
-  background-color: var(--calcite-ui-warning);
+  background-color: var(--calcite-color-status-warning);
 }
 
 .solid .fill {
@@ -104,17 +104,17 @@
   inset-inline-start: 0;
   max-inline-size: 100%;
   min-inline-size: calc(var(--calcite-meter-height-internal));
-  box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+  box-shadow: 0 0 0 1px var(--calcite-color-brand);
 }
 
 .solid .fill-danger {
-  box-shadow: 0 0 0 1px var(--calcite-ui-danger);
+  box-shadow: 0 0 0 1px var(--calcite-color-status-danger);
 }
 
 .solid .fill-success {
-  box-shadow: 0 0 0 1px var(--calcite-ui-success);
+  box-shadow: 0 0 0 1px var(--calcite-color-status-success);
 }
 
 .solid .fill-warning {
-  box-shadow: 0 0 0 1px var(--calcite-ui-warning);
+  box-shadow: 0 0 0 1px var(--calcite-color-status-warning);
 }

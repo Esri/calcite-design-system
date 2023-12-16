@@ -8,6 +8,8 @@ export const CSS = {
   slotContainerHidden: "slot-container--hidden",
   textContainer: "text-container",
   textContainerVisible: "text-container--visible",
+  indicatorWithIcon: "indicator-with-icon",
+  indicatorWithoutIcon: "indicator-without-icon",
 };
 
 export const SLOTS = {

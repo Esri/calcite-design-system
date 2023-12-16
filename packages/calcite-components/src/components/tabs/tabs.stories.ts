@@ -163,16 +163,94 @@ export const setWidth = (): string => html`
   </div>
 `;
 
-export const justTabNav = (): string => html`
-  <calcite-tab-nav
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "l")}"
-  >
+const TabNavHTMLSimple = html`
+  <calcite-tab-nav slot="title-group">
     <calcite-tab-title>Tab 1 Title</calcite-tab-title>
     <calcite-tab-title>Tab 2 Title</calcite-tab-title>
     <calcite-tab-title>Tab 3 Title</calcite-tab-title>
     <calcite-tab-title selected>Tab 4 Title</calcite-tab-title>
   </calcite-tab-nav>
+  <calcite-tab>Tab 1 Content</calcite-tab>
+  <calcite-tab>Tab 2 Content</calcite-tab>
+  <calcite-tab>Tab 3 Content</calcite-tab>
+  <calcite-tab selected>Tab 4 Content</calcite-tab>
+`;
+
+const TabNavHTMLVariedTabWidth = html`
+  <calcite-tab-nav slot="title-group">
+    <calcite-tab-title icon-start="arrow-left">Tab 1 Title</calcite-tab-title>
+    <calcite-tab-title icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+    <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 3 Title</calcite-tab-title>
+    <calcite-tab-title closable selected>Tab 4 Title</calcite-tab-title>
+  </calcite-tab-nav>
+  <calcite-tab>Tab 1 Content</calcite-tab>
+  <calcite-tab>Tab 2 Content</calcite-tab>
+  <calcite-tab>Tab 3 Content</calcite-tab>
+  <calcite-tab selected>Tab 4 Content</calcite-tab>
+`;
+
+const tabStyles = html`
+  <style>
+    calcite-tabs {
+      margin: 20px;
+    }
+  </style>
+`;
+
+export const centerScale_TestOnly = (): string => html`
+  ${tabStyles}
+  <calcite-tabs layout="center" scale="s">${TabNavHTMLSimple}</calcite-tabs>
+  <calcite-tabs layout="center" scale="m">${TabNavHTMLSimple}</calcite-tabs>
+  <calcite-tabs layout="center" scale="l">${TabNavHTMLSimple}</calcite-tabs>
+`;
+
+export const centerVariedTabWidthScale_TestOnly = (): string => html`
+  ${tabStyles}
+  <calcite-tabs layout="center" scale="s">${TabNavHTMLVariedTabWidth}</calcite-tabs>
+  <calcite-tabs layout="center" scale="m">${TabNavHTMLVariedTabWidth}</calcite-tabs>
+  <calcite-tabs layout="center" scale="l">${TabNavHTMLVariedTabWidth}</calcite-tabs>
+`;
+
+export const centerBorderedScale_TestOnly = (): string => html`
+  ${tabStyles}
+  <calcite-tabs layout="center" scale="s" bordered>${TabNavHTMLSimple}</calcite-tabs>
+  <calcite-tabs layout="center" scale="m" bordered>${TabNavHTMLSimple}</calcite-tabs>
+  <calcite-tabs layout="center" scale="l" bordered>${TabNavHTMLSimple}</calcite-tabs>
+`;
+
+export const centerBorderedVariedTabWidthScale_TestOnly = (): string => html`
+  ${tabStyles}
+  <calcite-tabs layout="center" scale="s" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
+  <calcite-tabs layout="center" scale="m" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
+  <calcite-tabs layout="center" scale="l" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
+`;
+
+export const inlineScale_TestOnly = (): string => html`
+  ${tabStyles}
+  <calcite-tabs layout="inline" scale="s">${TabNavHTMLSimple}</calcite-tabs>
+  <calcite-tabs layout="inline" scale="m">${TabNavHTMLSimple}</calcite-tabs>
+  <calcite-tabs layout="inline" scale="l">${TabNavHTMLSimple}</calcite-tabs>
+`;
+
+export const inlineVariedTabWidthScale_TestOnly = (): string => html`
+  ${tabStyles}
+  <calcite-tabs layout="inline" scale="s">${TabNavHTMLVariedTabWidth}</calcite-tabs>
+  <calcite-tabs layout="inline" scale="m">${TabNavHTMLVariedTabWidth}</calcite-tabs>
+  <calcite-tabs layout="inline" scale="l">${TabNavHTMLVariedTabWidth}</calcite-tabs>
+`;
+
+export const inlineBorderedScale_TestOnly = (): string => html`
+  ${tabStyles}
+  <calcite-tabs layout="inline" scale="s" bordered>${TabNavHTMLSimple}</calcite-tabs>
+  <calcite-tabs layout="inline" scale="m" bordered>${TabNavHTMLSimple}</calcite-tabs>
+  <calcite-tabs layout="inline" scale="l" bordered>${TabNavHTMLSimple}</calcite-tabs>
+`;
+
+export const inlineBorderedVariedTabWidthScale_TestOnly = (): string => html`
+  ${tabStyles}
+  <calcite-tabs layout="inline" scale="s" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
+  <calcite-tabs layout="inline" scale="m" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
+  <calcite-tabs layout="inline" scale="l" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
 `;
 
 export const disabledTabsAndMediumIconsForLargeTabsTitle_TestOnly = (): string => html`
@@ -268,7 +346,7 @@ export const inlineTabsJustifyAgainstTheStartOfTheNavWidth_TestOnly = (): string
   </calcite-tabs>
 `;
 
-export const TabChildrenWithPercentageHeights = (): string => html`
+export const Tab100PercentHeightNoVerticalScroll = (): string => html`
   <calcite-tabs style="height: 250px;">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Boats</calcite-tab-title>
@@ -278,7 +356,21 @@ export const TabChildrenWithPercentageHeights = (): string => html`
     </calcite-tab>
   </calcite-tabs>
 `;
-TabChildrenWithPercentageHeights.parameters = {
+Tab100PercentHeightNoVerticalScroll.parameters = {
+  chromatic: { delay: 1000 },
+};
+
+export const Tab200PercentHeightWithVerticalScroll = (): string => html`
+  <calcite-tabs style="height: 250px;">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Boats</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab style="background: pink;">
+      <div style="background: linear-gradient(to bottom, red, transparent); height: 200%;">Tab 1 content</div>
+    </calcite-tab>
+  </calcite-tabs>
+`;
+Tab200PercentHeightWithVerticalScroll.parameters = {
   chromatic: { delay: 1000 },
 };
 
@@ -300,3 +392,71 @@ export const updateIndicatorOffset_TestOnly = (): string => html`<calcite-tabs>
 updateIndicatorOffset_TestOnly.parameters = {
   chromatic: { delay: 1000 },
 };
+
+export const fixedHeightNoVerticalScrollbar_TestOnly = (): string => html`
+  <calcite-tabs style="height: 400px">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected> Watercraft </calcite-tab-title>
+      <calcite-tab-title>Automobiles</calcite-tab-title>
+      <calcite-tab-title>Aircrafts</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab selected>
+      <calcite-notice icon="embark" open>
+        <div slot="message">Recommended for coastal use</div>
+      </calcite-notice>
+      <calcite-notice icon="embark" open>
+        <div slot="message">Why is there a vertical scroll bar in this panel?</div>
+      </calcite-notice>
+    </calcite-tab>
+    <calcite-tab>
+      <calcite-notice icon="car" open>
+        <div slot="message">A good choice for inland adventure</div>
+      </calcite-notice>
+      <calcite-notice icon="car" open>
+        <div slot="message">A good choice for inland adventure 2</div>
+      </calcite-notice>
+    </calcite-tab>
+    <calcite-tab>
+      <calcite-notice icon="plane" open>
+        <div slot="message">Cross continents quickly</div>
+      </calcite-notice>
+    </calcite-tab>
+  </calcite-tabs>
+`;
+
+export const noVerticalScrollbarInsideShellPanel_TestOnly = (): string => html`
+  <calcite-shell content-behind>
+    <calcite-shell-panel slot="panel-end" width-scale="l" position="end" display-mode="float">
+      <calcite-panel heading="Panel with Tabs >> vertical scrollbar">
+        <calcite-tabs>
+          <calcite-tab-nav slot="title-group">
+            <calcite-tab-title selected> Watercraft </calcite-tab-title>
+            <calcite-tab-title>Automobiles</calcite-tab-title>
+            <calcite-tab-title>Aircrafts</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab selected>
+            <calcite-notice icon="embark" open>
+              <div slot="message">Recommended for coastal use</div>
+            </calcite-notice>
+            <calcite-notice icon="embark" open>
+              <div slot="message">Why is there a vertical scroll bar in this panel?</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure</div>
+            </calcite-notice>
+            <calcite-notice icon="car" open>
+              <div slot="message">A good choice for inland adventure 2</div>
+            </calcite-notice>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-notice icon="plane" open>
+              <div slot="message">Cross continents quickly</div>
+            </calcite-notice>
+          </calcite-tab>
+        </calcite-tabs>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>
+`;

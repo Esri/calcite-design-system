@@ -9,24 +9,29 @@
     shadow-none;
 }
 
+@function get-trailing-text-input-padding($chevron-spacing) {
+  @return calc(var(--calcite-toggle-spacing) + $chevron-spacing);
+}
+
 :host([scale="s"]) {
   --calcite-toggle-spacing: theme("spacing.2");
+  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.4"))};
 }
 
 :host([scale="m"]) {
   --calcite-toggle-spacing: theme("spacing.3");
+  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.6"))};
 }
 
 :host([scale="l"]) {
   --calcite-toggle-spacing: theme("spacing.4");
+  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.8"))};
 }
 
 @include disabled();
 
-.calendar-picker-wrapper {
-  @apply static
-    w-full
-    shadow-none;
+.calendar-wrapper {
+  @apply shadow-none;
   transform: translate3d(0, 0, 0);
 }
 
@@ -74,7 +79,7 @@
       items-start;
   }
 
-  .calendar-picker-wrapper--end {
+  .calendar-wrapper--end {
     transform: translate3d(0, 0, 0);
   }
 
@@ -86,24 +91,6 @@
       mx-px
       px-2.5;
     inset-inline-start: 0;
-  }
-}
-
-:host([scale="s"][range]:not([layout="vertical"])) {
-  .calendar-picker-wrapper {
-    inline-size: 216px;
-  }
-}
-
-:host([scale="m"][range]:not([layout="vertical"])) {
-  .calendar-picker-wrapper {
-    inline-size: 286px;
-  }
-}
-
-:host([scale="l"][range]:not([layout="vertical"])) {
-  .calendar-picker-wrapper {
-    inline-size: 398px;
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "1.1.0-next.1",
+  "version": "2.0.1-next.3",
   "description": "Esri's Calcite Design System Tokens",
   "keywords": [
     "Calcite",
@@ -8,22 +8,12 @@
     "design tokens",
     "tokens"
   ],
-  "main": "./dist/scss/calcite-headless.scss",
   "type": "module",
-  "exports": {
-    "./css": "./dist/css/calcite-headless.css",
-    "./css/brand/dark": "./dist/css/brand-dark.css",
-    "./css/brand/light": "./dist/css/brand-light.css",
-    "./css/calcite/dark": "./dist/css/calcite-dark.css",
-    "./css/calcite/light": "./dist/css/calcite-light.css",
-    "./css/headless": "./dist/css/calcite-headless.css",
-    "./scss": "./dist/scss/calcite-headless.scss",
-    "./scss/brand/dark": "./dist/scss/brand-dark.scss",
-    "./scss/brand/light": "./dist/scss/brand-light.scss",
-    "./scss/calcite/dark": "./dist/scss/calcite-dark.scss",
-    "./scss/calcite/light": "./dist/scss/calcite-light.scss",
-    "./scss/headless": "./dist/scss/calcite-headless.scss"
-  },
+  "main": "./dist/es6/global.js",
+  "types": "./dist/es6/global.d.ts",
+  "files": [
+    "./dist/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/Esri/calcite-design-system.git"
@@ -35,7 +25,7 @@
     "url": "https://github.com/Esri/calcite-design-system/issues"
   },
   "scripts": {
-    "build": "ts-node --esm support/run.ts",
+    "build": "tsx support/run.ts",
     "clean": "rimraf dist",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
     "lint:md": "markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore && prettier --write \"**/*.md\" >/dev/null",

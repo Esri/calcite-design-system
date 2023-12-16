@@ -20,7 +20,7 @@ import {
   SupportedLocale,
 } from "../../utils/locale";
 import { TimeZoneItem, TimeZoneMode } from "./interfaces";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -111,12 +111,11 @@ export class InputTimeZone
    */
   @Prop({ reflect: true }) mode: TimeZoneMode = "offset";
 
-  @Watch("effectiveLocale")
   @Watch("messages")
   @Watch("mode")
   @Watch("referenceDate")
   handleTimeZoneItemPropsChange(): void {
-    this.createTimeZoneItems();
+    this.updateTimeZoneItemsAndSelection();
   }
 
   /**
@@ -157,6 +156,9 @@ export class InputTimeZone
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
@@ -297,6 +299,19 @@ export class InputTimeZone
     );
   }
 
+  private async updateTimeZoneItemsAndSelection(): Promise<void> {
+    this.timeZoneItems = await this.createTimeZoneItems();
+
+    const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
+    const valueToMatch = this.value ?? fallbackValue;
+
+    this.selectedTimeZoneItem = this.findTimeZoneItem(valueToMatch);
+
+    if (!this.selectedTimeZoneItem) {
+      this.selectedTimeZoneItem = this.findTimeZoneItem(fallbackValue);
+    }
+  }
+
   private async createTimeZoneItems(): Promise<TimeZoneItem[]> {
     if (!this.effectiveLocale || !this.messages) {
       return [];
@@ -336,16 +351,7 @@ export class InputTimeZone
     setUpLoadableComponent(this);
     await setUpMessages(this);
 
-    this.timeZoneItems = await this.createTimeZoneItems();
-
-    const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
-    const valueToMatch = this.value ?? fallbackValue;
-
-    this.selectedTimeZoneItem = this.findTimeZoneItem(valueToMatch);
-
-    if (!this.selectedTimeZoneItem) {
-      this.selectedTimeZoneItem = this.findTimeZoneItem(fallbackValue);
-    }
+    await this.updateTimeZoneItemsAndSelection();
 
     const selectedValue = `${this.selectedTimeZoneItem.value}`;
     afterConnectDefaultValueSet(this, selectedValue);
@@ -378,6 +384,7 @@ export class InputTimeZone
           overlayPositioning={this.overlayPositioning}
           scale={this.scale}
           selectionMode="single-persist"
+          status={this.status}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setComboboxRef}
         >

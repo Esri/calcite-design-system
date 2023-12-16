@@ -1,0 +1,46 @@
+{
+  "semantic": {
+    "z-index": {
+      "deep": {
+        "value": "{core.z-index.0}",
+        "type": "z-index"
+      },
+      "default": {
+        "value": "{core.z-index.1}",
+        "type": "z-index"
+      },
+      "sticky": {
+        "value": "{core.z-index.3}",
+        "type": "z-index"
+      },
+      "header": {
+        "value": "{core.z-index.4}",
+        "type": "z-index"
+      },
+      "toast": {
+        "value": "{core.z-index.5}",
+        "type": "z-index"
+      },
+      "dropdown": {
+        "value": "{core.z-index.6}",
+        "type": "z-index"
+      },
+      "overlay": {
+        "value": "{core.z-index.7}",
+        "type": "z-index"
+      },
+      "modal": {
+        "value": "{core.z-index.8}",
+        "type": "z-index"
+      },
+      "popup": {
+        "value": "{core.z-index.9}",
+        "type": "z-index"
+      },
+      "tooltip": {
+        "value": "{core.z-index.9} + 1",
+        "type": "z-index"
+      }
+    }
+  }
+}

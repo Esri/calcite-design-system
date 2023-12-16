@@ -27,6 +27,11 @@ import { offsetParent } from "composed-offset-position";
   }
 })();
 
+function roundByDPR(value: number): number {
+  const dpr = window.devicePixelRatio || 1;
+  return Math.round(value * dpr) / dpr;
+}
+
 /**
  * Positions the floating element relative to the reference element.
  *
@@ -145,15 +150,15 @@ export const positionFloatingUI =
 
     floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
 
-    const transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
+    const { open } = component;
 
     Object.assign(floatingEl.style, {
       visibility,
       pointerEvents,
       position,
-      top: "0",
-      left: "0",
-      transform,
+      transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
+      top: 0,
+      left: 0,
     });
   };
 
@@ -422,6 +427,10 @@ export async function reposition(
   options: Parameters<typeof positionFloatingUI>[1],
   delayed = false
 ): Promise<void> {
+  if (!component.open) {
+    return;
+  }
+
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
 
   return positionFunction(component, options);
@@ -484,8 +493,6 @@ export function connectFloatingUI(
 
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
     position: component.overlayPositioning,
-    top: "0",
-    left: "0",
   });
 
   const runAutoUpdate = Build.isBrowser
