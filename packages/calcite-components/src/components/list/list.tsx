@@ -616,12 +616,12 @@ export class List
     this.connectObserver();
   }
 
-  onDragEnd(): void {
-    this.calciteListDragEnd.emit();
+  onDragEnd(detail: ListDragDetail): void {
+    this.calciteListDragEnd.emit(detail);
   }
 
-  onDragStart(): void {
-    this.calciteListDragStart.emit();
+  onDragStart(detail: ListDragDetail): void {
+    this.calciteListDragStart.emit(detail);
   }
 
   onDragSort(detail: ListDragDetail): void {
