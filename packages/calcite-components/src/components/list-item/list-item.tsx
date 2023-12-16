@@ -451,7 +451,7 @@ export class ListItem
         : ICONS.closedLTR
       : ICONS.blank;
 
-    const clickHandler = openable ? this.handleToggleOpenClick : this.handleItemClick;
+    const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
 
     return openable || parentListEl?.openable ? (
       <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
@@ -745,11 +745,11 @@ export class ListItem
     this.handleOpenableChange(event.target as HTMLSlotElement);
   };
 
-  private handleToggleOpenClick = (): void => {
-    this.toggleOpen();
+  private handleToggleClick = (): void => {
+    this.toggle();
   };
 
-  private toggleOpen = (value = !this.open): void => {
+  private toggle = (value = !this.open): void => {
     this.open = value;
     this.calciteListItemToggle.emit();
   };
@@ -812,7 +812,7 @@ export class ListItem
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
         if (!open && openable) {
-          this.toggleOpen(true);
+          this.toggle(true);
           this.focusCell(null);
         } else if (cells[0]) {
           this.focusCell(cells[0]);
@@ -826,7 +826,7 @@ export class ListItem
       if (currentIndex === -1) {
         this.focusCell(null);
         if (open && openable) {
-          this.toggleOpen(false);
+          this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
         }
