@@ -21,7 +21,7 @@ export const simple = (): string =>
     caption="${text("caption", "Simple table")}"
     ${boolean("numbered", false)}
     ${boolean("bordered", false)}
-    ${boolean("zebra", false)}
+    ${boolean("striped", false)}
     caption="Simple table"
   >
     <calcite-table-row slot="table-header">
@@ -50,7 +50,7 @@ export const simple = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const simpleZebra_TestOnly = (): string => html`<calcite-table zebra caption="Simple-zebra table">
+export const simpleStriped_TestOnly = (): string => html`<calcite-table striped caption="Simple-striped table">
   <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -104,7 +104,42 @@ export const bordered_TestOnly = (): string => html`<calcite-table bordered capt
   </calcite-table-row>
 </calcite-table>`;
 
-export const borderedZebra_TestOnly = (): string => html`<calcite-table bordered zebra caption="Bordered zebra table">
+export const borderedStriped_TestOnly = (): string => html`<calcite-table
+  bordered
+  striped
+  caption="Bordered striped table"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+</calcite-table>`;
+
+export const deprecatedZebraStriped_TestOnly = (): string => html`<calcite-table
+  bordered
+  zebra
+  caption="Bordered striped table"
+>
   <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -158,7 +193,7 @@ export const alignments_TestOnly = (): string => html`<calcite-table numbered>
   </calcite-table-row>
 </calcite-table>`;
 
-export const disabledRows_TestOnly = (): string => html`<calcite-table caption="Bordered-zebra table">
+export const disabledRows_TestOnly = (): string => html`<calcite-table caption="Bordered-striped table">
   <calcite-table-row slot="table-header">
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -278,7 +313,7 @@ export const layoutFixed_TestOnly = (): string => html`<calcite-table layout="fi
 
 export const rowSpanAndColSpan_TestOnly = (): string => html`<calcite-table
   bordered
-  zebra
+  striped
   caption="Using row-span and col-span table"
 >
   <calcite-table-row slot="table-header">
@@ -318,7 +353,7 @@ export const rowSpanAndColSpan_TestOnly = (): string => html`<calcite-table
 
 export const rowSpanAndColSpanNumbered_TestOnly = (): string => html`<calcite-table
   bordered
-  zebra
+  striped
   numbered
   caption="Using row-span and col-span table"
 >
@@ -359,7 +394,7 @@ export const rowSpanAndColSpanNumbered_TestOnly = (): string => html`<calcite-ta
 
 export const rowSpanAndColSpan3_TestOnly = (): string => html`<calcite-table
   bordered
-  zebra
+  striped
   caption="Using row-span and col-span table"
 >
   <calcite-table-row slot="table-header">
@@ -957,7 +992,7 @@ export const localized_TestOnly = (): string => html`<calcite-table
 </calcite-table>`;
 
 export const tableCellCssBackgroundVariable_TestOnly = (): string =>
-  html`<calcite-table zebra caption="Simple-zebra table" dir="rtl" selection-mode="multiple">
+  html`<calcite-table striped caption="Simple-striped table" dir="rtl" selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -985,7 +1020,7 @@ export const tableCellCssBackgroundVariable_TestOnly = (): string =>
   </calcite-table>`;
 
 export const darkModeRTL_TestOnly = (): string =>
-  html`<calcite-table zebra caption="Simple-zebra table" dir="rtl">
+  html`<calcite-table striped caption="Simple-striped table" dir="rtl">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1015,7 +1050,7 @@ export const darkModeRTL_TestOnly = (): string =>
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const darkModeRTLWithSelection_TestOnly = (): string =>
-  html`<calcite-table zebra caption="Simple-zebra table" dir="rtl" selection-mode="multiple">
+  html`<calcite-table striped caption="Simple-striped table" dir="rtl" selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
