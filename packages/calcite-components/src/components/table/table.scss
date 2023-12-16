@@ -49,12 +49,6 @@ table {
   }
 }
 
-.bordered {
-  ::slotted(calcite-table-row:last-of-type) {
-    --calcite-table-row-border-color: transparent;
-  }
-}
-
 .zebra {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
     --calcite-table-row-background: var(--calcite-color-foreground-2);
