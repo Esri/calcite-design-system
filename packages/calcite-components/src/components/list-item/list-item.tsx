@@ -674,36 +674,36 @@ export class ListItem
     this.calciteInternalListItemChange.emit();
   }
 
-  handleCloseClick = (): void => {
+  private handleCloseClick = (): void => {
     this.closed = true;
     this.calciteListItemClose.emit();
   };
 
-  handleContentSlotChange = (event: Event): void => {
+  private handleContentSlotChange = (event: Event): void => {
     this.hasCustomContent = slotChangeHasAssignedElement(event);
   };
 
-  handleActionsStartSlotChange = (event: Event): void => {
+  private handleActionsStartSlotChange = (event: Event): void => {
     this.hasActionsStart = slotChangeHasAssignedElement(event);
   };
 
-  handleActionsEndSlotChange = (event: Event): void => {
+  private handleActionsEndSlotChange = (event: Event): void => {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   };
 
-  handleContentStartSlotChange = (event: Event): void => {
+  private handleContentStartSlotChange = (event: Event): void => {
     this.hasContentStart = slotChangeHasAssignedElement(event);
   };
 
-  handleContentEndSlotChange = (event: Event): void => {
+  private handleContentEndSlotChange = (event: Event): void => {
     this.hasContentEnd = slotChangeHasAssignedElement(event);
   };
 
-  handleContentBottomSlotChange = (event: Event): void => {
+  private handleContentBottomSlotChange = (event: Event): void => {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   };
 
-  setSelectionDefaults(): void {
+  private setSelectionDefaults(): void {
     const { parentListEl, selectionMode, selectionAppearance } = this;
 
     if (!parentListEl) {
@@ -719,7 +719,7 @@ export class ListItem
     }
   }
 
-  handleOpenableChange(slotEl: HTMLSlotElement): void {
+  private handleOpenableChange(slotEl: HTMLSlotElement): void {
     if (!slotEl) {
       return;
     }
@@ -741,20 +741,20 @@ export class ListItem
     }
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
+  private handleDefaultSlotChange = (event: Event): void => {
     this.handleOpenableChange(event.target as HTMLSlotElement);
   };
 
-  handleToggleOpenClick = (): void => {
+  private handleToggleOpenClick = (): void => {
     this.toggleOpen();
   };
 
-  toggleOpen = (value = !this.open): void => {
+  private toggleOpen = (value = !this.open): void => {
     this.open = value;
     this.calciteListItemToggle.emit();
   };
 
-  handleItemClick = (event: PointerEvent): void => {
+  private handleItemClick = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
@@ -763,7 +763,7 @@ export class ListItem
     this.calciteInternalListItemActive.emit();
   };
 
-  toggleSelected = (shiftKey: boolean): void => {
+  private toggleSelected = (shiftKey: boolean): void => {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -782,13 +782,13 @@ export class ListItem
     this.calciteListItemSelect.emit();
   };
 
-  getGridCells(): HTMLTableCellElement[] {
+  private getGridCells(): HTMLTableCellElement[] {
     return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
       (el) => el && !el.hidden
     );
   }
 
-  handleItemKeyDown = (event: KeyboardEvent): void => {
+  private handleItemKeyDown = (event: KeyboardEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
@@ -839,11 +839,11 @@ export class ListItem
     }
   };
 
-  focusCellNull = (): void => {
+  private focusCellNull = (): void => {
     this.focusCell(null);
   };
 
-  focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
+  private focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
     const { parentListEl } = this;
 
     if (saveFocusIndex) {
