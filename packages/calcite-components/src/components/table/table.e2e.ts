@@ -62,7 +62,7 @@ describe("calcite-table", () => {
         defaultValue: "none",
       },
       {
-        propertyName: "zebra",
+        propertyName: "striped",
         defaultValue: false,
       },
     ]);
