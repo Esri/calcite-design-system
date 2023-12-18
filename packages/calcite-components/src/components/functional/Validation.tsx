@@ -9,12 +9,8 @@ interface ValidationProps extends JSXBase.HTMLAttributes {
   message: string;
 }
 
-const validationStyle = {
-  display: "flex",
-  "padding-block-start": "0.5rem",
-  "flex-direction": "column",
-  "align-items": "flex-start",
-  "align-self": "stretch",
+export const CSS = {
+  validationContainer: "validation-container",
 };
 
 export const Validation: FunctionalComponent<ValidationProps> = ({
@@ -23,7 +19,7 @@ export const Validation: FunctionalComponent<ValidationProps> = ({
   icon,
   message,
 }) => (
-  <div style={validationStyle}>
+  <div class={CSS.validationContainer}>
     <calcite-input-message icon={icon} scale={scale} status={status}>
       {message}
     </calcite-input-message>

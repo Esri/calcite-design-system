@@ -126,5 +126,6 @@ select:disabled {
   @apply border-color-transparent;
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();
