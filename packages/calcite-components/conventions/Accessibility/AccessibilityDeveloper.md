@@ -68,11 +68,11 @@ However, you _could_ extend the native element to allow an association.
 
 ## 2. Tests
 
-**The best tools only find 30% of known issues**, so they can't be relied upon. But they can be the first step towards accessibility.
+__The best tools only find 30% of known issues__, so they can't be relied upon. But they can be the first step towards accessibility.
 
 Calcite Components uses the [axe-core](https://github.com/dequelabs/axe-core) and [jest-axe](https://github.com/nickcolley/jest-axe) accessibility engines throughout its components. `axe-core` contains a number of best practices to help identify accessibility practices, such as ensuring every page has an h1 heading, and to help avoid "gotchas" in ARIA like where an ARIA attribute you used will get ignored. `axe-core` can mitigate over half of WCAG issues automatically. Additionally, it will return elements as "incomplete" where it's not certain, and manual review is needed.
 
-When a new component is added, breaking changes are introduced, and/or as new functionality is added, accessibility tests must take place. **All components should have automated tests pertaining to accessibility.**
+When a new component is added, breaking changes are introduced, and/or as new functionality is added, accessibility tests must take place. __All components should have automated tests pertaining to accessibility.__
 
 ### Adding a test
 
@@ -96,7 +96,7 @@ describe("calcite-tree", () => {
             <a href="#">Child 2</a>
             <calcite-tree slot="children">
                 <calcite-tree-item>
-                <a href="http://www.google.com">Grandchild 1</a>
+                <a href="http://www.esri.com">Grandchild 1</a>
                 </calcite-tree-item>
             </calcite-tree>
             </calcite-tree-item>
@@ -152,7 +152,7 @@ FAIL src/components/tree/tree.e2e.ts (23.34 s)
 
 ## 3. Storybook
 
-We've already added the a11y add on, [storybook-addon-a11y](https://storybook.js.org/addons/@storybook/addon-a11y) which uses `axe-core`, the same accessibility engine used for automated testing in CC. As new components and enhancements are added, **ensure stories are updated to test accessibility**. This includes as properties are added to components, to ensure we're upholding high standards to fit our audience's needs.
+We've already added the a11y add on, [storybook-addon-a11y](https://storybook.js.org/addons/@storybook/addon-a11y) which uses `axe-core`, the same accessibility engine used for automated testing in CC. As new components and enhancements are added, __ensure stories are updated to test accessibility__. This includes as properties are added to components, to ensure we're upholding high standards to fit our audience's needs.
 
 [Learn more on writing stories](https://github.com/Esri/calcite-design-system/blob/main/CONTRIBUTING.md#writing-stories) from our contributing docs.
 

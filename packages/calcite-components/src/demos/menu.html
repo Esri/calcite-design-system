@@ -440,4 +440,11 @@
       <calcite-panel heading="Example"><calcite-block heading="Content" open></calcite-block></calcite-panel>
     </calcite-shell>
   </body>
+  <script>
+    document.querySelectorAll("calcite-menu-item").forEach((item) => {
+      item.addEventListener("calciteMenuItemSelect", (event) => {
+        console.log(event);
+      });
+    });
+  </script>
 </html>

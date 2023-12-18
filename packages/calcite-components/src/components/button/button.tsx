@@ -1,4 +1,15 @@
-import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  Build,
+  Component,
+  Element,
+  forceUpdate,
+  h,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import {
   connectInteractive,
@@ -27,11 +38,6 @@ import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
-import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes,
-} from "../../utils/globalAttributes";
 import { toAriaBoolean } from "../../utils/dom";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
@@ -46,7 +52,6 @@ import { toAriaBoolean } from "../../utils/dom";
 })
 export class Button
   implements
-    GlobalAttrComponent,
     LabelableComponent,
     InteractiveComponent,
     FormOwner,
@@ -55,6 +60,17 @@ export class Button
     T9nComponent
 {
   //--------------------------------------------------------------------------
+  //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("aria-expanded")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  // --------------------------------------------------------------------------
   //
   //  Properties
   //
@@ -183,7 +199,6 @@ export class Button
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-    watchGlobalAttributes(this, ["aria-expanded"]);
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
@@ -198,7 +213,6 @@ export class Button
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
     this.formEl = null;
-    unwatchGlobalAttributes(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -260,6 +274,7 @@ export class Button
     return (
       <Tag
         aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
+        aria-expanded={this.el.getAttribute("aria-expanded")}
         aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
         aria-live="polite"
         class={{
@@ -278,7 +293,6 @@ export class Button
         target={childElType === "a" && this.target}
         title={this.tooltipText}
         type={childElType === "button" && this.type}
-        {...this.globalAttributes}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setChildEl}
       >
@@ -356,10 +370,6 @@ export class Button
   private contentEl: HTMLSpanElement;
 
   resizeObserver = createObserver("resize", () => this.setTooltipText());
-
-  @State() globalAttributes = {
-    ariaExpanded: undefined,
-  };
 
   //--------------------------------------------------------------------------
   //

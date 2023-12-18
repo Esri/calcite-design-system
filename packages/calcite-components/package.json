@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "2.1.0-next.4",
+  "version": "2.1.0-next.10",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -19,7 +19,8 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:prep-build-reqs && stencil build && npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
+    "build": "npm run util:prep-build-reqs && stencil build",
+    "postbuild": "npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
     "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:build-docs && NODE_OPTIONS=--openssl-legacy-provider build-storybook --output-dir ./docs --quiet",
@@ -37,7 +38,7 @@
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\"",
     "test": "stencil test --no-docs --no-build --spec --e2e",
-    "test:prerender": "stencil build --no-docs --prerender",
+    "test:prerender": "npm run build -- --prerender",
     "test:watch": "npm run build && npm run test -- -- --watchAll",
     "util:build-docs": "npm run util:prep-build-reqs && stencil build --docs --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
@@ -62,7 +63,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "1.5.3",
-    "@stencil/core": "4.7.2",
+    "@stencil/core": "4.8.1",
     "@types/color": "3.0.6",
     "color": "4.2.3",
     "composed-offset-position": "0.0.4",
@@ -74,8 +75,8 @@
     "timezone-groups": "0.8.0"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "^2.0.1-next.2",
-    "@esri/calcite-ui-icons": "3.25.1",
+    "@esri/calcite-design-tokens": "^2.0.1-next.3",
+    "@esri/calcite-ui-icons": "3.25.2",
     "@esri/eslint-plugin-calcite-components": "^1.0.1-next.1",
     "@stencil-community/eslint-plugin": "0.7.1",
     "@stencil-community/postcss": "2.2.0",

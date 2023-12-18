@@ -6,7 +6,7 @@ import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
-import { DragDetail } from "../../utils/sortableComponent";
+import { ListDragDetail } from "./interfaces";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -733,6 +733,10 @@ describe("calcite-list", () => {
       oldIndex: number;
       startCalledTimes: number;
       endCalledTimes: number;
+      endNewIndex: number;
+      endOldIndex: number;
+      startNewIndex: number;
+      startOldIndex: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -746,16 +750,20 @@ describe("calcite-list", () => {
         testWindow.oldIndex = -1;
         testWindow.startCalledTimes = 0;
         testWindow.endCalledTimes = 0;
-        list.addEventListener("calciteListOrderChange", (event: CustomEvent<DragDetail>) => {
+        list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
           testWindow.calledTimes++;
           testWindow.newIndex = event?.detail?.newIndex;
           testWindow.oldIndex = event?.detail?.oldIndex;
         });
-        list.addEventListener("calciteListDragEnd", () => {
+        list.addEventListener("calciteListDragEnd", (event: CustomEvent<ListDragDetail>) => {
           testWindow.endCalledTimes++;
+          testWindow.endNewIndex = event.detail.newIndex;
+          testWindow.endOldIndex = event.detail.oldIndex;
         });
-        list.addEventListener("calciteListDragStart", () => {
+        list.addEventListener("calciteListDragStart", (event: CustomEvent<ListDragDetail>) => {
           testWindow.startCalledTimes++;
+          testWindow.startNewIndex = event.detail.newIndex;
+          testWindow.startOldIndex = event.detail.oldIndex;
         });
       });
 
@@ -785,6 +793,10 @@ describe("calcite-list", () => {
           newIndex: testWindow.newIndex,
           endCalledTimes: testWindow.endCalledTimes,
           startCalledTimes: testWindow.startCalledTimes,
+          endNewIndex: testWindow.endNewIndex,
+          endOldIndex: testWindow.endOldIndex,
+          startNewIndex: testWindow.startNewIndex,
+          startOldIndex: testWindow.startOldIndex,
         };
       });
 
@@ -793,6 +805,10 @@ describe("calcite-list", () => {
       expect(results.endCalledTimes).toBe(1);
       expect(results.oldIndex).toBe(0);
       expect(results.newIndex).toBe(1);
+      expect(results.startNewIndex).toBe(null);
+      expect(results.startOldIndex).toBe(0);
+      expect(results.endNewIndex).toBe(1);
+      expect(results.endOldIndex).toBe(0);
     });
 
     it("supports dragging items between lists", async () => {

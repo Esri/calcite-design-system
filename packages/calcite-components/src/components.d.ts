@@ -6260,6 +6260,8 @@ declare global {
     };
     interface HTMLCalciteListElementEventMap {
         "calciteListChange": void;
+        "calciteListDragEnd": ListDragDetail;
+        "calciteListDragStart": ListDragDetail;
         "calciteListFilter": void;
         "calciteListOrderChange": ListDragDetail;
         "calciteInternalListDefaultSlotChange": void;
@@ -6284,6 +6286,7 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
+        "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
     selectMultiple: boolean;
@@ -9985,6 +9988,14 @@ declare namespace LocalJSX {
          */
         "onCalciteListChange"?: (event: CalciteListCustomEvent<void>) => void;
         /**
+          * Emits when the component's dragging has ended.
+         */
+        "onCalciteListDragEnd"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
+        /**
+          * Emits when the component's dragging has started.
+         */
+        "onCalciteListDragStart"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
+        /**
           * Emits when the component's filter has changed.
          */
         "onCalciteListFilter"?: (event: CalciteListCustomEvent<void>) => void;
@@ -10073,6 +10084,10 @@ declare namespace LocalJSX {
           * Emits when the item's content is selected.
          */
         "onCalciteListItemSelect"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the open button is clicked.
+         */
+        "onCalciteListItemToggle"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * When `true`, the item is open to show child components.
          */
