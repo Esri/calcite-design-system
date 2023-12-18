@@ -321,9 +321,9 @@ export class TabNav {
 
   @Element() el: HTMLCalciteTabNavElement;
 
-  @State() private overflowingStartAction: HTMLCalciteTabTitleElement = null;
+  @State() private overflowingStartTabTitle: HTMLCalciteTabTitleElement = null;
 
-  @State() private overflowingEndAction: HTMLCalciteTabTitleElement = null;
+  @State() private overflowingEndTabTitle: HTMLCalciteTabTitleElement = null;
 
   @State() selectedTabId: TabID;
 
@@ -350,7 +350,11 @@ export class TabNav {
     this.updateOffsetPosition();
   });
 
-  @State() private tabTitleIntersectionObserverEntries: IntersectionObserverEntry[];
+  // TODO: create/remove on connect/disconnect
+  @State() private tabTitleToIntersectionObserverEntry = new Map<
+    HTMLCalciteTabTitleElement,
+    IntersectionObserverEntry
+  >();
 
   private intersectionObserver: IntersectionObserver;
 
@@ -372,7 +376,14 @@ export class TabNav {
     this.intersectionObserver = createObserver(
       "intersection",
       (entries) => {
-        this.tabTitleIntersectionObserverEntries = entries;
+        entries.forEach((entry) => {
+          // TODO: need to update map when tab-titles are removed
+          this.tabTitleToIntersectionObserverEntry.set(
+            entry.target as HTMLCalciteTabTitleElement,
+            entry
+          );
+        });
+
         this.determineScrollStatus();
       },
       {
@@ -383,19 +394,43 @@ export class TabNav {
 
   private determineScrollStatus(): void {
     // currently set for demonstration purposes, it could be split up into different pieces within the component (e.g., state props, etc.)
-    const overflowingStartTabTitle: null | HTMLCalciteTabTitleElement = null;
-    const overflowingEndTabTitle: null | HTMLCalciteTabTitleElement = null;
+    let overflowingStartTabTitle: null | HTMLCalciteTabTitleElement = null;
+    let overflowingEndTabTitle: null | HTMLCalciteTabTitleElement = null;
 
-    // TODO: determine which items are overflowing and in which direction with intersection observer entries
+    // TODO: need to unobserve on removal of tab-title
+    const entries = Array.from(this.tabTitleToIntersectionObserverEntry.values());
 
-    this.overflowingEndAction = overflowingEndTabTitle;
-    this.overflowingStartAction = overflowingStartTabTitle;
+    entries.forEach((entry) => {
+      // Note: this depends on items being in DOM order
+      const outsideOfViewport = !entry.isIntersecting;
+
+      if (
+        outsideOfViewport &&
+        entry.boundingClientRect.left < entry.rootBounds.left &&
+        entry.boundingClientRect.right <= entry.rootBounds.right
+      ) {
+        overflowingStartTabTitle = entry.target as HTMLCalciteTabTitleElement;
+      }
+
+      if (
+        outsideOfViewport &&
+        entry.boundingClientRect.left > entry.rootBounds.right &&
+        entry.boundingClientRect.right >= entry.rootBounds.right
+      ) {
+        if (!overflowingEndTabTitle) {
+          overflowingEndTabTitle = entry.target as HTMLCalciteTabTitleElement;
+        }
+      }
+    });
+
+    this.overflowingEndTabTitle = overflowingEndTabTitle;
+    this.overflowingStartTabTitle = overflowingStartTabTitle;
   }
 
   private scrollToTabTitles = (direction: "forward" | "backward"): void => {
     requestAnimationFrame(() => {
       const targetTabTitle: HTMLCalciteTabTitleElement =
-        direction === "forward" ? this.overflowingEndAction : this.overflowingStartAction;
+        direction === "forward" ? this.overflowingEndTabTitle : this.overflowingStartTabTitle;
       const scrollInline = direction === "forward" ? "end" : "start";
 
       targetTabTitle.scrollIntoView({
@@ -506,7 +541,9 @@ export class TabNav {
           (this.el.parentElement as HTMLCalciteTabsElement).bordered ? "solid" : "transparent"
         }
         class={isEnd ? CSS.arrowEnd : CSS.arrowStart}
-        hidden={(!isEnd && !this.overflowingStartAction) || (isEnd && !this.overflowingEndAction)}
+        hidden={
+          (!isEnd && !this.overflowingStartTabTitle) || (isEnd && !this.overflowingEndTabTitle)
+        }
         icon={isEnd ? ICON.chevronRight : ICON.chevronLeft}
         key={overflowDirection}
         onClick={isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
