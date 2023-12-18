@@ -5,7 +5,27 @@
         "andaleMono": {
           "value": "Andale Mono",
           "type": "fontFamilies",
-          "description": "Fallback for Monaco"
+          "description": "Fallback for Monaco",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "andaleMono",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "avenirNextPro": {
           "value": "Avenir Next LT Pro",
@@ -23,8 +43,8 @@
               "kind": "",
               "appearance": "",
               "property": "",
-              "variant": "Avenir Next LT",
-              "state": "Pro",
+              "variant": "avenirNextPro",
+              "state": "",
               "scale": "",
               "context": "",
               "mode": ""
@@ -33,27 +53,127 @@
         },
         "avenirNextWorld": {
           "value": "Avenir Next World",
-          "type": "fontFamilies"
+          "type": "fontFamilies",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "avenirNextWorld",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "avenir": {
           "value": "Avenir",
           "type": "fontFamilies",
-          "description": "Fallback for Avenir Next"
+          "description": "Fallback for Avenir Next",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "avenir",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "consolas": {
           "value": "Consolas",
           "type": "fontFamilies",
-          "description": "Fallback for Monaco"
+          "description": "Fallback for Monaco",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "consolas",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "helveticaNeue": {
           "value": "Helvetica Neue",
           "type": "fontFamilies",
-          "description": "Fallback for Avenir Next"
+          "description": "Fallback for Avenir Next",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "helveticaNeue",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "lucidaConsole": {
           "value": "Lucida Console",
           "type": "fontFamilies",
-          "description": "Fallback for Monaco"
+          "description": "Fallback for Monaco",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "lucidaConsole",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "monaco": {
           "value": "Monaco",
@@ -71,7 +191,7 @@
               "kind": "",
               "appearance": "",
               "property": "",
-              "variant": "Monaco",
+              "variant": "monaco",
               "state": "",
               "scale": "",
               "context": "",
@@ -82,12 +202,52 @@
         "monospace": {
           "value": "monospace",
           "type": "fontFamilies",
-          "description": "Fallback for Monaco"
+          "description": "Fallback for Monaco",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "monospace",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "sansSerif": {
           "value": "sans-serif",
           "type": "fontFamilies",
-          "description": "Fallback for Avenir Next"
+          "description": "Fallback for Avenir Next",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "sansSerif",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "style": {
