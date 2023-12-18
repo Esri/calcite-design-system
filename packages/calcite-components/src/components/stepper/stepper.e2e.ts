@@ -798,10 +798,10 @@ describe("calcite-stepper", () => {
     it("should emit calciteStepperItemChange on user interaction", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper style="width: 100px">
-        <calcite-stepper-item heading="Step 1" id="step-1" disabled>
+        <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item heading="Step 2" id="step-2">
+        <calcite-stepper-item heading="Step 2" id="step-2" disabled>
           <div>Step 2 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item heading="Step 3" id="step-2">
@@ -811,27 +811,26 @@ describe("calcite-stepper", () => {
 
       const stepper = await page.find("calcite-stepper");
       const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
-      const [stepperItem1] = await page.findAll("calcite-stepper-item");
       const eventSpy = await stepper.spyOnEvent("calciteStepperItemChange");
+      expect(eventSpy).toHaveReceivedEventTimes(0);
+
+      // shouldn't emit change event when disabled element is visible
+      await actionEnd.click();
+      await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(0);
 
       await actionEnd.click();
       await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(1);
 
-      await actionStart.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(2);
-
       // shouldn't emit change event when disabled element is visible
-      stepperItem1.setProperty("disabled", true);
+      await actionStart.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+
       await actionStart.click();
       await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(2);
-
-      await actionEnd.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(3);
     });
   });
 });
