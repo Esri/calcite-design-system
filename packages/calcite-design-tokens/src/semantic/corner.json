@@ -1,10 +1,34 @@
 {
   "semantic": {
-    "border": {
-      "width": {
-        "none": {
+    "corner": {
+      "radius": {
+        "default": {
+          "value": "{semantic.corner.radius.sharp}",
+          "type": "borderRadius",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "corner",
+              "group": "radius",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "default",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "sharp": {
           "value": "{core.size.default.none}",
-          "type": "borderWidth",
+          "type": "borderRadius",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -13,70 +37,22 @@
               "component": "",
               "pattern": "",
               "element": "",
-              "category": "border",
-              "group": "width",
+              "category": "corner",
+              "group": "radius",
               "kind": "",
               "appearance": "",
               "property": "",
-              "variant": "",
+              "variant": "sharp",
               "state": "",
-              "scale": "none",
+              "scale": "",
               "context": "",
               "mode": ""
             }
           }
         },
-        "sm": {
-          "value": "{core.size.default.1}",
-          "type": "borderWidth",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "border",
-              "group": "width",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "sm",
-              "context": "",
-              "mode": ""
-            }
-          }
-        },
-        "md": {
-          "value": "{core.size.default.2}",
-          "type": "borderWidth",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "semantic",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "border",
-              "group": "width",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "",
-              "state": "",
-              "scale": "md",
-              "context": "",
-              "mode": ""
-            }
-          }
-        },
-        "lg": {
+        "round": {
           "value": "{core.size.default.4}",
-          "type": "borderWidth",
+          "type": "borderRadius",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -85,14 +61,38 @@
               "component": "",
               "pattern": "",
               "element": "",
-              "category": "border",
-              "group": "width",
+              "category": "corner",
+              "group": "radius",
               "kind": "",
               "appearance": "",
               "property": "",
-              "variant": "",
+              "variant": "round",
               "state": "",
-              "scale": "lg",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "pill": {
+          "value": "{core.size.relative.100}",
+          "type": "borderRadius",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "corner",
+              "group": "radius",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "pill",
+              "state": "",
+              "scale": "",
               "context": "",
               "mode": ""
             }
