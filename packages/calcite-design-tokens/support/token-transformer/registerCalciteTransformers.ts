@@ -17,6 +17,7 @@ import { registerValueEvaluateMath } from "./styleDictionary/transformer/value/v
 import { registerNameSpacePath } from "./styleDictionary/transformer/name/nameSpacePath.js";
 import { registerFormatterDocs } from "./styleDictionary/formatter/docs.js";
 import { registerValueToREM } from "./styleDictionary/transformer/value/valueToREM.js";
+import { registerValueFontFamilyWithFallbacks } from "./styleDictionary/transformer/value/valueFontFamilyFallbacks.js";
 import { registerValueColorCSS } from "./styleDictionary/transformer/value/valueColorCss.js";
 import { registerValueLineHeight } from "./styleDictionary/transformer/value/valueLineHeight.js";
 
@@ -33,16 +34,18 @@ export async function registerCalciteTransformers(sd: StyleDictionary): Promise<
   registerCustomJSONParser(sd);
   registerFilterSource(sd);
   registerFormatterCss(sd);
-  registerFormatterScss(sd);
+  registerFormatterDocs(sd);
   registerFormatterJs(sd);
+  registerFormatterScss(sd);
   registerNameCamelCase(sd);
   registerNameJoinPath(sd);
   registerNameKebabCase(sd);
+  registerNameSpacePath(sd);
   registerValueAlignFontWeightAndStyles(sd);
   registerValueAssetToken(sd);
+  registerValueEvaluateMath(sd);
+  registerValueFontFamilyWithFallbacks(sd);
   registerValueStringWrapper(sd);
-  registerNameSpacePath(sd);
-  registerFormatterDocs(sd);
   registerValueToREM(sd);
   registerValueColorCSS(sd);
   registerValueLineHeight(sd);

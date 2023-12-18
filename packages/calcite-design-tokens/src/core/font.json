@@ -2,6 +2,11 @@
   "core": {
     "font": {
       "family": {
+        "andaleMono": {
+          "value": "Andale Mono",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco"
+        },
         "avenirNextPro": {
           "value": "Avenir Next LT Pro",
           "type": "fontFamilies",
@@ -28,27 +33,27 @@
         },
         "avenirNextWorld": {
           "value": "Avenir Next World",
+          "type": "fontFamilies"
+        },
+        "avenir": {
+          "value": "Avenir",
           "type": "fontFamilies",
-          "attributes": {
-            "calcite-schema": {
-              "system": "calcite",
-              "tier": "core",
-              "domain": "",
-              "component": "",
-              "pattern": "",
-              "element": "",
-              "category": "font",
-              "group": "family",
-              "kind": "",
-              "appearance": "",
-              "property": "",
-              "variant": "Avenir Next",
-              "state": "World",
-              "scale": "",
-              "context": "",
-              "mode": ""
-            }
-          }
+          "description": "Fallback for Avenir Next"
+        },
+        "consolas": {
+          "value": "Consolas",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco"
+        },
+        "helveticaNeue": {
+          "value": "Helvetica Neue",
+          "type": "fontFamilies",
+          "description": "Fallback for Avenir Next"
+        },
+        "lucidaConsole": {
+          "value": "Lucida Console",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco"
         },
         "monaco": {
           "value": "Monaco",
@@ -73,6 +78,16 @@
               "mode": ""
             }
           }
+        },
+        "monospace": {
+          "value": "monospace",
+          "type": "fontFamilies",
+          "description": "Fallback for Monaco"
+        },
+        "sansSerif": {
+          "value": "sans-serif",
+          "type": "fontFamilies",
+          "description": "Fallback for Avenir Next"
         }
       },
       "style": {

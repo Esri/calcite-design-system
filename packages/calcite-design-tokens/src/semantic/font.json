@@ -3,8 +3,15 @@
     "font": {
       "family": {
         "default": {
-          "value": "{core.font.family.avenirNextPro}",
+          "value": [
+            "{core.font.family.avenirNextWorld}",
+            "{core.font.family.avenirNextPro}",
+            "{core.font.family.avenir}",
+            "{core.font.family.helveticaNeue}",
+            "{core.font.family.sansSerif}"
+          ],
           "type": "fontFamilies",
+          "description": "Primary font with fallbacks",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
@@ -27,8 +34,15 @@
           }
         },
         "code": {
-          "value": "{core.font.family.monaco}",
+          "value": [
+            "{core.font.family.monaco}",
+            "{core.font.family.consolas}",
+            "{core.font.family.andaleMono}",
+            "{core.font.family.lucidaConsole}",
+            "{core.font.family.monospace}"
+          ],
           "type": "fontFamilies",
+          "description": "Font family for code with fallbacks",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",

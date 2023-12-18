@@ -15,6 +15,8 @@ import { valueStringWrapper } from "./value/valueStringWrapper.js";
 import { transitiveValueColorCSS } from "./value/valueColorCss.js";
 import { transitiveValueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
 import { valueLineHeight } from "./value/valueLineHeight.js";
+import { valueFontFamilyFallbacks } from "./value/valueFontFamilyFallbacks.js";
+import { CalciteValueToREM } from "./value/valueToREM.js";
 
 export type TransformerTypeUnion = `${TransformerTypeEnum}`;
 
@@ -45,6 +47,8 @@ export const styles = [
   "ts/shadow/css/shorthand",
   valueAssetToken,
   valueStringWrapper,
+  CalciteValueToREM,
+  valueFontFamilyFallbacks,
   nameKebabCase,
 ];
 
