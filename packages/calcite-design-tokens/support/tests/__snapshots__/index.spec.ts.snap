@@ -86,16 +86,16 @@ exports[`generated tokens CSS core should match 1`] = `
   --calcite-font-weight-thin: 100;
   --calcite-font-weight-ultralight: 200; /* only for Avenir Next World (secondary font family) */
   --calcite-font-style-italic: italic; /* used in ratings */
-  --calcite-font-family-monospace: monospace; /* Fallback for monaco */
+  --calcite-font-family-sans-serif: sans-serif; /* Fallback for Avenir Next */
+  --calcite-font-family-monospace: monospace; /* Fallback for Monaco */
   --calcite-font-family-monaco: Monaco;
-  --calcite-font-family-lucida-console: "Lucida Console"; /* Fallback for monaco */
-  --calcite-font-family-andale-mono: "Andale Mono"; /* Fallback for monaco */
-  --calcite-font-family-consolas: Consolas; /* Fallback for monaco */
-  --calcite-font-family-sans-serif: sans-serif; /* Fallback for avenirNext */
-  --calcite-font-family-helvetica-neue: "Helvetica Neue"; /* Fallback for avenirNext */
-  --calcite-font-family-avenir: Avenir; /* Fallback for avenirNext */
+  --calcite-font-family-lucida-console: "Lucida Console"; /* Fallback for Monaco */
+  --calcite-font-family-helvetica-neue: "Helvetica Neue"; /* Fallback for Avenir Next */
+  --calcite-font-family-consolas: Consolas; /* Fallback for Monaco */
+  --calcite-font-family-avenir: Avenir; /* Fallback for Avenir Next */
   --calcite-font-family-avenir-next-world: "Avenir Next World";
   --calcite-font-family-avenir-next-pro: "Avenir Next LT Pro";
+  --calcite-font-family-andale-mono: "Andale Mono"; /* Fallback for Monaco */
   --calcite-container-size-1440: 1440px;
   --calcite-container-size-1152: 1152px;
   --calcite-container-size-854: 854px;
@@ -736,16 +736,16 @@ export const calciteContainerSize768 = "768px";
 export const calciteContainerSize854 = "854px";
 export const calciteContainerSize1152 = "1152px";
 export const calciteContainerSize1440 = "1440px";
+export const calciteFontFamilyAndaleMono = "Andale Mono"; // Fallback for Monaco
 export const calciteFontFamilyAvenirNextPro = "Avenir Next LT Pro";
 export const calciteFontFamilyAvenirNextWorld = "Avenir Next World";
-export const calciteFontFamilyAvenir = "Avenir"; // Fallback for avenirNext
-export const calciteFontFamilyHelveticaNeue = "Helvetica Neue"; // Fallback for avenirNext
-export const calciteFontFamilySansSerif = "sans-serif"; // Fallback for avenirNext
-export const calciteFontFamilyConsolas = "Consolas"; // Fallback for monaco
-export const calciteFontFamilyAndaleMono = "Andale Mono"; // Fallback for monaco
-export const calciteFontFamilyLucidaConsole = "Lucida Console"; // Fallback for monaco
+export const calciteFontFamilyAvenir = "Avenir"; // Fallback for Avenir Next
+export const calciteFontFamilyConsolas = "Consolas"; // Fallback for Monaco
+export const calciteFontFamilyHelveticaNeue = "Helvetica Neue"; // Fallback for Avenir Next
+export const calciteFontFamilyLucidaConsole = "Lucida Console"; // Fallback for Monaco
 export const calciteFontFamilyMonaco = "Monaco";
-export const calciteFontFamilyMonospace = "monospace"; // Fallback for monaco
+export const calciteFontFamilyMonospace = "monospace"; // Fallback for Monaco
+export const calciteFontFamilySansSerif = "sans-serif"; // Fallback for Avenir Next
 export const calciteFontStyleItalic = "italic"; // used in ratings
 export const calciteFontWeightUltralight = "200"; // only for Avenir Next World (secondary font family)
 export const calciteFontWeightThin = "100";
@@ -1484,23 +1484,23 @@ export const calciteContainerSize768 : string;
 export const calciteContainerSize854 : string;
 export const calciteContainerSize1152 : string;
 export const calciteContainerSize1440 : string;
+/** Fallback for Monaco */
+export const calciteFontFamilyAndaleMono : string;
 export const calciteFontFamilyAvenirNextPro : string;
 export const calciteFontFamilyAvenirNextWorld : string;
-/** Fallback for avenirNext */
+/** Fallback for Avenir Next */
 export const calciteFontFamilyAvenir : string;
-/** Fallback for avenirNext */
-export const calciteFontFamilyHelveticaNeue : string;
-/** Fallback for avenirNext */
-export const calciteFontFamilySansSerif : string;
-/** Fallback for monaco */
+/** Fallback for Monaco */
 export const calciteFontFamilyConsolas : string;
-/** Fallback for monaco */
-export const calciteFontFamilyAndaleMono : string;
-/** Fallback for monaco */
+/** Fallback for Avenir Next */
+export const calciteFontFamilyHelveticaNeue : string;
+/** Fallback for Monaco */
 export const calciteFontFamilyLucidaConsole : string;
 export const calciteFontFamilyMonaco : string;
-/** Fallback for monaco */
+/** Fallback for Monaco */
 export const calciteFontFamilyMonospace : string;
+/** Fallback for Avenir Next */
+export const calciteFontFamilySansSerif : string;
 /** used in ratings */
 export const calciteFontStyleItalic : string;
 /** only for Avenir Next World (secondary font family) */
@@ -1681,16 +1681,16 @@ $calcite-font-weight-light: 300; // only for Avenir Next World (secondary font f
 $calcite-font-weight-thin: 100;
 $calcite-font-weight-ultralight: 200; // only for Avenir Next World (secondary font family)
 $calcite-font-style-italic: italic; // used in ratings
-$calcite-font-family-monospace: monospace; // Fallback for monaco
+$calcite-font-family-sans-serif: sans-serif; // Fallback for Avenir Next
+$calcite-font-family-monospace: monospace; // Fallback for Monaco
 $calcite-font-family-monaco: Monaco;
-$calcite-font-family-lucida-console: "Lucida Console"; // Fallback for monaco
-$calcite-font-family-andale-mono: "Andale Mono"; // Fallback for monaco
-$calcite-font-family-consolas: Consolas; // Fallback for monaco
-$calcite-font-family-sans-serif: sans-serif; // Fallback for avenirNext
-$calcite-font-family-helvetica-neue: "Helvetica Neue"; // Fallback for avenirNext
-$calcite-font-family-avenir: Avenir; // Fallback for avenirNext
+$calcite-font-family-lucida-console: "Lucida Console"; // Fallback for Monaco
+$calcite-font-family-helvetica-neue: "Helvetica Neue"; // Fallback for Avenir Next
+$calcite-font-family-consolas: Consolas; // Fallback for Monaco
+$calcite-font-family-avenir: Avenir; // Fallback for Avenir Next
 $calcite-font-family-avenir-next-world: "Avenir Next World";
 $calcite-font-family-avenir-next-pro: "Avenir Next LT Pro";
+$calcite-font-family-andale-mono: "Andale Mono"; // Fallback for Monaco
 $calcite-container-size-1440: 1440px;
 $calcite-container-size-1152: 1152px;
 $calcite-container-size-854: 854px;
