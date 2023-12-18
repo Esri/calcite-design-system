@@ -403,11 +403,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     const start = Array.isArray(valueAsDate) && valueAsDate[0];
     const end = Array.isArray(valueAsDate) && valueAsDate[1];
 
-    if (!start || !end) {
-      this.hoverRange = undefined;
-      return;
-    }
-
     const date = new Date(event.detail);
     this.hoverRange = {
       focused: this.activeRange || "start",
@@ -415,7 +410,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       end,
     };
     if (!this.proximitySelectionDisabled) {
-      if (end) {
+      if (start && end) {
         const startDiff = getDaysDiff(date, start);
         const endDiff = getDaysDiff(date, end);
         if (endDiff > 0) {
