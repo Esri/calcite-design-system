@@ -16,22 +16,22 @@
 
   .content {
     @apply flex
-  flex-auto
-  flex-col
-  justify-center
-  gap-2;
+      flex-auto
+      flex-col
+      justify-center
+      gap-2;
     // set width handles slotted content and heading word wrap
     inline-size: 10%;
   }
 
   .content-container {
     @apply focus-base
-  text-color-2
-  flex
-  w-full
-  flex-auto
-  items-stretch
-  p-0;
+      text-color-2
+      flex
+      w-full
+      flex-auto
+      items-stretch
+      p-0;
   }
 
   .content-slot-container {
@@ -47,13 +47,12 @@
   }
 
   .heading {
-    @apply text-n1-wrap
-    text-color-2
-    pointer-events-none
-    break-words
-    font-medium
-    duration-150
-    ease-in-out;
+    @apply text-color-2
+      pointer-events-none
+      break-words
+      duration-150
+      ease-in-out;
+    font-weight: 500;
   }
   .large-visual {
     @apply items-center
@@ -69,14 +68,46 @@
     }
   }
   .description {
-    @apply text-n2-wrap
-    text-color-3
-    break-words
-    pointer-events-none
-    duration-150
-    ease-in-out;
+    @apply text-color-3
+      break-words
+      pointer-events-none
+      duration-150
+      ease-in-out;
+    font-weight: 400;
   }
 }
+
+:host([scale="s"]) {
+  .heading {
+    font-size: var(--calcite-font-size--2);
+    line-height: 1.03125rem;
+  }
+  .description {
+    font-size: var(--calcite-font-size--3);
+    line-height: 1.03125rem;
+  }
+}
+:host([scale="m"]) {
+  .heading {
+    font-size: var(--calcite-font-size--1);
+    line-height: 1.375;
+  }
+  .description {
+    font-size: var(--calcite-font-size--2);
+    line-height: 1.375;
+  }
+}
+:host([scale="l"]) {
+  .heading {
+    font-size: var(--calcite-font-size-0);
+    line-height: 1.375;
+  }
+  .description {
+    font-size: var(--calcite-font-size---1);
+    line-height: 1.375;
+  }
+}
+
 :host([href]),
 :host([href]:hover) {
   .heading {

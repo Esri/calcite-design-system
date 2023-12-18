@@ -12,6 +12,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { SLOTS } from "./resources";
+import { Scale } from "../interfaces";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
@@ -74,6 +75,11 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
 
   @Prop({ reflect: true }) iconFlipRtl = false;
 
+  /**
+   * Specifies the size of the component.
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -122,7 +128,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
       <div class={{ container: true, "large-visual": isLargeVisual }}>
         {icon && (
           <div class="icon">
-            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
+            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale={this.scale} style={iconStyle} />
           </div>
         )}
         <div class="content-container">
