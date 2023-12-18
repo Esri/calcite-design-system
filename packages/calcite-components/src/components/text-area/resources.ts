@@ -3,7 +3,6 @@ export const CSS = {
   characterLimit: "character-limit",
   content: "content",
   container: "container",
-  messageContainer: "message-container",
   footer: "footer",
   resizeDisabled: "resize--disabled",
   resizeDisabledX: "resize--disabled-x",

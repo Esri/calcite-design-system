@@ -10,7 +10,6 @@ export const CSS = {
   inputWrapper: "wrapper",
   actionWrapper: "action-wrapper",
   resizeIconWrapper: "resize-icon-wrapper",
-  messageContainer: "message-container",
 };
 
 export const SLOTS = {

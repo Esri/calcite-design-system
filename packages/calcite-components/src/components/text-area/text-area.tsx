@@ -48,6 +48,7 @@ import {
 import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
+import { Validation } from "../functional/Validation";
 
 /**
  * @slot - A slot for adding text.
@@ -328,15 +329,12 @@ export class TextArea
           </span>
         )}
         {this.validationMessage ? (
-          <div class={CSS.messageContainer}>
-            <calcite-input-message
-              icon={this.validationIcon}
-              scale={this.scale}
-              status={this.status}
-            >
-              {this.validationMessage}
-            </calcite-input-message>
-          </div>
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
         ) : null}
       </Host>
     );

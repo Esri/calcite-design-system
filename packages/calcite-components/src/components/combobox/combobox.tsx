@@ -74,6 +74,7 @@ import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } fr
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
 import { getIconScale } from "../../utils/component";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
+import { Validation } from "../functional/Validation";
 
 interface ItemData {
   label: string;
@@ -1715,15 +1716,12 @@ export class Combobox
         {this.renderFloatingUIContainer()}
         <HiddenFormInputSlot component={this} />
         {this.validationMessage ? (
-          <div class={CSS.messageContainer}>
-            <calcite-input-message
-              icon={this.validationIcon}
-              scale={this.scale}
-              status={this.status}
-            >
-              {this.validationMessage}
-            </calcite-input-message>
-          </div>
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
         ) : null}
       </Host>
     );

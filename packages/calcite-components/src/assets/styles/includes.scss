@@ -38,17 +38,6 @@
   }
 }
 
-// mixin for the container of validation messages displayed below form-associated components
-@mixin form-validation-message() {
-  .message-container {
-    padding-block-start: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-self: stretch;
-  }
-}
-
 // mixin to provide base disabled styles for interactive components
 // additional styling can be passed via @content
 @mixin disabled() {

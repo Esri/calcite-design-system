@@ -47,6 +47,7 @@ import { Alignment, Scale, Status } from "../interfaces";
 import { InputTextMessages } from "./assets/input-text/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -633,14 +634,6 @@ export class InputText
 
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
-    const messageEl = (
-      <div class={CSS.messageContainer}>
-        <calcite-input-message icon={this.validationIcon} scale={this.scale} status={this.status}>
-          {this.validationMessage}
-        </calcite-input-message>
-      </div>
-    );
-
     const childEl = (
       <input
         aria-label={getLabelText(this)}
@@ -689,7 +682,14 @@ export class InputText
           {this.suffixText ? suffixText : null}
           <HiddenFormInputSlot component={this} />
         </div>
-        {this.validationMessage ? messageEl : null}
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }

@@ -416,6 +416,5 @@ input {
   }
 }
 
-@include form-validation-message();
 @include hidden-form-input();
 @include base-component();

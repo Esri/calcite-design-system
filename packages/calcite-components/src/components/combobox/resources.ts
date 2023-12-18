@@ -7,5 +7,4 @@ export const CSS = {
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
   listContainer: "list-container",
-  messageContainer: "message-container",
 };

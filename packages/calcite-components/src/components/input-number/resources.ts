@@ -13,7 +13,6 @@ export const CSS = {
   actionWrapper: "action-wrapper",
   resizeIconWrapper: "resize-icon-wrapper",
   numberButtonItem: "number-button-item",
-  messageContainer: "message-container",
 };
 
 export const SLOTS = {

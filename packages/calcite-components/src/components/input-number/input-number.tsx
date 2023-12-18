@@ -67,6 +67,7 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/i
 import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -1008,14 +1009,6 @@ export class InputNumber
 
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
-    const messageEl = (
-      <div class={CSS.messageContainer}>
-        <calcite-input-message icon={this.validationIcon} scale={this.scale} status={this.status}>
-          {this.validationMessage}
-        </calcite-input-message>
-      </div>
-    );
-
     const childEl = (
       <input
         aria-label={getLabelText(this)}
@@ -1066,7 +1059,14 @@ export class InputNumber
             : null}
           <HiddenFormInputSlot component={this} />
         </div>
-        {this.validationMessage ? messageEl : null}
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }

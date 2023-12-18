@@ -36,6 +36,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -401,15 +402,12 @@ export class Select
           <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage ? (
-          <div class={CSS.messageContainer}>
-            <calcite-input-message
-              icon={this.validationIcon}
-              scale={this.scale}
-              status={this.status}
-            >
-              {this.validationMessage}
-            </calcite-input-message>
-          </div>
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
         ) : null}
       </Host>
     );
