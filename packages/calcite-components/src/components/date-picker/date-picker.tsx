@@ -403,6 +403,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     const start = Array.isArray(valueAsDate) && valueAsDate[0];
     const end = Array.isArray(valueAsDate) && valueAsDate[1];
 
+    if (!start || !end) {
+      this.hoverRange = undefined;
+      return;
+    }
+
     const date = new Date(event.detail);
     this.hoverRange = {
       focused: this.activeRange || "start",
