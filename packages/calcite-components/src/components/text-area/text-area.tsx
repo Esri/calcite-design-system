@@ -130,10 +130,10 @@ export class TextArea
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: TextAreaMessages;
 
-  /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
+  /** Specifies the validation message to display under the component. */
   @Prop() validationMessage: string;
 
-  /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
+  /** Specifies the validation icon to display under the component. */
   @Prop() validationIcon: string | boolean;
 
   /**

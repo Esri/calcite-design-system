@@ -268,10 +268,10 @@ export class InputDatePicker
     this.reposition(true);
   }
 
-  /** Specifies the `calcite-input-message` text to display under the component, primarily for form validation. */
+  /** Specifies the validation message to display under the component. */
   @Prop() validationMessage: string;
 
-  /** Specifies the `calcite-input-message` icon to display under the component, primarily for form validation. */
+  /** Specifies the validation icon to display under the component. */
   @Prop() validationIcon: string | boolean;
 
   /**
