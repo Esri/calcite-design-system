@@ -23,7 +23,7 @@ export const transformValuesEvaluateMath: CalledTransformerFunction<any> = (toke
 
 export const registerValueEvaluateMath = (sd: StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
-    name: valueEvaluateMath,
+    name: transitiveValueEvaluateMath,
     transformer: transformValuesEvaluateMath,
     transitive: true,
     type: "value",
@@ -32,4 +32,4 @@ export const registerValueEvaluateMath = (sd: StyleDictionary): void => {
   sd.registerTransform(transformerConfig);
 };
 
-export const valueEvaluateMath = "value/calcite/evaluate-math";
+export const transitiveValueEvaluateMath = "value/calcite/evaluate-math";

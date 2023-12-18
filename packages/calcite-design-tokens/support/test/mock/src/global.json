@@ -1,6 +1,6 @@
 {
   "core": {
-    "group": {
+    "pattern": {
       "property": {
         "value": "token",
         "type": "other",
