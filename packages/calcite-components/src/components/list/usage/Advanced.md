@@ -22,7 +22,7 @@
   >
     <calcite-action icon="information" label="information" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="layer" slot="content-start"></calcite-icon>
-    <calcite-avatar scale="l" slot="content-start" thumbnail="https://placekitten.com/g/300/300"></calcite-avatar>
+    <calcite-avatar scale="l" slot="content-start" thumbnail="my-thumbnail.png"></calcite-avatar>
     <calcite-icon
       scale="s"
       icon="check"

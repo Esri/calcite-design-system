@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.9...@esri/calcite-components@2.1.0-next.10) (2023-12-16)
+
+### Features
+
+- __list-item:__ Add calciteListItemToggle event. ([#8433](https://github.com/Esri/calcite-design-system/issues/8433)) ([1d2fa04](https://github.com/Esri/calcite-design-system/commit/1d2fa0406a303f9ae45861c3006eed0b896a207b)), closes [#8434](https://github.com/Esri/calcite-design-system/issues/8434)
+- __list:__ Add drag event details to `calciteListDragStart` and `calciteListDragEnd` events ([#8438](https://github.com/Esri/calcite-design-system/issues/8438)) ([e199c08](https://github.com/Esri/calcite-design-system/commit/e199c080128d339b987512454f70a3370d9bdf98)), closes [#8437](https://github.com/Esri/calcite-design-system/issues/8437)
+
+### Bug Fixes
+
+- __input-date-picker:__ ensure range input toggling is consistent ([#8414](https://github.com/Esri/calcite-design-system/issues/8414)) ([cd92586](https://github.com/Esri/calcite-design-system/commit/cd925869e36f63d9ba21d77ed1dc8c765bbaf30f)), closes [#6501](https://github.com/Esri/calcite-design-system/issues/6501)
+- __menu-item:__ Improve keyboard navigability when `href` populated ([#8408](https://github.com/Esri/calcite-design-system/issues/8408)) ([5b44798](https://github.com/Esri/calcite-design-system/commit/5b447981efabddf2aeab961b8be826aaab5cbd9e)), closes [#8135](https://github.com/Esri/calcite-design-system/issues/8135)
+- __table-cell:__ Fix background css variable ([#8439](https://github.com/Esri/calcite-design-system/issues/8439)) ([9e5c59b](https://github.com/Esri/calcite-design-system/commit/9e5c59b94f4f8291788cd9a8734b2ea47fd60329)), closes [#8380](https://github.com/Esri/calcite-design-system/issues/8380)
+
+## [2.1.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.8...@esri/calcite-components@2.1.0-next.9) (2023-12-15)
+
+### Bug Fixes
+
+- __stepper:__ emits `calciteStepperItemChange` event when switched to first step ([#8422](https://github.com/Esri/calcite-design-system/issues/8422)) ([508979f](https://github.com/Esri/calcite-design-system/commit/508979f25196556af730c984929d232858623c78)), closes [#8397](https://github.com/Esri/calcite-design-system/issues/8397)
+
 ## [2.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.7...@esri/calcite-components@2.1.0-next.8) (2023-12-13)
 
 ### Bug Fixes
