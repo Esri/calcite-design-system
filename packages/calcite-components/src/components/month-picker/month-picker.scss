@@ -1,8 +1,33 @@
 :host {
-  display: flex;
-  flex-direction: column;
-  block-size: 344px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  block-size: 250px;
+  inline-size: 358px;
   background-color: var(--calcite-color-foreground-1);
   font-size: var(--calcite-font-size--1);
-  overflow: auto;
+  grid-template-areas: "header header header header";
+}
+
+.month-items {
+  justify-self: stretch;
+  align-self: stretch;
+}
+
+.header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+}
+
+.year-picker {
+  inline-size: 278px;
+}
+
+.next {
+  inline-size: 40px;
+}
+
+.previous {
+  inline-size: 40px;
 }

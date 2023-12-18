@@ -1,19 +1,16 @@
 :host {
   display: flex;
-  block-size: 36px;
 }
 
 .month-item {
   display: flex;
   inline-size: 100%;
   @apply text-color-1;
-  padding-block: 8px;
-  padding-inline: 12px 8px;
-  &:hover {
-    background-color: var(--calcite-color-foreground-2);
-  }
+  justify-content: center;
+  align-items: center;
 }
 
 .month-item--active {
-  border-inline-start: 2px solid var(--calcite-color-brand);
+  background-color: var(--calcite-color-brand);
+  color: #ffffff;
 }

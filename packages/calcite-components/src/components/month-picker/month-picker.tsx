@@ -58,16 +58,21 @@ export class MonthPicker implements LocalizedComponent {
 
   @Listen("calciteInternalMonthPickerItemSelect")
   handleCalciteMonthPickerItemChange(event: CustomEvent<string>): void {
-    this.activeMonthIndex = this.localeData?.months.wide.indexOf(event.detail);
+    this.activeMonthIndex = this.localeData?.months.abbreviated.indexOf(event.detail);
     this.calciteMonthPickerChange.emit();
   }
 
   render(): VNode {
-    console.log("render", this.localeData?.months);
     return (
       <Host>
-        {this.localeData?.months.wide.map((month, index) => (
+        <div class="header">
+          <div class="year-picker">Year picker</div>
+          <calcite-action class="previous" icon="chevron-left" scale="s" text="Previous Month" />
+          <calcite-action class="next" icon="chevron-right" scale="s" text="Next Month" />
+        </div>
+        {this.localeData?.months.abbreviated.map((month, index) => (
           <calcite-month-picker-item
+            class="month-items"
             isActive={index === this.activeMonthIndex}
             key={index}
             value={month}

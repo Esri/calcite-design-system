@@ -24,7 +24,7 @@ export class MonthPickerItem {
 
   render(): VNode {
     return (
-      <Host>
+      <Host role="button">
         <div
           class={{ "month-item": true, "month-item--active": this.isActive }}
           onClick={this.handleClick}
