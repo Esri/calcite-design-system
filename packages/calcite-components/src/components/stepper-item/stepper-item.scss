@@ -41,8 +41,6 @@
   flex-col
   self-start;
   margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
-
-  --calcite-internal-stepper-item-subtle-color-brand: #{rgba($calcite-color-brand, 0.5)};
 }
 
 :host .container {
@@ -140,7 +138,7 @@
 @include disabled();
 
 :host([complete]) .container {
-  border-color: var(--calcite-internal-stepper-item-subtle-color-brand);
+  border-color: var(--calcite-color-brand-underline);
   & .stepper-item-icon {
     color: theme("backgroundColor.brand");
   }
@@ -223,7 +221,7 @@
 }
 
 :host([layout="vertical"][complete]) .container {
-  border-color: var(--calcite-internal-stepper-item-subtle-color-brand);
+  border-color: var(--calcite-color-brand-underline);
 }
 :host([layout="vertical"][complete]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][complete]:focus:not([disabled]):not([selected])) .container {
@@ -241,7 +239,7 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([selected])) .container {
-  border-color: var(--calcite-internal-stepper-item-subtle-color-brand);
+  border-color: var(--calcite-color-brand-underline);
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([selected])) .container {
@@ -289,7 +287,7 @@
 }
 
 :host([layout="horizontal"][complete]) .stepper-item-header {
-  border-color: var(--calcite-internal-stepper-item-subtle-color-brand);
+  border-color: var(--calcite-color-brand-underline);
 }
 :host([layout="horizontal"][complete]:hover:not([disabled]):not([selected])) .stepper-item-header,
 :host([layout="horizontal"][complete]:focus:not([disabled]):not([selected])) .stepper-item-header {
@@ -303,7 +301,7 @@
 }
 :host([layout="horizontal"]:hover:not([disabled]):not([selected])) .stepper-item-header,
 :host([layout="horizontal"]:focus:not([disabled]):not([selected])) .stepper-item-header {
-  border-color: var(--calcite-internal-stepper-item-subtle-color-brand);
+  border-color: var(--calcite-color-brand-underline);
 }
 :host([layout="horizontal"][error]:hover:not([disabled]):not([selected])) .stepper-item-header,
 :host([layout="horizontal"][error]:focus:not([disabled]):not([selected])) .stepper-item-header {
