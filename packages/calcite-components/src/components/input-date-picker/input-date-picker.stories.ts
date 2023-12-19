@@ -4,7 +4,7 @@ import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { storyFilters } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/InputDatePicker",
@@ -24,6 +24,8 @@ export const simple = (): string => html`
       max="${text("max", "2023-12-18")}"
       lang="${select("locale", locales, "en")}"
       placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     ></calcite-input-date-picker
   </div>
 `;
@@ -40,6 +42,8 @@ export const range = (): string => html`
       prev-month-label="${text("prev-month-label", "Previous month")}"
       range="${boolean("range", true)}"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     ></calcite-input-date-picker>
   </div>
 `;
@@ -87,9 +91,38 @@ export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
   </div>
 `;
 
-export const invalidStatus_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-input-date-picker status="invalid" value="2020-12-12"></calcite-input-date-picker>
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input-date-picker
+      scale="s"
+      status="invalid"
+      value="2020-12-12"
+      validation-message="Choose a more recent date"
+      validation-icon
+    ></calcite-input-date-picker>
+    <calcite-input-date-picker
+      scale="m"
+      status="invalid"
+      value="2020-12-12"
+      validation-message="Choose a more recent date"
+      validation-icon
+    ></calcite-input-date-picker>
+    <calcite-input-date-picker
+      scale="l"
+      status="invalid"
+      value="2020-12-12"
+      validation-message="Choose a more recent date"
+      validation-icon
+    ></calcite-input-date-picker>
   </div>
 `;
 
