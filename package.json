@@ -41,7 +41,7 @@
     "@storybook/html": "6.5.16",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/testing-library": "0.2.2",
-    "@tokens-studio/sd-transforms": "0.12.1",
+    "@tokens-studio/sd-transforms": "0.12.2",
     "@types/dedent": "0.7.2",
     "@types/eslint": "8.44.9",
     "@types/estree": "1.0.5",
