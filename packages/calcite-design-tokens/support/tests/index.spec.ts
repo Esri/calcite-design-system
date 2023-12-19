@@ -1,5 +1,9 @@
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
-import { resolve } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 describe("generated tokens", () => {
   describe("CSS", () => {

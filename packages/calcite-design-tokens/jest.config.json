@@ -1,6 +1,5 @@
 {
-  "preset": "ts-jest",
-  "testEnvironment": "node",
+  "resolver": "ts-jest-resolver",
   "extensionsToTreatAsEsm": [".ts"],
   "moduleNameMapper": {
     "^(\\.{1,2}/.*)\\.js$": "$1"
