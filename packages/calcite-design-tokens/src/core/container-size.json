@@ -3,47 +3,267 @@
     "container-size": {
       "0": {
         "value": 0,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "0",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "154": {
         "value": 154,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "154",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "320": {
         "value": 320,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "320",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "328": {
         "value": 328,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "328",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "476": {
         "value": 476,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "476",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "504": {
         "value": 504,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "504",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "678": {
         "value": 678,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "678",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "768": {
         "value": 768,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "768",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "854": {
         "value": 854,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "854",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "1152": {
         "value": 1152,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "1152",
+            "context": "",
+            "mode": ""
+          }
+        }
       },
       "1440": {
         "value": 1440,
-        "type": "sizing"
+        "type": "sizing",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "breakpoint",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "1440",
+            "context": "",
+            "mode": ""
+          }
+        }
       }
     }
   }

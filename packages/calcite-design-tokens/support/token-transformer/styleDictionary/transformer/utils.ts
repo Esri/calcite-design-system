@@ -1,21 +1,22 @@
 import { Transform as SdTransform } from "style-dictionary/types/Transform.js";
 import { Named as SdNamed } from "style-dictionary/types/_helpers.js";
 
-import { PlatformOptions } from "../../../types/styleDictionary/platform.js";
-import { PossibleRegistryArgs } from "../../../types/styleDictionary/registerFunctions.js";
-import { TransformedToken } from "../../../types/styleDictionary/transformedToken.js";
-import { valueAssetToken } from "./value/valueAssetToken.js";
-import { valueAlignFontWeightAndStyles } from "./value/valueAlignFontWeightAndStyle.js";
-import { valueStringWrapper } from "./value/valueStringWrapper.js";
-import { nameKebabCase } from "./name/nameKebabCase.js";
 import { attributePlatformNames } from "./attributes/attributePlatformName.js";
 import { nameCamelCase } from "./name/nameCamelCase.js";
-import { PlatformUnion } from "../../../types/platform.js";
-import { valueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
-import { CalciteValueRGBA } from "./value/valueRGBA.js";
+import { nameKebabCase } from "./name/nameKebabCase.js";
 import { nameSpacePath } from "./name/nameSpacePath.js";
-import { CalciteValueToREM } from "./value/valueToREM.js";
+import { PlatformOptions } from "../../../types/styleDictionary/platform.js";
+import { PlatformUnion } from "../../../types/platform.js";
+import { PossibleRegistryArgs } from "../../../types/styleDictionary/registerFunctions.js";
+import { TransformedToken } from "../../../types/styleDictionary/transformedToken.js";
+import { valueAlignFontWeightAndStyles } from "./value/valueAlignFontWeightAndStyle.js";
+import { valueAssetToken } from "./value/valueAssetToken.js";
+import { valueStringWrapper } from "./value/valueStringWrapper.js";
+import { transitiveValueColorCSS } from "./value/valueColorCss.js";
+import { transitiveValueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
+import { valueLineHeight } from "./value/valueLineHeight.js";
 import { valueFontFamilyFallbacks } from "./value/valueFontFamilyFallbacks.js";
+import { CalciteValueToREM } from "./value/valueToREM.js";
 
 export type TransformerTypeUnion = `${TransformerTypeEnum}`;
 
@@ -28,26 +29,21 @@ export type TransformerConfig = SdNamed<SdTransform> &
 export type CalledTransformerFunction<R> = typeof calledTransformerFunction<R>;
 
 export const globalTransformations = [
+  "ts/opacity",
   "ts/size/px",
   "ts/color/modifiers",
+  valueLineHeight,
   valueAlignFontWeightAndStyles,
-  valueEvaluateMath,
-  CalciteValueRGBA,
+  transitiveValueColorCSS,
+  transitiveValueEvaluateMath,
 ];
 
 export const styles = [
   ...globalTransformations,
   "ts/descriptionToComment",
-  "ts/opacity",
-  // This transformer name comes from Token Studio transformers
-  // eslint-disable-next-line @cspell/spellchecker
-  "ts/size/lineheight",
   // This transformer name comes from Token Studio transformers
   // eslint-disable-next-line @cspell/spellchecker
   "ts/size/css/letterspacing",
-  // This transformer name comes from Token Studio transformers
-  // eslint-disable-next-line @cspell/spellchecker
-  "ts/color/css/hexrgba",
   "ts/shadow/css/shorthand",
   valueAssetToken,
   valueStringWrapper,
@@ -63,7 +59,7 @@ export const transformations: Record<PlatformUnion, string[]> = {
   css: styles,
   sass: styles,
   scss: styles,
-  docs: js,
+  docs: [...globalTransformations, attributePlatformNames, nameSpacePath],
   js,
   es6,
 };

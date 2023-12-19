@@ -14,11 +14,12 @@ import { registerValueAlignFontWeightAndStyles } from "./styleDictionary/transfo
 import { registerValueAssetToken } from "./styleDictionary/transformer/value/valueAssetToken.js";
 import { registerValueStringWrapper } from "./styleDictionary/transformer/value/valueStringWrapper.js";
 import { registerValueEvaluateMath } from "./styleDictionary/transformer/value/valueCheckEvaluateMath.js";
-import { registerValueRGBA } from "./styleDictionary/transformer/value/valueRGBA.js";
 import { registerNameSpacePath } from "./styleDictionary/transformer/name/nameSpacePath.js";
 import { registerFormatterDocs } from "./styleDictionary/formatter/docs.js";
 import { registerValueToREM } from "./styleDictionary/transformer/value/valueToREM.js";
 import { registerValueFontFamilyWithFallbacks } from "./styleDictionary/transformer/value/valueFontFamilyFallbacks.js";
+import { registerValueColorCSS } from "./styleDictionary/transformer/value/valueColorCss.js";
+import { registerValueLineHeight } from "./styleDictionary/transformer/value/valueLineHeight.js";
 
 export async function registerCalciteTransformers(sd: StyleDictionary): Promise<void> {
   // Here we are registering the Transforms provided by Token Studio however,
@@ -28,6 +29,7 @@ export async function registerCalciteTransformers(sd: StyleDictionary): Promise<
   await registerTransforms(sd, {
     expand: false,
   });
+  registerValueEvaluateMath(sd);
   registerAttributePlatformNames(sd);
   registerCustomJSONParser(sd);
   registerFilterSource(sd);
@@ -43,7 +45,8 @@ export async function registerCalciteTransformers(sd: StyleDictionary): Promise<
   registerValueAssetToken(sd);
   registerValueEvaluateMath(sd);
   registerValueFontFamilyWithFallbacks(sd);
-  registerValueRGBA(sd);
   registerValueStringWrapper(sd);
   registerValueToREM(sd);
+  registerValueColorCSS(sd);
+  registerValueLineHeight(sd);
 }
