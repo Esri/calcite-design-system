@@ -9,7 +9,7 @@
 
 :host {
   @extend %component-spacing;
-  @apply flex;
+  @apply flex-col;
 }
 
 .wrapper {
@@ -115,8 +115,3 @@ select:disabled {
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
-
-.wrapper,
-.validation-container {
-  @apply flex-1;
-}
