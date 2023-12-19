@@ -410,7 +410,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       end,
     };
     if (!this.proximitySelectionDisabled) {
-      if (end) {
+      if (start && end) {
         const startDiff = getDaysDiff(date, start);
         const endDiff = getDaysDiff(date, end);
         if (endDiff > 0) {

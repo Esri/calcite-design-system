@@ -67,6 +67,7 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/i
 import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -209,6 +210,12 @@ export class InputNumber
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @Prop({ reflect: true }) minLength: number;
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop() validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -1052,6 +1059,14 @@ export class InputNumber
             : null}
           <HiddenFormInputSlot component={this} />
         </div>
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }

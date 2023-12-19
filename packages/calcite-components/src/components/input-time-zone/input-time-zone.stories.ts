@@ -1,5 +1,5 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "@storybook/addon-knobs";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -23,6 +23,8 @@ export const simple = (): string => html`
     mode="${select("mode", ["offset", "name"], "offset")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     status="${select("status", ["idle", "invalid", "valid"], "idle")}"
+    validation-message="${text("validation-message", "")}"
+    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
   ></calcite-input-time-zone>
 `;
 
@@ -63,3 +65,38 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input-time-zone
+      scale="s"
+      status="invalid"
+      value="America/Phoenix"
+      validation-message="Choose a closer time zone"
+      validation-icon
+    ></calcite-input-time-zone>
+    <calcite-input-time-zone
+      scale="m"
+      status="invalid"
+      value="America/Phoenix"
+      validation-message="Choose a closer time zone"
+      validation-icon
+    ></calcite-input-time-zone>
+    <calcite-input-time-zone
+      scale="l"
+      status="invalid"
+      value="America/Phoenix"
+      validation-message="Choose a closer time zone"
+      validation-icon
+    ></calcite-input-time-zone>
+  </div>
+`;

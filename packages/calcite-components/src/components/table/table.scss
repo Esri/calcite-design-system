@@ -57,7 +57,7 @@ tbody {
   }
 }
 
-.zebra {
+.striped {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
     --calcite-table-row-background: var(--calcite-color-foreground-2);
   }

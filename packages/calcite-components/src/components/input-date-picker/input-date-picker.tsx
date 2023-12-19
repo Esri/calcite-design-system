@@ -82,6 +82,7 @@ import { guid } from "../../utils/guid";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
+import { Validation } from "../functional/Validation";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -267,6 +268,12 @@ export class InputDatePicker
 
     this.reposition(true);
   }
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop() validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -652,6 +659,14 @@ export class InputDatePicker
           </div>
         )}
         <HiddenFormInputSlot component={this} />
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }

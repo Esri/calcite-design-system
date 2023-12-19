@@ -3,76 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.1.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.8...@esri/calcite-components@2.1.0-next.9) (2023-12-15)
-
-### Bug Fixes
-
-- __stepper:__ emits `calciteStepperItemChange` event when switched to first step ([#8422](https://github.com/Esri/calcite-design-system/issues/8422)) ([508979f](https://github.com/Esri/calcite-design-system/commit/508979f25196556af730c984929d232858623c78)), closes [#8397](https://github.com/Esri/calcite-design-system/issues/8397)
-
-## [2.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.7...@esri/calcite-components@2.1.0-next.8) (2023-12-13)
-
-### Bug Fixes
-
-- __floating-ui:__ improve floating element performance ([#8409](https://github.com/Esri/calcite-design-system/issues/8409)) ([4d8cfb8](https://github.com/Esri/calcite-design-system/commit/4d8cfb899857960268226db5c2a47514ea20ad18)), closes [#7979](https://github.com/Esri/calcite-design-system/issues/7979) [#8214](https://github.com/Esri/calcite-design-system/issues/8214) [#8386](https://github.com/Esri/calcite-design-system/issues/8386) [#8419](https://github.com/Esri/calcite-design-system/issues/8419) [#5697](https://github.com/Esri/calcite-design-system/issues/5697) [#8001](https://github.com/Esri/calcite-design-system/issues/8001) [#8230](https://github.com/Esri/calcite-design-system/issues/8230)
-
-## [2.1.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.6...@esri/calcite-components@2.1.0-next.7) (2023-12-13)
-
-### Bug Fixes
-
-- use Stencil watchers instead of global attributes util ([#8407](https://github.com/Esri/calcite-design-system/issues/8407)) ([c531d81](https://github.com/Esri/calcite-design-system/commit/c531d815477fb2a6629c875d585f465240e2e929)), closes [#8193](https://github.com/Esri/calcite-design-system/issues/8193)
-
-## [2.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.5...@esri/calcite-components@2.1.0-next.6) (2023-12-12)
-
-### Bug Fixes
-
-- __dropdown-item:__ avoid hover/active styling when disabled ([#8398](https://github.com/Esri/calcite-design-system/issues/8398)) ([35817dc](https://github.com/Esri/calcite-design-system/commit/35817dc6a8fc6eb3dd1d3e1b267869b39d6e8d8c)), closes [#6667](https://github.com/Esri/calcite-design-system/issues/6667)
-- __modal:__ ensure document overflow styles are properly restored when multiple modals are closed/removed ([#8390](https://github.com/Esri/calcite-design-system/issues/8390)) ([f2c6b09](https://github.com/Esri/calcite-design-system/commit/f2c6b0990d23e080ca665d72fb3bd05c1f3e227d)), closes [#6594](https://github.com/Esri/calcite-design-system/issues/6594)
-
-## [2.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.4...@esri/calcite-components@2.1.0-next.5) (2023-12-11)
-
-### Bug Fixes
-
-- __tab:__ prevent vertical scrollbar on content pane when the height of outer elements are specified ([#8399](https://github.com/Esri/calcite-design-system/issues/8399)) ([9e6d901](https://github.com/Esri/calcite-design-system/commit/9e6d9013fead27aa5c816d0c21429f62c1f224af)), closes [#8139](https://github.com/Esri/calcite-design-system/issues/8139)
-
-## [2.1.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.3...@esri/calcite-components@2.1.0-next.4) (2023-12-09)
-
-### Bug Fixes
-
-- __action-menu:__ keep internal popover open property in sync ([#8387](https://github.com/Esri/calcite-design-system/issues/8387)) ([38dff7c](https://github.com/Esri/calcite-design-system/commit/38dff7cd9eab60667ee415e59dd4287ae9ab8bb0)), closes [#7445](https://github.com/Esri/calcite-design-system/issues/7445)
-- __input-date-picker:__ respect the numberingSystem property when rendering the input ([#8383](https://github.com/Esri/calcite-design-system/issues/8383)) ([395b538](https://github.com/Esri/calcite-design-system/commit/395b5387e2df538cec99ae02702dfd7d363b16ab)), closes [#7383](https://github.com/Esri/calcite-design-system/issues/7383)
-
-## [2.1.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.2...@esri/calcite-components@2.1.0-next.3) (2023-12-08)
-
-### Bug Fixes
-
-- __list-item:__ drag grid cell should be accessible via arrow keys. ([#8353](https://github.com/Esri/calcite-design-system/issues/8353)) ([2718ab3](https://github.com/Esri/calcite-design-system/commit/2718ab3420035c33dca7dd97321c8596944d3894)), closes [#8366](https://github.com/Esri/calcite-design-system/issues/8366)
-
-## [2.1.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.1...@esri/calcite-components@2.1.0-next.2) (2023-12-08)
+## [2.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0...@esri/calcite-components@2.2.0-next.0) (2023-12-19)
 
 ### Features
 
-- __list:__ Add `calciteListDragStart` and `calciteListDragEnd` events for when a drag starts and ends. ([#8361](https://github.com/Esri/calcite-design-system/issues/8361)) ([1314605](https://github.com/Esri/calcite-design-system/commit/131460537f47f2d77d6118a8fb324dc829f77ea9)), closes [#8367](https://github.com/Esri/calcite-design-system/issues/8367)
-
-## [2.1.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.0...@esri/calcite-components@2.1.0-next.1) (2023-12-07)
+- __table-header:__ Add style when within a `selected` Table Row ([#8449](https://github.com/Esri/calcite-design-system/issues/8449)) ([13cfe75](https://github.com/Esri/calcite-design-system/commit/13cfe75e0c39f6ab492f5a3eb312c5adc93d18e5)), closes [#8448](https://github.com/Esri/calcite-design-system/issues/8448)
 
 ### Bug Fixes
 
-- replace "\n" to support Windows for tokens output ([#8352](https://github.com/Esri/calcite-design-system/issues/8352)) ([02cf5d5](https://github.com/Esri/calcite-design-system/commit/02cf5d5abaad73a7159bdc7c00b0e33636f64314)), closes [#8350](https://github.com/Esri/calcite-design-system/issues/8350)
+- __date-picker:__ prevent console error when selecting just an end date for input date picker ([#8444](https://github.com/Esri/calcite-design-system/issues/8444)) ([c0e51c3](https://github.com/Esri/calcite-design-system/commit/c0e51c393ef0bf52ca6164108df8bcac595bcebd)), closes [#8436](https://github.com/Esri/calcite-design-system/issues/8436)
 
-## [2.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.0.0...@esri/calcite-components@2.1.0-next.0) (2023-12-07)
+## [2.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.0.0...@esri/calcite-components@2.1.0) (2023-12-19)
 
 ### Features
 
-- __dropdown-item:__ add disabled support ([#8312](https://github.com/Esri/calcite-design-system/issues/8312)) ([4c311c6](https://github.com/Esri/calcite-design-system/commit/4c311c646b0a1051ca63f4ca809227a3afb243f9)), closes [#6667](https://github.com/Esri/calcite-design-system/issues/6667)
-- provide legacy CSS custom props for backwards compatibility ([#8355](https://github.com/Esri/calcite-design-system/issues/8355)) ([b0f063e](https://github.com/Esri/calcite-design-system/commit/b0f063e213adaa31bc5fed124b7f29381735ccf5)), closes [#8354](https://github.com/Esri/calcite-design-system/issues/8354)
+- Add `validation-message` and `validation-icon` attributes to form components for new internal `calcite-input-message` ([#8305](https://github.com/Esri/calcite-design-system/issues/8305)) ([a554cfd](https://github.com/Esri/calcite-design-system/commit/a554cfd0d8c51edf2433191f907be2770fc5274d))
+- __dropdown-item:__ Add disabled support ([#8312](https://github.com/Esri/calcite-design-system/issues/8312)) ([4c311c6](https://github.com/Esri/calcite-design-system/commit/4c311c646b0a1051ca63f4ca809227a3afb243f9))
+- __list-item:__ Add calciteListItemToggle event. ([#8433](https://github.com/Esri/calcite-design-system/issues/8433)) ([1d2fa04](https://github.com/Esri/calcite-design-system/commit/1d2fa0406a303f9ae45861c3006eed0b896a207b))
+- __list:__ Add `calciteListDragStart` and `calciteListDragEnd` events for when a drag starts and ends. ([#8361](https://github.com/Esri/calcite-design-system/issues/8361)) ([1314605](https://github.com/Esri/calcite-design-system/commit/131460537f47f2d77d6118a8fb324dc829f77ea9))
+- __list:__ Add drag event details to `calciteListDragStart` and `calciteListDragEnd` events ([#8438](https://github.com/Esri/calcite-design-system/issues/8438)) ([e199c08](https://github.com/Esri/calcite-design-system/commit/e199c080128d339b987512454f70a3370d9bdf98))
+- Provide legacy CSS custom props for backwards compatibility ([#8355](https://github.com/Esri/calcite-design-system/issues/8355)) ([b0f063e](https://github.com/Esri/calcite-design-system/commit/b0f063e213adaa31bc5fed124b7f29381735ccf5))
 
 ### Bug Fixes
 
-- __action-menu:__ fix closing action menu after a drag occurs ([#8339](https://github.com/Esri/calcite-design-system/issues/8339)) ([dcb8548](https://github.com/Esri/calcite-design-system/commit/dcb854803f242c5bbe8febdd7138c329f120d890)), closes [#7445](https://github.com/Esri/calcite-design-system/issues/7445)
-- __action-menu:__ Filter hidden or disabled actions via keyboard. ([#8336](https://github.com/Esri/calcite-design-system/issues/8336)) ([11c0007](https://github.com/Esri/calcite-design-system/commit/11c0007b774207c2b862061fc277c64ea513c845)), closes [#8337](https://github.com/Esri/calcite-design-system/issues/8337)
-- __input-date-picker:__ no longer emits redundant change event ([#8341](https://github.com/Esri/calcite-design-system/issues/8341)) ([cd5b92b](https://github.com/Esri/calcite-design-system/commit/cd5b92b8f9a3d2edbca34eb8621bd340c07d23d5)), closes [#7218](https://github.com/Esri/calcite-design-system/issues/7218)
-- __shell-panel:__ adds border at the start when slotted in `panel-end` ([#8314](https://github.com/Esri/calcite-design-system/issues/8314)) ([2d1a1e2](https://github.com/Esri/calcite-design-system/commit/2d1a1e2064e8a8163f03112c28ed6f6b0cdd36e6)), closes [#7929](https://github.com/Esri/calcite-design-system/issues/7929)
-- __shell, shell-panel:__ support resizing shell panel when there is an iframe slotted in shell content ([#8317](https://github.com/Esri/calcite-design-system/issues/8317)) ([e0f69c9](https://github.com/Esri/calcite-design-system/commit/e0f69c91e1304d7c9f6444dbd2189d32a6e69806)), closes [#8156](https://github.com/Esri/calcite-design-system/issues/8156)
+- __action-menu:__ Filter hidden or disabled actions via keyboard. ([#8336](https://github.com/Esri/calcite-design-system/issues/8336)) ([11c0007](https://github.com/Esri/calcite-design-system/commit/11c0007b774207c2b862061fc277c64ea513c845))
+- __action-menu:__ Fix closing action menu after a drag occurs ([#8339](https://github.com/Esri/calcite-design-system/issues/8339)) ([dcb8548](https://github.com/Esri/calcite-design-system/commit/dcb854803f242c5bbe8febdd7138c329f120d890))
+- __action-menu:__ Keep internal popover open property in sync ([#8387](https://github.com/Esri/calcite-design-system/issues/8387)) ([38dff7c](https://github.com/Esri/calcite-design-system/commit/38dff7cd9eab60667ee415e59dd4287ae9ab8bb0))
+- __dropdown-item:__ Avoid hover/active styling when disabled ([#8398](https://github.com/Esri/calcite-design-system/issues/8398)) ([35817dc](https://github.com/Esri/calcite-design-system/commit/35817dc6a8fc6eb3dd1d3e1b267869b39d6e8d8c))
+- __floating-ui:__ Improve floating element performance ([#8409](https://github.com/Esri/calcite-design-system/issues/8409)) ([4d8cfb8](https://github.com/Esri/calcite-design-system/commit/4d8cfb899857960268226db5c2a47514ea20ad18))
+- __input-date-picker:__ Ensure range input toggling is consistent ([#8414](https://github.com/Esri/calcite-design-system/issues/8414)) ([cd92586](https://github.com/Esri/calcite-design-system/commit/cd925869e36f63d9ba21d77ed1dc8c765bbaf30f))
+- __input-date-picker:__ No longer emits redundant change event ([#8341](https://github.com/Esri/calcite-design-system/issues/8341)) ([cd5b92b](https://github.com/Esri/calcite-design-system/commit/cd5b92b8f9a3d2edbca34eb8621bd340c07d23d5))
+- __input-date-picker:__ Respect the numberingSystem property when rendering the input ([#8383](https://github.com/Esri/calcite-design-system/issues/8383)) ([395b538](https://github.com/Esri/calcite-design-system/commit/395b5387e2df538cec99ae02702dfd7d363b16ab))
+- __list-item:__ Drag grid cell should be accessible via arrow keys. ([#8353](https://github.com/Esri/calcite-design-system/issues/8353)) ([2718ab3](https://github.com/Esri/calcite-design-system/commit/2718ab3420035c33dca7dd97321c8596944d3894))
+- __menu-item:__ Improve keyboard navigability when `href` populated ([#8408](https://github.com/Esri/calcite-design-system/issues/8408)) ([5b44798](https://github.com/Esri/calcite-design-system/commit/5b447981efabddf2aeab961b8be826aaab5cbd9e))
+- __modal:__ Ensure document overflow styles are properly restored when multiple modals are closed/removed ([#8390](https://github.com/Esri/calcite-design-system/issues/8390)) ([f2c6b09](https://github.com/Esri/calcite-design-system/commit/f2c6b0990d23e080ca665d72fb3bd05c1f3e227d))
+- Replace "\n" to support Windows for tokens output ([#8352](https://github.com/Esri/calcite-design-system/issues/8352)) ([02cf5d5](https://github.com/Esri/calcite-design-system/commit/02cf5d5abaad73a7159bdc7c00b0e33636f64314))
+- __shell-panel:__ Adds border at the start when slotted in `panel-end` ([#8314](https://github.com/Esri/calcite-design-system/issues/8314)) ([2d1a1e2](https://github.com/Esri/calcite-design-system/commit/2d1a1e2064e8a8163f03112c28ed6f6b0cdd36e6))
+- __shell, shell-panel:__ Support resizing shell panel when there is an iframe slotted in shell content ([#8317](https://github.com/Esri/calcite-design-system/issues/8317)) ([e0f69c9](https://github.com/Esri/calcite-design-system/commit/e0f69c91e1304d7c9f6444dbd2189d32a6e69806))
+- __stepper:__ Emits `calciteStepperItemChange` event when switched to first step ([#8422](https://github.com/Esri/calcite-design-system/issues/8422)) ([508979f](https://github.com/Esri/calcite-design-system/commit/508979f25196556af730c984929d232858623c78))
+- __table-cell:__ Fix background css variable ([#8439](https://github.com/Esri/calcite-design-system/issues/8439)) ([9e5c59b](https://github.com/Esri/calcite-design-system/commit/9e5c59b94f4f8291788cd9a8734b2ea47fd60329))
+- __tab:__ Prevent vertical scrollbar on content pane when the height of outer elements are specified ([#8399](https://github.com/Esri/calcite-design-system/issues/8399)) ([9e6d901](https://github.com/Esri/calcite-design-system/commit/9e6d9013fead27aa5c816d0c21429f62c1f224af))
+- Use Stencil watchers instead of global attributes util ([#8407](https://github.com/Esri/calcite-design-system/issues/8407)) ([c531d81](https://github.com/Esri/calcite-design-system/commit/c531d815477fb2a6629c875d585f465240e2e929))
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - devDependencies
+    - @esri/calcite-design-tokens bumped from ^2.1.0-next.1 to ^2.1.0
 
 ## [2.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.11.0...@esri/calcite-components@2.0.0) (2023-12-02)
 
