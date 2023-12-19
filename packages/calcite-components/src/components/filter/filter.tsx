@@ -158,7 +158,9 @@ export class Filter
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.updateFiltered(filter(this.items, this.value));
+    if (this.items.length) {
+      this.updateFiltered(filter(this.items, this.value));
+    }
     await setUpMessages(this);
   }
 
@@ -221,7 +223,7 @@ export class Filter
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
-      this.updateFiltered(filter(this.items, value), emit, onFilter),
+      this.items.length && this.updateFiltered(filter(this.items, value), emit, onFilter),
     DEBOUNCE_TIMEOUT
   );
 
