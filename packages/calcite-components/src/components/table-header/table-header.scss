@@ -52,6 +52,10 @@ th.footer-row {
   @apply cursor-pointer align-middle text-color-3;
 }
 
+.selected-cell:not(.number-cell):not(.footer-cell) {
+  --calcite-internal-table-header-background: var(--calcite-color-foreground-current);
+}
+
 .number-cell,
 .selection-cell {
   @apply text-color-2;

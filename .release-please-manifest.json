@@ -1,7 +1,7 @@
 {
-  "packages/calcite-components": "2.0.0",
-  "packages/calcite-components-react": "2.0.0",
-  "packages/calcite-design-tokens": "2.0.0",
+  "packages/calcite-components": "2.1.0",
+  "packages/calcite-components-react": "2.1.0",
+  "packages/calcite-design-tokens": "2.1.0",
   "packages/eslint-plugin-calcite-components": "1.0.0",
-  "packages/calcite-components-angular/projects/component-library": "2.0.0"
+  "packages/calcite-components-angular/projects/component-library": "2.1.0"
 }

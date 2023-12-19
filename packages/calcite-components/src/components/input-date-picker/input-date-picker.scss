@@ -137,6 +137,7 @@
   }
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 
 .assistive-text {

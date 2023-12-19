@@ -9,37 +9,50 @@
 
 :host {
   @extend %component-spacing;
+  @apply flex flex-col;
+}
 
-  @apply relative
-    flex
-    items-stretch;
+.wrapper {
+  @apply relative flex items-stretch;
   inline-size: var(--select-width);
 }
 
 @include disabled();
 
 :host([scale="s"]) {
-  @apply h-6;
   --calcite-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
+
+  .wrapper {
+    @apply h-6;
+  }
+
   .icon-container {
     @apply px-2;
   }
 }
 
 :host([scale="m"]) {
-  @apply h-8;
   --calcite-select-font-size: theme("fontSize.n1h");
   --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
+
+  .wrapper {
+    @apply h-8;
+  }
+
   .icon-container {
     @apply px-3;
   }
 }
 
 :host([scale="l"]) {
-  block-size: 44px;
   --calcite-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
+
+  .wrapper {
+    block-size: 44px;
+  }
+
   .icon-container {
     @apply px-4;
   }
@@ -58,20 +71,7 @@
 }
 
 .select {
-  @apply bg-foreground-1
-    border-color-input
-    text-color-2
-    font-inherit
-    focus-base
-    m-0
-    box-border
-    w-full
-    cursor-pointer
-    appearance-none
-    truncate
-    rounded-none
-    border
-    border-solid;
+  @apply bg-foreground-1 border-color-input text-color-2 font-inherit focus-base m-0 box-border w-full cursor-pointer appearance-none truncate rounded-none border border-solid;
   font-size: var(--calcite-select-font-size);
   padding-inline: var(--calcite-select-spacing-inline);
   border-inline-end-width: theme("borderWidth.0");
@@ -91,16 +91,7 @@ select:disabled {
 }
 
 .icon-container {
-  @apply border-color-input
-    text-color-2
-    pointer-events-none
-    absolute
-    inset-y-0
-    flex
-    items-center
-    border-0
-    border-solid
-    bg-transparent;
+  @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
   border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
 }
@@ -110,6 +101,7 @@ select:disabled {
   .icon-container {
     @apply border-color-danger;
   }
+
   select:focus,
   .icon-container:focus {
     @apply focus-inset-danger;
@@ -120,5 +112,6 @@ select:disabled {
   @apply border-color-transparent;
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();
