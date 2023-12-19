@@ -133,8 +133,11 @@ describe("calcite-input-date-picker", () => {
       await input.click();
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
-      const wrapper = await page.waitForFunction(() =>
-        document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(".calendar-picker-wrapper")
+      const wrapper = await page.waitForFunction(
+        (calendarWrapperClass: string) =>
+          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(`.${calendarWrapperClass}`),
+        {},
+        CSS.calendarWrapper
       );
       expect(await wrapper.isIntersectingViewport()).toBe(true);
 
@@ -202,9 +205,13 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
 
-      const wrapper = await page.waitForFunction(() =>
-        document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(".calendar-picker-wrapper")
+      const wrapper = await page.waitForFunction(
+        (calendarWrapperClass: string) =>
+          document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(`.${calendarWrapperClass}`),
+        {},
+        CSS.calendarWrapper
       );
+
       expect(await wrapper.isIntersectingViewport()).toBe(true);
 
       const inputtedStartDate = "1/1/2020";
@@ -262,6 +269,31 @@ describe("calcite-input-date-picker", () => {
       expect(changeEvent).toHaveReceivedEventTimes(0);
       expect(await getDateInputValue(page)).toBe("3/7/");
     });
+
+    it("should emit change event only once when valueAsDate is parsed as Unix Time Stamp programmatically and user updates the date", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-input-date-picker></calcite-input-date-picker>`);
+
+      const inputDatePickerEl = await page.find("calcite-input-date-picker");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+
+      await page.$eval("calcite-input-date-picker", (element: any) => {
+        element.valueAsDate = new Date(1687528800000);
+      });
+
+      expect(await inputDatePickerEl.getProperty("value")).toEqual("2023-06-23");
+      expect(await getDateInputValue(page)).toEqual("6/23/2023");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      await inputDatePickerEl.click();
+      await page.waitForChanges();
+      await selectDayInMonth(page, 28);
+      await page.waitForChanges();
+
+      expect(await inputDatePickerEl.getProperty("value")).toEqual("2023-06-28");
+      expect(await getDateInputValue(page)).toEqual("6/28/2023");
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
   });
 
   it("should clear active date properly when deleted and committed via keyboard", async () => {
@@ -293,50 +325,267 @@ describe("calcite-input-date-picker", () => {
     let page: E2EPage;
     let inputDatePicker: E2EElement;
 
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html` <calcite-input-date-picker value="2000-11-27"></calcite-input-date-picker>`);
-      await skipAnimations(page);
-      await page.waitForChanges();
-      inputDatePicker = await page.find("calcite-input-date-picker");
+    describe("single value", () => {
+      beforeEach(async () => {
+        page = await newE2EPage();
+        await page.setContent(html` <calcite-input-date-picker value="2000-11-27"></calcite-input-date-picker>`);
+        await skipAnimations(page);
+        await page.waitForChanges();
+        inputDatePicker = await page.find("calcite-input-date-picker");
+      });
+
+      it("toggles the date picker when clicked", async () => {
+        let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+        expect(await calendar.isVisible()).toBe(false);
+
+        await inputDatePicker.click();
+        await page.waitForChanges();
+        calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+        expect(await calendar.isVisible()).toBe(true);
+
+        await inputDatePicker.click();
+        await page.waitForChanges();
+        calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+        expect(await calendar.isVisible()).toBe(false);
+      });
+
+      it("toggles the date picker when using arrow down/escape key", async () => {
+        let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+        expect(await calendar.isVisible()).toBe(false);
+
+        await inputDatePicker.callMethod("setFocus");
+        await page.waitForChanges();
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+        calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+        expect(await calendar.isVisible()).toBe(true);
+
+        await page.keyboard.press("Escape");
+        await page.waitForChanges();
+        calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+        expect(await calendar.isVisible()).toBe(false);
+      });
     });
 
-    it("toggles the date picker when clicked", async () => {
-      let calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+    describe("range", () => {
+      beforeEach(async () => {
+        page = await newE2EPage();
+        await page.setContent(html` <calcite-input-date-picker range></calcite-input-date-picker>`);
+        await skipAnimations(page);
+        await page.waitForChanges();
+        inputDatePicker = await page.find("calcite-input-date-picker");
+      });
 
-      expect(await calendar.isVisible()).toBe(false);
+      async function isCalendarVisible(calendar: E2EElement, type: "start" | "end"): Promise<boolean> {
+        const calendarPosition = calendar.classList.contains(CSS.calendarWrapperEnd) ? "end" : "start";
+        return (await calendar.isVisible()) && calendarPosition === type;
+      }
 
-      await inputDatePicker.click();
-      await page.waitForChanges();
-      calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+      it("toggles the date picker when clicked", async () => {
+        const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
 
-      expect(await calendar.isVisible()).toBe(true);
+        expect(await isCalendarVisible(calendar, "start")).toBe(false);
+        expect(await isCalendarVisible(calendar, "end")).toBe(false);
 
-      await inputDatePicker.click();
-      await page.waitForChanges();
-      calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+        const startInput = await page.find(
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`
+        );
+        const startInputToggle = await page.find(
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] .${CSS.toggleIcon}`
+        );
 
-      expect(await calendar.isVisible()).toBe(false);
-    });
+        const endInput = await page.find(
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="end"] calcite-input-text`
+        );
+        const endInputToggle = await page.find(
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="end"] .${CSS.toggleIcon}`
+        );
 
-    it("toggles the date picker when using arrow down/escape key", async () => {
-      let calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+        // toggling via start date input
 
-      expect(await calendar.isVisible()).toBe(false);
+        await startInput.click();
+        await page.waitForChanges();
 
-      await inputDatePicker.callMethod("setFocus");
-      await page.waitForChanges();
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
-      expect(await calendar.isVisible()).toBe(true);
+        await startInput.click();
+        await page.waitForChanges();
 
-      await page.keyboard.press("Escape");
-      await page.waitForChanges();
-      calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+        expect(await isCalendarVisible(calendar, "start")).toBe(false);
 
-      expect(await calendar.isVisible()).toBe(false);
+        // toggling via start date toggle icon
+
+        await startInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+
+        await startInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(false);
+
+        // toggling via end date input
+
+        await endInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        await endInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+
+        // toggling via end date toggle icon
+
+        await endInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        await endInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+
+        // toggling via start date input and toggle icon
+
+        await startInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+
+        await startInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(false);
+
+        // toggling via start toggle icon and date input
+
+        await startInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+
+        await startInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(false);
+
+        // toggling via end date input and toggle icon
+
+        await endInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        await endInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+
+        // toggling via end toggle icon and date input
+
+        await endInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        await endInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+
+        // toggling via start date input and end toggle icon
+
+        await startInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+
+        await endInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        // toggling via start toggle icon and date input
+
+        await startInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+
+        await endInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        // close
+        await endInput.click();
+        await page.waitForChanges();
+
+        // toggling via end date input and start toggle icon
+
+        await endInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        await startInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+
+        // toggling via end toggle icon and start date input
+
+        await endInputToggle.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        await startInput.click();
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+      });
+
+      it("toggles the date picker when using arrow down/escape key", async () => {
+        const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(false);
+        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+
+        await inputDatePicker.callMethod("setFocus");
+        await page.waitForChanges();
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(true);
+
+        await page.keyboard.press("Escape");
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "start")).toBe(false);
+
+        await page.keyboard.press("Tab");
+
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(true);
+
+        await page.keyboard.press("Escape");
+        await page.waitForChanges();
+
+        expect(await isCalendarVisible(calendar, "end")).toBe(false);
+      });
     });
   });
 

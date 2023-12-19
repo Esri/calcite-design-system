@@ -4,310 +4,320 @@ exports[`generated tokens CSS core should match 1`] = `
 "/
 
 :root {
-	--calcite-z-index-9: 900;
-	--calcite-z-index-8: 800;
-	--calcite-z-index-7: 700;
-	--calcite-z-index-6: 600;
-	--calcite-z-index-5: 500;
-	--calcite-z-index-4: 400;
-	--calcite-z-index-3: 300;
-	--calcite-z-index-1: 1;
-	--calcite-z-index-0: -999999;
-	--calcite-size-relative-auto: auto;
-	--calcite-size-relative-200: 200%;
-	--calcite-size-relative-162: 162.5%;
-	--calcite-size-relative-150: 150%;
-	--calcite-size-relative-137: 137.5%;
-	--calcite-size-relative-125: 125%;
-	--calcite-size-relative-100: 100%;
-	--calcite-size-relative-50: 50%;
-	--calcite-size-none: 0;
-	--calcite-size-288: 288px;
-	--calcite-size-256: 256px;
-	--calcite-size-224: 224px;
-	--calcite-size-192: 192px;
-	--calcite-size-160: 160px;
-	--calcite-size-144: 144px;
-	--calcite-size-128: 128px;
-	--calcite-size-112: 112px;
-	--calcite-size-96: 96px;
-	--calcite-size-80: 80px;
-	--calcite-size-72: 72px;
-	--calcite-size-64: 64px;
-	--calcite-size-56: 56px;
-	--calcite-size-48: 48px;
-	--calcite-size-44: 44px;
-	--calcite-size-40: 40px;
-	--calcite-size-36: 36px;
-	--calcite-size-32: 32px;
-	--calcite-size-28: 28px;
-	--calcite-size-24: 24px;
-	--calcite-size-20: 20px;
-	--calcite-size-16: 16px;
-	--calcite-size-14: 14px;
-	--calcite-size-12: 12px;
-	--calcite-size-10: 10px;
-	--calcite-size-8: 8px;
-	--calcite-size-6: 6px;
-	--calcite-size-4: 4px;
-	--calcite-size-2: 2px;
-	--calcite-size-1: 1px;
-	--calcite-opacity-100: 1;
-	--calcite-opacity-96: 0.96;
-	--calcite-opacity-92: 0.92;
-	--calcite-opacity-90: 0.9;
-	--calcite-opacity-85: 0.85;
-	--calcite-opacity-80: 0.8;
-	--calcite-opacity-70: 0.7;
-	--calcite-opacity-60: 0.6;
-	--calcite-opacity-50: 0.5;
-	--calcite-opacity-40: 0.4;
-	--calcite-opacity-30: 0.3;
-	--calcite-opacity-20: 0.2;
-	--calcite-opacity-10: 0.1;
-	--calcite-opacity-8: 0.08;
-	--calcite-opacity-4: 0.04;
-	--calcite-opacity-0: 0;
-	--calcite-font-text-case-capitalize: capitalize;
-	--calcite-font-text-case-lowercase: lowercase;
-	--calcite-font-text-case-uppercase: uppercase;
-	--calcite-font-text-case-none: none;
-	--calcite-font-text-decoration-underline: underline;
-	--calcite-font-text-decoration-none: none;
-	--calcite-font-weight-heavy: 900;
-	--calcite-font-weight-black: 900; /* only for Avenir Next World (secondary font family) */
-	--calcite-font-weight-extrabold: 800; /* only for Avenir Next World (secondary font family) */
-	--calcite-font-weight-bold: 700;
-	--calcite-font-weight-demi: 600;
-	--calcite-font-weight-medium-italic: "Medium Italic";
-	--calcite-font-weight-medium: 500;
-	--calcite-font-weight-regular: 400;
-	--calcite-font-weight-light: 300; /* only for Avenir Next World (secondary font family) */
-	--calcite-font-weight-thin: 100;
-	--calcite-font-weight-ultralight: 200; /* only for Avenir Next World (secondary font family) */
-	--calcite-font-style-italic: italic; /* used in ratings */
-	--calcite-font-family-monaco: Monaco;
-	--calcite-font-family-avenir-next-world: "Avenir Next World";
-	--calcite-font-family-avenir-next-pro: "Avenir Next LT Pro";
-	--calcite-container-size-1440: 1440px;
-	--calcite-container-size-1152: 1152px;
-	--calcite-container-size-854: 854px;
-	--calcite-container-size-768: 768px;
-	--calcite-container-size-678: 678px;
-	--calcite-container-size-504: 504px;
-	--calcite-container-size-476: 476px;
-	--calcite-container-size-328: 328px;
-	--calcite-container-size-320: 320px;
-	--calcite-container-size-154: 154px;
-	--calcite-container-size-0: 0;
-	--calcite-color-dark-blue-d-bb-430: #0087D7;
-	--calcite-color-dark-blue-d-bb-420: #00A0FF;
-	--calcite-color-dark-blue-d-bb-410: #47BBFF;
-	--calcite-color-dark-red-d-rr-430: #F3381B;
-	--calcite-color-dark-red-d-rr-420: #FE583E;
-	--calcite-color-dark-red-d-rr-410: #FF7465;
-	--calcite-color-dark-yellow-d-yy-430: #F4B000;
-	--calcite-color-dark-yellow-d-yy-420: #FFC900;
-	--calcite-color-dark-yellow-d-yy-410: #FFE24D;
-	--calcite-color-dark-green-d-gg-430: #36DA43;
-	--calcite-color-dark-green-d-gg-420: #36DA43;
-	--calcite-color-dark-green-d-gg-410: #44ED51;
-	--calcite-color-vibrant-violet-v-vv-180: #6a0be6;
-	--calcite-color-vibrant-violet-v-vv-160: #8129ff;
-	--calcite-color-vibrant-violet-v-vv-140: #974dff;
-	--calcite-color-vibrant-violet-v-vv-120: #b580ff;
-	--calcite-color-vibrant-violet-red-v-vr-180: #83009e;
-	--calcite-color-vibrant-violet-red-v-vr-160: #ac08cc;
-	--calcite-color-vibrant-violet-red-v-vr-140: #dd33ff;
-	--calcite-color-vibrant-violet-red-v-vr-120: #ea80ff;
-	--calcite-color-vibrant-pink-v-pk-180: #c00073;
-	--calcite-color-vibrant-pink-v-pk-160: #d11486;
-	--calcite-color-vibrant-pink-v-pk-140: #ff19a4;
-	--calcite-color-vibrant-pink-v-pk-120: #ff66c2;
-	--calcite-color-vibrant-red-v-rr-180: #b3000f;
-	--calcite-color-vibrant-red-v-rr-160: #d90012;
-	--calcite-color-vibrant-red-v-rr-140: #ff0015;
-	--calcite-color-vibrant-red-v-rr-120: #ff624d;
-	--calcite-color-vibrant-red-orange-v-ro-180: #c93b00;
-	--calcite-color-vibrant-red-orange-v-ro-160: #de4300;
-	--calcite-color-vibrant-red-orange-v-ro-140: #ff4d00;
-	--calcite-color-vibrant-red-orange-v-ro-120: #ff824d;
-	--calcite-color-vibrant-orange-yellow-v-oy-180: #d17300;
-	--calcite-color-vibrant-orange-yellow-v-oy-160: #e68600;
-	--calcite-color-vibrant-orange-yellow-v-oy-140: #ff9500;
-	--calcite-color-vibrant-orange-yellow-v-oy-120: #ffb54d;
-	--calcite-color-vibrant-yellow-v-yy-180: #ebba17;
-	--calcite-color-vibrant-yellow-v-yy-160: #f5d000;
-	--calcite-color-vibrant-yellow-v-yy-140: #ffee33;
-	--calcite-color-vibrant-yellow-v-yy-120: #fff766;
-	--calcite-color-vibrant-yellow-green-v-yg-180: #7fab00;
-	--calcite-color-vibrant-yellow-green-v-yg-160: #96cc00;
-	--calcite-color-vibrant-yellow-green-v-yg-140: #bbed3b;
-	--calcite-color-vibrant-yellow-green-v-yg-120: #d7ff73;
-	--calcite-color-vibrant-green-v-gg-180: #00a118;
-	--calcite-color-vibrant-green-v-gg-160: #00b81b;
-	--calcite-color-vibrant-green-v-gg-140: #3bed52;
-	--calcite-color-vibrant-green-v-gg-120: #73ff84;
-	--calcite-color-vibrant-green-blue-v-gb-180: #00cfca;
-	--calcite-color-vibrant-green-blue-v-gb-160: #00e6e2;
-	--calcite-color-vibrant-green-blue-v-gb-140: #00f7f3;
-	--calcite-color-vibrant-green-blue-v-gb-120: #59fffc;
-	--calcite-color-vibrant-blue-v-bb-180: #009af2;
-	--calcite-color-vibrant-blue-v-bb-160: #009af2;
-	--calcite-color-vibrant-blue-v-bb-140: #3db8ff;
-	--calcite-color-vibrant-blue-v-bb-120: #59d6ff;
-	--calcite-color-high-saturation-violet-h-vv-100: #100026;
-	--calcite-color-high-saturation-violet-h-vv-090: #250f43;
-	--calcite-color-high-saturation-violet-h-vv-080: #3a1e61;
-	--calcite-color-high-saturation-violet-h-vv-070: #4e2c7e;
-	--calcite-color-high-saturation-violet-h-vv-060: #633b9b;
-	--calcite-color-high-saturation-violet-h-vv-050: #7e5baf;
-	--calcite-color-high-saturation-violet-h-vv-040: #987ac3;
-	--calcite-color-high-saturation-violet-h-vv-030: #b39ad7;
-	--calcite-color-high-saturation-violet-h-vv-020: #cdb9eb;
-	--calcite-color-high-saturation-violet-h-vv-010: #e8d9ff;
-	--calcite-color-high-saturation-violet-red-h-vr-100: #200026;
-	--calcite-color-high-saturation-violet-red-h-vr-090: #3c1243;
-	--calcite-color-high-saturation-violet-red-h-vr-080: #572561;
-	--calcite-color-high-saturation-violet-red-h-vr-070: #73377e;
-	--calcite-color-high-saturation-violet-red-h-vr-060: #8e499b;
-	--calcite-color-high-saturation-violet-red-h-vr-050: #a466af;
-	--calcite-color-high-saturation-violet-red-h-vr-040: #b983c3;
-	--calcite-color-high-saturation-violet-red-h-vr-030: #cfa1d7;
-	--calcite-color-high-saturation-violet-red-h-vr-020: #e4beeb;
-	--calcite-color-high-saturation-violet-red-h-vr-010: #fadbff;
-	--calcite-color-high-saturation-pink-h-pk-100: #260404;
-	--calcite-color-high-saturation-pink-h-pk-090: #590b32;
-	--calcite-color-high-saturation-pink-h-pk-080: #851b52;
-	--calcite-color-high-saturation-pink-h-pk-070: #ba2f7e;
-	--calcite-color-high-saturation-pink-h-pk-060: #e04ea6;
-	--calcite-color-high-saturation-pink-h-pk-050: #e673bb;
-	--calcite-color-high-saturation-pink-h-pk-040: #eb8dc9;
-	--calcite-color-high-saturation-pink-h-pk-030: #f2a5d6;
-	--calcite-color-high-saturation-pink-h-pk-020: #fabee4;
-	--calcite-color-high-saturation-pink-h-pk-010: #ffd1ef;
-	--calcite-color-high-saturation-red-h-rr-100: #210300;
-	--calcite-color-high-saturation-red-h-rr-090: #4f0e08;
-	--calcite-color-high-saturation-red-h-rr-080: #7c1d13;
-	--calcite-color-high-saturation-red-h-rr-070: #a82b1e;
-	--calcite-color-high-saturation-red-h-rr-060: #d83020;
-	--calcite-color-high-saturation-red-h-rr-050: #e65240;
-	--calcite-color-high-saturation-red-h-rr-040: #f07062;
-	--calcite-color-high-saturation-red-h-rr-030: #f2877b;
-	--calcite-color-high-saturation-red-h-rr-020: #ffaaa1;
-	--calcite-color-high-saturation-red-h-rr-010: #ffc6bf;
-	--calcite-color-high-saturation-red-orange-h-ro-100: #260a00;
-	--calcite-color-high-saturation-red-orange-h-ro-090: #531b07;
-	--calcite-color-high-saturation-red-orange-h-ro-080: #802c0f;
-	--calcite-color-high-saturation-red-orange-h-ro-070: #ad3c16;
-	--calcite-color-high-saturation-red-orange-h-ro-060: #da4d1e;
-	--calcite-color-high-saturation-red-orange-h-ro-050: #e1653c;
-	--calcite-color-high-saturation-red-orange-h-ro-040: #e97e5a;
-	--calcite-color-high-saturation-red-orange-h-ro-030: #f09677;
-	--calcite-color-high-saturation-red-orange-h-ro-020: #f8af95;
-	--calcite-color-high-saturation-red-orange-h-ro-010: #ffc7b3;
-	--calcite-color-high-saturation-orange-h-oo-100: #401900;
-	--calcite-color-high-saturation-orange-h-oo-090: #6d2f08;
-	--calcite-color-high-saturation-orange-h-oo-080: #9a4410;
-	--calcite-color-high-saturation-orange-h-oo-070: #c65a18;
-	--calcite-color-high-saturation-orange-h-oo-060: #f36f20;
-	--calcite-color-high-saturation-orange-h-oo-050: #f58440;
-	--calcite-color-high-saturation-orange-h-oo-040: #f89960;
-	--calcite-color-high-saturation-orange-h-oo-030: #faae7f;
-	--calcite-color-high-saturation-orange-h-oo-020: #fdc39f;
-	--calcite-color-high-saturation-orange-h-oo-010: #ffd8bf;
-	--calcite-color-high-saturation-orange-yellow-h-oy-100: #402300;
-	--calcite-color-high-saturation-orange-yellow-h-oy-090: #6d3f08;
-	--calcite-color-high-saturation-orange-yellow-h-oy-080: #9a5b10;
-	--calcite-color-high-saturation-orange-yellow-h-oy-070: #c67718;
-	--calcite-color-high-saturation-orange-yellow-h-oy-060: #f89927;
-	--calcite-color-high-saturation-orange-yellow-h-oy-050: #f9a845;
-	--calcite-color-high-saturation-orange-yellow-h-oy-040: #fbb664;
-	--calcite-color-high-saturation-orange-yellow-h-oy-030: #fcc582;
-	--calcite-color-high-saturation-orange-yellow-h-oy-020: #fed3a1;
-	--calcite-color-high-saturation-orange-yellow-h-oy-010: #ffe2bf;
-	--calcite-color-high-saturation-yellow-h-yy-100: #5c4e00;
-	--calcite-color-high-saturation-yellow-h-yy-090: #8c7500;
-	--calcite-color-high-saturation-yellow-h-yy-080: #bfa200;
-	--calcite-color-high-saturation-yellow-h-yy-070: #d9bc00;
-	--calcite-color-high-saturation-yellow-h-yy-060: #edd317;
-	--calcite-color-high-saturation-yellow-h-yy-050: #f9e54e;
-	--calcite-color-high-saturation-yellow-h-yy-040: #fbea6e;
-	--calcite-color-high-saturation-yellow-h-yy-030: #fcee8d;
-	--calcite-color-high-saturation-yellow-h-yy-020: #fef3ad;
-	--calcite-color-high-saturation-yellow-h-yy-010: #fff7cc;
-	--calcite-color-high-saturation-yellow-green-h-yg-100: #121a00;
-	--calcite-color-high-saturation-yellow-green-h-yg-090: #384813;
-	--calcite-color-high-saturation-yellow-green-h-yg-080: #5e7526;
-	--calcite-color-high-saturation-yellow-green-h-yg-070: #84a338;
-	--calcite-color-high-saturation-yellow-green-h-yg-060: #aad04b;
-	--calcite-color-high-saturation-yellow-green-h-yg-050: #b6d860;
-	--calcite-color-high-saturation-yellow-green-h-yg-040: #c2e075;
-	--calcite-color-high-saturation-yellow-green-h-yg-030: #cde78a;
-	--calcite-color-high-saturation-yellow-green-h-yg-020: #d9ef9f;
-	--calcite-color-high-saturation-yellow-green-h-yg-010: #e5f7b4;
-	--calcite-color-high-saturation-green-h-gg-100: #001a03;
-	--calcite-color-high-saturation-green-h-gg-090: #0d3f14;
-	--calcite-color-high-saturation-green-h-gg-080: #1a6324;
-	--calcite-color-high-saturation-green-h-gg-070: #288835;
-	--calcite-color-high-saturation-green-h-gg-060: #35ac46;
-	--calcite-color-high-saturation-green-h-gg-050: #50ba5f;
-	--calcite-color-high-saturation-green-h-gg-040: #6bc878;
-	--calcite-color-high-saturation-green-h-gg-030: #87d692;
-	--calcite-color-high-saturation-green-h-gg-020: #a2e4ab;
-	--calcite-color-high-saturation-green-h-gg-010: #bdf2c4;
-	--calcite-color-high-saturation-green-blue-h-gb-100: #002625;
-	--calcite-color-high-saturation-green-blue-h-gb-090: #004d4c;
-	--calcite-color-high-saturation-green-blue-h-gb-080: #007472;
-	--calcite-color-high-saturation-green-blue-h-gb-070: #009b98;
-	--calcite-color-high-saturation-green-blue-h-gb-060: #00bab5;
-	--calcite-color-high-saturation-green-blue-h-gb-050: #28cecb;
-	--calcite-color-high-saturation-green-blue-h-gb-040: #5ae0de;
-	--calcite-color-high-saturation-green-blue-h-gb-030: #8fe6e5;
-	--calcite-color-high-saturation-green-blue-h-gb-020: #afedec;
-	--calcite-color-high-saturation-green-blue-h-gb-010: #cef5f4;
-	--calcite-color-high-saturation-blue-h-bb-100: #001726;
-	--calcite-color-high-saturation-blue-h-bb-090: #00304d;
-	--calcite-color-high-saturation-blue-h-bb-080: #004874;
-	--calcite-color-high-saturation-blue-h-bb-070: #00619b;
-	--calcite-color-high-saturation-blue-h-bb-060: #007ac2;
-	--calcite-color-high-saturation-blue-h-bb-050: #2890ce;
-	--calcite-color-high-saturation-blue-h-bb-040: #50a7da;
-	--calcite-color-high-saturation-blue-h-bb-030: #77bde7;
-	--calcite-color-high-saturation-blue-h-bb-020: #9fd4f3;
-	--calcite-color-high-saturation-blue-h-bb-010: #c7eaff;
-	--calcite-color-neutral-blk-240: #000000;
-	--calcite-color-neutral-blk-235: #060606;
-	--calcite-color-neutral-blk-230: #0b0b0b;
-	--calcite-color-neutral-blk-220: #151515;
-	--calcite-color-neutral-blk-210: #202020;
-	--calcite-color-neutral-blk-200: #2b2b2b;
-	--calcite-color-neutral-blk-190: #353535;
-	--calcite-color-neutral-blk-180: #404040;
-	--calcite-color-neutral-blk-170: #4a4a4a;
-	--calcite-color-neutral-blk-160: #555555;
-	--calcite-color-neutral-blk-150: #606060;
-	--calcite-color-neutral-blk-140: #6a6a6a;
-	--calcite-color-neutral-blk-130: #757575;
-	--calcite-color-neutral-blk-120: #808080;
-	--calcite-color-neutral-blk-110: #8a8a8a;
-	--calcite-color-neutral-blk-100: #949494;
-	--calcite-color-neutral-blk-090: #9f9f9f;
-	--calcite-color-neutral-blk-080: #aaaaaa;
-	--calcite-color-neutral-blk-070: #b5b5b5;
-	--calcite-color-neutral-blk-060: #bfbfbf;
-	--calcite-color-neutral-blk-050: #cacaca;
-	--calcite-color-neutral-blk-040: #d4d4d4;
-	--calcite-color-neutral-blk-030: #dfdfdf;
-	--calcite-color-neutral-blk-020: #eaeaea;
-	--calcite-color-neutral-blk-010: #f3f3f3;
-	--calcite-color-neutral-blk-005: #f8f8f8;
-	--calcite-color-neutral-blk-000: #ffffff;
-	--calcite-shadow-4: 0 12px 32px -2px rgba(var(--calcite-color-neutral-blk-240), 0.1);
-	--calcite-shadow-3: 0 4px 20px 0 rgba(var(--calcite-color-neutral-blk-240), 0.08);
-	--calcite-shadow-2: 0 4px 16px 0 rgba(var(--calcite-color-neutral-blk-240), 0.08);
-	--calcite-shadow-1: 0 2px 8px 0 rgba(var(--calcite-color-neutral-blk-240), 0.04);
-	--calcite-shadow-0: 0 0 0 0 rgba(var(--calcite-color-neutral-blk-240), 0);
+  --calcite-z-index-9: 900;
+  --calcite-z-index-8: 800;
+  --calcite-z-index-7: 700;
+  --calcite-z-index-6: 600;
+  --calcite-z-index-5: 500;
+  --calcite-z-index-4: 400;
+  --calcite-z-index-3: 300;
+  --calcite-z-index-1: 1;
+  --calcite-z-index-0: -999999;
+  --calcite-size-relative-auto: auto;
+  --calcite-size-relative-200: 200%;
+  --calcite-size-relative-162: 162.5%;
+  --calcite-size-relative-150: 150%;
+  --calcite-size-relative-137: 137.5%;
+  --calcite-size-relative-125: 125%;
+  --calcite-size-relative-100: 100%;
+  --calcite-size-relative-50: 50%;
+  --calcite-size-none: 0;
+  --calcite-size-288: 288px;
+  --calcite-size-256: 256px;
+  --calcite-size-224: 224px;
+  --calcite-size-192: 192px;
+  --calcite-size-160: 160px;
+  --calcite-size-144: 144px;
+  --calcite-size-128: 128px;
+  --calcite-size-112: 112px;
+  --calcite-size-96: 96px;
+  --calcite-size-80: 80px;
+  --calcite-size-72: 72px;
+  --calcite-size-64: 64px;
+  --calcite-size-56: 56px;
+  --calcite-size-48: 48px;
+  --calcite-size-44: 44px;
+  --calcite-size-40: 40px;
+  --calcite-size-36: 36px;
+  --calcite-size-32: 32px;
+  --calcite-size-28: 28px;
+  --calcite-size-24: 24px;
+  --calcite-size-20: 20px;
+  --calcite-size-16: 16px;
+  --calcite-size-14: 14px;
+  --calcite-size-12: 12px;
+  --calcite-size-10: 10px;
+  --calcite-size-8: 8px;
+  --calcite-size-6: 6px;
+  --calcite-size-4: 4px;
+  --calcite-size-2: 2px;
+  --calcite-size-1: 1px;
+  --calcite-opacity-100: 1;
+  --calcite-opacity-96: 0.96;
+  --calcite-opacity-92: 0.92;
+  --calcite-opacity-90: 0.9;
+  --calcite-opacity-85: 0.85;
+  --calcite-opacity-80: 0.8;
+  --calcite-opacity-70: 0.7;
+  --calcite-opacity-60: 0.6;
+  --calcite-opacity-50: 0.5;
+  --calcite-opacity-40: 0.4;
+  --calcite-opacity-30: 0.3;
+  --calcite-opacity-20: 0.2;
+  --calcite-opacity-10: 0.1;
+  --calcite-opacity-8: 0.08;
+  --calcite-opacity-4: 0.04;
+  --calcite-opacity-0: 0;
+  --calcite-font-text-case-capitalize: capitalize;
+  --calcite-font-text-case-lowercase: lowercase;
+  --calcite-font-text-case-uppercase: uppercase;
+  --calcite-font-text-case-none: none;
+  --calcite-font-text-decoration-underline: underline;
+  --calcite-font-text-decoration-none: none;
+  --calcite-font-weight-heavy: 900;
+  --calcite-font-weight-black: 900; /* only for Avenir Next World (secondary font family) */
+  --calcite-font-weight-extrabold: 800; /* only for Avenir Next World (secondary font family) */
+  --calcite-font-weight-bold: 700;
+  --calcite-font-weight-demi: 600;
+  --calcite-font-weight-medium-italic: "Medium Italic";
+  --calcite-font-weight-medium: 500;
+  --calcite-font-weight-regular: 400;
+  --calcite-font-weight-light: 300; /* only for Avenir Next World (secondary font family) */
+  --calcite-font-weight-thin: 100;
+  --calcite-font-weight-ultralight: 200; /* only for Avenir Next World (secondary font family) */
+  --calcite-font-style-italic: italic; /* used in ratings */
+  --calcite-font-family-sans-serif: sans-serif; /* Fallback for Avenir Next */
+  --calcite-font-family-monospace: monospace; /* Fallback for Monaco */
+  --calcite-font-family-monaco: Monaco;
+  --calcite-font-family-lucida-console: "Lucida Console"; /* Fallback for Monaco */
+  --calcite-font-family-helvetica-neue: "Helvetica Neue"; /* Fallback for Avenir Next */
+  --calcite-font-family-consolas: Consolas; /* Fallback for Monaco */
+  --calcite-font-family-avenir: Avenir; /* Fallback for Avenir Next */
+  --calcite-font-family-avenir-next-world: "Avenir Next World";
+  --calcite-font-family-avenir-next-pro: "Avenir Next LT Pro";
+  --calcite-font-family-andale-mono: "Andale Mono"; /* Fallback for Monaco */
+  --calcite-container-size-1440: 1440px;
+  --calcite-container-size-1152: 1152px;
+  --calcite-container-size-854: 854px;
+  --calcite-container-size-768: 768px;
+  --calcite-container-size-678: 678px;
+  --calcite-container-size-504: 504px;
+  --calcite-container-size-476: 476px;
+  --calcite-container-size-328: 328px;
+  --calcite-container-size-320: 320px;
+  --calcite-container-size-154: 154px;
+  --calcite-container-size-0: 0;
+  --calcite-color-dark-blue-d-bb-430: #0087d7;
+  --calcite-color-dark-blue-d-bb-420: #00a0ff;
+  --calcite-color-dark-blue-d-bb-410: #47bbff;
+  --calcite-color-dark-red-d-rr-430: #f3381b;
+  --calcite-color-dark-red-d-rr-420: #fe583e;
+  --calcite-color-dark-red-d-rr-410: #ff7465;
+  --calcite-color-dark-yellow-d-yy-430: #f4b000;
+  --calcite-color-dark-yellow-d-yy-420: #ffc900;
+  --calcite-color-dark-yellow-d-yy-410: #ffe24d;
+  --calcite-color-dark-green-d-gg-430: #36da43;
+  --calcite-color-dark-green-d-gg-420: #36da43;
+  --calcite-color-dark-green-d-gg-410: #44ed51;
+  --calcite-color-vibrant-violet-v-vv-180: #6a0be6;
+  --calcite-color-vibrant-violet-v-vv-160: #8129ff;
+  --calcite-color-vibrant-violet-v-vv-140: #974dff;
+  --calcite-color-vibrant-violet-v-vv-120: #b580ff;
+  --calcite-color-vibrant-violet-red-v-vr-180: #83009e;
+  --calcite-color-vibrant-violet-red-v-vr-160: #ac08cc;
+  --calcite-color-vibrant-violet-red-v-vr-140: #dd33ff;
+  --calcite-color-vibrant-violet-red-v-vr-120: #ea80ff;
+  --calcite-color-vibrant-pink-v-pk-180: #c00073;
+  --calcite-color-vibrant-pink-v-pk-160: #d11486;
+  --calcite-color-vibrant-pink-v-pk-140: #ff19a4;
+  --calcite-color-vibrant-pink-v-pk-120: #ff66c2;
+  --calcite-color-vibrant-red-v-rr-180: #b3000f;
+  --calcite-color-vibrant-red-v-rr-160: #d90012;
+  --calcite-color-vibrant-red-v-rr-140: #ff0015;
+  --calcite-color-vibrant-red-v-rr-120: #ff624d;
+  --calcite-color-vibrant-red-orange-v-ro-180: #c93b00;
+  --calcite-color-vibrant-red-orange-v-ro-160: #de4300;
+  --calcite-color-vibrant-red-orange-v-ro-140: #ff4d00;
+  --calcite-color-vibrant-red-orange-v-ro-120: #ff824d;
+  --calcite-color-vibrant-orange-yellow-v-oy-180: #d17300;
+  --calcite-color-vibrant-orange-yellow-v-oy-160: #e68600;
+  --calcite-color-vibrant-orange-yellow-v-oy-140: #ff9500;
+  --calcite-color-vibrant-orange-yellow-v-oy-120: #ffb54d;
+  --calcite-color-vibrant-yellow-v-yy-180: #ebba17;
+  --calcite-color-vibrant-yellow-v-yy-160: #f5d000;
+  --calcite-color-vibrant-yellow-v-yy-140: #ffee33;
+  --calcite-color-vibrant-yellow-v-yy-120: #fff766;
+  --calcite-color-vibrant-yellow-green-v-yg-180: #7fab00;
+  --calcite-color-vibrant-yellow-green-v-yg-160: #96cc00;
+  --calcite-color-vibrant-yellow-green-v-yg-140: #bbed3b;
+  --calcite-color-vibrant-yellow-green-v-yg-120: #d7ff73;
+  --calcite-color-vibrant-green-v-gg-180: #00a118;
+  --calcite-color-vibrant-green-v-gg-160: #00b81b;
+  --calcite-color-vibrant-green-v-gg-140: #3bed52;
+  --calcite-color-vibrant-green-v-gg-120: #73ff84;
+  --calcite-color-vibrant-green-blue-v-gb-180: #00cfca;
+  --calcite-color-vibrant-green-blue-v-gb-160: #00e6e2;
+  --calcite-color-vibrant-green-blue-v-gb-140: #00f7f3;
+  --calcite-color-vibrant-green-blue-v-gb-120: #59fffc;
+  --calcite-color-vibrant-blue-v-bb-180: #009af2;
+  --calcite-color-vibrant-blue-v-bb-160: #009af2;
+  --calcite-color-vibrant-blue-v-bb-140: #3db8ff;
+  --calcite-color-vibrant-blue-v-bb-120: #59d6ff;
+  --calcite-color-high-saturation-violet-h-vv-100: #100026;
+  --calcite-color-high-saturation-violet-h-vv-090: #250f43;
+  --calcite-color-high-saturation-violet-h-vv-080: #3a1e61;
+  --calcite-color-high-saturation-violet-h-vv-070: #4e2c7e;
+  --calcite-color-high-saturation-violet-h-vv-060: #633b9b;
+  --calcite-color-high-saturation-violet-h-vv-050: #7e5baf;
+  --calcite-color-high-saturation-violet-h-vv-040: #987ac3;
+  --calcite-color-high-saturation-violet-h-vv-030: #b39ad7;
+  --calcite-color-high-saturation-violet-h-vv-020: #cdb9eb;
+  --calcite-color-high-saturation-violet-h-vv-010: #e8d9ff;
+  --calcite-color-high-saturation-violet-red-h-vr-100: #200026;
+  --calcite-color-high-saturation-violet-red-h-vr-090: #3c1243;
+  --calcite-color-high-saturation-violet-red-h-vr-080: #572561;
+  --calcite-color-high-saturation-violet-red-h-vr-070: #73377e;
+  --calcite-color-high-saturation-violet-red-h-vr-060: #8e499b;
+  --calcite-color-high-saturation-violet-red-h-vr-050: #a466af;
+  --calcite-color-high-saturation-violet-red-h-vr-040: #b983c3;
+  --calcite-color-high-saturation-violet-red-h-vr-030: #cfa1d7;
+  --calcite-color-high-saturation-violet-red-h-vr-020: #e4beeb;
+  --calcite-color-high-saturation-violet-red-h-vr-010: #fadbff;
+  --calcite-color-high-saturation-pink-h-pk-100: #260404;
+  --calcite-color-high-saturation-pink-h-pk-090: #590b32;
+  --calcite-color-high-saturation-pink-h-pk-080: #851b52;
+  --calcite-color-high-saturation-pink-h-pk-070: #ba2f7e;
+  --calcite-color-high-saturation-pink-h-pk-060: #e04ea6;
+  --calcite-color-high-saturation-pink-h-pk-050: #e673bb;
+  --calcite-color-high-saturation-pink-h-pk-040: #eb8dc9;
+  --calcite-color-high-saturation-pink-h-pk-030: #f2a5d6;
+  --calcite-color-high-saturation-pink-h-pk-020: #fabee4;
+  --calcite-color-high-saturation-pink-h-pk-010: #ffd1ef;
+  --calcite-color-high-saturation-red-h-rr-100: #210300;
+  --calcite-color-high-saturation-red-h-rr-090: #4f0e08;
+  --calcite-color-high-saturation-red-h-rr-080: #7c1d13;
+  --calcite-color-high-saturation-red-h-rr-070: #a82b1e;
+  --calcite-color-high-saturation-red-h-rr-060: #d83020;
+  --calcite-color-high-saturation-red-h-rr-050: #e65240;
+  --calcite-color-high-saturation-red-h-rr-040: #f07062;
+  --calcite-color-high-saturation-red-h-rr-030: #f2877b;
+  --calcite-color-high-saturation-red-h-rr-020: #ffaaa1;
+  --calcite-color-high-saturation-red-h-rr-010: #ffc6bf;
+  --calcite-color-high-saturation-red-orange-h-ro-100: #260a00;
+  --calcite-color-high-saturation-red-orange-h-ro-090: #531b07;
+  --calcite-color-high-saturation-red-orange-h-ro-080: #802c0f;
+  --calcite-color-high-saturation-red-orange-h-ro-070: #ad3c16;
+  --calcite-color-high-saturation-red-orange-h-ro-060: #da4d1e;
+  --calcite-color-high-saturation-red-orange-h-ro-050: #e1653c;
+  --calcite-color-high-saturation-red-orange-h-ro-040: #e97e5a;
+  --calcite-color-high-saturation-red-orange-h-ro-030: #f09677;
+  --calcite-color-high-saturation-red-orange-h-ro-020: #f8af95;
+  --calcite-color-high-saturation-red-orange-h-ro-010: #ffc7b3;
+  --calcite-color-high-saturation-orange-h-oo-100: #401900;
+  --calcite-color-high-saturation-orange-h-oo-090: #6d2f08;
+  --calcite-color-high-saturation-orange-h-oo-080: #9a4410;
+  --calcite-color-high-saturation-orange-h-oo-070: #c65a18;
+  --calcite-color-high-saturation-orange-h-oo-060: #f36f20;
+  --calcite-color-high-saturation-orange-h-oo-050: #f58440;
+  --calcite-color-high-saturation-orange-h-oo-040: #f89960;
+  --calcite-color-high-saturation-orange-h-oo-030: #faae7f;
+  --calcite-color-high-saturation-orange-h-oo-020: #fdc39f;
+  --calcite-color-high-saturation-orange-h-oo-010: #ffd8bf;
+  --calcite-color-high-saturation-orange-yellow-h-oy-100: #402300;
+  --calcite-color-high-saturation-orange-yellow-h-oy-090: #6d3f08;
+  --calcite-color-high-saturation-orange-yellow-h-oy-080: #9a5b10;
+  --calcite-color-high-saturation-orange-yellow-h-oy-070: #c67718;
+  --calcite-color-high-saturation-orange-yellow-h-oy-060: #f89927;
+  --calcite-color-high-saturation-orange-yellow-h-oy-050: #f9a845;
+  --calcite-color-high-saturation-orange-yellow-h-oy-040: #fbb664;
+  --calcite-color-high-saturation-orange-yellow-h-oy-030: #fcc582;
+  --calcite-color-high-saturation-orange-yellow-h-oy-020: #fed3a1;
+  --calcite-color-high-saturation-orange-yellow-h-oy-010: #ffe2bf;
+  --calcite-color-high-saturation-yellow-h-yy-100: #5c4e00;
+  --calcite-color-high-saturation-yellow-h-yy-090: #8c7500;
+  --calcite-color-high-saturation-yellow-h-yy-080: #bfa200;
+  --calcite-color-high-saturation-yellow-h-yy-070: #d9bc00;
+  --calcite-color-high-saturation-yellow-h-yy-060: #edd317;
+  --calcite-color-high-saturation-yellow-h-yy-050: #f9e54e;
+  --calcite-color-high-saturation-yellow-h-yy-040: #fbea6e;
+  --calcite-color-high-saturation-yellow-h-yy-030: #fcee8d;
+  --calcite-color-high-saturation-yellow-h-yy-020: #fef3ad;
+  --calcite-color-high-saturation-yellow-h-yy-010: #fff7cc;
+  --calcite-color-high-saturation-yellow-green-h-yg-100: #121a00;
+  --calcite-color-high-saturation-yellow-green-h-yg-090: #384813;
+  --calcite-color-high-saturation-yellow-green-h-yg-080: #5e7526;
+  --calcite-color-high-saturation-yellow-green-h-yg-070: #84a338;
+  --calcite-color-high-saturation-yellow-green-h-yg-060: #aad04b;
+  --calcite-color-high-saturation-yellow-green-h-yg-050: #b6d860;
+  --calcite-color-high-saturation-yellow-green-h-yg-040: #c2e075;
+  --calcite-color-high-saturation-yellow-green-h-yg-030: #cde78a;
+  --calcite-color-high-saturation-yellow-green-h-yg-020: #d9ef9f;
+  --calcite-color-high-saturation-yellow-green-h-yg-010: #e5f7b4;
+  --calcite-color-high-saturation-green-h-gg-100: #001a03;
+  --calcite-color-high-saturation-green-h-gg-090: #0d3f14;
+  --calcite-color-high-saturation-green-h-gg-080: #1a6324;
+  --calcite-color-high-saturation-green-h-gg-070: #288835;
+  --calcite-color-high-saturation-green-h-gg-060: #35ac46;
+  --calcite-color-high-saturation-green-h-gg-050: #50ba5f;
+  --calcite-color-high-saturation-green-h-gg-040: #6bc878;
+  --calcite-color-high-saturation-green-h-gg-030: #87d692;
+  --calcite-color-high-saturation-green-h-gg-020: #a2e4ab;
+  --calcite-color-high-saturation-green-h-gg-010: #bdf2c4;
+  --calcite-color-high-saturation-green-blue-h-gb-100: #002625;
+  --calcite-color-high-saturation-green-blue-h-gb-090: #004d4c;
+  --calcite-color-high-saturation-green-blue-h-gb-080: #007472;
+  --calcite-color-high-saturation-green-blue-h-gb-070: #009b98;
+  --calcite-color-high-saturation-green-blue-h-gb-060: #00bab5;
+  --calcite-color-high-saturation-green-blue-h-gb-050: #28cecb;
+  --calcite-color-high-saturation-green-blue-h-gb-040: #5ae0de;
+  --calcite-color-high-saturation-green-blue-h-gb-030: #8fe6e5;
+  --calcite-color-high-saturation-green-blue-h-gb-020: #afedec;
+  --calcite-color-high-saturation-green-blue-h-gb-010: #cef5f4;
+  --calcite-color-high-saturation-blue-h-bb-100: #001726;
+  --calcite-color-high-saturation-blue-h-bb-090: #00304d;
+  --calcite-color-high-saturation-blue-h-bb-080: #004874;
+  --calcite-color-high-saturation-blue-h-bb-070: #00619b;
+  --calcite-color-high-saturation-blue-h-bb-060: #007ac2;
+  --calcite-color-high-saturation-blue-h-bb-050: #2890ce;
+  --calcite-color-high-saturation-blue-h-bb-040: #50a7da;
+  --calcite-color-high-saturation-blue-h-bb-030: #77bde7;
+  --calcite-color-high-saturation-blue-h-bb-020: #9fd4f3;
+  --calcite-color-high-saturation-blue-h-bb-010: #c7eaff;
+  --calcite-color-neutral-blk-240: #000000;
+  --calcite-color-neutral-blk-235: #060606;
+  --calcite-color-neutral-blk-230: #0b0b0b;
+  --calcite-color-neutral-blk-220: #151515;
+  --calcite-color-neutral-blk-210: #202020;
+  --calcite-color-neutral-blk-200: #2b2b2b;
+  --calcite-color-neutral-blk-190: #353535;
+  --calcite-color-neutral-blk-180: #404040;
+  --calcite-color-neutral-blk-170: #4a4a4a;
+  --calcite-color-neutral-blk-160: #555555;
+  --calcite-color-neutral-blk-150: #606060;
+  --calcite-color-neutral-blk-140: #6a6a6a;
+  --calcite-color-neutral-blk-130: #757575;
+  --calcite-color-neutral-blk-120: #808080;
+  --calcite-color-neutral-blk-110: #8a8a8a;
+  --calcite-color-neutral-blk-100: #949494;
+  --calcite-color-neutral-blk-090: #9f9f9f;
+  --calcite-color-neutral-blk-080: #aaaaaa;
+  --calcite-color-neutral-blk-070: #b5b5b5;
+  --calcite-color-neutral-blk-060: #bfbfbf;
+  --calcite-color-neutral-blk-050: #cacaca;
+  --calcite-color-neutral-blk-040: #d4d4d4;
+  --calcite-color-neutral-blk-030: #dfdfdf;
+  --calcite-color-neutral-blk-020: #eaeaea;
+  --calcite-color-neutral-blk-010: #f3f3f3;
+  --calcite-color-neutral-blk-005: #f8f8f8;
+  --calcite-color-neutral-blk-000: #ffffff;
+  --calcite-shadow-4: 0 12px 32px -2px rgba(var(--calcite-color-neutral-blk-240), 0.1);
+  --calcite-shadow-3: 0 4px 20px 0
+    rgba(var(--calcite-color-neutral-blk-240), 0.08);
+  --calcite-shadow-2: 0 4px 16px 0
+    rgba(var(--calcite-color-neutral-blk-240), 0.08);
+  --calcite-shadow-1: 0 2px 8px 0
+    rgba(var(--calcite-color-neutral-blk-240), 0.04);
+  --calcite-shadow-0: 0 0 0 0 rgba(var(--calcite-color-neutral-blk-240), 0);
 }
 "
 `;
@@ -315,47 +325,47 @@ exports[`generated tokens CSS core should match 1`] = `
 exports[`generated tokens CSS dark should match 1`] = `
 "/
 
-:root{
-	--calcite-color-border-white: #f8f8f8;
-	--calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
-	--calcite-color-border-input: #757575;
-	--calcite-color-border-3: #404040;
-	--calcite-color-border-2: #4a4a4a;
-	--calcite-color-border-1: #555555;
-	--calcite-color-text-link: #00A0FF;
-	--calcite-color-text-inverse: #151515;
-	--calcite-color-text-3: #9f9f9f;
-	--calcite-color-text-2: #bfbfbf;
-	--calcite-color-text-1: #ffffff;
-	--calcite-color-inverse-press: #f3f3f3;
-	--calcite-color-inverse-hover: #ffffff;
-	--calcite-color-inverse: #f8f8f8;
-	--calcite-color-status-danger-press: #d90012;
-	--calcite-color-status-danger-hover: #ff0015;
-	--calcite-color-status-danger: #FE583E;
-	--calcite-color-status-warning-press: #f5d000;
-	--calcite-color-status-warning-hover: #ffee33;
-	--calcite-color-status-warning: #FFC900;
-	--calcite-color-status-success-press: #00b81b;
-	--calcite-color-status-success-hover: #3bed52;
-	--calcite-color-status-success: #36DA43;
-	--calcite-color-status-info-press: #009af2;
-	--calcite-color-status-info-hover: #3db8ff;
-	--calcite-color-status-info: #00A0FF;
-	--calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
-	--calcite-color-brand-press: #00619b;
-	--calcite-color-brand-hover: #007ac2;
-	--calcite-color-brand: #009af2;
-	--calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-	--calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-	--calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
-	--calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
-	--calcite-color-transparent: rgba(255, 255, 255, 0);
-	--calcite-color-foreground-current: #214155;
-	--calcite-color-foreground-3: #151515;
-	--calcite-color-foreground-2: #202020;
-	--calcite-color-foreground-1: #2b2b2b;
-	--calcite-color-background: #353535;
+:root {
+  --calcite-color-border-white: #f8f8f8;
+  --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
+  --calcite-color-border-input: #757575;
+  --calcite-color-border-3: #404040;
+  --calcite-color-border-2: #4a4a4a;
+  --calcite-color-border-1: #555555;
+  --calcite-color-text-link: #00a0ff;
+  --calcite-color-text-inverse: #151515;
+  --calcite-color-text-3: #9f9f9f;
+  --calcite-color-text-2: #bfbfbf;
+  --calcite-color-text-1: #ffffff;
+  --calcite-color-inverse-press: #f3f3f3;
+  --calcite-color-inverse-hover: #ffffff;
+  --calcite-color-inverse: #f8f8f8;
+  --calcite-color-status-danger-press: #d90012;
+  --calcite-color-status-danger-hover: #ff0015;
+  --calcite-color-status-danger: #fe583e;
+  --calcite-color-status-warning-press: #f5d000;
+  --calcite-color-status-warning-hover: #ffee33;
+  --calcite-color-status-warning: #ffc900;
+  --calcite-color-status-success-press: #00b81b;
+  --calcite-color-status-success-hover: #3bed52;
+  --calcite-color-status-success: #36da43;
+  --calcite-color-status-info-press: #009af2;
+  --calcite-color-status-info-hover: #3db8ff;
+  --calcite-color-status-info: #00a0ff;
+  --calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
+  --calcite-color-brand-press: #00619b;
+  --calcite-color-brand-hover: #007ac2;
+  --calcite-color-brand: #009af2;
+  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.08);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.04);
+  --calcite-color-transparent: rgba(255, 255, 255, 0);
+  --calcite-color-foreground-current: #214155;
+  --calcite-color-foreground-3: #151515;
+  --calcite-color-foreground-2: #202020;
+  --calcite-color-foreground-1: #2b2b2b;
+  --calcite-color-background: #353535;
 }
 "
 `;
@@ -364,95 +374,99 @@ exports[`generated tokens CSS global should match 1`] = `
 "/
 
 :root {
-	--calcite-z-index-tooltip: 901;
-	--calcite-z-index-popup: 900;
-	--calcite-z-index-modal: 800;
-	--calcite-z-index-overlay: 700;
-	--calcite-z-index-dropdown: 600;
-	--calcite-z-index-toast: 500;
-	--calcite-z-index-header: 400;
-	--calcite-z-index-sticky: 300;
-	--calcite-z-index: 1;
-	--calcite-z-index-deep: -999999;
-	--calcite-spacing-xxxl: 32px;
-	--calcite-spacing-xxl: 20px;
-	--calcite-spacing-xl: 16px;
-	--calcite-spacing-lg: 14px;
-	--calcite-spacing-md: 12px;
-	--calcite-spacing-sm: 8px;
-	--calcite-spacing-xs: 6px;
-	--calcite-spacing-xxs: 4px;
-	--calcite-spacing-base: 2px;
-	--calcite-spacing-px: 1px;
-	--calcite-size-xxxl: 32px;
-	--calcite-size-xxl: 24px;
-	--calcite-size-xl: 20px;
-	--calcite-size-lg: 16px;
-	--calcite-size-md-plus: 14px;
-	--calcite-size-md: 12px;
-	--calcite-size-sm-plus: 10px;
-	--calcite-size-sm: 8px;
-	--calcite-size-xs: 6px;
-	--calcite-size-xxs: 4px;
-	--calcite-size-xxxs: 2px;
-	--calcite-size-px: 1px;
-	--calcite-opacity-disabled: 0.5;
-	--calcite-opacity-full: 1;
-	--calcite-opacity-dark: 0.85;
-	--calcite-opacity-half: 0.5;
-	--calcite-opacity-light: 0.4;
-	--calcite-font-text-case-capitalize: capitalize;
-	--calcite-font-text-case-lowercase: lowercase;
-	--calcite-font-text-case-uppercase: uppercase;
-	--calcite-font-text-case-none: none;
-	--calcite-font-text-decoration-underline: underline;
-	--calcite-font-text-decoration-none: none;
-	--calcite-font-paragraph-spacing-normal: 4px;
-	--calcite-font-letter-spacing-wide: 0.4;
-	--calcite-font-letter-spacing-normal: 0;
-	--calcite-font-letter-spacing-tight: -0.4;
-	--calcite-font-line-height-relative-loose: 2; /* 2 */
-	--calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
-	--calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
-	--calcite-font-line-height-relative-snug: 1.375; /* 1.375 */
-	--calcite-font-line-height-relative-tight: 1.25; /* 1.25 */
-	--calcite-font-line-height-relative: auto; /* 1 */
-	--calcite-font-line-height-fixed-xl: 24px;
-	--calcite-font-line-height-fixed-lg: 20px;
-	--calcite-font-line-height-fixed-base: 16px;
-	--calcite-font-line-height-fixed-sm: 12px;
-	--calcite-font-style-emphasis: italic; /* used in ratings */
-	--calcite-font-size-xxl: 24px;
-	--calcite-font-size-xl: 20px;
-	--calcite-font-size-lg: 18px;
-	--calcite-font-size-md: 16px;
-	--calcite-font-size: 14px;
-	--calcite-font-size-sm: 12px;
-	--calcite-font-size-xs: 10px;
-	--calcite-font-weight-bold: 700;
-	--calcite-font-weight-semibold: 600;
-	--calcite-font-weight-medium: 500;
-	--calcite-font-weight-regular: 400;
-	--calcite-font-weight-normal: 400; /* For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
-	--calcite-font-weight-light: 300; /* For Avenir Next World (secondary font family) */
-	--calcite-font-family-code: Monaco;
-	--calcite-font-family: "Avenir Next LT Pro";
-	--calcite-container-size-content-fixed: 1440px; /* only for lg breakpoint fixed grid width */
-	--calcite-container-size-content-fluid: 100%; /* for fluid grid widths */
-	--calcite-container-size-gutter: 16px;
-	--calcite-container-size-margin: 24px;
-	--calcite-color-background-none: rgba(#ffffff, 0);
-	--calcite-corner-radius-pill: 100%;
-	--calcite-corner-radius-round: 4px;
-	--calcite-corner-radius-sharp: 0;
-	--calcite-border-width-lg: 4px;
-	--calcite-border-width-md: 2px;
-	--calcite-border-width-sm: 1px;
-	--calcite-border-width-none: 0;
-	--calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
-	--calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
-	--calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-	--calcite-corner-radius: var(--calcite-corner-radius-sharp);
+  --calcite-z-index-tooltip: 901;
+  --calcite-z-index-popup: 900;
+  --calcite-z-index-modal: 800;
+  --calcite-z-index-overlay: 700;
+  --calcite-z-index-dropdown: 600;
+  --calcite-z-index-toast: 500;
+  --calcite-z-index-header: 400;
+  --calcite-z-index-sticky: 300;
+  --calcite-z-index: 1;
+  --calcite-z-index-deep: -999999;
+  --calcite-spacing-xxxl: 32px;
+  --calcite-spacing-xxl: 20px;
+  --calcite-spacing-xl: 16px;
+  --calcite-spacing-lg: 14px;
+  --calcite-spacing-md: 12px;
+  --calcite-spacing-sm: 8px;
+  --calcite-spacing-xs: 6px;
+  --calcite-spacing-xxs: 4px;
+  --calcite-spacing-base: 2px;
+  --calcite-spacing-px: 1px;
+  --calcite-size-xxxl: 32px;
+  --calcite-size-xxl: 24px;
+  --calcite-size-xl: 20px;
+  --calcite-size-lg: 16px;
+  --calcite-size-md-plus: 14px;
+  --calcite-size-md: 12px;
+  --calcite-size-sm-plus: 10px;
+  --calcite-size-sm: 8px;
+  --calcite-size-xs: 6px;
+  --calcite-size-xxs: 4px;
+  --calcite-size-xxxs: 2px;
+  --calcite-size-px: 1px;
+  --calcite-opacity-disabled: 0.5;
+  --calcite-opacity-full: 1;
+  --calcite-opacity-dark: 0.85;
+  --calcite-opacity-half: 0.5;
+  --calcite-opacity-light: 0.4;
+  --calcite-font-text-case-capitalize: capitalize;
+  --calcite-font-text-case-lowercase: lowercase;
+  --calcite-font-text-case-uppercase: uppercase;
+  --calcite-font-text-case-none: none;
+  --calcite-font-text-decoration-underline: underline;
+  --calcite-font-text-decoration-none: none;
+  --calcite-font-paragraph-spacing-normal: 4px;
+  --calcite-font-letter-spacing-wide: 0.4;
+  --calcite-font-letter-spacing-normal: 0;
+  --calcite-font-letter-spacing-tight: -0.4;
+  --calcite-font-line-height-relative-loose: 2; /* 2 */
+  --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
+  --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
+  --calcite-font-line-height-relative-snug: 1.375; /* 1.375 */
+  --calcite-font-line-height-relative-tight: 1.25; /* 1.25 */
+  --calcite-font-line-height-relative: auto; /* 1 */
+  --calcite-font-line-height-fixed-xl: 24px;
+  --calcite-font-line-height-fixed-lg: 20px;
+  --calcite-font-line-height-fixed-base: 16px;
+  --calcite-font-line-height-fixed-sm: 12px;
+  --calcite-font-style-emphasis: italic; /* used in ratings */
+  --calcite-font-size-xxl: 24px;
+  --calcite-font-size-xl: 20px;
+  --calcite-font-size-lg: 18px;
+  --calcite-font-size-md: 16px;
+  --calcite-font-size: 14px;
+  --calcite-font-size-sm: 12px;
+  --calcite-font-size-xs: 10px;
+  --calcite-font-weight-bold: 700;
+  --calcite-font-weight-semibold: 600;
+  --calcite-font-weight-medium: 500;
+  --calcite-font-weight-regular: 400;
+  --calcite-font-weight-normal: 400; /* For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
+  --calcite-font-weight-light: 300; /* For Avenir Next World (secondary font family) */
+  --calcite-font-family-code: Monaco Consolas "Andale Mono" "Lucida Console"
+    monospace; /* Font family for code with fallbacks */
+  --calcite-font-family: "Avenir Next World" "Avenir Next LT Pro" Avenir
+    "Helvetica Neue" sans-serif; /* Primary font with fallbacks */
+  --calcite-container-size-content-fixed: 1440px; /* only for lg breakpoint fixed grid width */
+  --calcite-container-size-content-fluid: 100%; /* for fluid grid widths */
+  --calcite-container-size-gutter: 16px;
+  --calcite-container-size-margin: 24px;
+  --calcite-color-background-none: rgba(#ffffff, 0);
+  --calcite-corner-radius-pill: 100%;
+  --calcite-corner-radius-round: 4px;
+  --calcite-corner-radius-sharp: 0;
+  --calcite-border-width-lg: 4px;
+  --calcite-border-width-md: 2px;
+  --calcite-border-width-sm: 1px;
+  --calcite-border-width-none: 0;
+  --calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08),
+    0 12px 30px rgba(0, 0, 0, 0.1);
+  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04),
+    0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
+  --calcite-corner-radius: var(--calcite-corner-radius-sharp);
 }
 "
 `;
@@ -460,47 +474,47 @@ exports[`generated tokens CSS global should match 1`] = `
 exports[`generated tokens CSS light should match 1`] = `
 "/
 
-:root{
-	--calcite-color-border-white: #ffffff;
-	--calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
-	--calcite-color-border-input: #949494;
-	--calcite-color-border-3: #dfdfdf;
-	--calcite-color-border-2: #d4d4d4;
-	--calcite-color-border-1: #cacaca;
-	--calcite-color-text-link: #00619b;
-	--calcite-color-text-inverse: #ffffff;
-	--calcite-color-text-3: #6a6a6a;
-	--calcite-color-text-2: #4a4a4a;
-	--calcite-color-text-1: #151515;
-	--calcite-color-inverse-press: #202020;
-	--calcite-color-inverse-hover: #2b2b2b;
-	--calcite-color-inverse: #353535;
-	--calcite-color-status-danger-press: #7c1d13;
-	--calcite-color-status-danger-hover: #a82b1e;
-	--calcite-color-status-danger: #d83020;
-	--calcite-color-status-warning-press: #bfa200;
-	--calcite-color-status-warning-hover: #d9bc00;
-	--calcite-color-status-warning: #edd317;
-	--calcite-color-status-success-press: #1a6324;
-	--calcite-color-status-success-hover: #288835;
-	--calcite-color-status-success: #35ac46;
-	--calcite-color-status-info-press: #00304d;
-	--calcite-color-status-info-hover: #004874;
-	--calcite-color-status-info: #00619b;
-	--calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
-	--calcite-color-brand-press: #004874;
-	--calcite-color-brand-hover: #00619b;
-	--calcite-color-brand: #007ac2;
-	--calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-	--calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-	--calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-	--calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-	--calcite-color-transparent: rgba(0, 0, 0, 0);
-	--calcite-color-foreground-current: #c7eaff;
-	--calcite-color-foreground-3: #eaeaea;
-	--calcite-color-foreground-2: #f3f3f3;
-	--calcite-color-foreground-1: #ffffff;
-	--calcite-color-background: #f8f8f8;
+:root {
+  --calcite-color-border-white: #ffffff;
+  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
+  --calcite-color-border-input: #949494;
+  --calcite-color-border-3: #dfdfdf;
+  --calcite-color-border-2: #d4d4d4;
+  --calcite-color-border-1: #cacaca;
+  --calcite-color-text-link: #00619b;
+  --calcite-color-text-inverse: #ffffff;
+  --calcite-color-text-3: #6a6a6a;
+  --calcite-color-text-2: #4a4a4a;
+  --calcite-color-text-1: #151515;
+  --calcite-color-inverse-press: #202020;
+  --calcite-color-inverse-hover: #2b2b2b;
+  --calcite-color-inverse: #353535;
+  --calcite-color-status-danger-press: #7c1d13;
+  --calcite-color-status-danger-hover: #a82b1e;
+  --calcite-color-status-danger: #d83020;
+  --calcite-color-status-warning-press: #bfa200;
+  --calcite-color-status-warning-hover: #d9bc00;
+  --calcite-color-status-warning: #edd317;
+  --calcite-color-status-success-press: #1a6324;
+  --calcite-color-status-success-hover: #288835;
+  --calcite-color-status-success: #35ac46;
+  --calcite-color-status-info-press: #00304d;
+  --calcite-color-status-info-hover: #004874;
+  --calcite-color-status-info: #00619b;
+  --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
+  --calcite-color-brand-press: #004874;
+  --calcite-color-brand-hover: #00619b;
+  --calcite-color-brand: #007ac2;
+  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent: rgba(0, 0, 0, 0);
+  --calcite-color-foreground-current: #c7eaff;
+  --calcite-color-foreground-3: #eaeaea;
+  --calcite-color-foreground-2: #f3f3f3;
+  --calcite-color-foreground-1: #ffffff;
+  --calcite-color-background: #f8f8f8;
 }
 "
 `;
@@ -722,9 +736,16 @@ export const calciteContainerSize768 = "768px";
 export const calciteContainerSize854 = "854px";
 export const calciteContainerSize1152 = "1152px";
 export const calciteContainerSize1440 = "1440px";
+export const calciteFontFamilyAndaleMono = "Andale Mono"; // Fallback for Monaco
 export const calciteFontFamilyAvenirNextPro = "Avenir Next LT Pro";
 export const calciteFontFamilyAvenirNextWorld = "Avenir Next World";
+export const calciteFontFamilyAvenir = "Avenir"; // Fallback for Avenir Next
+export const calciteFontFamilyConsolas = "Consolas"; // Fallback for Monaco
+export const calciteFontFamilyHelveticaNeue = "Helvetica Neue"; // Fallback for Avenir Next
+export const calciteFontFamilyLucidaConsole = "Lucida Console"; // Fallback for Monaco
 export const calciteFontFamilyMonaco = "Monaco";
+export const calciteFontFamilyMonospace = "monospace"; // Fallback for Monaco
+export const calciteFontFamilySansSerif = "sans-serif"; // Fallback for Avenir Next
 export const calciteFontStyleItalic = "italic"; // used in ratings
 export const calciteFontWeightUltralight = "200"; // only for Avenir Next World (secondary font family)
 export const calciteFontWeightThin = "100";
@@ -883,8 +904,8 @@ export const calciteContainerSizeMargin = "24px";
 export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
-export const calciteFontFamily = "Avenir Next LT Pro";
-export const calciteFontFamilyCode = "Monaco";
+export const calciteFontFamily = ["Avenir Next World","Avenir Next LT Pro","Avenir","Helvetica Neue","sans-serif"]; // Primary font with fallbacks
+export const calciteFontFamilyCode = ["Monaco","Consolas","Andale Mono","Lucida Console","monospace"]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
 export const calciteFontWeightNormal = "400"; // For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"
 export const calciteFontWeightRegular = "400";
@@ -949,7 +970,7 @@ export const calciteSpacingLg = "14px";
 export const calciteSpacingXl = "16px";
 export const calciteSpacingXxl = "20px";
 export const calciteSpacingXxxl = "32px";
-export const calciteTypography = {"fontFamily":"Avenir Next LT Pro","fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
+export const calciteTypography = {"fontFamily":["Avenir Next World","Avenir Next LT Pro","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
 export const calciteTypographyLightMinus3h = {"fontSize":"10px","fontWeight":"300","lineHeight":"12px"};
 export const calciteTypographyLightMinus2h = {"fontSize":"12px","fontWeight":"300"};
 export const calciteTypographyLightMinus1h = {"fontWeight":"300"};
@@ -957,7 +978,7 @@ export const calciteTypographyLight0h = {"fontSize":"16px","fontWeight":"300","l
 export const calciteTypographyLight1h = {"fontSize":"18px","fontWeight":"300","lineHeight":"24px"};
 export const calciteTypographyRegularMinus3h = {"lineHeight":"12px","fontSize":"10px"};
 export const calciteTypographyRegularMinus2h = {"fontSize":"12px"};
-export const calciteTypographyRegularMinus1h = {"fontFamily":"Avenir Next LT Pro","fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
+export const calciteTypographyRegularMinus1h = {"fontFamily":["Avenir Next World","Avenir Next LT Pro","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
 export const calciteTypographyRegular0h = {"lineHeight":"20px","fontSize":"16px"};
 export const calciteTypographyRegular1h = {"lineHeight":"24px","fontSize":"18px"};
 export const calciteTypographyMediumMinus3h = {"fontWeight":"500","lineHeight":"12px","fontSize":"10px"};
@@ -1002,7 +1023,7 @@ export const calciteTypographyHierarchyHeading3 = {"fontWeight":"500","lineHeigh
 export const calciteTypographyHierarchyHeading4 = {"fontWeight":"500","lineHeight":"137.5%","fontSize":"16px"};
 export const calciteTypographyHierarchyHeading5 = {"fontWeight":"500","lineHeight":"137.5%"};
 export const calciteTypographyHierarchyBodySnug = {"lineHeight":"137.5%"};
-export const calciteTypographyHierarchyBody = {"fontFamily":"Avenir Next LT Pro","fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
+export const calciteTypographyHierarchyBody = {"fontFamily":["Avenir Next World","Avenir Next LT Pro","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
 export const calciteTypographyHierarchyOverline = {"lineHeight":"12px","textCase":"uppercase","fontWeight":"700"};
 export const calciteTypographyHierarchyCaption = {"lineHeight":"137.5%","fontSize":"12px"};
 export const calciteZIndexDeep = "-999999";
@@ -1100,8 +1121,10 @@ export const calciteContainerSizeGutter : string;
 export const calciteContainerSizeContentFluid : string;
 /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed : string;
-export const calciteFontFamily : string;
-export const calciteFontFamilyCode : string;
+/** Primary font with fallbacks */
+export const calciteFontFamily : string[];
+/** Font family for code with fallbacks */
+export const calciteFontFamilyCode : string[];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight : string;
 /** For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular" */
@@ -1175,7 +1198,7 @@ export const calciteSpacingLg : string;
 export const calciteSpacingXl : string;
 export const calciteSpacingXxl : string;
 export const calciteSpacingXxxl : string;
-export const calciteTypography : { fontFamily: string, fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
+export const calciteTypography : { fontFamily: string[], fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
 export const calciteTypographyLightMinus3h : { fontSize: string, fontWeight: string, lineHeight: string };
 export const calciteTypographyLightMinus2h : { fontSize: string, fontWeight: string };
 export const calciteTypographyLightMinus1h : { fontWeight: string };
@@ -1183,7 +1206,7 @@ export const calciteTypographyLight0h : { fontSize: string, fontWeight: string, 
 export const calciteTypographyLight1h : { fontSize: string, fontWeight: string, lineHeight: string };
 export const calciteTypographyRegularMinus3h : { lineHeight: string, fontSize: string };
 export const calciteTypographyRegularMinus2h : { fontSize: string };
-export const calciteTypographyRegularMinus1h : { fontFamily: string, fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
+export const calciteTypographyRegularMinus1h : { fontFamily: string[], fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
 export const calciteTypographyRegular0h : { lineHeight: string, fontSize: string };
 export const calciteTypographyRegular1h : { lineHeight: string, fontSize: string };
 export const calciteTypographyMediumMinus3h : { fontWeight: string, lineHeight: string, fontSize: string };
@@ -1228,7 +1251,7 @@ export const calciteTypographyHierarchyHeading3 : { fontWeight: string, lineHeig
 export const calciteTypographyHierarchyHeading4 : { fontWeight: string, lineHeight: string, fontSize: string };
 export const calciteTypographyHierarchyHeading5 : { fontWeight: string, lineHeight: string };
 export const calciteTypographyHierarchyBodySnug : { lineHeight: string };
-export const calciteTypographyHierarchyBody : { fontFamily: string, fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
+export const calciteTypographyHierarchyBody : { fontFamily: string[], fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
 export const calciteTypographyHierarchyOverline : { lineHeight: string, textCase: string, fontWeight: string };
 export const calciteTypographyHierarchyCaption : { lineHeight: string, fontSize: string };
 export const calciteZIndexDeep : string;
@@ -1461,9 +1484,23 @@ export const calciteContainerSize768 : string;
 export const calciteContainerSize854 : string;
 export const calciteContainerSize1152 : string;
 export const calciteContainerSize1440 : string;
+/** Fallback for Monaco */
+export const calciteFontFamilyAndaleMono : string;
 export const calciteFontFamilyAvenirNextPro : string;
 export const calciteFontFamilyAvenirNextWorld : string;
+/** Fallback for Avenir Next */
+export const calciteFontFamilyAvenir : string;
+/** Fallback for Monaco */
+export const calciteFontFamilyConsolas : string;
+/** Fallback for Avenir Next */
+export const calciteFontFamilyHelveticaNeue : string;
+/** Fallback for Monaco */
+export const calciteFontFamilyLucidaConsole : string;
 export const calciteFontFamilyMonaco : string;
+/** Fallback for Monaco */
+export const calciteFontFamilyMonospace : string;
+/** Fallback for Avenir Next */
+export const calciteFontFamilySansSerif : string;
 /** used in ratings */
 export const calciteFontStyleItalic : string;
 /** only for Avenir Next World (secondary font family) */
@@ -1644,9 +1681,16 @@ $calcite-font-weight-light: 300; // only for Avenir Next World (secondary font f
 $calcite-font-weight-thin: 100;
 $calcite-font-weight-ultralight: 200; // only for Avenir Next World (secondary font family)
 $calcite-font-style-italic: italic; // used in ratings
+$calcite-font-family-sans-serif: sans-serif; // Fallback for Avenir Next
+$calcite-font-family-monospace: monospace; // Fallback for Monaco
 $calcite-font-family-monaco: Monaco;
+$calcite-font-family-lucida-console: "Lucida Console"; // Fallback for Monaco
+$calcite-font-family-helvetica-neue: "Helvetica Neue"; // Fallback for Avenir Next
+$calcite-font-family-consolas: Consolas; // Fallback for Monaco
+$calcite-font-family-avenir: Avenir; // Fallback for Avenir Next
 $calcite-font-family-avenir-next-world: "Avenir Next World";
 $calcite-font-family-avenir-next-pro: "Avenir Next LT Pro";
+$calcite-font-family-andale-mono: "Andale Mono"; // Fallback for Monaco
 $calcite-container-size-1440: 1440px;
 $calcite-container-size-1152: 1152px;
 $calcite-container-size-854: 854px;
@@ -1658,18 +1702,18 @@ $calcite-container-size-328: 328px;
 $calcite-container-size-320: 320px;
 $calcite-container-size-154: 154px;
 $calcite-container-size-0: 0;
-$calcite-color-dark-blue-d-bb-430: #0087D7;
-$calcite-color-dark-blue-d-bb-420: #00A0FF;
-$calcite-color-dark-blue-d-bb-410: #47BBFF;
-$calcite-color-dark-red-d-rr-430: #F3381B;
-$calcite-color-dark-red-d-rr-420: #FE583E;
-$calcite-color-dark-red-d-rr-410: #FF7465;
-$calcite-color-dark-yellow-d-yy-430: #F4B000;
-$calcite-color-dark-yellow-d-yy-420: #FFC900;
-$calcite-color-dark-yellow-d-yy-410: #FFE24D;
-$calcite-color-dark-green-d-gg-430: #36DA43;
-$calcite-color-dark-green-d-gg-420: #36DA43;
-$calcite-color-dark-green-d-gg-410: #44ED51;
+$calcite-color-dark-blue-d-bb-430: #0087d7;
+$calcite-color-dark-blue-d-bb-420: #00a0ff;
+$calcite-color-dark-blue-d-bb-410: #47bbff;
+$calcite-color-dark-red-d-rr-430: #f3381b;
+$calcite-color-dark-red-d-rr-420: #fe583e;
+$calcite-color-dark-red-d-rr-410: #ff7465;
+$calcite-color-dark-yellow-d-yy-430: #f4b000;
+$calcite-color-dark-yellow-d-yy-420: #ffc900;
+$calcite-color-dark-yellow-d-yy-410: #ffe24d;
+$calcite-color-dark-green-d-gg-430: #36da43;
+$calcite-color-dark-green-d-gg-420: #36da43;
+$calcite-color-dark-green-d-gg-410: #44ed51;
 $calcite-color-vibrant-violet-v-vv-180: #6a0be6;
 $calcite-color-vibrant-violet-v-vv-160: #8129ff;
 $calcite-color-vibrant-violet-v-vv-140: #974dff;
@@ -1865,7 +1909,8 @@ $calcite-shadow-4: 0 12px 32px -2px rgba(var(--calcite-color-neutral-blk-240), 0
 $calcite-shadow-3: 0 4px 20px 0 rgba(var(--calcite-color-neutral-blk-240), 0.08);
 $calcite-shadow-2: 0 4px 16px 0 rgba(var(--calcite-color-neutral-blk-240), 0.08);
 $calcite-shadow-1: 0 2px 8px 0 rgba(var(--calcite-color-neutral-blk-240), 0.04);
-$calcite-shadow-0: 0 0 0 0 rgba(var(--calcite-color-neutral-blk-240), 0);"
+$calcite-shadow-0: 0 0 0 0 rgba(var(--calcite-color-neutral-blk-240), 0);
+"
 `;
 
 exports[`generated tokens SCSS dark should match 1`] = `
@@ -1877,7 +1922,7 @@ $calcite-color-border-input: #757575;
 $calcite-color-border-3: #404040;
 $calcite-color-border-2: #4a4a4a;
 $calcite-color-border-1: #555555;
-$calcite-color-text-link: #00A0FF;
+$calcite-color-text-link: #00a0ff;
 $calcite-color-text-inverse: #151515;
 $calcite-color-text-3: #9f9f9f;
 $calcite-color-text-2: #bfbfbf;
@@ -1887,16 +1932,16 @@ $calcite-color-inverse-hover: #ffffff;
 $calcite-color-inverse: #f8f8f8;
 $calcite-color-status-danger-press: #d90012;
 $calcite-color-status-danger-hover: #ff0015;
-$calcite-color-status-danger: #FE583E;
+$calcite-color-status-danger: #fe583e;
 $calcite-color-status-warning-press: #f5d000;
 $calcite-color-status-warning-hover: #ffee33;
-$calcite-color-status-warning: #FFC900;
+$calcite-color-status-warning: #ffc900;
 $calcite-color-status-success-press: #00b81b;
 $calcite-color-status-success-hover: #3bed52;
-$calcite-color-status-success: #36DA43;
+$calcite-color-status-success: #36da43;
 $calcite-color-status-info-press: #009af2;
 $calcite-color-status-info-hover: #3db8ff;
-$calcite-color-status-info: #00A0FF;
+$calcite-color-status-info: #00a0ff;
 $calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
 $calcite-color-brand-press: #00619b;
 $calcite-color-brand-hover: #007ac2;
@@ -1988,8 +2033,10 @@ $calcite-font-weight-medium: 500;
 $calcite-font-weight-regular: 400;
 $calcite-font-weight-normal: 400; // For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word "regular"
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-family-code: Monaco;
-$calcite-font-family: "Avenir Next LT Pro";
+$calcite-font-family-code: Monaco Consolas "Andale Mono" "Lucida Console"
+  monospace; // Font family for code with fallbacks
+$calcite-font-family: "Avenir Next World" "Avenir Next LT Pro" Avenir
+  "Helvetica Neue" sans-serif; // Primary font with fallbacks
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-gutter: 16px;
@@ -2002,10 +2049,13 @@ $calcite-border-width-lg: 4px;
 $calcite-border-width-md: 2px;
 $calcite-border-width-sm: 1px;
 $calcite-border-width-none: 0;
-$calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
-$calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+$calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08),
+  0 12px 30px rgba(0, 0, 0, 0.1);
+$calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04),
+  0 4px 16px 0 rgba(0, 0, 0, 0.08);
 $calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-$calcite-corner-radius: var(--calcite-corner-radius-sharp);"
+$calcite-corner-radius: var(--calcite-corner-radius-sharp);
+"
 `;
 
 exports[`generated tokens SCSS light should match 1`] = `

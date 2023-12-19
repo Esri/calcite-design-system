@@ -222,6 +222,16 @@ export class List
   @Event({ cancelable: false }) calciteListChange: EventEmitter<void>;
 
   /**
+   * Emits when the component's dragging has ended.
+   */
+  @Event({ cancelable: false }) calciteListDragEnd: EventEmitter<ListDragDetail>;
+
+  /**
+   * Emits when the component's dragging has started.
+   */
+  @Event({ cancelable: false }) calciteListDragStart: EventEmitter<ListDragDetail>;
+
+  /**
    * Emits when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
@@ -601,12 +611,20 @@ export class List
     connectSortableComponent(this);
   }
 
-  onDragStart(): void {
+  onGlobalDragStart(): void {
     this.disconnectObserver();
   }
 
-  onDragEnd(): void {
+  onGlobalDragEnd(): void {
     this.connectObserver();
+  }
+
+  onDragEnd(detail: ListDragDetail): void {
+    this.calciteListDragEnd.emit(detail);
+  }
+
+  onDragStart(detail: ListDragDetail): void {
+    this.calciteListDragStart.emit(detail);
   }
 
   onDragSort(detail: ListDragDetail): void {

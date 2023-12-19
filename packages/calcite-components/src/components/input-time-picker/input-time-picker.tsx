@@ -173,16 +173,15 @@ export class InputTimePicker
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
+
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
     }
 
-    if (open) {
-      this.reposition(true);
-    }
+    this.reposition(true);
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */

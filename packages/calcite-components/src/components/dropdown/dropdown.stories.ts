@@ -164,19 +164,19 @@ export const itemsAsLinks = (): string => html`
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Throw Apples</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Visit Oranges</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Eat Grapes</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-start="camera-flash-on"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-start="camera-flash-on"
         >Plant beans</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-end="camera-flash-on"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-end="camera-flash-on"
         >Add peas</calcite-dropdown-item
       >
     </calcite-dropdown-group>
@@ -200,19 +200,25 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
+        >A link</calcite-dropdown-item
+      >
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select multi" selection-mode="multiple">
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
+        >A link</calcite-dropdown-item
+      >
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
+        >A link</calcite-dropdown-item
+      >
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
@@ -232,19 +238,19 @@ export const itemsAsLinksDarkMode = (): string => html`
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Throw Apples</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Visit Oranges</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Eat Grapes</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-start="camera-flash-on"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-start="camera-flash-on"
         >Plant beans</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-end="camera-flash-on"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-end="camera-flash-on"
         >Add peas</calcite-dropdown-item
       >
     </calcite-dropdown-group>

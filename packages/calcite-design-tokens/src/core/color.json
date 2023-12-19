@@ -4,616 +4,3556 @@
       "neutral": {
         "blk-000": {
           "value": "#ffffff",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "000",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-005": {
           "value": "#f8f8f8",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "005",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-010": {
           "value": "#f3f3f3",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "010",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-020": {
           "value": "#eaeaea",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "020",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-030": {
           "value": "#dfdfdf",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "030",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-040": {
           "value": "#d4d4d4",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "040",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-050": {
           "value": "#cacaca",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "050",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-060": {
           "value": "#bfbfbf",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "060",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-070": {
           "value": "#b5b5b5",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "070",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-080": {
           "value": "#aaaaaa",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "080",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-090": {
           "value": "#9f9f9f",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "090",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-100": {
           "value": "#949494",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "100",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-110": {
           "value": "#8a8a8a",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "110",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-120": {
           "value": "#808080",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "120",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-130": {
           "value": "#757575",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "130",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-140": {
           "value": "#6a6a6a",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "140",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-150": {
           "value": "#606060",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "150",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-160": {
           "value": "#555555",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "160",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-170": {
           "value": "#4a4a4a",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "170",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-180": {
           "value": "#404040",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "180",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-190": {
           "value": "#353535",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "190",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-200": {
           "value": "#2b2b2b",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "200",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-210": {
           "value": "#202020",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "210",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-220": {
           "value": "#151515",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "220",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-230": {
           "value": "#0b0b0b",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "230",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-235": {
           "value": "#060606",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "235",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "blk-240": {
           "value": "#000000",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "neutral",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "blk",
+              "state": "",
+              "scale": "240",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "high-saturation": {
         "blue": {
           "h-bb-010": {
             "value": "#c7eaff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-020": {
             "value": "#9fd4f3",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-030": {
             "value": "#77bde7",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-040": {
             "value": "#50a7da",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-050": {
             "value": "#2890ce",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-060": {
             "value": "#007ac2",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-070": {
             "value": "#00619b",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-080": {
             "value": "#004874",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-090": {
             "value": "#00304d",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-bb-100": {
             "value": "#001726",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "green-blue": {
           "h-gb-010": {
             "value": "#cef5f4",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-020": {
             "value": "#afedec",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-030": {
             "value": "#8fe6e5",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-040": {
             "value": "#5ae0de",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-050": {
             "value": "#28cecb",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-060": {
             "value": "#00bab5",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-070": {
             "value": "#009b98",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-080": {
             "value": "#007472",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-090": {
             "value": "#004d4c",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gb-100": {
             "value": "#002625",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "green": {
           "h-gg-010": {
             "value": "#bdf2c4",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-020": {
             "value": "#a2e4ab",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-030": {
             "value": "#87d692",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-040": {
             "value": "#6bc878",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-050": {
             "value": "#50ba5f",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-060": {
             "value": "#35ac46",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-070": {
             "value": "#288835",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-080": {
             "value": "#1a6324",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-090": {
             "value": "#0d3f14",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-gg-100": {
             "value": "#001a03",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "yellow-green": {
           "h-yg-010": {
             "value": "#e5f7b4",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-020": {
             "value": "#d9ef9f",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-030": {
             "value": "#cde78a",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-040": {
             "value": "#c2e075",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-050": {
             "value": "#b6d860",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-060": {
             "value": "#aad04b",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-070": {
             "value": "#84a338",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-080": {
             "value": "#5e7526",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-090": {
             "value": "#384813",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yg-100": {
             "value": "#121a00",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "yellow": {
           "h-yy-010": {
             "value": "#fff7cc",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-020": {
             "value": "#fef3ad",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-030": {
             "value": "#fcee8d",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-040": {
             "value": "#fbea6e",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-050": {
             "value": "#f9e54e",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-060": {
             "value": "#edd317",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-070": {
             "value": "#d9bc00",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-080": {
             "value": "#bfa200",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-090": {
             "value": "#8c7500",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-yy-100": {
             "value": "#5c4e00",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "orange-yellow": {
           "h-oy-010": {
             "value": "#ffe2bf",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-020": {
             "value": "#fed3a1",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-030": {
             "value": "#fcc582",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-040": {
             "value": "#fbb664",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-050": {
             "value": "#f9a845",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-060": {
             "value": "#f89927",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-070": {
             "value": "#c67718",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-080": {
             "value": "#9a5b10",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-090": {
             "value": "#6d3f08",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oy-100": {
             "value": "#402300",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "orange": {
           "h-oo-010": {
             "value": "#ffd8bf",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-020": {
             "value": "#fdc39f",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-030": {
             "value": "#faae7f",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-040": {
             "value": "#f89960",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-050": {
             "value": "#f58440",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-060": {
             "value": "#f36f20",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-070": {
             "value": "#c65a18",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-080": {
             "value": "#9a4410",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-090": {
             "value": "#6d2f08",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-oo-100": {
             "value": "#401900",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "red-orange": {
           "h-ro-010": {
             "value": "#ffc7b3",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-020": {
             "value": "#f8af95",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-030": {
             "value": "#f09677",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-040": {
             "value": "#e97e5a",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-050": {
             "value": "#e1653c",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-060": {
             "value": "#da4d1e",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-070": {
             "value": "#ad3c16",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-080": {
             "value": "#802c0f",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-090": {
             "value": "#531b07",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-ro-100": {
             "value": "#260a00",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "red": {
           "h-rr-010": {
             "value": "#ffc6bf",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-020": {
             "value": "#ffaaa1",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-030": {
             "value": "#f2877b",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-040": {
             "value": "#f07062",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-050": {
             "value": "#e65240",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-060": {
             "value": "#d83020",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-070": {
             "value": "#a82b1e",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-080": {
             "value": "#7c1d13",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-090": {
             "value": "#4f0e08",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-rr-100": {
             "value": "#210300",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "pink": {
           "h-pk-010": {
             "value": "#ffd1ef",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-020": {
             "value": "#fabee4",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-030": {
             "value": "#f2a5d6",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-040": {
             "value": "#eb8dc9",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-050": {
             "value": "#e673bb",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-060": {
             "value": "#e04ea6",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-070": {
             "value": "#ba2f7e",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-080": {
             "value": "#851b52",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-090": {
             "value": "#590b32",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-pk-100": {
             "value": "#260404",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "violet-red": {
           "h-vr-010": {
             "value": "#fadbff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-020": {
             "value": "#e4beeb",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-030": {
             "value": "#cfa1d7",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-040": {
             "value": "#b983c3",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-050": {
             "value": "#a466af",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-060": {
             "value": "#8e499b",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-070": {
             "value": "#73377e",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-080": {
             "value": "#572561",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-090": {
             "value": "#3c1243",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vr-100": {
             "value": "#200026",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "violet": {
           "h-vv-010": {
             "value": "#e8d9ff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "010",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-020": {
             "value": "#cdb9eb",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "020",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-030": {
             "value": "#b39ad7",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "030",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-040": {
             "value": "#987ac3",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "040",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-050": {
             "value": "#7e5baf",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "050",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-060": {
             "value": "#633b9b",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "060",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-070": {
             "value": "#4e2c7e",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "070",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-080": {
             "value": "#3a1e61",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "080",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-090": {
             "value": "#250f43",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "090",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "h-vv-100": {
             "value": "#100026",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "high-saturation",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "100",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         }
       },
@@ -621,199 +3561,1079 @@
         "blue": {
           "v-bb-120": {
             "value": "#59d6ff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-bb-140": {
             "value": "#3db8ff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-bb-160": {
             "value": "#009af2",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-bb-180": {
             "value": "#009af2",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "green-blue": {
           "v-gb-120": {
             "value": "#59fffc",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-gb-140": {
             "value": "#00f7f3",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-gb-160": {
             "value": "#00e6e2",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-gb-180": {
             "value": "#00cfca",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green-blue",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "green": {
           "v-gg-120": {
             "value": "#73ff84",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-gg-140": {
             "value": "#3bed52",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-gg-160": {
             "value": "#00b81b",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-gg-180": {
             "value": "#00a118",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "yellow-green": {
           "v-yg-120": {
             "value": "#d7ff73",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-yg-140": {
             "value": "#bbed3b",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-yg-160": {
             "value": "#96cc00",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-yg-180": {
             "value": "#7fab00",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow-green",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "yellow": {
           "v-yy-120": {
             "value": "#fff766",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-yy-140": {
             "value": "#ffee33",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-yy-160": {
             "value": "#f5d000",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-yy-180": {
             "value": "#ebba17",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "orange-yellow": {
           "v-oy-120": {
             "value": "#ffb54d",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-oy-140": {
             "value": "#ff9500",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-oy-160": {
             "value": "#e68600",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-oy-180": {
             "value": "#d17300",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "orange-yellow",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "red-orange": {
           "v-ro-120": {
             "value": "#ff824d",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-ro-140": {
             "value": "#ff4d00",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-ro-160": {
             "value": "#de4300",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-ro-180": {
             "value": "#c93b00",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red-orange",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "red": {
           "v-rr-120": {
             "value": "#ff624d",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-rr-140": {
             "value": "#ff0015",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-rr-160": {
             "value": "#d90012",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-rr-180": {
             "value": "#b3000f",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "pink": {
           "v-pk-120": {
             "value": "#ff66c2",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-pk-140": {
             "value": "#ff19a4",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-pk-160": {
             "value": "#d11486",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-pk-180": {
             "value": "#c00073",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "pink",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "violet-red": {
           "v-vr-120": {
             "value": "#ea80ff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-vr-140": {
             "value": "#dd33ff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-vr-160": {
             "value": "#ac08cc",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-vr-180": {
             "value": "#83009e",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet-red",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "violet": {
           "v-vv-120": {
             "value": "#b580ff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "120",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-vv-140": {
             "value": "#974dff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "140",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-vv-160": {
             "value": "#8129ff",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "160",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "v-vv-180": {
             "value": "#6a0be6",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "vibrant",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "violet",
+                "state": "",
+                "scale": "180",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         }
       },
@@ -821,57 +4641,297 @@
         "green": {
           "d-gg-410": {
             "value": "#44ED51",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "410",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "d-gg-420": {
             "value": "#36DA43",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "420",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "d-gg-430": {
             "value": "#36DA43",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "green",
+                "state": "",
+                "scale": "430",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "yellow": {
           "d-yy-410": {
             "value": "#FFE24D",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "410",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "d-yy-420": {
             "value": "#FFC900",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "420",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "d-yy-430": {
             "value": "#F4B000",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "yellow",
+                "state": "",
+                "scale": "430",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "red": {
           "d-rr-410": {
             "value": "#FF7465",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "410",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "d-rr-420": {
             "value": "#FE583E",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "420",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "d-rr-430": {
             "value": "#F3381B",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "red",
+                "state": "",
+                "scale": "430",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "blue": {
           "d-bb-410": {
             "value": "#47BBFF",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "410",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "d-bb-420": {
             "value": "#00A0FF",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "420",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "d-bb-430": {
             "value": "#0087D7",
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "core",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "dark",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "blue",
+                "state": "",
+                "scale": "430",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         }
       }

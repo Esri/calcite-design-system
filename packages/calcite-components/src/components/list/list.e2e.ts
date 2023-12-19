@@ -6,7 +6,7 @@ import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
-import { DragDetail } from "../../utils/sortableComponent";
+import { ListDragDetail } from "./interfaces";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -640,6 +640,78 @@ describe("calcite-list", () => {
       expect(await isElementFocused(page, "#one")).toBe(true);
       expect(await one.getProperty("open")).toBe(false);
     });
+
+    it("should navigate a draggable list via ArrowRight and ArrowLeft", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list drag-enabled>
+          <calcite-list-item id="one" value="one" label="One" description="hello world">
+            <calcite-action
+              appearance="transparent"
+              icon="ellipsis"
+              text="menu"
+              label="menu"
+              slot="actions-end"
+            ></calcite-action>
+            <calcite-list>
+              <calcite-list-item id="two" value="two" label="Two" description="hello world">
+                <calcite-action
+                  appearance="transparent"
+                  icon="ellipsis"
+                  text="menu"
+                  label="menu"
+                  slot="actions-end"
+                ></calcite-action
+              ></calcite-list-item>
+            </calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+      const list = await page.find("calcite-list");
+      await list.callMethod("setFocus");
+      await page.waitForChanges();
+
+      const one = await page.find("#one");
+      expect(await one.getProperty("open")).toBe(false);
+
+      expect(await isElementFocused(page, "#one")).toBe(true);
+
+      await list.press("ArrowRight");
+
+      expect(await isElementFocused(page, "#one")).toBe(true);
+      expect(await one.getProperty("open")).toBe(true);
+
+      await list.press("ArrowRight");
+
+      expect(await isElementFocused(page, `calcite-handle`, { shadowed: true })).toBe(true);
+
+      await list.press("ArrowRight");
+
+      expect(await isElementFocused(page, `.${CSS.contentContainer}`, { shadowed: true })).toBe(true);
+
+      await list.press("ArrowRight");
+
+      expect(await isElementFocused(page, "calcite-action")).toBe(true);
+
+      await list.press("ArrowLeft");
+
+      expect(await isElementFocused(page, `.${CSS.contentContainer}`, { shadowed: true })).toBe(true);
+
+      await list.press("ArrowLeft");
+
+      expect(await isElementFocused(page, `calcite-handle`, { shadowed: true })).toBe(true);
+
+      await list.press("ArrowLeft");
+
+      expect(await isElementFocused(page, "#one")).toBe(true);
+      expect(await one.getProperty("open")).toBe(true);
+
+      await list.press("ArrowLeft");
+
+      expect(await isElementFocused(page, "#one")).toBe(true);
+      expect(await one.getProperty("open")).toBe(false);
+    });
   });
 
   describe("drag and drop", () => {
@@ -659,6 +731,12 @@ describe("calcite-list", () => {
       calledTimes: number;
       newIndex: number;
       oldIndex: number;
+      startCalledTimes: number;
+      endCalledTimes: number;
+      endNewIndex: number;
+      endOldIndex: number;
+      startNewIndex: number;
+      startOldIndex: number;
     }>;
 
     it("works using a mouse", async () => {
@@ -670,10 +748,22 @@ describe("calcite-list", () => {
         testWindow.calledTimes = 0;
         testWindow.newIndex = -1;
         testWindow.oldIndex = -1;
-        list.addEventListener("calciteListOrderChange", (event: CustomEvent<DragDetail>) => {
+        testWindow.startCalledTimes = 0;
+        testWindow.endCalledTimes = 0;
+        list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
           testWindow.calledTimes++;
           testWindow.newIndex = event?.detail?.newIndex;
           testWindow.oldIndex = event?.detail?.oldIndex;
+        });
+        list.addEventListener("calciteListDragEnd", (event: CustomEvent<ListDragDetail>) => {
+          testWindow.endCalledTimes++;
+          testWindow.endNewIndex = event.detail.newIndex;
+          testWindow.endOldIndex = event.detail.oldIndex;
+        });
+        list.addEventListener("calciteListDragStart", (event: CustomEvent<ListDragDetail>) => {
+          testWindow.startCalledTimes++;
+          testWindow.startNewIndex = event.detail.newIndex;
+          testWindow.startOldIndex = event.detail.oldIndex;
         });
       });
 
@@ -696,12 +786,29 @@ describe("calcite-list", () => {
 
       const results = await page.evaluate(() => {
         const testWindow = window as TestWindow;
-        return { calledTimes: testWindow.calledTimes, oldIndex: testWindow.oldIndex, newIndex: testWindow.newIndex };
+
+        return {
+          calledTimes: testWindow.calledTimes,
+          oldIndex: testWindow.oldIndex,
+          newIndex: testWindow.newIndex,
+          endCalledTimes: testWindow.endCalledTimes,
+          startCalledTimes: testWindow.startCalledTimes,
+          endNewIndex: testWindow.endNewIndex,
+          endOldIndex: testWindow.endOldIndex,
+          startNewIndex: testWindow.startNewIndex,
+          startOldIndex: testWindow.startOldIndex,
+        };
       });
 
       expect(results.calledTimes).toBe(1);
+      expect(results.startCalledTimes).toBe(1);
+      expect(results.endCalledTimes).toBe(1);
       expect(results.oldIndex).toBe(0);
       expect(results.newIndex).toBe(1);
+      expect(results.startNewIndex).toBe(null);
+      expect(results.startOldIndex).toBe(0);
+      expect(results.endNewIndex).toBe(1);
+      expect(results.endOldIndex).toBe(0);
     });
 
     it("supports dragging items between lists", async () => {

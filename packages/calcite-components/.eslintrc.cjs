@@ -12,7 +12,7 @@ module.exports = {
     "plugin:jsdoc/recommended",
     "prettier",
   ],
-  ignorePatterns: ["dist", "docs", "hydrate", "www", "src/components.d.ts"],
+  ignorePatterns: ["dist", "docs", "hydrate", "www", "**/*.d.ts"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -50,6 +50,9 @@ module.exports = {
     "@stencil-community/prefer-vdom-listener": "warn",
     "@stencil-community/required-jsdoc": "off",
     "@stencil-community/strict-boolean-conditions": "off",
+    "@stencil-community/reserved-member-names": "off",
+    "@stencil-community/ban-exported-const-enums": "off",
+    "@typescript-eslint/no-duplicate-enum-values": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
