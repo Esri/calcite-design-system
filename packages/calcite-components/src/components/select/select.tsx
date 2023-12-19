@@ -387,20 +387,18 @@ export class Select
   render(): VNode {
     return (
       <Host>
-        <div class={CSS.wrapper}>
-          <select
-            aria-label={getLabelText(this)}
-            class={CSS.select}
-            disabled={this.disabled}
-            onChange={this.handleInternalSelectChange}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.storeSelectRef}
-          >
-            <slot />
-          </select>
-          {this.renderChevron()}
-          <HiddenFormInputSlot component={this} />
-        </div>
+        <select
+          aria-label={getLabelText(this)}
+          class={CSS.select}
+          disabled={this.disabled}
+          onChange={this.handleInternalSelectChange}
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+          ref={this.storeSelectRef}
+        >
+          <slot />
+        </select>
+        {this.renderChevron()}
+        <HiddenFormInputSlot component={this} />
         {this.validationMessage ? (
           <Validation
             icon={this.validationIcon}
