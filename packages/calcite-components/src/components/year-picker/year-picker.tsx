@@ -1,6 +1,5 @@
 import {
   Component,
-  //   Host,
   VNode,
   h,
   Element,
@@ -9,6 +8,7 @@ import {
   Watch,
   Event,
   EventEmitter,
+  Host,
 } from "@stencil/core";
 import {
   LocalizedComponent,
@@ -16,7 +16,6 @@ import {
   connectLocalized,
   disconnectLocalized,
   numberStringFormatter,
-  //   numberingSystems,
 } from "../../utils/locale";
 import { DateLocaleData } from "../date-picker/utils";
 
@@ -26,11 +25,17 @@ import { DateLocaleData } from "../date-picker/utils";
   shadow: true,
 })
 export class YearPicker implements LocalizedComponent {
-  @Prop() selectedYear: number;
+  @Prop({ mutable: true }) value: string;
+
+  @Prop({ mutable: true }) maxValue: string;
+
+  @Prop({ mutable: true }) minValue: string;
 
   @Prop() min = 1900;
 
   @Prop() max = 2100;
+
+  @Prop() range: boolean;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -58,36 +63,96 @@ export class YearPicker implements LocalizedComponent {
 
   @State() localeData: DateLocaleData;
 
-  private yearList: string[] = [];
+  private yearList: number[] = [];
+
+  selectEl: HTMLCalciteSelectElement;
+
+  maxValueSelectEl: HTMLCalciteSelectElement;
 
   @Watch("effectiveLocale")
   @Watch("numberingSystem")
-  getYearList(): void {
+  updateNumberStringFormatter(): void {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: false,
     };
+  }
+
+  getYearList(): void {
     this.yearList = [];
     for (let i = this.min; i < this.max; i++) {
-      this.yearList.push(numberStringFormatter?.numberFormatter.format(i));
+      this.yearList.push(i);
     }
   }
 
+  handleSelectChange = (event: CustomEvent): void => {
+    event.stopPropagation();
+    const target = event.target as HTMLCalciteSelectElement;
+    const newValue = target.value;
+    if (this.range) {
+      this.minValue = newValue;
+    } else {
+      this.value = newValue;
+    }
+
+    this.calciteYearPickerChange.emit();
+  };
+
+  handleMaxValueSelectChange = (event: CustomEvent): void => {
+    event.stopPropagation();
+    const target = event.target as HTMLCalciteSelectElement;
+    this.maxValue = target.value;
+    this.calciteYearPickerChange.emit();
+  };
+
+  setSelectEl = (el: HTMLCalciteSelectElement): void => {
+    this.selectEl = el;
+  };
+
+  setMaxValueSelectEl = (el: HTMLCalciteSelectElement): void => {
+    this.maxValueSelectEl = el;
+  };
+
   render(): VNode {
     return (
-      <calcite-select label="year">
-        {this.yearList?.map((year: string) => {
-          return (
-            <calcite-option
-              selected={year === numberStringFormatter?.numberFormatter.format(this.selectedYear)}
-              value={year}
-            >
-              {year}
-            </calcite-option>
-          );
-        })}
-      </calcite-select>
+      <Host>
+        <calcite-select
+          class="start-year"
+          label={this.range ? "start year" : "year"}
+          onCalciteSelectChange={this.handleSelectChange}
+          ref={this.setSelectEl}
+        >
+          {this.yearList?.map((year: number) => {
+            const yearString = year.toString();
+            return (
+              <calcite-option
+                selected={yearString === (this.range ? this.minValue : this.value)}
+                value={yearString}
+              >
+                {numberStringFormatter?.localize(yearString)}
+              </calcite-option>
+            );
+          })}
+        </calcite-select>
+        {this.range && (
+          <calcite-select
+            class="end-year"
+            label="end year"
+            onCalciteSelectChange={this.handleMaxValueSelectChange}
+            ref={this.setMaxValueSelectEl}
+          >
+            {this.yearList?.map((year: number) => {
+              const yearString = year.toString();
+              return (
+                <calcite-option selected={yearString === this.maxValue} value={yearString}>
+                  {numberStringFormatter?.localize(yearString)}
+                </calcite-option>
+              );
+            })}
+          </calcite-select>
+        )}
+      </Host>
     );
   }
 }
