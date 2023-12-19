@@ -3,8 +3,8 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -36,6 +36,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -84,6 +85,12 @@ export class Select
    *
    */
   @Prop() label!: string;
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop() validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -379,20 +386,30 @@ export class Select
 
   render(): VNode {
     return (
-      <Fragment>
-        <select
-          aria-label={getLabelText(this)}
-          class={CSS.select}
-          disabled={this.disabled}
-          onChange={this.handleInternalSelectChange}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.storeSelectRef}
-        >
-          <slot />
-        </select>
-        {this.renderChevron()}
-        <HiddenFormInputSlot component={this} />
-      </Fragment>
+      <Host>
+        <div class={CSS.wrapper}>
+          <select
+            aria-label={getLabelText(this)}
+            class={CSS.select}
+            disabled={this.disabled}
+            onChange={this.handleInternalSelectChange}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.storeSelectRef}
+          >
+            <slot />
+          </select>
+          {this.renderChevron()}
+          <HiddenFormInputSlot component={this} />
+        </div>
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </Host>
     );
   }
 }

@@ -1152,6 +1152,14 @@ export namespace Components {
          */
         "status": Status;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
         "value": string | string[];
@@ -2034,6 +2042,14 @@ export namespace Components {
     | "url"
     | "week";
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2142,6 +2158,14 @@ export namespace Components {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * Selected date as a string in ISO format (YYYY-MM-DD)
          */
@@ -2327,6 +2351,14 @@ export namespace Components {
          */
         "suffixText": string;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2459,6 +2491,14 @@ export namespace Components {
          */
         "suffixText": string;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2535,6 +2575,14 @@ export namespace Components {
          */
         "step": number;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The time value in ISO (24-hour) format.
          */
         "value": string;
@@ -2595,6 +2643,14 @@ export namespace Components {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -3910,6 +3966,14 @@ export namespace Components {
          */
         "status": Status;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's `selectedOption` value.
          */
         "value": string;
@@ -4577,7 +4641,12 @@ export namespace Components {
          */
         "selectionMode": Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
-          * When `true`, displays zebra styling in the component.
+          * When `true`, displays striped styling in the component.
+         */
+        "striped": boolean;
+        /**
+          * When `true`, displays striped styling in the component.
+          * @deprecated Use the `striped` property instead.
          */
         "zebra": boolean;
     }
@@ -4594,6 +4663,7 @@ export namespace Components {
           * When true, prevents user interaction.  Notes:  This prop should use the
          */
         "disabled": boolean;
+        "lastCell": boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4637,6 +4707,7 @@ export namespace Components {
           * A heading to display above description content.
          */
         "heading": string;
+        "lastCell": boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4646,6 +4717,7 @@ export namespace Components {
          */
         "messages": TableHeaderMessages;
         "numberCell": boolean;
+        "parentRowIsSelected": boolean;
         "parentRowPosition": number;
         "parentRowType": RowType;
         "positionInRow": number;
@@ -4670,6 +4742,7 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        "lastVisibleRow": boolean;
         "numbered": boolean;
         "positionAll": number;
         "positionSection": number;
@@ -4794,6 +4867,14 @@ export namespace Components {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * The component's value.
          */
@@ -5233,6 +5314,104 @@ export namespace Components {
          */
         "value": any;
     }
+    interface CalciteVideo {
+        /**
+          * autoplay the media
+         */
+        "autoplay"?: boolean;
+        /**
+          * disable controls
+         */
+        "disableControls"?: boolean;
+        /**
+          * is fullscreen mode disabled
+         */
+        "disableFullscreen"?: boolean;
+        /**
+          * disable progress
+         */
+        "disablePlaybackRate"?: boolean;
+        /**
+          * disable progress
+         */
+        "disableProgress"?: boolean;
+        /**
+          * is scrubbing mode disabled
+         */
+        "disableScrubbing"?: boolean;
+        /**
+          * disable timestamp
+         */
+        "disableTimestamp"?: boolean;
+        /**
+          * a desired height of the video
+         */
+        "height"?: string;
+        /**
+          * string to override English enter fullscreen text
+         */
+        "intlEnterFullscreen": string;
+        /**
+          * string to override English exit fullscreen text
+         */
+        "intlExitFullscreen": string;
+        /**
+          * string to override English mute text
+         */
+        "intlMute": string;
+        /**
+          * string to override English pause text
+         */
+        "intlPause": string;
+        /**
+          * string to override English play text
+         */
+        "intlPlay": string;
+        /**
+          * string to override English restart text
+         */
+        "intlRestart": string;
+        /**
+          * string to override English subtitles text
+         */
+        "intlSubtitles": string;
+        /**
+          * string to override English unmute text
+         */
+        "intlUnmute": string;
+        /**
+          * string to override English subtitles text
+         */
+        "intlVolume": string;
+        /**
+          * loop the media
+         */
+        "loop"?: boolean;
+        /**
+          * is the media muted
+         */
+        "muted"?: boolean;
+        /**
+          * allow play on hover
+         */
+        "playOnHover"?: boolean;
+        /**
+          * preload type
+         */
+        "preload": "auto" | "none" | "preload";
+        /**
+          * specify the scale of the video player, defaults to m
+         */
+        "scale": Scale;
+        /**
+          * show controls on hover
+         */
+        "showControlsOnHover"?: boolean;
+        /**
+          * a desired width of the video
+         */
+        "width"?: string;
+    }
 }
 export interface CalciteAccordionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5541,6 +5720,10 @@ export interface CalciteValueListCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteValueListItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteValueListItemElement;
+}
+export interface CalciteVideoCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteVideoElement;
 }
 declare global {
     interface HTMLCalciteAccordionElementEventMap {
@@ -7188,6 +7371,25 @@ declare global {
         prototype: HTMLCalciteValueListItemElement;
         new (): HTMLCalciteValueListItemElement;
     };
+    interface HTMLCalciteVideoElementEventMap {
+        "calciteVideoPlay": any;
+        "calciteVideoPause": any;
+        "calciteVideoComplete": any;
+    }
+    interface HTMLCalciteVideoElement extends Components.CalciteVideo, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteVideoElementEventMap>(type: K, listener: (this: HTMLCalciteVideoElement, ev: CalciteVideoCustomEvent<HTMLCalciteVideoElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteVideoElementEventMap>(type: K, listener: (this: HTMLCalciteVideoElement, ev: CalciteVideoCustomEvent<HTMLCalciteVideoElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteVideoElement: {
+        prototype: HTMLCalciteVideoElement;
+        new (): HTMLCalciteVideoElement;
+    };
     interface HTMLElementTagNameMap {
         "calcite-accordion": HTMLCalciteAccordionElement;
         "calcite-accordion-item": HTMLCalciteAccordionItemElement;
@@ -7295,6 +7497,7 @@ declare global {
         "calcite-tree-item": HTMLCalciteTreeItemElement;
         "calcite-value-list": HTMLCalciteValueListElement;
         "calcite-value-list-item": HTMLCalciteValueListItemElement;
+        "calcite-video": HTMLCalciteVideoElement;
     }
 }
 declare namespace LocalJSX {
@@ -8335,6 +8538,14 @@ declare namespace LocalJSX {
          */
         "status"?: Status;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
         "value"?: string | string[];
@@ -9258,6 +9469,14 @@ declare namespace LocalJSX {
     | "url"
     | "week";
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9377,6 +9596,14 @@ declare namespace LocalJSX {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * Selected date as a string in ISO format (YYYY-MM-DD)
          */
@@ -9564,6 +9791,14 @@ declare namespace LocalJSX {
          */
         "suffixText"?: string;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9701,6 +9936,14 @@ declare namespace LocalJSX {
          */
         "suffixText"?: string;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9788,6 +10031,14 @@ declare namespace LocalJSX {
          */
         "step"?: number;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The time value in ISO (24-hour) format.
          */
         "value"?: string;
@@ -9852,6 +10103,14 @@ declare namespace LocalJSX {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -11234,6 +11493,14 @@ declare namespace LocalJSX {
          */
         "status"?: Status;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's `selectedOption` value.
          */
         "value"?: string;
@@ -11930,7 +12197,12 @@ declare namespace LocalJSX {
          */
         "selectionMode"?: Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
-          * When `true`, displays zebra styling in the component.
+          * When `true`, displays striped styling in the component.
+         */
+        "striped"?: boolean;
+        /**
+          * When `true`, displays striped styling in the component.
+          * @deprecated Use the `striped` property instead.
          */
         "zebra"?: boolean;
     }
@@ -11947,6 +12219,7 @@ declare namespace LocalJSX {
           * When true, prevents user interaction.  Notes:  This prop should use the
          */
         "disabled"?: boolean;
+        "lastCell"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -11986,6 +12259,7 @@ declare namespace LocalJSX {
           * A heading to display above description content.
          */
         "heading"?: string;
+        "lastCell"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -11995,6 +12269,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
+        "parentRowIsSelected"?: boolean;
         "parentRowPosition"?: number;
         "parentRowType"?: RowType;
         "positionInRow"?: number;
@@ -12015,6 +12290,7 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        "lastVisibleRow"?: boolean;
         "numbered"?: boolean;
         "onCalciteInternalTableRowFocusRequest"?: (event: CalciteTableRowCustomEvent<TableRowFocusEvent>) => void;
         /**
@@ -12144,6 +12420,14 @@ declare namespace LocalJSX {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * The component's value.
          */
@@ -12606,6 +12890,116 @@ declare namespace LocalJSX {
          */
         "value": any;
     }
+    interface CalciteVideo {
+        /**
+          * autoplay the media
+         */
+        "autoplay"?: boolean;
+        /**
+          * disable controls
+         */
+        "disableControls"?: boolean;
+        /**
+          * is fullscreen mode disabled
+         */
+        "disableFullscreen"?: boolean;
+        /**
+          * disable progress
+         */
+        "disablePlaybackRate"?: boolean;
+        /**
+          * disable progress
+         */
+        "disableProgress"?: boolean;
+        /**
+          * is scrubbing mode disabled
+         */
+        "disableScrubbing"?: boolean;
+        /**
+          * disable timestamp
+         */
+        "disableTimestamp"?: boolean;
+        /**
+          * a desired height of the video
+         */
+        "height"?: string;
+        /**
+          * string to override English enter fullscreen text
+         */
+        "intlEnterFullscreen"?: string;
+        /**
+          * string to override English exit fullscreen text
+         */
+        "intlExitFullscreen"?: string;
+        /**
+          * string to override English mute text
+         */
+        "intlMute"?: string;
+        /**
+          * string to override English pause text
+         */
+        "intlPause"?: string;
+        /**
+          * string to override English play text
+         */
+        "intlPlay"?: string;
+        /**
+          * string to override English restart text
+         */
+        "intlRestart"?: string;
+        /**
+          * string to override English subtitles text
+         */
+        "intlSubtitles"?: string;
+        /**
+          * string to override English unmute text
+         */
+        "intlUnmute"?: string;
+        /**
+          * string to override English subtitles text
+         */
+        "intlVolume"?: string;
+        /**
+          * loop the media
+         */
+        "loop"?: boolean;
+        /**
+          * is the media muted
+         */
+        "muted"?: boolean;
+        /**
+          * This event is fired when the video is complete
+         */
+        "onCalciteVideoComplete"?: (event: CalciteVideoCustomEvent<any>) => void;
+        /**
+          * This event is fired when the video is paused
+         */
+        "onCalciteVideoPause"?: (event: CalciteVideoCustomEvent<any>) => void;
+        /**
+          * This event is fired when the video begins to play
+         */
+        "onCalciteVideoPlay"?: (event: CalciteVideoCustomEvent<any>) => void;
+        /**
+          * allow play on hover
+         */
+        "playOnHover"?: boolean;
+        /**
+          * preload type
+         */
+        "preload"?: "auto" | "none" | "preload";
+        /**
+          * specify the scale of the video player, defaults to m
+         */
+        "scale"?: Scale;
+        /**
+          * show controls on hover
+         */
+        "showControlsOnHover"?: boolean;
+        /**
+          * a desired width of the video
+         */
+        "width"?: string;
+    }
     interface IntrinsicElements {
         "calcite-accordion": CalciteAccordion;
         "calcite-accordion-item": CalciteAccordionItem;
@@ -12713,6 +13107,7 @@ declare namespace LocalJSX {
         "calcite-tree-item": CalciteTreeItem;
         "calcite-value-list": CalciteValueList;
         "calcite-value-list-item": CalciteValueListItem;
+        "calcite-video": CalciteVideo;
     }
 }
 export { LocalJSX as JSX };
@@ -12843,6 +13238,7 @@ declare module "@stencil/core" {
              * @deprecated Use the `list` component instead.
              */
             "calcite-value-list-item": LocalJSX.CalciteValueListItem & JSXBase.HTMLAttributes<HTMLCalciteValueListItemElement>;
+            "calcite-video": LocalJSX.CalciteVideo & JSXBase.HTMLAttributes<HTMLCalciteVideoElement>;
         }
     }
 }

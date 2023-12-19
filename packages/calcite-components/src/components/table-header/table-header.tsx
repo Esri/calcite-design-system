@@ -54,6 +54,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop() numberCell = false;
 
   /** @internal */
+  @Prop() parentRowIsSelected: boolean;
+
+  /** @internal */
   @Prop() parentRowPosition: number;
 
   /** @internal */
@@ -212,6 +215,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.footerRow]: this.parentRowType === "foot",
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
+            [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
             [CSS.lastCell]: this.lastCell,
           }}

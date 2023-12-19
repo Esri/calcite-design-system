@@ -8,5 +8,6 @@ export const CSS = {
   multipleSelectionCell: "cell--multiple-selection",
   assistiveText: "assistive-text",
   active: "active",
+  selectedCell: "selected-cell",
   lastCell: "last-cell",
 };

@@ -3946,6 +3946,52 @@
         </calcite-table-row>
       </calcite-table>
 
+      <h3>Headers in rows and table-head with selection-mode</h3>
+      <calcite-table selection-mode="multiple" caption="Headers in rows and table-head table">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+        </calcite-table-row>
+
+        <calcite-table-row>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading" description="description in row"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-header heading="Footer heading" description="footer description"></calcite-table-header>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-header heading="Footer heading" description="footer description"></calcite-table-header>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
       <h3>selection-mode single</h3>
       <calcite-table selection-mode="single" caption="selection-mode single table">
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>

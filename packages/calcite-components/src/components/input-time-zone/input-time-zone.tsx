@@ -118,6 +118,12 @@ export class InputTimeZone
     this.updateTimeZoneItemsAndSelection();
   }
 
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop() validationIcon: string | boolean;
+
   /**
    * Specifies the name of the component.
    *
@@ -385,6 +391,8 @@ export class InputTimeZone
           scale={this.scale}
           selectionMode="single-persist"
           status={this.status}
+          validation-icon={this.validationIcon}
+          validation-message={this.validationMessage}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setComboboxRef}
         >
