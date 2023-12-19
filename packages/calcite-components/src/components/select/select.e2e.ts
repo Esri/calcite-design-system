@@ -22,7 +22,7 @@ describe("calcite-select", () => {
   `;
 
   describe("renders", () => {
-    renders(simpleTestMarkup, { display: "flex" });
+    renders(simpleTestMarkup, { display: "inline" });
   });
 
   describe("honors hidden attribute", () => {
