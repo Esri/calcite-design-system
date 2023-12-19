@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.11...@esri/calcite-components@2.1.0-next.12) (2023-12-19)
+
+### Features
+
+- add `validation-message` and `validation-icon` attributes to form components for new internal `calcite-input-message` ([#8305](https://github.com/Esri/calcite-design-system/issues/8305)) ([a554cfd](https://github.com/Esri/calcite-design-system/commit/a554cfd0d8c51edf2433191f907be2770fc5274d)), closes [#8057](https://github.com/Esri/calcite-design-system/issues/8057) [#8000](https://github.com/Esri/calcite-design-system/issues/8000)
+
 ## [2.1.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0-next.10...@esri/calcite-components@2.1.0-next.11) (2023-12-18)
 
 __Note:__ Version bump only for package @esri/calcite-components
