@@ -10,7 +10,7 @@ import { select, boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";
 import optionGroupReadme from "../option-group/readme.md";
-import { storyFilters } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] }
@@ -47,6 +47,22 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
         name: "scale",
         commit(): Attribute {
           this.value = select("scale", ["s", "m", "l"], "m", group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "validation-message",
+        commit(): Attribute {
+          this.value = text("validation-message", "", group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "validation-icon",
+        commit(): Attribute {
+          this.value = select("validation-icon", ["", ...iconNames], "", group);
           delete this.build;
           return this;
         },
@@ -177,4 +193,30 @@ export const disabledAndLargeScaleGetsMediumChevron_TestOnly = (): string => htm
     <calcite-option label="first" value="1"></calcite-option>
     <calcite-option label="second" value="2"></calcite-option>
   </calcite-select>
+`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-select scale="s" validation-message="This field is required." validation-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+    <calcite-select scale="m" validation-message="This field is required." validation-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+    <calcite-select scale="l" validation-message="This field is required." validation-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+  </div>
 `;

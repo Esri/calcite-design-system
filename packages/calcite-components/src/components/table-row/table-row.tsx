@@ -281,12 +281,12 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
         cell.positionInRow = index + 1;
         cell.parentRowType = this.rowType;
+        cell.parentRowIsSelected = this.selected;
         cell.scale = this.scale;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
           (cell as HTMLCalciteTableCellElement).disabled = this.disabled;
-          (cell as HTMLCalciteTableCellElement).parentRowIsSelected = this.selected;
         }
       });
     }

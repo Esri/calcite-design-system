@@ -353,7 +353,7 @@
 
       <!-- Number -->
       <div class="parent-flex">
-        <div class="child-flex font right-aligned-text">Status (can edit)</div>
+        <div class="child-flex font right-aligned-text">Validation message</div>
         <div class="child-flex">
           <calcite-label scale="s">
             Invalid input
@@ -363,8 +363,9 @@
               scale="s"
               value="123"
               step="1"
+              validation-message="Error message"
+              validation-icon
             ></calcite-input-number>
-            <calcite-input-message status="invalid" scale="s" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
 
@@ -377,8 +378,9 @@
               scale="m"
               value="123"
               step="1"
+              validation-message="Error message"
+              validation-icon
             ></calcite-input-number>
-            <calcite-input-message status="invalid" scale="m" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
 
@@ -391,8 +393,9 @@
               scale="l"
               value="123"
               step="1"
+              validation-message="Error message"
+              validation-icon
             ></calcite-input-number>
-            <calcite-input-message status="invalid" scale="l" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
       </div>
