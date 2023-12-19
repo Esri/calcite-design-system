@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.1.0...@esri/calcite-components-angular@2.2.0-next.0) (2023-12-19)
+
+__Note:__ Version bump only for package @esri/calcite-components-angular
+
 ## [2.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.0.0...@esri/calcite-components-angular@2.1.0) (2023-12-19)
 
 ### Miscellaneous Chores
