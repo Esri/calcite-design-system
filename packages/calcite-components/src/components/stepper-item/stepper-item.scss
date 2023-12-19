@@ -42,7 +42,7 @@
   self-start;
   margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
 
-  --calcite-internal-stepper-item-subtle-color-brand: #{rgba(var(--calcite-color-brand), 0.5)};
+  --calcite-internal-stepper-item-subtle-color-brand: #{rgba($calcite-color-brand, 0.5)};
 }
 
 :host .container {
