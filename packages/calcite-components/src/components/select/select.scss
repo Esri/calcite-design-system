@@ -9,7 +9,7 @@
 
 :host {
   @extend %component-spacing;
-  @apply flex-col;
+  @apply flex flex-col;
 }
 
 .wrapper {
