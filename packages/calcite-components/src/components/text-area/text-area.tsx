@@ -48,6 +48,7 @@ import {
 import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
+import { Validation } from "../functional/Validation";
 
 /**
  * @slot - A slot for adding text.
@@ -129,6 +130,12 @@ export class TextArea
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: TextAreaMessages;
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop() validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -321,6 +328,14 @@ export class TextArea
             {this.replacePlaceHoldersInMessages()}
           </span>
         )}
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }

@@ -73,6 +73,7 @@ import { getSupportedLocale } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayjsLocaleToLocaleConfigImport = new Map([
@@ -240,6 +241,12 @@ export class InputTimePicker
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop() validationIcon: string | boolean;
 
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;
@@ -1018,6 +1025,14 @@ export class InputTimePicker
           />
         </calcite-popover>
         <HiddenFormInputSlot component={this} />
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }
