@@ -54,8 +54,8 @@ import { ModalMessages } from "./assets/modal/t9n";
 
 import { getIconScale } from "../../utils/component";
 
-let totalOpenModals = 0;
-let initialDocumentOverflowStyle = "";
+let totalOpenModals: number = 0;
+let initialDocumentOverflowStyle: string = "";
 
 /**
  * @slot header - A slot for adding header text.
