@@ -1152,6 +1152,14 @@ export namespace Components {
          */
         "status": Status;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
         "value": string | string[];
@@ -2034,6 +2042,14 @@ export namespace Components {
     | "url"
     | "week";
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2142,6 +2158,14 @@ export namespace Components {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * Selected date as a string in ISO format (YYYY-MM-DD)
          */
@@ -2327,6 +2351,14 @@ export namespace Components {
          */
         "suffixText": string;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2459,6 +2491,14 @@ export namespace Components {
          */
         "suffixText": string;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2535,6 +2575,14 @@ export namespace Components {
          */
         "step": number;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The time value in ISO (24-hour) format.
          */
         "value": string;
@@ -2595,6 +2643,14 @@ export namespace Components {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -3910,6 +3966,14 @@ export namespace Components {
          */
         "status": Status;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
+        /**
           * The component's `selectedOption` value.
          */
         "value": string;
@@ -4577,7 +4641,12 @@ export namespace Components {
          */
         "selectionMode": Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
-          * When `true`, displays zebra styling in the component.
+          * When `true`, displays striped styling in the component.
+         */
+        "striped": boolean;
+        /**
+          * When `true`, displays striped styling in the component.
+          * @deprecated Use the `striped` property instead.
          */
         "zebra": boolean;
     }
@@ -4590,9 +4659,6 @@ export namespace Components {
           * Specifies the number of columns the component should span.
          */
         "colSpan": number;
-        /**
-          * When true, prevents user interaction.  Notes:  This prop should use the
-         */
         "disabled": boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -4794,6 +4860,14 @@ export namespace Components {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * The component's value.
          */
@@ -8335,6 +8409,14 @@ declare namespace LocalJSX {
          */
         "status"?: Status;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
         "value"?: string | string[];
@@ -9258,6 +9340,14 @@ declare namespace LocalJSX {
     | "url"
     | "week";
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9377,6 +9467,14 @@ declare namespace LocalJSX {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * Selected date as a string in ISO format (YYYY-MM-DD)
          */
@@ -9564,6 +9662,14 @@ declare namespace LocalJSX {
          */
         "suffixText"?: string;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9701,6 +9807,14 @@ declare namespace LocalJSX {
          */
         "suffixText"?: string;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9788,6 +9902,14 @@ declare namespace LocalJSX {
          */
         "step"?: number;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The time value in ISO (24-hour) format.
          */
         "value"?: string;
@@ -9852,6 +9974,14 @@ declare namespace LocalJSX {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -11234,6 +11364,14 @@ declare namespace LocalJSX {
          */
         "status"?: Status;
         /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
+        /**
           * The component's `selectedOption` value.
          */
         "value"?: string;
@@ -11930,7 +12068,12 @@ declare namespace LocalJSX {
          */
         "selectionMode"?: Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
-          * When `true`, displays zebra styling in the component.
+          * When `true`, displays striped styling in the component.
+         */
+        "striped"?: boolean;
+        /**
+          * When `true`, displays striped styling in the component.
+          * @deprecated Use the `striped` property instead.
          */
         "zebra"?: boolean;
     }
@@ -11943,9 +12086,6 @@ declare namespace LocalJSX {
           * Specifies the number of columns the component should span.
          */
         "colSpan"?: number;
-        /**
-          * When true, prevents user interaction.  Notes:  This prop should use the
-         */
         "disabled"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -12144,6 +12284,14 @@ declare namespace LocalJSX {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * The component's value.
          */
