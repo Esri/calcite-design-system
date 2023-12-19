@@ -128,7 +128,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
       <div class={{ container: true, "large-visual": isLargeVisual }}>
         {icon && (
           <div class="icon">
-            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale={this.scale} style={iconStyle} />
+            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
           </div>
         )}
         <div class="content-container">
