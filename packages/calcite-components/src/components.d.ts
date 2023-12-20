@@ -4715,6 +4715,7 @@ export namespace Components {
          */
         "messages": TableHeaderMessages;
         "numberCell": boolean;
+        "parentRowIsSelected": boolean;
         "parentRowPosition": number;
         "parentRowType": RowType;
         "positionInRow": number;
@@ -12141,6 +12142,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
+        "parentRowIsSelected"?: boolean;
         "parentRowPosition"?: number;
         "parentRowType"?: RowType;
         "positionInRow"?: number;
