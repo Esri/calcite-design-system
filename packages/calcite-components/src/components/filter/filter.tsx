@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -17,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -266,7 +266,7 @@ export class Filter
     const { disabled, scale } = this;
 
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         <div class={CSS.container}>
           <label>
             <calcite-input
@@ -288,7 +288,7 @@ export class Filter
             />
           </label>
         </div>
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

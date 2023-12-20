@@ -4659,9 +4659,6 @@ export namespace Components {
           * Specifies the number of columns the component should span.
          */
         "colSpan": number;
-        /**
-          * When true, prevents user interaction.  Notes:  This prop should use the
-         */
         "disabled": boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -12090,9 +12087,6 @@ declare namespace LocalJSX {
           * Specifies the number of columns the component should span.
          */
         "colSpan"?: number;
-        /**
-          * When true, prevents user interaction.  Notes:  This prop should use the
-         */
         "disabled"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
