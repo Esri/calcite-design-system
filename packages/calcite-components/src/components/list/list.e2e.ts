@@ -752,8 +752,8 @@ describe("calcite-list", () => {
         testWindow.endCalledTimes = 0;
         list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
           testWindow.calledTimes++;
-          testWindow.newIndex = event?.detail?.newIndex;
-          testWindow.oldIndex = event?.detail?.oldIndex;
+          testWindow.newIndex = event.detail.newIndex;
+          testWindow.oldIndex = event.detail.oldIndex;
         });
         list.addEventListener("calciteListDragEnd", (event: CustomEvent<ListDragDetail>) => {
           testWindow.endCalledTimes++;
@@ -925,14 +925,18 @@ describe("calcite-list", () => {
       await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
         const testWindow = window as TestWindow;
         testWindow.calledTimes = 0;
-        list.addEventListener("calciteListOrderChange", () => {
+        list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
           testWindow.calledTimes++;
+          testWindow.newIndex = event.detail.newIndex;
+          testWindow.oldIndex = event.detail.oldIndex;
         });
       });
 
       async function assertKeyboardMove(
         arrowKey: "ArrowDown" | "ArrowUp",
-        expectedValueOrder: string[]
+        expectedValueOrder: string[],
+        newIndex: number,
+        oldIndex: number
       ): Promise<void> {
         await page.waitForChanges();
         await page.keyboard.press(arrowKey);
@@ -943,16 +947,26 @@ describe("calcite-list", () => {
           expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
         }
 
-        const calledTimes = await page.evaluate(() => (window as TestWindow).calledTimes);
+        const results = await page.evaluate(() => {
+          const testWindow = window as TestWindow;
 
-        expect(calledTimes).toBe(++totalMoves);
+          return {
+            calledTimes: testWindow.calledTimes,
+            oldIndex: testWindow.oldIndex,
+            newIndex: testWindow.newIndex,
+          };
+        });
+
+        expect(results.calledTimes).toBe(++totalMoves);
+        expect(results.newIndex).toBe(newIndex);
+        expect(results.oldIndex).toBe(oldIndex);
       }
 
-      await assertKeyboardMove("ArrowDown", ["two", "one", "three"]);
-      await assertKeyboardMove("ArrowDown", ["two", "three", "one"]);
+      await assertKeyboardMove("ArrowDown", ["two", "one", "three"], 1, 0);
+      await assertKeyboardMove("ArrowDown", ["two", "three", "one"], 2, 1);
 
-      await assertKeyboardMove("ArrowUp", ["two", "one", "three"]);
-      await assertKeyboardMove("ArrowUp", ["one", "two", "three"]);
+      await assertKeyboardMove("ArrowUp", ["two", "one", "three"], 1, 2);
+      await assertKeyboardMove("ArrowUp", ["one", "two", "three"], 0, 1);
     });
 
     it("is drag and drop list accessible", async () => {
