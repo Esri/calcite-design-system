@@ -16,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
@@ -168,14 +169,17 @@ export class DatePickerDay implements InteractiveComponent {
         onClick={this.onClick}
         onKeyDown={this.keyDownHandler}
         role="button"
+        tabIndex={this.active && !this.disabled ? 0 : -1}
       >
-        <div aria-hidden="true" class={{ "day-v-wrapper": true }}>
-          <div class="day-wrapper">
-            <span class="day">
-              <span class="text">{formattedDay}</span>
-            </span>
+        <InteractiveContainer disabled={this.disabled}>
+          <div aria-hidden="true" class={{ "day-v-wrapper": true }}>
+            <div class="day-wrapper">
+              <span class="day">
+                <span class="text">{formattedDay}</span>
+              </span>
+            </div>
           </div>
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -185,15 +189,11 @@ export class DatePickerDay implements InteractiveComponent {
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, this.isTabbable);
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
-  }
-
-  isTabbable(): boolean {
-    return this.active;
   }
 
   //--------------------------------------------------------------------------

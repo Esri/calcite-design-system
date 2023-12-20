@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -17,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -158,7 +158,9 @@ export class Filter
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.updateFiltered(filter(this.items, this.value));
+    if (this.items.length) {
+      this.updateFiltered(filter(this.items, this.value));
+    }
     await setUpMessages(this);
   }
 
@@ -221,7 +223,7 @@ export class Filter
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
-      this.updateFiltered(filter(this.items, value), emit, onFilter),
+      this.items.length && this.updateFiltered(filter(this.items, value), emit, onFilter),
     DEBOUNCE_TIMEOUT
   );
 
@@ -266,7 +268,7 @@ export class Filter
     const { disabled, scale } = this;
 
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         <div class={CSS.container}>
           <label>
             <calcite-input
@@ -288,7 +290,7 @@ export class Filter
             />
           </label>
         </div>
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

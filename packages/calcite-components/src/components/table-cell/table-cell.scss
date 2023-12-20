@@ -82,3 +82,5 @@ td.last-cell {
     @apply pointer-events-none mt-1;
   }
 }
+
+@include disabled();

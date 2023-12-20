@@ -20,6 +20,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
@@ -378,22 +379,24 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   render(): VNode {
     return (
       <Host>
-        <tr
-          aria-disabled={this.disabled}
-          aria-rowindex={this.positionAll + 1}
-          aria-selected={this.selected}
-          class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
-          onKeyDown={(event) => this.keyDownHandler(event)}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.tableRowEl = el)}
-        >
-          {this.numbered && this.renderNumberedCell()}
-          {this.selectionMode !== "none" && this.renderSelectableCell()}
-          <slot
-            onSlotchange={this.updateCells}
-            ref={(el) => (this.tableRowSlotEl = el as HTMLSlotElement)}
-          />
-        </tr>
+        <InteractiveContainer disabled={this.disabled}>
+          <tr
+            aria-disabled={this.disabled}
+            aria-rowindex={this.positionAll + 1}
+            aria-selected={this.selected}
+            class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
+            onKeyDown={(event) => this.keyDownHandler(event)}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => (this.tableRowEl = el)}
+          >
+            {this.numbered && this.renderNumberedCell()}
+            {this.selectionMode !== "none" && this.renderSelectableCell()}
+            <slot
+              onSlotchange={this.updateCells}
+              ref={(el) => (this.tableRowSlotEl = el as HTMLSlotElement)}
+            />
+          </tr>
+        </InteractiveContainer>
       </Host>
     );
   }

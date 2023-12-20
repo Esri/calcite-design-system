@@ -4,6 +4,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -114,26 +115,28 @@ export class Link implements InteractiveComponent, LoadableComponent {
 
     return (
       <Host role="presentation">
-        <Tag
-          class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
-          /*
+        <InteractiveContainer disabled={this.disabled}>
+          <Tag
+            class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
+            /*
           When the 'download' property of type 'boolean | string' is set to true, the value is "".
           This works around that issue for now.
           */
-          download={Tag === "a" && (download === "" || download) ? download : null}
-          href={Tag === "a" && this.href}
-          onClick={this.childElClickHandler}
-          rel={Tag === "a" && this.rel}
-          role={role}
-          tabIndex={tabIndex}
-          target={Tag === "a" && this.target}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.storeTagRef}
-        >
-          {this.iconStart ? iconStartEl : null}
-          <slot />
-          {this.iconEnd ? iconEndEl : null}
-        </Tag>
+            download={Tag === "a" && (download === "" || download) ? download : null}
+            href={Tag === "a" && this.href}
+            onClick={this.childElClickHandler}
+            rel={Tag === "a" && this.rel}
+            role={role}
+            tabIndex={tabIndex}
+            target={Tag === "a" && this.target}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.storeTagRef}
+          >
+            {this.iconStart ? iconStartEl : null}
+            <slot />
+            {this.iconEnd ? iconEndEl : null}
+          </Tag>
+        </InteractiveContainer>
       </Host>
     );
   }
