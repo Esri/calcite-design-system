@@ -1,4 +1,7 @@
 {
+  "all": "ทั้งหมด",
+  "allSelected": "เลือกทั้งหมดแล้ว",
   "clear": "ล้างค่า",
-  "removeTag": "ลบแท็ก"
+  "removeTag": "ลบแท็ก",
+  "selected": "เลือก"
 }
