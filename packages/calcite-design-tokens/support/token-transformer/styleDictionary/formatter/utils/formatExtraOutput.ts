@@ -1,6 +1,6 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
-import * as prettier from "prettier";
+import prettierSync from "@prettier/sync";
 
 import { Platform } from "../../../../types/platform.js";
 import { Options } from "../../../../types/styleDictionary/options.js";
@@ -8,7 +8,7 @@ import { DeepKeyTokenMap } from "../../../../types/tokenStudio/designTokenTypes.
 
 export function formatExtraOutput(
   outputObject: Record<string, (string | Record<string, string>)[]> | DeepKeyTokenMap,
-  args: Options & { header: string; buildPath: string }
+  args: Options & { header: string; buildPath: string },
 ): void {
   if (Object.keys(outputObject).length > 0) {
     const { index } = args.expandFiles[args.platform];
@@ -26,7 +26,9 @@ export function formatExtraOutput(
             ? index.import.map((imp) =>
                 typeof imp === "string"
                   ? `@import ${imp.includes(".css") ? `url("${imp}")` : `"${imp}"`};`
-                  : `@import ${imp[0].includes(".css") ? `url("${imp[0]}")` : `"${imp[0]}"`} ${imp.slice(1).join(" ")};`
+                  : `@import ${imp[0].includes(".css") ? `url("${imp[0]}")` : `"${imp[0]}"`} ${imp
+                      .slice(1)
+                      .join(" ")};`,
               )
             : [];
           const forwards = index.forward ? index.forward.map((fwd) => `@forwards "${fwd}";`) : [];
@@ -68,7 +70,7 @@ export function formatExtraOutput(
         case "js":
         case "es6":
           const exports = index.export?.map((exp) =>
-            typeof exp === "string" ? `export * from "${exp}";` : `export * as ${exp[1]} from "${exp[0]}";`
+            typeof exp === "string" ? `export * from "${exp}";` : `export * as ${exp[1]} from "${exp[0]}";`,
           );
           outputFiles[index.name] = [...exports].filter((t) => t);
           break;
@@ -96,7 +98,7 @@ export function formatExtraOutput(
 
       writeFileSync(
         resolve(args.buildPath, index.name),
-        prettier.format(`${args.header}${outputFiles[index.name].join(" ")}`, { parser })
+        prettierSync.format(`${args.header}${outputFiles[index.name].join(" ")}`, { parser }),
       );
     }
 
@@ -107,24 +109,30 @@ export function formatExtraOutput(
           if (typeof outputList[0] === "string" && outputList[0].slice(0, 2) === "--") {
             writeFileSync(
               absoluteFilePath,
-              prettier.format(`${args.header}:root{${outputList.join("")}}`, { parser: "css" })
+              prettierSync.format(`${args.header}:root{${outputList.join("")}}`, { parser: "css" }),
             );
           } else {
-            writeFileSync(absoluteFilePath, prettier.format(`${args.header}${outputList.join("")}`, { parser: "css" }));
+            writeFileSync(
+              absoluteFilePath,
+              prettierSync.format(`${args.header}${outputList.join("")}`, { parser: "css" }),
+            );
           }
           break;
         case Platform.SCSS:
         case Platform.SASS:
-          writeFileSync(absoluteFilePath, prettier.format(`${args.header}${outputList.join("")}`, { parser: "scss" }));
+          writeFileSync(
+            absoluteFilePath,
+            prettierSync.format(`${args.header}${outputList.join("")}`, { parser: "scss" }),
+          );
           break;
         case Platform.JS:
           writeFileSync(
             absoluteFilePath,
-            prettier.format(args.header + "export default " + outputList[0] + "", { parser: "babel" })
+            prettierSync.format(args.header + "export default " + outputList[0] + "", { parser: "babel" }),
           );
           break;
         case Platform.DOCS:
-          writeFileSync(absoluteFilePath, prettier.format(outputList[0].join(""), { parser: "json" }));
+          writeFileSync(absoluteFilePath, prettierSync.format(outputList[0].join(""), { parser: "json" }));
           break;
         default:
           break;
