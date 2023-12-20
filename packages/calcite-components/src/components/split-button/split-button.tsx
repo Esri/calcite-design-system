@@ -13,7 +13,8 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectInteractive,
   disconnectInteractive,
-  InteractiveComponent, InteractiveContainer,
+  InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
