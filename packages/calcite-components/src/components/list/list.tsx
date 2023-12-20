@@ -956,7 +956,7 @@ export class List
         appendInstead = true;
         newIndex = lastIndex;
       } else {
-        newIndex = oldIndex + 2;
+        newIndex = oldIndex + 1;
       }
     }
 
@@ -965,7 +965,10 @@ export class List
     if (appendInstead) {
       parentEl.appendChild(sortItem);
     } else {
-      parentEl.insertBefore(sortItem, sameParentItems[newIndex]);
+      parentEl.insertBefore(
+        sortItem,
+        sameParentItems[direction === "up" ? newIndex : newIndex + 1]
+      );
     }
 
     this.updateListItems();
