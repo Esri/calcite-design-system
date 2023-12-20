@@ -23,6 +23,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
@@ -385,30 +386,34 @@ export class Select
   }
 
   render(): VNode {
+    const { disabled } = this;
+
     return (
       <Host>
-        <div class={CSS.wrapper}>
-          <select
-            aria-label={getLabelText(this)}
-            class={CSS.select}
-            disabled={this.disabled}
-            onChange={this.handleInternalSelectChange}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.storeSelectRef}
-          >
-            <slot />
-          </select>
-          {this.renderChevron()}
-          <HiddenFormInputSlot component={this} />
-        </div>
-        {this.validationMessage ? (
-          <Validation
-            icon={this.validationIcon}
-            message={this.validationMessage}
-            scale={this.scale}
-            status={this.status}
-          />
-        ) : null}
+        <InteractiveContainer disabled={disabled}>
+          <div class={CSS.wrapper}>
+            <select
+              aria-label={getLabelText(this)}
+              class={CSS.select}
+              disabled={disabled}
+              onChange={this.handleInternalSelectChange}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.storeSelectRef}
+            >
+              <slot />
+            </select>
+            {this.renderChevron()}
+            <HiddenFormInputSlot component={this} />
+          </div>
+          {this.validationMessage ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }

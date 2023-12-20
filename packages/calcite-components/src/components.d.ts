@@ -4659,9 +4659,6 @@ export namespace Components {
           * Specifies the number of columns the component should span.
          */
         "colSpan": number;
-        /**
-          * When true, prevents user interaction.  Notes:  This prop should use the
-         */
         "disabled": boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -4715,6 +4712,7 @@ export namespace Components {
          */
         "messages": TableHeaderMessages;
         "numberCell": boolean;
+        "parentRowIsSelected": boolean;
         "parentRowPosition": number;
         "parentRowType": RowType;
         "positionInRow": number;
@@ -12089,9 +12087,6 @@ declare namespace LocalJSX {
           * Specifies the number of columns the component should span.
          */
         "colSpan"?: number;
-        /**
-          * When true, prevents user interaction.  Notes:  This prop should use the
-         */
         "disabled"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -12141,6 +12136,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
+        "parentRowIsSelected"?: boolean;
         "parentRowPosition"?: number;
         "parentRowType"?: RowType;
         "positionInRow"?: number;

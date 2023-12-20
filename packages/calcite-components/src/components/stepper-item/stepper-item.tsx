@@ -17,6 +17,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -241,7 +242,7 @@ export class StepperItem
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, true);
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {
@@ -256,35 +257,38 @@ export class StepperItem
         aria-current={this.selected ? "step" : "false"}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
+        tabIndex={this.disabled ? -1 : 0}
       >
-        <div class={CSS.container}>
-          {this.complete && (
-            <span aria-live="polite" class={CSS.visuallyHidden}>
-              {this.messages.complete}
-            </span>
-          )}
-          <div
-            class={CSS.stepperItemHeader}
-            tabIndex={
-              /* additional tab index logic needed because of display: contents */
-              this.layout === "horizontal" && !this.disabled && this.multipleViewMode ? 0 : null
-            }
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.headerEl = el)}
-          >
-            {this.icon ? this.renderIcon() : null}
-            {this.numbered ? (
-              <div class={CSS.stepperItemNumber}>{this.renderNumbers()}.</div>
-            ) : null}
-            <div class={CSS.stepperItemHeaderText}>
-              <span class={CSS.stepperItemHeading}>{this.heading}</span>
-              <span class={CSS.stepperItemDescription}>{this.description}</span>
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={CSS.container}>
+            {this.complete && (
+              <span aria-live="polite" class={CSS.visuallyHidden}>
+                {this.messages.complete}
+              </span>
+            )}
+            <div
+              class={CSS.stepperItemHeader}
+              tabIndex={
+                /* additional tab index logic needed because of display: contents */
+                this.layout === "horizontal" && !this.disabled && this.multipleViewMode ? 0 : null
+              }
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={(el) => (this.headerEl = el)}
+            >
+              {this.icon ? this.renderIcon() : null}
+              {this.numbered ? (
+                <div class={CSS.stepperItemNumber}>{this.renderNumbers()}.</div>
+              ) : null}
+              <div class={CSS.stepperItemHeaderText}>
+                <span class={CSS.stepperItemHeading}>{this.heading}</span>
+                <span class={CSS.stepperItemDescription}>{this.description}</span>
+              </div>
+            </div>
+            <div class={CSS.stepperItemContent}>
+              <slot />
             </div>
           </div>
-          <div class={CSS.stepperItemContent}>
-            <slot />
-          </div>
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }

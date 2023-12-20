@@ -14,6 +14,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -182,50 +183,52 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
     const buttonWidth = this.width === "auto" ? "auto" : "full";
 
     return (
-      <div class={CSS.container}>
-        <calcite-button
-          appearance={this.appearance}
-          disabled={this.disabled}
-          icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
-          icon-start={this.primaryIconStart ? this.primaryIconStart : null}
-          iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
-          kind={this.kind}
-          label={this.primaryLabel}
-          loading={this.loading}
-          onClick={this.calciteSplitButtonPrimaryClickHandler}
-          scale={this.scale}
-          splitChild={"primary"}
-          type="button"
-          width={buttonWidth}
-        >
-          {this.primaryText}
-        </calcite-button>
-        <div class={CSS.dividerContainer}>
-          <div class={CSS.divider} />
-        </div>
-        <calcite-dropdown
-          disabled={this.disabled}
-          onClick={this.calciteSplitButtonSecondaryClickHandler}
-          open={this.active}
-          overlayPositioning={this.overlayPositioning}
-          placement="bottom-end"
-          scale={this.scale}
-          width-scale={this.scale}
-        >
+      <InteractiveContainer disabled={this.disabled}>
+        <div class={CSS.container}>
           <calcite-button
             appearance={this.appearance}
             disabled={this.disabled}
-            icon-start={this.dropdownIcon}
+            icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
+            icon-start={this.primaryIconStart ? this.primaryIconStart : null}
+            iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
             kind={this.kind}
-            label={this.dropdownLabel}
+            label={this.primaryLabel}
+            loading={this.loading}
+            onClick={this.calciteSplitButtonPrimaryClickHandler}
             scale={this.scale}
-            slot="trigger"
-            splitChild={"secondary"}
+            splitChild={"primary"}
             type="button"
-          />
-          <slot />
-        </calcite-dropdown>
-      </div>
+            width={buttonWidth}
+          >
+            {this.primaryText}
+          </calcite-button>
+          <div class={CSS.dividerContainer}>
+            <div class={CSS.divider} />
+          </div>
+          <calcite-dropdown
+            disabled={this.disabled}
+            onClick={this.calciteSplitButtonSecondaryClickHandler}
+            open={this.active}
+            overlayPositioning={this.overlayPositioning}
+            placement="bottom-end"
+            scale={this.scale}
+            width-scale={this.scale}
+          >
+            <calcite-button
+              appearance={this.appearance}
+              disabled={this.disabled}
+              icon-start={this.dropdownIcon}
+              kind={this.kind}
+              label={this.dropdownLabel}
+              scale={this.scale}
+              slot="trigger"
+              splitChild={"secondary"}
+              type="button"
+            />
+            <slot />
+          </calcite-dropdown>
+        </div>
+      </InteractiveContainer>
     );
   }
 
