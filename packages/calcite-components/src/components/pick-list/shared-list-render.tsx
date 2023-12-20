@@ -4,6 +4,7 @@ import { toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 import { handleFilter, handleFilterEvent } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
+import { InteractiveContainer } from "../../utils/interactive";
 
 interface ListProps extends DOMAttributes<any> {
   disabled: boolean;
@@ -41,33 +42,35 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
   const defaultSlot = <slot />;
   return (
     <Host aria-busy={toAriaBoolean(loading)} role="menu" {...rest}>
-      <section>
-        {dragEnabled ? (
-          <span
-            aria-live="assertive"
-            class="assistive-text"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={storeAssistiveEl}
-          />
-        ) : null}
-        <header class={{ [CSS.sticky]: true }}>
-          {filterEnabled ? (
-            <calcite-filter
-              aria-label={filterPlaceholder}
-              disabled={disabled}
-              items={dataForFilter}
-              onCalciteFilterChange={handleFilterEvent}
-              placeholder={filterPlaceholder}
-              value={filterText}
+      <InteractiveContainer disabled={disabled}>
+        <section>
+          {dragEnabled ? (
+            <span
+              aria-live="assertive"
+              class="assistive-text"
               // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={setFilterEl}
+              ref={storeAssistiveEl}
             />
           ) : null}
-          <slot name={SLOTS.menuActions} />
-        </header>
-        {loading ? <calcite-scrim loading={loading} /> : null}
-        {defaultSlot}
-      </section>
+          <header class={{ [CSS.sticky]: true }}>
+            {filterEnabled ? (
+              <calcite-filter
+                aria-label={filterPlaceholder}
+                disabled={disabled}
+                items={dataForFilter}
+                onCalciteFilterChange={handleFilterEvent}
+                placeholder={filterPlaceholder}
+                value={filterText}
+                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                ref={setFilterEl}
+              />
+            ) : null}
+            <slot name={SLOTS.menuActions} />
+          </header>
+          {loading ? <calcite-scrim loading={loading} /> : null}
+          {defaultSlot}
+        </section>
+      </InteractiveContainer>
     </Host>
   );
 };

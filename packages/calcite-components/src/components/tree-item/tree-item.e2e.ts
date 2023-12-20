@@ -285,7 +285,7 @@ describe("calcite-tree-item", () => {
 
       const item = await page.find("#newbie");
       expect(item).toEqualAttribute("aria-hidden", "false");
-      expect(item.tabIndex).toBe(-1); // items are programmatically focused
+      expect(item.tabIndex).toBe(0);
     });
   });
 

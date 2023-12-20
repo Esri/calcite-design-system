@@ -18,6 +18,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -492,56 +493,58 @@ export class List
       hasFilterActionsEnd,
     } = this;
     return (
-      <div class={CSS.container}>
-        {this.dragEnabled ? (
-          <span aria-live="assertive" class={CSS.assistiveText}>
-            {this.assistiveText}
-          </span>
-        ) : null}
-        {this.renderItemAriaLive()}
-        {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
-        <table
-          aria-busy={toAriaBoolean(loading)}
-          aria-label={label || ""}
-          class={CSS.table}
-          onKeyDown={this.handleListKeydown}
-          role="treegrid"
-        >
-          {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-            <thead>
-              <tr class={{ [CSS.sticky]: true }}>
-                <th colSpan={MAX_COLUMNS}>
-                  <calcite-stack class={CSS.stack}>
-                    <slot
-                      name={SLOTS.filterActionsStart}
-                      onSlotchange={this.handleFilterActionsStartSlotChange}
-                      slot={STACK_SLOTS.actionsStart}
-                    />
-                    <calcite-filter
-                      aria-label={filterPlaceholder}
-                      disabled={disabled}
-                      items={dataForFilter}
-                      onCalciteFilterChange={this.handleFilterChange}
-                      placeholder={filterPlaceholder}
-                      value={filterText}
-                      // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                      ref={this.setFilterEl}
-                    />
-                    <slot
-                      name={SLOTS.filterActionsEnd}
-                      onSlotchange={this.handleFilterActionsEndSlotChange}
-                      slot={STACK_SLOTS.actionsEnd}
-                    />
-                  </calcite-stack>
-                </th>
-              </tr>
-            </thead>
+      <InteractiveContainer disabled={this.disabled}>
+        <div class={CSS.container}>
+          {this.dragEnabled ? (
+            <span aria-live="assertive" class={CSS.assistiveText}>
+              {this.assistiveText}
+            </span>
           ) : null}
-          <tbody class={CSS.tableContainer}>
-            <slot onSlotchange={this.handleDefaultSlotChange} />
-          </tbody>
-        </table>
-      </div>
+          {this.renderItemAriaLive()}
+          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
+          <table
+            aria-busy={toAriaBoolean(loading)}
+            aria-label={label || ""}
+            class={CSS.table}
+            onKeyDown={this.handleListKeydown}
+            role="treegrid"
+          >
+            {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
+              <thead>
+                <tr class={{ [CSS.sticky]: true }}>
+                  <th colSpan={MAX_COLUMNS}>
+                    <calcite-stack class={CSS.stack}>
+                      <slot
+                        name={SLOTS.filterActionsStart}
+                        onSlotchange={this.handleFilterActionsStartSlotChange}
+                        slot={STACK_SLOTS.actionsStart}
+                      />
+                      <calcite-filter
+                        aria-label={filterPlaceholder}
+                        disabled={disabled}
+                        items={dataForFilter}
+                        onCalciteFilterChange={this.handleFilterChange}
+                        placeholder={filterPlaceholder}
+                        value={filterText}
+                        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                        ref={this.setFilterEl}
+                      />
+                      <slot
+                        name={SLOTS.filterActionsEnd}
+                        onSlotchange={this.handleFilterActionsEndSlotChange}
+                        slot={STACK_SLOTS.actionsEnd}
+                      />
+                    </calcite-stack>
+                  </th>
+                </tr>
+              </thead>
+            ) : null}
+            <tbody class={CSS.tableContainer}>
+              <slot onSlotchange={this.handleDefaultSlotChange} />
+            </tbody>
+          </table>
+        </div>
+      </InteractiveContainer>
     );
   }
 
@@ -956,7 +959,7 @@ export class List
         appendInstead = true;
         newIndex = lastIndex;
       } else {
-        newIndex = oldIndex + 2;
+        newIndex = oldIndex + 1;
       }
     }
 
@@ -965,7 +968,10 @@ export class List
     if (appendInstead) {
       parentEl.appendChild(sortItem);
     } else {
-      parentEl.insertBefore(sortItem, sameParentItems[newIndex]);
+      parentEl.insertBefore(
+        sortItem,
+        sameParentItems[direction === "up" ? newIndex : newIndex + 1]
+      );
     }
 
     this.updateListItems();
