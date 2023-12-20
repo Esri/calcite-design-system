@@ -17,7 +17,7 @@ import {
   disconnectLocalized,
   numberStringFormatter,
 } from "../../utils/locale";
-import { DateLocaleData } from "../date-picker/utils";
+// import { DateLocaleData } from "../date-picker/utils";
 
 @Component({
   tag: "calcite-year-picker",
@@ -25,22 +25,58 @@ import { DateLocaleData } from "../date-picker/utils";
   shadow: true,
 })
 export class YearPicker implements LocalizedComponent {
-  @Prop({ mutable: true }) value: string;
+  //--------------------------------------------------------------------------
+  //
+  //  Public Properties
+  //
+  //--------------------------------------------------------------------------
 
-  @Prop({ mutable: true }) maxValue: string;
+  /** When `true`, disables the component */
+  @Prop({ reflect: true }) disabled: boolean;
 
-  @Prop({ mutable: true }) minValue: string;
+  /** When `true`, disables year's before the earliest allowed year in end year and after the latest year in start year of range. */
+  @Prop() disableYearsOutOfRange = false;
 
-  @Prop() min = 1900;
-
+  /** Specifies the latest allowed year (`"yyyy"`). */
   @Prop() max = 2100;
 
-  @Prop() range: boolean;
+  /** Specifies the earliest allowed year (`"yyyy"`). */
+  @Prop() min = 1900;
+
+  @Watch("min")
+  @Watch("max")
+  handleMinChange(): void {
+    this.getYearList();
+  }
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
+
+  /** When `true`, activates the component's range mode to allow a start and end year. */
+  @Prop() range: boolean;
+
+  /**
+   * Specifies the selected year as a string (`"yyyy"`), or an array of strings for `range` values (`["yyyy", "yyyy"]`).
+   */
+  @Prop({ mutable: true }) value: number | number[];
+
+  @Watch("value")
+  handleValueChange(value: number | number[]): void {
+    if (Array.isArray(value)) {
+      this.startYear = value[0];
+      this.endYear = value[1];
+    } else if (value) {
+      this.startYear = value;
+    }
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Emits whenever the component is selected.
@@ -48,8 +84,22 @@ export class YearPicker implements LocalizedComponent {
    */
   @Event() calciteYearPickerChange: EventEmitter<void>;
 
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
   connectedCallback() {
     connectLocalized(this);
+    if (Array.isArray(this.value)) {
+      if (this.range) {
+        this.startYear = this.value[0];
+        this.endYear = this.value[1];
+      }
+    } else {
+      this.startYear = this.value;
+    }
     this.getYearList();
   }
 
@@ -57,17 +107,15 @@ export class YearPicker implements LocalizedComponent {
     disconnectLocalized(this);
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el: HTMLCalciteYearPickerElement;
 
   @State() effectiveLocale = "";
-
-  @State() localeData: DateLocaleData;
-
-  private yearList: number[] = [];
-
-  selectEl: HTMLCalciteSelectElement;
-
-  maxValueSelectEl: HTMLCalciteSelectElement;
 
   @Watch("effectiveLocale")
   @Watch("numberingSystem")
@@ -79,6 +127,22 @@ export class YearPicker implements LocalizedComponent {
     };
   }
 
+  @State() yearList: number[] = [];
+
+  private endYear: number;
+
+  private startYear: number;
+
+  // maxValueSelectEl: HTMLCalciteSelectElement;
+
+  // selectEl: HTMLCalciteSelectElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
   getYearList(): void {
     this.yearList = [];
     for (let i = this.min; i < this.max; i++) {
@@ -89,9 +153,11 @@ export class YearPicker implements LocalizedComponent {
   handleSelectChange = (event: CustomEvent): void => {
     event.stopPropagation();
     const target = event.target as HTMLCalciteSelectElement;
-    const newValue = target.value;
-    if (this.range) {
-      this.minValue = newValue;
+    const newValue = Number(target.value);
+
+    if (this.range && Array.isArray(this.value)) {
+      this.value = [newValue, this.value[1]];
+      this.startYear = newValue;
     } else {
       this.value = newValue;
     }
@@ -99,35 +165,43 @@ export class YearPicker implements LocalizedComponent {
     this.calciteYearPickerChange.emit();
   };
 
-  handleMaxValueSelectChange = (event: CustomEvent): void => {
+  handleEndYearSelectChange = (event: CustomEvent): void => {
     event.stopPropagation();
     const target = event.target as HTMLCalciteSelectElement;
-    this.maxValue = target.value;
+    const newValue = Number(target.value);
+
+    if (Array.isArray(this.value)) {
+      this.value = [this.value[0], newValue];
+      this.endYear = newValue;
+    }
+
     this.calciteYearPickerChange.emit();
   };
 
-  setSelectEl = (el: HTMLCalciteSelectElement): void => {
-    this.selectEl = el;
-  };
+  // setSelectEl = (el: HTMLCalciteSelectElement): void => {
+  //   this.selectEl = el;
+  // };
 
-  setMaxValueSelectEl = (el: HTMLCalciteSelectElement): void => {
-    this.maxValueSelectEl = el;
-  };
+  // setMaxValueSelectEl = (el: HTMLCalciteSelectElement): void => {
+  //   this.maxValueSelectEl = el;
+  // };
 
   render(): VNode {
     return (
       <Host>
         <calcite-select
           class="start-year"
+          disabled={this.disabled}
           label={this.range ? "start year" : "year"}
           onCalciteSelectChange={this.handleSelectChange}
-          ref={this.setSelectEl}
+          // ref={this.setSelectEl}
         >
           {this.yearList?.map((year: number) => {
             const yearString = year.toString();
             return (
               <calcite-option
-                selected={yearString === (this.range ? this.minValue : this.value)}
+                disabled={year > this.endYear && this.disableYearsOutOfRange}
+                selected={year === this.startYear}
                 value={yearString}
               >
                 {numberStringFormatter?.localize(yearString)}
@@ -138,14 +212,19 @@ export class YearPicker implements LocalizedComponent {
         {this.range && (
           <calcite-select
             class="end-year"
+            disabled={this.disabled}
             label="end year"
-            onCalciteSelectChange={this.handleMaxValueSelectChange}
-            ref={this.setMaxValueSelectEl}
+            onCalciteSelectChange={this.handleEndYearSelectChange}
+            // ref={this.setMaxValueSelectEl}
           >
             {this.yearList?.map((year: number) => {
               const yearString = year.toString();
               return (
-                <calcite-option selected={yearString === this.maxValue} value={yearString}>
+                <calcite-option
+                  disabled={year < Number(this.startYear) && this.disableYearsOutOfRange}
+                  selected={year === this.endYear}
+                  value={yearString}
+                >
                   {numberStringFormatter?.localize(yearString)}
                 </calcite-option>
               );
