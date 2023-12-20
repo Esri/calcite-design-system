@@ -85,7 +85,7 @@
     "jest-cli": "29.7.0",
     "lerna": "7.4.2",
     "lint-staged": "13.3.0",
-    "markdownlint-cli": "0.34.0",
+    "markdownlint-cli": "0.38.0",
     "postcss": "8.4.32",
     "prettier": "2.8.8",
     "puppeteer": "21.5.0",
