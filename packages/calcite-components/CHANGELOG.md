@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.0...@esri/calcite-components@2.2.0-next.1) (2023-12-20)
+
+### Bug Fixes
+
+- allow users to control tabindex on interactive components ([#8166](https://github.com/Esri/calcite-design-system/issues/8166)) ([b15c052](https://github.com/Esri/calcite-design-system/commit/b15c052335b3c3bcba01cd3a0ec2dfe03588959c)), closes [#4970](https://github.com/Esri/calcite-design-system/issues/4970)
+- __list:__ fix event detail newIndex when down arrow pressed to sort ([#8462](https://github.com/Esri/calcite-design-system/issues/8462)) ([b3d5169](https://github.com/Esri/calcite-design-system/commit/b3d5169a1aa8cc517ef17b3c4675126925d13603)), closes [#8464](https://github.com/Esri/calcite-design-system/issues/8464)
+
 ## [2.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0...@esri/calcite-components@2.2.0-next.0) (2023-12-19)
 
 ### Features
