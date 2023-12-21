@@ -253,7 +253,6 @@ export class Slider
 
   render(): VNode {
     const id = this.el.id || this.guid;
-    const maxProp = isRange(this.value) ? "maxValue" : "value";
     const value = isRange(this.value) ? this.maxValue : this.value;
     const displayedValue = this.determineGroupSeparator(value);
     const displayedMinValue = this.determineGroupSeparator(this.minValue);
@@ -265,395 +264,29 @@ export class Slider
     const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
     const valueIsRange = isRange(this.value);
-    const handleLabelMinValueClasses = `${CSS.handleLabel} ${CSS.handleLabelMinValue}`;
-    const handleLabelValueClasses = `${CSS.handleLabel} ${CSS.handleLabelValue}`;
 
-    const handle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={valueIsRange ? this.maxLabel : this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={value}
-        class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        role="slider"
-        style={{ right: rightThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
-      >
-        <div class="handle" />
-      </div>
-    );
+    const handleTypes = this.getHandleType("max");
+    const handle = this.renderHandle({
+      type: handleTypes,
+      value: value,
+      displayedValue: displayedValue,
+      thumbPlacement: handleTypes.includes("histogram") ? "below" : "above",
+      rightThumbOffset: rightThumbOffset,
+    });
 
-    const labeledHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={valueIsRange ? this.maxLabel : this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={value}
-        class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        role="slider"
-        style={{ right: rightThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
-      >
-        <span aria-hidden="true" class={handleLabelValueClasses}>
-          {displayedValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
-          {displayedValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
-          {displayedValue}
-        </span>
-        <div class="handle" />
-      </div>
-    );
-
-    const histogramLabeledHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={valueIsRange ? this.maxLabel : this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={value}
-        class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        role="slider"
-        style={{ right: rightThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
-      >
-        <div class="handle" />
-        <span aria-hidden="true" class={handleLabelValueClasses}>
-          {displayedValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
-          {displayedValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
-          {displayedValue}
-        </span>
-      </div>
-    );
-
-    const preciseHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={valueIsRange ? this.maxLabel : this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={value}
-        class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        role="slider"
-        style={{ right: rightThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
-      >
-        <div class="handle" />
-        <div class="handle-extension" />
-      </div>
-    );
-
-    const histogramPreciseHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={valueIsRange ? this.maxLabel : this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={value}
-        class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        role="slider"
-        style={{ right: rightThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
-      >
-        <div class="handle-extension" />
-        <div class="handle" />
-      </div>
-    );
-
-    const labeledPreciseHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={valueIsRange ? this.maxLabel : this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={value}
-        class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        role="slider"
-        style={{ right: rightThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
-      >
-        <span aria-hidden="true" class={handleLabelValueClasses}>
-          {displayedValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
-          {displayedValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
-          {displayedValue}
-        </span>
-        <div class="handle" />
-        <div class="handle-extension" />
-      </div>
-    );
-
-    const histogramLabeledPreciseHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={valueIsRange ? this.maxLabel : this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={value}
-        class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        role="slider"
-        style={{ right: rightThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
-      >
-        <div class="handle-extension" />
-        <div class="handle" />
-        <span aria-hidden="true" class={handleLabelValueClasses}>
-          {displayedValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
-          {displayedValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
-          {displayedValue}
-        </span>
-      </div>
-    );
-
-    const minHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={this.minValue}
-        class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        role="slider"
-        style={{ left: leftThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
-      >
-        <div class="handle" />
-      </div>
-    );
-
-    const minLabeledHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={this.minValue}
-        class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        role="slider"
-        style={{ left: leftThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
-      >
-        <span aria-hidden="true" class={handleLabelMinValueClasses}>
-          {displayedMinValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
-          {displayedMinValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
-          {displayedMinValue}
-        </span>
-        <div class="handle" />
-      </div>
-    );
-
-    const minHistogramLabeledHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={this.minValue}
-        class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        role="slider"
-        style={{ left: leftThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
-      >
-        <div class="handle" />
-        <span aria-hidden="true" class={handleLabelMinValueClasses}>
-          {displayedMinValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
-          {displayedMinValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
-          {displayedMinValue}
-        </span>
-      </div>
-    );
-
-    const minPreciseHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={this.minValue}
-        class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
-          "thumb--precise": true,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        role="slider"
-        style={{ left: leftThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
-      >
-        <div class="handle-extension" />
-        <div class="handle" />
-      </div>
-    );
-
-    const minLabeledPreciseHandle = (
-      <div
-        aria-disabled={this.disabled}
-        aria-label={this.minLabel}
-        aria-orientation="horizontal"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={this.minValue}
-        class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
-          "thumb--precise": true,
-        }}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        role="slider"
-        style={{ left: leftThumbOffset }}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
-      >
-        <div class="handle-extension" />
-        <div class="handle" />
-        <span aria-hidden="true" class={handleLabelMinValueClasses}>
-          {displayedMinValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
-          {displayedMinValue}
-        </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
-          {displayedMinValue}
-        </span>
-      </div>
-    );
+    const minHandleTypes = this.getHandleType("min");
+    const minHandle =
+      valueIsRange &&
+      this.renderHandle({
+        type: minHandleTypes,
+        displayedValue: displayedMinValue,
+        value: this.minValue,
+        thumbPlacement:
+          minHandleTypes.includes("histogram") || minHandleTypes.includes("precise")
+            ? "below"
+            : "above",
+        leftThumbOffset: leftThumbOffset,
+      });
 
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
@@ -661,26 +294,26 @@ export class Slider
           <div
             aria-label={getLabelText(this)}
             class={{
-              ["container"]: true,
-              ["container--range"]: valueIsRange,
+              [CSS.container]: true,
+              [CSS.containerRange]: valueIsRange,
               [`scale--${this.scale}`]: true,
             }}
           >
             {this.renderGraph()}
             <div
-              class="track"
+              class={CSS.track}
               // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.storeTrackRef}
             >
               <div
-                class="track__range"
+                class={CSS.trackRange}
                 onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
                 style={{
                   left: `${mirror ? 100 - maxInterval : minInterval}%`,
                   right: `${mirror ? minInterval : 100 - maxInterval}%`,
                 }}
               />
-              <div class="ticks">
+              <div class={CSS.ticks}>
                 {this.tickValues.map((tick) => {
                   const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
                   let activeTicks = tick >= min && tick <= value;
@@ -691,8 +324,8 @@ export class Slider
                   return (
                     <span
                       class={{
-                        tick: true,
-                        "tick--active": activeTicks,
+                        [CSS.tick]: true,
+                        [CSS.tickActive]: activeTicks,
                       }}
                       style={{
                         left: mirror ? "" : tickOffset,
@@ -705,31 +338,9 @@ export class Slider
                 })}
               </div>
             </div>
-            <div class="thumb-container">
-              {!this.precise && !this.labelHandles && valueIsRange && minHandle}
-              {!this.hasHistogram &&
-                !this.precise &&
-                this.labelHandles &&
-                valueIsRange &&
-                minLabeledHandle}
-              {this.precise && !this.labelHandles && valueIsRange && minPreciseHandle}
-              {this.precise && this.labelHandles && valueIsRange && minLabeledPreciseHandle}
-              {this.hasHistogram &&
-                !this.precise &&
-                this.labelHandles &&
-                valueIsRange &&
-                minHistogramLabeledHandle}
-
-              {!this.precise && !this.labelHandles && handle}
-              {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
-              {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
-              {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
-              {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
-              {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
-              {this.hasHistogram &&
-                this.precise &&
-                this.labelHandles &&
-                histogramLabeledPreciseHandle}
+            <div class={CSS.thumbContainer}>
+              {minHandle}
+              {handle}
               <HiddenFormInputSlot component={this} />
             </div>
           </div>
@@ -738,10 +349,99 @@ export class Slider
     );
   }
 
+  private renderHandle({
+    type,
+    value,
+    thumbPlacement,
+    displayedValue,
+    rightThumbOffset,
+    leftThumbOffset,
+  }: {
+    type: string;
+    value: number;
+    thumbPlacement?: "above" | "below";
+    displayedValue?: string;
+    rightThumbOffset?: string;
+    leftThumbOffset?: string;
+  }) {
+    const valueIsRange = isRange(this.value);
+    const isLabeled = type.includes("labeled");
+    const isPrecise = type.includes("precise");
+    const isMinHandle = type.includes("min");
+    const maxProp = isMinHandle ? "minValue" : valueIsRange ? "maxValue" : "value";
+    const ariaLabel = isMinHandle ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
+    const ariaValuenow = isMinHandle ? this.minValue : value;
+    const thumbClass = {
+      [CSS.thumb]: true,
+      [CSS.thumbValue]: !isMinHandle,
+      [CSS.thumbActive]: this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+      [CSS.thumbPrecise]: isPrecise,
+      [CSS.thumbMinValue]: isMinHandle,
+    };
+
+    const handleStyle: any = isMinHandle ? { left: leftThumbOffset } : { right: rightThumbOffset };
+    const handleLabelClasses = `${CSS.handleLabel} ${
+      isMinHandle ? CSS.handleLabelMinValue : CSS.handleLabelValue
+    }`;
+
+    const labels = isLabeled
+      ? [
+          <span aria-hidden="true" class={handleLabelClasses}>
+            {displayedValue}
+          </span>,
+          <span aria-hidden="true" class={`${handleLabelClasses} ${CSS.static}`}>
+            {displayedValue}
+          </span>,
+          <span aria-hidden="true" class={`${handleLabelClasses} ${CSS.transformed}`}>
+            {displayedValue}
+          </span>,
+        ]
+      : [];
+
+    const thumbContent: VNode[] = [
+      ...labels,
+      <div class={CSS.handle} />,
+      isPrecise && <div class={CSS.handleExtension} />,
+    ];
+
+    if (thumbPlacement === "below") {
+      thumbContent.reverse();
+    }
+
+    return (
+      <div
+        aria-disabled={this.disabled}
+        aria-label={ariaLabel}
+        aria-orientation="horizontal"
+        aria-valuemax={this.max}
+        aria-valuemin={this.min}
+        aria-valuenow={ariaValuenow}
+        class={thumbClass}
+        key={type}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = isMinHandle ? "minValue" : maxProp)}
+        onPointerDown={(event) =>
+          this.pointerDownDragStart(event, isMinHandle ? "minValue" : maxProp)
+        }
+        role="slider"
+        style={handleStyle}
+        tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={(el) =>
+          isMinHandle
+            ? (this.minHandle = el as HTMLDivElement)
+            : (this.maxHandle = el as HTMLDivElement)
+        }
+      >
+        {thumbContent}
+      </div>
+    );
+  }
+
   private renderGraph(): VNode {
     return this.histogram ? (
       <calcite-graph
-        class="graph"
+        class={CSS.graph}
         colorStops={this.histogramStops}
         data={this.histogram}
         highlightMax={isRange(this.value) ? this.maxValue : this.value}
@@ -995,6 +695,28 @@ export class Slider
   //
   //--------------------------------------------------------------------------
 
+  private getHandleType(type: "min" | "max"): string {
+    const handleTypes = ["handle"];
+
+    if (type === "min") {
+      handleTypes.push("min");
+    }
+
+    if (this.labelHandles) {
+      handleTypes.push("labeled");
+    }
+
+    if (this.precise) {
+      handleTypes.push("precise");
+    }
+
+    if (this.hasHistogram) {
+      handleTypes.push("histogram");
+    }
+
+    return handleTypes.join("-");
+  }
+
   setValueFromMinMax(): void {
     const { minValue, maxValue } = this;
 
@@ -1173,7 +895,7 @@ export class Slider
   private setValue(
     values: Partial<{
       [Property in keyof Pick<Slider, "maxValue" | "minValue" | "value">]: number;
-    }>
+    }>,
   ): void {
     let valueChanged: boolean;
 
@@ -1293,10 +1015,10 @@ export class Slider
   private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
     const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.static`
+      `.handle__label--${name}.static`,
     );
     const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.transformed`
+      `.handle__label--${name}.transformed`,
     );
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
@@ -1312,44 +1034,44 @@ export class Slider
     const rightModifier = mirror ? "minValue" : "value";
 
     const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}`
+      `.handle__label--${leftModifier}`,
     );
     const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.static`
+      `.handle__label--${leftModifier}.static`,
     );
     const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.transformed`
+      `.handle__label--${leftModifier}.transformed`,
     );
     const leftValueLabelStaticHostOffset = this.getHostOffset(
       leftValueLabelStatic.getBoundingClientRect().left,
-      leftValueLabelStatic.getBoundingClientRect().right
+      leftValueLabelStatic.getBoundingClientRect().right,
     );
 
     const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}`
+      `.handle__label--${rightModifier}`,
     );
     const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.static`
+      `.handle__label--${rightModifier}.static`,
     );
     const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.transformed`
+      `.handle__label--${rightModifier}.transformed`,
     );
     const rightValueLabelStaticHostOffset = this.getHostOffset(
       rightValueLabelStatic.getBoundingClientRect().left,
-      rightValueLabelStatic.getBoundingClientRect().right
+      rightValueLabelStatic.getBoundingClientRect().right,
     );
 
     const labelFontSize = this.getFontSizeForElement(leftValueLabel);
     const labelTransformedOverlap = this.getRangeLabelOverlap(
       leftValueLabelTransformed,
-      rightValueLabelTransformed
+      rightValueLabelTransformed,
     );
 
     const hyphenLabel = leftValueLabel;
     const labelOffset = labelFontSize / 2;
 
     if (labelTransformedOverlap > 0) {
-      hyphenLabel.classList.add("hyphen", "hyphen--wrap");
+      hyphenLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
         let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
@@ -1364,13 +1086,13 @@ export class Slider
             labelOffset,
           leftValueLabelTransformed.getBoundingClientRect().right +
             leftValueLabelTranslate -
-            labelOffset
+            labelOffset,
         );
 
         let rightValueLabelTranslate = labelTransformedOverlap / 2;
         const rightValueLabelTransformedHostOffset = this.getHostOffset(
           rightValueLabelTransformed.getBoundingClientRect().left + rightValueLabelTranslate,
-          rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate
+          rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate,
         );
 
         if (leftValueLabelTransformedHostOffset !== 0) {
@@ -1414,7 +1136,7 @@ export class Slider
         }px)`;
       }
     } else {
-      hyphenLabel.classList.remove("hyphen", "hyphen--wrap");
+      hyphenLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
       leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
