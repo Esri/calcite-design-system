@@ -1,3 +1,4 @@
+import { EOL } from "os";
 import { Platform } from "../../../../types/platform.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
 import { FormattingRules } from "../utils.js";
@@ -41,7 +42,7 @@ export function getTypographyReferences(
 
     const typeRefs = Object.values(typeReferences);
 
-    return typeRefs.length > 0 ? typeRefs.join("\n") : `${propName}: ${typeValue};`;
+    return typeRefs.length > 0 ? typeRefs.join(EOL) : `${propName}: ${typeValue};`;
   }
 
   return `${value}`;

@@ -7,6 +7,7 @@ import { handleStringValueTokens } from "./handleStringValue.js";
 import { Platform } from "../../../../types/platform.js";
 import { transformNamesKebabCase } from "../../transformer/name/nameKebabCase.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
+import { EOL } from "os";
 
 export function handleBreakpoint(
   token: TransformedToken,
@@ -51,8 +52,8 @@ export function handleBreakpoint(
   }, {} as { [key in TokenBreakpointContextUnion]: string });
 
   return args.options.platform === Platform.SCSS || args.options.platform === Platform.SASS
-    ? Object.values(returnObject).join("\n\n")
+    ? Object.values(returnObject).join(`${EOL}${EOL}`)
     : args.options.platform === Platform.CSS
-    ? Object.values(returnObject).join("\n\t")
+    ? Object.values(returnObject).join(`${EOL}\t`)
     : returnObject;
 }

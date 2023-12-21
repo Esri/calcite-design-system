@@ -11,6 +11,7 @@ import { PlatformOptions } from "../types/styleDictionary/platform.js";
 import { File } from "../types/styleDictionary/file.js";
 import { transformations } from "./styleDictionary/transformer/utils.js";
 import { format } from "./styleDictionary/formatter/utils.js";
+import { normalize } from "path";
 
 const destination = (name: string, format: PlatformFormats) => `${name}${fileExtension[format]}`;
 
@@ -58,16 +59,19 @@ export const run = async ({
   // We generate the tiered token files via the normal StyleDictionary output. Any additional compiled files are handled by the expandFiles.
   const expandFiles = output.expandFiles || undefined;
 
-  const platforms = output.platforms.reduce((acc, platform) => {
-    const platformConfig: PlatformOptions = {
-      options: { ...options, expandFiles, platforms: output.platforms },
-      transforms: transformations[platform],
-      buildPath: `${output.dir}/${platform}/`,
-      files: files(platform, name),
-    };
-    acc[platform] = platformConfig;
-    return acc;
-  }, {} as Partial<Record<PlatformUnion, PlatformOptions>>);
+  const platforms = output.platforms.reduce(
+    (acc, platform) => {
+      const platformConfig: PlatformOptions = {
+        options: { ...options, expandFiles, platforms: output.platforms },
+        transforms: transformations[platform],
+        buildPath: normalize(`${output.dir}/${platform}/`),
+        files: files(platform, name),
+      };
+      acc[platform] = platformConfig;
+      return acc;
+    },
+    {} as Partial<Record<PlatformUnion, PlatformOptions>>,
+  );
 
   const config = {
     source,

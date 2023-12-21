@@ -103,7 +103,7 @@ export function formatExtraOutput(
     }
 
     Object.entries(outputObject).forEach(([fileName, outputList]) => {
-      const absoluteFilePath = resolve(args.buildPath, `${fileName}`);
+      const absoluteFilePath = resolve(args.buildPath, fileName);
       switch (args.platform) {
         case Platform.CSS:
           if (typeof outputList[0] === "string" && outputList[0].slice(0, 2) === "--") {

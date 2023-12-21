@@ -28,20 +28,20 @@ export function getReferencesFromValue(
             const rgba = value.match(/rgba?\(/);
             value =
               rgbRef && rgba
-                ? `${value}`.replace(`${rgba[0]}${Object.values(rgbRef).join(", ")}`, `${rgba[0]}${tokenRef}`)
-                : `${value}`.replace(ref.value, tokenRef);
+                ? value.replace(`${rgba[0]}${Object.values(rgbRef).join(", ")}`, `${rgba[0]}${tokenRef}`)
+                : value.replace(ref.value, tokenRef);
           } else {
             const rgba = value.search(/rgba?\((\d,\s*)+/);
 
             value =
               ref.type === "opacity" && rgba
-                ? `${value}`.replace(rgba + ref.value, rgba + tokenRef)
-                : `${value}`.replace(ref.value, tokenRef);
+                ? value.replace(rgba + ref.value, rgba + tokenRef)
+                : value.replace(ref.value, tokenRef);
           }
         }
       }
     });
   }
 
-  return `${value}`;
+  return value;
 }

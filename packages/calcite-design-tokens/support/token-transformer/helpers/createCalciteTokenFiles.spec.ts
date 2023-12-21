@@ -31,7 +31,7 @@ describe("Helper to create a Calcite Token Transformer configuration file", () =
     };
     const expected = {
       name: "testName",
-      source: [resolve(__dirname, "..", "..", "test", "mock", "src", "global.json"), "./my-extra-source"],
+      source: [resolve(__dirname, "..", "..", "test", "mock", "src", "global.json"), "my-extra-source"],
     };
     const tokenFile = await createCalciteTokenFiles(args);
     expect(tokenFile).toMatchObject({
@@ -44,12 +44,12 @@ describe("Helper to create a Calcite Token Transformer configuration file", () =
     const args = {
       name: "testName",
       path: resolve(__dirname, "..", "..", "test", "mock", "src", "global.json"),
-      references: ["./my-extra-source"],
+      references: ["my-extra-source"],
     };
     const expected = {
       name: "testName",
       source: [resolve(__dirname, "..", "..", "test", "mock", "src", "global.json")],
-      references: ["./my-extra-source"],
+      references: ["my-extra-source"],
     };
     const tokenFile = await createCalciteTokenFiles(args);
     expect(tokenFile).toMatchObject({
