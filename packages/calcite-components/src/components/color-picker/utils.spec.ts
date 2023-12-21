@@ -53,7 +53,7 @@ describe("utils", () => {
         r: 0,
         g: 255,
         b: 0,
-      })
+      }),
     ).toBe("#00ff00");
 
     expect(
@@ -62,7 +62,7 @@ describe("utils", () => {
         g: 255,
         b: 0,
         a: 1,
-      })
+      }),
     ).toBe("#00ff00ff");
   });
 

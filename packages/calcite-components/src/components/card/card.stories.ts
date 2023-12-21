@@ -57,7 +57,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -101,9 +101,8 @@ const tooltipHtml = html`
   <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-7">Delete</calcite-tooltip>
 `;
 
-export const simple = (): string => html` <div style="width: 260px">
-  ${create("calcite-card", createAttributes(), titleHtml)}
-</div>`;
+export const simple = (): string =>
+  html` <div style="width: 260px">${create("calcite-card", createAttributes(), titleHtml)}</div>`;
 
 export const simpleWithFooterLinks = (): string => html`
   <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerLinksHtml}`)}</div>
@@ -167,7 +166,7 @@ export const thumbnail = (): string => html`
             </calcite-dropdown-group>
           </calcite-dropdown>
         </div>
-      `
+      `,
     )}
     <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-1"
       >My great tooltip example

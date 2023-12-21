@@ -105,7 +105,7 @@ describe("calcite-modal", () => {
     // set small page to test overflow
     await page.setViewport({ width: 800, height: 800 });
     await page.setContent(
-      `<calcite-modal style="--calcite-modal-height:1200px;--calcite-modal-width:1200px;" open></calcite-modal>`
+      `<calcite-modal style="--calcite-modal-height:1200px;--calcite-modal-width:1200px;" open></calcite-modal>`,
     );
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
@@ -135,7 +135,7 @@ describe("calcite-modal", () => {
       (el: HTMLCalciteModalElement) =>
         (el.beforeClose = (
           window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
-        ).beforeClose)
+        ).beforeClose),
     );
     await page.waitForChanges();
     modal.setProperty("open", true);
@@ -161,7 +161,7 @@ describe("calcite-modal", () => {
       (el: HTMLCalciteModalElement) =>
         (el.beforeClose = (
           window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
-        ).beforeClose)
+        ).beforeClose),
     );
     await page.waitForChanges();
     modal.setProperty("open", true);
@@ -187,7 +187,7 @@ describe("calcite-modal", () => {
       (el: HTMLCalciteModalElement) =>
         (el.beforeClose = (
           window as GlobalTestProps<{ beforeClose: HTMLCalciteModalElement["beforeClose"] }>
-        ).beforeClose)
+        ).beforeClose),
     );
     await page.waitForChanges();
     modal.setProperty("open", true);
@@ -210,7 +210,7 @@ describe("calcite-modal", () => {
     await page.$eval(
       "calcite-modal",
       (elm: HTMLCalciteModalElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const modal = await page.find("calcite-modal");
@@ -229,7 +229,7 @@ describe("calcite-modal", () => {
     await page.$eval(
       "calcite-modal",
       (elm: HTMLCalciteModalElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const modal = await page.find("calcite-modal");
@@ -256,7 +256,7 @@ describe("calcite-modal", () => {
         ["calciteModalBeforeOpen", "calciteModalOpen", "calciteModalBeforeClose", "calciteModalClose"].forEach(
           (eventType) => {
             modal.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-          }
+          },
         );
       });
 
@@ -454,7 +454,7 @@ describe("calcite-modal", () => {
             <button id="${button1Id}">Focus1</button>
             <button id="${button2Id}">Focus2</button>
           </div>
-        </calcite-modal>`
+        </calcite-modal>`,
       );
       const modal = await page.find("calcite-modal");
       const opened = page.waitForEvent("calciteModalOpen");
@@ -482,12 +482,10 @@ describe("calcite-modal", () => {
       const initiallyFocusedId = "initially-focused";
       const initiallyFocusedIdSelector = `#${initiallyFocusedId}`;
       const page = await newE2EPage();
-      await page.setContent(
-        html`
-          <button id="${initiallyFocusedId}">Focus</button>
-          <calcite-modal></calcite-modal>
-        `
-      );
+      await page.setContent(html`
+        <button id="${initiallyFocusedId}">Focus</button>
+        <calcite-modal></calcite-modal>
+      `);
       await skipAnimations(page);
       const modal = await page.find("calcite-modal");
       await page.$eval(initiallyFocusedIdSelector, (button: HTMLButtonElement) => {
@@ -510,7 +508,7 @@ describe("calcite-modal", () => {
             <button id="${button1Id}">Focus1</button>
             <button id="${button2Id}">Focus2</button>
           </div>
-        </calcite-modal>`
+        </calcite-modal>`,
       );
       await skipAnimations(page);
       const modal = await page.find("calcite-modal");

@@ -328,10 +328,10 @@ export class Chip
       this.selectionMode === "multiple" && this.selected
         ? ICONS.checked
         : this.selectionMode === "multiple"
-        ? ICONS.unchecked
-        : this.selected
-        ? ICONS.checkedSingle
-        : undefined;
+          ? ICONS.unchecked
+          : this.selected
+            ? ICONS.checkedSingle
+            : undefined;
 
     return (
       <div
@@ -379,10 +379,10 @@ export class Chip
       this.selectionMode === "multiple" && this.interactive
         ? "checkbox"
         : this.selectionMode !== "none" && this.interactive
-        ? "radio"
-        : this.interactive
-        ? "button"
-        : undefined;
+          ? "radio"
+          : this.interactive
+            ? "button"
+            : undefined;
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>

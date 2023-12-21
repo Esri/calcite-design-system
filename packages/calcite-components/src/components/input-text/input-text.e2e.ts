@@ -394,7 +394,7 @@ describe("calcite-input-text", () => {
   it("allows disabling slotted action", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-input-text><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-text>`
+      `<calcite-input-text><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-text>`,
     );
 
     const input = await page.find("calcite-input-text");

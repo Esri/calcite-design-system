@@ -91,7 +91,7 @@ describe("calcite-time-picker", () => {
       expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(fractionalSecondElAriaLabel);
 
       const meridiemElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.meridiem}`)).getAttribute(
-        "aria-label"
+        "aria-label",
       );
       const meridiemUpEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemUp}`);
 
@@ -140,7 +140,7 @@ describe("calcite-time-picker", () => {
       expect(await getFocusedElementProp(page, "ariaLabel", { shadow: true })).toEqual(fractionalSecondElAriaLabel);
 
       const meridiemElAriaLabel = (await page.find(`calcite-time-picker >>> .${CSS.meridiem}`)).getAttribute(
-        "aria-label"
+        "aria-label",
       );
       const meridiemDownEl = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemDown}`);
 
@@ -213,8 +213,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.hour}`
-        )
+          `.${CSS.hour}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("Tab");
@@ -224,8 +224,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.minute}`
-        )
+          `.${CSS.minute}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("Tab");
@@ -235,8 +235,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.second}`
-        )
+          `.${CSS.second}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("Tab");
@@ -246,8 +246,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.meridiem}`
-        )
+          `.${CSS.meridiem}`,
+        ),
       ).toBe(true);
     });
 
@@ -263,8 +263,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.hour}`
-        )
+          `.${CSS.hour}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("ArrowRight");
@@ -274,8 +274,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.minute}`
-        )
+          `.${CSS.minute}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("ArrowRight");
@@ -285,8 +285,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.second}`
-        )
+          `.${CSS.second}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("ArrowRight");
@@ -296,8 +296,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.meridiem}`
-        )
+          `.${CSS.meridiem}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("ArrowLeft");
@@ -307,8 +307,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.second}`
-        )
+          `.${CSS.second}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("ArrowLeft");
@@ -318,8 +318,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.minute}`
-        )
+          `.${CSS.minute}`,
+        ),
       ).toBe(true);
 
       await page.keyboard.press("ArrowLeft");
@@ -329,8 +329,8 @@ describe("calcite-time-picker", () => {
         await page.$eval(
           "calcite-time-picker",
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-          `.${CSS.hour}`
-        )
+          `.${CSS.hour}`,
+        ),
       ).toBe(true);
     });
 
@@ -1200,7 +1200,7 @@ describe("calcite-time-picker", () => {
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-time-picker",
-        ".button--fractionalSecond-up"
+        ".button--fractionalSecond-up",
       );
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
@@ -1214,7 +1214,7 @@ describe("calcite-time-picker", () => {
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-time-picker",
-        ".button--fractionalSecond-up"
+        ".button--fractionalSecond-up",
       );
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
@@ -1228,7 +1228,7 @@ describe("calcite-time-picker", () => {
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-time-picker",
-        ".button--fractionalSecond-up"
+        ".button--fractionalSecond-up",
       );
       await page.mouse.click(buttonUpLocationX, buttonUpLocationY);
       await page.waitForChanges();
