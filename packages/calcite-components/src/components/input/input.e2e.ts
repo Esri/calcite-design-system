@@ -149,10 +149,10 @@ describe("calcite-input", () => {
 
     const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']",
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']",
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']"
     );
 
     expect(numberVerticalWrapper).not.toBeNull();
@@ -166,10 +166,10 @@ describe("calcite-input", () => {
 
     const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']",
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']",
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']"
     );
 
     expect(numberVerticalWrapper).toBeNull();
@@ -189,14 +189,14 @@ describe("calcite-input", () => {
   it("does not render number buttons in horizontal alignment when type=number, number button type is horizontal, and read-only", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-input type="number" number-button-type="horizontal" read-only></calcite-input>`,
+      html`<calcite-input type="number" number-button-type="horizontal" read-only></calcite-input>`
     );
 
     const numberHorizontalItemDown = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']",
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']",
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']"
     );
 
     expect(numberHorizontalItemDown).toBeNull();
@@ -209,10 +209,10 @@ describe("calcite-input", () => {
 
     const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']",
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']",
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']"
     );
 
     expect(numberVerticalWrapper).toBeNull();
@@ -238,7 +238,7 @@ describe("calcite-input", () => {
           value="100000000000000000000000000000000000000000000000000."
           step="10"
           type="number"
-        ></calcite-input>`,
+        ></calcite-input>`
       );
       const element = await page.find("calcite-input");
       const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
@@ -265,7 +265,7 @@ describe("calcite-input", () => {
       await numberHorizontalItemUp.click();
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe(
-        "1.00000000000000000000000000000000000000000000000000000000000123",
+        "1.00000000000000000000000000000000000000000000000000000000000123"
       );
       element.setProperty("step", 0.1);
       await page.waitForChanges();
@@ -274,7 +274,7 @@ describe("calcite-input", () => {
         await page.waitForChanges();
       }
       expect(await element.getProperty("value")).toBe(
-        "0.50000000000000000000000000000000000000000000000000000000000123",
+        "0.50000000000000000000000000000000000000000000000000000000000123"
       );
     });
 
@@ -361,7 +361,7 @@ describe("calcite-input", () => {
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-input",
-        ".number-button-item[data-adjustment='up']",
+        ".number-button-item[data-adjustment='up']"
       );
 
       const inputEventSpy = await input.spyOnEvent("calciteInputInput");
@@ -376,7 +376,7 @@ describe("calcite-input", () => {
       const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
         page,
         "calcite-input",
-        ".number-button-item[data-adjustment='down']",
+        ".number-button-item[data-adjustment='down']"
       );
 
       await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
@@ -539,7 +539,7 @@ describe("calcite-input", () => {
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
         page,
         "calcite-input",
-        ".number-button-item[data-adjustment='up']",
+        ".number-button-item[data-adjustment='up']"
       );
       expect(calciteInputInput).toHaveReceivedEventTimes(0);
       await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
@@ -565,7 +565,7 @@ describe("calcite-input", () => {
       const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
         page,
         "calcite-input",
-        ".number-button-item[data-adjustment='down']",
+        ".number-button-item[data-adjustment='down']"
       );
 
       await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
@@ -676,7 +676,7 @@ describe("calcite-input", () => {
       const incrementButtonRect = await getElementRect(page, "calcite-input", "button");
       await page.mouse.move(
         incrementButtonRect.left + incrementButtonRect.width / 2,
-        incrementButtonRect.top + incrementButtonRect.height / 2,
+        incrementButtonRect.top + incrementButtonRect.height / 2
       );
       await page.mouse.down();
       await page.waitForChanges();
@@ -1294,7 +1294,7 @@ describe("calcite-input", () => {
           const value = "1234.56";
           const page = await newE2EPage();
           await page.setContent(
-            html`<calcite-input lang="${locale}" type="number" value="${value}" group-separator></calcite-input>`,
+            html`<calcite-input lang="${locale}" type="number" value="${value}" group-separator></calcite-input>`
           );
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("calcite-input >>> input");
@@ -1369,7 +1369,7 @@ describe("calcite-input", () => {
         it(`displays correct formatted value when the value is changed programmatically for ${locale} locale`, async () => {
           const page = await newE2EPage();
           await page.setContent(
-            html`<calcite-input lang="${locale}" type="number"></calcite-input><input id="external" />`,
+            html`<calcite-input lang="${locale}" type="number"></calcite-input><input id="external" />`
           );
 
           await page.evaluate(() => {
@@ -1553,7 +1553,7 @@ describe("calcite-input", () => {
   it(`disallows pasting just text characters with no initial value`, async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-input type="number"></calcite-input><input id="copy" value="invalid number" />`,
+      html`<calcite-input type="number"></calcite-input><input id="copy" value="invalid number" />`
     );
     const calciteInput = await page.find("calcite-input");
     const input = await page.find("calcite-input >>> input");
@@ -1582,7 +1582,7 @@ describe("calcite-input", () => {
     const initialValue = "1234.56";
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-input type="number" value="1234.56"></calcite-input><input id="copy" value="invalid number" />`,
+      html`<calcite-input type="number" value="1234.56"></calcite-input><input id="copy" value="invalid number" />`
     );
     const calciteInput = await page.find("calcite-input");
     const input = await page.find("calcite-input >>> input");
@@ -1610,7 +1610,7 @@ describe("calcite-input", () => {
   it(`disallows pasting just text characters with no initial value with group separator`, async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-input type="number" group-separator></calcite-input><input id="copy" value="invalid number" />`,
+      html`<calcite-input type="number" group-separator></calcite-input><input id="copy" value="invalid number" />`
     );
     const calciteInput = await page.find("calcite-input");
     const input = await page.find("calcite-input >>> input");
@@ -1640,7 +1640,7 @@ describe("calcite-input", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-input type="number" value="1234.56" group-separator></calcite-input
-        ><input id="copy" value="invalid number" />`,
+        ><input id="copy" value="invalid number" />`
     );
     const calciteInput = await page.find("calcite-input");
     const input = await page.find("calcite-input >>> input");
@@ -1800,7 +1800,7 @@ describe("calcite-input", () => {
 
     const determineCaretIndex = (
       nestedInputTypeSelector: "textarea" | "input",
-      position?: number,
+      position?: number
     ): Promise<boolean> => {
       return page.evaluate(
         (nestedInputTypeSelector, position) => {
@@ -1809,7 +1809,7 @@ describe("calcite-input", () => {
           return el.selectionStart === (position !== undefined ? position : el.value.length);
         },
         nestedInputTypeSelector,
-        position,
+        position
       );
     };
 
@@ -1894,7 +1894,7 @@ describe("calcite-input", () => {
             }
           });
         },
-        cursorHomeCount,
+        cursorHomeCount
       );
       await page.waitForTimeout(delayFor2UpdatesInMs);
 
@@ -1908,7 +1908,7 @@ describe("calcite-input", () => {
   it("allows disabling slotted action", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-input><calcite-button slot="action" disabled>Action</calcite-button></calcite-input>`,
+      `<calcite-input><calcite-button slot="action" disabled>Action</calcite-button></calcite-input>`
     );
 
     const input = await page.find("calcite-input");

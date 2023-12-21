@@ -170,6 +170,6 @@ it("should have correct value for defaultOffsetDistance", () => {
 
 it("should filter computed placements", () => {
   expect(new Set(filterComputedPlacements([...placements], document.createElement("div")))).toEqual(
-    new Set(effectivePlacements),
+    new Set(effectivePlacements)
   );
 });

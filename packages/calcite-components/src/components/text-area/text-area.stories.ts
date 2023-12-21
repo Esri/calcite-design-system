@@ -83,36 +83,37 @@ export const chineseLang_TestOnly = (): string => html`
 export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
-  <style>
-    .container {
-      display: flex;
-      flex-direction: column;
-      width: 420px;
-      height: 80px;
-      gap: 45px;
-    }
-  </style>
-  <div class="container">
-    <calcite-text-area
-      scale="s"
-      status="invalid"
-      validation-message="This field is required."
-      validation-icon="frown"
-    ></calcite-text-area>
-    <calcite-text-area
-      scale="m"
-      status="invalid"
-      validation-message="Less than the minimum length of 6 characters"
-      validation-icon
-      value="Hi"
-    ></calcite-text-area>
-    <calcite-text-area
-      scale="l"
-      status="invalid"
-      validation-message="Exceeds the maximum length of 9 characters"
-      validation-icon
-      value="Lorem ipsum"
-    ></calcite-text-area>
-  </div>
-`;
+export const validationMessageAllScales_TestOnly = (): string =>
+  html`
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: 420px;
+        height: 80px;
+        gap: 45px;
+      }
+    </style>
+    <div class="container">
+      <calcite-text-area
+        scale="s"
+        status="invalid"
+        validation-message="This field is required."
+        validation-icon="frown"
+      ></calcite-text-area>
+      <calcite-text-area
+        scale="m"
+        status="invalid"
+        validation-message="Less than the minimum length of 6 characters"
+        validation-icon
+        value="Hi"
+      ></calcite-text-area>
+      <calcite-text-area
+        scale="l"
+        status="invalid"
+        validation-message="Exceeds the maximum length of 9 characters"
+        validation-icon
+        value="Lorem ipsum"
+      ></calcite-text-area>
+    </div>
+  `;

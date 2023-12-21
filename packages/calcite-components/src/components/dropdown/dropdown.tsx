@@ -307,7 +307,7 @@ export class Dropdown
         flipPlacements: filteredFlipPlacements,
         type: "menu",
       },
-      delayed,
+      delayed
     );
   }
 
@@ -654,7 +654,7 @@ export class Dropdown
 
   private focusOnFirstActiveOrFirstItem = (): void => {
     this.getFocusableElement(
-      this.getTraversableItems().find((item) => item.selected) || this.items[0],
+      this.getTraversableItems().find((item) => item.selected) || this.items[0]
     );
   };
 

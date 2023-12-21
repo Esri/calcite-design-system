@@ -266,8 +266,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         break;
     }
 
-    const destinationCount = this.allRows?.find((row) => row.positionAll === rowPosition)
-      ?.cellCount;
+    const destinationCount = this.allRows?.find(
+      (row) => row.positionAll === rowPosition
+    )?.cellCount;
 
     const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
 

@@ -12,7 +12,7 @@ export const matcher: Matcher = (token: TransformedToken) => {
 type FontFamilyFallbackToken = TransformedToken & { value: string[] };
 
 export const transformValuesFontFamilyWithFallbacks: CalledTransformerFunction<string> = (
-  token: FontFamilyFallbackToken,
+  token: FontFamilyFallbackToken
 ) => {
   return token.value.join(" ");
 };

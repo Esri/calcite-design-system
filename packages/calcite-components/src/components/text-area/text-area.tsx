@@ -538,7 +538,7 @@ export class TextArea
       }
     },
     RESIZE_TIMEOUT,
-    { leading: false },
+    { leading: false }
   );
 
   private isCharacterLimitExceeded(): boolean {

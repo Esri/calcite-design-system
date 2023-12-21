@@ -72,5 +72,5 @@ export declare function calledTransformerFunction<R = any>(
   token: TransformedToken,
   args: {
     [K in keyof TransformerArgs]: TransformerArgs[K];
-  },
+  }
 ): R;

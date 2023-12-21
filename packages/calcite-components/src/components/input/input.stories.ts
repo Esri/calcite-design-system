@@ -19,7 +19,7 @@ export const simple = (): string => html`
       type="${select(
         "type",
         ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-        "text",
+        "text"
       )}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
@@ -48,7 +48,7 @@ export const withSlottedAction = (): string => html`
       type="${select(
         "type",
         ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-        "text",
+        "text"
       )}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
@@ -108,7 +108,7 @@ export const darkModeRTL_TestOnly = (): string => html`
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-          "text",
+          "text"
         )}"
         status="${select("status", ["idle", "invalid", "valid"], "idle")}"
         alignment="${select("alignment", ["start", "end"], "start")}"
@@ -134,42 +134,43 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
-  <style>
-    .container {
-      display: flex;
-      flex-direction: column;
-      width: 400px;
-      height: 200px;
-      gap: 20px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input
-      type="number"
-      scale="s"
-      status="invalid"
-      validation-message="This field is required."
-      validation-icon="frown"
-    ></calcite-input>
-    <calcite-input
-      type="number"
-      scale="m"
-      status="invalid"
-      validation-message="Value must be greater than 1337"
-      validation-icon
-      value="420"
-    ></calcite-input>
-    <calcite-input
-      type="number"
-      scale="l"
-      status="invalid"
-      validation-message="Exceeds the maximum length of 2 characters"
-      validation-icon
-      value="123"
-    ></calcite-input>
-  </div>
-`;
+export const validationMessageAllScales_TestOnly = (): string =>
+  html`
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        height: 200px;
+        gap: 20px;
+      }
+    </style>
+    <div class="container">
+      <calcite-input
+        type="number"
+        scale="s"
+        status="invalid"
+        validation-message="This field is required."
+        validation-icon="frown"
+      ></calcite-input>
+      <calcite-input
+        type="number"
+        scale="m"
+        status="invalid"
+        validation-message="Value must be greater than 1337"
+        validation-icon
+        value="420"
+      ></calcite-input>
+      <calcite-input
+        type="number"
+        scale="l"
+        status="invalid"
+        validation-message="Exceeds the maximum length of 2 characters"
+        validation-icon
+        value="123"
+      ></calcite-input>
+    </div>
+  `;
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(html`
