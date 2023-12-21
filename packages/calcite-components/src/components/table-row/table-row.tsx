@@ -251,7 +251,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination,
-    lastCell?: boolean
+    lastCell?: boolean,
   ): void => {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
@@ -266,14 +266,14 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       ?.assignedElements({ flatten: true })
       ?.filter(
         (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
-          el.matches("calcite-table-cell") || el.matches("calcite-table-header")
+          el.matches("calcite-table-cell") || el.matches("calcite-table-header"),
       );
 
     const renderedCells = Array.from(
-      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell")
+      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell"),
     )?.filter(
       (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
-        el.numberCell || el.selectionCell
+        el.numberCell || el.selectionCell,
     );
 
     const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
@@ -321,10 +321,10 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       this.selectionMode === "multiple" && this.selected
         ? "check-square-f"
         : this.selectionMode === "multiple"
-        ? "square"
-        : this.selected
-        ? "circle-f"
-        : "circle";
+          ? "square"
+          : this.selected
+            ? "circle-f"
+            : "circle";
 
     return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
   }

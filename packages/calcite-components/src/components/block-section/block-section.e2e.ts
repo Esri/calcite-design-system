@@ -46,7 +46,7 @@ describe("calcite-block-section", () => {
         </calcite-block-section>`,
         {
           shadowFocusTargetSelector: `.${CSS.toggle}`,
-        }
+        },
       );
     });
 
@@ -57,7 +57,7 @@ describe("calcite-block-section", () => {
         </calcite-block-section>`,
         {
           shadowFocusTargetSelector: `.${CSS.toggle}`,
-        }
+        },
       );
     });
   });

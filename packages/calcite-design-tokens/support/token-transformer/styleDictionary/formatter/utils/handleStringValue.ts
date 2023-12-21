@@ -8,7 +8,7 @@ export function handleStringValueTokens(
   token: TransformedToken,
   dictionary: Dictionary,
   args: MappedFormatterArguments,
-  value?: string
+  value?: string,
 ): string | undefined {
   const stringValue = value || token.value;
   const formatting = FormattingRules[args.options.platform] || FormattingRules.default;
@@ -22,8 +22,8 @@ export function handleStringValueTokens(
   const comment = !token.comment
     ? undefined
     : formatting.commentStyle === "short"
-    ? `// ${token.comment}`
-    : `/* ${token.comment} */`;
+      ? `// ${token.comment}`
+      : `/* ${token.comment} */`;
   const stringifiedProp = [formattedName, formattedValue, themeAble, formatting.suffix, comment]
     .filter((s) => s)
     .join(" ")

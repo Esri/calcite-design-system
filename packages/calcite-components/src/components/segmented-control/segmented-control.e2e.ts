@@ -70,7 +70,7 @@ describe("calcite-segmented-control", () => {
         <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
         <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
       </calcite-segmented-control>`,
-      { focusTargetSelector: "calcite-segmented-control-item" }
+      { focusTargetSelector: "calcite-segmented-control-item" },
     );
   });
 
@@ -81,7 +81,7 @@ describe("calcite-segmented-control", () => {
         <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
         <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
       </calcite-segmented-control>`,
-      { focusTarget: "child" }
+      { focusTarget: "child" },
     );
   });
 
@@ -108,7 +108,7 @@ describe("calcite-segmented-control", () => {
           <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
           <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
           <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
-        </calcite-segmented-control>`
+        </calcite-segmented-control>`,
     );
     const element = await page.find("calcite-segmented-control");
 
@@ -123,7 +123,7 @@ describe("calcite-segmented-control", () => {
           <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2" checked>two</calcite-segmented-control-item>
           <calcite-segmented-control-item value="3" checked>three</calcite-segmented-control-item>
-        </calcite-segmented-control>`
+        </calcite-segmented-control>`,
     );
     const element = await page.find("calcite-segmented-control");
 
@@ -141,7 +141,7 @@ describe("calcite-segmented-control", () => {
     async function getSelectedItemValue(page: E2EPage): Promise<string> {
       return page.$eval(
         "calcite-segmented-control",
-        (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value
+        (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value,
       );
     }
 
@@ -151,7 +151,7 @@ describe("calcite-segmented-control", () => {
           <calcite-segmented-control-item value="1">one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
           <calcite-segmented-control-item value="3">three</calcite-segmented-control-item>
-        </calcite-segmented-control>`
+        </calcite-segmented-control>`,
     );
     const element = await page.find("calcite-segmented-control");
     const eventSpy = await element.spyOnEvent("calciteSegmentedControlChange");
@@ -179,7 +179,7 @@ describe("calcite-segmented-control", () => {
       `<calcite-segmented-control>
           <calcite-segmented-control-item value="1">one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
-        </calcite-segmented-control>`
+        </calcite-segmented-control>`,
     );
 
     const timesCalled = await page.evaluate(async () => {
@@ -292,7 +292,7 @@ describe("calcite-segmented-control", () => {
           <calcite-segmented-control-item value="1" checked>one</calcite-segmented-control-item>
           <calcite-segmented-control-item value="2">two</calcite-segmented-control-item>
           <calcite-segmented-control-item value="3">three</calcite-segmented-control-item>
-        </calcite-segmented-control>`
+        </calcite-segmented-control>`,
       );
 
       await assertArrowSelection(page);
@@ -327,7 +327,7 @@ describe("calcite-segmented-control", () => {
   it("renders requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-segmented-control scale='l' layout='vertical' appearance='outline' width='full'></calcite-segmented-control>"
+      "<calcite-segmented-control scale='l' layout='vertical' appearance='outline' width='full'></calcite-segmented-control>",
     );
     const element = await page.find("calcite-segmented-control");
     expect(element).toEqualAttribute("scale", "l");
@@ -362,7 +362,7 @@ describe("calcite-segmented-control", () => {
         `,
         {
           focusTargetSelector: "#child-1",
-        }
+        },
       );
     });
 
@@ -377,7 +377,7 @@ describe("calcite-segmented-control", () => {
         `,
         {
           focusTargetSelector: "#child-3",
-        }
+        },
       );
     });
   });
@@ -394,7 +394,7 @@ describe("calcite-segmented-control", () => {
             <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
           </calcite-segmented-control>
         `,
-        formAssociatedOptions
+        formAssociatedOptions,
       );
     });
 
@@ -407,7 +407,7 @@ describe("calcite-segmented-control", () => {
             <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
           </calcite-segmented-control>
         `,
-        formAssociatedOptions
+        formAssociatedOptions,
       );
     });
   });

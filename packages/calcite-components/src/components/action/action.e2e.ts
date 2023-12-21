@@ -173,7 +173,7 @@ describe("calcite-action", () => {
   it("should have a tooltip", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-action text="hello world"><calcite-tooltip slot="tooltip">Hello World!</calcite-tooltip></calcite-action>`
+      `<calcite-action text="hello world"><calcite-tooltip slot="tooltip">Hello World!</calcite-tooltip></calcite-action>`,
     );
     await page.waitForChanges();
 

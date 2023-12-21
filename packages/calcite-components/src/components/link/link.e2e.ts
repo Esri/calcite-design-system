@@ -146,7 +146,7 @@ describe("calcite-link", () => {
   it("passes attributes to rendered child link", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-link rel="noopener noreferrer" target="_blank" class="my-custom-class" href="google.com">Continue</calcite-link>`
+      `<calcite-link rel="noopener noreferrer" target="_blank" class="my-custom-class" href="google.com">Continue</calcite-link>`,
     );
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
@@ -281,7 +281,7 @@ describe("calcite-link", () => {
         linkStyles = await link.getComputedStyle();
         linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
         expect(linkUnderlineStyle).toEqual(
-          "linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(rgba(0, 97, 155, 0.4), rgba(0, 97, 155, 0.4))"
+          "linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(rgba(0, 97, 155, 0.4), rgba(0, 97, 155, 0.4))",
         );
       });
     });
@@ -295,7 +295,7 @@ describe("calcite-link", () => {
         linkStyles = await link.getComputedStyle();
         linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
         expect(linkUnderlineStyle).toEqual(
-          "linear-gradient(rgb(0, 160, 255), rgb(0, 160, 255)), linear-gradient(rgba(0, 160, 255, 0.4), rgba(0, 160, 255, 0.4))"
+          "linear-gradient(rgb(0, 160, 255), rgb(0, 160, 255)), linear-gradient(rgba(0, 160, 255, 0.4), rgba(0, 160, 255, 0.4))",
         );
       });
     });
@@ -316,7 +316,7 @@ describe("calcite-link", () => {
       linkStyles = await link.getComputedStyle();
       linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
       expect(linkUnderlineStyle).toEqual(
-        `linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(${overrideStyle}, ${overrideStyle})`
+        `linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(${overrideStyle}, ${overrideStyle})`,
       );
     });
   });

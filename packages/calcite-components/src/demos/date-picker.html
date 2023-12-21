@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -236,7 +236,7 @@
             dropdownItem.setAttribute("data-lang", locale);
             dropdownItem.innerText = `${name} (${locale})`;
             return dropdownItem;
-          })
+          }),
         );
 
         // creates the date picker with the selected lang/numberingSystem
@@ -280,7 +280,7 @@
           createLocaleDatePicker({
             numberingSystem: selectedItems[0].getAttribute("data-numbering-system") || selectedNumberingSystem,
             lang: selectedItems[0].getAttribute("data-lang") || selectedLang,
-          })
+          }),
         );
 
         createLocaleDatePicker({ lang: selectedLang, numberingSystem: selectedNumberingSystem });

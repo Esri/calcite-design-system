@@ -21,9 +21,11 @@ describe("calcite-tab-nav", () => {
 
   it("emits on user interaction", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-tab-nav>
-      <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-    </calcite-tab-nav>`);
+    await page.setContent(
+      html`<calcite-tab-nav>
+        <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+      </calcite-tab-nav>`,
+    );
     const activeEventSpy = await page.spyOnEvent("calciteTabChange");
     const firstTabTitle = await page.find("calcite-tab-title");
 
@@ -84,11 +86,13 @@ describe("calcite-tab-nav", () => {
 
   it("focuses on keyboard interaction", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-tab-nav>
-      <calcite-tab-title id="tab1">Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title id="tab2">Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title id="tab3">Tab 3 Title</calcite-tab-title>
-    </calcite-tab-nav>`);
+    await page.setContent(
+      html`<calcite-tab-nav>
+        <calcite-tab-title id="tab1">Tab 1 Title</calcite-tab-title>
+        <calcite-tab-title id="tab2">Tab 2 Title</calcite-tab-title>
+        <calcite-tab-title id="tab3">Tab 3 Title</calcite-tab-title>
+      </calcite-tab-nav>`,
+    );
 
     const tab1 = await page.find("#tab1");
     await tab1.focus();

@@ -205,8 +205,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     const arrowIcon = open
       ? ICONS.menuOpen
       : dir === "rtl"
-      ? ICONS.menuClosedLeft
-      : ICONS.menuClosedRight;
+        ? ICONS.menuClosedLeft
+        : ICONS.menuClosedRight;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 

@@ -120,7 +120,7 @@ function addInteractionListeners(element: HTMLElement): void {
 
   element.addEventListener("pointerdown", onPointerDown, captureOnlyOptions);
   nonBubblingWhenDisabledMouseEvents.forEach((event) =>
-    element.addEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)
+    element.addEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions),
   );
 }
 
@@ -141,7 +141,7 @@ function removeInteractionListeners(element: HTMLElement): void {
 
   element.removeEventListener("pointerdown", onPointerDown, captureOnlyOptions);
   nonBubblingWhenDisabledMouseEvents.forEach((event) =>
-    element.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)
+    element.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions),
   );
 }
 
@@ -191,7 +191,7 @@ export const CSS = {
 
 export function InteractiveContainer(
   { disabled }: InteractiveContainerOptions,
-  children: VNode[]
+  children: VNode[],
 ): FunctionalComponent {
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
