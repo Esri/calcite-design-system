@@ -448,8 +448,8 @@ export class ListItem
       ? open
         ? ICONS.open
         : dir === "rtl"
-        ? ICONS.closedRTL
-        : ICONS.closedLTR
+          ? ICONS.closedRTL
+          : ICONS.closedLTR
       : ICONS.blank;
 
     const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
@@ -787,7 +787,7 @@ export class ListItem
 
   private getGridCells(): HTMLTableCellElement[] {
     return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
-      (el) => el && !el.hidden
+      (el) => el && !el.hidden,
     );
   }
 
