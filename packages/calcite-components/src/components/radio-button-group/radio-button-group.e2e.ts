@@ -10,7 +10,7 @@ describe("calcite-radio-button-group", () => {
 
   describe("accessible", () => {
     accessible(
-      `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`
+      `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`,
     );
   });
 
@@ -33,7 +33,7 @@ describe("calcite-radio-button-group", () => {
           Trees
         </calcite-label>
       </calcite-radio-button-group>`,
-      { focusTargetSelector: "calcite-radio-button" }
+      { focusTargetSelector: "calcite-radio-button" },
     );
   });
 
@@ -182,7 +182,7 @@ describe("calcite-radio-button-group", () => {
           3
           <calcite-radio-button value="3" checked></calcite-radio-button>
         </calcite-label>
-      </calcite-radio-button-group>`
+      </calcite-radio-button-group>`,
     );
     await page.waitForChanges();
     const checkedItems = await page.findAll("calcite-radio-button[checked]");

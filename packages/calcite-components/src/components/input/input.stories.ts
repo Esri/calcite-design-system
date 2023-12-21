@@ -19,9 +19,8 @@ export const simple = (): string => html`
       type="${select(
         "type",
         ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-        "text"
+        "text",
       )}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
       min="${number("min", 0)}"
@@ -33,39 +32,12 @@ export const simple = (): string => html`
       ${boolean("clearable", false)}
       ${boolean("disabled", false)}
       value="${text("value", "")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     ></calcite-input>
-  </div>
-`;
-
-export const withInputMessage = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-input
-      id="input-with-label-and-input-message"
-      type="${select(
-        "type",
-        ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-        "text",
-        "Input"
-      )}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
-      alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal", "Input")}"
-      min="${number("min", 0)}"
-      max="${number("max", 100)}"
-      step="${number("step", 1)}"
-      prefix-text="${text("prefix-text", "", "Input")}"
-      suffix-text="${text("suffix-text", "", "Input")}"
-      ${boolean("loading", false)}
-      ${boolean("autofocus", false)}
-      ${boolean("required", false)}
-      value="${text("value", "", "Input")}"
-      placeholder="${text("placeholder", "Placeholder text", "Input")}"
-    >
-    </calcite-input>
-    <calcite-input-message ${boolean("icon", false)} icon="${select("icon", iconNames, "", "Input Message")}"
-      >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
-    >
   </div>
 `;
 
@@ -76,9 +48,8 @@ export const withSlottedAction = (): string => html`
       type="${select(
         "type",
         ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-        "text"
+        "text",
       )}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
       min="${number("min", 0)}"
@@ -91,13 +62,17 @@ export const withSlottedAction = (): string => html`
       ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input>
   </div>
 `;
 
-export const textarea = (): string => html`
+export const textarea_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input
       id="input-with-text-area"
@@ -105,13 +80,16 @@ export const textarea = (): string => html`
       ${boolean("loading", false)}
       ${boolean("clearable", false)}
       ${boolean("disabled", false)}
+      prefix-text="${text("prefix-text", "")}"
+      suffix-text="${text("suffix-text", "")}"
       value="${text("value", "")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      validation-message="${text("validation-message", "My great input message")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     >
     </calcite-input>
-    <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-      >${text("input message text", "My great input message")}</calcite-input-message
-    >
   </div>
 `;
 
@@ -130,7 +108,7 @@ export const darkModeRTL_TestOnly = (): string => html`
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-          "text"
+          "text",
         )}"
         status="${select("status", ["idle", "invalid", "valid"], "idle")}"
         alignment="${select("alignment", ["start", "end"], "start")}"
@@ -145,11 +123,9 @@ export const darkModeRTL_TestOnly = (): string => html`
         ${boolean("disabled", false)}
         value="${text("value", "")}"
         placeholder="${text("placeholder", "Placeholder text")}"
+        validation-message="My great input message"
       >
       </calcite-input>
-      <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-        >${text("input message text", "My great input message")}</calcite-input-message
-      >
     </calcite-label>
   </div>
 `;
@@ -157,6 +133,43 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input
+      type="number"
+      scale="s"
+      status="invalid"
+      validation-message="This field is required."
+      validation-icon="frown"
+    ></calcite-input>
+    <calcite-input
+      type="number"
+      scale="m"
+      status="invalid"
+      validation-message="Value must be greater than 1337"
+      validation-icon
+      value="420"
+    ></calcite-input>
+    <calcite-input
+      type="number"
+      scale="l"
+      status="invalid"
+      validation-message="Exceeds the maximum length of 2 characters"
+      validation-icon
+      value="123"
+    ></calcite-input>
+  </div>
+`;
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(html`

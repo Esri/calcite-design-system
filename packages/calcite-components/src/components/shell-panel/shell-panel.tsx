@@ -1,4 +1,15 @@
-import { Component, Element, forceUpdate, h, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  forceUpdate,
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -218,6 +229,22 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   // --------------------------------------------------------------------------
   //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalShellPanelResizeStart: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalShellPanelResizeEnd: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
@@ -256,8 +283,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           ? { height: `${contentHeight}px` }
           : null
         : contentWidth
-        ? { width: `${contentWidth}px` }
-        : null
+          ? { width: `${contentWidth}px` }
+          : null
       : null;
 
     const separatorNode =
@@ -564,8 +591,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           ? -adjustmentDirection * offset
           : adjustmentDirection * offset
         : position === "end"
-        ? -adjustmentDirection * offset
-        : adjustmentDirection * offset;
+          ? -adjustmentDirection * offset
+          : adjustmentDirection * offset;
 
     layout === "horizontal"
       ? this.setContentHeight(initialContentHeight + adjustedOffset)
@@ -576,6 +603,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     if (!isPrimaryPointerButton(event)) {
       return;
     }
+
+    this.calciteInternalShellPanelResizeEnd.emit();
 
     event.preventDefault();
     window.removeEventListener("pointerup", this.separatorPointerUp);
@@ -594,6 +623,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     if (!isPrimaryPointerButton(event)) {
       return;
     }
+
+    this.calciteInternalShellPanelResizeStart.emit();
 
     event.preventDefault();
     const { separatorEl } = this;
@@ -627,8 +658,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar")
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     this.actionBars = actionBars;

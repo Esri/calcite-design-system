@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Listen,
   Method,
   Prop,
   State,
@@ -43,6 +42,10 @@ export class ActionMenu implements LoadableComponent {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.connectMenuButtonEl();
+  }
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
@@ -132,21 +135,6 @@ export class ActionMenu implements LoadableComponent {
    *
    */
   @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
-
-  @Listen("pointerdown", { target: "window" })
-  closeCalciteActionMenuOnClick(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    const composedPath = event.composedPath();
-
-    if (composedPath.includes(this.el)) {
-      return;
-    }
-
-    this.open = false;
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -304,10 +292,13 @@ export class ActionMenu implements LoadableComponent {
 
     return (
       <calcite-popover
+        autoClose={true}
         flipPlacements={flipPlacements}
         focusTrapDisabled={true}
         label={label}
         offsetDistance={0}
+        onCalcitePopoverClose={this.handlePopoverClose}
+        onCalcitePopoverOpen={this.handlePopoverOpen}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -410,16 +401,16 @@ export class ActionMenu implements LoadableComponent {
 
           if (currentValue?.matches("calcite-action-group")) {
             return previousValue.concat(
-              Array.from(currentValue.querySelectorAll("calcite-action"))
+              Array.from(currentValue.querySelectorAll("calcite-action")),
             );
           }
 
           return previousValue;
         },
-        []
+        [],
       );
 
-    this.actionElements = actions;
+    this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   };
 
   isValidKey(key: string, supportedKeys: string[]): boolean {
@@ -463,7 +454,7 @@ export class ActionMenu implements LoadableComponent {
   handleActionNavigation = (
     event: KeyboardEvent,
     key: string,
-    actions: HTMLCalciteActionElement[]
+    actions: HTMLCalciteActionElement[],
   ): void => {
     if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
@@ -512,5 +503,13 @@ export class ActionMenu implements LoadableComponent {
   toggleOpen = (value = !this.open): void => {
     this.el.addEventListener("calcitePopoverOpen", this.toggleOpenEnd);
     this.open = value;
+  };
+
+  private handlePopoverOpen = (): void => {
+    this.open = true;
+  };
+
+  private handlePopoverClose = (): void => {
+    this.open = false;
   };
 }

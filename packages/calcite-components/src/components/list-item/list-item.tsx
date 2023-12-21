@@ -22,6 +22,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
@@ -233,6 +234,11 @@ export class ListItem
   @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
 
   /**
+   * Fires when the open button is clicked.
+   */
+  @Event({ cancelable: false }) calciteListItemToggle: EventEmitter<void>;
+
+  /**
    *
    * @internal
    */
@@ -317,6 +323,8 @@ export class ListItem
 
   actionsEndEl: HTMLTableCellElement;
 
+  handleGridEl: HTMLTableCellElement;
+
   defaultSlotEl: HTMLSlotElement;
 
   // --------------------------------------------------------------------------
@@ -365,11 +373,11 @@ export class ListItem
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
+    const { containerEl, parentListEl } = this;
     const focusIndex = focusMap.get(parentListEl);
 
     if (typeof focusIndex === "number") {
-      const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
+      const cells = this.getGridCells();
       if (cells[focusIndex]) {
         this.focusCell(cells[focusIndex]);
       } else {
@@ -395,7 +403,7 @@ export class ListItem
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.itemClicked}>
+      <td class={CSS.selectionContainer} key="selection-container" onClick={this.handleItemClick}>
         <calcite-icon
           icon={
             selected
@@ -411,13 +419,22 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    return this.dragHandle ? (
-      <td class={CSS.dragContainer} key="drag-handle-container">
+    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+
+    return dragHandle ? (
+      <td
+        aria-label={label}
+        class={CSS.dragContainer}
+        key="drag-handle-container"
+        role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={(el) => (this.handleGridEl = el)}
+      >
         <calcite-handle
-          disabled={this.dragDisabled}
-          label={this.label}
-          setPosition={this.setPosition}
-          setSize={this.setSize}
+          disabled={dragDisabled}
+          label={label}
+          setPosition={setPosition}
+          setSize={setSize}
         />
       </td>
     ) : null;
@@ -431,11 +448,11 @@ export class ListItem
       ? open
         ? ICONS.open
         : dir === "rtl"
-        ? ICONS.closedRTL
-        : ICONS.closedLTR
+          ? ICONS.closedRTL
+          : ICONS.closedLTR
       : ICONS.blank;
 
-    const clickHandler = openable ? this.toggleOpen : this.itemClicked;
+    const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
 
     return openable || parentListEl?.openable ? (
       <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
@@ -480,7 +497,7 @@ export class ListItem
             icon={ICONS.close}
             key="close-action"
             label={messages.close}
-            onClick={this.closeClickHandler}
+            onClick={this.handleCloseClick}
             text={messages.close}
           />
         ) : null}
@@ -582,7 +599,7 @@ export class ListItem
           [CSS.contentContainerHasCenterContent]: hasCenterContent,
         }}
         key="content-container"
-        onClick={this.itemClicked}
+        onClick={this.handleItemClick}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.contentEl = el)}
@@ -614,36 +631,38 @@ export class ListItem
 
     return (
       <Host>
-        <tr
-          aria-expanded={openable ? toAriaBoolean(open) : null}
-          aria-label={label}
-          aria-level={level}
-          aria-posinset={setPosition}
-          aria-selected={toAriaBoolean(selected)}
-          aria-setsize={setSize}
-          class={{
-            [CSS.container]: true,
-            [CSS.containerBorderSelected]: borderSelected,
-            [CSS.containerBorderUnselected]: borderUnselected,
-          }}
-          hidden={closed}
-          onFocus={this.focusCellNull}
-          onKeyDown={this.handleItemKeyDown}
-          role="row"
-          style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
-          tabIndex={active ? 0 : -1}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.containerEl = el)}
-        >
-          {this.renderDragHandle()}
-          {this.renderSelected()}
-          {this.renderOpen()}
-          {this.renderActionsStart()}
-          {this.renderContentContainer()}
-          {this.renderActionsEnd()}
-        </tr>
-        {this.renderContentBottom()}
-        {this.renderDefaultContainer()}
+        <InteractiveContainer disabled={this.disabled}>
+          <tr
+            aria-expanded={openable ? toAriaBoolean(open) : null}
+            aria-label={label}
+            aria-level={level}
+            aria-posinset={setPosition}
+            aria-selected={toAriaBoolean(selected)}
+            aria-setsize={setSize}
+            class={{
+              [CSS.container]: true,
+              [CSS.containerBorderSelected]: borderSelected,
+              [CSS.containerBorderUnselected]: borderUnselected,
+            }}
+            hidden={closed}
+            onFocus={this.focusCellNull}
+            onKeyDown={this.handleItemKeyDown}
+            role="row"
+            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+            tabIndex={active ? 0 : -1}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => (this.containerEl = el)}
+          >
+            {this.renderDragHandle()}
+            {this.renderSelected()}
+            {this.renderOpen()}
+            {this.renderActionsStart()}
+            {this.renderContentContainer()}
+            {this.renderActionsEnd()}
+          </tr>
+          {this.renderContentBottom()}
+          {this.renderDefaultContainer()}
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -658,36 +677,36 @@ export class ListItem
     this.calciteInternalListItemChange.emit();
   }
 
-  closeClickHandler = (): void => {
+  private handleCloseClick = (): void => {
     this.closed = true;
     this.calciteListItemClose.emit();
   };
 
-  handleContentSlotChange = (event: Event): void => {
+  private handleContentSlotChange = (event: Event): void => {
     this.hasCustomContent = slotChangeHasAssignedElement(event);
   };
 
-  handleActionsStartSlotChange = (event: Event): void => {
+  private handleActionsStartSlotChange = (event: Event): void => {
     this.hasActionsStart = slotChangeHasAssignedElement(event);
   };
 
-  handleActionsEndSlotChange = (event: Event): void => {
+  private handleActionsEndSlotChange = (event: Event): void => {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   };
 
-  handleContentStartSlotChange = (event: Event): void => {
+  private handleContentStartSlotChange = (event: Event): void => {
     this.hasContentStart = slotChangeHasAssignedElement(event);
   };
 
-  handleContentEndSlotChange = (event: Event): void => {
+  private handleContentEndSlotChange = (event: Event): void => {
     this.hasContentEnd = slotChangeHasAssignedElement(event);
   };
 
-  handleContentBottomSlotChange = (event: Event): void => {
+  private handleContentBottomSlotChange = (event: Event): void => {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   };
 
-  setSelectionDefaults(): void {
+  private setSelectionDefaults(): void {
     const { parentListEl, selectionMode, selectionAppearance } = this;
 
     if (!parentListEl) {
@@ -703,7 +722,7 @@ export class ListItem
     }
   }
 
-  handleOpenableChange(slotEl: HTMLSlotElement): void {
+  private handleOpenableChange(slotEl: HTMLSlotElement): void {
     if (!slotEl) {
       return;
     }
@@ -725,15 +744,20 @@ export class ListItem
     }
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
+  private handleDefaultSlotChange = (event: Event): void => {
     this.handleOpenableChange(event.target as HTMLSlotElement);
   };
 
-  toggleOpen = (): void => {
-    this.open = !this.open;
+  private handleToggleClick = (): void => {
+    this.toggle();
   };
 
-  itemClicked = (event: PointerEvent): void => {
+  private toggle = (value = !this.open): void => {
+    this.open = value;
+    this.calciteListItemToggle.emit();
+  };
+
+  private handleItemClick = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
@@ -742,7 +766,7 @@ export class ListItem
     this.calciteInternalListItemActive.emit();
   };
 
-  toggleSelected = (shiftKey: boolean): void => {
+  private toggleSelected = (shiftKey: boolean): void => {
     const { selectionMode, selected } = this;
 
     if (this.disabled) {
@@ -761,16 +785,22 @@ export class ListItem
     this.calciteListItemSelect.emit();
   };
 
-  handleItemKeyDown = (event: KeyboardEvent): void => {
+  private getGridCells(): HTMLTableCellElement[] {
+    return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
+      (el) => el && !el.hidden,
+    );
+  }
+
+  private handleItemKeyDown = (event: KeyboardEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
 
     const { key } = event;
     const composedPath = event.composedPath();
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
+    const { containerEl, actionsStartEl, actionsEndEl, open, openable } = this;
 
-    const cells = [actionsStartEl, contentEl, actionsEndEl].filter((el) => el && !el.hidden);
+    const cells = this.getGridCells();
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
     if (
@@ -785,7 +815,7 @@ export class ListItem
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
         if (!open && openable) {
-          this.open = true;
+          this.toggle(true);
           this.focusCell(null);
         } else if (cells[0]) {
           this.focusCell(cells[0]);
@@ -799,7 +829,7 @@ export class ListItem
       if (currentIndex === -1) {
         this.focusCell(null);
         if (open && openable) {
-          this.open = false;
+          this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
         }
@@ -812,12 +842,12 @@ export class ListItem
     }
   };
 
-  focusCellNull = (): void => {
+  private focusCellNull = (): void => {
     this.focusCell(null);
   };
 
-  focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
-    const { contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
+  private focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
+    const { parentListEl } = this;
 
     if (saveFocusIndex) {
       focusMap.set(parentListEl, null);
@@ -825,17 +855,15 @@ export class ListItem
 
     const focusedEl = getFirstTabbable(focusEl);
 
-    [actionsStartEl, contentEl, actionsEndEl]
-      .filter((el) => el && !el.hidden)
-      .forEach((tableCell, cellIndex) => {
-        const tabIndexAttr = "tabindex";
-        if (tableCell === focusEl) {
-          focusEl === focusedEl && tableCell.setAttribute(tabIndexAttr, "0");
-          saveFocusIndex && focusMap.set(parentListEl, cellIndex);
-        } else {
-          tableCell.removeAttribute(tabIndexAttr);
-        }
-      });
+    this.getGridCells().forEach((tableCell, cellIndex) => {
+      // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
+      if (tableCell === focusEl) {
+        tableCell.tabIndex = focusEl === focusedEl ? 0 : -1;
+        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
+      } else {
+        tableCell.tabIndex = -1;
+      }
+    });
 
     focusedEl?.focus();
   };

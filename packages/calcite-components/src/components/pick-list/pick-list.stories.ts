@@ -64,7 +64,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -91,7 +91,7 @@ export const simple = (): string =>
         ${action}
       </calcite-pick-list-item>
       <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
-    `
+    `,
   );
 
 export const darkModeRTL_TestOnly = (): string =>
@@ -115,7 +115,7 @@ export const darkModeRTL_TestOnly = (): string =>
         ${action}
       </calcite-pick-list-item>
       <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
-    `
+    `,
   );
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
@@ -141,7 +141,7 @@ export const grouped = (): string =>
           ${action}
         </calcite-pick-list-item>
       </calcite-pick-list-group>
-    `
+    `,
   );
 
 export const nested = (): string =>
@@ -165,16 +165,17 @@ export const nested = (): string =>
         <calcite-pick-list-item label="Persian" value="persian"> ${action} </calcite-pick-list-item>
         <calcite-pick-list-item label="Sphynx" value="sphynx"> ${action} </calcite-pick-list-item>
       </calcite-pick-list-group>
-    `
+    `,
   );
 
-export const disabled_TestOnly = (): string => html`<calcite-pick-list disabled>
-  <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-pick-list-item>
-  <calcite-pick-list-item
-    label="Triceratops"
-    description="3 horn"
-    value="triceratops"
-    selected
-  ></calcite-pick-list-item>
-  <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
-</calcite-pick-list>`;
+export const disabled_TestOnly = (): string =>
+  html`<calcite-pick-list disabled>
+    <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-pick-list-item>
+    <calcite-pick-list-item
+      label="Triceratops"
+      description="3 horn"
+      value="triceratops"
+      selected
+    ></calcite-pick-list-item>
+    <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
+  </calcite-pick-list>`;

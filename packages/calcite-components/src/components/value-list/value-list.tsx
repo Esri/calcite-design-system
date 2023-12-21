@@ -82,8 +82,9 @@ import { focusElement } from "../../utils/dom";
   assetsDirs: ["assets"],
 })
 export class ValueList<
-  ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements
+    ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement,
+  >
+  implements
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
@@ -333,13 +334,17 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  onDragStart(): void {
+  onGlobalDragStart(): void {
     cleanUpObserver.call(this);
   }
 
-  onDragEnd(): void {
+  onGlobalDragEnd(): void {
     initializeObserver.call(this);
   }
+
+  onDragEnd(): void {}
+
+  onDragStart(): void {}
 
   onDragSort(): void {
     this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));

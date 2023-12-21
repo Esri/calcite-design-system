@@ -12,18 +12,17 @@ export default {
   ...storyFilters(),
 };
 
-export const simple = (): string =>
-  html`
-    <calcite-navigation-user
-      slot="user"
-      full-name="${text("full-name", "Edward Abbey")}"
-      username="${text("username", "eabbey_123")}"
-      thumbnail="${text("thumbnail", "")}"
-      user-id="${text("user-id", "")}"
-      ${boolean("text-disabled", false)}
-      ${boolean("active", true)}
-    />
-  `;
+export const simple = (): string => html`
+  <calcite-navigation-user
+    slot="user"
+    full-name="${text("full-name", "Edward Abbey")}"
+    username="${text("username", "eabbey_123")}"
+    thumbnail="${text("thumbnail", "")}"
+    user-id="${text("user-id", "")}"
+    ${boolean("text-disabled", false)}
+    ${boolean("active", true)}
+  />
+`;
 
 export const fullName = (): string => html`<calcite-navigation-user full-name="Edward Abbey" />`;
 
@@ -38,20 +37,20 @@ export const fullNameAndThumbnail_TestOnly = (): string =>
 export const usernameAndThumbnail_TestOnly = (): string =>
   html`<calcite-navigation-user username="eabbey_123" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const All_TestOnly = (): string => html`<calcite-navigation-user
-  full-name="Edward Abbey"
-  username="eabbey_123"
-  thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-/>`;
+export const All_TestOnly = (): string =>
+  html`<calcite-navigation-user
+    full-name="Edward Abbey"
+    username="eabbey_123"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+  />`;
 
-export const slottedInNav_TestOnly = (): string =>
-  html`
-    <calcite-navigation style="--calcite-color-brand: #bf390f">
-      <calcite-navigation-user
-        full-name="Edward Abbey"
-        username="eabbey_123"
-        thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-        slot="user"
-      />
-    </calcite-navigation>
-  `;
+export const slottedInNav_TestOnly = (): string => html`
+  <calcite-navigation style="--calcite-color-brand: #bf390f">
+    <calcite-navigation-user
+      full-name="Edward Abbey"
+      username="eabbey_123"
+      thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+      slot="user"
+    />
+  </calcite-navigation>
+`;

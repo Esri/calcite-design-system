@@ -185,7 +185,7 @@ export class Tabs {
       (title: HTMLCalciteTabTitleElement) => {
         title.position = position;
         title.scale = scale;
-      }
+      },
     );
   }
 

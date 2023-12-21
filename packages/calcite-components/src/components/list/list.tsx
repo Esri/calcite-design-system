@@ -18,6 +18,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -221,6 +222,16 @@ export class List
   @Event({ cancelable: false }) calciteListChange: EventEmitter<void>;
 
   /**
+   * Emits when the component's dragging has ended.
+   */
+  @Event({ cancelable: false }) calciteListDragEnd: EventEmitter<ListDragDetail>;
+
+  /**
+   * Emits when the component's dragging has started.
+   */
+  @Event({ cancelable: false }) calciteListDragStart: EventEmitter<ListDragDetail>;
+
+  /**
    * Emits when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
@@ -313,7 +324,7 @@ export class List
   handleCalciteInternalListItemSelectMultiple(
     event: CustomEvent<{
       selectMultiple: boolean;
-    }>
+    }>,
   ): void {
     if (!!this.parentListEl) {
       return;
@@ -482,56 +493,58 @@ export class List
       hasFilterActionsEnd,
     } = this;
     return (
-      <div class={CSS.container}>
-        {this.dragEnabled ? (
-          <span aria-live="assertive" class={CSS.assistiveText}>
-            {this.assistiveText}
-          </span>
-        ) : null}
-        {this.renderItemAriaLive()}
-        {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
-        <table
-          aria-busy={toAriaBoolean(loading)}
-          aria-label={label || ""}
-          class={CSS.table}
-          onKeyDown={this.handleListKeydown}
-          role="treegrid"
-        >
-          {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-            <thead>
-              <tr class={{ [CSS.sticky]: true }}>
-                <th colSpan={MAX_COLUMNS}>
-                  <calcite-stack class={CSS.stack}>
-                    <slot
-                      name={SLOTS.filterActionsStart}
-                      onSlotchange={this.handleFilterActionsStartSlotChange}
-                      slot={STACK_SLOTS.actionsStart}
-                    />
-                    <calcite-filter
-                      aria-label={filterPlaceholder}
-                      disabled={disabled}
-                      items={dataForFilter}
-                      onCalciteFilterChange={this.handleFilterChange}
-                      placeholder={filterPlaceholder}
-                      value={filterText}
-                      // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                      ref={this.setFilterEl}
-                    />
-                    <slot
-                      name={SLOTS.filterActionsEnd}
-                      onSlotchange={this.handleFilterActionsEndSlotChange}
-                      slot={STACK_SLOTS.actionsEnd}
-                    />
-                  </calcite-stack>
-                </th>
-              </tr>
-            </thead>
+      <InteractiveContainer disabled={this.disabled}>
+        <div class={CSS.container}>
+          {this.dragEnabled ? (
+            <span aria-live="assertive" class={CSS.assistiveText}>
+              {this.assistiveText}
+            </span>
           ) : null}
-          <tbody class={CSS.tableContainer}>
-            <slot onSlotchange={this.handleDefaultSlotChange} />
-          </tbody>
-        </table>
-      </div>
+          {this.renderItemAriaLive()}
+          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
+          <table
+            aria-busy={toAriaBoolean(loading)}
+            aria-label={label || ""}
+            class={CSS.table}
+            onKeyDown={this.handleListKeydown}
+            role="treegrid"
+          >
+            {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
+              <thead>
+                <tr class={{ [CSS.sticky]: true }}>
+                  <th colSpan={MAX_COLUMNS}>
+                    <calcite-stack class={CSS.stack}>
+                      <slot
+                        name={SLOTS.filterActionsStart}
+                        onSlotchange={this.handleFilterActionsStartSlotChange}
+                        slot={STACK_SLOTS.actionsStart}
+                      />
+                      <calcite-filter
+                        aria-label={filterPlaceholder}
+                        disabled={disabled}
+                        items={dataForFilter}
+                        onCalciteFilterChange={this.handleFilterChange}
+                        placeholder={filterPlaceholder}
+                        value={filterText}
+                        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                        ref={this.setFilterEl}
+                      />
+                      <slot
+                        name={SLOTS.filterActionsEnd}
+                        onSlotchange={this.handleFilterActionsEndSlotChange}
+                        slot={STACK_SLOTS.actionsEnd}
+                      />
+                    </calcite-stack>
+                  </th>
+                </tr>
+              </thead>
+            ) : null}
+            <tbody class={CSS.tableContainer}>
+              <slot onSlotchange={this.handleDefaultSlotChange} />
+            </tbody>
+          </table>
+        </div>
+      </InteractiveContainer>
     );
   }
 
@@ -566,7 +579,7 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(enabledListItems.length.toString())
+            numberStringFormatter.localize(enabledListItems.length.toString()),
           )}
         </div>
         {enabledListItems.length ? (
@@ -598,12 +611,20 @@ export class List
     connectSortableComponent(this);
   }
 
-  onDragStart(): void {
+  onGlobalDragStart(): void {
     this.disconnectObserver();
   }
 
-  onDragEnd(): void {
+  onGlobalDragEnd(): void {
     this.connectObserver();
+  }
+
+  onDragEnd(detail: ListDragDetail): void {
+    this.calciteListDragEnd.emit(detail);
+  }
+
+  onDragStart(detail: ListDragDetail): void {
+    this.calciteListDragStart.emit(detail);
   }
 
   onDragSort(detail: ListDragDetail): void {
@@ -688,7 +709,7 @@ export class List
     const values = filteredData.map((item) => item.value);
 
     const lastDescendantItems = listItems?.filter((listItem) =>
-      listItems.every((li) => li === listItem || !listItem.contains(li))
+      listItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
     const filteredItems =
@@ -697,7 +718,7 @@ export class List
     const visibleParents = new WeakSet<HTMLElement>();
 
     lastDescendantItems.forEach((listItem) =>
-      this.filterElements({ el: listItem, filteredItems, visibleParents })
+      this.filterElements({ el: listItem, filteredItems, visibleParents }),
     );
 
     if (filteredItems.length > 0) {
@@ -879,7 +900,7 @@ export class List
   };
 
   private getTopLevelAncestorItemElement = (
-    el: HTMLCalciteListItemElement
+    el: HTMLCalciteListItemElement,
   ): HTMLCalciteListItemElement | null => {
     let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
 
@@ -902,11 +923,11 @@ export class List
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-HANDLE"
+      (el: HTMLElement) => el.tagName === "CALCITE-HANDLE",
     ) as HTMLCalciteHandleElement;
 
     const sortItem = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM"
+      (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM",
     ) as HTMLCalciteListItemElement;
 
     const parentEl = sortItem?.parentElement as HTMLCalciteListElement;
@@ -921,34 +942,22 @@ export class List
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(sortItem);
-    let appendInstead = false;
     let newIndex: number;
 
     if (direction === "up") {
-      if (oldIndex === 0) {
-        appendInstead = true;
-        newIndex = lastIndex;
-      } else {
-        newIndex = oldIndex - 1;
-      }
+      newIndex = oldIndex === 0 ? lastIndex : oldIndex - 1;
     } else {
-      if (oldIndex === lastIndex) {
-        newIndex = 0;
-      } else if (oldIndex === lastIndex - 1) {
-        appendInstead = true;
-        newIndex = lastIndex;
-      } else {
-        newIndex = oldIndex + 2;
-      }
+      newIndex = oldIndex === lastIndex ? 0 : oldIndex + 1;
     }
 
     this.disconnectObserver();
 
-    if (appendInstead) {
-      parentEl.appendChild(sortItem);
-    } else {
-      parentEl.insertBefore(sortItem, sameParentItems[newIndex]);
-    }
+    const referenceEl =
+      (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
+        ? sameParentItems[newIndex]
+        : sameParentItems[newIndex].nextSibling;
+
+    parentEl.insertBefore(sortItem, referenceEl);
 
     this.updateListItems();
     this.connectObserver();

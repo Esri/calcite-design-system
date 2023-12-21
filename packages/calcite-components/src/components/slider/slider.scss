@@ -125,7 +125,8 @@
     block-size: var(--calcite-slider-handle-size);
     inline-size: var(--calcite-slider-handle-size);
     box-shadow: 0 0 0 2px var(--calcite-color-text-3) inset;
-    transition: border var(--calcite-internal-animation-timing-medium) ease,
+    transition:
+      border var(--calcite-internal-animation-timing-medium) ease,
       background-color var(--calcite-internal-animation-timing-medium) ease,
       box-shadow var(--calcite-animation-timing) ease;
   }

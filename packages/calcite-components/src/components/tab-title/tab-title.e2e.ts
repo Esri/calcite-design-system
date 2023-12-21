@@ -106,22 +106,20 @@ describe("calcite-tab-title", () => {
 
     it("becomes no longer closable when it's the last remaining tab", async () => {
       page = await newE2EPage();
-      await page.setContent(
-        html`
-          <calcite-tabs>
-            <calcite-tab-nav slot="title-group">
-              <calcite-tab-title selected icon-start="tabbed-view" closable>Tab 1 Title</calcite-tab-title>
-              <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
-              <calcite-tab-title closable>Tab 3 Title</calcite-tab-title>
-            </calcite-tab-nav>
-            <calcite-tab selected>Tab 1 Content</calcite-tab>
-            <calcite-tab>Tab 2 Content</calcite-tab>
-            <calcite-tab>Tab 3 Content</calcite-tab>
-            <calcite-tab-title id="one" closable>Text</calcite-tab-title>
-            <calcite-tab-title id="two" closable>Text</calcite-tab-title>
-          </calcite-tabs>
-        `
-      );
+      await page.setContent(html`
+        <calcite-tabs>
+          <calcite-tab-nav slot="title-group">
+            <calcite-tab-title selected icon-start="tabbed-view" closable>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title closable>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab selected>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+          <calcite-tab-title id="one" closable>Text</calcite-tab-title>
+          <calcite-tab-title id="two" closable>Text</calcite-tab-title>
+        </calcite-tabs>
+      `);
 
       let containerElOne = await page.find(`calcite-tab-title[id='one']`);
       const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${CSS.closeButton}`);
@@ -375,7 +373,7 @@ describe("calcite-tab-title", () => {
               .querySelector("calcite-tab-nav")
               .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
           ).style.left;
-        })
+        }),
       ).not.toEqual("0px");
 
       // toggle new selected tab-title
@@ -391,7 +389,7 @@ describe("calcite-tab-title", () => {
               .querySelector("calcite-tab-nav")
               .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
           ).style.left;
-        })
+        }),
       ).toEqual("0px");
     });
   });

@@ -153,7 +153,7 @@ export class DatePickerMonth {
       case "End":
         event.preventDefault();
         this.activeDate.setDate(
-          new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate()
+          new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate(),
         );
         this.addDays();
         break;
@@ -278,7 +278,7 @@ export class DatePickerMonth {
     const nextDate = new Date(this.activeDate);
     nextDate.setMonth(this.activeDate.getMonth() + step);
     this.calciteInternalDatePickerActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
+      dateFromRange(nextDate, this.min, this.max),
     );
     this.activeFocus = true;
   }
@@ -292,7 +292,7 @@ export class DatePickerMonth {
     const nextDate = new Date(this.activeDate);
     nextDate.setDate(this.activeDate.getDate() + step);
     this.calciteInternalDatePickerActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
+      dateFromRange(nextDate, this.min, this.max),
     );
     this.activeFocus = true;
   }

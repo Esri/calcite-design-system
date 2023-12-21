@@ -26,6 +26,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
@@ -656,81 +657,83 @@ export class Slider
 
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
-        <div
-          aria-label={getLabelText(this)}
-          class={{
-            ["container"]: true,
-            ["container--range"]: valueIsRange,
-            [`scale--${this.scale}`]: true,
-          }}
-        >
-          {this.renderGraph()}
+        <InteractiveContainer disabled={this.disabled}>
           <div
-            class="track"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.storeTrackRef}
+            aria-label={getLabelText(this)}
+            class={{
+              ["container"]: true,
+              ["container--range"]: valueIsRange,
+              [`scale--${this.scale}`]: true,
+            }}
           >
+            {this.renderGraph()}
             <div
-              class="track__range"
-              onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
-              style={{
-                left: `${mirror ? 100 - maxInterval : minInterval}%`,
-                right: `${mirror ? minInterval : 100 - maxInterval}%`,
-              }}
-            />
-            <div class="ticks">
-              {this.tickValues.map((tick) => {
-                const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-                let activeTicks = tick >= min && tick <= value;
-                if (useMinValue) {
-                  activeTicks = tick >= this.minValue && tick <= this.maxValue;
-                }
+              class="track"
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.storeTrackRef}
+            >
+              <div
+                class="track__range"
+                onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
+                style={{
+                  left: `${mirror ? 100 - maxInterval : minInterval}%`,
+                  right: `${mirror ? minInterval : 100 - maxInterval}%`,
+                }}
+              />
+              <div class="ticks">
+                {this.tickValues.map((tick) => {
+                  const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+                  let activeTicks = tick >= min && tick <= value;
+                  if (useMinValue) {
+                    activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                  }
 
-                return (
-                  <span
-                    class={{
-                      tick: true,
-                      "tick--active": activeTicks,
-                    }}
-                    style={{
-                      left: mirror ? "" : tickOffset,
-                      right: mirror ? tickOffset : "",
-                    }}
-                  >
-                    {this.renderTickLabel(tick)}
-                  </span>
-                );
-              })}
+                  return (
+                    <span
+                      class={{
+                        tick: true,
+                        "tick--active": activeTicks,
+                      }}
+                      style={{
+                        left: mirror ? "" : tickOffset,
+                        right: mirror ? tickOffset : "",
+                      }}
+                    >
+                      {this.renderTickLabel(tick)}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+            <div class="thumb-container">
+              {!this.precise && !this.labelHandles && valueIsRange && minHandle}
+              {!this.hasHistogram &&
+                !this.precise &&
+                this.labelHandles &&
+                valueIsRange &&
+                minLabeledHandle}
+              {this.precise && !this.labelHandles && valueIsRange && minPreciseHandle}
+              {this.precise && this.labelHandles && valueIsRange && minLabeledPreciseHandle}
+              {this.hasHistogram &&
+                !this.precise &&
+                this.labelHandles &&
+                valueIsRange &&
+                minHistogramLabeledHandle}
+
+              {!this.precise && !this.labelHandles && handle}
+              {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
+              {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
+              {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
+              {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
+              {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
+              {this.hasHistogram &&
+                this.precise &&
+                this.labelHandles &&
+                histogramLabeledPreciseHandle}
+              <HiddenFormInputSlot component={this} />
             </div>
           </div>
-          <div class="thumb-container">
-            {!this.precise && !this.labelHandles && valueIsRange && minHandle}
-            {!this.hasHistogram &&
-              !this.precise &&
-              this.labelHandles &&
-              valueIsRange &&
-              minLabeledHandle}
-            {this.precise && !this.labelHandles && valueIsRange && minPreciseHandle}
-            {this.precise && this.labelHandles && valueIsRange && minLabeledPreciseHandle}
-            {this.hasHistogram &&
-              !this.precise &&
-              this.labelHandles &&
-              valueIsRange &&
-              minHistogramLabeledHandle}
-
-            {!this.precise && !this.labelHandles && handle}
-            {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
-            {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
-            {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
-            {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
-            {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
-            {this.hasHistogram &&
-              this.precise &&
-              this.labelHandles &&
-              histogramLabeledPreciseHandle}
-            <HiddenFormInputSlot component={this} />
-          </div>
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -1170,7 +1173,7 @@ export class Slider
   private setValue(
     values: Partial<{
       [Property in keyof Pick<Slider, "maxValue" | "minValue" | "value">]: number;
-    }>
+    }>,
   ): void {
     let valueChanged: boolean;
 
@@ -1290,10 +1293,10 @@ export class Slider
   private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
     const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.static`
+      `.handle__label--${name}.static`,
     );
     const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.transformed`
+      `.handle__label--${name}.transformed`,
     );
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
@@ -1309,37 +1312,37 @@ export class Slider
     const rightModifier = mirror ? "minValue" : "value";
 
     const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}`
+      `.handle__label--${leftModifier}`,
     );
     const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.static`
+      `.handle__label--${leftModifier}.static`,
     );
     const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.transformed`
+      `.handle__label--${leftModifier}.transformed`,
     );
     const leftValueLabelStaticHostOffset = this.getHostOffset(
       leftValueLabelStatic.getBoundingClientRect().left,
-      leftValueLabelStatic.getBoundingClientRect().right
+      leftValueLabelStatic.getBoundingClientRect().right,
     );
 
     const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}`
+      `.handle__label--${rightModifier}`,
     );
     const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.static`
+      `.handle__label--${rightModifier}.static`,
     );
     const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.transformed`
+      `.handle__label--${rightModifier}.transformed`,
     );
     const rightValueLabelStaticHostOffset = this.getHostOffset(
       rightValueLabelStatic.getBoundingClientRect().left,
-      rightValueLabelStatic.getBoundingClientRect().right
+      rightValueLabelStatic.getBoundingClientRect().right,
     );
 
     const labelFontSize = this.getFontSizeForElement(leftValueLabel);
     const labelTransformedOverlap = this.getRangeLabelOverlap(
       leftValueLabelTransformed,
-      rightValueLabelTransformed
+      rightValueLabelTransformed,
     );
 
     const hyphenLabel = leftValueLabel;
@@ -1361,13 +1364,13 @@ export class Slider
             labelOffset,
           leftValueLabelTransformed.getBoundingClientRect().right +
             leftValueLabelTranslate -
-            labelOffset
+            labelOffset,
         );
 
         let rightValueLabelTranslate = labelTransformedOverlap / 2;
         const rightValueLabelTransformedHostOffset = this.getHostOffset(
           rightValueLabelTransformed.getBoundingClientRect().left + rightValueLabelTranslate,
-          rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate
+          rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate,
         );
 
         if (leftValueLabelTransformedHostOffset !== 0) {

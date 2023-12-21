@@ -14,35 +14,37 @@ import { registerValueAlignFontWeightAndStyles } from "./styleDictionary/transfo
 import { registerValueAssetToken } from "./styleDictionary/transformer/value/valueAssetToken.js";
 import { registerValueStringWrapper } from "./styleDictionary/transformer/value/valueStringWrapper.js";
 import { registerValueEvaluateMath } from "./styleDictionary/transformer/value/valueCheckEvaluateMath.js";
-import { registerValueRGBA } from "./styleDictionary/transformer/value/valueRGBA.js";
 import { registerNameSpacePath } from "./styleDictionary/transformer/name/nameSpacePath.js";
 import { registerFormatterDocs } from "./styleDictionary/formatter/docs.js";
 import { registerValueToREM } from "./styleDictionary/transformer/value/valueToREM.js";
+import { registerValueFontFamilyWithFallbacks } from "./styleDictionary/transformer/value/valueFontFamilyFallbacks.js";
+import { registerValueColorCSS } from "./styleDictionary/transformer/value/valueColorCss.js";
 
 export async function registerCalciteTransformers(sd: StyleDictionary): Promise<void> {
   // Here we are registering the Transforms provided by Token Studio however,
   // we need to pass "expand: false" so that we can use our own custom JSON file parser.
   // any references to "ts/..." below are references to these Token Studio transformers
   // https://github.com/tokens-studio/sd-transforms
-  // @ts-expect-error - @token-studio does not keep their types up to date.
   await registerTransforms(sd, {
     expand: false,
   });
-  registerValueRGBA(sd);
   registerValueEvaluateMath(sd);
   registerAttributePlatformNames(sd);
   registerCustomJSONParser(sd);
   registerFilterSource(sd);
   registerFormatterCss(sd);
-  registerFormatterScss(sd);
+  registerFormatterDocs(sd);
   registerFormatterJs(sd);
+  registerFormatterScss(sd);
   registerNameCamelCase(sd);
   registerNameJoinPath(sd);
   registerNameKebabCase(sd);
+  registerNameSpacePath(sd);
   registerValueAlignFontWeightAndStyles(sd);
   registerValueAssetToken(sd);
+  registerValueEvaluateMath(sd);
+  registerValueFontFamilyWithFallbacks(sd);
   registerValueStringWrapper(sd);
-  registerNameSpacePath(sd);
-  registerFormatterDocs(sd);
   registerValueToREM(sd);
+  registerValueColorCSS(sd);
 }

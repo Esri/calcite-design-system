@@ -3,14 +3,15 @@ import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
-const panelTemplate = (scrollable = false) => html`<div style="height: 200px; display: flex">
-  <calcite-panel>
-    <div>
-      ${scrollable ? '<p style="height: 400px">Hello world!</p>' : ""}
-      <p>Hello world!</p>
-    </div>
-  </calcite-panel>
-</div>`;
+const panelTemplate = (scrollable = false) =>
+  html`<div style="height: 200px; display: flex">
+    <calcite-panel>
+      <div>
+        ${scrollable ? '<p style="height: 400px">Hello world!</p>' : ""}
+        <p>Hello world!</p>
+      </div>
+    </calcite-panel>
+  </div>`;
 
 describe("calcite-panel", () => {
   describe("renders", () => {
@@ -235,7 +236,7 @@ describe("calcite-panel", () => {
       `<calcite-panel>
         <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
         <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
-      </calcite-panel>`
+      </calcite-panel>`,
     );
 
     await page.waitForChanges();
@@ -279,7 +280,7 @@ describe("calcite-panel", () => {
     await page.setContent(
       `<calcite-panel heading="test heading" description="test description">
         <div slot=${SLOTS.headerContent}>custom header content</div>
-      </calcite-panel>`
+      </calcite-panel>`,
     );
 
     const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);

@@ -21,11 +21,6 @@ jobs:
           registry-url: "https://registry.npmjs.org"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: e2e test
-        run: |
-          npm install
-          npm run build
-          npm test
       - name: storybook/next deployment
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
@@ -33,17 +28,26 @@ jobs:
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
         run: |
           if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
+            npm install
+
             if npm run util:is-next-deployable; then
               git config --global user.email "github-actions[bot]@users.noreply.github.com"
               git config --global user.name "github-actions[bot]"
+
+              # version the packages with lerna before building to ensure
+              # the version in the CC source code preamble is correct for deployment
+              npm run version:next
+              npm run build
+              npm test
+
               # deploy storybook, but still release next if it fails
               { npm run --workspace=@esri/calcite-components build-storybook &&
                 npx --workspace=@esri/calcite-components storybook-to-ghpages \
-                   --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
+                    --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK \
+                    --existing-output-dir=docs --ci; } || true
 
-              # remove the build to docs after storybook deploys to gh-pages
+              # remove the built docs after storybook deploys to gh-pages
               git reset --hard
-              npm run version:next
               npm run publish:next
               npm run util:push-tags
             fi

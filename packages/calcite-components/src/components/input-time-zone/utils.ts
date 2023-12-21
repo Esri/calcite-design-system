@@ -65,7 +65,7 @@ export async function createTimeZoneItems(
   locale: SupportedLocale,
   messages: InputTimeZoneMessages,
   mode: TimeZoneMode,
-  referenceDate: Date
+  referenceDate: Date,
 ): Promise<TimeZoneItem[]> {
   const referenceDateInMs: number = referenceDate.getTime();
   const timeZoneNames = Intl.supportedValuesOf("timeZone");
@@ -165,7 +165,7 @@ function createTimeZoneOffsetLabel(messages: InputTimeZoneMessages, offsetLabel:
 function getTimeZoneShortOffset(
   timeZone: TimeZoneName,
   locale: SupportedLocale,
-  referenceDateInMs: number = Date.now()
+  referenceDateInMs: number = Date.now(),
 ): string {
   const dateTimeFormat = getDateTimeFormat(locale, { timeZone, timeZoneName: "shortOffset" });
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);

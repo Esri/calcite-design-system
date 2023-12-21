@@ -54,6 +54,9 @@ import { ModalMessages } from "./assets/modal/t9n";
 
 import { getIconScale } from "../../utils/component";
 
+let totalOpenModals: number = 0;
+let initialDocumentOverflowStyle: string = "";
+
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
@@ -354,7 +357,7 @@ export class Modal
   initialOverflowCSS: string;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver()
+    this.handleMutationObserver(),
   );
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -539,7 +542,11 @@ export class Modal
     this.contentId = ensureId(contentEl);
 
     if (!this.slottedInShell) {
-      this.initialOverflowCSS = document.documentElement.style.overflow;
+      if (totalOpenModals === 0) {
+        initialDocumentOverflowStyle = document.documentElement.style.overflow;
+      }
+
+      totalOpenModals++;
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
@@ -568,12 +575,13 @@ export class Modal
       }
     }
 
+    totalOpenModals--;
     this.opened = false;
     this.removeOverflowHiddenClass();
   };
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
+    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private handleMutationObserver = (): void => {

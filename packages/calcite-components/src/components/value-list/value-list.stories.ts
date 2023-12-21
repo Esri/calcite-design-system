@@ -71,7 +71,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -104,7 +104,7 @@ export const simple = (): string => html`
       >
         ${action}
       </calcite-value-list-item>
-    `
+    `,
   )}
 `;
 
@@ -142,7 +142,7 @@ export const darkModeRTL_TestOnly = (): string => html`
       >
         ${action}
       </calcite-value-list-item>
-    `
+    `,
   )}
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

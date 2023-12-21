@@ -245,7 +245,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     const date = dateFromRange(
       this.range && Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
-      this.maxAsDate
+      this.maxAsDate,
     );
     let activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
     const endDate =
@@ -410,7 +410,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       end,
     };
     if (!this.proximitySelectionDisabled) {
-      if (end) {
+      if (start && end) {
         const startDiff = getDaysDiff(date, start);
         const endDiff = getDaysDiff(date, end);
         if (endDiff > 0) {
@@ -479,7 +479,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     maxDate: Date,
     minDate: Date,
     date: Date,
-    endDate: Date
+    endDate: Date,
   ) {
     return (
       this.localeData && [
