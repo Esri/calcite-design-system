@@ -108,7 +108,7 @@
     "ts-jest": "29.1.1",
     "tsx": "4.6.2",
     "turbo": "1.10.16",
-    "type-fest": "3.11.1",
+    "type-fest": "3.13.1",
     "typescript": "5.2.2",
     "updtr": "4.0.0",
     "workbox-build": "7.0.0"
