@@ -48,6 +48,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop({ reflect: true }) rowSpan: number;
 
   /** @internal */
+  @Prop() lastCell: boolean;
+
+  /** @internal */
   @Prop() numberCell = false;
 
   /** @internal */
@@ -214,6 +217,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
+            [CSS.lastCell]: this.lastCell,
           }}
           colSpan={this.colSpan}
           role="columnheader"

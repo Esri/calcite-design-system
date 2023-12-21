@@ -24,6 +24,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
@@ -49,6 +50,9 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
 
   /** @internal */
   @Prop({ mutable: true }) cellCount: number;
+
+  /** @internal */
+  @Prop() lastVisibleRow: boolean;
 
   /** @internal */
   @Prop() rowType: RowType;
@@ -284,6 +288,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
         cell.parentRowType = this.rowType;
         cell.parentRowIsSelected = this.selected;
         cell.scale = this.scale;
+        cell.lastCell = index === cells.length - 1;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
@@ -379,6 +384,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
             aria-disabled={this.disabled}
             aria-rowindex={this.positionAll + 1}
             aria-selected={this.selected}
+            class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
             onKeyDown={(event) => this.keyDownHandler(event)}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.tableRowEl = el)}

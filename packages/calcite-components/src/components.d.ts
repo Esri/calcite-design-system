@@ -4663,6 +4663,7 @@ export namespace Components {
           * When true, prevents user interaction.  Notes:  This prop should use the
          */
         "disabled": boolean;
+        "lastCell": boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4706,6 +4707,7 @@ export namespace Components {
           * A heading to display above description content.
          */
         "heading": string;
+        "lastCell": boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4740,6 +4742,7 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        "lastVisibleRow": boolean;
         "numbered": boolean;
         "positionAll": number;
         "positionSection": number;
@@ -12094,6 +12097,7 @@ declare namespace LocalJSX {
           * When true, prevents user interaction.  Notes:  This prop should use the
          */
         "disabled"?: boolean;
+        "lastCell"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -12133,6 +12137,7 @@ declare namespace LocalJSX {
           * A heading to display above description content.
          */
         "heading"?: string;
+        "lastCell"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -12163,6 +12168,7 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        "lastVisibleRow"?: boolean;
         "numbered"?: boolean;
         "onCalciteInternalTableRowFocusRequest"?: (event: CalciteTableRowCustomEvent<TableRowFocusEvent>) => void;
         /**

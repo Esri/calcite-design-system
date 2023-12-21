@@ -27,7 +27,7 @@ describe("calcite-table", () => {
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>`,
-      { display: "table" },
+      { display: "flex" },
     );
   });
 
