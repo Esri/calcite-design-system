@@ -254,13 +254,13 @@ export class List
 
     event.stopPropagation();
 
-    const { enabledListItems } = this;
-    const currentIndex = enabledListItems.findIndex((listItem) => listItem.active);
+    const { filteredItems } = this;
+    const currentIndex = filteredItems.findIndex((listItem) => listItem.active);
 
     const prevIndex = currentIndex - 1;
 
-    if (enabledListItems[prevIndex]) {
-      this.focusRow(enabledListItems[prevIndex]);
+    if (filteredItems[prevIndex]) {
+      this.focusRow(filteredItems[prevIndex]);
     }
   }
 
@@ -332,16 +332,16 @@ export class List
 
     event.stopPropagation();
     const { target, detail } = event;
-    const { enabledListItems, lastSelectedInfo } = this;
+    const { filteredItems, lastSelectedInfo } = this;
     const selectedItem = target as HTMLCalciteListItemElement;
 
     if (detail.selectMultiple && !!lastSelectedInfo) {
-      const currentIndex = enabledListItems.indexOf(selectedItem);
-      const lastSelectedIndex = enabledListItems.indexOf(lastSelectedInfo.selectedItem);
+      const currentIndex = filteredItems.indexOf(selectedItem);
+      const lastSelectedIndex = filteredItems.indexOf(lastSelectedInfo.selectedItem);
       const startIndex = Math.min(lastSelectedIndex, currentIndex);
       const endIndex = Math.max(lastSelectedIndex, currentIndex);
 
-      enabledListItems
+      filteredItems
         .slice(startIndex, endIndex + 1)
         .forEach((item) => (item.selected = lastSelectedInfo.selected));
     } else {
@@ -430,7 +430,7 @@ export class List
 
   dragSelector = "calcite-list-item";
 
-  enabledListItems: HTMLCalciteListItemElement[] = [];
+  enabledItems: HTMLCalciteListItemElement[] = [];
 
   filterEl: HTMLCalciteFilterElement;
 
@@ -471,7 +471,7 @@ export class List
       return this.filterEl?.setFocus();
     }
 
-    return this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
+    return this.filteredItems.find((listItem) => listItem.active)?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -557,7 +557,7 @@ export class List
   private renderItemAriaLive(): VNode {
     const {
       messages,
-      enabledListItems,
+      filteredItems,
       parentListEl,
       effectiveLocale,
       numberingSystem,
@@ -579,12 +579,12 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(enabledListItems.length.toString()),
+            numberStringFormatter.localize(filteredItems.length.toString()),
           )}
         </div>
-        {enabledListItems.length ? (
+        {filteredItems.length ? (
           <ol key="aria-item-list">
-            {enabledListItems.map((item) => (
+            {filteredItems.map((item) => (
               <li>{item.label}</li>
             ))}
           </ol>
@@ -654,17 +654,17 @@ export class List
   };
 
   private setActiveListItem = (): void => {
-    const { enabledListItems } = this;
+    const { filteredItems } = this;
 
-    if (!enabledListItems.some((item) => item.active)) {
-      if (enabledListItems[0]) {
-        enabledListItems[0].active = true;
+    if (!filteredItems.some((item) => item.active)) {
+      if (filteredItems[0]) {
+        filteredItems[0].active = true;
       }
     }
   };
 
   private updateSelectedItems = (emit = false): void => {
-    this.selectedItems = this.enabledListItems.filter((item) => item.selected);
+    this.selectedItems = this.enabledItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
     }
@@ -704,16 +704,16 @@ export class List
   }
 
   private updateFilteredItems = (emit = false): void => {
-    const { listItems, filteredData, filterText } = this;
+    const { enabledItems, filteredData, filterText } = this;
 
     const values = filteredData.map((item) => item.value);
 
-    const lastDescendantItems = listItems?.filter((listItem) =>
-      listItems.every((li) => li === listItem || !listItem.contains(li)),
+    const lastDescendantItems = enabledItems?.filter((listItem) =>
+      enabledItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
     const filteredItems =
-      listItems.filter((item) => !filterText || values.includes(item.value)) || [];
+      enabledItems.filter((item) => !filterText || values.includes(item.value)) || [];
 
     const visibleParents = new WeakSet<HTMLElement>();
 
@@ -809,8 +809,8 @@ export class List
         this.filterEl.items = this.dataForFilter;
       }
     }
+    this.enabledItems = this.listItems.filter((item) => !item.disabled && !item.closed);
     this.updateFilteredItems(emit);
-    this.enabledListItems = this.filteredItems.filter((item) => !item.disabled && !item.closed);
     this.setActiveListItem();
     this.updateSelectedItems(emit);
     this.setUpSorting();
@@ -821,13 +821,13 @@ export class List
   };
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
-    const { enabledListItems } = this;
+    const { filteredItems } = this;
 
     if (!focusEl) {
       return;
     }
 
-    enabledListItems.forEach((listItem) => (listItem.active = listItem === focusEl));
+    filteredItems.forEach((listItem) => (listItem.active = listItem === focusEl));
 
     focusEl.setFocus();
   };
@@ -848,7 +848,7 @@ export class List
     }
 
     const { key } = event;
-    const filteredItems = this.enabledListItems.filter((listItem) => this.isNavigable(listItem));
+    const filteredItems = this.filteredItems.filter((listItem) => this.isNavigable(listItem));
     const currentIndex = filteredItems.findIndex((listItem) => listItem.active);
 
     if (key === "ArrowDown") {
@@ -936,9 +936,9 @@ export class List
       return;
     }
 
-    const { enabledListItems } = this;
+    const { filteredItems } = this;
 
-    const sameParentItems = enabledListItems.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = filteredItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(sortItem);
