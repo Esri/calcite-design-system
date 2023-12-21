@@ -164,19 +164,19 @@ export const itemsAsLinks = (): string => html`
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Throw Apples</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Visit Oranges</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Eat Grapes</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-start="camera-flash-on"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-start="camera-flash-on"
         >Plant beans</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-end="camera-flash-on"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-end="camera-flash-on"
         >Add peas</calcite-dropdown-item
       >
     </calcite-dropdown-group>
@@ -200,19 +200,25 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
+        >A link</calcite-dropdown-item
+      >
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select multi" selection-mode="multiple">
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
+        >A link</calcite-dropdown-item
+      >
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
+        >A link</calcite-dropdown-item
+      >
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
@@ -232,19 +238,19 @@ export const itemsAsLinksDarkMode = (): string => html`
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Throw Apples</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Visit Oranges</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
         >Eat Grapes</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-start="camera-flash-on"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-start="camera-flash-on"
         >Plant beans</calcite-dropdown-item
       >
-      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-end="camera-flash-on"
+      <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title" icon-end="camera-flash-on"
         >Add peas</calcite-dropdown-item
       >
     </calcite-dropdown-group>
@@ -314,14 +320,15 @@ export const scrollingWithoutMaxItems_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string => html` <calcite-dropdown max-items="3" open>
-  <calcite-button slot="trigger">Activate Dropdown</calcite-button>
-  <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
-    <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-    <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
-    <calcite-dropdown-item>Title</calcite-dropdown-item>
-  </calcite-dropdown-group>
-</calcite-dropdown>`;
+export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string =>
+  html` <calcite-dropdown max-items="3" open>
+    <calcite-button slot="trigger">Activate Dropdown</calcite-button>
+    <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
+      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item>Title</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>`;
 
 export const disabled_TestOnly = (): string => html`
   <calcite-dropdown disabled>
@@ -483,20 +490,19 @@ export const triggerWordBreak_TestOnly = (): string => html`<div style="width:30
 </calcite-dropdown>
 </div>`;
 
-export const settingFullWidthEnablesTriggerTruncation_TestOnly = (): string => html`<div
-  style="width: 300px; border: solid"
->
-  <calcite-dropdown style="width: 100%;">
-    <calcite-button width="full" slot="trigger"
-      >This is some really long text that will eventually overrun the container</calcite-button
-    >
-    <calcite-dropdown-group group-title="Natural places">
-      <calcite-dropdown-item>Mountain</calcite-dropdown-item>
-      <calcite-dropdown-item>River</calcite-dropdown-item>
-      <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
-      <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
-      <calcite-dropdown-item>Tundra</calcite-dropdown-item>
-      <calcite-dropdown-item>Desert</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-</div>`;
+export const settingFullWidthEnablesTriggerTruncation_TestOnly = (): string =>
+  html`<div style="width: 300px; border: solid">
+    <calcite-dropdown style="width: 100%;">
+      <calcite-button width="full" slot="trigger"
+        >This is some really long text that will eventually overrun the container</calcite-button
+      >
+      <calcite-dropdown-group group-title="Natural places">
+        <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+        <calcite-dropdown-item>River</calcite-dropdown-item>
+        <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+        <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+        <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+        <calcite-dropdown-item>Desert</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>`;

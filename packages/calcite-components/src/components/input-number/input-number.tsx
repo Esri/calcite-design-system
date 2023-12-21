@@ -30,6 +30,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
@@ -67,6 +68,7 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/i
 import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -210,6 +212,12 @@ export class InputNumber
    */
   @Prop({ reflect: true }) minLength: number;
 
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop() validationIcon: string | boolean;
+
   /**
    * Specifies the name of the component.
    *
@@ -319,8 +327,8 @@ export class InputNumber
           newValue == null || newValue == ""
             ? ""
             : isValidNumber(newValue)
-            ? newValue
-            : this.previousValue || "",
+              ? newValue
+              : this.previousValue || "",
       });
       this.warnAboutInvalidNumberValue(newValue);
     }
@@ -540,7 +548,7 @@ export class InputNumber
     direction: NumberNudgeDirection,
     inputMax: number | null,
     inputMin: number | null,
-    nativeEvent: KeyboardEvent | MouseEvent
+    nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
     const adjustment = direction === "up" ? 1 : -1;
@@ -563,8 +571,8 @@ export class InputNumber
     const finalValue = nudgedValueBelowInputMin()
       ? `${inputMin}`
       : nudgedValueAboveInputMax()
-      ? `${inputMax}`
-      : nudgedValue.toString();
+        ? `${inputMax}`
+        : nudgedValue.toString();
 
     this.setNumberValue({
       committing: true,
@@ -715,7 +723,7 @@ export class InputNumber
 
   private nudgeNumberValue = (
     direction: NumberNudgeDirection,
-    nativeEvent: KeyboardEvent | MouseEvent
+    nativeEvent: KeyboardEvent | MouseEvent,
   ): void => {
     if (nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) {
       return;
@@ -873,7 +881,7 @@ export class InputNumber
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
         newLocalizedValue,
         newValue,
-        numberStringFormatter
+        numberStringFormatter,
       );
     }
 
@@ -1031,27 +1039,37 @@ export class InputNumber
 
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalDown
-            : null}
-          {this.prefixText ? prefixText : null}
-          <div class={CSS.wrapper}>
-            {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
-            {this.loading ? loader : null}
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalDown
+              : null}
+            {this.prefixText ? prefixText : null}
+            <div class={CSS.wrapper}>
+              {childEl}
+              {this.isClearable ? inputClearButton : null}
+              {this.requestedIcon ? iconEl : null}
+              {this.loading ? loader : null}
+            </div>
+            <div class={CSS.actionWrapper}>
+              <slot name={SLOTS.action} />
+            </div>
+            {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
+            {this.suffixText ? suffixText : null}
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalUp
+              : null}
+            <HiddenFormInputSlot component={this} />
           </div>
-          <div class={CSS.actionWrapper}>
-            <slot name={SLOTS.action} />
-          </div>
-          {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
-          {this.suffixText ? suffixText : null}
-          {this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalUp
-            : null}
-          <HiddenFormInputSlot component={this} />
-        </div>
+          {this.validationMessage ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }

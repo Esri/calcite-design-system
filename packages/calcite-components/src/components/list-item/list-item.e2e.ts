@@ -136,22 +136,24 @@ describe("calcite-list-item", () => {
 
   it("does not emit calciteListItemSelect on Enter within action slots", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-list-item selection-mode="single" label="hello" description="world" active
-      ><calcite-action
-        appearance="transparent"
-        icon="banana"
-        text="menu"
-        label="menu"
-        slot="filter-actions-start"
-      ></calcite-action>
-      <calcite-action
-        appearance="transparent"
-        icon="sort-ascending"
-        text="menu"
-        label="menu"
-        slot="filter-actions-end"
-      ></calcite-action
-    ></calcite-list-item>`);
+    await page.setContent(
+      html`<calcite-list-item selection-mode="single" label="hello" description="world" active
+        ><calcite-action
+          appearance="transparent"
+          icon="banana"
+          text="menu"
+          label="menu"
+          slot="filter-actions-start"
+        ></calcite-action>
+        <calcite-action
+          appearance="transparent"
+          icon="sort-ascending"
+          text="menu"
+          label="menu"
+          slot="filter-actions-end"
+        ></calcite-action
+      ></calcite-list-item>`,
+    );
 
     await page.waitForChanges();
 
@@ -274,5 +276,28 @@ describe("calcite-list-item", () => {
     await closeButton.click();
 
     expect(calciteListItemClose).toHaveReceivedEventTimes(1);
+  });
+
+  it("should fire calciteListItemToggle event when opened and closed", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item
+        ><calcite-list><calcite-list-item></calcite-list-item></calcite-list
+      ></calcite-list-item>`,
+    });
+
+    const listItem = await page.find("calcite-list-item");
+    const calciteListItemToggle = await page.spyOnEvent("calciteListItemToggle", "window");
+
+    expect(await listItem.getProperty("open")).toBe(false);
+
+    const openButton = await page.find(`calcite-list-item >>> .${CSS.openContainer}`);
+
+    await openButton.click();
+    expect(await listItem.getProperty("open")).toBe(true);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(1);
+
+    await openButton.click();
+    expect(await listItem.getProperty("open")).toBe(false);
+    expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
   });
 });

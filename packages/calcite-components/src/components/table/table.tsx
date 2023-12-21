@@ -84,8 +84,15 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
 
-  /** When `true`, displays zebra styling in the component. */
+  /**
+   * When `true`, displays striped styling in the component.
+   *
+   * @deprecated Use the `striped` property instead.
+   */
   @Prop({ reflect: true }) zebra = false;
+
+  /** When `true`, displays striped styling in the component. */
+  @Prop({ reflect: true }) striped = false;
 
   @Watch("groupSeparator")
   @Watch("numbered")
@@ -259,9 +266,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         break;
     }
 
-    const destinationCount = this.allRows?.find(
-      (row) => row.positionAll === rowPosition
-    )?.cellCount;
+    const destinationCount = this.allRows?.find((row) => row.positionAll === rowPosition)
+      ?.cellCount;
 
     const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
 
@@ -499,7 +505,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           <div
             class={{
               [CSS.bordered]: this.bordered,
-              [CSS.zebra]: this.zebra,
+              [CSS.striped]: this.striped || this.zebra,
               [CSS.tableContainer]: true,
             }}
           >

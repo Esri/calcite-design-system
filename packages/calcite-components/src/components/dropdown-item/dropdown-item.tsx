@@ -22,7 +22,11 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { getIconScale } from "../../utils/component";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  InteractiveComponent,
+  InteractiveContainer,
+  updateHostInteraction,
+} from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -143,7 +147,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, "managed");
+    updateHostInteraction(this);
   }
 
   render(): VNode {
@@ -175,10 +179,10 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
       this.iconStart && this.iconEnd
         ? [iconStartEl, contentNode, iconEndEl]
         : this.iconStart
-        ? [iconStartEl, contentNode]
-        : this.iconEnd
-        ? [contentNode, iconEndEl]
-        : contentNode;
+          ? [iconStartEl, contentNode]
+          : this.iconEnd
+            ? [contentNode, iconEndEl]
+            : contentNode;
 
     const contentEl = !href ? (
       slottedContent
@@ -200,34 +204,42 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
     const itemRole = href
       ? null
       : selectionMode === "single"
-      ? "menuitemradio"
-      : selectionMode === "multiple"
-      ? "menuitemcheckbox"
-      : "menuitem";
+        ? "menuitemradio"
+        : selectionMode === "multiple"
+          ? "menuitemcheckbox"
+          : "menuitem";
 
     const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
+    const { disabled } = this;
 
     return (
-      <Host aria-checked={itemAria} aria-label={!href ? label : ""} role={itemRole} tabindex="0">
-        <div
-          class={{
-            [CSS.container]: true,
-            [CSS.containerLink]: !!href,
-            [`${CSS.container}--${scale}`]: true,
-            [CSS.containerMulti]: selectionMode === "multiple",
-            [CSS.containerSingle]: selectionMode === "single",
-            [CSS.containerNone]: selectionMode === "none",
-          }}
-        >
-          {selectionMode !== "none" ? (
-            <calcite-icon
-              class={CSS.icon}
-              icon={selectionMode === "multiple" ? "check" : "bullet-point"}
-              scale={getIconScale(this.scale)}
-            />
-          ) : null}
-          {contentEl}
-        </div>
+      <Host
+        aria-checked={itemAria}
+        aria-label={!href ? label : ""}
+        role={itemRole}
+        tabIndex={disabled ? -1 : 0}
+      >
+        <InteractiveContainer disabled={disabled}>
+          <div
+            class={{
+              [CSS.container]: true,
+              [CSS.containerLink]: !!href,
+              [`${CSS.container}--${scale}`]: true,
+              [CSS.containerMulti]: selectionMode === "multiple",
+              [CSS.containerSingle]: selectionMode === "single",
+              [CSS.containerNone]: selectionMode === "none",
+            }}
+          >
+            {selectionMode !== "none" ? (
+              <calcite-icon
+                class={CSS.icon}
+                icon={selectionMode === "multiple" ? "check" : "bullet-point"}
+                scale={getIconScale(this.scale)}
+              />
+            ) : null}
+            {contentEl}
+          </div>
+        </InteractiveContainer>
       </Host>
     );
   }

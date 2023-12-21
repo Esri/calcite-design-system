@@ -20,6 +20,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
@@ -250,7 +251,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination,
-    lastCell?: boolean
+    lastCell?: boolean,
   ): void => {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
@@ -265,14 +266,14 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       ?.assignedElements({ flatten: true })
       ?.filter(
         (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
-          el.matches("calcite-table-cell") || el.matches("calcite-table-header")
+          el.matches("calcite-table-cell") || el.matches("calcite-table-header"),
       );
 
     const renderedCells = Array.from(
-      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell")
+      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell"),
     )?.filter(
       (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
-        el.numberCell || el.selectionCell
+        el.numberCell || el.selectionCell,
     );
 
     const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
@@ -281,12 +282,12 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
         cell.positionInRow = index + 1;
         cell.parentRowType = this.rowType;
+        cell.parentRowIsSelected = this.selected;
         cell.scale = this.scale;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
           (cell as HTMLCalciteTableCellElement).disabled = this.disabled;
-          (cell as HTMLCalciteTableCellElement).parentRowIsSelected = this.selected;
         }
       });
     }
@@ -320,10 +321,10 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       this.selectionMode === "multiple" && this.selected
         ? "check-square-f"
         : this.selectionMode === "multiple"
-        ? "square"
-        : this.selected
-        ? "circle-f"
-        : "circle";
+          ? "square"
+          : this.selected
+            ? "circle-f"
+            : "circle";
 
     return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
   }
@@ -373,21 +374,23 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   render(): VNode {
     return (
       <Host>
-        <tr
-          aria-disabled={this.disabled}
-          aria-rowindex={this.positionAll + 1}
-          aria-selected={this.selected}
-          onKeyDown={(event) => this.keyDownHandler(event)}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.tableRowEl = el)}
-        >
-          {this.numbered && this.renderNumberedCell()}
-          {this.selectionMode !== "none" && this.renderSelectableCell()}
-          <slot
-            onSlotchange={this.updateCells}
-            ref={(el) => (this.tableRowSlotEl = el as HTMLSlotElement)}
-          />
-        </tr>
+        <InteractiveContainer disabled={this.disabled}>
+          <tr
+            aria-disabled={this.disabled}
+            aria-rowindex={this.positionAll + 1}
+            aria-selected={this.selected}
+            onKeyDown={(event) => this.keyDownHandler(event)}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => (this.tableRowEl = el)}
+          >
+            {this.numbered && this.renderNumberedCell()}
+            {this.selectionMode !== "none" && this.renderSelectableCell()}
+            <slot
+              onSlotchange={this.updateCells}
+              ref={(el) => (this.tableRowSlotEl = el as HTMLSlotElement)}
+            />
+          </tr>
+        </InteractiveContainer>
       </Host>
     );
   }

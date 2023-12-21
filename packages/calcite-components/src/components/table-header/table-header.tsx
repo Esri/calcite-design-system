@@ -51,6 +51,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop() numberCell = false;
 
   /** @internal */
+  @Prop() parentRowIsSelected: boolean;
+
+  /** @internal */
   @Prop() parentRowPosition: number;
 
   /** @internal */
@@ -192,10 +195,10 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     const scope = this.rowSpan
       ? "rowgroup"
       : this.colSpan
-      ? "colgroup"
-      : this.parentRowType === "body"
-      ? "row"
-      : "col";
+        ? "colgroup"
+        : this.parentRowType === "body"
+          ? "row"
+          : "col";
 
     const allSelected = this.selectedRowCount === this.bodyRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
@@ -209,6 +212,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.footerRow]: this.parentRowType === "foot",
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
+            [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
           }}
           colSpan={this.colSpan}

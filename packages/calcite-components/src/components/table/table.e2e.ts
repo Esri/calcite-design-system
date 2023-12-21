@@ -27,7 +27,7 @@ describe("calcite-table", () => {
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
       </calcite-table>`,
-      { display: "table" }
+      { display: "table" },
     );
   });
 
@@ -62,7 +62,7 @@ describe("calcite-table", () => {
         defaultValue: "none",
       },
       {
-        propertyName: "zebra",
+        propertyName: "striped",
         defaultValue: false,
       },
     ]);
@@ -109,7 +109,7 @@ describe("calcite-table", () => {
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
           </calcite-table-row>
-        </calcite-table>`
+        </calcite-table>`,
       );
     });
 
@@ -132,7 +132,7 @@ describe("calcite-table", () => {
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
           </calcite-table-row>
-        </calcite-table>`
+        </calcite-table>`,
       );
     });
 
@@ -155,7 +155,7 @@ describe("calcite-table", () => {
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
           </calcite-table-row>
-        </calcite-table>`
+        </calcite-table>`,
       );
     });
 
@@ -178,7 +178,7 @@ describe("calcite-table", () => {
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
           </calcite-table-row>
-        </calcite-table>`
+        </calcite-table>`,
       );
     });
 
@@ -201,7 +201,7 @@ describe("calcite-table", () => {
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
           </calcite-table-row>
-        </calcite-table>`
+        </calcite-table>`,
       );
     });
 
@@ -224,7 +224,7 @@ describe("calcite-table", () => {
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
           </calcite-table-row>
-        </calcite-table>`
+        </calcite-table>`,
       );
     });
 
@@ -263,7 +263,7 @@ describe("calcite-table", () => {
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
           </calcite-table-row>
-        </calcite-table>`
+        </calcite-table>`,
       );
     });
 
@@ -302,7 +302,7 @@ describe("calcite-table", () => {
             <calcite-table-cell>cell</calcite-table-cell>
             <calcite-table-cell>cell</calcite-table-cell>
           </calcite-table-row>
-        </calcite-table>`
+        </calcite-table>`,
       );
     });
   });
@@ -329,7 +329,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -444,7 +444,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -559,7 +559,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -669,7 +669,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -778,7 +778,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -829,7 +829,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -880,7 +880,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -931,7 +931,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -985,7 +985,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -1039,7 +1039,7 @@ describe("selection modes", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -1101,7 +1101,7 @@ describe("pagination event", () => {
           <calcite-table-cell>cell</calcite-table-cell>
           <calcite-table-cell>cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await assertSelectedItems.setUpEvents(page);
@@ -1167,7 +1167,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-3b">cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await page.keyboard.press("Tab");
@@ -1246,7 +1246,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-5a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-5b">cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await page.keyboard.press("Tab");
@@ -1317,7 +1317,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-5a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-5b">cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await page.keyboard.press("Tab");
@@ -1481,7 +1481,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await page.keyboard.press("Tab");
@@ -1534,7 +1534,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
           <calcite-table-cell id="cell-4b">cell</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     await page.keyboard.press("Tab");
@@ -1611,7 +1611,7 @@ describe("keyboard navigation", () => {
             <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
           </calcite-table-row>
         </calcite-table>
-        >;`
+        >;`,
     );
 
     await page.keyboard.press("Tab");
@@ -1710,7 +1710,7 @@ describe("keyboard navigation", () => {
             <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
           </calcite-table-row>
         </calcite-table>
-        >;`
+        >;`,
     );
 
     await page.keyboard.press("Tab");
@@ -1887,7 +1887,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     const rowHead = await page.find("#row-head");
@@ -1898,7 +1898,10 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
 
     await page.keyboard.press("ArrowRight");
@@ -1912,19 +1915,25 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("ArrowRight");
@@ -1940,7 +1949,10 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
   });
 
@@ -1968,7 +1980,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     const rowHead = await page.find("#row-head");
@@ -1979,7 +1991,10 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
@@ -1993,19 +2008,25 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
@@ -2021,7 +2042,10 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
   });
 
@@ -2049,7 +2073,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     const rowHead = await page.find("#row-head");
@@ -2060,14 +2084,20 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
 
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("ArrowRight");
@@ -2077,25 +2107,31 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
@@ -2108,7 +2144,10 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
   });
 
@@ -2140,7 +2179,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     const rowHead = await page.find("#row-head");
@@ -2151,14 +2190,20 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
 
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
 
     await page.keyboard.press("ArrowRight");
@@ -2168,19 +2213,25 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("ArrowRight");
@@ -2195,14 +2246,20 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
 
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
   });
 
@@ -2234,7 +2291,7 @@ describe("keyboard navigation", () => {
           <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
           <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
         </calcite-table-row>
-      </calcite-table>`
+      </calcite-table>`,
     );
 
     const rowHead = await page.find("#row-head");
@@ -2248,14 +2305,20 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
 
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("ArrowRight");
@@ -2265,37 +2328,43 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
 
     page.keyboard.press("ControlRight");
@@ -2306,7 +2375,10 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
 
     page.keyboard.press("ControlRight");
@@ -2314,7 +2386,10 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.$eval("calcite-table", () => {
@@ -2336,37 +2411,43 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowHead.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList)
+      await page.$eval(
+        `#${rowHead.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
+      ),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.selectionCell });
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
     ).toEqual({ "0": CSS.numberCell });
 
     page.keyboard.press("ControlRight");
@@ -2377,7 +2458,10 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.waitForChanges();
     expect(
-      await page.$eval(`#${rowFoot.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList)
+      await page.$eval(
+        `#${rowFoot.id}`,
+        (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
+      ),
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
   });
 });
