@@ -292,8 +292,8 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar")
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));

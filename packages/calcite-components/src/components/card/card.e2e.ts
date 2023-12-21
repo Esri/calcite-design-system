@@ -23,9 +23,11 @@ describe("calcite-card", () => {
   });
 
   describe("accessible when selectable", () => {
-    accessible(html`<calcite-card selectable>
-      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-    </calcite-card>`);
+    accessible(
+      html`<calcite-card selectable>
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+      </calcite-card>`,
+    );
   });
 
   describe("slots", () => {

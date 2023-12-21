@@ -224,7 +224,7 @@ export class Filter
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
       this.items.length && this.updateFiltered(filter(this.items, value), emit, onFilter),
-    DEBOUNCE_TIMEOUT
+    DEBOUNCE_TIMEOUT,
   );
 
   inputHandler = (event: CustomEvent): void => {

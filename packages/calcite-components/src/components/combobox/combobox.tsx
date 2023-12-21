@@ -379,7 +379,7 @@ export class Combobox
         flipPlacements: filteredFlipPlacements,
         type: "menu",
       },
-      delayed
+      delayed,
     );
   }
 
@@ -885,7 +885,7 @@ export class Combobox
     const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
     const largestSelectedIndicatorChipWidth = Math.max(
       allSelectedIndicatorChipElWidth,
-      selectedIndicatorChipElWidth
+      selectedIndicatorChipElWidth,
     );
 
     this.setCompactSelectionDisplay({
@@ -897,7 +897,7 @@ export class Combobox
 
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-        (chipEl) => chipEl.closable
+        (chipEl) => chipEl.closable,
       );
 
       const availableHorizontalChipElSpace = Math.round(
@@ -905,7 +905,7 @@ export class Combobox
           ((this.selectedHiddenChipsCount > 0 ? selectedIndicatorChipElWidth : 0) +
             chipContainerElGap +
             inputWidth +
-            chipContainerElGap)
+            chipContainerElGap),
       );
 
       this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
@@ -925,7 +925,7 @@ export class Combobox
     largestSelectedIndicatorChipWidth,
   }): void {
     const newCompactBreakpoint = Math.round(
-      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth
+      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth,
     );
     if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
       this.maxCompactBreakpoint = newCompactBreakpoint;
@@ -1030,7 +1030,7 @@ export class Combobox
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item &&
       filteredData.some(({ label, value }) =>
-        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel
+        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
       );
 
     return debounce((text: string): void => {
@@ -1128,7 +1128,7 @@ export class Combobox
       this.items
         .filter(
           (item) =>
-            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
+            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
         )
         /** Preserve order of entered tags */
         .sort((a, b) => {
@@ -1193,7 +1193,7 @@ export class Combobox
 
   getItems(): HTMLCalciteComboboxItemElement[] {
     const items: HTMLCalciteComboboxItemElement[] = Array.from(
-      this.el.querySelectorAll(ComboboxItem)
+      this.el.querySelectorAll(ComboboxItem),
     );
     return items.filter((item) => !item.disabled);
   }

@@ -155,7 +155,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration]
+        DURATIONS[this.autoCloseDuration],
       );
     }
   }
@@ -191,7 +191,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     window.dispatchEvent(
       new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
         detail: { alert: this.el },
-      })
+      }),
     );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
@@ -361,7 +361,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
         detail: { queue },
-      })
+      }),
     );
   }
 
@@ -451,7 +451,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         this.initialOpenTime = Date.now();
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
-          DURATIONS[this.autoCloseDuration]
+          DURATIONS[this.autoCloseDuration],
         );
       }
     } else {

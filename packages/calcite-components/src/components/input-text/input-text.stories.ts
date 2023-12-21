@@ -107,37 +107,36 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
     ></calcite-input-text>
   `);
 
-export const validationMessageAllScales_TestOnly = (): string =>
-  html`
-    <style>
-      .container {
-        display: flex;
-        flex-direction: column;
-        width: 400px;
-        height: 200px;
-        gap: 20px;
-      }
-    </style>
-    <div class="container">
-      <calcite-input-text
-        scale="s"
-        status="invalid"
-        validation-message="This field is required."
-        validation-icon="frown"
-      ></calcite-input-text>
-      <calcite-input-text
-        scale="m"
-        status="invalid"
-        validation-message="Value must be greater than 1337"
-        validation-icon
-        value="420"
-      ></calcite-input-text>
-      <calcite-input-text
-        scale="l"
-        status="invalid"
-        validation-message="Exceeds the maximum length of 2 characters"
-        validation-icon
-        value="test"
-      ></calcite-input-text>
-    </div>
-  `;
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input-text
+      scale="s"
+      status="invalid"
+      validation-message="This field is required."
+      validation-icon="frown"
+    ></calcite-input-text>
+    <calcite-input-text
+      scale="m"
+      status="invalid"
+      validation-message="Value must be greater than 1337"
+      validation-icon
+      value="420"
+    ></calcite-input-text>
+    <calcite-input-text
+      scale="l"
+      status="invalid"
+      validation-message="Exceeds the maximum length of 2 characters"
+      validation-icon
+      value="test"
+    ></calcite-input-text>
+  </div>
+`;

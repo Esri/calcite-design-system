@@ -17,7 +17,7 @@ type TestWindow = typeof window & {
     options: {
       selector?: string;
       id?: string;
-    }
+    },
   ) => T | null;
   setUpTestComponent: (options: SetUpTestComponentOptions) => void;
 };
@@ -93,7 +93,7 @@ describe("queries", () => {
 
         return resultEl?.textContent;
       },
-      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId },
     );
 
     expect(text).toBe(insideHost);
@@ -124,7 +124,7 @@ describe("queries", () => {
 
         return resultEl?.textContent;
       },
-      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId },
     );
 
     expect(text).toBe(insideShadow);
@@ -152,7 +152,7 @@ describe("queries", () => {
 
         return resultEl?.textContent;
       },
-      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId },
     );
 
     expect(text).toBe(outsideHost);
@@ -180,7 +180,7 @@ describe("queries", () => {
 
         return resultEl?.textContent;
       },
-      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId },
     );
 
     expect(text).toBe(outsideHost);

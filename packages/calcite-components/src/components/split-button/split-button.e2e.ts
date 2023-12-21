@@ -33,14 +33,16 @@ describe("calcite-split-button", () => {
         </calcite-split-button>`,
       {
         shadowFocusTargetSelector: "calcite-button",
-      }
+      },
     );
   });
 
   describe("accessible", () => {
-    accessible(html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`);
+    accessible(
+      html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
+        ${content}
+      </calcite-split-button>`,
+    );
   });
 
   describe("accessible when disabled", () => {

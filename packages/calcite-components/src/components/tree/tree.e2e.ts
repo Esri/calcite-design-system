@@ -380,7 +380,7 @@ describe("calcite-tree", () => {
                 <calcite-tree-item id="4"> Grandchild 2 </calcite-tree-item>
               </calcite-tree>
             </calcite-tree-item>
-          </calcite-tree>`
+          </calcite-tree>`,
         );
 
         const tree = await page.find("calcite-tree");
@@ -434,7 +434,7 @@ describe("calcite-tree", () => {
           `,
         });
         const checkbox = await page.find(
-          `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`
+          `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`,
         );
         expect(checkbox).not.toBeNull();
       });
@@ -598,36 +598,38 @@ describe("calcite-tree", () => {
 
     it("supports navigating the entire tree structure", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` <calcite-tree id="root">
-        <calcite-tree-item id="root-item-1">
-          <span>Root Item 1</span>
-        </calcite-tree-item>
-        <calcite-tree-item id="parent">
-          <span>Parent</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item id="child">
-              <span>Child</span>
-            </calcite-tree-item>
-            <calcite-tree-item id="child2">
-              <span>Child 2</span>
-              <calcite-tree slot="children">
-                <calcite-tree-item id="grandchild">
-                  <span>Grandchild</span>
-                </calcite-tree-item>
-                <calcite-tree-item id="grandchild2">
-                  <span>Grandchild 2</span>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-            <calcite-tree-item id="child3">
-              <span>Child 3</span>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item id="root-item-3">
-          <span>Root Item 3</span>
-        </calcite-tree-item>
-      </calcite-tree>`);
+      await page.setContent(
+        html` <calcite-tree id="root">
+          <calcite-tree-item id="root-item-1">
+            <span>Root Item 1</span>
+          </calcite-tree-item>
+          <calcite-tree-item id="parent">
+            <span>Parent</span>
+            <calcite-tree slot="children">
+              <calcite-tree-item id="child">
+                <span>Child</span>
+              </calcite-tree-item>
+              <calcite-tree-item id="child2">
+                <span>Child 2</span>
+                <calcite-tree slot="children">
+                  <calcite-tree-item id="grandchild">
+                    <span>Grandchild</span>
+                  </calcite-tree-item>
+                  <calcite-tree-item id="grandchild2">
+                    <span>Grandchild 2</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+              <calcite-tree-item id="child3">
+                <span>Child 3</span>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+          <calcite-tree-item id="root-item-3">
+            <span>Root Item 3</span>
+          </calcite-tree-item>
+        </calcite-tree>`,
+      );
 
       const root = await page.find("#root");
       const parent = await page.find("#parent");
@@ -856,7 +858,7 @@ describe("calcite-tree", () => {
           <calcite-tree-item id="child-4">
             <span>Child 4</span>
           </calcite-tree-item>
-        </calcite-tree>`
+        </calcite-tree>`,
       );
 
       const root = await page.find("#child-1");
@@ -1012,13 +1014,15 @@ describe("calcite-tree", () => {
 
     it("does prevent space/enter keyboard event on actions with selectionMode of single", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<div id="container">
-        <calcite-tree selection-mode="single">
-          <calcite-tree-item>
-            <button>My button</button>
-          </calcite-tree-item>
-        </calcite-tree>
-      </div>`);
+      await page.setContent(
+        html`<div id="container">
+          <calcite-tree selection-mode="single">
+            <calcite-tree-item>
+              <button>My button</button>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>`,
+      );
 
       const container = await page.find("#container");
       const button = await page.find("button");
@@ -1040,13 +1044,15 @@ describe("calcite-tree", () => {
 
     it("does prevent space/enter keyboard event on actions with selectionMode of none", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<div id="container">
-        <calcite-tree selection-mode="none">
-          <calcite-tree-item>
-            <button>My button</button>
-          </calcite-tree-item>
-        </calcite-tree>
-      </div>`);
+      await page.setContent(
+        html`<div id="container">
+          <calcite-tree selection-mode="none">
+            <calcite-tree-item>
+              <button>My button</button>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>`,
+      );
 
       const container = await page.find("#container");
       const button = await page.find("button");
@@ -1090,7 +1096,7 @@ describe("calcite-tree", () => {
                   <calcite-tree-item>Child</calcite-tree-item>
                 </calcite-tree>`;
             }
-          }
+          },
         );
       });
       await page.waitForChanges();
@@ -1114,7 +1120,7 @@ describe("calcite-tree", () => {
         },
         async (_page, item) => {
           await item.press("Enter");
-        }
+        },
       );
     });
 
@@ -1129,7 +1135,7 @@ describe("calcite-tree", () => {
         },
         async (page, item) => {
           await directItemClick(page, item);
-        }
+        },
       );
     });
 
@@ -1149,7 +1155,7 @@ describe("calcite-tree", () => {
       childToggleTraversesParent: boolean,
       selectItem: (page: E2EPage, item: E2EElement) => Promise<void>,
       toggleItem: (page: E2EPage, item: E2EElement, toggle: E2EElement) => Promise<void>,
-      selectItemChild: (page: E2EPage, item: E2EElement) => Promise<void>
+      selectItemChild: (page: E2EPage, item: E2EElement) => Promise<void>,
     ): Promise<void> {
       const selectionModesTests: SelectionModeTest[] = [
         {
@@ -1278,35 +1284,35 @@ describe("calcite-tree", () => {
             await selectItemChild(page, expandableChildItem);
 
             expect(await expandableParentItem.getProperty("expanded")).toBe(
-              !selectsItem && !childToggleTraversesParent
+              !selectsItem && !childToggleTraversesParent,
             );
             expect(await tree.getProperty("selectedItems")).toHaveLength(
               selectionMode === "none"
                 ? 0
                 : selectionMode === "ancestors" && !childToggleTraversesParent
-                ? 7
-                : !childToggleTraversesParent &&
-                  (selectionMode === "multiple" || selectionMode === "single" || selectionMode === "single-persist")
-                ? 0
-                : 1
+                  ? 7
+                  : !childToggleTraversesParent &&
+                      (selectionMode === "multiple" || selectionMode === "single" || selectionMode === "single-persist")
+                    ? 0
+                    : 1,
             );
 
             await selectItemChild(page, expandableChildItem);
 
             expect(await expandableParentItem.getProperty("expanded")).toBe(
-              !selectsItem && !childToggleTraversesParent
+              !selectsItem && !childToggleTraversesParent,
             );
             expect(await tree.getProperty("selectedItems")).toHaveLength(
               selectionMode === "none"
                 ? 0
                 : !childToggleTraversesParent && selectionMode === "multiple"
-                ? 1
-                : canDeselect.child
-                ? 0
-                : 1
+                  ? 1
+                  : canDeselect.child
+                    ? 0
+                    : 1,
             );
           });
-        }
+        },
       );
     }
   });

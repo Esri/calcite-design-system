@@ -115,7 +115,7 @@ describe("calcite-action-menu", () => {
       `,
       {
         focusTargetSelector: `#triggerAction`,
-      }
+      },
     );
   });
 

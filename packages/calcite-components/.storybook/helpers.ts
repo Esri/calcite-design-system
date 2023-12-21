@@ -31,7 +31,7 @@ export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: strin
 };
 
 export const setMode = (value: ModeName) => `${MODES.map(
-  (mode) => `document.body.classList.toggle('${mode.className}', ${(mode.name === value).toString()});`
+  (mode) => `document.body.classList.toggle('${mode.className}', ${(mode.name === value).toString()});`,
 ).join("")}
 `;
 
@@ -47,7 +47,7 @@ export function storyFilters(): {
     excludeStories: process.env.STORYBOOK_SCREENSHOT_TEST_BUILD
       ? /.*_NoTest$/
       : process.env.STORYBOOK_SCREENSHOT_LOCAL_BUILD
-      ? []
-      : /.*_TestOnly$/,
+        ? []
+        : /.*_TestOnly$/,
   };
 }

@@ -62,10 +62,12 @@ describe("calcite-text-area", () => {
   });
 
   describe("accessible", () => {
-    accessible(html`<calcite-label>
-      add notes
-      <calcite-text-area max-length="50" required name="something"></calcite-text-area>
-    </calcite-label>`);
+    accessible(
+      html`<calcite-label>
+        add notes
+        <calcite-text-area max-length="50" required name="something"></calcite-text-area>
+      </calcite-label>`,
+    );
   });
 
   describe("is focusable", () => {
