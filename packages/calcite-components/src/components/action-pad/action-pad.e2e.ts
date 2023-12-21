@@ -152,11 +152,13 @@ describe("calcite-action-pad", () => {
   it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-action-pad expand-disabled expanded>
-      <calcite-action-group>
-        <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>`);
+    await page.setContent(
+      html`<calcite-action-pad expand-disabled expanded>
+        <calcite-action-group>
+          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-pad>`,
+    );
 
     const expandAction = await page.find("calcite-action-pad >>> calcite-action");
     const action = await page.find("calcite-action");
@@ -201,7 +203,7 @@ describe("calcite-action-pad", () => {
       `,
       {
         focusTargetSelector: "calcite-action",
-      }
+      },
     );
   });
 
@@ -269,9 +271,11 @@ describe("calcite-action-pad", () => {
   it("should set layout on child action-groups", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-action-pad layout="horizontal">
-      <calcite-action-group></calcite-action-group>
-    </calcite-action-pad>`);
+    await page.setContent(
+      html`<calcite-action-pad layout="horizontal">
+        <calcite-action-group></calcite-action-group>
+      </calcite-action-pad>`,
+    );
     await page.waitForChanges();
 
     const group = await page.find("calcite-action-group");

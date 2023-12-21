@@ -136,22 +136,24 @@ describe("calcite-list-item", () => {
 
   it("does not emit calciteListItemSelect on Enter within action slots", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-list-item selection-mode="single" label="hello" description="world" active
-      ><calcite-action
-        appearance="transparent"
-        icon="banana"
-        text="menu"
-        label="menu"
-        slot="filter-actions-start"
-      ></calcite-action>
-      <calcite-action
-        appearance="transparent"
-        icon="sort-ascending"
-        text="menu"
-        label="menu"
-        slot="filter-actions-end"
-      ></calcite-action
-    ></calcite-list-item>`);
+    await page.setContent(
+      html`<calcite-list-item selection-mode="single" label="hello" description="world" active
+        ><calcite-action
+          appearance="transparent"
+          icon="banana"
+          text="menu"
+          label="menu"
+          slot="filter-actions-start"
+        ></calcite-action>
+        <calcite-action
+          appearance="transparent"
+          icon="sort-ascending"
+          text="menu"
+          label="menu"
+          slot="filter-actions-end"
+        ></calcite-action
+      ></calcite-list-item>`,
+    );
 
     await page.waitForChanges();
 

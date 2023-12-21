@@ -120,12 +120,12 @@ const formComponentSet = new WeakSet<HTMLElement>();
  */
 function hasRegisteredFormComponentParent(
   form: HTMLFormElement,
-  formComponentEl: HTMLElement
+  formComponentEl: HTMLElement,
 ): boolean {
   // if we have a parent component using the form ID attribute, we assume it is form-associated
   const hasParentComponentWithFormIdSet = closestElementCrossShadowBoundary(
     formComponentEl.parentElement,
-    "[form]"
+    "[form]",
   );
 
   if (hasParentComponentWithFormIdSet) {
@@ -145,14 +145,14 @@ function hasRegisteredFormComponentParent(
         .some((element) => formComponentSet.has(element as HTMLElement));
       event.stopPropagation();
     },
-    { once: true }
+    { once: true },
   );
 
   formComponentEl.dispatchEvent(
     new CustomEvent(formComponentRegisterEventName, {
       bubbles: true,
       composed: true,
-    })
+    }),
   );
 
   return hasRegisteredFormComponentParent;
@@ -266,7 +266,7 @@ export function afterConnectDefaultValueSet<T>(component: FormComponent<T>, valu
 
 const hiddenInputChangeHandler = (event: Event) => {
   event.target.dispatchEvent(
-    new CustomEvent("calciteInternalHiddenInputChange", { bubbles: true })
+    new CustomEvent("calciteInternalHiddenInputChange", { bubbles: true }),
   );
 };
 
@@ -302,7 +302,7 @@ function syncHiddenFormInput(component: FormComponent): void {
     const valueMatch = values.find(
       (val) =>
         /* intentional non-strict equality check */
-        val == input.value
+        val == input.value,
     );
 
     if (valueMatch != null) {
@@ -351,7 +351,7 @@ function syncHiddenFormInput(component: FormComponent): void {
 function defaultSyncHiddenFormInput(
   component: FormComponent,
   input: HTMLInputElement,
-  value: string
+  value: string,
 ): void {
   const { defaultValue, disabled, form, name, required } = component;
 

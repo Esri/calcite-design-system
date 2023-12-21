@@ -371,7 +371,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     const { currentPercent, valueLabelType, unitLabel, value } = this;
     const label = this.formatLabel(
       valueLabelType === "percent" ? currentPercent / 100 : value || 0,
-      valueLabelType
+      valueLabelType,
     );
     return (
       <div
@@ -393,7 +393,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     const style = { insetInlineStart: `${minPercent}%` };
     const labelMin = this.formatLabel(
       rangeLabelType === "percent" ? minPercent : min,
-      rangeLabelType
+      rangeLabelType,
     );
     return (
       <div
@@ -459,7 +459,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
     const style = { insetInlineEnd: `${100 - maxPercent}%` };
     const labelMax = this.formatLabel(
       rangeLabelType === "percent" ? maxPercent / 100 : max,
-      rangeLabelType
+      rangeLabelType,
     );
     return (
       <div
@@ -500,8 +500,8 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
       valueLabelType === "percent"
         ? textPercentLabelWithPercent
         : unitLabel
-        ? textUnitLabel
-        : undefined;
+          ? textUnitLabel
+          : undefined;
     return (
       <Host>
         <div

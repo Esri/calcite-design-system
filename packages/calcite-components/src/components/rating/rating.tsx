@@ -286,7 +286,7 @@ export class Rating
                       </span>
                     </label>
                   );
-                }
+                },
               )}
 
               {(this.count || this.average) && this.showChip ? (

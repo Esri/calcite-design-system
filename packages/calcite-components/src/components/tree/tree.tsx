@@ -104,7 +104,7 @@ export class Tree {
     if (!this.child) {
       const focusTarget =
         this.el.querySelector<HTMLCalciteTreeItemElement>(
-          "calcite-tree-item[selected]:not([disabled])"
+          "calcite-tree-item[selected]:not([disabled])",
         ) || this.el.querySelector<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])");
 
       focusElement(focusTarget);
@@ -137,7 +137,7 @@ export class Tree {
 
     const target = event.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
-      target.querySelectorAll("calcite-tree-item")
+      target.querySelectorAll("calcite-tree-item"),
     ) as HTMLCalciteTreeItemElement[];
 
     event.preventDefault();
@@ -182,7 +182,7 @@ export class Tree {
 
     if (shouldClearCurrentSelection) {
       const selectedItems = nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item[selected]")
+        this.el.querySelectorAll("calcite-tree-item[selected]"),
       ) as HTMLCalciteTreeItemElement[];
 
       selectedItems.forEach((treeItem) => {
@@ -229,7 +229,7 @@ export class Tree {
     this.selectedItems = isNoneSelectionMode
       ? []
       : (nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
-          (i) => i.selected
+          (i) => i.selected,
         ) as HTMLCalciteTreeItemElement[]);
 
     this.calciteTreeSelect.emit();
@@ -342,7 +342,7 @@ export class Tree {
     }
 
     const childItems = Array.from(
-      item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
+      item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])"),
     );
     const childItemsWithNoChildren = childItems.filter((child) => !child.hasChildren);
     const childItemsWithChildren = childItems.filter((child) => child.hasChildren);
@@ -361,7 +361,7 @@ export class Tree {
 
     function updateItemState(
       childItems: HTMLCalciteTreeItemElement[],
-      item: HTMLCalciteTreeItemElement
+      item: HTMLCalciteTreeItemElement,
     ): void {
       const selected = childItems.filter((child) => child.selected);
       const unselected = childItems.filter((child) => !child.selected);
@@ -372,7 +372,9 @@ export class Tree {
 
     childItemsWithChildren.reverse().forEach((el) => {
       const directChildItems = Array.from(
-        el.querySelectorAll<HTMLCalciteTreeItemElement>(":scope > calcite-tree > calcite-tree-item")
+        el.querySelectorAll<HTMLCalciteTreeItemElement>(
+          ":scope > calcite-tree > calcite-tree-item",
+        ),
       );
 
       updateItemState(directChildItems, el);

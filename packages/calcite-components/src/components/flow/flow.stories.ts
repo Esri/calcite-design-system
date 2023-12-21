@@ -144,7 +144,7 @@ export const simple = (): string =>
     "calcite-flow",
     createAttributes(),
     `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`,
   );
 
 export const darkModeRTL_TestOnly = (): string =>
@@ -155,10 +155,10 @@ export const darkModeRTL_TestOnly = (): string =>
         name: "class",
         value: "calcite-mode-dark",
       },
-      { name: "dir", value: "rtl" }
+      { name: "dir", value: "rtl" },
     ),
     `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`,
   );
 
 export const noDoubleScrollbars_TestOnly = (): string => html`

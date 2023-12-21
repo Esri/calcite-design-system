@@ -53,7 +53,7 @@ describe("calcite-select", () => {
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
     const selectedOptionValue = await page.$eval(
       "calcite-select",
-      (select: HTMLCalciteSelectElement): string => select.selectedOption.value
+      (select: HTMLCalciteSelectElement): string => select.selectedOption.value,
     );
 
     expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
@@ -82,7 +82,7 @@ describe("calcite-select", () => {
       const spy = await select.spyOnEvent("calciteSelectChange");
 
       const internalSelect = await page.evaluateHandle(() =>
-        document.querySelector("calcite-select").shadowRoot.querySelector("select")
+        document.querySelector("calcite-select").shadowRoot.querySelector("select"),
       );
 
       await internalSelect.asElement().select("dos");
@@ -197,7 +197,7 @@ describe("calcite-select", () => {
       const spy = await select.spyOnEvent("calciteSelectChange");
 
       const internalSelect = await page.evaluateHandle(() =>
-        document.querySelector("calcite-select").shadowRoot.querySelector("select")
+        document.querySelector("calcite-select").shadowRoot.querySelector("select"),
       );
 
       await internalSelect.asElement().select("c");
@@ -335,13 +335,13 @@ describe("calcite-select", () => {
     await page.evaluate(() => {
       document.querySelector("calcite-select").addEventListener("calciteSelectChange", (event) => {
         (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
-          "calcite-option[selected]"
+          "calcite-option[selected]",
         ).id;
       });
     });
 
     const internalSelect = await page.evaluateHandle(() =>
-      document.querySelector("calcite-select").shadowRoot.querySelector("select")
+      document.querySelector("calcite-select").shadowRoot.querySelector("select"),
     );
 
     await internalSelect.asElement().select("dos");
@@ -354,27 +354,25 @@ describe("calcite-select", () => {
 
   it("honors empty value", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      html`
-        <calcite-select id="calcite-select">
-          <calcite-option id="1" value="uno">uno</calcite-option>
-          <calcite-option id="2" value="">dos</calcite-option>
-        </calcite-select>
-      `
-    );
+    await page.setContent(html`
+      <calcite-select id="calcite-select">
+        <calcite-option id="1" value="uno">uno</calcite-option>
+        <calcite-option id="2" value="">dos</calcite-option>
+      </calcite-select>
+    `);
 
     type TestWindow = typeof window & { selectedOptionId: string };
 
     await page.$eval("calcite-select", (select: HTMLCalciteSelectElement) =>
       select.addEventListener("calciteSelectChange", (event) => {
         (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
-          "calcite-option[selected]"
+          "calcite-option[selected]",
         ).id;
-      })
+      }),
     );
 
     const internalSelect = await page.evaluateHandle(() =>
-      document.querySelector("calcite-select").shadowRoot.querySelector("select")
+      document.querySelector("calcite-select").shadowRoot.querySelector("select"),
     );
 
     await internalSelect.asElement().select("");
@@ -395,7 +393,7 @@ describe("calcite-select", () => {
           <calcite-option id="3">tres</calcite-option>
         </calcite-select>
       `,
-      { testValue: "dos" }
+      { testValue: "dos" },
     );
   });
 });

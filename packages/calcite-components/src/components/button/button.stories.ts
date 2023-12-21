@@ -32,7 +32,7 @@ export const withIconStart = (): string => html`
     alignment="${select(
       "alignment",
       ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
-      "center"
+      "center",
     )}"
     appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
     kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
@@ -54,7 +54,7 @@ export const withIconEnd = (): string => html`
     alignment="${select(
       "alignment",
       ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
-      "center"
+      "center",
     )}"
     appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
     icon-end="${select("icon-end", iconNames, iconNames[0])}"
@@ -77,7 +77,7 @@ export const withIconStartAndIconEnd = (): string => html`
     alignment="${select(
       "alignment",
       ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
-      "center"
+      "center",
     )}"
     appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
     kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"

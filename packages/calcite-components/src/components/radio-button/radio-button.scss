@@ -58,7 +58,9 @@
 }
 :host([scale="s"][focused][checked]:not([disabled])) {
   .radio {
-    box-shadow: inset 0 0 0 4px var(--calcite-color-brand), 0 0 0 2px var(--calcite-color-foreground-1);
+    box-shadow:
+      inset 0 0 0 4px var(--calcite-color-brand),
+      0 0 0 2px var(--calcite-color-foreground-1);
   }
 }
 :host([scale="m"][checked]),
@@ -69,7 +71,9 @@
 }
 :host([scale="m"][focused][checked]:not([disabled])) {
   .radio {
-    box-shadow: inset 0 0 0 5px var(--calcite-color-brand), 0 0 0 2px var(--calcite-color-foreground-1);
+    box-shadow:
+      inset 0 0 0 5px var(--calcite-color-brand),
+      0 0 0 2px var(--calcite-color-foreground-1);
   }
 }
 :host([scale="l"][checked]),
@@ -80,7 +84,9 @@
 }
 :host([scale="l"][focused][checked]:not([disabled])) {
   .radio {
-    box-shadow: inset 0 0 0 6px var(--calcite-color-brand), 0 0 0 2px var(--calcite-color-foreground-1);
+    box-shadow:
+      inset 0 0 0 6px var(--calcite-color-brand),
+      0 0 0 2px var(--calcite-color-foreground-1);
   }
 }
 

@@ -147,7 +147,7 @@ export class DropdownGroup {
 
   private updateItems = (): void => {
     Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach(
-      (item) => (item.selectionMode = this.selectionMode)
+      (item) => (item.selectionMode = this.selectionMode),
     );
   };
 
@@ -162,7 +162,7 @@ export class DropdownGroup {
   private getGroupPosition(): number {
     return Array.prototype.indexOf.call(
       this.el.parentElement.querySelectorAll("calcite-dropdown-group"),
-      this.el
+      this.el,
     );
   }
 }

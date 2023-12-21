@@ -82,8 +82,9 @@ import { focusElement } from "../../utils/dom";
   assetsDirs: ["assets"],
 })
 export class ValueList<
-  ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements
+    ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement,
+  >
+  implements
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,

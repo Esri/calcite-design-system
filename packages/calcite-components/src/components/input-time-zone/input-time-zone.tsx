@@ -305,7 +305,7 @@ export class InputTimeZone
     return this.timeZoneItems.find(
       ({ value }) =>
         // intentional == to match string to number
-        value == valueToMatch
+        value == valueToMatch,
     );
   }
 
@@ -333,7 +333,7 @@ export class InputTimeZone
       this.mode,
       this.referenceDate instanceof Date
         ? this.referenceDate
-        : new Date(this.referenceDate ?? Date.now())
+        : new Date(this.referenceDate ?? Date.now()),
     );
   }
 

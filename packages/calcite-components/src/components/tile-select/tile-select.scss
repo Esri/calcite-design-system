@@ -38,7 +38,9 @@ $spacing: $baseline * 0.5;
         &:not(.input-enabled) {
           @apply focus-inset;
           outline-offset: -4px;
-          box-shadow: 0 0 0 1px var(--calcite-color-brand), inset 0 0 0 2px var(--calcite-color-foreground-1);
+          box-shadow:
+            0 0 0 1px var(--calcite-color-brand),
+            inset 0 0 0 2px var(--calcite-color-foreground-1);
         }
       }
     }
