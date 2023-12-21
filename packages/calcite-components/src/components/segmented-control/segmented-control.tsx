@@ -116,7 +116,7 @@ export class SegmentedControl
   @Watch("selectedItem")
   protected handleSelectedItemChange<T extends HTMLCalciteSegmentedControlItemElement>(
     newItem: T,
-    oldItem: T,
+    oldItem: T
   ): void {
     this.value = newItem?.value;
     if (newItem === oldItem) {

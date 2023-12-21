@@ -47,7 +47,7 @@ function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is HTMLCalciteOpt
 }
 
 function isOptionGroup(
-  optionOrGroup: OptionOrGroup,
+  optionOrGroup: OptionOrGroup
 ): optionOrGroup is HTMLCalciteOptionGroupElement {
   return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
 }
@@ -263,7 +263,7 @@ export class Select
 
   private updateNativeElement(
     optionOrGroup: OptionOrGroup,
-    nativeOptionOrGroup: NativeOptionOrGroup,
+    nativeOptionOrGroup: NativeOptionOrGroup
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
     nativeOptionOrGroup.label = optionOrGroup.label;
@@ -281,15 +281,15 @@ export class Select
 
   private populateInternalSelect = (): void => {
     const optionsAndGroups = Array.from(
-      this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>,
+      this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>
     ).filter(
-      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP",
+      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP"
     ) as OptionOrGroup[];
 
     this.clearInternalSelect();
 
-    optionsAndGroups.forEach(
-      (optionOrGroup) => this.selectEl?.append(this.toNativeElement(optionOrGroup)),
+    optionsAndGroups.forEach((optionOrGroup) =>
+      this.selectEl?.append(this.toNativeElement(optionOrGroup))
     );
   };
 
@@ -327,7 +327,7 @@ export class Select
   }
 
   private toNativeElement(
-    optionOrGroup: HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement,
+    optionOrGroup: HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement
   ): NativeOptionOrGroup {
     if (isOption(optionOrGroup)) {
       const option = document.createElement("option");
@@ -346,7 +346,7 @@ export class Select
           const nativeOption = this.toNativeElement(option);
           group.append(nativeOption);
           this.componentToNativeEl.set(optionOrGroup, nativeOption);
-        },
+        }
       );
 
       this.componentToNativeEl.set(optionOrGroup, group);

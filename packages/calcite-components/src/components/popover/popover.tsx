@@ -253,7 +253,7 @@ export class Popover
   @Element() el: HTMLCalcitePopoverElement;
 
   mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements(),
+    this.updateFocusTrapElements()
   );
 
   filteredFlipPlacements: EffectivePlacement[];
@@ -381,7 +381,7 @@ export class Popover
         arrowEl,
         type: "popover",
       },
-      delayed,
+      delayed
     );
   }
 

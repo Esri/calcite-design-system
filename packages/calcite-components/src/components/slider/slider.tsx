@@ -1173,7 +1173,7 @@ export class Slider
   private setValue(
     values: Partial<{
       [Property in keyof Pick<Slider, "maxValue" | "minValue" | "value">]: number;
-    }>,
+    }>
   ): void {
     let valueChanged: boolean;
 
@@ -1293,10 +1293,10 @@ export class Slider
   private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
     const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.static`,
+      `.handle__label--${name}.static`
     );
     const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.transformed`,
+      `.handle__label--${name}.transformed`
     );
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
@@ -1312,37 +1312,37 @@ export class Slider
     const rightModifier = mirror ? "minValue" : "value";
 
     const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}`,
+      `.handle__label--${leftModifier}`
     );
     const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.static`,
+      `.handle__label--${leftModifier}.static`
     );
     const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.transformed`,
+      `.handle__label--${leftModifier}.transformed`
     );
     const leftValueLabelStaticHostOffset = this.getHostOffset(
       leftValueLabelStatic.getBoundingClientRect().left,
-      leftValueLabelStatic.getBoundingClientRect().right,
+      leftValueLabelStatic.getBoundingClientRect().right
     );
 
     const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}`,
+      `.handle__label--${rightModifier}`
     );
     const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.static`,
+      `.handle__label--${rightModifier}.static`
     );
     const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.transformed`,
+      `.handle__label--${rightModifier}.transformed`
     );
     const rightValueLabelStaticHostOffset = this.getHostOffset(
       rightValueLabelStatic.getBoundingClientRect().left,
-      rightValueLabelStatic.getBoundingClientRect().right,
+      rightValueLabelStatic.getBoundingClientRect().right
     );
 
     const labelFontSize = this.getFontSizeForElement(leftValueLabel);
     const labelTransformedOverlap = this.getRangeLabelOverlap(
       leftValueLabelTransformed,
-      rightValueLabelTransformed,
+      rightValueLabelTransformed
     );
 
     const hyphenLabel = leftValueLabel;
@@ -1364,13 +1364,13 @@ export class Slider
             labelOffset,
           leftValueLabelTransformed.getBoundingClientRect().right +
             leftValueLabelTranslate -
-            labelOffset,
+            labelOffset
         );
 
         let rightValueLabelTranslate = labelTransformedOverlap / 2;
         const rightValueLabelTransformedHostOffset = this.getHostOffset(
           rightValueLabelTransformed.getBoundingClientRect().left + rightValueLabelTranslate,
-          rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate,
+          rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate
         );
 
         if (leftValueLabelTransformedHostOffset !== 0) {

@@ -242,9 +242,9 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
     return this.dropdownIconType === "chevron"
       ? "chevronDown"
       : this.dropdownIconType === "caret"
-        ? "caretDown"
-        : this.dropdownIconType === "ellipsis"
-          ? "ellipsis"
-          : "handle-vertical";
+      ? "caretDown"
+      : this.dropdownIconType === "ellipsis"
+      ? "ellipsis"
+      : "handle-vertical";
   }
 }

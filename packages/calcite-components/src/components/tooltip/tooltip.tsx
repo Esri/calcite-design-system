@@ -239,7 +239,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         arrowEl,
         type: "tooltip",
       },
-      delayed,
+      delayed
     );
   }
 

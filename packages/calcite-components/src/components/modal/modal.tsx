@@ -357,7 +357,7 @@ export class Modal
   initialOverflowCSS: string;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
+    this.handleMutationObserver()
   );
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
