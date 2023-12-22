@@ -254,13 +254,13 @@ export class List
 
     event.stopPropagation();
 
-    const { keyboardItems } = this;
-    const currentIndex = keyboardItems.findIndex((listItem) => listItem.active);
+    const { focusableItems } = this;
+    const currentIndex = focusableItems.findIndex((listItem) => listItem.active);
 
     const prevIndex = currentIndex - 1;
 
-    if (keyboardItems[prevIndex]) {
-      this.focusRow(keyboardItems[prevIndex]);
+    if (focusableItems[prevIndex]) {
+      this.focusRow(focusableItems[prevIndex]);
     }
   }
 
@@ -332,16 +332,16 @@ export class List
 
     event.stopPropagation();
     const { target, detail } = event;
-    const { keyboardItems, lastSelectedInfo } = this;
+    const { focusableItems, lastSelectedInfo } = this;
     const selectedItem = target as HTMLCalciteListItemElement;
 
     if (detail.selectMultiple && !!lastSelectedInfo) {
-      const currentIndex = keyboardItems.indexOf(selectedItem);
-      const lastSelectedIndex = keyboardItems.indexOf(lastSelectedInfo.selectedItem);
+      const currentIndex = focusableItems.indexOf(selectedItem);
+      const lastSelectedIndex = focusableItems.indexOf(lastSelectedInfo.selectedItem);
       const startIndex = Math.min(lastSelectedIndex, currentIndex);
       const endIndex = Math.max(lastSelectedIndex, currentIndex);
 
-      keyboardItems
+      focusableItems
         .slice(startIndex, endIndex + 1)
         .forEach((item) => (item.selected = lastSelectedInfo.selected));
     } else {
@@ -430,11 +430,9 @@ export class List
 
   dragSelector = "calcite-list-item";
 
-  enabledItems: HTMLCalciteListItemElement[] = [];
-
-  keyboardItems: HTMLCalciteListItemElement[] = [];
-
   filterEl: HTMLCalciteFilterElement;
+
+  focusableItems: HTMLCalciteListItemElement[] = [];
 
   handleSelector = "calcite-handle";
 
@@ -445,6 +443,8 @@ export class List
   listItems: HTMLCalciteListItemElement[] = [];
 
   mutationObserver = createObserver("mutation", () => this.updateListItems());
+
+  openItems: HTMLCalciteListItemElement[] = [];
 
   parentListEl: HTMLCalciteListElement;
 
@@ -473,7 +473,7 @@ export class List
       return this.filterEl?.setFocus();
     }
 
-    return this.keyboardItems.find((listItem) => listItem.active)?.setFocus();
+    return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -656,17 +656,17 @@ export class List
   };
 
   private setActiveListItem = (): void => {
-    const { keyboardItems } = this;
+    const { focusableItems } = this;
 
-    if (!keyboardItems.some((item) => item.active)) {
-      if (keyboardItems[0]) {
-        keyboardItems[0].active = true;
+    if (!focusableItems.some((item) => item.active)) {
+      if (focusableItems[0]) {
+        focusableItems[0].active = true;
       }
     }
   };
 
   private updateSelectedItems = (emit = false): void => {
-    this.selectedItems = this.enabledItems.filter((item) => item.selected);
+    this.selectedItems = this.openItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
     }
@@ -706,16 +706,16 @@ export class List
   }
 
   private updateFilteredItems = (emit = false): void => {
-    const { enabledItems, filteredData, filterText } = this;
+    const { openItems, filteredData, filterText } = this;
 
     const values = filteredData.map((item) => item.value);
 
-    const lastDescendantItems = enabledItems?.filter((listItem) =>
-      enabledItems.every((li) => li === listItem || !listItem.contains(li)),
+    const lastDescendantItems = openItems?.filter((listItem) =>
+      openItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
     const filteredItems =
-      enabledItems.filter((item) => !filterText || values.includes(item.value)) || [];
+      openItems.filter((item) => !filterText || values.includes(item.value)) || [];
 
     const visibleParents = new WeakSet<HTMLElement>();
 
@@ -811,9 +811,9 @@ export class List
         this.filterEl.items = this.dataForFilter;
       }
     }
-    this.enabledItems = this.listItems.filter((item) => !item.closed);
+    this.openItems = this.listItems.filter((item) => !item.closed);
     this.updateFilteredItems(emit);
-    this.keyboardItems = this.filteredItems.filter((item) => !item.disabled);
+    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
     this.updateSelectedItems(emit);
     this.setUpSorting();
@@ -824,13 +824,13 @@ export class List
   };
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
-    const { keyboardItems } = this;
+    const { focusableItems } = this;
 
     if (!focusEl) {
       return;
     }
 
-    keyboardItems.forEach((listItem) => (listItem.active = listItem === focusEl));
+    focusableItems.forEach((listItem) => (listItem.active = listItem === focusEl));
 
     focusEl.setFocus();
   };
@@ -851,15 +851,15 @@ export class List
     }
 
     const { key } = event;
-    const navItems = this.keyboardItems.filter((listItem) => this.isNavigable(listItem));
-    const currentIndex = navItems.findIndex((listItem) => listItem.active);
+    const navigableItems = this.focusableItems.filter((listItem) => this.isNavigable(listItem));
+    const currentIndex = navigableItems.findIndex((listItem) => listItem.active);
 
     if (key === "ArrowDown") {
       event.preventDefault();
       const nextIndex = event.target === this.filterEl ? 0 : currentIndex + 1;
 
-      if (navItems[nextIndex]) {
-        this.focusRow(navItems[nextIndex]);
+      if (navigableItems[nextIndex]) {
+        this.focusRow(navigableItems[nextIndex]);
       }
     } else if (key === "ArrowUp") {
       event.preventDefault();
@@ -871,19 +871,19 @@ export class List
 
       const prevIndex = currentIndex - 1;
 
-      if (navItems[prevIndex]) {
-        this.focusRow(navItems[prevIndex]);
+      if (navigableItems[prevIndex]) {
+        this.focusRow(navigableItems[prevIndex]);
       }
     } else if (key === "Home") {
       event.preventDefault();
-      const homeItem = navItems[0];
+      const homeItem = navigableItems[0];
 
       if (homeItem) {
         this.focusRow(homeItem);
       }
     } else if (key === "End") {
       event.preventDefault();
-      const endItem = navItems[navItems.length - 1];
+      const endItem = navigableItems[navigableItems.length - 1];
 
       if (endItem) {
         this.focusRow(endItem);

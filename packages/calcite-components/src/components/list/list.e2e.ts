@@ -88,7 +88,7 @@ describe("calcite-list", () => {
     hidden("calcite-list");
   });
 
-  describe.skip("translation support", () => {
+  describe("translation support", () => {
     t9n("calcite-list");
   });
 
