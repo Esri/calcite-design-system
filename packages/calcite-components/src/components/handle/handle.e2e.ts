@@ -37,6 +37,50 @@ describe("calcite-handle", () => {
     expect(await handle.getProperty("activated")).toBe(true);
   });
 
+  it("sets activated to false when blurred", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-handle></calcite-handle>");
+
+    const handle = await page.find("calcite-handle");
+    const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
+
+    expect(await handle.getProperty("activated")).toBe(false);
+
+    await button.focus();
+
+    await page.keyboard.press(" ");
+
+    await page.waitForChanges();
+
+    expect(await handle.getProperty("activated")).toBe(true);
+
+    await page.$eval("calcite-handle", (handle: HTMLCalciteHandleElement) => handle.blur());
+
+    expect(await handle.getProperty("activated")).toBe(false);
+  });
+
+  it("does not set activated to false when blurDisabled and blurred", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-handle blur-disabled></calcite-handle>");
+
+    const handle = await page.find("calcite-handle");
+    const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
+
+    expect(await handle.getProperty("activated")).toBe(false);
+
+    await button.focus();
+
+    await page.keyboard.press(" ");
+
+    await page.waitForChanges();
+
+    expect(await handle.getProperty("activated")).toBe(true);
+
+    await page.$eval("calcite-handle", (handle: HTMLCalciteHandleElement) => handle.blur());
+
+    expect(await handle.getProperty("activated")).toBe(true);
+  });
+
   it("fires calciteHandleNudge event when focused and up or down key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-handle></calcite-handle>");
