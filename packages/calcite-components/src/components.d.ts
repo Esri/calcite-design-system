@@ -2839,10 +2839,6 @@ export namespace Components {
          */
         "dragHandle": boolean;
         /**
-          * When `true`, the component's drag handle is selected.
-         */
-        "dragHandleSelected": boolean;
-        /**
           * The label text of the component. Displays above the description text.
          */
         "label": string;
@@ -10202,10 +10198,6 @@ declare namespace LocalJSX {
           * When `true`, the component displays a draggable button.
          */
         "dragHandle"?: boolean;
-        /**
-          * When `true`, the component's drag handle is selected.
-         */
-        "dragHandleSelected"?: boolean;
         /**
           * The label text of the component. Displays above the description text.
          */
