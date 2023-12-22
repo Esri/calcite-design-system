@@ -1033,7 +1033,9 @@ describe("calcite-list", () => {
 
       await assertKeyboardMove("ArrowDown", ["two", "one", "three"], 1, 0);
       await assertKeyboardMove("ArrowDown", ["two", "three", "one"], 2, 1);
+      await assertKeyboardMove("ArrowDown", ["one", "two", "three"], 0, 2);
 
+      await assertKeyboardMove("ArrowUp", ["two", "three", "one"], 2, 0);
       await assertKeyboardMove("ArrowUp", ["two", "one", "three"], 1, 2);
       await assertKeyboardMove("ArrowUp", ["one", "two", "three"], 0, 1);
     });

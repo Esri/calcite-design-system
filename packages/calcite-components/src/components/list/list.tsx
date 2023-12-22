@@ -945,37 +945,22 @@ export class List
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(sortItem);
-    let appendInstead = false;
     let newIndex: number;
 
     if (direction === "up") {
-      if (oldIndex === 0) {
-        appendInstead = true;
-        newIndex = lastIndex;
-      } else {
-        newIndex = oldIndex - 1;
-      }
+      newIndex = oldIndex === 0 ? lastIndex : oldIndex - 1;
     } else {
-      if (oldIndex === lastIndex) {
-        newIndex = 0;
-      } else if (oldIndex === lastIndex - 1) {
-        appendInstead = true;
-        newIndex = lastIndex;
-      } else {
-        newIndex = oldIndex + 1;
-      }
+      newIndex = oldIndex === lastIndex ? 0 : oldIndex + 1;
     }
 
     this.disconnectObserver();
 
-    if (appendInstead) {
-      parentEl.appendChild(sortItem);
-    } else {
-      parentEl.insertBefore(
-        sortItem,
-        sameParentItems[direction === "up" ? newIndex : newIndex + 1],
-      );
-    }
+    const referenceEl =
+      (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
+        ? sameParentItems[newIndex]
+        : sameParentItems[newIndex].nextSibling;
+
+    parentEl.insertBefore(sortItem, referenceEl);
 
     this.updateListItems();
     this.connectObserver();

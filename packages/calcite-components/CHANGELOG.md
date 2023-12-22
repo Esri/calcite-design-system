@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.3...@esri/calcite-components@2.2.0-next.4) (2023-12-21)
+
+### Bug Fixes
+
+- __list:__ fix keyboard arrow navigation ([#8470](https://github.com/Esri/calcite-design-system/issues/8470)) ([57fdaa4](https://github.com/Esri/calcite-design-system/commit/57fdaa4392b29890be6e5af439168b621b3b5a9e)), closes [#8464](https://github.com/Esri/calcite-design-system/issues/8464)
+
 ## [2.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.2...@esri/calcite-components@2.2.0-next.3) (2023-12-21)
 
 ### Bug Fixes
