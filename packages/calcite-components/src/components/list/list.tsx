@@ -288,8 +288,8 @@ export class List
     this.updateSelectedItems(true);
   }
 
-  @Listen("calciteInternalHandleChange")
-  handleCalciteInternalHandleChange(event: CustomEvent): void {
+  @Listen("calciteInternalAssistiveTextChange")
+  handleCalciteInternalAssistiveTextChange(event: CustomEvent): void {
     this.assistiveText = event.detail.message;
     event.stopPropagation();
   }
@@ -971,7 +971,7 @@ export class List
     });
 
     handle.setFocus().then(() => {
-      handle.activated = true;
+      handle.selected = true;
     });
   }
 }

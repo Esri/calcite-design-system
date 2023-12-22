@@ -138,6 +138,11 @@ export class ListItem
   @Prop() dragHandle = false;
 
   /**
+   * When `true`, the component's drag handle is selected.
+   */
+  @Prop({ reflect: true }) dragHandleSelected = false;
+
+  /**
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
@@ -419,7 +424,7 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+    const { label, dragHandle, dragDisabled, dragHandleSelected, setPosition, setSize } = this;
 
     return dragHandle ? (
       <td
@@ -433,6 +438,8 @@ export class ListItem
         <calcite-handle
           disabled={dragDisabled}
           label={label}
+          onCalciteHandleChange={this.dragHandleSelectedChange}
+          selected={dragHandleSelected}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -746,6 +753,10 @@ export class ListItem
 
   private handleDefaultSlotChange = (event: Event): void => {
     this.handleOpenableChange(event.target as HTMLSlotElement);
+  };
+
+  private dragHandleSelectedChange = (event: CustomEvent): void => {
+    this.dragHandleSelected = (event.target as HTMLCalciteHandleElement).selected;
   };
 
   private handleToggleClick = (): void => {
