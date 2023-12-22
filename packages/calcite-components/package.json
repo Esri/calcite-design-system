@@ -82,7 +82,7 @@
     "@stencil-community/postcss": "2.2.0",
     "@stencil/angular-output-target": "0.8.3",
     "@stencil/react-output-target": "0.5.3",
-    "@stencil/sass": "3.0.7",
+    "@stencil/sass": "3.0.8",
     "jsdom": "22.1.0"
   },
   "license": "SEE LICENSE.md",
