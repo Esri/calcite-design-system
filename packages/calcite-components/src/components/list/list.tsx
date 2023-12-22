@@ -918,19 +918,20 @@ export class List
   };
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
+    const { handleSelector, dragSelector } = this;
     const { direction } = event.detail;
 
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-HANDLE",
+      (el: HTMLElement) => el?.tagName && el.matches(handleSelector),
     ) as HTMLCalciteHandleElement;
 
-    const sortItem = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM",
+    const dragEl = composedPath.find(
+      (el: HTMLElement) => el?.tagName && el.matches(dragSelector),
     ) as HTMLCalciteListItemElement;
 
-    const parentEl = sortItem?.parentElement as HTMLCalciteListElement;
+    const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
 
     if (!parentEl) {
       return;
@@ -941,7 +942,7 @@ export class List
     const sameParentItems = enabledListItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
-    const oldIndex = sameParentItems.indexOf(sortItem);
+    const oldIndex = sameParentItems.indexOf(dragEl);
     let newIndex: number;
 
     if (direction === "up") {
@@ -958,13 +959,13 @@ export class List
         ? sameParentItems[newIndex]
         : sameParentItems[newIndex].nextSibling;
 
-    parentEl.insertBefore(sortItem, referenceEl);
+    parentEl.insertBefore(dragEl, referenceEl);
 
     this.updateListItems();
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
-      dragEl: sortItem,
+      dragEl,
       fromEl: parentEl,
       toEl: parentEl,
       newIndex,
