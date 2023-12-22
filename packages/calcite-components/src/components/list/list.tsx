@@ -963,8 +963,6 @@ export class List
     this.updateListItems();
     this.connectObserver();
 
-    handle.setFocus().then(() => (handle.blurDisabled = false));
-
     this.calciteListOrderChange.emit({
       dragEl: sortItem,
       fromEl: parentEl,
@@ -972,5 +970,7 @@ export class List
       newIndex,
       oldIndex,
     });
+
+    handle.setFocus().then(() => (handle.blurDisabled = false));
   }
 }
