@@ -428,7 +428,7 @@ export class List
 
   @State() dataForFilter: ItemData = [];
 
-  dragSelector = "calcite-list-item";
+  dragSelector = listItemSelector;
 
   enabledListItems: HTMLCalciteListItemElement[] = [];
 
@@ -902,11 +902,11 @@ export class List
   private getTopLevelAncestorItemElement = (
     el: HTMLCalciteListItemElement,
   ): HTMLCalciteListItemElement | null => {
-    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>(listItemSelector);
 
     while (closestParent) {
       const closestListItemAncestor =
-        closestParent.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+        closestParent.parentElement.closest<HTMLCalciteListItemElement>(listItemSelector);
 
       if (closestListItemAncestor) {
         closestParent = closestListItemAncestor;
