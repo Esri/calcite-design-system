@@ -95,7 +95,7 @@ export class DatePickerMonthHeader {
   componentWillLoad(): void {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(
       this.el,
-      "calcite-date-picker"
+      "calcite-date-picker",
     ) as HTMLCalciteDatePickerElement;
   }
 
@@ -244,7 +244,7 @@ export class DatePickerMonthHeader {
 
   private parseCalendarYear(year: string): string {
     return numberStringFormatter.localize(
-      `${parseCalendarYear(Number(numberStringFormatter.delocalize(year)), this.localeData)}`
+      `${parseCalendarYear(Number(numberStringFormatter.delocalize(year)), this.localeData)}`,
     );
   }
 

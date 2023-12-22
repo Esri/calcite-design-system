@@ -161,7 +161,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabTitleUnregister", {
         detail: this.el,
-      })
+      }),
     );
     this.resizeObserver?.disconnect();
     disconnectInteractive(this);
@@ -415,9 +415,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
       nodeListToArray(this.el.parentElement.children).filter((el) =>
-        el.matches("calcite-tab-title")
+        el.matches("calcite-tab-title"),
       ),
-      this.el
+      this.el,
     );
   }
 

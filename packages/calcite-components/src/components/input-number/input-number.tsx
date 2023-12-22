@@ -327,8 +327,8 @@ export class InputNumber
           newValue == null || newValue == ""
             ? ""
             : isValidNumber(newValue)
-            ? newValue
-            : this.previousValue || "",
+              ? newValue
+              : this.previousValue || "",
       });
       this.warnAboutInvalidNumberValue(newValue);
     }
@@ -548,7 +548,7 @@ export class InputNumber
     direction: NumberNudgeDirection,
     inputMax: number | null,
     inputMin: number | null,
-    nativeEvent: KeyboardEvent | MouseEvent
+    nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
     const adjustment = direction === "up" ? 1 : -1;
@@ -571,8 +571,8 @@ export class InputNumber
     const finalValue = nudgedValueBelowInputMin()
       ? `${inputMin}`
       : nudgedValueAboveInputMax()
-      ? `${inputMax}`
-      : nudgedValue.toString();
+        ? `${inputMax}`
+        : nudgedValue.toString();
 
     this.setNumberValue({
       committing: true,
@@ -723,7 +723,7 @@ export class InputNumber
 
   private nudgeNumberValue = (
     direction: NumberNudgeDirection,
-    nativeEvent: KeyboardEvent | MouseEvent
+    nativeEvent: KeyboardEvent | MouseEvent,
   ): void => {
     if (nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) {
       return;
@@ -881,7 +881,7 @@ export class InputNumber
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
         newLocalizedValue,
         newValue,
-        numberStringFormatter
+        numberStringFormatter,
       );
     }
 

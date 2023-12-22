@@ -266,9 +266,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         break;
     }
 
-    const destinationCount = this.allRows?.find(
-      (row) => row.positionAll === rowPosition
-    )?.cellCount;
+    const destinationCount = this.allRows?.find((row) => row.positionAll === rowPosition)
+      ?.cellCount;
 
     const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
 
@@ -354,6 +353,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
       row.hidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
+      row.lastVisibleRow =
+        rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
     });
   };
 

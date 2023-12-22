@@ -133,7 +133,7 @@ function processCalendarYear(year: number, localeData: DateLocaleData, mode: "re
  */
 export function datePartsFromLocalizedString(
   string: string,
-  localeData: DateLocaleData
+  localeData: DateLocaleData,
 ): { day: string; month: string; year: string } {
   const { separator, unitOrder } = localeData;
   const order = getOrder(unitOrder);
@@ -225,7 +225,7 @@ export function nextMonth(date: Date): Date {
  */
 export function parseDateString(
   string: string,
-  localeData: DateLocaleData
+  localeData: DateLocaleData,
 ): { day: number; month: number; year: number } {
   const { day, month, year } = datePartsFromLocalizedString(string, localeData);
   return {

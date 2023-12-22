@@ -79,7 +79,7 @@ describe("calcite-color-picker-swatch", () => {
 
       it("supports rgba", async () => {
         await page.setContent(
-          "<calcite-color-picker-swatch color='rgba(255, 255, 255, 0.5)'></calcite-color-picker-swatch>"
+          "<calcite-color-picker-swatch color='rgba(255, 255, 255, 0.5)'></calcite-color-picker-swatch>",
         );
         const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
         const style = await swatch.getComputedStyle();
@@ -89,7 +89,7 @@ describe("calcite-color-picker-swatch", () => {
 
       it("supports hsla", async () => {
         await page.setContent(
-          "<calcite-color-picker-swatch color='hsla(120, 100%, 97%, 0.5)'></calcite-color-picker-swatch>"
+          "<calcite-color-picker-swatch color='hsla(120, 100%, 97%, 0.5)'></calcite-color-picker-swatch>",
         );
         const swatch = await page.find(`calcite-color-picker-swatch >>> ${fillSwatchPartSelector}`);
         const style = await swatch.getComputedStyle();

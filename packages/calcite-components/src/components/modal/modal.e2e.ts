@@ -5,7 +5,7 @@ import { CSS, SLOTS } from "./resources";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
 
 describe("calcite-modal", () => {
-  describe("renders", () => {
+  describe("renders", () => 
     renders("calcite-modal", { display: "flex", visible: false });
   });
 

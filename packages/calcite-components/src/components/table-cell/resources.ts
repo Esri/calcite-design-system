@@ -4,4 +4,5 @@ export const CSS = {
   selectionCell: "selection-cell",
   selectedCell: "selected-cell",
   assistiveText: "assistive-text",
+  lastCell: "last-cell",
 };

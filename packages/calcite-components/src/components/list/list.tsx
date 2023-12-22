@@ -324,7 +324,7 @@ export class List
   handleCalciteInternalListItemSelectMultiple(
     event: CustomEvent<{
       selectMultiple: boolean;
-    }>
+    }>,
   ): void {
     if (!!this.parentListEl) {
       return;
@@ -579,7 +579,7 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(enabledListItems.length.toString())
+            numberStringFormatter.localize(enabledListItems.length.toString()),
           )}
         </div>
         {enabledListItems.length ? (
@@ -709,7 +709,7 @@ export class List
     const values = filteredData.map((item) => item.value);
 
     const lastDescendantItems = listItems?.filter((listItem) =>
-      listItems.every((li) => li === listItem || !listItem.contains(li))
+      listItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
     const filteredItems =
@@ -718,7 +718,7 @@ export class List
     const visibleParents = new WeakSet<HTMLElement>();
 
     lastDescendantItems.forEach((listItem) =>
-      this.filterElements({ el: listItem, filteredItems, visibleParents })
+      this.filterElements({ el: listItem, filteredItems, visibleParents }),
     );
 
     if (filteredItems.length > 0) {
@@ -900,7 +900,7 @@ export class List
   };
 
   private getTopLevelAncestorItemElement = (
-    el: HTMLCalciteListItemElement
+    el: HTMLCalciteListItemElement,
   ): HTMLCalciteListItemElement | null => {
     let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
 
@@ -923,11 +923,11 @@ export class List
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-HANDLE"
+      (el: HTMLElement) => el.tagName === "CALCITE-HANDLE",
     ) as HTMLCalciteHandleElement;
 
     const sortItem = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM"
+      (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM",
     ) as HTMLCalciteListItemElement;
 
     const parentEl = sortItem?.parentElement as HTMLCalciteListElement;
@@ -942,37 +942,22 @@ export class List
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(sortItem);
-    let appendInstead = false;
     let newIndex: number;
 
     if (direction === "up") {
-      if (oldIndex === 0) {
-        appendInstead = true;
-        newIndex = lastIndex;
-      } else {
-        newIndex = oldIndex - 1;
-      }
+      newIndex = oldIndex === 0 ? lastIndex : oldIndex - 1;
     } else {
-      if (oldIndex === lastIndex) {
-        newIndex = 0;
-      } else if (oldIndex === lastIndex - 1) {
-        appendInstead = true;
-        newIndex = lastIndex;
-      } else {
-        newIndex = oldIndex + 1;
-      }
+      newIndex = oldIndex === lastIndex ? 0 : oldIndex + 1;
     }
 
     this.disconnectObserver();
 
-    if (appendInstead) {
-      parentEl.appendChild(sortItem);
-    } else {
-      parentEl.insertBefore(
-        sortItem,
-        sameParentItems[direction === "up" ? newIndex : newIndex + 1]
-      );
-    }
+    const referenceEl =
+      (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
+        ? sameParentItems[newIndex]
+        : sameParentItems[newIndex].nextSibling;
+
+    parentEl.insertBefore(sortItem, referenceEl);
 
     this.updateListItems();
     this.connectObserver();

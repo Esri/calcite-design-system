@@ -26,12 +26,17 @@
 td {
   @apply text-start focus-base align-middle text-color-1 whitespace-normal;
   background: var(--calcite-internal-table-cell-background);
-  border-inline-end: 1px solid var(--calcite-color-border-3);
   font-size: var(--calcite-internal-table-cell-font-size);
+  border-inline-end: 1px solid var(--calcite-color-border-3);
+
   &:focus {
     @apply focus-inset;
   }
   padding: var(--calcite-internal-table-cell-padding);
+}
+
+td.last-cell {
+  border-inline-end: 0;
 }
 
 .number-cell {

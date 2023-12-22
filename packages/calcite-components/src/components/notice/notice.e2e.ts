@@ -118,7 +118,7 @@ describe("calcite-notice", () => {
         </calcite-notice>`,
         {
           shadowFocusTargetSelector: `.${CSS.close}`,
-        }
+        },
       );
     });
   });

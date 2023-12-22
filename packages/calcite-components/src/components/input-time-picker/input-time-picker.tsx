@@ -266,7 +266,7 @@ export class InputTimePicker
         numberingSystem,
         includeSeconds: this.shouldIncludeSeconds(),
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      })
+      }),
     );
   }
 
@@ -379,7 +379,7 @@ export class InputTimePicker
         numberingSystem: this.numberingSystem,
         includeSeconds: this.shouldIncludeSeconds(),
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      })
+      }),
     );
   }
 
@@ -464,7 +464,7 @@ export class InputTimePicker
         .map((char) =>
           numberKeys.includes(char)
             ? numberStringFormatter.numberFormatter.format(Number(char))
-            : char
+            : char,
         )
         .join("");
 
@@ -485,7 +485,7 @@ export class InputTimePicker
         numberingSystem: this.numberingSystem,
         includeSeconds,
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      })
+      }),
     );
   };
 
@@ -585,7 +585,7 @@ export class InputTimePicker
 
   private delocalizeTimeStringToParts(
     localizedTimeString: string,
-    fractionalSecondFormatToken?: "S" | "SS" | "SSS"
+    fractionalSecondFormatToken?: "S" | "SS" | "SSS",
   ): DayjsTimeParts {
     const ltsFormatString = this.localeConfig?.formats?.LTS;
     const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
@@ -601,7 +601,7 @@ export class InputTimePicker
 
     dayjs.updateLocale(
       this.getSupportedDayjsLocale(getSupportedLocale(this.effectiveLocale)),
-      this.localeConfig as Record<string, any>
+      this.localeConfig as Record<string, any>,
     );
 
     const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
@@ -722,9 +722,8 @@ export class InputTimePicker
 
     supportedLocale = this.getSupportedDayjsLocale(supportedLocale);
 
-    const { default: localeConfig } = await supportedDayjsLocaleToLocaleConfigImport.get(
-      supportedLocale
-    )();
+    const { default: localeConfig } =
+      await supportedDayjsLocaleToLocaleConfigImport.get(supportedLocale)();
 
     this.localeConfig = localeConfig;
 
@@ -733,7 +732,7 @@ export class InputTimePicker
   }
 
   private getExtendedLocaleConfig(
-    locale: string
+    locale: string,
   ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
@@ -875,7 +874,7 @@ export class InputTimePicker
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
           fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        })
+        }),
       );
     }
   };
@@ -898,7 +897,7 @@ export class InputTimePicker
             numberingSystem: this.numberingSystem,
             fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
           })
-        : ""
+        : "",
     );
   };
 
@@ -949,7 +948,7 @@ export class InputTimePicker
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
           fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        })
+        }),
       );
     }
   }
