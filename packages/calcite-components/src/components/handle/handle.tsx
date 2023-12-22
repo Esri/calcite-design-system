@@ -270,7 +270,10 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
       return;
     }
 
-    this.selected = false;
+    if (this.selected) {
+      this.selected = false;
+      this.calciteHandleChange.emit();
+    }
   };
 
   // --------------------------------------------------------------------------

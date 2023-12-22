@@ -30,11 +30,13 @@ describe("calcite-handle", () => {
 
     await button.focus();
 
+    const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
     await page.keyboard.press(" ");
 
     await page.waitForChanges();
 
     expect(await handle.getProperty("selected")).toBe(true);
+    expect(calciteHandleChange).toHaveReceivedEventTimes(1);
   });
 
   it("sets selected to false when blurred", async () => {
@@ -47,16 +49,18 @@ describe("calcite-handle", () => {
     expect(await handle.getProperty("selected")).toBe(false);
 
     await button.focus();
-
+    const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
     await page.keyboard.press(" ");
 
     await page.waitForChanges();
 
     expect(await handle.getProperty("selected")).toBe(true);
+    expect(calciteHandleChange).toHaveReceivedEventTimes(1);
 
     await page.$eval("calcite-handle", (handle: HTMLCalciteHandleElement) => handle.blur());
 
     expect(await handle.getProperty("selected")).toBe(false);
+    expect(calciteHandleChange).toHaveReceivedEventTimes(2);
   });
 
   it("does not set selected to false when blurDisabled and blurred", async () => {
@@ -69,16 +73,18 @@ describe("calcite-handle", () => {
     expect(await handle.getProperty("selected")).toBe(false);
 
     await button.focus();
-
+    const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
     await page.keyboard.press(" ");
 
     await page.waitForChanges();
 
     expect(await handle.getProperty("selected")).toBe(true);
+    expect(calciteHandleChange).toHaveReceivedEventTimes(1);
 
     await page.$eval("calcite-handle", (handle: HTMLCalciteHandleElement) => handle.blur());
 
     expect(await handle.getProperty("selected")).toBe(true);
+    expect(calciteHandleChange).toHaveReceivedEventTimes(1);
   });
 
   it("fires calciteHandleNudge event when focused and up or down key is pressed", async () => {
