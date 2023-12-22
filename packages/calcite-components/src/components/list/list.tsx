@@ -963,8 +963,7 @@ export class List
     this.updateListItems();
     this.connectObserver();
 
-    handle.setFocus();
-    handle.blurDisabled = false;
+    handle.setFocus().then(() => (handle.blurDisabled = false));
 
     this.calciteListOrderChange.emit({
       dragEl: sortItem,
