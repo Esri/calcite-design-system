@@ -1770,6 +1770,10 @@ export namespace Components {
     interface CalciteHandle {
         "activated": boolean;
         /**
+          * When `true`, disables unselecting the component when blurred.
+         */
+        "blurDisabled": boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -2834,6 +2838,10 @@ export namespace Components {
           * When `true`, the component displays a draggable button.
          */
         "dragHandle": boolean;
+        /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragHandleSelected": boolean;
         /**
           * The label text of the component. Displays above the description text.
          */
@@ -9064,6 +9072,10 @@ declare namespace LocalJSX {
     interface CalciteHandle {
         "activated"?: boolean;
         /**
+          * When `true`, disables unselecting the component when blurred.
+         */
+        "blurDisabled"?: boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -10190,6 +10202,10 @@ declare namespace LocalJSX {
           * When `true`, the component displays a draggable button.
          */
         "dragHandle"?: boolean;
+        /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragHandleSelected"?: boolean;
         /**
           * The label text of the component. Displays above the description text.
          */

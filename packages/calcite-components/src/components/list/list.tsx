@@ -951,6 +951,7 @@ export class List
     }
 
     this.disconnectObserver();
+    handle.blurDisabled = true;
 
     const referenceEl =
       (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
@@ -962,16 +963,15 @@ export class List
     this.updateListItems();
     this.connectObserver();
 
+    handle.setFocus();
+    handle.blurDisabled = false;
+
     this.calciteListOrderChange.emit({
       dragEl: sortItem,
       fromEl: parentEl,
       toEl: parentEl,
       newIndex,
       oldIndex,
-    });
-
-    handle.setFocus().then(() => {
-      handle.activated = true;
     });
   }
 }

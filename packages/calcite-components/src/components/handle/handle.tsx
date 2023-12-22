@@ -107,6 +107,13 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   @Prop() label: string;
 
   /**
+   * When `true`, disables unselecting the component when blurred.
+   *
+   * @internal
+   */
+  @Prop() blurDisabled = false;
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   @Prop() messageOverrides: Partial<HandleMessages>;
@@ -251,7 +258,7 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   };
 
   handleBlur = (): void => {
-    if (this.disabled) {
+    if (this.blurDisabled || this.disabled) {
       return;
     }
 
