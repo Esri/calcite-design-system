@@ -8,7 +8,7 @@ import {
   Listen,
   Prop,
   State,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { TEXT } from "./video.resources";
@@ -17,7 +17,7 @@ import { Scale } from "../interfaces";
 @Component({
   tag: "calcite-video",
   styleUrl: "video.scss",
-  shadow: false
+  shadow: false,
 })
 export class CalciteVideo {
   //--------------------------------------------------------------------------
@@ -195,7 +195,7 @@ export class CalciteVideo {
 
     const subtitleControlMultiple = (
       <div class="calcite-video-control-item calcite-video-subtitle-control-item">
-        <calcite-dropdown width="s">
+        <calcite-dropdown widthScale="s">
           <calcite-action
             class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
             icon="speech-bubbles"
@@ -255,16 +255,16 @@ export class CalciteVideo {
 
     const playbackRateSelector = (
       <div class="calcite-video-control-item calcite-video-playback-rate-control-item">
-        <calcite-dropdown width="s">
+        <calcite-dropdown widthScale="s">
           <calcite-action
             icon={
               this.currentPlaybackRate === 0.25
                 ? "1-4x"
                 : this.currentPlaybackRate === 0.5
-                ? "1-2x"
-                : this.currentPlaybackRate === 1
-                ? "1x"
-                : "2x"
+                  ? "1-2x"
+                  : this.currentPlaybackRate === 1
+                    ? "1x"
+                    : "2x"
             }
             icon-flip-rtl
             indicator={this.currentPlaybackRate !== 1}
@@ -334,8 +334,9 @@ export class CalciteVideo {
             onLoadedMetaData={() => this.getVideoInfo()}
             onTimeUpdate={() => this.handleVideoUpdate()}
             preload={this.preload}
-            ref={(el) => (this.videoEl = el)}
             width={this.width}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => (this.videoEl = el)}
           >
             <slot />
           </video>
@@ -350,8 +351,8 @@ export class CalciteVideo {
                 {this.hasSubtitle && this.availableSubtitles?.length > 1
                   ? subtitleControlMultiple
                   : this.hasSubtitle
-                  ? subtitleControlSingle
-                  : null}
+                    ? subtitleControlSingle
+                    : null}
                 {!this.disablePlaybackRate ? playbackRateSelector : null}
                 {!this.disableFullscreen ? fullscreenControl : null}
               </div>
@@ -518,12 +519,14 @@ export class CalciteVideo {
         }
       }
       this.getSubtitleDropdownItems();
-      if (this.subContainer) this.subContainer.innerHTML = (this.subTrack?.cues[0] as any)?.text;
+      if (this.subContainer) {
+        this.subContainer.innerHTML = (this.subTrack?.cues[0] as any)?.text;
+      }
     }
   }
 
   getSubtitleDropdownItems(): void {
-    // create the list of abailable subtitles for the dropdown
+    // create the list of available subtitles for the dropdown
     if (this.availableSubtitles) {
       const items = [];
       Object.values(this.availableSubtitles).map((item) => {
@@ -671,7 +674,7 @@ export class CalciteVideo {
       return [
         hours,
         minutes > 9 ? minutes : hours ? `0${minutes}` : minutes || `0`,
-        seconds > 9 ? seconds : `0${seconds}`
+        seconds > 9 ? seconds : `0${seconds}`,
       ]
         .filter(Boolean)
         .join(":");
@@ -683,7 +686,9 @@ export class CalciteVideo {
   handleVideoUpdate(): void {
     this.subTrackCue = this.subTrack?.activeCues[0];
     if (this.isSubtitleActive && (this.subTrackCue as any)?.text !== undefined) {
-      if (this.subContainer) this.subContainer.innerHTML = (this.subTrackCue as any)?.text;
+      if (this.subContainer) {
+        this.subContainer.innerHTML = (this.subTrackCue as any)?.text;
+      }
       this.handleSubtitleUpdate();
     }
 
@@ -706,12 +711,16 @@ export class CalciteVideo {
   handleSubtitleUpdate(): void {
     // replace current lang with the active cue if change occurs mid-cue
     if ((this.subTrackCue as any)?.text !== undefined) {
-      if (this.subContainer) this.subContainer.innerHTML = (this.subTrackCue as any)?.text;
+      if (this.subContainer) {
+        this.subContainer.innerHTML = (this.subTrackCue as any)?.text;
+      }
     }
     // and update on any change
     this.subTrack.oncuechange = () => {
       if ((this.subTrackCue as any)?.text !== undefined) {
-        if (this.subContainer) this.subContainer.innerHTML = (this.subTrackCue as any)?.text;
+        if (this.subContainer) {
+          this.subContainer.innerHTML = (this.subTrackCue as any)?.text;
+        }
       }
     };
   }
