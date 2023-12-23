@@ -21,13 +21,43 @@ import { DateLocaleData, getLocaleData } from "../date-picker/utils";
   shadow: true,
 })
 export class MonthPicker implements LocalizedComponent {
+  //--------------------------------------------------------------------------
+  //
+  //  Public Properties
+  //
+  //--------------------------------------------------------------------------
+
   @Prop({ mutable: true }) activeMonthIndex: number;
+
+  /** Already selected date. */
+  @Prop() selectedMonthYear: Date;
+
+  /** Focused date with indicator (will become selected date if user proceeds) */
+  @Prop() activeDate: Date;
+
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  @Prop() min: Date;
+
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  @Prop() max: Date;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Emits whenever the component is selected.
    *
    */
   @Event() calciteMonthPickerChange: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
 
   connectedCallback() {
     connectLocalized(this);
@@ -40,6 +70,12 @@ export class MonthPicker implements LocalizedComponent {
   disconnectedCallback() {
     disconnectLocalized(this);
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteMonthPickerElement;
 
@@ -56,19 +92,52 @@ export class MonthPicker implements LocalizedComponent {
     this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
+  yearPickerEl: HTMLCalciteYearPickerElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
   @Listen("calciteInternalMonthPickerItemSelect")
   handleCalciteMonthPickerItemChange(event: CustomEvent<string>): void {
     this.activeMonthIndex = this.localeData?.months.abbreviated.indexOf(event.detail);
     this.calciteMonthPickerChange.emit();
   }
 
+  handlePreviousYear = (): void => {
+    this.yearPickerEl.prevYear();
+  };
+
+  handleNextYear = (): void => {
+    console.log("next year");
+    this.yearPickerEl.nextYear();
+  };
+
+  setYearPickerEl = (el: HTMLCalciteYearPickerElement): void => {
+    this.yearPickerEl = el;
+  };
+
   render(): VNode {
     return (
       <Host>
         <div class="header">
-          <div class="year-picker">Year picker</div>
-          <calcite-action class="previous" icon="chevron-left" scale="s" text="Previous Month" />
-          <calcite-action class="next" icon="chevron-right" scale="s" text="Next Month" />
+          <calcite-year-picker ref={this.setYearPickerEl} />
+          <calcite-action
+            class="previous"
+            icon="chevron-left"
+            onClick={this.handlePreviousYear}
+            scale="s"
+            text="Previous Month"
+          />
+          <calcite-action
+            class="next"
+            icon="chevron-right"
+            onClick={this.handleNextYear}
+            scale="s"
+            text="Next Month"
+          />
         </div>
         {this.localeData?.months.abbreviated.map((month, index) => (
           <calcite-month-picker-item

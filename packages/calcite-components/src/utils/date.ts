@@ -200,6 +200,22 @@ export function prevMonth(date: Date): Date {
 }
 
 /**
+ * Get a date for the specified Month
+ *
+ * @param date
+ * @param month
+ */
+export function requestedMonth(date: Date, month: number): Date {
+  const nextDate = new Date(date);
+  nextDate.setMonth(month);
+  // date doesn't exist in new month, use last day
+  if (month !== date.getMonth()) {
+    return new Date(date.getFullYear(), month + 1, 0);
+  }
+  return nextDate;
+}
+
+/**
  * Get a date one month in the future
  *
  * @param date

@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Fragment,
   h,
+  // Listen,
   Prop,
   State,
   VNode,
@@ -17,6 +18,7 @@ import {
   nextMonth,
   prevMonth,
   formatCalendarYear,
+  requestedMonth,
 } from "../../utils/date";
 
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
@@ -24,7 +26,7 @@ import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "../date-picker/utils";
-import { Heading, HeadingLevel } from "../functional/Heading";
+import { HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { CSS, ICON } from "./resources";
 import { getIconScale } from "../../utils/component";
@@ -125,13 +127,41 @@ export class DatePickerMonthHeader {
 
     const activeMonth = activeDate.getMonth();
     const { months, unitOrder } = localeData;
-    const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
-    const localizedYear = this.formatCalendarYear(activeDate.getFullYear());
+    //const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
+    //const localizedYear = this.formatCalendarYear(activeDate.getFullYear());
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
-    const suffix = localeData.year?.suffix;
+    //const suffix = localeData.year?.suffix;
+
+    //console.log("active month", activeMonth);
     return (
       <Fragment>
+        <div class={{ text: true, [CSS.textReverse]: reverse }}>
+          <calcite-select
+            class="start-year"
+            label={"start year"}
+            onCalciteSelectChange={this.handleMonthChange}
+          >
+            {months.abbreviated?.map((month: string, index: number) => {
+              return (
+                <calcite-option
+                  // disabled={year > this.endYear && this.disableYearsOutOfRange}
+                  selected={index === activeMonth}
+                  value={month}
+                >
+                  {month}
+                </calcite-option>
+              );
+            })}
+          </calcite-select>
+
+          <calcite-year-picker
+            max={this.max?.getFullYear()}
+            min={this.min?.getFullYear()}
+            onCalciteYearPickerChange={this.onYearChange}
+            value={this.activeDate.getFullYear()}
+          />
+        </div>
         <a
           aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
           aria-label={messages.prevMonth}
@@ -144,32 +174,6 @@ export class DatePickerMonthHeader {
         >
           <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={getIconScale(this.scale)} />
         </a>
-        <div class={{ text: true, [CSS.textReverse]: reverse }}>
-          <Heading class={CSS.month} level={this.headingLevel}>
-            {localizedMonth}
-          </Heading>
-          <span class={CSS.yearWrap}>
-            <input
-              aria-label={messages.year}
-              class={{
-                year: true,
-                [CSS.yearSuffix]: !!suffix,
-              }}
-              inputmode="numeric"
-              maxlength="4"
-              minlength="1"
-              onChange={this.onYearChange}
-              onInput={this.onYearInput}
-              onKeyDown={this.onYearKey}
-              pattern="\d*"
-              type="text"
-              value={localizedYear}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.yearInput = el)}
-            />
-            {suffix && <span class={CSS.suffix}>{suffix}</span>}
-          </span>
-        </div>
         <a
           aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
           aria-label={messages.nextMonth}
@@ -201,6 +205,8 @@ export class DatePickerMonthHeader {
   @State() nextMonthDate: Date;
 
   @State() prevMonthDate: Date;
+
+  @State() yearList: number[] = [];
 
   @Watch("min")
   @Watch("max")
@@ -249,9 +255,14 @@ export class DatePickerMonthHeader {
   }
 
   private onYearChange = (event: Event): void => {
-    this.setYear({
-      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
-    });
+    const target = event.target as HTMLCalciteYearPickerElement;
+    if (!Array.isArray(target.value)) {
+      this.setYear({
+        localizedYear: numberStringFormatter.localize(
+          `${parseCalendarYear(target.value, this.localeData)}`
+        ),
+      });
+    }
   };
 
   private onYearInput = (event: Event): void => {
@@ -287,6 +298,13 @@ export class DatePickerMonthHeader {
   private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
     event.preventDefault();
     this.calciteInternalDatePickerSelect.emit(date);
+  };
+
+  handleMonthChange = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteOptionElement;
+    const monthIndex = this.localeData.months.abbreviated.indexOf(target.value);
+    const newDate = requestedMonth(this.activeDate, monthIndex);
+    this.calciteInternalDatePickerSelect.emit(newDate);
   };
 
   private getInRangeDate({
@@ -338,6 +356,13 @@ export class DatePickerMonthHeader {
 
     if (commit) {
       yearInput.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
+    }
+  }
+
+  private getYearList(min: number, max: number): void {
+    this.yearList = [];
+    for (let i = min; i < max; i++) {
+      this.yearList.push(i);
     }
   }
 }

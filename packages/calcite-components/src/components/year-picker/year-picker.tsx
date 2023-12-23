@@ -9,6 +9,7 @@ import {
   Event,
   EventEmitter,
   Host,
+  Method,
 } from "@stencil/core";
 import {
   LocalizedComponent,
@@ -100,6 +101,9 @@ export class YearPicker implements LocalizedComponent {
     } else {
       this.startYear = this.value;
     }
+    if (!this.value) {
+      this.value = new Date().getFullYear();
+    }
     this.getYearList();
   }
 
@@ -107,6 +111,30 @@ export class YearPicker implements LocalizedComponent {
     disconnectLocalized(this);
   }
 
+  @Method()
+  async prevYear(): Promise<void> {
+    if (Array.isArray(this.value)) {
+      this.value =
+        this.activeRange === "start"
+          ? [this.value[0] - 1, this.value[1]]
+          : [this.value[0], this.value[1] - 1];
+    } else {
+      this.value = this.value - 1;
+    }
+  }
+
+  @Method()
+  async nextYear(): Promise<void> {
+    console.log("next year", this.value);
+    if (Array.isArray(this.value)) {
+      this.value =
+        this.activeRange === "start"
+          ? [this.value[0] + 1, this.value[1]]
+          : [this.value[0], this.value[1] + 1];
+    } else {
+      this.value = this.value + 1;
+    }
+  }
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -133,6 +161,8 @@ export class YearPicker implements LocalizedComponent {
 
   private startYear: number;
 
+  private activeRange: "start" | "end" = "start";
+
   // maxValueSelectEl: HTMLCalciteSelectElement;
 
   // selectEl: HTMLCalciteSelectElement;
@@ -152,6 +182,8 @@ export class YearPicker implements LocalizedComponent {
 
   handleSelectChange = (event: CustomEvent): void => {
     event.stopPropagation();
+
+    this.activeRange = "start";
     const target = event.target as HTMLCalciteSelectElement;
     const newValue = Number(target.value);
 
@@ -169,6 +201,7 @@ export class YearPicker implements LocalizedComponent {
     event.stopPropagation();
     const target = event.target as HTMLCalciteSelectElement;
     const newValue = Number(target.value);
+    this.activeRange = "end";
 
     if (Array.isArray(this.value)) {
       this.value = [this.value[0], newValue];

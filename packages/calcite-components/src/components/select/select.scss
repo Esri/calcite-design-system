@@ -70,8 +70,8 @@
     appearance-none
     truncate
     rounded-none
-    border
     border-solid;
+  border-width: var(--calcite-select-internal-border-width, 1px);
   font-size: var(--calcite-select-font-size);
   padding-inline: var(--calcite-select-spacing-inline);
   border-inline-end-width: theme("borderWidth.0");
@@ -102,7 +102,8 @@ select:disabled {
     border-solid
     bg-transparent;
   inset-inline-end: theme("inset.0");
-  border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
+  border-inline-width: theme("borderWidth.0")
+    var(--calcite-select-internal-icon-border-inline-end-width, theme("borderWidth.DEFAULT"));
 }
 
 :host([status="invalid"]) {

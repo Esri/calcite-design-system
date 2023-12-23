@@ -3105,6 +3105,29 @@ export namespace Components {
          */
         "widthScale": Scale;
     }
+    interface CalciteMonthPicker {
+        /**
+          * Focused date with indicator (will become selected date if user proceeds)
+         */
+        "activeDate": Date;
+        "activeMonthIndex": number;
+        /**
+          * Specifies the latest allowed date (`"yyyy-mm-dd"`).
+         */
+        "max": Date;
+        /**
+          * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
+         */
+        "min": Date;
+        /**
+          * Already selected date.
+         */
+        "selectedMonthYear": Date;
+    }
+    interface CalciteMonthPickerItem {
+        "isActive": boolean;
+        "value": string;
+    }
     interface CalciteNavigation {
         /**
           * When `navigationAction` is `true`, specifies the label of the `calcite-action`.
@@ -5233,6 +5256,38 @@ export namespace Components {
          */
         "value": any;
     }
+    interface CalciteYearPicker {
+        /**
+          * When `true`, disables year's before the earliest allowed year in end year and after the latest year in start year of range.
+         */
+        "disableYearsOutOfRange": boolean;
+        /**
+          * When `true`, disables the component
+         */
+        "disabled": boolean;
+        /**
+          * Specifies the latest allowed year (`"yyyy"`).
+         */
+        "max": number;
+        /**
+          * Specifies the earliest allowed year (`"yyyy"`).
+         */
+        "min": number;
+        "nextYear": () => Promise<void>;
+        /**
+          * Specifies the Unicode numeral system used by the component for localization.
+         */
+        "numberingSystem": NumberingSystem;
+        "prevYear": () => Promise<void>;
+        /**
+          * When `true`, activates the component's range mode to allow a start and end year.
+         */
+        "range": boolean;
+        /**
+          * Specifies the selected year as a string (`"yyyy"`), or an array of strings for `range` values (`["yyyy", "yyyy"]`).
+         */
+        "value": number | number[];
+    }
 }
 export interface CalciteAccordionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5390,6 +5445,14 @@ export interface CalciteModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteModalElement;
 }
+export interface CalciteMonthPickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteMonthPickerElement;
+}
+export interface CalciteMonthPickerItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteMonthPickerItemElement;
+}
 export interface CalciteNavigationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteNavigationElement;
@@ -5541,6 +5604,10 @@ export interface CalciteValueListCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteValueListItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteValueListItemElement;
+}
+export interface CalciteYearPickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteYearPickerElement;
 }
 declare global {
     interface HTMLCalciteAccordionElementEventMap {
@@ -6260,6 +6327,8 @@ declare global {
     };
     interface HTMLCalciteListElementEventMap {
         "calciteListChange": void;
+        "calciteListDragEnd": ListDragDetail;
+        "calciteListDragStart": ListDragDetail;
         "calciteListFilter": void;
         "calciteListOrderChange": ListDragDetail;
         "calciteInternalListDefaultSlotChange": void;
@@ -6378,6 +6447,40 @@ declare global {
     var HTMLCalciteModalElement: {
         prototype: HTMLCalciteModalElement;
         new (): HTMLCalciteModalElement;
+    };
+    interface HTMLCalciteMonthPickerElementEventMap {
+        "calciteMonthPickerChange": void;
+    }
+    interface HTMLCalciteMonthPickerElement extends Components.CalciteMonthPicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteMonthPickerElementEventMap>(type: K, listener: (this: HTMLCalciteMonthPickerElement, ev: CalciteMonthPickerCustomEvent<HTMLCalciteMonthPickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteMonthPickerElementEventMap>(type: K, listener: (this: HTMLCalciteMonthPickerElement, ev: CalciteMonthPickerCustomEvent<HTMLCalciteMonthPickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteMonthPickerElement: {
+        prototype: HTMLCalciteMonthPickerElement;
+        new (): HTMLCalciteMonthPickerElement;
+    };
+    interface HTMLCalciteMonthPickerItemElementEventMap {
+        "calciteInternalMonthPickerItemSelect": string;
+    }
+    interface HTMLCalciteMonthPickerItemElement extends Components.CalciteMonthPickerItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteMonthPickerItemElementEventMap>(type: K, listener: (this: HTMLCalciteMonthPickerItemElement, ev: CalciteMonthPickerItemCustomEvent<HTMLCalciteMonthPickerItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteMonthPickerItemElementEventMap>(type: K, listener: (this: HTMLCalciteMonthPickerItemElement, ev: CalciteMonthPickerItemCustomEvent<HTMLCalciteMonthPickerItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteMonthPickerItemElement: {
+        prototype: HTMLCalciteMonthPickerItemElement;
+        new (): HTMLCalciteMonthPickerItemElement;
     };
     interface HTMLCalciteNavigationElementEventMap {
         "calciteNavigationActionSelect": void;
@@ -7185,6 +7288,23 @@ declare global {
         prototype: HTMLCalciteValueListItemElement;
         new (): HTMLCalciteValueListItemElement;
     };
+    interface HTMLCalciteYearPickerElementEventMap {
+        "calciteYearPickerChange": void;
+    }
+    interface HTMLCalciteYearPickerElement extends Components.CalciteYearPicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteYearPickerElementEventMap>(type: K, listener: (this: HTMLCalciteYearPickerElement, ev: CalciteYearPickerCustomEvent<HTMLCalciteYearPickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteYearPickerElementEventMap>(type: K, listener: (this: HTMLCalciteYearPickerElement, ev: CalciteYearPickerCustomEvent<HTMLCalciteYearPickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteYearPickerElement: {
+        prototype: HTMLCalciteYearPickerElement;
+        new (): HTMLCalciteYearPickerElement;
+    };
     interface HTMLElementTagNameMap {
         "calcite-accordion": HTMLCalciteAccordionElement;
         "calcite-accordion-item": HTMLCalciteAccordionItemElement;
@@ -7240,6 +7360,8 @@ declare global {
         "calcite-menu-item": HTMLCalciteMenuItemElement;
         "calcite-meter": HTMLCalciteMeterElement;
         "calcite-modal": HTMLCalciteModalElement;
+        "calcite-month-picker": HTMLCalciteMonthPickerElement;
+        "calcite-month-picker-item": HTMLCalciteMonthPickerItemElement;
         "calcite-navigation": HTMLCalciteNavigationElement;
         "calcite-navigation-logo": HTMLCalciteNavigationLogoElement;
         "calcite-navigation-user": HTMLCalciteNavigationUserElement;
@@ -7292,6 +7414,7 @@ declare global {
         "calcite-tree-item": HTMLCalciteTreeItemElement;
         "calcite-value-list": HTMLCalciteValueListElement;
         "calcite-value-list-item": HTMLCalciteValueListItemElement;
+        "calcite-year-picker": HTMLCalciteYearPickerElement;
     }
 }
 declare namespace LocalJSX {
@@ -9985,6 +10108,14 @@ declare namespace LocalJSX {
          */
         "onCalciteListChange"?: (event: CalciteListCustomEvent<void>) => void;
         /**
+          * Emits when the component's dragging has ended.
+         */
+        "onCalciteListDragEnd"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
+        /**
+          * Emits when the component's dragging has started.
+         */
+        "onCalciteListDragStart"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
+        /**
           * Emits when the component's filter has changed.
          */
         "onCalciteListFilter"?: (event: CalciteListCustomEvent<void>) => void;
@@ -10382,6 +10513,37 @@ declare namespace LocalJSX {
           * Specifies the width of the component.
          */
         "widthScale"?: Scale;
+    }
+    interface CalciteMonthPicker {
+        /**
+          * Focused date with indicator (will become selected date if user proceeds)
+         */
+        "activeDate"?: Date;
+        "activeMonthIndex"?: number;
+        /**
+          * Specifies the latest allowed date (`"yyyy-mm-dd"`).
+         */
+        "max"?: Date;
+        /**
+          * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
+         */
+        "min"?: Date;
+        /**
+          * Emits whenever the component is selected.
+         */
+        "onCalciteMonthPickerChange"?: (event: CalciteMonthPickerCustomEvent<void>) => void;
+        /**
+          * Already selected date.
+         */
+        "selectedMonthYear"?: Date;
+    }
+    interface CalciteMonthPickerItem {
+        "isActive"?: boolean;
+        /**
+          * Emits whenever the component is selected.
+         */
+        "onCalciteInternalMonthPickerItemSelect"?: (event: CalciteMonthPickerItemCustomEvent<string>) => void;
+        "value"?: string;
     }
     interface CalciteNavigation {
         /**
@@ -12591,6 +12753,40 @@ declare namespace LocalJSX {
          */
         "value": any;
     }
+    interface CalciteYearPicker {
+        /**
+          * When `true`, disables year's before the earliest allowed year in end year and after the latest year in start year of range.
+         */
+        "disableYearsOutOfRange"?: boolean;
+        /**
+          * When `true`, disables the component
+         */
+        "disabled"?: boolean;
+        /**
+          * Specifies the latest allowed year (`"yyyy"`).
+         */
+        "max"?: number;
+        /**
+          * Specifies the earliest allowed year (`"yyyy"`).
+         */
+        "min"?: number;
+        /**
+          * Specifies the Unicode numeral system used by the component for localization.
+         */
+        "numberingSystem"?: NumberingSystem;
+        /**
+          * Emits whenever the component is selected.
+         */
+        "onCalciteYearPickerChange"?: (event: CalciteYearPickerCustomEvent<void>) => void;
+        /**
+          * When `true`, activates the component's range mode to allow a start and end year.
+         */
+        "range"?: boolean;
+        /**
+          * Specifies the selected year as a string (`"yyyy"`), or an array of strings for `range` values (`["yyyy", "yyyy"]`).
+         */
+        "value"?: number | number[];
+    }
     interface IntrinsicElements {
         "calcite-accordion": CalciteAccordion;
         "calcite-accordion-item": CalciteAccordionItem;
@@ -12646,6 +12842,8 @@ declare namespace LocalJSX {
         "calcite-menu-item": CalciteMenuItem;
         "calcite-meter": CalciteMeter;
         "calcite-modal": CalciteModal;
+        "calcite-month-picker": CalciteMonthPicker;
+        "calcite-month-picker-item": CalciteMonthPickerItem;
         "calcite-navigation": CalciteNavigation;
         "calcite-navigation-logo": CalciteNavigationLogo;
         "calcite-navigation-user": CalciteNavigationUser;
@@ -12698,6 +12896,7 @@ declare namespace LocalJSX {
         "calcite-tree-item": CalciteTreeItem;
         "calcite-value-list": CalciteValueList;
         "calcite-value-list-item": CalciteValueListItem;
+        "calcite-year-picker": CalciteYearPicker;
     }
 }
 export { LocalJSX as JSX };
@@ -12761,6 +12960,8 @@ declare module "@stencil/core" {
             "calcite-menu-item": LocalJSX.CalciteMenuItem & JSXBase.HTMLAttributes<HTMLCalciteMenuItemElement>;
             "calcite-meter": LocalJSX.CalciteMeter & JSXBase.HTMLAttributes<HTMLCalciteMeterElement>;
             "calcite-modal": LocalJSX.CalciteModal & JSXBase.HTMLAttributes<HTMLCalciteModalElement>;
+            "calcite-month-picker": LocalJSX.CalciteMonthPicker & JSXBase.HTMLAttributes<HTMLCalciteMonthPickerElement>;
+            "calcite-month-picker-item": LocalJSX.CalciteMonthPickerItem & JSXBase.HTMLAttributes<HTMLCalciteMonthPickerItemElement>;
             "calcite-navigation": LocalJSX.CalciteNavigation & JSXBase.HTMLAttributes<HTMLCalciteNavigationElement>;
             "calcite-navigation-logo": LocalJSX.CalciteNavigationLogo & JSXBase.HTMLAttributes<HTMLCalciteNavigationLogoElement>;
             "calcite-navigation-user": LocalJSX.CalciteNavigationUser & JSXBase.HTMLAttributes<HTMLCalciteNavigationUserElement>;
@@ -12828,6 +13029,7 @@ declare module "@stencil/core" {
              * @deprecated Use the `list` component instead.
              */
             "calcite-value-list-item": LocalJSX.CalciteValueListItem & JSXBase.HTMLAttributes<HTMLCalciteValueListItemElement>;
+            "calcite-year-picker": LocalJSX.CalciteYearPicker & JSXBase.HTMLAttributes<HTMLCalciteYearPickerElement>;
         }
     }
 }
