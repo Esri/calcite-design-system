@@ -27,7 +27,7 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, dataTestActiveCellAttr, ICONS, SLOTS } from "./resources";
 import {
   getDepth,
   getListItemChildren,
@@ -426,6 +426,7 @@ export class ListItem
         aria-label={label}
         class={CSS.dragContainer}
         key="drag-handle-container"
+        onFocusin={this.focusCellHandle}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.handleGridEl = el)}
@@ -469,6 +470,7 @@ export class ListItem
         class={CSS.actionsStart}
         hidden={!hasActionsStart}
         key="actions-start-container"
+        onFocusin={this.focusCellActionsStart}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsStartEl = el)}
@@ -486,6 +488,7 @@ export class ListItem
         class={CSS.actionsEnd}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
+        onFocusin={this.focusCellActionsEnd}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsEndEl = el)}
@@ -600,6 +603,7 @@ export class ListItem
         }}
         key="content-container"
         onClick={this.handleItemClick}
+        onFocusin={this.focusCellContent}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.contentEl = el)}
@@ -646,6 +650,7 @@ export class ListItem
             }}
             hidden={closed}
             onFocus={this.focusCellNull}
+            onFocusin={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             role="row"
             style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
@@ -672,6 +677,26 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private emitInternalListItemActive = (): void => {
+    this.calciteInternalListItemActive.emit();
+  };
+
+  private focusCellHandle = (): void => {
+    this.focusCell(this.handleGridEl);
+  };
+
+  private focusCellActionsStart = (): void => {
+    this.focusCell(this.actionsStartEl);
+  };
+
+  private focusCellContent = (): void => {
+    this.focusCell(this.contentEl);
+  };
+
+  private focusCellActionsEnd = (): void => {
+    this.focusCell(this.actionsEndEl);
+  };
 
   private emitCalciteInternalListItemChange(): void {
     this.calciteInternalListItemChange.emit();
@@ -763,7 +788,7 @@ export class ListItem
     }
 
     this.toggleSelected(event.shiftKey);
-    this.calciteInternalListItemActive.emit();
+    this.emitInternalListItemActive();
   };
 
   private toggleSelected = (shiftKey: boolean): void => {
@@ -860,8 +885,10 @@ export class ListItem
       if (tableCell === focusEl) {
         tableCell.tabIndex = focusEl === focusedEl ? 0 : -1;
         saveFocusIndex && focusMap.set(parentListEl, cellIndex);
+        tableCell.setAttribute(dataTestActiveCellAttr, "");
       } else {
         tableCell.tabIndex = -1;
+        tableCell.removeAttribute(dataTestActiveCellAttr);
       }
     });
 
