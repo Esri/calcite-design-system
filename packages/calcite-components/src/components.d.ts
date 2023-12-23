@@ -1771,7 +1771,7 @@ export namespace Components {
         /**
           * When `true`, disables unselecting the component when blurred.
          */
-        "blurDisabled": boolean;
+        "blurUnselectDisabled": boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
@@ -9073,7 +9073,7 @@ declare namespace LocalJSX {
         /**
           * When `true`, disables unselecting the component when blurred.
          */
-        "blurDisabled"?: boolean;
+        "blurUnselectDisabled"?: boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
