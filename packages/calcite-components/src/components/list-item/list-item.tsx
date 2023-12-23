@@ -788,7 +788,6 @@ export class ListItem
     }
 
     this.toggleSelected(event.shiftKey);
-    this.emitInternalListItemActive();
   };
 
   private toggleSelected = (shiftKey: boolean): void => {
