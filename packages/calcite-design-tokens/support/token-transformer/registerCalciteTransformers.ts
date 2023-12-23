@@ -19,7 +19,6 @@ import { registerFormatterDocs } from "./styleDictionary/formatter/docs.js";
 import { registerValueToREM } from "./styleDictionary/transformer/value/valueToREM.js";
 import { registerValueFontFamilyWithFallbacks } from "./styleDictionary/transformer/value/valueFontFamilyFallbacks.js";
 import { registerValueColorCSS } from "./styleDictionary/transformer/value/valueColorCss.js";
-import { registerValueLineHeight } from "./styleDictionary/transformer/value/valueLineHeight.js";
 
 export async function registerCalciteTransformers(sd: StyleDictionary): Promise<void> {
   // Here we are registering the Transforms provided by Token Studio however,
@@ -48,5 +47,4 @@ export async function registerCalciteTransformers(sd: StyleDictionary): Promise<
   registerValueStringWrapper(sd);
   registerValueToREM(sd);
   registerValueColorCSS(sd);
-  registerValueLineHeight(sd);
 }

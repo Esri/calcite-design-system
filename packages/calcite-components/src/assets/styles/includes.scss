@@ -62,6 +62,10 @@
       @apply opacity-100;
     }
   }
+
+  .interaction-container {
+    display: contents;
+  }
 }
 
 // used for host-specific styling when the `disabled` mixin cannot be applied on the host (e.g., `display: contents`)

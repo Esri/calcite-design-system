@@ -160,7 +160,7 @@ export function disconnectLabel(component: LabelableComponent): void {
 
   labelToLabelables.set(
     component.labelEl,
-    labelables.filter((labelable) => labelable !== component).sort(sortByDOMOrder)
+    labelables.filter((labelable) => labelable !== component).sort(sortByDOMOrder),
   );
 
   component.labelEl = null;

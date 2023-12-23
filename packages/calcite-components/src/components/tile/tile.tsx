@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -9,6 +9,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { SLOTS } from "./resources";
@@ -142,16 +143,18 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   render(): VNode {
+    const { disabled } = this;
+
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         {this.href ? (
-          <calcite-link disabled={this.disabled} href={this.href}>
+          <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>
         ) : (
           this.renderTile()
         )}
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

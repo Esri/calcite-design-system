@@ -9,4 +9,5 @@ export const CSS = {
   assistiveText: "assistive-text",
   active: "active",
   selectedCell: "selected-cell",
+  lastCell: "last-cell",
 };

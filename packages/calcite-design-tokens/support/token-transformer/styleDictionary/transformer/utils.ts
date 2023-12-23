@@ -14,7 +14,6 @@ import { valueAssetToken } from "./value/valueAssetToken.js";
 import { valueStringWrapper } from "./value/valueStringWrapper.js";
 import { transitiveValueColorCSS } from "./value/valueColorCss.js";
 import { transitiveValueEvaluateMath } from "./value/valueCheckEvaluateMath.js";
-import { valueLineHeight } from "./value/valueLineHeight.js";
 import { valueFontFamilyFallbacks } from "./value/valueFontFamilyFallbacks.js";
 import { CalciteValueToREM } from "./value/valueToREM.js";
 
@@ -32,7 +31,6 @@ export const globalTransformations = [
   "ts/opacity",
   "ts/size/px",
   "ts/color/modifiers",
-  valueLineHeight,
   valueAlignFontWeightAndStyles,
   transitiveValueColorCSS,
   transitiveValueEvaluateMath,
@@ -74,5 +72,5 @@ export declare function calledTransformerFunction<R = any>(
   token: TransformedToken,
   args: {
     [K in keyof TransformerArgs]: TransformerArgs[K];
-  }
+  },
 ): R;

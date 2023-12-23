@@ -1,5 +1,5 @@
 import { Core as StyleDictionary } from "style-dictionary";
-import * as prettier from "prettier";
+import prettierSync from "@prettier/sync";
 
 import { CalledFormatterFunction, FormatterConfig } from "../../../types/styleDictionary/formatterArguments";
 import { dirname, relative, resolve } from "path";
@@ -19,7 +19,7 @@ export const formatDocsPlatform: CalledFormatterFunction = (args) => {
     }),
   };
 
-  return prettier.format(JSON.stringify(output, null, 2), { parser: "json" });
+  return prettierSync.format(JSON.stringify(output, null, 2), { parser: "json" });
 };
 
 export const registerFormatterDocs = (sd: StyleDictionary): void => {

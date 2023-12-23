@@ -15,6 +15,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -272,35 +273,37 @@ export class Button
     );
 
     return (
-      <Tag
-        aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
-        aria-expanded={this.el.getAttribute("aria-expanded")}
-        aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
-        aria-live="polite"
-        class={{
-          [CSS.buttonPadding]: noStartEndIcons,
-          [CSS.buttonPaddingShrunk]: !noStartEndIcons,
-          [CSS.contentSlotted]: this.hasContent,
-          [CSS.iconStartEmpty]: !this.iconStart,
-          [CSS.iconEndEmpty]: !this.iconEnd,
-        }}
-        disabled={childElType === "button" ? this.disabled || this.loading : null}
-        href={childElType === "a" && this.href}
-        name={childElType === "button" && this.name}
-        onClick={this.handleClick}
-        rel={childElType === "a" && this.rel}
-        tabIndex={this.disabled ? -1 : null}
-        target={childElType === "a" && this.target}
-        title={this.tooltipText}
-        type={childElType === "button" && this.type}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setChildEl}
-      >
-        {loaderNode}
-        {this.iconStart ? iconStartEl : null}
-        {this.hasContent ? contentEl : null}
-        {this.iconEnd ? iconEndEl : null}
-      </Tag>
+      <InteractiveContainer disabled={this.disabled}>
+        <Tag
+          aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
+          aria-expanded={this.el.getAttribute("aria-expanded")}
+          aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
+          aria-live="polite"
+          class={{
+            [CSS.buttonPadding]: noStartEndIcons,
+            [CSS.buttonPaddingShrunk]: !noStartEndIcons,
+            [CSS.contentSlotted]: this.hasContent,
+            [CSS.iconStartEmpty]: !this.iconStart,
+            [CSS.iconEndEmpty]: !this.iconEnd,
+          }}
+          disabled={childElType === "button" ? this.disabled || this.loading : null}
+          href={childElType === "a" && this.href}
+          name={childElType === "button" && this.name}
+          onClick={this.handleClick}
+          rel={childElType === "a" && this.rel}
+          tabIndex={this.disabled ? -1 : null}
+          target={childElType === "a" && this.target}
+          title={this.tooltipText}
+          type={childElType === "button" && this.type}
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+          ref={this.setChildEl}
+        >
+          {loaderNode}
+          {this.iconStart ? iconStartEl : null}
+          {this.hasContent ? contentEl : null}
+          {this.iconEnd ? iconEndEl : null}
+        </Tag>
+      </InteractiveContainer>
     );
   }
 

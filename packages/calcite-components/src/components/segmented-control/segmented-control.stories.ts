@@ -65,22 +65,24 @@ export const darkThemeRTL_TestOnly = (): string => html`
 
 darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`<calcite-segmented-control disabled>
-  <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
-  <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
-  <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
-  <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
-</calcite-segmented-control>`;
+export const disabled_TestOnly = (): string =>
+  html`<calcite-segmented-control disabled>
+    <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+    <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+    <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+    <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+  </calcite-segmented-control>`;
 
-export const WithIconStartAndEnd = (): string => html` <calcite-segmented-control scale="s">
-  <calcite-segmented-control-item icon-start="car" icon-end="car" value="car" checked
-    >Car</calcite-segmented-control-item
-  >
-  <calcite-segmented-control-item icon-start="plane" icon-end="plane" value="plane"
-    >Plane</calcite-segmented-control-item
-  >
-  <calcite-segmented-control-item icon-start="biking" icon-end="biking" value="bicycle"
-    >Bicycle</calcite-segmented-control-item
-  >
-  <calcite-segmented-control-item value="nothing">Nothing</calcite-segmented-control-item>
-</calcite-segmented-control>`;
+export const WithIconStartAndEnd = (): string =>
+  html` <calcite-segmented-control scale="s">
+    <calcite-segmented-control-item icon-start="car" icon-end="car" value="car" checked
+      >Car</calcite-segmented-control-item
+    >
+    <calcite-segmented-control-item icon-start="plane" icon-end="plane" value="plane"
+      >Plane</calcite-segmented-control-item
+    >
+    <calcite-segmented-control-item icon-start="biking" icon-end="biking" value="bicycle"
+      >Bicycle</calcite-segmented-control-item
+    >
+    <calcite-segmented-control-item value="nothing">Nothing</calcite-segmented-control-item>
+  </calcite-segmented-control>`;

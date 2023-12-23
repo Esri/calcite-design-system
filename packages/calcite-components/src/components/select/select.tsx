@@ -23,6 +23,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
@@ -46,7 +47,7 @@ function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is HTMLCalciteOpt
 }
 
 function isOptionGroup(
-  optionOrGroup: OptionOrGroup
+  optionOrGroup: OptionOrGroup,
 ): optionOrGroup is HTMLCalciteOptionGroupElement {
   return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
 }
@@ -262,7 +263,7 @@ export class Select
 
   private updateNativeElement(
     optionOrGroup: OptionOrGroup,
-    nativeOptionOrGroup: NativeOptionOrGroup
+    nativeOptionOrGroup: NativeOptionOrGroup,
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
     nativeOptionOrGroup.label = optionOrGroup.label;
@@ -280,15 +281,15 @@ export class Select
 
   private populateInternalSelect = (): void => {
     const optionsAndGroups = Array.from(
-      this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>
+      this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>,
     ).filter(
-      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP"
+      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP",
     ) as OptionOrGroup[];
 
     this.clearInternalSelect();
 
-    optionsAndGroups.forEach((optionOrGroup) =>
-      this.selectEl?.append(this.toNativeElement(optionOrGroup))
+    optionsAndGroups.forEach(
+      (optionOrGroup) => this.selectEl?.append(this.toNativeElement(optionOrGroup)),
     );
   };
 
@@ -326,7 +327,7 @@ export class Select
   }
 
   private toNativeElement(
-    optionOrGroup: HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement
+    optionOrGroup: HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement,
   ): NativeOptionOrGroup {
     if (isOption(optionOrGroup)) {
       const option = document.createElement("option");
@@ -345,7 +346,7 @@ export class Select
           const nativeOption = this.toNativeElement(option);
           group.append(nativeOption);
           this.componentToNativeEl.set(optionOrGroup, nativeOption);
-        }
+        },
       );
 
       this.componentToNativeEl.set(optionOrGroup, group);
@@ -385,30 +386,34 @@ export class Select
   }
 
   render(): VNode {
+    const { disabled } = this;
+
     return (
       <Host>
-        <div class={CSS.wrapper}>
-          <select
-            aria-label={getLabelText(this)}
-            class={CSS.select}
-            disabled={this.disabled}
-            onChange={this.handleInternalSelectChange}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.storeSelectRef}
-          >
-            <slot />
-          </select>
-          {this.renderChevron()}
-          <HiddenFormInputSlot component={this} />
-        </div>
-        {this.validationMessage ? (
-          <Validation
-            icon={this.validationIcon}
-            message={this.validationMessage}
-            scale={this.scale}
-            status={this.status}
-          />
-        ) : null}
+        <InteractiveContainer disabled={disabled}>
+          <div class={CSS.wrapper}>
+            <select
+              aria-label={getLabelText(this)}
+              class={CSS.select}
+              disabled={disabled}
+              onChange={this.handleInternalSelectChange}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.storeSelectRef}
+            >
+              <slot />
+            </select>
+            {this.renderChevron()}
+            <HiddenFormInputSlot component={this} />
+          </div>
+          {this.validationMessage ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }

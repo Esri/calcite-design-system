@@ -16,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -276,7 +277,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   private renderInput(): void {
     this.input = document.createElement(
-      this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox"
+      this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox",
     );
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
@@ -311,41 +312,43 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
     const isLargeVisual = heading && icon && !description;
     const renderIcon = Boolean(icon);
     return (
-      <div
-        class={{
-          checked,
-          container: true,
-          [CSS.description]: Boolean(description),
-          [CSS.descriptionOnly]: Boolean(!heading && !icon && description),
-          disabled,
-          focused,
-          [CSS.heading]: Boolean(heading),
-          [CSS.headingOnly]: heading && !icon && !description,
-          [CSS.icon]: renderIcon,
-          [CSS.iconOnly]: !heading && icon && !description,
-          [CSS.inputAlignmentEnd]: inputAlignment === "end",
-          [CSS.inputAlignmentStart]: inputAlignment === "start",
-          [CSS.inputEnabled]: inputEnabled,
-          [CSS.largeVisual]: isLargeVisual,
-          [CSS.widthAuto]: width === "auto",
-          [CSS.widthFull]: width === "full",
-        }}
-      >
-        <div class={{ [CSS.tile]: true, [CSS.tileLargeVisual]: isLargeVisual }}>
-          {icon && (
-            <div class={{ [CSS.icon]: renderIcon }}>
-              <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />
-            </div>
-          )}
-          <div class={CSS.tileContentContainer}>
-            <div class={CSS.tileContent}>
-              {heading && <div class={CSS.tileHeading}>{heading}</div>}
-              {description && <div class={CSS.tileDescription}>{description}</div>}
+      <InteractiveContainer disabled={disabled}>
+        <div
+          class={{
+            checked,
+            container: true,
+            [CSS.description]: Boolean(description),
+            [CSS.descriptionOnly]: Boolean(!heading && !icon && description),
+            disabled,
+            focused,
+            [CSS.heading]: Boolean(heading),
+            [CSS.headingOnly]: heading && !icon && !description,
+            [CSS.icon]: renderIcon,
+            [CSS.iconOnly]: !heading && icon && !description,
+            [CSS.inputAlignmentEnd]: inputAlignment === "end",
+            [CSS.inputAlignmentStart]: inputAlignment === "start",
+            [CSS.inputEnabled]: inputEnabled,
+            [CSS.largeVisual]: isLargeVisual,
+            [CSS.widthAuto]: width === "auto",
+            [CSS.widthFull]: width === "full",
+          }}
+        >
+          <div class={{ [CSS.tile]: true, [CSS.tileLargeVisual]: isLargeVisual }}>
+            {icon && (
+              <div class={{ [CSS.icon]: renderIcon }}>
+                <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />
+              </div>
+            )}
+            <div class={CSS.tileContentContainer}>
+              <div class={CSS.tileContent}>
+                {heading && <div class={CSS.tileHeading}>{heading}</div>}
+                {description && <div class={CSS.tileDescription}>{description}</div>}
+              </div>
             </div>
           </div>
+          <slot />
         </div>
-        <slot />
-      </div>
+      </InteractiveContainer>
     );
   }
 }

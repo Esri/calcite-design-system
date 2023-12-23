@@ -215,7 +215,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private ignoreOpenChange = false;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver()
+    this.handleMutationObserver(),
   );
 
   //--------------------------------------------------------------------------

@@ -38,6 +38,10 @@ th {
   }
 }
 
+th.last-cell {
+  border-inline-end: 0;
+}
+
 th.body-row,
 th.footer-row {
   @apply align-middle;

@@ -195,7 +195,7 @@ describe("calcite-flow-item", () => {
       panel.scrollContentTo({
         top: 0,
         behavior: "auto",
-      })
+      }),
     );
 
     expect(await top.isIntersectingViewport()).toBe(true);

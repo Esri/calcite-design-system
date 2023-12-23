@@ -29,7 +29,9 @@ input[type="text"] {
     py-1;
   padding-inline-end: theme("spacing.1");
   padding-inline-start: theme("spacing.6");
-  transition: padding var(--calcite-animation-timing), box-shadow var(--calcite-animation-timing);
+  transition:
+    padding var(--calcite-animation-timing),
+    box-shadow var(--calcite-animation-timing);
   &::-ms-clear {
     @apply hidden;
   }
@@ -44,7 +46,9 @@ calcite-input {
     absolute
     flex;
   inset-inline-start: 0;
-  transition: inset-inline-start var(--calcite-animation-timing), inset-inline-end var(--calcite-animation-timing),
+  transition:
+    inset-inline-start var(--calcite-animation-timing),
+    inset-inline-end var(--calcite-animation-timing),
     opacity var(--calcite-animation-timing);
 }
 

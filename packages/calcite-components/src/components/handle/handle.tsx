@@ -215,8 +215,8 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
           ? messages.dragHandleChange
           : messages.dragHandleIdle
         : activated
-        ? messages.dragHandleActive
-        : messages.dragHandleCommit;
+          ? messages.dragHandleActive
+          : messages.dragHandleCommit;
 
     const replacePosition = text.replace("{position}", setPosition.toString());
     const replaceLabel = replacePosition.replace("{itemLabel}", label);
