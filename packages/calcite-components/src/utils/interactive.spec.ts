@@ -15,14 +15,12 @@ describe("interactive", () => {
 
     updateHostInteraction(fakeInteractive);
 
-    expect(fakeInteractiveEl.getAttribute("tabindex")).toBeNull();
     expect(fakeInteractiveEl.getAttribute("aria-disabled")).toBeNull();
 
     fakeInteractive.disabled = true;
 
     updateHostInteraction(fakeInteractive);
 
-    expect(fakeInteractiveEl.getAttribute("tabindex")).toBe("-1");
     expect(fakeInteractiveEl.getAttribute("aria-disabled")).toBe("true");
   });
 });

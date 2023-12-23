@@ -80,7 +80,7 @@ describe("calcite-list", () => {
       </calcite-list>`,
       {
         focusTargetSelector: "calcite-list-item",
-      }
+      },
     );
   });
 
@@ -93,17 +93,19 @@ describe("calcite-list", () => {
   });
 
   describe("accessible", () => {
-    accessible(html`<calcite-list>
-      <calcite-list-item label="candy" description="kingdom">
-        <calcite-action icon="banana" label="finn" slot="actions-start" />
-        <calcite-icon icon="banana" slot="content-start" />
-        <img slot="content-start" src="${placeholder}" alt="Test image" />
-        <calcite-icon icon="banana" slot="content-end" />
-        <calcite-action icon="banana" label="jake" slot="actions-end" />
-      </calcite-list-item>
-      <calcite-list-item label="test" non-interactive description="hello world"></calcite-list-item>
-      <calcite-list-item label="test" description="hello world"></calcite-list-item>
-    </calcite-list>`);
+    accessible(
+      html`<calcite-list>
+        <calcite-list-item label="candy" description="kingdom">
+          <calcite-action icon="banana" label="finn" slot="actions-start" />
+          <calcite-icon icon="banana" slot="content-start" />
+          <img slot="content-start" src="${placeholder}" alt="Test image" />
+          <calcite-icon icon="banana" slot="content-end" />
+          <calcite-action icon="banana" label="jake" slot="actions-end" />
+        </calcite-list-item>
+        <calcite-list-item label="test" non-interactive description="hello world"></calcite-list-item>
+        <calcite-list-item label="test" description="hello world"></calcite-list-item>
+      </calcite-list>`,
+    );
   });
 
   describe("disabled", () => {
@@ -111,7 +113,7 @@ describe("calcite-list", () => {
       html`<calcite-list>
         <calcite-list-item label="test" description="hello world"></calcite-list-item>
       </calcite-list>`,
-      { focusTarget: "child" }
+      { focusTarget: "child" },
     );
 
     it("disabling and enabling an item restores actions from being tabbable", async () => {
@@ -258,12 +260,14 @@ describe("calcite-list", () => {
     };
 
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-list selection-mode="multiple">
-      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-      <calcite-list-item id="item-3" label="hello 3" description="world 3"></calcite-list-item>
-      <calcite-list-item id="item-4" label="hello 4" description="world 4"></calcite-list-item>
-    </calcite-list>`);
+    await page.setContent(
+      html`<calcite-list selection-mode="multiple">
+        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+        <calcite-list-item id="item-3" label="hello 3" description="world 3"></calcite-list-item>
+        <calcite-list-item id="item-4" label="hello 4" description="world 4"></calcite-list-item>
+      </calcite-list>`,
+    );
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
 
@@ -326,11 +330,13 @@ describe("calcite-list", () => {
 
   it("should update active item on init and click", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-list selection-mode="none">
-      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-      <calcite-list-item id="item-3" label="hello 3" description="world 3"></calcite-list-item>
-    </calcite-list>`);
+    await page.setContent(
+      html`<calcite-list selection-mode="none">
+        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+        <calcite-list-item id="item-3" label="hello 3" description="world 3"></calcite-list-item>
+      </calcite-list>`,
+    );
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
 
@@ -356,11 +362,13 @@ describe("calcite-list", () => {
 
   it("should prevent de-selection of selected item in single-persist mode", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-list selection-mode="single-persist">
-      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-      <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
-    </calcite-list>`);
+    await page.setContent(
+      html`<calcite-list selection-mode="single-persist">
+        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+        <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
+      </calcite-list>`,
+    );
 
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
@@ -386,11 +394,13 @@ describe("calcite-list", () => {
 
   it("should correctly allow de-selection and change of selected item in single mode", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-list selection-mode="single">
-      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-      <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
-    </calcite-list>`);
+    await page.setContent(
+      html`<calcite-list selection-mode="single">
+        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+        <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
+      </calcite-list>`,
+    );
 
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
@@ -717,11 +727,13 @@ describe("calcite-list", () => {
   describe("drag and drop", () => {
     async function createSimpleList(): Promise<E2EPage> {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-list drag-enabled>
-        <calcite-list-item value="one" label="One"></calcite-list-item>
-        <calcite-list-item value="two" label="Two"></calcite-list-item>
-        <calcite-list-item value="three" label="Three"></calcite-list-item>
-      </calcite-list>`);
+      await page.setContent(
+        html`<calcite-list drag-enabled>
+          <calcite-list-item value="one" label="One"></calcite-list-item>
+          <calcite-list-item value="two" label="Two"></calcite-list-item>
+          <calcite-list-item value="three" label="Three"></calcite-list-item>
+        </calcite-list>`,
+      );
       await page.waitForChanges();
       await page.waitForTimeout(listDebounceTimeout);
       return page;
@@ -752,8 +764,8 @@ describe("calcite-list", () => {
         testWindow.endCalledTimes = 0;
         list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
           testWindow.calledTimes++;
-          testWindow.newIndex = event?.detail?.newIndex;
-          testWindow.oldIndex = event?.detail?.oldIndex;
+          testWindow.newIndex = event.detail.newIndex;
+          testWindow.oldIndex = event.detail.oldIndex;
         });
         list.addEventListener("calciteListDragEnd", (event: CustomEvent<ListDragDetail>) => {
           testWindow.endCalledTimes++;
@@ -776,7 +788,7 @@ describe("calcite-list", () => {
         {
           element: `calcite-list-item[value="two"]`,
           shadow: "calcite-handle",
-        }
+        },
       );
 
       const [first, second] = await page.findAll("calcite-list-item");
@@ -846,7 +858,7 @@ describe("calcite-list", () => {
         lists.forEach((list) =>
           list.addEventListener("calciteListOrderChange", () => {
             testWindow.calledTimes++;
-          })
+          }),
         );
       });
 
@@ -861,7 +873,7 @@ describe("calcite-list", () => {
           pointerPosition: {
             vertical: "bottom",
           },
-        }
+        },
       );
 
       await dragAndDrop(
@@ -875,7 +887,7 @@ describe("calcite-list", () => {
           pointerPosition: {
             vertical: "bottom",
           },
-        }
+        },
       );
 
       await dragAndDrop(
@@ -889,12 +901,11 @@ describe("calcite-list", () => {
           pointerPosition: {
             vertical: "bottom",
           },
-        }
+        },
       );
 
-      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await page.findAll(
-        "calcite-list-item"
-      );
+      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] =
+        await page.findAll("calcite-list-item");
       expect(await first.getProperty("value")).toBe("a");
       expect(await second.getProperty("value")).toBe("b");
       expect(await third.getProperty("value")).toBe("d");
@@ -925,14 +936,18 @@ describe("calcite-list", () => {
       await page.$eval("calcite-list", (list: HTMLCalciteListElement) => {
         const testWindow = window as TestWindow;
         testWindow.calledTimes = 0;
-        list.addEventListener("calciteListOrderChange", () => {
+        list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
           testWindow.calledTimes++;
+          testWindow.newIndex = event.detail.newIndex;
+          testWindow.oldIndex = event.detail.oldIndex;
         });
       });
 
       async function assertKeyboardMove(
         arrowKey: "ArrowDown" | "ArrowUp",
-        expectedValueOrder: string[]
+        expectedValueOrder: string[],
+        newIndex: number,
+        oldIndex: number,
       ): Promise<void> {
         await page.waitForChanges();
         await page.keyboard.press(arrowKey);
@@ -943,16 +958,28 @@ describe("calcite-list", () => {
           expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
         }
 
-        const calledTimes = await page.evaluate(() => (window as TestWindow).calledTimes);
+        const results = await page.evaluate(() => {
+          const testWindow = window as TestWindow;
 
-        expect(calledTimes).toBe(++totalMoves);
+          return {
+            calledTimes: testWindow.calledTimes,
+            oldIndex: testWindow.oldIndex,
+            newIndex: testWindow.newIndex,
+          };
+        });
+
+        expect(results.calledTimes).toBe(++totalMoves);
+        expect(results.newIndex).toBe(newIndex);
+        expect(results.oldIndex).toBe(oldIndex);
       }
 
-      await assertKeyboardMove("ArrowDown", ["two", "one", "three"]);
-      await assertKeyboardMove("ArrowDown", ["two", "three", "one"]);
+      await assertKeyboardMove("ArrowDown", ["two", "one", "three"], 1, 0);
+      await assertKeyboardMove("ArrowDown", ["two", "three", "one"], 2, 1);
+      await assertKeyboardMove("ArrowDown", ["one", "two", "three"], 0, 2);
 
-      await assertKeyboardMove("ArrowUp", ["two", "one", "three"]);
-      await assertKeyboardMove("ArrowUp", ["one", "two", "three"]);
+      await assertKeyboardMove("ArrowUp", ["two", "three", "one"], 2, 0);
+      await assertKeyboardMove("ArrowUp", ["two", "one", "three"], 1, 2);
+      await assertKeyboardMove("ArrowUp", ["one", "two", "three"], 0, 1);
     });
 
     it("is drag and drop list accessible", async () => {
@@ -1006,7 +1033,7 @@ describe("calcite-list", () => {
           setPosition: startIndex + 1,
           label: itemLabel,
           setSize: items.length,
-        })
+        }),
       );
 
       await page.keyboard.press("Space");
@@ -1019,7 +1046,7 @@ describe("calcite-list", () => {
           setPosition: startIndex + 1,
           label: itemLabel,
           setSize: items.length,
-        })
+        }),
       );
 
       await page.keyboard.press("ArrowDown");
@@ -1036,7 +1063,7 @@ describe("calcite-list", () => {
           setPosition: startIndex + 1,
           label: itemLabel,
           setSize: items.length,
-        })
+        }),
       );
       await page.keyboard.press("Space");
       await page.waitForChanges();
@@ -1047,7 +1074,7 @@ describe("calcite-list", () => {
           setPosition: startIndex + 1,
           label: itemLabel,
           setSize: items.length,
-        })
+        }),
       );
 
       await page.keyboard.press("Space");

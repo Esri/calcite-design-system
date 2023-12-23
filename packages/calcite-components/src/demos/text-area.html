@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -65,6 +65,39 @@
         </div>
         <div class="child">
           <calcite-text-area placeholder="add notes" scale="l"> </calcite-text-area>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child-text">Validation message</div>
+        <div class="child">
+          <calcite-text-area
+            placeholder="add notes"
+            scale="s"
+            status="invalid"
+            validation-icon
+            validation-message="This field is required."
+          ></calcite-text-area>
+        </div>
+        <div class="child">
+          <calcite-text-area
+            placeholder="add notes"
+            scale="m"
+            status="invalid"
+            validation-icon
+            validation-message="This field is required."
+          >
+          </calcite-text-area>
+        </div>
+        <div class="child">
+          <calcite-text-area
+            placeholder="add notes"
+            scale="l"
+            status="invalid"
+            validation-icon
+            validation-message="This field is required."
+          >
+          </calcite-text-area>
         </div>
       </div>
 

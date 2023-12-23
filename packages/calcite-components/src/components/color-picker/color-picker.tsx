@@ -49,6 +49,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
@@ -109,7 +110,7 @@ export class ColorPicker
 
     if (alphaChannel && format !== "auto" && !alphaCompatible(format)) {
       console.warn(
-        `ignoring alphaChannel as the current format (${format}) does not support alpha`
+        `ignoring alphaChannel as the current format (${format}) does not support alpha`,
       );
       this.alphaChannel = false;
     }
@@ -217,7 +218,7 @@ export class ColorPicker
    * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
-    hexify(DEFAULT_COLOR, this.alphaChannel)
+    hexify(DEFAULT_COLOR, this.alphaChannel),
   );
 
   @Watch("value")
@@ -260,7 +261,7 @@ export class ColorPicker
         : Color(
             value != null && typeof value === "object" && alphaCompatible(this.mode)
               ? normalizeColor(value as RGBA | HSVA | HSLA)
-              : value
+              : value,
           );
     const colorChanged = !colorEqual(color, this.color);
 
@@ -268,7 +269,7 @@ export class ColorPicker
       this.internalColorSet(
         color,
         this.alphaChannel && !(this.mode.endsWith("a") || this.mode.endsWith("a-css")),
-        "internal"
+        "internal",
       );
     }
   }
@@ -367,7 +368,7 @@ export class ColorPicker
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
-      "data-color-mode"
+      "data-color-mode",
     ) as ColorMode;
 
     this.updateChannelsFromColor(this.color);
@@ -388,7 +389,7 @@ export class ColorPicker
       this.captureColorFieldColor(
         this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
         this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
-        false
+        false,
       );
     }
   };
@@ -443,8 +444,8 @@ export class ColorPicker
     const limit = isAlphaChannel
       ? OPACITY_LIMITS.max
       : this.channelMode === "rgb"
-      ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
-      : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
+        ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
+        : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
 
     let inputValue: string;
 
@@ -491,8 +492,8 @@ export class ColorPicker
       key === "ArrowUp" && shiftKey
         ? complementaryBump
         : key === "ArrowDown" && shiftKey
-        ? -complementaryBump
-        : 0;
+          ? -complementaryBump
+          : 0;
   }
 
   private handleChannelChange = (event: CustomEvent): void => {
@@ -750,188 +751,190 @@ export class ColorPicker
     const noSaved = savedDisabled || hideSaved;
     const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
-      colorFieldScopeTop
+      colorFieldScopeTop,
     );
     const [adjustedHueScopeLeft, adjustedHueScopeTop] = this.getAdjustedScopePosition(
       hueLeft,
-      hueTop
+      hueTop,
     );
     const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = this.getAdjustedScopePosition(
       opacityLeft,
-      opacityTop
+      opacityTop,
     );
 
     return (
-      <div class={CSS.container}>
-        <div class={CSS.controlAndScope}>
-          <canvas
-            class={CSS.colorField}
-            onPointerDown={this.handleColorFieldPointerDown}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.initColorField}
-          />
-          <div
-            aria-label={vertical ? messages.value : messages.saturation}
-            aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
-            aria-valuemin="0"
-            aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
-            class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
-            onKeyDown={this.handleColorFieldScopeKeyDown}
-            role="slider"
-            style={{
-              top: `${adjustedColorFieldScopeTop || 0}px`,
-              left: `${adjustedColorFieldScopeLeft || 0}px`,
-            }}
-            tabindex="0"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.storeColorFieldScope}
-          />
-        </div>
-        <div class={CSS.previewAndSliders}>
-          <calcite-color-picker-swatch class={CSS.preview} color={selectedColorInHex} scale="l" />
-          <div class={CSS.sliders}>
-            <div class={CSS.controlAndScope}>
-              <canvas
-                class={{ [CSS.slider]: true, [CSS.hueSlider]: true }}
-                onPointerDown={this.handleHueSliderPointerDown}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={this.initHueSlider}
-              />
-              <div
-                aria-label={messages.hue}
-                aria-valuemax={HSV_LIMITS.h}
-                aria-valuemin="0"
-                aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
-                class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
-                onKeyDown={this.handleHueScopeKeyDown}
-                role="slider"
-                style={{
-                  top: `${adjustedHueScopeTop}px`,
-                  left: `${adjustedHueScopeLeft}px`,
-                }}
-                tabindex="0"
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={this.storeHueScope}
-              />
-            </div>
-            {alphaChannel ? (
+      <InteractiveContainer disabled={this.disabled}>
+        <div class={CSS.container}>
+          <div class={CSS.controlAndScope}>
+            <canvas
+              class={CSS.colorField}
+              onPointerDown={this.handleColorFieldPointerDown}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.initColorField}
+            />
+            <div
+              aria-label={vertical ? messages.value : messages.saturation}
+              aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
+              aria-valuemin="0"
+              aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
+              class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
+              onKeyDown={this.handleColorFieldScopeKeyDown}
+              role="slider"
+              style={{
+                top: `${adjustedColorFieldScopeTop || 0}px`,
+                left: `${adjustedColorFieldScopeLeft || 0}px`,
+              }}
+              tabindex="0"
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.storeColorFieldScope}
+            />
+          </div>
+          <div class={CSS.previewAndSliders}>
+            <calcite-color-picker-swatch class={CSS.preview} color={selectedColorInHex} scale="l" />
+            <div class={CSS.sliders}>
               <div class={CSS.controlAndScope}>
                 <canvas
-                  class={{ [CSS.slider]: true, [CSS.opacitySlider]: true }}
-                  onPointerDown={this.handleOpacitySliderPointerDown}
+                  class={{ [CSS.slider]: true, [CSS.hueSlider]: true }}
+                  onPointerDown={this.handleHueSliderPointerDown}
                   // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.initOpacitySlider}
+                  ref={this.initHueSlider}
                 />
                 <div
-                  aria-label={messages.opacity}
-                  aria-valuemax={OPACITY_LIMITS.max}
-                  aria-valuemin={OPACITY_LIMITS.min}
-                  aria-valuenow={(color || DEFAULT_COLOR).round().alpha()}
-                  class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
-                  onKeyDown={this.handleOpacityScopeKeyDown}
+                  aria-label={messages.hue}
+                  aria-valuemax={HSV_LIMITS.h}
+                  aria-valuemin="0"
+                  aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
+                  class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
+                  onKeyDown={this.handleHueScopeKeyDown}
                   role="slider"
                   style={{
-                    top: `${adjustedOpacityScopeTop}px`,
-                    left: `${adjustedOpacityScopeLeft}px`,
+                    top: `${adjustedHueScopeTop}px`,
+                    left: `${adjustedHueScopeLeft}px`,
                   }}
                   tabindex="0"
                   // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.storeOpacityScope}
+                  ref={this.storeHueScope}
                 />
               </div>
-            ) : null}
-          </div>
-        </div>
-        {noHex && noChannels ? null : (
-          <div
-            class={{
-              [CSS.controlSection]: true,
-              [CSS.section]: true,
-            }}
-          >
-            <div class={CSS.hexAndChannelsGroup}>
-              {noHex ? null : (
-                <div class={CSS.hexOptions}>
-                  <calcite-color-picker-hex-input
-                    allowEmpty={allowEmpty}
-                    alphaChannel={alphaChannel}
-                    class={CSS.control}
-                    messages={messages}
-                    numberingSystem={this.numberingSystem}
-                    onCalciteColorPickerHexInputChange={this.handleHexInputChange}
-                    scale={scale}
-                    value={selectedColorInHex}
+              {alphaChannel ? (
+                <div class={CSS.controlAndScope}>
+                  <canvas
+                    class={{ [CSS.slider]: true, [CSS.opacitySlider]: true }}
+                    onPointerDown={this.handleOpacitySliderPointerDown}
+                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                    ref={this.initOpacitySlider}
+                  />
+                  <div
+                    aria-label={messages.opacity}
+                    aria-valuemax={OPACITY_LIMITS.max}
+                    aria-valuemin={OPACITY_LIMITS.min}
+                    aria-valuenow={(color || DEFAULT_COLOR).round().alpha()}
+                    class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
+                    onKeyDown={this.handleOpacityScopeKeyDown}
+                    role="slider"
+                    style={{
+                      top: `${adjustedOpacityScopeTop}px`,
+                      left: `${adjustedOpacityScopeLeft}px`,
+                    }}
+                    tabindex="0"
+                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                    ref={this.storeOpacityScope}
                   />
                 </div>
-              )}
-              {noChannels ? null : (
-                <calcite-tabs
-                  class={{
-                    [CSS.colorModeContainer]: true,
-                    [CSS.splitSection]: true,
-                  }}
-                  scale={scale === "l" ? "m" : "s"}
-                >
-                  <calcite-tab-nav slot="title-group">
-                    {this.renderChannelsTabTitle("rgb")}
-                    {this.renderChannelsTabTitle("hsv")}
-                  </calcite-tab-nav>
-                  {this.renderChannelsTab("rgb")}
-                  {this.renderChannelsTab("hsv")}
-                </calcite-tabs>
-              )}
+              ) : null}
             </div>
           </div>
-        )}
-        {noSaved ? null : (
-          <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
-            <div class={CSS.header}>
-              <label>{messages.saved}</label>
-              <div class={CSS.savedColorsButtons}>
-                <calcite-button
-                  appearance="transparent"
-                  class={CSS.deleteColor}
-                  disabled={noColor}
-                  iconStart="minus"
-                  kind="neutral"
-                  label={messages.deleteColor}
-                  onClick={this.deleteColor}
-                  scale={scale}
-                  type="button"
-                />
-                <calcite-button
-                  appearance="transparent"
-                  class={CSS.saveColor}
-                  disabled={noColor}
-                  iconStart="plus"
-                  kind="neutral"
-                  label={messages.saveColor}
-                  onClick={this.saveColor}
-                  scale={scale}
-                  type="button"
-                />
-              </div>
-            </div>
-            {savedColors.length > 0 ? (
-              <div class={CSS.savedColors}>
-                {[
-                  ...savedColors.map((color) => (
-                    <calcite-color-picker-swatch
-                      class={CSS.savedColor}
-                      color={color}
-                      key={color}
-                      onClick={this.handleSavedColorSelect}
-                      onKeyDown={this.handleSavedColorKeyDown}
+          {noHex && noChannels ? null : (
+            <div
+              class={{
+                [CSS.controlSection]: true,
+                [CSS.section]: true,
+              }}
+            >
+              <div class={CSS.hexAndChannelsGroup}>
+                {noHex ? null : (
+                  <div class={CSS.hexOptions}>
+                    <calcite-color-picker-hex-input
+                      allowEmpty={allowEmpty}
+                      alphaChannel={alphaChannel}
+                      class={CSS.control}
+                      messages={messages}
+                      numberingSystem={this.numberingSystem}
+                      onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                       scale={scale}
-                      tabIndex={0}
+                      value={selectedColorInHex}
                     />
-                  )),
-                ]}
+                  </div>
+                )}
+                {noChannels ? null : (
+                  <calcite-tabs
+                    class={{
+                      [CSS.colorModeContainer]: true,
+                      [CSS.splitSection]: true,
+                    }}
+                    scale={scale === "l" ? "m" : "s"}
+                  >
+                    <calcite-tab-nav slot="title-group">
+                      {this.renderChannelsTabTitle("rgb")}
+                      {this.renderChannelsTabTitle("hsv")}
+                    </calcite-tab-nav>
+                    {this.renderChannelsTab("rgb")}
+                    {this.renderChannelsTab("hsv")}
+                  </calcite-tabs>
+                )}
               </div>
-            ) : null}
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+          {noSaved ? null : (
+            <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
+              <div class={CSS.header}>
+                <label>{messages.saved}</label>
+                <div class={CSS.savedColorsButtons}>
+                  <calcite-button
+                    appearance="transparent"
+                    class={CSS.deleteColor}
+                    disabled={noColor}
+                    iconStart="minus"
+                    kind="neutral"
+                    label={messages.deleteColor}
+                    onClick={this.deleteColor}
+                    scale={scale}
+                    type="button"
+                  />
+                  <calcite-button
+                    appearance="transparent"
+                    class={CSS.saveColor}
+                    disabled={noColor}
+                    iconStart="plus"
+                    kind="neutral"
+                    label={messages.saveColor}
+                    onClick={this.saveColor}
+                    scale={scale}
+                    type="button"
+                  />
+                </div>
+              </div>
+              {savedColors.length > 0 ? (
+                <div class={CSS.savedColors}>
+                  {[
+                    ...savedColors.map((color) => (
+                      <calcite-color-picker-swatch
+                        class={CSS.savedColor}
+                        color={color}
+                        key={color}
+                        onClick={this.handleSavedColorSelect}
+                        onKeyDown={this.handleSavedColorKeyDown}
+                        scale={scale}
+                        tabIndex={0}
+                      />
+                    )),
+                  ]}
+                </div>
+              ) : null}
+            </div>
+          )}
+        </div>
+      </InteractiveContainer>
     );
   }
 
@@ -989,7 +992,7 @@ export class ColorPicker
               index,
               channelAriaLabels[index],
               direction,
-              isAlphaChannel ? "%" : ""
+              isAlphaChannel ? "%" : "",
             );
           })}
         </div>
@@ -1002,7 +1005,7 @@ export class ColorPicker
     index: number,
     ariaLabel: string,
     direction: Direction,
-    suffix?: string
+    suffix?: string,
   ): VNode => {
     return (
       <calcite-input-number
@@ -1045,7 +1048,7 @@ export class ColorPicker
 
   private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
     console.warn(
-      `ignoring color value (${value}) as it is not compatible with the current format (${format})`
+      `ignoring color value (${value}) as it is not compatible with the current format (${format})`,
     );
   }
 
@@ -1063,7 +1066,7 @@ export class ColorPicker
 
       if (warn) {
         console.warn(
-          `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`
+          `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
 
@@ -1075,7 +1078,7 @@ export class ColorPicker
 
       if (warn) {
         console.warn(
-          `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`
+          `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
 
@@ -1110,7 +1113,7 @@ export class ColorPicker
   private internalColorSet(
     color: Color | null,
     skipEqual = true,
-    context: ColorPicker["internalColorUpdateContext"] = "user-interaction"
+    context: ColorPicker["internalColorUpdateContext"] = "user-interaction",
   ): void {
     if (skipEqual && colorEqual(color, this.color)) {
       return;
@@ -1231,7 +1234,7 @@ export class ColorPicker
         this.drawOpacitySlider();
       }
     },
-    throttleFor60FpsInMs
+    throttleFor60FpsInMs,
   );
 
   private drawColorField(): void {
@@ -1267,7 +1270,7 @@ export class ColorPicker
 
   private setCanvasContextSize(
     canvas: HTMLCanvasElement,
-    { height, width }: { height: number; width: number }
+    { height, width }: { height: number; width: number },
   ): void {
     if (!canvas) {
       return;
@@ -1295,7 +1298,7 @@ export class ColorPicker
 
     this.internalColorSet(
       this.baseColorFieldColor.hsv().saturationv(saturation).value(value),
-      skipEqual
+      skipEqual,
     );
   };
 
@@ -1322,7 +1325,7 @@ export class ColorPicker
   };
 
   private updateCanvasSize(
-    context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"
+    context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all",
   ): void {
     const { dimensions } = this;
 
@@ -1343,7 +1346,7 @@ export class ColorPicker
     if (context === "all" || context === "opacity-slider") {
       this.setCanvasContextSize(
         this.opacitySliderRenderingContext?.canvas,
-        adjustedSliderDimensions
+        adjustedSliderDimensions,
       );
     }
   }
@@ -1380,7 +1383,7 @@ export class ColorPicker
     radius: number,
     x: number,
     y: number,
-    color: Color
+    color: Color,
   ): void {
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
@@ -1518,7 +1521,7 @@ export class ColorPicker
     height: number,
     width: number,
     x: number,
-    y: number
+    y: number,
   ): void {
     const radius = height / 2 + 1;
     context.beginPath();
@@ -1588,8 +1591,8 @@ export class ColorPicker
     return closeToEdge === 0
       ? x
       : closeToEdge === -1
-      ? remap(x, 0, width, radius, radius * 2)
-      : remap(x, 0, width, width - radius * 2, width - radius);
+        ? remap(x, 0, width, radius, radius * 2)
+        : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
   private storeOpacityScope = (node: HTMLDivElement): void => {

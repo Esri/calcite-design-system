@@ -12,6 +12,6 @@ Promise.all(
       include: references,
       options: { ...runConfig.options, ...options },
       output: config.output,
-    })
-  )
+    }),
+  ),
 );

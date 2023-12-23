@@ -8,10 +8,13 @@ export function evaluateMathInValue(value: any): any {
   }
 
   if (value === Object(value)) {
-    return Object.entries(value).reduce((acc, [k, v]) => {
-      acc[k] = evaluateMathInValue(v);
-      return acc;
-    }, {} as Record<string, any>);
+    return Object.entries(value).reduce(
+      (acc, [k, v]) => {
+        acc[k] = evaluateMathInValue(v);
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
   }
 
   return typeof value === "string" || typeof value === "number" ? `${checkAndEvaluateMath(`${value}`)}` : value;
@@ -23,7 +26,7 @@ export const transformValuesEvaluateMath: CalledTransformerFunction<any> = (toke
 
 export const registerValueEvaluateMath = (sd: StyleDictionary): void => {
   const transformerConfig: TransformerConfig = {
-    name: valueEvaluateMath,
+    name: transitiveValueEvaluateMath,
     transformer: transformValuesEvaluateMath,
     transitive: true,
     type: "value",
@@ -32,4 +35,4 @@ export const registerValueEvaluateMath = (sd: StyleDictionary): void => {
   sd.registerTransform(transformerConfig);
 };
 
-export const valueEvaluateMath = "value/calcite/evaluate-math";
+export const transitiveValueEvaluateMath = "value/calcite/evaluate-math";

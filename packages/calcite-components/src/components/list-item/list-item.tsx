@@ -22,6 +22,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
@@ -447,8 +448,8 @@ export class ListItem
       ? open
         ? ICONS.open
         : dir === "rtl"
-        ? ICONS.closedRTL
-        : ICONS.closedLTR
+          ? ICONS.closedRTL
+          : ICONS.closedLTR
       : ICONS.blank;
 
     const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
@@ -630,36 +631,38 @@ export class ListItem
 
     return (
       <Host>
-        <tr
-          aria-expanded={openable ? toAriaBoolean(open) : null}
-          aria-label={label}
-          aria-level={level}
-          aria-posinset={setPosition}
-          aria-selected={toAriaBoolean(selected)}
-          aria-setsize={setSize}
-          class={{
-            [CSS.container]: true,
-            [CSS.containerBorderSelected]: borderSelected,
-            [CSS.containerBorderUnselected]: borderUnselected,
-          }}
-          hidden={closed}
-          onFocus={this.focusCellNull}
-          onKeyDown={this.handleItemKeyDown}
-          role="row"
-          style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
-          tabIndex={active ? 0 : -1}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.containerEl = el)}
-        >
-          {this.renderDragHandle()}
-          {this.renderSelected()}
-          {this.renderOpen()}
-          {this.renderActionsStart()}
-          {this.renderContentContainer()}
-          {this.renderActionsEnd()}
-        </tr>
-        {this.renderContentBottom()}
-        {this.renderDefaultContainer()}
+        <InteractiveContainer disabled={this.disabled}>
+          <tr
+            aria-expanded={openable ? toAriaBoolean(open) : null}
+            aria-label={label}
+            aria-level={level}
+            aria-posinset={setPosition}
+            aria-selected={toAriaBoolean(selected)}
+            aria-setsize={setSize}
+            class={{
+              [CSS.container]: true,
+              [CSS.containerBorderSelected]: borderSelected,
+              [CSS.containerBorderUnselected]: borderUnselected,
+            }}
+            hidden={closed}
+            onFocus={this.focusCellNull}
+            onKeyDown={this.handleItemKeyDown}
+            role="row"
+            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+            tabIndex={active ? 0 : -1}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => (this.containerEl = el)}
+          >
+            {this.renderDragHandle()}
+            {this.renderSelected()}
+            {this.renderOpen()}
+            {this.renderActionsStart()}
+            {this.renderContentContainer()}
+            {this.renderActionsEnd()}
+          </tr>
+          {this.renderContentBottom()}
+          {this.renderDefaultContainer()}
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -784,7 +787,7 @@ export class ListItem
 
   private getGridCells(): HTMLTableCellElement[] {
     return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
-      (el) => el && !el.hidden
+      (el) => el && !el.hidden,
     );
   }
 

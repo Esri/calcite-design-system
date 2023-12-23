@@ -252,7 +252,7 @@ describe("calcite-tabs", () => {
             connectedCallback(): void {
               this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
             }
-          }
+          },
         );
 
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
@@ -280,7 +280,7 @@ describe("calcite-tabs", () => {
         const tab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
         return { tabTitle, tab };
       },
-      wrappedTabTemplateHTML
+      wrappedTabTemplateHTML,
     );
     expect(finalSelectedItem.tabTitle).toBe("title-2");
     expect(finalSelectedItem.tab).toBe("tab-2");
@@ -348,8 +348,8 @@ describe("calcite-tabs", () => {
         "calciteTabChange",
         (event) =>
           ((window as TestWindow).selectedTitleTab = (event.target as HTMLCalciteTabNavElement).selectedTitle.tab),
-        { once: true }
-      )
+        { once: true },
+      ),
     );
 
     const tabChange = page.waitForEvent("calciteTabChange");

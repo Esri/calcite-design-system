@@ -44,8 +44,10 @@
     font-normal
     no-underline;
   // include transition from focus
-  transition: color var(--calcite-animation-timing) ease-in-out,
-    background-color var(--calcite-animation-timing) ease-in-out, box-shadow var(--calcite-animation-timing) ease-in-out,
+  transition:
+    color var(--calcite-animation-timing) ease-in-out,
+    background-color var(--calcite-animation-timing) ease-in-out,
+    box-shadow var(--calcite-animation-timing) ease-in-out,
     outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
   &:hover {
     @apply no-underline;
@@ -189,7 +191,8 @@
   @apply flex;
   calcite-loader {
     @apply m-0;
-    transition: inline-size var(--calcite-internal-animation-timing-slow) ease-in-out,
+    transition:
+      inline-size var(--calcite-internal-animation-timing-slow) ease-in-out,
       opacity var(--calcite-internal-animation-timing-slow) ease-in-out,
       transform var(--calcite-internal-animation-timing-slow) ease-in-out;
     &.loading-in {

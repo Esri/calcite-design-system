@@ -139,7 +139,7 @@ export class ActionPad
   @State() expandTooltip: HTMLCalciteTooltipElement;
 
   mutationObserver = createObserver("mutation", () =>
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")))
+    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group"))),
   );
 
   expandToggleEl: HTMLCalciteActionElement;
@@ -233,16 +233,16 @@ export class ActionPad
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-group")
+    const groups = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-group"),
     ) as HTMLCalciteActionGroupElement[];
 
     this.setGroupLayout(groups);
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip")
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-tooltip"),
     ) as HTMLCalciteTooltipElement[];
 
     this.expandTooltip = tooltips[0];

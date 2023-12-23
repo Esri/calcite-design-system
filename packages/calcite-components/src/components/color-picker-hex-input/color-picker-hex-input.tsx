@@ -119,7 +119,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel),
     this.alphaChannel,
-    true
+    true,
   );
 
   @Watch("value")
@@ -160,8 +160,8 @@ export class ColorPickerHexInput implements LoadableComponent {
         : this.formatHexForInternalInput(
             rgbToHex(
               // always display hex input in RRGGBB format
-              internalColor.object() as any as RGB
-            )
+              internalColor.object() as any as RGB,
+            ),
           );
   };
 
@@ -248,11 +248,11 @@ export class ColorPickerHexInput implements LoadableComponent {
           this.nudgeRGBChannels(
             internalColor,
             bump * direction,
-            composedPath.includes(hexInputNode) ? "rgb" : "a"
+            composedPath.includes(hexInputNode) ? "rgb" : "a",
           ),
-          alphaChannel
+          alphaChannel,
         ),
-        oldValue
+        oldValue,
       );
 
       event.preventDefault();
