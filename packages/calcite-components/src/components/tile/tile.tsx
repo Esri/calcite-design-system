@@ -117,20 +117,10 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   renderTile(): VNode {
     const { icon, el, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
-    const iconStyle = isLargeVisual
-      ? {
-          height: "64px",
-          width: "64px",
-        }
-      : undefined;
 
     return (
       <div class={{ container: true, "large-visual": isLargeVisual }}>
-        {icon && (
-          <div class="icon">
-            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
-          </div>
-        )}
+        {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
         <div class="content-container">
           {getSlotted(el, SLOTS.contentStart) ? (
             <div class="content-slot-container">

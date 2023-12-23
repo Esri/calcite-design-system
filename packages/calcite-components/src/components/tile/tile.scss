@@ -1,25 +1,30 @@
 :host([scale="s"]) {
-  --calcite-tile-heading-font-size: var(--calcite-font-size--2);
-  --calcite-tile-heading-line-height: 1.03125rem;
+  --calcite-tile-content-gap: var(--calcite-spacing-sm);
   --calcite-tile-description-font-size: var(--calcite-font-size--3);
   --calcite-tile-description-line-height: 0.85938rem;
+  --calcite-tile-heading-font-size: var(--calcite-font-size--2);
+  --calcite-tile-heading-line-height: 1.03125rem;
 }
 :host([scale="m"]) {
-  --calcite-tile-heading-font-size: var(--calcite-font-size--1);
-  --calcite-tile-heading-line-height: 1.20313rem;
+  --calcite-tile-content-gap: var(--calcite-spacing-md);
   --calcite-tile-description-font-size: var(--calcite-font-size--2);
   --calcite-tile-description-line-height: 1.03125rem;
+  --calcite-tile-heading-font-size: var(--calcite-font-size--1);
+  --calcite-tile-heading-line-height: 1.20313rem;
 }
 :host([scale="l"]) {
-  --calcite-tile-heading-font-size: var(--calcite-font-size-0);
-  --calcite-tile-heading-line-height: 1.375rem;
+  --calcite-tile-content-gap: var(--calcite-spacing-lg);
   --calcite-tile-description-font-size: var(--calcite-font-size--1);
   --calcite-tile-description-line-height: 1.20313rem;
+  --calcite-tile-heading-font-size: var(--calcite-font-size-0);
+  --calcite-tile-heading-line-height: 1.375rem;
 }
 
 :host {
-  --calcite-tile-heading-font-weight: 500;
   --calcite-tile-description-font-weight: 400;
+  --calcite-tile-heading-font-weight: 500;
+  --calcite-tile-large-visual-block-size: 64px;
+  --calcite-tile-large-visual-inline-size: 64px;
 
   @apply bg-foreground-1
     text-color-3
@@ -32,8 +37,8 @@
   .container {
     @apply pointer-events-none
       grid
-      grid-cols-1
-      gap-2;
+      grid-cols-1;
+    gap: var(--calcite-tile-content-gap);
   }
 
   .content {
@@ -81,10 +86,11 @@
     @apply items-center
       text-center;
     min-block-size: theme("spacing.48");
-    .icon {
-      @apply flex
-        justify-center
-        self-end;
+    calcite-icon {
+      align-self: self-end;
+      block-size: var(--calcite-tile-large-visual-block-size);
+      inline-size: var(--calcite-tile-large-visual-inline-size);
+      justify-self: center;
     }
     .content-container {
       @apply self-center;
@@ -122,14 +128,6 @@
 }
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;
-}
-:host([icon][heading]:not([description])) {
-  .icon {
-    @apply flex justify-center;
-  }
-  .large-visual {
-    @apply text-center;
-  }
 }
 
 @include disabled();
