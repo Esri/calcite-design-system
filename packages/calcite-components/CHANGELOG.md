@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.5...@esri/calcite-components@2.2.0-next.6) (2023-12-27)
+
+### Bug Fixes
+
+- __list-item:__ store last focused cell from focusing on elements within a cell. ([#8494](https://github.com/Esri/calcite-design-system/issues/8494)) ([28f93b4](https://github.com/Esri/calcite-design-system/commit/28f93b43036affcdb29d07c12f0cb910329d4b8c)), closes [#8493](https://github.com/Esri/calcite-design-system/issues/8493)
+
 ## [2.2.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.4...@esri/calcite-components@2.2.0-next.5) (2023-12-27)
 
 ### Bug Fixes
