@@ -38,7 +38,7 @@
     "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-docs": "6.5.16",
     "@storybook/addon-interactions": "6.5.16",
-    "@storybook/addon-knobs": "6.4.0",
+    "@storybook/addon-knobs": "7.0.2",
     "@storybook/html": "6.5.16",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/testing-library": "0.2.2",
