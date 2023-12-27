@@ -3,7 +3,7 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
-import { CSS } from "../list-item/resources";
+import { CSS, activeCellTestAttribute } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
 import { ListDragDetail } from "./interfaces";
@@ -143,15 +143,14 @@ describe("calcite-list", () => {
 
       expect(await getFocusedElementProp(page, "id")).toBe("action-3");
 
-      await secondItem.setProperty("disabled", true);
+      secondItem.setProperty("disabled", true);
       await page.waitForChanges();
-      await secondItem.setProperty("disabled", false);
+      secondItem.setProperty("disabled", false);
       await page.waitForChanges();
 
       await firstItem.callMethod("setFocus");
       await page.waitForChanges();
 
-      await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
 
@@ -779,6 +778,37 @@ describe("calcite-list", () => {
 
       expect(await isElementFocused(page, "#one")).toBe(true);
       expect(await one.getProperty("open")).toBe(false);
+    });
+
+    it("should navigate after focusing within a cell", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list drag-enabled>
+          <calcite-list-item id="one" value="one" label="One" description="hello world"> </calcite-list-item>
+          <calcite-list-item id="two" value="two" label="Two" description="hello world"> </calcite-list-item>
+          <calcite-list-item id="three" value="three" label="Three" description="hello world"></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+      const items = await page.findAll("calcite-list-item");
+      const secondHandleCell = await page.find(`#two >>> .${CSS.dragContainer}`);
+
+      expect(await items[0].getProperty("active")).toBe(true);
+      expect(await items[1].getProperty("active")).toBe(false);
+      expect(await items[2].getProperty("active")).toBe(false);
+      expect(secondHandleCell.getAttribute(activeCellTestAttribute)).toBe(null);
+
+      const secondDragHandle = await page.find("#two >>> calcite-handle");
+
+      await secondDragHandle.click();
+
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      expect(await items[0].getProperty("active")).toBe(false);
+      expect(await items[1].getProperty("active")).toBe(true);
+      expect(await items[2].getProperty("active")).toBe(false);
+      expect(secondHandleCell.getAttribute(activeCellTestAttribute)).toBe("");
     });
   });
 

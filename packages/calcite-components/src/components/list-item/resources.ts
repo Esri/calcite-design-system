@@ -43,3 +43,5 @@ export const ICONS = {
   blank: "blank",
   close: "x",
 };
+
+export const activeCellTestAttribute = "data-test-active";
