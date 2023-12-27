@@ -143,15 +143,14 @@ describe("calcite-list", () => {
 
       expect(await getFocusedElementProp(page, "id")).toBe("action-3");
 
-      await secondItem.setProperty("disabled", true);
+      secondItem.setProperty("disabled", true);
       await page.waitForChanges();
-      await secondItem.setProperty("disabled", false);
+      secondItem.setProperty("disabled", false);
       await page.waitForChanges();
 
       await firstItem.callMethod("setFocus");
       await page.waitForChanges();
 
-      await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
 

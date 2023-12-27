@@ -877,19 +877,21 @@ export class ListItem
       focusMap.set(parentListEl, null);
     }
 
+    const gridCells = this.getGridCells();
+
+    gridCells.forEach((tableCell) => {
+      tableCell.tabIndex = -1;
+      tableCell.removeAttribute(dataTestActiveCellAttr);
+    });
+
     const focusedEl = getFirstTabbable(focusEl);
 
-    this.getGridCells().forEach((tableCell, cellIndex) => {
-      // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
-      if (tableCell === focusEl) {
-        tableCell.tabIndex = focusEl === focusedEl ? 0 : -1;
-        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
-        tableCell.setAttribute(dataTestActiveCellAttr, "");
-      } else {
-        tableCell.tabIndex = -1;
-        tableCell.removeAttribute(dataTestActiveCellAttr);
-      }
-    });
+    // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
+    if (focusEl) {
+      focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
+      saveFocusIndex && focusMap.set(parentListEl, gridCells.indexOf(focusEl));
+      focusEl.setAttribute(dataTestActiveCellAttr, "");
+    }
 
     focusedEl?.focus();
   };
