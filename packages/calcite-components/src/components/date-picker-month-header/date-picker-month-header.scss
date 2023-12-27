@@ -11,17 +11,11 @@
   .text {
     @apply text-n1h my-2;
   }
-  .chevron {
-    @apply h-9;
-  }
 }
 
 :host([scale="m"]) {
   .text {
     @apply text-0h my-3;
-  }
-  .chevron {
-    @apply h-12;
   }
 }
 
@@ -29,16 +23,18 @@
   .text {
     @apply text-1h my-4;
   }
-  .chevron {
-    block-size: 3.5rem;
-  }
+}
+
+.chevron-container {
+  display: flex;
+  inline-size: 80px;
 }
 
 .chevron {
   @apply text-color-3
     bg-foreground-1
     focus-base
-    -mx-1
+    mx-1
     box-content
     flex
     flex-grow-0
@@ -49,7 +45,7 @@
     px-1
     outline-none
     transition-default;
-  inline-size: calc(100% / 7);
+  inline-size: 40px;
 
   &:focus {
     @apply focus-inset;

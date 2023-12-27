@@ -18,6 +18,7 @@ import {
   disconnectLocalized,
   numberStringFormatter,
 } from "../../utils/locale";
+import { DateLocaleData, getLocaleData } from "../date-picker/utils";
 // import { DateLocaleData } from "../date-picker/utils";
 
 @Component({
@@ -147,12 +148,14 @@ export class YearPicker implements LocalizedComponent {
 
   @Watch("effectiveLocale")
   @Watch("numberingSystem")
-  updateNumberStringFormatter(): void {
+  async updateNumberStringFormatter(): Promise<void> {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: false,
     };
+
+    this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
   @State() yearList: number[] = [];
@@ -162,6 +165,8 @@ export class YearPicker implements LocalizedComponent {
   private startYear: number;
 
   private activeRange: "start" | "end" = "start";
+
+  @State() localeData: DateLocaleData;
 
   // maxValueSelectEl: HTMLCalciteSelectElement;
 
@@ -220,10 +225,11 @@ export class YearPicker implements LocalizedComponent {
   // };
 
   render(): VNode {
+    const suffix = this.localeData?.year?.suffix;
     return (
       <Host>
         <calcite-select
-          class="start-year"
+          class={this.range ? "start year" : "year"}
           disabled={this.disabled}
           label={this.range ? "start year" : "year"}
           onCalciteSelectChange={this.handleSelectChange}
@@ -238,6 +244,7 @@ export class YearPicker implements LocalizedComponent {
                 value={yearString}
               >
                 {numberStringFormatter?.localize(yearString)}
+                {suffix}
               </calcite-option>
             );
           })}
