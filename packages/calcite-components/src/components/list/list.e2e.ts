@@ -3,7 +3,7 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
-import { CSS } from "../list-item/resources";
+import { CSS, activeCellTestAttribute } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
 import { ListDragDetail } from "./interfaces";
@@ -738,7 +738,7 @@ describe("calcite-list", () => {
       expect(await items[0].getProperty("active")).toBe(true);
       expect(await items[1].getProperty("active")).toBe(false);
       expect(await items[2].getProperty("active")).toBe(false);
-      expect(secondHandleCell.getAttribute("data-test-active")).toBe(null);
+      expect(secondHandleCell.getAttribute(activeCellTestAttribute)).toBe(null);
 
       const secondDragHandle = await page.find("#two >>> calcite-handle");
 
@@ -750,7 +750,7 @@ describe("calcite-list", () => {
       expect(await items[0].getProperty("active")).toBe(false);
       expect(await items[1].getProperty("active")).toBe(true);
       expect(await items[2].getProperty("active")).toBe(false);
-      expect(secondHandleCell.getAttribute("data-test-active")).toBe("");
+      expect(secondHandleCell.getAttribute(activeCellTestAttribute)).toBe("");
     });
   });
 
