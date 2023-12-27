@@ -59,13 +59,14 @@ describe("calcite-handle", () => {
     expect(await handle.getProperty("activated")).toBe(false);
   });
 
-  it("does not set activated to false when blurDisabled and blurred", async () => {
+  it("does not set activated to false when blurUnselectDisabled and blurred", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-handle blur-disabled></calcite-handle>");
+    await page.setContent("<calcite-handle blur-unselect-disabled></calcite-handle>");
 
     const handle = await page.find("calcite-handle");
     const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
 
+    expect(await handle.getProperty("blurUnselectDisabled")).toBe(true);
     expect(await handle.getProperty("activated")).toBe(false);
 
     await button.focus();
