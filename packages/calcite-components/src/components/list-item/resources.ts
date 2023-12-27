@@ -44,4 +44,4 @@ export const ICONS = {
   close: "x",
 };
 
-export const dataTestActiveCellAttr = "data-test-active";
+export const activeCellTestAttribute = "data-test-active";

@@ -27,7 +27,7 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { CSS, dataTestActiveCellAttr, ICONS, SLOTS } from "./resources";
+import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import {
   getDepth,
   getListItemChildren,
@@ -881,7 +881,7 @@ export class ListItem
 
     gridCells.forEach((tableCell) => {
       tableCell.tabIndex = -1;
-      tableCell.removeAttribute(dataTestActiveCellAttr);
+      tableCell.removeAttribute(activeCellTestAttribute);
     });
 
     const focusedEl = getFirstTabbable(focusEl);
@@ -890,7 +890,7 @@ export class ListItem
     if (focusEl) {
       focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
       saveFocusIndex && focusMap.set(parentListEl, gridCells.indexOf(focusEl));
-      focusEl.setAttribute(dataTestActiveCellAttr, "");
+      focusEl.setAttribute(activeCellTestAttribute, "");
     }
 
     focusedEl?.focus();
