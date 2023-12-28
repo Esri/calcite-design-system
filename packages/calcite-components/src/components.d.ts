@@ -1770,6 +1770,10 @@ export namespace Components {
     interface CalciteHandle {
         "activated": boolean;
         /**
+          * When `true`, disables unselecting the component when blurred.
+         */
+        "blurUnselectDisabled": boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -9063,6 +9067,10 @@ declare namespace LocalJSX {
     }
     interface CalciteHandle {
         "activated"?: boolean;
+        /**
+          * When `true`, disables unselecting the component when blurred.
+         */
+        "blurUnselectDisabled"?: boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
