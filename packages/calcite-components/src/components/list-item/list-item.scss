@@ -1,21 +1,29 @@
 :host {
-  @apply flex flex-col bg-foreground-1;
+  @apply flex
+    flex-col
+    bg-foreground-1;
+
   --calcite-list-item-icon-color: theme("colors.brand");
 }
 
 @include disabled();
 
 .indent {
-  @apply flex flex-col border-solid border-0 border-color-3;
+  @apply flex
+    flex-col
+    border-solid
+    border-0
+    border-color-3;
+
   margin-inline-start: theme("spacing.7");
 }
 
 .container {
   @apply bg-foreground-1
-  box-border
-  flex
-  flex-1
-  font-sans;
+    box-border
+    flex
+    flex-1
+    font-sans;
 
   * {
     @apply box-border;
@@ -23,7 +31,8 @@
 }
 
 .container:hover {
-  @apply bg-foreground-2 cursor-pointer;
+  @apply bg-foreground-2
+    cursor-pointer;
 }
 
 .container:active {
@@ -39,7 +48,8 @@
 }
 
 .nested-container {
-  @apply flex flex-col;
+  @apply flex
+    flex-col;
 }
 
 .nested-container--hidden {
@@ -81,9 +91,14 @@ td:focus {
 .label,
 .description,
 .content-bottom {
-  @apply text-n2 word-break font-sans font-normal;
+  @apply text-n2
+    word-break
+    font-sans
+    font-normal;
+
   &:only-child {
-    @apply m-0 py-1;
+    @apply m-0
+      py-1;
   }
 }
 
@@ -92,7 +107,8 @@ td:focus {
 }
 
 .description {
-  @apply text-color-3 mt-0.5;
+  @apply text-color-3
+    mt-0.5;
 }
 
 .content-start {
@@ -109,7 +125,8 @@ td:focus {
 }
 
 .content-bottom {
-  @apply flex flex-col;
+  @apply flex
+    flex-col;
 }
 
 .content-container--has-center-content .content-start,
@@ -129,7 +146,9 @@ td:focus {
 .selection-container,
 .drag-container,
 .open-container {
-  @apply flex items-center justify-center;
+  @apply flex
+    items-center
+    justify-center;
 
   min-inline-size: theme("spacing.8");
 
@@ -165,7 +184,10 @@ td:focus {
 
 ::slotted(calcite-list),
 ::slotted(calcite-list-item) {
-  @apply border-solid border-0 border-t border-color-3;
+  @apply border-solid
+    border-0
+    border-t
+    border-color-3;
 }
 
 ::slotted(calcite-list:empty) {
