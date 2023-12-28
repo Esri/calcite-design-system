@@ -1065,6 +1065,80 @@ export const tableCellCssBackgroundVariable_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
+export const tableBorderedWithStripedAndSingleFooter_TestOnly = (): string =>
+  html`<calcite-table striped bordered caption="Simple-bordered-with-footer table" dir="rtl" selection-mode="multiple">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer">
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
+export const tableBorderedWithMultipleFooter_TestOnly = (): string =>
+  html`<calcite-table bordered caption="Simple-bordered-with-footer table" dir="rtl" selection-mode="multiple">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer">
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer">
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+      <calcite-table-cell>foot</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
 export const darkModeRTL_TestOnly = (): string =>
   html`<calcite-table striped caption="Simple-striped table" dir="rtl">
     <calcite-table-row slot="table-header">

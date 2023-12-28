@@ -326,6 +326,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
       row.numbered = this.numbered;
       row.scale = this.scale;
       row.readCellContentsToAT = this.readCellContentsToAT;
+      row.lastVisibleRow = allRows?.indexOf(row) === this.allRows.length - 1;
     });
 
     const colCount =
