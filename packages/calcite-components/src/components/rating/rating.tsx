@@ -75,8 +75,7 @@ export class Rating
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * Made into a prop for testing purposes only
@@ -107,11 +106,7 @@ export class Rating
   /** When `true`, the component's value can be read, but cannot be modified. */
   @Prop({ reflect: true }) readOnly = false;
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */

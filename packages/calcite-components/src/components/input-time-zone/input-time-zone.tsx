@@ -157,11 +157,7 @@ export class InputTimeZone
    */
   @Prop() referenceDate: Date | string;
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
