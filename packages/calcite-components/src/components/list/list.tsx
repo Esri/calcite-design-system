@@ -954,6 +954,7 @@ export class List
     }
 
     this.disconnectObserver();
+    handle.blurUnselectDisabled = true;
 
     const referenceEl =
       (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
@@ -973,8 +974,6 @@ export class List
       oldIndex,
     });
 
-    handle.setFocus().then(() => {
-      handle.activated = true;
-    });
+    handle.setFocus().then(() => (handle.blurUnselectDisabled = false));
   }
 }
