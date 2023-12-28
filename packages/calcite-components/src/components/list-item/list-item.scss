@@ -10,10 +10,6 @@
   margin-inline-start: theme("spacing.8");
 }
 
-:host([open]) .indent {
-  @apply border-l border-t;
-}
-
 .container {
   @apply bg-foreground-1
   box-border
@@ -158,6 +154,7 @@ td:focus {
   }
 }
 
+::slotted(calcite-list),
 ::slotted(calcite-list-item) {
   @apply border-solid border-0 border-t border-color-3;
 }
