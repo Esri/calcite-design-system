@@ -31,7 +31,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
-  numberStringFormatter,
+  NumberStringFormat,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
@@ -169,10 +169,17 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+
     const open = this.open;
     if (open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
+
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
   }
 
   async componentWillLoad(): Promise<void> {
@@ -201,12 +208,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   render(): VNode {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      signDisplay: "always",
-    };
-
     const { open, autoClose, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
@@ -265,7 +266,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private renderQueueCount(): VNode {
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
-    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
+    const queueText = this.numberStringFormatter.numberFormatter.format(queueNumber);
 
     return (
       <div
@@ -402,6 +403,22 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
+  }
+
+  @State() numberStringFormatter = new NumberStringFormat();
+
+  @Watch("numberingSystem")
+  numberingSystemChange(): void {
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
   }
 
   @State() hasEndActions = false;
