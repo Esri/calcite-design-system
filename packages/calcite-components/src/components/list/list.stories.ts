@@ -436,7 +436,7 @@ export const customContent_TestOnly = (): string =>
 
 export const closableListItems_TestOnly = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>
-    <calcite-list-item closable label="basic" value="basic" description="hello world">
+    <calcite-list-item selected closable label="basic" value="basic" description="hello world">
       <calcite-icon
         icon="banana"
         slot="content-start"
@@ -475,7 +475,7 @@ export const filteredChildListItems_TestOnly = (): string =>
       selection-mode="single"
     >
       <calcite-list-item-group heading="Layers">
-        <calcite-list-item label="Hiking trails" value="hiking-trails">
+        <calcite-list-item selected label="Hiking trails" value="hiking-trails">
           <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
             <calcite-action
               slot="trigger"
@@ -565,7 +565,7 @@ export const filteredChildListItems_TestOnly = (): string =>
       selection-mode="single"
     >
       <calcite-list-item-group heading="Layers">
-        <calcite-list-item label="Hiking trails" value="hiking-trails">
+        <calcite-list-item selected label="Hiking trails" value="hiking-trails">
           <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
             <calcite-action
               slot="trigger"
@@ -690,7 +690,7 @@ export const filterActions_TestOnly = (): string =>
         style="color: var(--calcite-color-status-success)"
       ></calcite-icon>
     </calcite-list-item>
-    <calcite-list-item label="test2" value="test2" description="hello world 2">
+    <calcite-list-item selected label="test2" value="test2" description="hello world 2">
       <calcite-icon
         icon="compass"
         slot="content-start"
@@ -750,7 +750,7 @@ export const sortableList_TestOnly = (): string =>
         style="color: var(--calcite-color-status-success)"
       ></calcite-icon>
     </calcite-list-item>
-    <calcite-list-item label="test2" value="test2" description="hello world 2">
+    <calcite-list-item selected label="test2" value="test2" description="hello world 2">
       <calcite-icon
         icon="compass"
         slot="content-start"
