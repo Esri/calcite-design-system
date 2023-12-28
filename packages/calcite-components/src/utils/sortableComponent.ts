@@ -128,7 +128,6 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     handle,
-    fallbackTolerance: 4, // Note: some phones with very sensitive touch displays like the Samsung Galaxy S8 will fire unwanted touchmove events even when your finger is not moving, resulting in the sort not triggering.
     filter: "[drag-disabled]",
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = true;
