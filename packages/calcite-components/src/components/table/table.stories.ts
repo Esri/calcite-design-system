@@ -1066,7 +1066,7 @@ export const tableCellCssBackgroundVariable_TestOnly = (): string =>
   </calcite-table>`;
 
 export const tableBorderedWithStripedAndSingleFooter_TestOnly = (): string =>
-  html`<calcite-table striped bordered caption="Simple-bordered-with-footer table" dir="rtl" selection-mode="multiple">
+  html`<calcite-table striped bordered caption="Simple-bordered-with-footer table" selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1100,7 +1100,7 @@ export const tableBorderedWithStripedAndSingleFooter_TestOnly = (): string =>
   </calcite-table>`;
 
 export const tableBorderedWithMultipleFooter_TestOnly = (): string =>
-  html`<calcite-table bordered caption="Simple-bordered-with-footer table" dir="rtl" selection-mode="multiple">
+  html`<calcite-table bordered caption="Simple-bordered-with-footer table" selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
