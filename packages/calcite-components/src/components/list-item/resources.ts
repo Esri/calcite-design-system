@@ -36,9 +36,9 @@ export const MAX_COLUMNS = 0;
 
 export const ICONS = {
   selectedMultiple: "check-square-f",
-  selectedSingle: "bullet-point-large",
+  selectedSingle: "circle-f",
   unselectedMultiple: "square",
-  unselectedSingle: "blank",
+  unselectedSingle: "circle",
   closedLTR: "chevron-right",
   closedRTL: "chevron-left",
   open: "chevron-down",
