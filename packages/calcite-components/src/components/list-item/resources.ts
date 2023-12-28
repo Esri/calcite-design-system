@@ -1,5 +1,6 @@
 export const CSS = {
   container: "container",
+  indent: "indent",
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",

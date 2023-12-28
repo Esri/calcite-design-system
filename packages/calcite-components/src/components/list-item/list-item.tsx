@@ -656,7 +656,7 @@ export class ListItem
             {this.renderContentContainer()}
             {this.renderActionsEnd()}
           </tr>
-          <div class="indent">
+          <div class={CSS.indent}>
             {this.renderContentBottom()}
             {this.renderDefaultContainer()}
           </div>
