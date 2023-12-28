@@ -11,8 +11,7 @@
     border-none
     bg-transparent;
   color: theme("borderColor.color.input");
-  padding-block: theme("spacing.3");
-  padding-inline: theme("spacing.1");
+  padding: theme("spacing.2");
   line-height: 0;
 
   calcite-icon {

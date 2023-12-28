@@ -7,14 +7,16 @@
 
 .indent {
   @apply flex flex-col border-solid border-0 border-color-3;
-  margin-inline-start: theme("spacing.8");
+  margin-inline-start: theme("spacing.7");
 }
 
 .container {
   @apply bg-foreground-1
   box-border
   flex
-  flex-1 font-sans;
+  flex-1
+  font-sans;
+
   * {
     @apply box-border;
   }
@@ -116,7 +118,7 @@ td:focus {
 }
 
 .selection-container {
-  @apply flex px-3;
+  @apply flex;
   color: var(--calcite-list-item-icon-color);
 }
 
@@ -127,7 +129,14 @@ td:focus {
 .selection-container,
 .drag-container,
 .open-container {
-  @apply flex items-center;
+  @apply flex items-center justify-center;
+
+  min-inline-size: theme("spacing.8");
+
+  calcite-action,
+  calcite-handle {
+    @apply self-stretch;
+  }
 }
 
 .open-container,
@@ -138,7 +147,7 @@ td:focus {
 .content-start,
 .content-end {
   ::slotted(calcite-icon) {
-    @apply self-center mx-3;
+    @apply self-center;
   }
 }
 
