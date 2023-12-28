@@ -7,7 +7,7 @@
 
 .indent {
   @apply flex flex-col border-solid border-0 border-color-3;
-  margin-inline-start: theme("spacing.6");
+  margin-inline-start: theme("spacing.8");
 }
 
 :host([open]) .indent {
