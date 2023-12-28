@@ -1,7 +1,20 @@
 :host {
   @apply flex flex-col;
-  --calcite-list-item-icon-color: theme("colors.brand");
   --calcite-list-item-spacing-indent: theme("spacing.4");
+}
+
+:host .selection-container--single {
+  --calcite-list-item-icon-color: transparent;
+}
+
+:host(:hover:not([disabled])) .selection-container--single {
+  --calcite-list-item-icon-color: theme("borderColor.color.1");
+}
+
+:host([selected]:hover) .selection-container,
+:host([selected]:hover) .selection-container--single,
+:host([selected]) .selection-container--single {
+  --calcite-list-item-icon-color: theme("colors.brand");
 }
 
 @include disabled();

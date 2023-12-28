@@ -403,7 +403,14 @@ export class ListItem
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.handleItemClick}>
+      <td
+        class={{
+          [CSS.selectionContainer]: true,
+          [CSS.selectionContainerSingle]: selectionMode === "single",
+        }}
+        key="selection-container"
+        onClick={this.handleItemClick}
+      >
         <calcite-icon
           icon={
             selected

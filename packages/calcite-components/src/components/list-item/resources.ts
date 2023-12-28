@@ -18,6 +18,7 @@ export const CSS = {
   contentBottom: "content-bottom",
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
+  selectionContainerSingle: "selection-container--single",
   openContainer: "open-container",
   dragContainer: "drag-container",
 };
@@ -36,9 +37,9 @@ export const MAX_COLUMNS = 0;
 
 export const ICONS = {
   selectedMultiple: "check-square-f",
-  selectedSingle: "circle-f",
+  selectedSingle: "bullet-point-large",
   unselectedMultiple: "square",
-  unselectedSingle: "circle",
+  unselectedSingle: "bullet-point-large",
   closedLTR: "chevron-right",
   closedRTL: "chevron-left",
   open: "chevron-down",
