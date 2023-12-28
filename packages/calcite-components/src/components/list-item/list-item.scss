@@ -19,7 +19,7 @@
   );
 }
 
-.container:hover {
+.container--hover:hover {
   @apply bg-foreground-2 cursor-pointer;
 }
 
@@ -33,6 +33,12 @@
 
 .container--border-unselected {
   border-inline-start: theme("borderWidth.4") solid transparent;
+}
+
+.container:hover {
+  &.container--border-unselected {
+    @apply border-color-1;
+  }
 }
 
 .nested-container {
@@ -88,8 +94,16 @@ td:focus {
   @apply text-color-1;
 }
 
+:host([selected]) .label {
+  @apply font-medium;
+}
+
 .description {
   @apply text-color-3 mt-0.5;
+}
+
+:host([selected]) .description {
+  @apply text-color-2;
 }
 
 .content-start {

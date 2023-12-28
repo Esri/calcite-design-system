@@ -410,7 +410,9 @@ export class ListItem
               ? selectionMode === "multiple"
                 ? ICONS.selectedMultiple
                 : ICONS.selectedSingle
-              : ICONS.unselected
+              : selectionMode === "multiple"
+                ? ICONS.unselectedMultiple
+                : ICONS.unselectedSingle
           }
           scale="s"
         />
@@ -645,6 +647,7 @@ export class ListItem
             aria-setsize={setSize}
             class={{
               [CSS.container]: true,
+              [CSS.containerHover]: selectionMode !== "none",
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
             }}
