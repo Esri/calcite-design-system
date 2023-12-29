@@ -456,7 +456,7 @@ export const singlePersist_TestOnly = (): string =>
         style="color: var(--calcite-color-status-success)"
       ></calcite-icon>
     </calcite-list-item>
-    <calcite-list-item label="closed" value="closed" description="hello world">
+    <calcite-list-item label="basic2" value="basic2" description="hello world">
       <calcite-icon
         icon="compass"
         slot="content-start"
