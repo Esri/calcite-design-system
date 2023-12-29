@@ -138,6 +138,11 @@ export class ListItem
   @Prop() dragHandle = false;
 
   /**
+   * When `true`, the component's drag handle is selected.
+   */
+  @Prop({ mutable: true, reflect: true }) dragSelected = false;
+
+  /**
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
@@ -232,6 +237,11 @@ export class ListItem
    * Fires when the close button is clicked.
    */
   @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
+
+  /**
+   * Fires when the drag handle is selected.
+   */
+  @Event({ cancelable: false }) calciteListItemDragHandleChange: EventEmitter<void>;
 
   /**
    * Fires when the open button is clicked.
@@ -419,7 +429,7 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+    const { label, dragHandle, dragSelected, dragDisabled, setPosition, setSize } = this;
 
     return dragHandle ? (
       <td
@@ -434,6 +444,8 @@ export class ListItem
         <calcite-handle
           disabled={dragDisabled}
           label={label}
+          onCalciteHandleChange={this.dragHandleSelectedChangeHandler}
+          selected={dragSelected}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -677,6 +689,12 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private dragHandleSelectedChangeHandler = (event: CustomEvent): void => {
+    this.dragSelected = (event.target as HTMLCalciteHandleElement).selected;
+    this.calciteListItemDragHandleChange.emit();
+    event.stopPropagation();
+  };
 
   private emitInternalListItemActive = (): void => {
     this.calciteInternalListItemActive.emit();

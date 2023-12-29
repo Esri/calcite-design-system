@@ -1773,10 +1773,6 @@ export namespace Components {
          */
         "blurUnselectDisabled": boolean;
         /**
-          * When `true`, disables unselecting the component when blurred.
-         */
-        "blurUnselectDisabled": boolean;
-        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -2845,6 +2841,10 @@ export namespace Components {
           * When `true`, the component displays a draggable button.
          */
         "dragHandle": boolean;
+        /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragSelected": boolean;
         /**
           * The label text of the component. Displays above the description text.
          */
@@ -6379,6 +6379,7 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
+        "calciteListItemDragHandleChange": void;
         "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
@@ -9079,10 +9080,6 @@ declare namespace LocalJSX {
          */
         "blurUnselectDisabled"?: boolean;
         /**
-          * When `true`, disables unselecting the component when blurred.
-         */
-        "blurUnselectDisabled"?: boolean;
-        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -10218,6 +10215,10 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragSelected"?: boolean;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label"?: string;
@@ -10244,6 +10245,10 @@ declare namespace LocalJSX {
           * Fires when the close button is clicked.
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the drag handle is selected.
+         */
+        "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Emits when the item's content is selected.
          */
