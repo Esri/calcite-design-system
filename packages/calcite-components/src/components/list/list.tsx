@@ -254,13 +254,13 @@ export class List
 
     event.stopPropagation();
 
-    const { enabledListItems } = this;
-    const currentIndex = enabledListItems.findIndex((listItem) => listItem.active);
+    const { focusableItems } = this;
+    const currentIndex = focusableItems.findIndex((listItem) => listItem.active);
 
     const prevIndex = currentIndex - 1;
 
-    if (enabledListItems[prevIndex]) {
-      this.focusRow(enabledListItems[prevIndex]);
+    if (focusableItems[prevIndex]) {
+      this.focusRow(focusableItems[prevIndex]);
     }
   }
 
@@ -332,16 +332,16 @@ export class List
 
     event.stopPropagation();
     const { target, detail } = event;
-    const { enabledListItems, lastSelectedInfo } = this;
+    const { focusableItems, lastSelectedInfo } = this;
     const selectedItem = target as HTMLCalciteListItemElement;
 
     if (detail.selectMultiple && !!lastSelectedInfo) {
-      const currentIndex = enabledListItems.indexOf(selectedItem);
-      const lastSelectedIndex = enabledListItems.indexOf(lastSelectedInfo.selectedItem);
+      const currentIndex = focusableItems.indexOf(selectedItem);
+      const lastSelectedIndex = focusableItems.indexOf(lastSelectedInfo.selectedItem);
       const startIndex = Math.min(lastSelectedIndex, currentIndex);
       const endIndex = Math.max(lastSelectedIndex, currentIndex);
 
-      enabledListItems
+      focusableItems
         .slice(startIndex, endIndex + 1)
         .forEach((item) => (item.selected = lastSelectedInfo.selected));
     } else {
@@ -430,9 +430,9 @@ export class List
 
   dragSelector = "calcite-list-item";
 
-  enabledListItems: HTMLCalciteListItemElement[] = [];
-
   filterEl: HTMLCalciteFilterElement;
+
+  focusableItems: HTMLCalciteListItemElement[] = [];
 
   handleSelector = "calcite-handle";
 
@@ -443,6 +443,8 @@ export class List
   listItems: HTMLCalciteListItemElement[] = [];
 
   mutationObserver = createObserver("mutation", () => this.updateListItems());
+
+  openItems: HTMLCalciteListItemElement[] = [];
 
   parentListEl: HTMLCalciteListElement;
 
@@ -471,7 +473,7 @@ export class List
       return this.filterEl?.setFocus();
     }
 
-    return this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
+    return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -557,7 +559,7 @@ export class List
   private renderItemAriaLive(): VNode {
     const {
       messages,
-      enabledListItems,
+      filteredItems,
       parentListEl,
       effectiveLocale,
       numberingSystem,
@@ -579,12 +581,12 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(enabledListItems.length.toString()),
+            numberStringFormatter.localize(filteredItems.length.toString()),
           )}
         </div>
-        {enabledListItems.length ? (
+        {filteredItems.length ? (
           <ol key="aria-item-list">
-            {enabledListItems.map((item) => (
+            {filteredItems.map((item) => (
               <li>{item.label}</li>
             ))}
           </ol>
@@ -654,17 +656,17 @@ export class List
   };
 
   private setActiveListItem = (): void => {
-    const { enabledListItems } = this;
+    const { focusableItems } = this;
 
-    if (!enabledListItems.some((item) => item.active)) {
-      if (enabledListItems[0]) {
-        enabledListItems[0].active = true;
+    if (!focusableItems.some((item) => item.active)) {
+      if (focusableItems[0]) {
+        focusableItems[0].active = true;
       }
     }
   };
 
   private updateSelectedItems = (emit = false): void => {
-    this.selectedItems = this.enabledListItems.filter((item) => item.selected);
+    this.selectedItems = this.openItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
     }
@@ -704,16 +706,16 @@ export class List
   }
 
   private updateFilteredItems = (emit = false): void => {
-    const { listItems, filteredData, filterText } = this;
+    const { openItems, filteredData, filterText } = this;
 
     const values = filteredData.map((item) => item.value);
 
-    const lastDescendantItems = listItems?.filter((listItem) =>
-      listItems.every((li) => li === listItem || !listItem.contains(li)),
+    const lastDescendantItems = openItems?.filter((listItem) =>
+      openItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
     const filteredItems =
-      listItems.filter((item) => !filterText || values.includes(item.value)) || [];
+      openItems.filter((item) => !filterText || values.includes(item.value)) || [];
 
     const visibleParents = new WeakSet<HTMLElement>();
 
@@ -809,8 +811,9 @@ export class List
         this.filterEl.items = this.dataForFilter;
       }
     }
+    this.openItems = this.listItems.filter((item) => !item.closed);
     this.updateFilteredItems(emit);
-    this.enabledListItems = this.filteredItems.filter((item) => !item.disabled && !item.closed);
+    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
     this.updateSelectedItems(emit);
     this.setUpSorting();
@@ -821,13 +824,13 @@ export class List
   };
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
-    const { enabledListItems } = this;
+    const { focusableItems } = this;
 
     if (!focusEl) {
       return;
     }
 
-    enabledListItems.forEach((listItem) => (listItem.active = listItem === focusEl));
+    focusableItems.forEach((listItem) => (listItem.active = listItem === focusEl));
 
     focusEl.setFocus();
   };
@@ -848,15 +851,15 @@ export class List
     }
 
     const { key } = event;
-    const filteredItems = this.enabledListItems.filter((listItem) => this.isNavigable(listItem));
-    const currentIndex = filteredItems.findIndex((listItem) => listItem.active);
+    const navigableItems = this.focusableItems.filter((listItem) => this.isNavigable(listItem));
+    const currentIndex = navigableItems.findIndex((listItem) => listItem.active);
 
     if (key === "ArrowDown") {
       event.preventDefault();
       const nextIndex = event.target === this.filterEl ? 0 : currentIndex + 1;
 
-      if (filteredItems[nextIndex]) {
-        this.focusRow(filteredItems[nextIndex]);
+      if (navigableItems[nextIndex]) {
+        this.focusRow(navigableItems[nextIndex]);
       }
     } else if (key === "ArrowUp") {
       event.preventDefault();
@@ -868,19 +871,19 @@ export class List
 
       const prevIndex = currentIndex - 1;
 
-      if (filteredItems[prevIndex]) {
-        this.focusRow(filteredItems[prevIndex]);
+      if (navigableItems[prevIndex]) {
+        this.focusRow(navigableItems[prevIndex]);
       }
     } else if (key === "Home") {
       event.preventDefault();
-      const homeItem = filteredItems[0];
+      const homeItem = navigableItems[0];
 
       if (homeItem) {
         this.focusRow(homeItem);
       }
     } else if (key === "End") {
       event.preventDefault();
-      const endItem = filteredItems[filteredItems.length - 1];
+      const endItem = navigableItems[navigableItems.length - 1];
 
       if (endItem) {
         this.focusRow(endItem);
@@ -936,9 +939,9 @@ export class List
       return;
     }
 
-    const { enabledListItems } = this;
+    const { filteredItems } = this;
 
-    const sameParentItems = enabledListItems.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = filteredItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(sortItem);
@@ -951,6 +954,7 @@ export class List
     }
 
     this.disconnectObserver();
+    handle.blurUnselectDisabled = true;
 
     const referenceEl =
       (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
@@ -970,8 +974,6 @@ export class List
       oldIndex,
     });
 
-    handle.setFocus().then(() => {
-      handle.activated = true;
-    });
+    handle.setFocus().then(() => (handle.blurUnselectDisabled = false));
   }
 }

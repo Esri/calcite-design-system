@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.7...@esri/calcite-components@2.2.0-next.8) (2023-12-28)
+
+### Bug Fixes
+
+- __table:__ Fix double border on `bordered` Table Rows in `table-footer` ([#8509](https://github.com/Esri/calcite-design-system/issues/8509)) ([c16ea33](https://github.com/Esri/calcite-design-system/commit/c16ea335c1d3b8663e4a0f51012d071f93c1b476)), closes [#8508](https://github.com/Esri/calcite-design-system/issues/8508)
+
+## [2.2.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.6...@esri/calcite-components@2.2.0-next.7) (2023-12-28)
+
+### Features
+
+- __handle:__ Add `blurUnselectDisabled` property to disable unselecting handle on blur. ([#8483](https://github.com/Esri/calcite-design-system/issues/8483)) ([4d665cc](https://github.com/Esri/calcite-design-system/commit/4d665cc2eff668bb0278c0a3a16a0a6bd4d98776)), closes [#8485](https://github.com/Esri/calcite-design-system/issues/8485)
+
+## [2.2.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.5...@esri/calcite-components@2.2.0-next.6) (2023-12-27)
+
+### Bug Fixes
+
+- __list-item:__ store last focused cell from focusing on elements within a cell. ([#8494](https://github.com/Esri/calcite-design-system/issues/8494)) ([28f93b4](https://github.com/Esri/calcite-design-system/commit/28f93b43036affcdb29d07c12f0cb910329d4b8c)), closes [#8493](https://github.com/Esri/calcite-design-system/issues/8493)
+
+## [2.2.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.4...@esri/calcite-components@2.2.0-next.5) (2023-12-27)
+
+### Bug Fixes
+
+- __list:__ correct selectedItems value when list is filtered ([#8481](https://github.com/Esri/calcite-design-system/issues/8481)) ([9de1922](https://github.com/Esri/calcite-design-system/commit/9de192221f3040a0c9e58bbace1794ac16515a71)), closes [#8468](https://github.com/Esri/calcite-design-system/issues/8468)
+
 ## [2.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.3...@esri/calcite-components@2.2.0-next.4) (2023-12-21)
 
 ### Bug Fixes

@@ -3168,6 +3168,30 @@
             <calcite-chip scale="s">Another thing</calcite-chip>
           </calcite-table-cell>
         </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
       </calcite-table>
 
       <h3>Localized numbers</h3>
@@ -4025,7 +4049,7 @@
       </calcite-table>
 
       <h3>selection-mode multiple with selected at load</h3>
-      <calcite-table selection-mode="multiple" numbered caption="selection-mode multiple and numbered table">
+      <calcite-table bordered selection-mode="multiple" numbered caption="selection-mode multiple and numbered table">
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>
         <calcite-action slot="selection-actions" icon="send"></calcite-action>
         <calcite-action slot="selection-actions" icon="copy"></calcite-action>
@@ -4187,6 +4211,8 @@
         page-size="4"
         selection-mode="multiple"
         numbered
+        striped
+        bordered
         caption="selection-mode multiple with selected at load"
       >
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>
