@@ -406,7 +406,8 @@ export class ListItem
       <td
         class={{
           [CSS.selectionContainer]: true,
-          [CSS.selectionContainerSingle]: selectionMode === "single",
+          [CSS.selectionContainerSingle]:
+            selectionMode === "single" || selectionMode === "single-persist",
         }}
         key="selection-container"
         onClick={this.handleItemClick}
