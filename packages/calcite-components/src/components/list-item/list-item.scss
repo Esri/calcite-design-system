@@ -140,7 +140,7 @@ td:focus {
   color: transparent;
 }
 
-:host(:hover:not([disabled])) .selection-container--single {
+:host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
   color: theme("borderColor.color.1");
 }
 
