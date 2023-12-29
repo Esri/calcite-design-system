@@ -29,7 +29,6 @@ const knobsHTML = (): string =>
 export const simple = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item
-      selected
       label="Cras iaculis ultricies nulla."
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     ></calcite-list-item>
