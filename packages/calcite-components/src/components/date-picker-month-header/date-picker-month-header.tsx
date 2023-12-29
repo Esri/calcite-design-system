@@ -76,6 +76,9 @@ export class DatePickerMonthHeader {
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
+  /** @internal */
+  @Prop() position: "start" | "end";
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -127,13 +130,9 @@ export class DatePickerMonthHeader {
 
     const activeMonth = activeDate.getMonth();
     const { months, unitOrder } = localeData;
-    //const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
-    //const localizedYear = this.formatCalendarYear(activeDate.getFullYear());
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
-    //const suffix = localeData.year?.suffix;
 
-    //console.log("active month", activeMonth);
     return (
       <Fragment>
         <div class={{ text: true, [CSS.textReverse]: reverse }}>
@@ -167,30 +166,34 @@ export class DatePickerMonthHeader {
           />
         </div>
         <div class="chevron-container">
-          <a
-            aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
-            aria-label={messages.prevMonth}
-            class={CSS.chevron}
-            href="#"
-            onClick={this.prevMonthClick}
-            onKeyDown={this.prevMonthKeydown}
-            role="button"
-            tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
-          >
-            <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={getIconScale(this.scale)} />
-          </a>
-          <a
-            aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
-            aria-label={messages.nextMonth}
-            class={CSS.chevron}
-            href="#"
-            onClick={this.nextMonthClick}
-            onKeyDown={this.nextMonthKeydown}
-            role="button"
-            tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
-          >
-            <calcite-icon flip-rtl icon={ICON.chevronRight} scale={getIconScale(this.scale)} />
-          </a>
+          {this.position !== "end" && (
+            <a
+              aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
+              aria-label={messages.prevMonth}
+              class={CSS.chevron}
+              href="#"
+              onClick={this.prevMonthClick}
+              onKeyDown={this.prevMonthKeydown}
+              role="button"
+              tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
+            >
+              <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={getIconScale(this.scale)} />
+            </a>
+          )}
+          {this.position !== "start" && (
+            <a
+              aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
+              aria-label={messages.nextMonth}
+              class={CSS.chevron}
+              href="#"
+              onClick={this.nextMonthClick}
+              onKeyDown={this.nextMonthKeydown}
+              role="button"
+              tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
+            >
+              <calcite-icon flip-rtl icon={ICON.chevronRight} scale={getIconScale(this.scale)} />
+            </a>
+          )}
         </div>
       </Fragment>
     );
@@ -358,13 +361,6 @@ export class DatePickerMonthHeader {
         (inRangeDate || activeDate).getFullYear(),
         this.localeData
       );
-    }
-  }
-
-  private getYearList(min: number, max: number): void {
-    this.yearList = [];
-    for (let i = min; i < max; i++) {
-      this.yearList.push(i);
     }
   }
 }

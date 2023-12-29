@@ -580,7 +580,7 @@ export class InputDatePicker
               >
                 <calcite-date-picker
                   activeDate={this.datePickerActiveDate}
-                  activeRange={"start"}
+                  activeRange={this.focusedInput}
                   headingLevel={this.headingLevel}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
@@ -598,29 +598,6 @@ export class InputDatePicker
                   // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setDatePickerRef}
                 />
-
-                {this.range && (
-                  <calcite-date-picker
-                    activeDate={this.datePickerActiveDate}
-                    activeRange={"end"}
-                    headingLevel={this.headingLevel}
-                    max={this.max}
-                    maxAsDate={this.maxAsDate}
-                    messageOverrides={this.messageOverrides}
-                    min={this.min}
-                    minAsDate={this.minAsDate}
-                    numberingSystem={numberingSystem}
-                    onCalciteDatePickerChange={this.handleDateChange}
-                    onCalciteDatePickerRangeChange={this.handleDateRangeChange}
-                    proximitySelectionDisabled={this.proximitySelectionDisabled}
-                    range={this.range}
-                    scale={this.scale}
-                    tabIndex={this.open ? undefined : -1}
-                    valueAsDate={this.valueAsDate}
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                    ref={this.setDatePickerRef}
-                  />
-                )}
               </div>
             </div>
 
