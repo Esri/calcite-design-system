@@ -656,6 +656,7 @@ export class ListItem
             class={{
               [CSS.container]: true,
               [CSS.containerHover]: selectionMode !== "none",
+              [CSS.containerBorder]: showBorder,
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
             }}

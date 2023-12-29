@@ -27,12 +27,24 @@
   @apply bg-foreground-1;
 }
 
+.container--border {
+  border-inline-start-width: theme("borderWidth.4");
+  border-inline-start-style: solid;
+}
+
 .container--border-selected {
-  border-inline-start: theme("borderWidth.4") solid theme("colors.brand");
+  border-inline-start-color: theme("colors.brand");
 }
 
 .container--border-unselected {
-  border-inline-start: theme("borderWidth.4") solid transparent;
+  border-inline-start-color: transparent;
+}
+
+.container:focus,
+.container:focus-within {
+  &.container--border {
+    border-inline-start-width: 6px;
+  }
 }
 
 .container:hover {
@@ -154,7 +166,7 @@ td:focus {
   color: theme("textColor.color.3");
 }
 
-:host([open]) .open-container {
+:host(:not([disabled])) .container:hover .open-container {
   color: theme("textColor.color.1");
 }
 

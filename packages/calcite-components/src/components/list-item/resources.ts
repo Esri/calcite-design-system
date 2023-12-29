@@ -1,6 +1,7 @@
 export const CSS = {
   container: "container",
   containerHover: "container--hover",
+  containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
