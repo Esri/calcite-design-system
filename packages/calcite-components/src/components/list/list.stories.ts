@@ -21,7 +21,7 @@ export default {
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
 const knobsHTML = (): string =>
-  html`selection-mode="${select("selection-mode", ["single", "multiple", "none"], "none")}"
+  html`selection-mode="${select("selection-mode", ["single", "single-persist", "multiple", "none"], "none")}"
   selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
   ${boolean("closable", false)} ${boolean("closed", false)} ${boolean("filter-enabled", false)}
   ${boolean("drag-enabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
@@ -431,6 +431,38 @@ export const customContent_TestOnly = (): string =>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
       </div></calcite-list-item
     >
+  </calcite-list>`;
+
+export const singlePersist_TestOnly = (): string =>
+  html`<calcite-list selection-mode="single-persist" label="test">
+    <calcite-list-item selected label="basic" value="basic" description="hello world">
+      <calcite-icon
+        icon="banana"
+        slot="content-start"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
+      <calcite-action
+        appearance="transparent"
+        icon="ellipsis"
+        text="menu"
+        label="menu"
+        slot="actions-end"
+      ></calcite-action>
+    </calcite-list-item>
+    <calcite-list-item disabled label="disabled" value="disabled" description="hello world">
+      <calcite-icon
+        icon="compass"
+        slot="content-start"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
+    </calcite-list-item>
+    <calcite-list-item label="closed" value="closed" description="hello world">
+      <calcite-icon
+        icon="compass"
+        slot="content-start"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
+    </calcite-list-item>
   </calcite-list>`;
 
 export const closableListItems_TestOnly = (): string =>
