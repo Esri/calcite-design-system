@@ -40,13 +40,6 @@
   border-inline-start-color: transparent;
 }
 
-.container:focus,
-.container:focus-within {
-  &.container--border {
-    border-inline-start-width: 6px;
-  }
-}
-
 .container:hover {
   &.container--border-unselected {
     @apply border-color-1;
