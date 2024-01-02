@@ -59,7 +59,7 @@ export class ActionGroup
   }
 
   /**
-   * Specifies the label of the component. Required for accessibility.
+   *  Accessible name for the component.
    */
   @Prop() label: string;
 

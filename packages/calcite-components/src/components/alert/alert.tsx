@@ -87,13 +87,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     }
   }
 
-  /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
+  /** When `true`, the component closes automatically. Recommended for passive, non-blocking alerts. */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
+  /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
 
-  /** Specifies the kind of the component (will apply to top border and icon). */
+  /** Specifies the kind of the component, which will apply to top border and icon. */
   @Prop({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
@@ -116,7 +116,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** Specifies the placement of the component */
+  /** Specifies the placement of the component. */
   @Prop({ reflect: true }) placement: MenuPlacement = "bottom";
 
   /** Specifies the size of the component. */
@@ -371,7 +371,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component's "close" button (the first focusable item). */
+  /** Sets focus on the component's "close" button, the first focusable item. */
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);

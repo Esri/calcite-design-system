@@ -71,7 +71,7 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   /**
-   * Specifies the accessible label for the last action-group.
+   * Specifies the accessible label for the last `calcite-action-group`.
    */
   @Prop() actionsEndGroupLabel: string;
 
@@ -98,7 +98,7 @@ export class ActionBar
   }
 
   /**
-   *  The layout direction of the actions.
+   *  Specifies the layout direction of the actions.
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
