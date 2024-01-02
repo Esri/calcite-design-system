@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.8...@esri/calcite-components@2.2.0-next.9) (2024-01-02)
+
+### Features
+
+- __handle:__ add selected property and calciteHandleChange event. ([#8484](https://github.com/Esri/calcite-design-system/issues/8484)) ([d2e9880](https://github.com/Esri/calcite-design-system/commit/d2e9880e7d6949d16f6499151442e09986e7f8b0)), closes [#8522](https://github.com/Esri/calcite-design-system/issues/8522) [#8483](https://github.com/Esri/calcite-design-system/issues/8483)
+- __list:__ Introduce clearer unselected state ([#8510](https://github.com/Esri/calcite-design-system/issues/8510)) ([f1e836c](https://github.com/Esri/calcite-design-system/commit/f1e836c46af1411853b81c681e41428211e0d900)), closes [#6700](https://github.com/Esri/calcite-design-system/issues/6700)
+
+### Bug Fixes
+
+- __input-date-picker:__ hard to reproduce numbering-system caching issue ([#8518](https://github.com/Esri/calcite-design-system/issues/8518)) ([5f4fa3e](https://github.com/Esri/calcite-design-system/commit/5f4fa3ed0a7f92b463be475476145b201c68b372)), closes [#7958](https://github.com/Esri/calcite-design-system/issues/7958)
+
 ## [2.2.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.7...@esri/calcite-components@2.2.0-next.8) (2023-12-28)
 
 ### Bug Fixes
