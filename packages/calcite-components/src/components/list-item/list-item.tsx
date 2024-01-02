@@ -464,7 +464,7 @@ export class ListItem
   }
 
   renderOpen(): VNode {
-    const { el, open, openable, parentListEl } = this;
+    const { el, open, openable } = this;
     const dir = getElementDir(el);
 
     const icon = openable
@@ -477,7 +477,7 @@ export class ListItem
 
     const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
 
-    return openable || parentListEl?.openable ? (
+    return openable ? (
       <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
         <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
@@ -782,21 +782,11 @@ export class ListItem
       return;
     }
 
-    const { parentListEl } = this;
     const listItemChildren = getListItemChildren(slotEl);
     const listItemChildLists = getListItemChildLists(slotEl);
     updateListItemChildren(listItemChildren);
-    const openable = !!listItemChildren.length || !!listItemChildLists.length;
 
-    if (openable && parentListEl && !parentListEl.openable) {
-      parentListEl.openable = true;
-    }
-
-    this.openable = openable;
-
-    if (!openable) {
-      this.open = false;
-    }
+    this.openable = !!listItemChildren.length || !!listItemChildLists.length;
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
