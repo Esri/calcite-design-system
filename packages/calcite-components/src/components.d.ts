@@ -2842,6 +2842,10 @@ export namespace Components {
          */
         "dragHandle": boolean;
         /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragSelected": boolean;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label": string;
@@ -4522,7 +4526,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the component's selected tab-title.
+          * Specifies the component's selected `calcite-tab-title`.
           * @readonly
          */
         "selectedTitle": HTMLCalciteTabTitleElement;
@@ -4631,7 +4635,7 @@ export namespace Components {
          */
         "numberingSystem"?: NumberingSystem;
         /**
-          * Specifies the page size of the component. When `true`, renders `calcite-pagination`
+          * Specifies the page size of the component. When `true`, renders `calcite-pagination`.
          */
         "pageSize": number;
         /**
@@ -4644,7 +4648,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteTableRowElement[];
         /**
-          * Specifies the selection mode of the component.
+          * Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections).
          */
         "selectionMode": Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
@@ -4775,11 +4779,11 @@ export namespace Components {
          */
         "layout": TabLayout;
         /**
-          * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
+          * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`.
          */
         "position": TabPosition;
         /**
-          * Specifies the size of the component, defaults to `m`.
+          * Specifies the size of the component.
          */
         "scale": Scale;
     }
@@ -4980,7 +4984,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * The selection mode of the component.  Use radio for single selection, and checkbox for multiple selections.
+          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
          */
         "type": TileSelectType;
         /**
@@ -5138,7 +5142,7 @@ export namespace Components {
     interface CalciteTree {
         "child": boolean;
         /**
-          * Displays indentation guide lines.
+          * When `true`, displays indentation guide lines.
          */
         "lines": boolean;
         /**
@@ -5193,7 +5197,7 @@ export namespace Components {
      */
     interface CalciteValueList {
         /**
-          * When provided, the method will be called to determine whether the element can  move from the list.
+          * When provided, the method will be called to determine whether the element can move from the list.
          */
         "canPull": (detail: DragDetail) => boolean;
         /**
@@ -5231,7 +5235,7 @@ export namespace Components {
          */
         "filteredItems": HTMLCalciteValueListItemElement[];
         /**
-          * Returns the currently selected items
+          * Returns the component's selected items.
          */
         "getSelectedItems": () => Promise<Map<string, HTMLCalciteValueListItemElement>>;
         /**
@@ -6375,6 +6379,7 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
+        "calciteListItemDragHandleChange": void;
         "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
@@ -10210,6 +10215,10 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragSelected"?: boolean;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label"?: string;
@@ -10236,6 +10245,10 @@ declare namespace LocalJSX {
           * Fires when the close button is clicked.
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the drag handle is selected.
+         */
+        "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Emits when the item's content is selected.
          */
@@ -11945,7 +11958,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the component's selected tab-title.
+          * Specifies the component's selected `calcite-tab-title`.
           * @readonly
          */
         "selectedTitle"?: HTMLCalciteTabTitleElement;
@@ -12077,7 +12090,7 @@ declare namespace LocalJSX {
          */
         "onCalciteTableSelect"?: (event: CalciteTableCustomEvent<void>) => void;
         /**
-          * Specifies the page size of the component. When `true`, renders `calcite-pagination`
+          * Specifies the page size of the component. When `true`, renders `calcite-pagination`.
          */
         "pageSize"?: number;
         /**
@@ -12090,7 +12103,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteTableRowElement[];
         /**
-          * Specifies the selection mode of the component.
+          * Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections).
          */
         "selectionMode"?: Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
@@ -12218,11 +12231,11 @@ declare namespace LocalJSX {
          */
         "layout"?: TabLayout;
         /**
-          * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
+          * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`.
          */
         "position"?: TabPosition;
         /**
-          * Specifies the size of the component, defaults to `m`.
+          * Specifies the size of the component.
          */
         "scale"?: Scale;
     }
@@ -12423,7 +12436,7 @@ declare namespace LocalJSX {
          */
         "onCalciteTileSelectChange"?: (event: CalciteTileSelectCustomEvent<void>) => void;
         /**
-          * The selection mode of the component.  Use radio for single selection, and checkbox for multiple selections.
+          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
          */
         "type"?: TileSelectType;
         /**
@@ -12591,7 +12604,7 @@ declare namespace LocalJSX {
     interface CalciteTree {
         "child"?: boolean;
         /**
-          * Displays indentation guide lines.
+          * When `true`, displays indentation guide lines.
          */
         "lines"?: boolean;
         /**
@@ -12651,7 +12664,7 @@ declare namespace LocalJSX {
      */
     interface CalciteValueList {
         /**
-          * When provided, the method will be called to determine whether the element can  move from the list.
+          * When provided, the method will be called to determine whether the element can move from the list.
          */
         "canPull"?: (detail: DragDetail) => boolean;
         /**

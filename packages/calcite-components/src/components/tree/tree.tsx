@@ -29,7 +29,7 @@ export class Tree {
   //
   //--------------------------------------------------------------------------
 
-  /** Displays indentation guide lines. */
+  /** When `true`, displays indentation guide lines. */
   @Prop({ mutable: true, reflect: true }) lines = false;
 
   /**

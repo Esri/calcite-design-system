@@ -74,13 +74,13 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** Specifies the Unicode numeral system used by the component for localization. */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the page size of the component. When `true`, renders `calcite-pagination` */
+  /** Specifies the page size of the component. When `true`, renders `calcite-pagination`. */
   @Prop({ reflect: true }) pageSize = 0;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the selection mode of the component. */
+  /** Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections). */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
 

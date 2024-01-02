@@ -48,6 +48,10 @@ describe("calcite-list-item", () => {
         propertyName: "dragHandle",
         defaultValue: false,
       },
+      {
+        propertyName: "dragSelected",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -299,5 +303,30 @@ describe("calcite-list-item", () => {
     await openButton.click();
     expect(await listItem.getProperty("open")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(2);
+  });
+
+  it("should fire calciteListItemDragHandleChange event when drag handle is clicked", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list-item drag-handle></calcite-list-item>`,
+    });
+
+    const listItem = await page.find("calcite-list-item");
+    const calciteListItemDragHandleChange = await page.spyOnEvent("calciteListItemDragHandleChange", "window");
+
+    expect(await listItem.getProperty("dragSelected")).toBe(false);
+
+    const dragHandle = await page.find(`calcite-list-item >>> calcite-handle`);
+    await dragHandle.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await dragHandle.press("Space");
+    await page.waitForChanges();
+    expect(await listItem.getProperty("dragSelected")).toBe(true);
+    expect(calciteListItemDragHandleChange).toHaveReceivedEventTimes(1);
+
+    await dragHandle.press("Space");
+    await page.waitForChanges();
+    expect(await listItem.getProperty("dragSelected")).toBe(false);
+    expect(calciteListItemDragHandleChange).toHaveReceivedEventTimes(2);
   });
 });

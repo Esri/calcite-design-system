@@ -138,6 +138,11 @@ export class ListItem
   @Prop() dragHandle = false;
 
   /**
+   * When `true`, the component's drag handle is selected.
+   */
+  @Prop({ mutable: true, reflect: true }) dragSelected = false;
+
+  /**
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
@@ -232,6 +237,11 @@ export class ListItem
    * Fires when the close button is clicked.
    */
   @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
+
+  /**
+   * Fires when the drag handle is selected.
+   */
+  @Event({ cancelable: false }) calciteListItemDragHandleChange: EventEmitter<void>;
 
   /**
    * Fires when the open button is clicked.
@@ -426,7 +436,7 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+    const { label, dragHandle, dragSelected, dragDisabled, setPosition, setSize } = this;
 
     return dragHandle ? (
       <td
@@ -441,6 +451,8 @@ export class ListItem
         <calcite-handle
           disabled={dragDisabled}
           label={label}
+          onCalciteHandleChange={this.dragHandleSelectedChangeHandler}
+          selected={dragSelected}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -451,13 +463,10 @@ export class ListItem
   renderOpen(): VNode {
     const { el, open, openable } = this;
     const dir = getElementDir(el);
-
     const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
 
-    const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
-
     return openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
+      <td class={CSS.openContainer} key="open-container" onClick={this.handleToggleClick}>
         <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
@@ -676,6 +685,12 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private dragHandleSelectedChangeHandler = (event: CustomEvent): void => {
+    this.dragSelected = (event.target as HTMLCalciteHandleElement).selected;
+    this.calciteListItemDragHandleChange.emit();
+    event.stopPropagation();
+  };
 
   private emitInternalListItemActive = (): void => {
     this.calciteInternalListItemActive.emit();
