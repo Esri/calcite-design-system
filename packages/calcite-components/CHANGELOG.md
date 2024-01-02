@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.9...@esri/calcite-components@2.2.0-next.10) (2024-01-02)
+
+### Features
+
+- __list-item:__ Add dragSelected property and calciteListItemDragHandleChange event ([#8524](https://github.com/Esri/calcite-design-system/issues/8524)) ([4db2eb7](https://github.com/Esri/calcite-design-system/commit/4db2eb7a33efb7ec8075596f1439760264ed75fb)), closes [#8523](https://github.com/Esri/calcite-design-system/issues/8523) [#8484](https://github.com/Esri/calcite-design-system/issues/8484)
+
 ## [2.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.8...@esri/calcite-components@2.2.0-next.9) (2024-01-02)
 
 ### Features
