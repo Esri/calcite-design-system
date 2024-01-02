@@ -170,7 +170,13 @@ td:focus {
 .selection-container,
 .drag-container,
 .open-container {
-  @apply flex items-center;
+  @apply flex
+    items-center;
+
+  calcite-action,
+  calcite-handle {
+    @apply self-stretch;
+  }
 }
 
 .open-container,
