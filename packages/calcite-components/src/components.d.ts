@@ -1768,7 +1768,10 @@ export namespace Components {
         "min": number;
     }
     interface CalciteHandle {
-        "activated": boolean;
+        /**
+          * When `true`, disables unselecting the component when blurred.
+         */
+        "blurUnselectDisabled": boolean;
         /**
           * When `true`, disables unselecting the component when blurred.
          */
@@ -1790,6 +1793,10 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": HandleMessages;
+        /**
+          * When `true`, the component is selected.
+         */
+        "selected": boolean;
         /**
           * Sets focus on the component.
          */
@@ -6144,8 +6151,9 @@ declare global {
         new (): HTMLCalciteGraphElement;
     };
     interface HTMLCalciteHandleElementEventMap {
+        "calciteHandleChange": void;
         "calciteHandleNudge": HandleNudge;
-        "calciteInternalHandleChange": HandleChange;
+        "calciteInternalAssistiveTextChange": HandleChange;
     }
     interface HTMLCalciteHandleElement extends Components.CalciteHandle, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteHandleElementEventMap>(type: K, listener: (this: HTMLCalciteHandleElement, ev: CalciteHandleCustomEvent<HTMLCalciteHandleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9066,7 +9074,10 @@ declare namespace LocalJSX {
         "min": number;
     }
     interface CalciteHandle {
-        "activated"?: boolean;
+        /**
+          * When `true`, disables unselecting the component when blurred.
+         */
+        "blurUnselectDisabled"?: boolean;
         /**
           * When `true`, disables unselecting the component when blurred.
          */
@@ -9089,13 +9100,21 @@ declare namespace LocalJSX {
          */
         "messages"?: HandleMessages;
         /**
-          * Emitted when the handle is activated and the up or down arrow key is pressed.
+          * Emits whenever the component is selected or unselected.
+         */
+        "onCalciteHandleChange"?: (event: CalciteHandleCustomEvent<void>) => void;
+        /**
+          * Emitted when the handle is selected and the up or down arrow key is pressed.
          */
         "onCalciteHandleNudge"?: (event: CalciteHandleCustomEvent<HandleNudge>) => void;
         /**
-          * Emitted when the handle is activated or deactivated.
+          * Emitted when the assistive text has changed.
          */
-        "onCalciteInternalHandleChange"?: (event: CalciteHandleCustomEvent<HandleChange>) => void;
+        "onCalciteInternalAssistiveTextChange"?: (event: CalciteHandleCustomEvent<HandleChange>) => void;
+        /**
+          * When `true`, the component is selected.
+         */
+        "selected"?: boolean;
         "setPosition"?: number;
         "setSize"?: number;
     }
