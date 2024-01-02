@@ -49,7 +49,7 @@ export class TabNav {
   @Prop({ reflect: true }) syncId: string;
 
   /**
-   * Specifies the component's selected tab-title.
+   * Specifies the component's selected `calcite-tab-title`.
    *
    * @readonly
    */
