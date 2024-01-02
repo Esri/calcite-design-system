@@ -89,7 +89,7 @@ export class Button
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 

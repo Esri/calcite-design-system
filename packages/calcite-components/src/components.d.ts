@@ -639,7 +639,7 @@ export namespace Components {
          */
         "text": string;
         /**
-          * Specifies the component's toggle display -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
          */
         "toggleDisplay": BlockSectionToggleDisplay;
     }
@@ -680,7 +680,7 @@ export namespace Components {
          */
         "iconStart": string;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to the border and background if applicable.
          */
         "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -918,15 +918,15 @@ export namespace Components {
     }
     interface CalciteColorPicker {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty": boolean;
         /**
-          * When true, the component will allow updates to the color's alpha value.
+          * When `true`, the component will allow updates to the color's alpha value.
          */
         "alphaChannel": boolean;
         /**
-          * When true, hides the RGB/HSV channel inputs
+          * When `true`, hides the RGB/HSV channel inputs
          */
         "channelsDisabled": boolean;
         /**
@@ -943,7 +943,7 @@ export namespace Components {
          */
         "format": Format;
         /**
-          * When true, hides the hex input
+          * When `true`, hides the hex input
          */
         "hexDisabled": boolean;
         /**
@@ -974,7 +974,7 @@ export namespace Components {
          */
         "numberingSystem": NumberingSystem;
         /**
-          * When true, hides the saved colors section
+          * When `true`, hides the saved colors section
          */
         "savedDisabled": boolean;
         /**
@@ -999,11 +999,11 @@ export namespace Components {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.  When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty": boolean;
         /**
-          * When true, the component will allow updates to the color's alpha value.
+          * When `true`, the component will allow updates to the color's alpha value.
          */
         "alphaChannel": boolean;
         /**
@@ -1137,7 +1137,7 @@ export namespace Components {
          */
         "selectionDisplay": SelectionDisplay;
         /**
-          * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode: - `"multiple"` allows any number of selected items (default), - `"single"` allows only one selection, - `"single-persist"` allow and require one open item, - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -7843,7 +7843,7 @@ declare namespace LocalJSX {
         "onCalciteBlockOpen"?: (event: CalciteBlockCustomEvent<void>) => void;
         /**
           * Emits when the component's header is clicked.
-          * @deprecated use `openClose` events: `calciteBlock[Before]Open` and `calciteBlock[Before]Close` instead.
+          * @deprecated use `openClose` events: `calciteBlockBeforeOpen` and `calciteBlockBeforeClose` instead.
          */
         "onCalciteBlockToggle"?: (event: CalciteBlockCustomEvent<void>) => void;
         /**
@@ -7881,7 +7881,7 @@ declare namespace LocalJSX {
          */
         "text"?: string;
         /**
-          * Specifies the component's toggle display -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
          */
         "toggleDisplay"?: BlockSectionToggleDisplay;
     }
@@ -7922,7 +7922,7 @@ declare namespace LocalJSX {
          */
         "iconStart"?: string;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to the border and background if applicable.
          */
         "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -8173,15 +8173,15 @@ declare namespace LocalJSX {
     }
     interface CalciteColorPicker {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty"?: boolean;
         /**
-          * When true, the component will allow updates to the color's alpha value.
+          * When `true`, the component will allow updates to the color's alpha value.
          */
         "alphaChannel"?: boolean;
         /**
-          * When true, hides the RGB/HSV channel inputs
+          * When `true`, hides the RGB/HSV channel inputs
          */
         "channelsDisabled"?: boolean;
         /**
@@ -8198,7 +8198,7 @@ declare namespace LocalJSX {
          */
         "format"?: Format;
         /**
-          * When true, hides the hex input
+          * When `true`, hides the hex input
          */
         "hexDisabled"?: boolean;
         /**
@@ -8237,7 +8237,7 @@ declare namespace LocalJSX {
          */
         "onCalciteColorPickerInput"?: (event: CalciteColorPickerCustomEvent<void>) => void;
         /**
-          * When true, hides the saved colors section
+          * When `true`, hides the saved colors section
          */
         "savedDisabled"?: boolean;
         /**
@@ -8258,11 +8258,11 @@ declare namespace LocalJSX {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.  When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty"?: boolean;
         /**
-          * When true, the component will allow updates to the color's alpha value.
+          * When `true`, the component will allow updates to the color's alpha value.
          */
         "alphaChannel"?: boolean;
         /**
@@ -8418,7 +8418,7 @@ declare namespace LocalJSX {
          */
         "selectionDisplay"?: SelectionDisplay;
         /**
-          * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode: - `"multiple"` allows any number of selected items (default), - `"single"` allows only one selection, - `"single-persist"` allow and require one open item, - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
