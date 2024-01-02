@@ -167,4 +167,4 @@ Renders a shell with a header and panels on the left and right sides of the app.
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

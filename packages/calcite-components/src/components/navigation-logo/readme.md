@@ -35,4 +35,4 @@ Type: `Promise<void>`
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -12,8 +12,8 @@ The graph component is used to show small, lightweight graphs in places where a 
 | `data`             | --              | Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value                   | `Point[]`     | `[]`        |
 | `highlightMax`     | `highlight-max` | End of highlight color if highlighting range                                                                                 | `number`      | `undefined` |
 | `highlightMin`     | `highlight-min` | Start of highlight color if highlighting range                                                                               | `number`      | `undefined` |
-| `max` _(required)_ | `max`           | Highest point of the range                                                                                                   | `number`      | `undefined` |
-| `min` _(required)_ | `min`           | Lowest point of the range                                                                                                    | `number`      | `undefined` |
+| `max` *(required)* | `max`           | Highest point of the range                                                                                                   | `number`      | `undefined` |
+| `min` *(required)* | `min`           | Lowest point of the range                                                                                                    | `number`      | `undefined` |
 
 ## Dependencies
 
@@ -31,4 +31,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

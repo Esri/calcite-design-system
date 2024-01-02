@@ -113,4 +113,4 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
