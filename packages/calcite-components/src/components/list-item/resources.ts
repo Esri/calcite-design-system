@@ -1,6 +1,8 @@
 export const CSS = {
   container: "container",
   indent: "indent",
+  containerHover: "container--hover",
+  containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
@@ -18,6 +20,7 @@ export const CSS = {
   contentBottom: "content-bottom",
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
+  selectionContainerSingle: "selection-container--single",
   openContainer: "open-container",
   dragContainer: "drag-container",
 };
@@ -35,12 +38,13 @@ export const SLOTS = {
 export const MAX_COLUMNS = 0;
 
 export const ICONS = {
-  selectedMultiple: "check-circle-f",
-  selectedSingle: "circle-f",
-  unselected: "blank",
-  closedLTR: "caret-right",
-  closedRTL: "caret-left",
-  open: "caret-down",
+  selectedMultiple: "check-square-f",
+  selectedSingle: "bullet-point-large",
+  unselectedMultiple: "square",
+  unselectedSingle: "bullet-point-large",
+  closedLTR: "chevron-right",
+  closedRTL: "chevron-left",
+  open: "chevron-down",
   blank: "blank",
   close: "x",
 };

@@ -400,14 +400,24 @@ export class ListItem
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.handleItemClick}>
+      <td
+        class={{
+          [CSS.selectionContainer]: true,
+          [CSS.selectionContainerSingle]:
+            selectionMode === "single" || selectionMode === "single-persist",
+        }}
+        key="selection-container"
+        onClick={this.handleItemClick}
+      >
         <calcite-icon
           icon={
             selected
               ? selectionMode === "multiple"
                 ? ICONS.selectedMultiple
                 : ICONS.selectedSingle
-              : ICONS.unselected
+              : selectionMode === "multiple"
+                ? ICONS.unselectedMultiple
+                : ICONS.unselectedSingle
           }
           scale="s"
         />
@@ -631,6 +641,8 @@ export class ListItem
             aria-setsize={setSize}
             class={{
               [CSS.container]: true,
+              [CSS.containerHover]: selectionMode !== "none",
+              [CSS.containerBorder]: showBorder,
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
             }}
