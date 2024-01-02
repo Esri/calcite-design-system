@@ -8,8 +8,8 @@
 
 ```html
 <calcite-tile
-  description="Explore a curated collection of high-quality images and visuals. Find inspiration for your projects and discover the beauty of photography."
-  heading="Discover stunning images"
+  description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+  heading="Tile heading lorem ipsum"
   href="#"
   icon="images"
 ></calcite-tile>
@@ -38,6 +38,10 @@
 
 ## Dependencies
 
+### Used by
+
+- [calcite-tile-select](../tile-select)
+
 ### Depends on
 
 - [calcite-icon](../icon)
@@ -50,6 +54,7 @@ graph TD;
   calcite-tile --> calcite-icon
   calcite-tile --> calcite-link
   calcite-link --> calcite-icon
+  calcite-tile-select --> calcite-tile
   style calcite-tile fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

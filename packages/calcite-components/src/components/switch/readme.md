@@ -9,11 +9,7 @@
 ### Basic
 
 ```html
-<label>
-  Off
-  <calcite-switch checked></calcite-switch>
-  On
-</label>
+<label> <calcite-switch checked></calcite-switch> Switch is on </label>
 ```
 
 ## Properties

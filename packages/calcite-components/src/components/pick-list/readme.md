@@ -105,12 +105,6 @@ Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
 Sets focus on the component's first focusable element.
 
-#### Parameters
-
-| Name      | Type       | Description |
-| --------- | ---------- | ----------- |
-| `focusId` | `"filter"` |             |
-
 #### Returns
 
 Type: `Promise<void>`
@@ -138,8 +132,6 @@ graph TD;
   calcite-filter --> calcite-input
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
-  calcite-input --> calcite-input-message
-  calcite-input-message --> calcite-icon
   calcite-scrim --> calcite-loader
   style calcite-pick-list fill:#f9f,stroke:#333,stroke-width:4px
 ```

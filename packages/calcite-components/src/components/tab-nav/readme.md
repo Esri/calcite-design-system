@@ -8,7 +8,7 @@ The tab-nav groups several [calcite-tab-title](../tab-title) components and buil
 
 ### Basic
 
-Tabs `scale` and `position` properties are inherited by it's child components, tab-nav and tab-title.
+Tab-nav and tab-title inherit their `scale` and `position` from tab-title parent:
 
 ```html
 <calcite-tabs scale="l" position="bottom">
@@ -24,7 +24,7 @@ Tabs `scale` and `position` properties are inherited by it's child components, t
 
 | Property        | Attribute    | Description                                                                   | Type                         | Default     |
 | --------------- | ------------ | ----------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `selectedTitle` | --           | Specifies the component's selected `calcite-tab-title`.                       | `HTMLCalciteTabTitleElement` | `null`      |
+| `selectedTitle` | --           | Specifies the component's selected tab-title.                                 | `HTMLCalciteTabTitleElement` | `null`      |
 | `storageId`     | `storage-id` | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                     | `undefined` |
 | `syncId`        | `sync-id`    | Specifies text to update multiple components to keep in sync if one changes.  | `string`                     | `undefined` |
 

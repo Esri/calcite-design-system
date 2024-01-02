@@ -60,7 +60,6 @@ To use a custom color for the icon fill, you can supply your desired color to th
 - [calcite-list-item](../list-item)
 - [calcite-menu-item](../menu-item)
 - [calcite-modal](../modal)
-- [calcite-navigation-logo](../navigation-logo)
 - [calcite-notice](../notice)
 - [calcite-pagination](../pagination)
 - [calcite-pick-list-item](../pick-list-item)
@@ -73,7 +72,6 @@ To use a custom color for the icon fill, you can supply your desired color to th
 - [calcite-table-header](../table-header)
 - [calcite-table-row](../table-row)
 - [calcite-tile](../tile)
-- [calcite-tile-select](../tile-select)
 - [calcite-time-picker](../time-picker)
 - [calcite-tip-manager](../tip-manager)
 - [calcite-tree-item](../tree-item)
@@ -106,7 +104,6 @@ graph TD;
   calcite-list-item --> calcite-icon
   calcite-menu-item --> calcite-icon
   calcite-modal --> calcite-icon
-  calcite-navigation-logo --> calcite-icon
   calcite-notice --> calcite-icon
   calcite-pagination --> calcite-icon
   calcite-pick-list-item --> calcite-icon
@@ -119,7 +116,6 @@ graph TD;
   calcite-table-header --> calcite-icon
   calcite-table-row --> calcite-icon
   calcite-tile --> calcite-icon
-  calcite-tile-select --> calcite-icon
   calcite-time-picker --> calcite-icon
   calcite-tip-manager --> calcite-icon
   calcite-tree-item --> calcite-icon
