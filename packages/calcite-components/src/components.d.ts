@@ -313,7 +313,7 @@ export namespace Components {
     }
     interface CalciteActionBar {
         /**
-          * Specifies the accessible label for the last action-group.
+          * Specifies the accessible label for the last `calcite-action-group`.
          */
         "actionsEndGroupLabel": string;
         /**
@@ -325,7 +325,7 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
-          * The layout direction of the actions.
+          * Specifies the layout direction of the actions.
          */
         "layout": Extract<"horizontal" | "vertical", Layout>;
         /**
@@ -367,7 +367,7 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
-          * Specifies the label of the component. Required for accessibility.
+          * Accessible name for the component.
          */
         "label": string;
         /**
@@ -440,7 +440,7 @@ export namespace Components {
     }
     interface CalciteActionPad {
         /**
-          * Specifies the accessible label for the last action-group.
+          * Specifies the accessible label for the last `calcite-action-group`.
          */
         "actionsEndGroupLabel": string;
         /**
@@ -478,11 +478,11 @@ export namespace Components {
     }
     interface CalciteAlert {
         /**
-          * When `true`, the component closes automatically (recommended for passive, non-blocking alerts).
+          * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose": boolean;
         /**
-          * Specifies the duration before the component automatically closes (only use with `autoClose`).
+          * Specifies the duration before the component automatically closes - only use with `autoClose`.
          */
         "autoCloseDuration": AlertDuration;
         /**
@@ -494,7 +494,7 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Specifies the kind of the component (will apply to top border and icon).
+          * Specifies the kind of the component, which will apply to top border and icon.
          */
         "kind": Extract<
     "brand" | "danger" | "info" | "success" | "warning",
@@ -521,7 +521,7 @@ export namespace Components {
          */
         "open": boolean;
         /**
-          * Specifies the placement of the component
+          * Specifies the placement of the component.
          */
         "placement": MenuPlacement;
         /**
@@ -529,7 +529,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Sets focus on the component's "close" button (the first focusable item).
+          * Sets focus on the component's "close" button, the first focusable item.
          */
         "setFocus": () => Promise<void>;
         /**
@@ -1773,10 +1773,6 @@ export namespace Components {
          */
         "blurUnselectDisabled": boolean;
         /**
-          * When `true`, disables unselecting the component when blurred.
-         */
-        "blurUnselectDisabled": boolean;
-        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -2845,6 +2841,10 @@ export namespace Components {
           * When `true`, the component displays a draggable button.
          */
         "dragHandle": boolean;
+        /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragSelected": boolean;
         /**
           * The label text of the component. Displays above the description text.
          */
@@ -6379,6 +6379,7 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
+        "calciteListItemDragHandleChange": void;
         "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
@@ -7525,7 +7526,7 @@ declare namespace LocalJSX {
     }
     interface CalciteActionBar {
         /**
-          * Specifies the accessible label for the last action-group.
+          * Specifies the accessible label for the last `calcite-action-group`.
          */
         "actionsEndGroupLabel"?: string;
         /**
@@ -7537,7 +7538,7 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
-          * The layout direction of the actions.
+          * Specifies the layout direction of the actions.
          */
         "layout"?: Extract<"horizontal" | "vertical", Layout>;
         /**
@@ -7575,7 +7576,7 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
-          * Specifies the label of the component. Required for accessibility.
+          * Accessible name for the component.
          */
         "label"?: string;
         /**
@@ -7644,7 +7645,7 @@ declare namespace LocalJSX {
     }
     interface CalciteActionPad {
         /**
-          * Specifies the accessible label for the last action-group.
+          * Specifies the accessible label for the last `calcite-action-group`.
          */
         "actionsEndGroupLabel"?: string;
         /**
@@ -7682,11 +7683,11 @@ declare namespace LocalJSX {
     }
     interface CalciteAlert {
         /**
-          * When `true`, the component closes automatically (recommended for passive, non-blocking alerts).
+          * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose"?: boolean;
         /**
-          * Specifies the duration before the component automatically closes (only use with `autoClose`).
+          * Specifies the duration before the component automatically closes - only use with `autoClose`.
          */
         "autoCloseDuration"?: AlertDuration;
         /**
@@ -7698,7 +7699,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to top border and icon).
+          * Specifies the kind of the component, which will apply to top border and icon.
          */
         "kind"?: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
@@ -7749,7 +7750,7 @@ declare namespace LocalJSX {
          */
         "open"?: boolean;
         /**
-          * Specifies the placement of the component
+          * Specifies the placement of the component.
          */
         "placement"?: MenuPlacement;
         /**
@@ -9079,10 +9080,6 @@ declare namespace LocalJSX {
          */
         "blurUnselectDisabled"?: boolean;
         /**
-          * When `true`, disables unselecting the component when blurred.
-         */
-        "blurUnselectDisabled"?: boolean;
-        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -10218,6 +10215,10 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragSelected"?: boolean;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label"?: string;
@@ -10244,6 +10245,10 @@ declare namespace LocalJSX {
           * Fires when the close button is clicked.
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the drag handle is selected.
+         */
+        "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Emits when the item's content is selected.
          */
