@@ -1327,11 +1327,11 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Date is the end of date range
+          * Date is the end of date range.
          */
         "endOfRange": boolean;
         /**
-          * Date is currently highlighted as part of the range
+          * Date is currently highlighted as part of the range,
          */
         "highlighted": boolean;
         /**
@@ -1343,7 +1343,7 @@ export namespace Components {
          */
         "rangeEdge": "start" | "end" | undefined;
         /**
-          * Date is being hovered and within the set range
+          * Date is being hovered and within the set range.
          */
         "rangeHover": boolean;
         /**
@@ -1355,7 +1355,7 @@ export namespace Components {
          */
         "selected": boolean;
         /**
-          * Date is the start of date range
+          * Date is the start of date range.
          */
         "startOfRange": boolean;
         /**
@@ -1365,7 +1365,7 @@ export namespace Components {
     }
     interface CalciteDatePickerMonth {
         /**
-          * Date currently active.
+          * The currently active Date.
          */
         "activeDate": Date;
         /**
@@ -1373,15 +1373,15 @@ export namespace Components {
          */
         "dateTimeFormat": Intl.DateTimeFormat;
         /**
-          * End date currently active
+          * End date currently active.
          */
-        "endDate"?: Date;
+        "endDate": Date;
         /**
-          * The range of dates currently being hovered
+          * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
         /**
-          * CLDR locale data for current locale
+          * CLDR locale data for current locale.
          */
         "localeData": DateLocaleData;
         /**
@@ -1403,11 +1403,11 @@ export namespace Components {
         /**
           * Start date currently active.
          */
-        "startDate"?: Date;
+        "startDate": Date;
     }
     interface CalciteDatePickerMonthHeader {
         /**
-          * Focused date with indicator (will become selected date if user proceeds)
+          * The focused date is indicated and will become the selected date if the user proceeds.
          */
         "activeDate": Date;
         /**
@@ -1415,7 +1415,7 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
-          * CLDR locale data for translated calendar info
+          * CLDR locale data for translated calendar info.
          */
         "localeData": DateLocaleData;
         /**
@@ -1507,7 +1507,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection.
+          * Specifies the selection mode for `calcite-dropdown-item` children: - `"multiple"` allows any number of selected items, - `"single"` allows only one selection, - `"none"` doesn't allow for any selection.
          */
         "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -8608,19 +8608,19 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Date is the end of date range
+          * Date is the end of date range.
          */
         "endOfRange"?: boolean;
         /**
-          * Date is currently highlighted as part of the range
+          * Date is currently highlighted as part of the range,
          */
         "highlighted"?: boolean;
         /**
-          * Emitted when user selects day
+          * Emits when user selects day.
          */
         "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
-          * Emitted when user hovers over a day
+          * Emits when user hovers over a day.
          */
         "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
@@ -8632,7 +8632,7 @@ declare namespace LocalJSX {
          */
         "rangeEdge"?: "start" | "end" | undefined;
         /**
-          * Date is being hovered and within the set range
+          * Date is being hovered and within the set range.
          */
         "rangeHover"?: boolean;
         /**
@@ -8644,7 +8644,7 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
         /**
-          * Date is the start of date range
+          * Date is the start of date range.
          */
         "startOfRange"?: boolean;
         /**
@@ -8654,7 +8654,7 @@ declare namespace LocalJSX {
     }
     interface CalciteDatePickerMonth {
         /**
-          * Date currently active.
+          * The currently active Date.
          */
         "activeDate"?: Date;
         /**
@@ -8662,15 +8662,15 @@ declare namespace LocalJSX {
          */
         "dateTimeFormat"?: Intl.DateTimeFormat;
         /**
-          * End date currently active
+          * End date currently active.
          */
         "endDate"?: Date;
         /**
-          * The range of dates currently being hovered
+          * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
         /**
-          * CLDR locale data for current locale
+          * CLDR locale data for current locale.
          */
         "localeData"?: DateLocaleData;
         /**
@@ -8686,12 +8686,12 @@ declare namespace LocalJSX {
          */
         "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
-          * Event emitted when user hovers the date.
+          * Emits when user hovers the date.
          */
         "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
         /**
-          * Event emitted when user selects the date.
+          * Emits when user selects the date.
          */
         "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
@@ -8709,7 +8709,7 @@ declare namespace LocalJSX {
     }
     interface CalciteDatePickerMonthHeader {
         /**
-          * Focused date with indicator (will become selected date if user proceeds)
+          * The focused date is indicated and will become the selected date if the user proceeds.
          */
         "activeDate"?: Date;
         /**
@@ -8717,7 +8717,7 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
-          * CLDR locale data for translated calendar info
+          * CLDR locale data for translated calendar info.
          */
         "localeData"?: DateLocaleData;
         /**
@@ -8825,7 +8825,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection.
+          * Specifies the selection mode for `calcite-dropdown-item` children: - `"multiple"` allows any number of selected items, - `"single"` allows only one selection, - `"none"` doesn't allow for any selection.
          */
         "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -8855,7 +8855,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * Fires when the component is selected.
+          * Emits when the component is selected.
          */
         "onCalciteDropdownItemSelect"?: (event: CalciteDropdownItemCustomEvent<void>) => void;
         "onCalciteInternalDropdownCloseRequest"?: (event: CalciteDropdownItemCustomEvent<void>) => void;

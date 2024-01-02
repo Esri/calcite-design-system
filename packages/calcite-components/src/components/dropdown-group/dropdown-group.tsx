@@ -43,10 +43,10 @@ export class DropdownGroup {
   @Prop() scale: Scale = "m";
 
   /**
-   * Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`:
-   * - `multiple` allows any number of selected items,
-   * - `single` allows only one selection (default),
-   * - `none` doesn't allow for any selection.
+   * Specifies the selection mode for `calcite-dropdown-item` children:
+   * - `"multiple"` allows any number of selected items,
+   * - `"single"` allows only one selection,
+   * - `"none"` doesn't allow for any selection.
    */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> =
     "single";
