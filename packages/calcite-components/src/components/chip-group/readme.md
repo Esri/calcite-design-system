@@ -31,7 +31,7 @@
 | Property             | Attribute        | Description                                                                               | Type                                                   | Default     |
 | -------------------- | ---------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------ | ----------- |
 | `disabled`           | `disabled`       | When `true`, interaction is prevented and the component is displayed with lower opacity.  | `boolean`                                              | `false`     |
-| `label` _(required)_ | `label`          | Accessible name for the component.                                                        | `string`                                               | `undefined` |
+| `label` *(required)* | `label`          | Accessible name for the component.                                                        | `string`                                               | `undefined` |
 | `scale`              | `scale`          | Specifies the size of the component. Child `calcite-chip`s inherit the component's value. | `"l" \| "m" \| "s"`                                    | `"m"`       |
 | `selectedItems`      | --               | Specifies the component's selected items.                                                 | `HTMLCalciteChipElement[]`                             | `[]`        |
 | `selectionMode`      | `selection-mode` | Specifies the selection mode of the component.                                            | `"multiple" \| "none" \| "single" \| "single-persist"` | `"none"`    |
@@ -60,4 +60,4 @@ Type: `Promise<void>`
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
