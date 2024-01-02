@@ -1743,27 +1743,27 @@ export namespace Components {
     }
     interface CalciteGraph {
         /**
-          * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value
+          * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value.
          */
         "colorStops": ColorStop[];
         /**
-          * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value
+          * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value.
          */
         "data": DataSeries;
         /**
-          * End of highlight color if highlighting range
+          * End of highlight color if highlighting range.
          */
         "highlightMax": number;
         /**
-          * Start of highlight color if highlighting range
+          * Start of highlight color if highlighting range.
          */
         "highlightMin": number;
         /**
-          * Highest point of the range
+          * Highest point of the range.
          */
         "max": number;
         /**
-          * Lowest point of the range
+          * Lowest point of the range.
          */
         "min": number;
     }
@@ -1777,7 +1777,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Value for the button title attribute
+          * Value for the button title attribute.
          */
         "dragHandle": string;
         "label": string;
@@ -1786,7 +1786,7 @@ export namespace Components {
          */
         "messageOverrides": Partial<HandleMessages>;
         /**
-          * Made into a prop for testing purposes only
+          * Made into a prop for testing purposes only.
          */
         "messages": HandleMessages;
         /**
@@ -8948,7 +8948,7 @@ declare namespace LocalJSX {
          */
         "messages"?: FilterMessages;
         /**
-          * This event fires when the filter text changes.
+          * Emits when the filter text changes.
          */
         "onCalciteFilterChange"?: (event: CalciteFilterCustomEvent<void>) => void;
         /**
@@ -9050,27 +9050,27 @@ declare namespace LocalJSX {
     }
     interface CalciteGraph {
         /**
-          * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value
+          * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value.
          */
         "colorStops"?: ColorStop[];
         /**
-          * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value
+          * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value.
          */
         "data"?: DataSeries;
         /**
-          * End of highlight color if highlighting range
+          * End of highlight color if highlighting range.
          */
         "highlightMax"?: number;
         /**
-          * Start of highlight color if highlighting range
+          * Start of highlight color if highlighting range.
          */
         "highlightMin"?: number;
         /**
-          * Highest point of the range
+          * Highest point of the range.
          */
         "max": number;
         /**
-          * Lowest point of the range
+          * Lowest point of the range.
          */
         "min": number;
     }
@@ -9084,7 +9084,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Value for the button title attribute
+          * Value for the button title attribute.
          */
         "dragHandle"?: string;
         "label"?: string;
@@ -9093,7 +9093,7 @@ declare namespace LocalJSX {
          */
         "messageOverrides"?: Partial<HandleMessages>;
         /**
-          * Made into a prop for testing purposes only
+          * Made into a prop for testing purposes only.
          */
         "messages"?: HandleMessages;
         /**
@@ -9101,11 +9101,11 @@ declare namespace LocalJSX {
          */
         "onCalciteHandleChange"?: (event: CalciteHandleCustomEvent<void>) => void;
         /**
-          * Emitted when the handle is selected and the up or down arrow key is pressed.
+          * Emits when the handle is selected and the up or down arrow key is pressed.
          */
         "onCalciteHandleNudge"?: (event: CalciteHandleCustomEvent<HandleNudge>) => void;
         /**
-          * Emitted when the assistive text has changed.
+          * Emits when the assistive text has changed.
          */
         "onCalciteInternalAssistiveTextChange"?: (event: CalciteHandleCustomEvent<HandleChange>) => void;
         /**

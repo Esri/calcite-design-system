@@ -74,12 +74,12 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * Value for the button title attribute
+   * Value for the button title attribute.
    */
   @Prop({ reflect: true }) dragHandle: string;
 
   /**
-   * Made into a prop for testing purposes only
+   * Made into a prop for testing purposes only.
    *
    * @internal
    */
@@ -186,12 +186,12 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   @Event({ cancelable: false }) calciteHandleChange: EventEmitter<void>;
 
   /**
-   * Emitted when the handle is selected and the up or down arrow key is pressed.
+   * Emits when the handle is selected and the up or down arrow key is pressed.
    */
   @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
 
   /**
-   * Emitted when the assistive text has changed.
+   * Emits when the assistive text has changed.
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalAssistiveTextChange: EventEmitter<HandleChange>;
