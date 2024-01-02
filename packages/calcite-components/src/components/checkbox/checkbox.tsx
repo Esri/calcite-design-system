@@ -84,7 +84,11 @@ export class Checkbox
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the name of the component on form submission. */
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   /**

@@ -118,7 +118,7 @@ export class ColorPicker
     }
   }
 
-  /** When `true`, hides the RGB/HSV channel inputs */
+  /** When `true`, hides the RGB/HSV channel inputs. */
   @Prop() channelsDisabled = false;
 
   /**
@@ -163,7 +163,7 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideChannels = false;
 
-  /** When `true`, hides the hex input */
+  /** When `true`, hides the hex input. */
   @Prop() hexDisabled = false;
 
   /**
@@ -180,7 +180,7 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideSaved = false;
 
-  /** When `true`, hides the saved colors section */
+  /** When `true`, hides the saved colors section. */
   @Prop({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */

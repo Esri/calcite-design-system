@@ -219,7 +219,7 @@ export class Combobox
 
   /**
    * Specifies the selection mode:
-   * - `"multiple"` allows any number of selected items (default),
+   * - `"multiple"` allows any number of selected items,
    * - `"single"` allows only one selection,
    * - `"single-persist"` allow and require one open item,
    * - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.

@@ -49,7 +49,13 @@ export class ChipGroup implements InteractiveComponent {
   /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the selection mode of the component. */
+  /**
+   * Specifies the selection mode of the component:
+   * - `"multiple"` allows any number of selections,
+   * - `"single"` allows only one selection,
+   * - `"single-persist"` allow and require one selected item,
+   * - `"none"` does not allow any selections.
+   */
   @Prop({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode

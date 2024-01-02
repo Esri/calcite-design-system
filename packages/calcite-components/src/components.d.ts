@@ -730,7 +730,7 @@ export namespace Components {
          */
         "target": string;
         /**
-          * Specifies the default behavior of the button.
+          * Specifies the default behavior of the component.
           * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
          */
         "type": string;
@@ -796,7 +796,7 @@ export namespace Components {
          */
         "label": string;
         /**
-          * Specifies the name of the component on form submission.
+          * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name": string;
         /**
@@ -905,7 +905,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component.
+          * Specifies the selection mode of the component: - `"multiple"` allows any number of selections, - `"single"` allows only one selection, - `"single-persist"` allow and require one selected item, - `"none"` does not allow any selections.
          */
         "selectionMode": Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -926,7 +926,7 @@ export namespace Components {
          */
         "alphaChannel": boolean;
         /**
-          * When `true`, hides the RGB/HSV channel inputs
+          * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled": boolean;
         /**
@@ -943,7 +943,7 @@ export namespace Components {
          */
         "format": Format;
         /**
-          * When `true`, hides the hex input
+          * When `true`, hides the hex input.
          */
         "hexDisabled": boolean;
         /**
@@ -974,7 +974,7 @@ export namespace Components {
          */
         "numberingSystem": NumberingSystem;
         /**
-          * When `true`, hides the saved colors section
+          * When `true`, hides the saved colors section.
          */
         "savedDisabled": boolean;
         /**
@@ -1137,7 +1137,7 @@ export namespace Components {
          */
         "selectionDisplay": SelectionDisplay;
         /**
-          * Specifies the selection mode: - `"multiple"` allows any number of selected items (default), - `"single"` allows only one selection, - `"single-persist"` allow and require one open item, - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode: - `"multiple"` allows any number of selected items, - `"single"` allows only one selection, - `"single-persist"` allow and require one open item, - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -7843,7 +7843,7 @@ declare namespace LocalJSX {
         "onCalciteBlockOpen"?: (event: CalciteBlockCustomEvent<void>) => void;
         /**
           * Emits when the component's header is clicked.
-          * @deprecated use `openClose` events: `calciteBlockBeforeOpen` and `calciteBlockBeforeClose` instead.
+          * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
          */
         "onCalciteBlockToggle"?: (event: CalciteBlockCustomEvent<void>) => void;
         /**
@@ -7968,7 +7968,7 @@ declare namespace LocalJSX {
          */
         "target"?: string;
         /**
-          * Specifies the default behavior of the button.
+          * Specifies the default behavior of the component.
           * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
          */
         "type"?: string;
@@ -8038,7 +8038,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * Specifies the name of the component on form submission.
+          * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name"?: string;
         /**
@@ -8164,7 +8164,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component.
+          * Specifies the selection mode of the component: - `"multiple"` allows any number of selections, - `"single"` allows only one selection, - `"single-persist"` allow and require one selected item, - `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -8181,7 +8181,7 @@ declare namespace LocalJSX {
          */
         "alphaChannel"?: boolean;
         /**
-          * When `true`, hides the RGB/HSV channel inputs
+          * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled"?: boolean;
         /**
@@ -8198,7 +8198,7 @@ declare namespace LocalJSX {
          */
         "format"?: Format;
         /**
-          * When `true`, hides the hex input
+          * When `true`, hides the hex input.
          */
         "hexDisabled"?: boolean;
         /**
@@ -8237,7 +8237,7 @@ declare namespace LocalJSX {
          */
         "onCalciteColorPickerInput"?: (event: CalciteColorPickerCustomEvent<void>) => void;
         /**
-          * When `true`, hides the saved colors section
+          * When `true`, hides the saved colors section.
          */
         "savedDisabled"?: boolean;
         /**
@@ -8418,7 +8418,7 @@ declare namespace LocalJSX {
          */
         "selectionDisplay"?: SelectionDisplay;
         /**
-          * Specifies the selection mode: - `"multiple"` allows any number of selected items (default), - `"single"` allows only one selection, - `"single-persist"` allow and require one open item, - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode: - `"multiple"` allows any number of selected items, - `"single"` allows only one selection, - `"single-persist"` allow and require one open item, - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",

@@ -150,7 +150,7 @@ export class Button
   @Prop({ reflect: true }) target: string;
 
   /**
-   * Specifies the default behavior of the button.
+   * Specifies the default behavior of the component.
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
