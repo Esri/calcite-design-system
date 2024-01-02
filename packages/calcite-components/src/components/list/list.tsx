@@ -681,10 +681,10 @@ export class List
     filteredItems: HTMLCalciteListItemElement[];
     visibleParents: WeakSet<HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement>;
   }): void {
-    const hidden =
+    const filterHidden =
       !visibleParents.has(el) && !filteredItems.includes(el as HTMLCalciteListItemElement);
 
-    el.hidden = hidden;
+    el.filterHidden = filterHidden;
 
     const closestParent = el.parentElement.closest(parentSelector) as
       | HTMLCalciteListItemElement
@@ -694,7 +694,7 @@ export class List
       return;
     }
 
-    if (!hidden) {
+    if (!filterHidden) {
       visibleParents.add(closestParent);
     }
 
