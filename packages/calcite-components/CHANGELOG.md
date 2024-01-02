@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.7...@esri/calcite-components@2.2.0-next.8) (2023-12-28)
+
+### Bug Fixes
+
+- __table:__ Fix double border on `bordered` Table Rows in `table-footer` ([#8509](https://github.com/Esri/calcite-design-system/issues/8509)) ([c16ea33](https://github.com/Esri/calcite-design-system/commit/c16ea335c1d3b8663e4a0f51012d071f93c1b476)), closes [#8508](https://github.com/Esri/calcite-design-system/issues/8508)
+
+## [2.2.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.6...@esri/calcite-components@2.2.0-next.7) (2023-12-28)
+
+### Features
+
+- __handle:__ Add `blurUnselectDisabled` property to disable unselecting handle on blur. ([#8483](https://github.com/Esri/calcite-design-system/issues/8483)) ([4d665cc](https://github.com/Esri/calcite-design-system/commit/4d665cc2eff668bb0278c0a3a16a0a6bd4d98776)), closes [#8485](https://github.com/Esri/calcite-design-system/issues/8485)
+
 ## [2.2.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.5...@esri/calcite-components@2.2.0-next.6) (2023-12-27)
 
 ### Bug Fixes
@@ -524,7 +536,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - __flow-item:__ Add action bar slot ([#6887](https://github.com/Esri/calcite-design-system/issues/6887)) ([aa8b46c](https://github.com/Esri/calcite-design-system/commit/aa8b46c5c0cf19080d45b1d38b911f5d83a1dd05)), closes [#6886](https://github.com/Esri/calcite-design-system/issues/6886)
 
-- **list:**
+- __list:__
 
   - adds `calciteListChange` event to get `selectedItems`. ([#6894](https://github.com/Esri/calcite-design-system/issues/6894)) ([37959ce](https://github.com/Esri/calcite-design-system/commit/37959ce01fdd4263adaf8479d230d02c9942c871)), closes [#6362](https://github.com/Esri/calcite-design-system/issues/6362)
 
@@ -570,7 +582,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - __tip-manager:__ Set padding for tips and tip-groups consistently ([#6959](https://github.com/Esri/calcite-design-system/issues/6959)) ([fbd2f3f](https://github.com/Esri/calcite-design-system/commit/fbd2f3fe6d53929bc3dd34bad1a7a6a7d9b2d3f0)), closes [#6464](https://github.com/Esri/calcite-design-system/issues/6464)
 
-- **tooltip:**
+- __tooltip:__
 
   - fix focusing tooltip when a referenceElement is within a shadowDOM ([#6915](https://github.com/Esri/calcite-design-system/issues/6915)) ([453d527](https://github.com/Esri/calcite-design-system/commit/453d52765f38af06a8d0bb9ffecb77d338814d62)), closes [#6893](https://github.com/Esri/calcite-design-system/issues/6893)
 
@@ -601,7 +613,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - __date-picker:__ add support for de-AT locale ([#6788](https://github.com/Esri/calcite-design-system/issues/6788)) ([be3a8b2](https://github.com/Esri/calcite-design-system/commit/be3a8b2414794562f5efa8a8223fdacd93192d1f)), closes [#6737](https://github.com/Esri/calcite-design-system/issues/6737)
 - __input-time-picker:__ add focus trap support ([#6834](https://github.com/Esri/calcite-design-system/issues/6834)) ([8c748f3](https://github.com/Esri/calcite-design-system/commit/8c748f3958ab830b6f97d5b74611b8f909d345a9))
 - __input:__ add files property ([#6277](https://github.com/Esri/calcite-design-system/issues/6277)) ([4aff028](https://github.com/Esri/calcite-design-system/commit/4aff028f4e91061e49e454bee839e3afaeabf001)), closes [#5890](https://github.com/Esri/calcite-design-system/issues/5890)
-- **input-date-picker:**
+- __input-date-picker:__
   - add focus trap support ([#6816](https://github.com/Esri/calcite-design-system/issues/6816)) ([0d9ddc9](https://github.com/Esri/calcite-design-system/commit/0d9ddc9018ff8c5eacee7592998189e59d512bf6)), closes [#6668](https://github.com/Esri/calcite-design-system/issues/6668)
   - allow toggling date picker by clicking the input or entering the down/escape key ([#6805](https://github.com/Esri/calcite-design-system/issues/6805)) ([233c22b](https://github.com/Esri/calcite-design-system/commit/233c22b174e5957415a0252a75f8da9078ed64ce)), closes [#6773](https://github.com/Esri/calcite-design-system/issues/6773)
 - __input-time-picker:__ allow toggling time picker by clicking the input or entering the down/escape key ([#6832](https://github.com/Esri/calcite-design-system/issues/6832)) ([4639d89](https://github.com/Esri/calcite-design-system/commit/4639d8970bd6f7f52271c2ba1801bf2d153563e8)), closes [#6830](https://github.com/Esri/calcite-design-system/issues/6830)
@@ -620,11 +632,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - __block:__ Ensure description has correct line-height ([#6723](https://github.com/Esri/calcite-design-system/issues/6723)) ([a7deec2](https://github.com/Esri/calcite-design-system/commit/a7deec2770a90375253f9ca6ac89f2900b804b3f)), closes [#6443](https://github.com/Esri/calcite-design-system/issues/6443)
 - __button:__ truncate long button text ([#6664](https://github.com/Esri/calcite-design-system/issues/6664)) ([5857e76](https://github.com/Esri/calcite-design-system/commit/5857e76a01835ee93dcd4753dbd0446afb330530)), closes [#5660](https://github.com/Esri/calcite-design-system/issues/5660)
 - __combobox:__ Visually nest group items properly ([#6749](https://github.com/Esri/calcite-design-system/issues/6749)) ([8d0d0e5](https://github.com/Esri/calcite-design-system/commit/8d0d0e54d2bab05069322143feb09ae3f1db79ca)), closes [#6384](https://github.com/Esri/calcite-design-system/issues/6384)
-- **date-picker:**
+- __date-picker:__
   - fix range highlight style regression ([#6836](https://github.com/Esri/calcite-design-system/issues/6836)) ([9c519fb](https://github.com/Esri/calcite-design-system/commit/9c519fb983c6ace4ce2d35dbf2f49a0d459fd00c))
   - improve date-picker a11y ([#6715](https://github.com/Esri/calcite-design-system/issues/6715)) ([74b3b96](https://github.com/Esri/calcite-design-system/commit/74b3b968dd4ec8b0b1240c7e12fe207c26a2a396)), closes [#5570](https://github.com/Esri/calcite-design-system/issues/5570)
 - __dropdown:__ trigger should break words when overflowing container. ([#6747](https://github.com/Esri/calcite-design-system/issues/6747)) ([496ce7e](https://github.com/Esri/calcite-design-system/commit/496ce7e3431f8ca6ed058e3a1c6d0f22d090f504)), closes [#5903](https://github.com/Esri/calcite-design-system/issues/5903)
-- **input-date-picker:**
+- __input-date-picker:__
   - correctly position open component when scrolling ([#6815](https://github.com/Esri/calcite-design-system/issues/6815)) ([d22f4f5](https://github.com/Esri/calcite-design-system/commit/d22f4f53078b2ee2ea79cdb702ef15b74ce30cfa)), closes [#6463](https://github.com/Esri/calcite-design-system/issues/6463)
   - implement dialog behavior to improve a11y ([#6669](https://github.com/Esri/calcite-design-system/issues/6669)) ([a013819](https://github.com/Esri/calcite-design-system/commit/a0138191e807e1fe2db43bc38c02eb8ab866bd72)), closes [#5582](https://github.com/Esri/calcite-design-system/issues/5582) [#6668](https://github.com/Esri/calcite-design-system/issues/6668)
 - __input-time-picker:__ support keyboard interactions to improve a11y ([#6837](https://github.com/Esri/calcite-design-system/issues/6837)) ([96319ae](https://github.com/Esri/calcite-design-system/commit/96319ae44c9297d43ddbc094432f42ffae3b7060)), closes [#6835](https://github.com/Esri/calcite-design-system/issues/6835)
@@ -752,54 +764,54 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
     available width of parent component.
   - Documents public css variables for Shell Panel.
 
-- **accordion:**
+- __accordion:__
 
   - Removed `"default"` value for the `appearance` property, use `"solid"`
     instead.
   - Removed `"minimal"` value for the `appearance` property.
 
-- **card:**
+- __card:__
 
   - Removed `footer-leading` and `footer-trailing` slots, use
     `footer-start` and `footer-end` instead.
 
-- **color-picker:**
+- __color-picker:__
 
   - Removed `appearance` property, use `--calcite-ui-border-1:transparent`
     to remove the border instead of the `"minimal"` value
 
-- **combobox-item:**
+- __combobox-item:__
 
   - Removed `toggleSelected` method, use the `selected` property instead.
 
-- **date-picker:**
+- __date-picker:__
 
   - Removed the property `startAsDate`, use `valueAsDate` instead.
   - Removed the property `endAsDate`, use `valueAsDate` instead.
 
-- **input-time-picker:**
+- __input-time-picker:__
 
   - Removed the event payload from `calciteInputTimePickerChange` event.
 
-- **modal:**
+- __modal:__
 
   - The `width` property no longer accepts a custom width. Accepted values
     are `s`, `m`, `l`.
   - Adds `--calcite-modal-width` and `--calcite-modal-height` css
     variables.
 
-- **pagination:**
+- __pagination:__
 
   - Removed the `--calcite-pagination-spacing` css variable
   - Removed the property `num`, use `pageSize` instead
   - Removed the property `total`, use `totalItems` instead
   - Removed the property `start`, use `startItem` instead
 
-- **popover:**
+- __popover:__
 
   - Removed the `toggle` method, use the `open` property instead.
 
-- **radio-button-group:**
+- __radio-button-group:__
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
@@ -812,18 +824,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   - `calcite-radio-group-item` has been renamed to
     `calcite-segmented-control-item`.
 
-- **segmented-control:**
+- __segmented-control:__
 
   - Updates `segmented-control` event to `calciteSegmentedControlChange`.
 
-- **stepper:**
+- __stepper:__
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteStepperItemChange`, use `event.target` and the property
     `selectedItem` instead.
 
-- **tip:**
+- __tip:__
 
   - Rename `dismissed` prop to `closed.
 
