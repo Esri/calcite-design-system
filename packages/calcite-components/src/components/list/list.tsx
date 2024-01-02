@@ -444,7 +444,7 @@ export class List
 
   mutationObserver = createObserver("mutation", () => this.updateListItems());
 
-  openItems: HTMLCalciteListItemElement[] = [];
+  visibleItems: HTMLCalciteListItemElement[] = [];
 
   parentListEl: HTMLCalciteListElement;
 
@@ -666,7 +666,7 @@ export class List
   };
 
   private updateSelectedItems = (emit = false): void => {
-    this.selectedItems = this.openItems.filter((item) => item.selected);
+    this.selectedItems = this.visibleItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
     }
@@ -706,16 +706,16 @@ export class List
   }
 
   private updateFilteredItems = (emit = false): void => {
-    const { openItems, filteredData, filterText } = this;
+    const { visibleItems, filteredData, filterText } = this;
 
     const values = filteredData.map((item) => item.value);
 
-    const lastDescendantItems = openItems?.filter((listItem) =>
-      openItems.every((li) => li === listItem || !listItem.contains(li)),
+    const lastDescendantItems = visibleItems?.filter((listItem) =>
+      visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
     const filteredItems =
-      openItems.filter((item) => !filterText || values.includes(item.value)) || [];
+      visibleItems.filter((item) => !filterText || values.includes(item.value)) || [];
 
     const visibleParents = new WeakSet<HTMLElement>();
 
@@ -811,7 +811,7 @@ export class List
         this.filterEl.items = this.dataForFilter;
       }
     }
-    this.openItems = this.listItems.filter((item) => !item.closed);
+    this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
     this.updateFilteredItems(emit);
     this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
