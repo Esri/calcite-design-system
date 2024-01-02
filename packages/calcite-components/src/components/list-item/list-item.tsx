@@ -466,19 +466,10 @@ export class ListItem
   renderOpen(): VNode {
     const { el, open, openable } = this;
     const dir = getElementDir(el);
-
-    const icon = openable
-      ? open
-        ? ICONS.open
-        : dir === "rtl"
-          ? ICONS.closedRTL
-          : ICONS.closedLTR
-      : ICONS.blank;
-
-    const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
+    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
 
     return openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
+      <td class={CSS.openContainer} key="open-container" onClick={this.handleToggleClick}>
         <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
