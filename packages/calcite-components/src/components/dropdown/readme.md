@@ -74,7 +74,7 @@ You can combine groups in a single Dropdown, with different `selectionMode`s:
 | `scale`                 | `scale`                    | Specifies the size of the component.                                                                                                                                                                                                                                                                                                                                        | `"l" \| "m" \| "s"`                                                               | `"m"`                  |
 | `selectedItems`         | --                         | Specifies the component's selected items.                                                                                                                                                                                                                                                                                                                                   | `HTMLCalciteDropdownItemElement[]`                                                | `[]`                   |
 | `type`                  | `type`                     | Specifies the action to open the component from the container element.                                                                                                                                                                                                                                                                                                      | `"click" \| "hover"`                                                              | `"click"`              |
-| `width`                 | `width`                    | Specifies the width of the component.                                                                                                                                                                                                                                                                                                                                       | `"l" \| "m" \| "s"`                                                               | `undefined`            |
+| `widthScale`            | `width-scale`              | Specifies the width of the component.                                                                                                                                                                                                                                                                                                                                       | `"l" \| "m" \| "s"`                                                               | `undefined`            |
 
 ## Events
 
@@ -91,6 +91,12 @@ You can combine groups in a single Dropdown, with different `selectionMode`s:
 ### `reposition(delayed?: boolean) => Promise<void>`
 
 Updates the position of the component.
+
+#### Parameters
+
+| Name      | Type      | Description |
+| --------- | --------- | ----------- |
+| `delayed` | `boolean` |             |
 
 #### Returns
 

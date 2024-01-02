@@ -43,6 +43,12 @@ Type: `Promise<void>`
 Toggle the selection state. By default this won't trigger an event.
 The first argument allows the value to be coerced, rather than swapping values.
 
+#### Parameters
+
+| Name     | Type      | Description |
+| -------- | --------- | ----------- |
+| `coerce` | `boolean` |             |
+
 #### Returns
 
 Type: `Promise<void>`

@@ -75,7 +75,7 @@ Renders a value list with drag and drop capability between the items.
 
 ### `getSelectedItems() => Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
-Returns the currently selected items
+Returns the component's selected items.
 
 #### Returns
 
@@ -84,6 +84,12 @@ Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
 Sets focus on the component's first focusable element.
+
+#### Parameters
+
+| Name      | Type       | Description |
+| --------- | ---------- | ----------- |
+| `focusId` | `"filter"` |             |
 
 #### Returns
 
@@ -112,6 +118,8 @@ graph TD;
   calcite-filter --> calcite-input
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-input --> calcite-input-message
+  calcite-input-message --> calcite-icon
   calcite-scrim --> calcite-loader
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
