@@ -44,7 +44,7 @@ export class DatePickerMonthHeader {
   /** Already selected date. */
   @Prop() selectedDate: Date;
 
-  /** Focused date with indicator (will become selected date if user proceeds) */
+  /** The focused date is indicated and will become the selected date if the user proceeds. */
   @Prop() activeDate: Date;
 
   /**
@@ -61,7 +61,7 @@ export class DatePickerMonthHeader {
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
-  /** CLDR locale data for translated calendar info */
+  /** CLDR locale data for translated calendar info. */
   @Prop() localeData: DateLocaleData;
 
   /**
@@ -80,7 +80,7 @@ export class DatePickerMonthHeader {
   //
   //--------------------------------------------------------------------------
   /**
-   *  Changes to active date
+   *  Fires to active date
    *
    * @internal
    */
