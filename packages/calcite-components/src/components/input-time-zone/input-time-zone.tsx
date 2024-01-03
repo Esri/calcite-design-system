@@ -109,7 +109,9 @@ export class InputTimeZone
   /**
    * This specifies the type of `value` and the associated options presented to the user:
    *
-   * Using `"offset"` will provide options related
+   * Using `"offset"` will provide options that show timezone offsets.
+   *
+   * Using `"name"` will provide options that show the IANA time zone names.
    *
    * @default "offset"
    */

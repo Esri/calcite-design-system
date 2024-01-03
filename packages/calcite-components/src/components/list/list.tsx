@@ -189,7 +189,11 @@ export class List
   @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+   * Specifies the selection mode of the component:
+   * `"multiple"` allow any number of selected items,
+   * `"single"` allow only one selected item,
+   * `"single-persist"` allow one selected item and prevent de-selection,
+   * `"none"` does not allow any selections.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -217,32 +221,32 @@ export class List
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when any of the list item selections have changed.
+   * Fires when any of the list item selections have changed.
    */
   @Event({ cancelable: false }) calciteListChange: EventEmitter<void>;
 
   /**
-   * Emits when the component's dragging has ended.
+   * Fires when the component's dragging has ended.
    */
   @Event({ cancelable: false }) calciteListDragEnd: EventEmitter<ListDragDetail>;
 
   /**
-   * Emits when the component's dragging has started.
+   * Fires when the component's dragging has started.
    */
   @Event({ cancelable: false }) calciteListDragStart: EventEmitter<ListDragDetail>;
 
   /**
-   * Emits when the component's filter has changed.
+   * Fires when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   /**
-   * Emitted when the order of the list has changed.
+   * Fires when the order of the list has changed.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<ListDragDetail>;
 
   /**
-   * Emitted when the default slot has changes in order to notify parent lists.
+   * Fires when the default slot has changes in order to notify parent lists.
    */
   @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
