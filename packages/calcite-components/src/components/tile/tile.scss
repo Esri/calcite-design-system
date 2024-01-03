@@ -1,15 +1,12 @@
 :host([scale="s"]) {
-  --calcite-tile-description-line-height: 0.85938rem;
   --calcite-tile-heading-font-size: var(--calcite-font-size--2);
   --calcite-tile-heading-line-height: 1.03125rem;
 }
 :host([scale="m"]) {
-  --calcite-tile-description-line-height: 1.03125rem;
   --calcite-tile-heading-font-size: var(--calcite-font-size--1);
   --calcite-tile-heading-line-height: 1.20313rem;
 }
 :host([scale="l"]) {
-  --calcite-tile-description-line-height: 1.20313rem;
   --calcite-tile-heading-font-size: var(--calcite-font-size-0);
   --calcite-tile-heading-line-height: 1.375rem;
 }
@@ -91,7 +88,6 @@
   }
   .description {
     font-weight: var(--calcite-tile-description-font-weight);
-    line-height: var(--calcite-tile-description-line-height);
     @apply text-color-3
       break-words
       pointer-events-none
@@ -106,6 +102,7 @@
   }
   .description {
     font-size: var(--calcite-font-size--3);
+    line-height: 0.85938rem;
   }
 }
 :host([scale="m"]) {
@@ -114,6 +111,7 @@
   }
   .description {
     font-size: var(--calcite-font-size--2);
+    line-height: 1.03125rem;
   }
 }
 :host([scale="l"]) {
@@ -122,6 +120,7 @@
   }
   .description {
     font-size: var(--calcite-font-size--1);
+    line-height: 1.20313rem;
   }
 }
 
