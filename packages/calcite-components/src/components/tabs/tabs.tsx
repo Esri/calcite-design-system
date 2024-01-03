@@ -26,12 +26,12 @@ export class Tabs {
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`.
    */
   @Prop({ reflect: true }) position: TabPosition = "top";
 
   /**
-   * Specifies the size of the component, defaults to `m`.
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
