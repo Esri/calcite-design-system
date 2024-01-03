@@ -138,6 +138,11 @@ export class ListItem
   @Prop() dragHandle = false;
 
   /**
+   * When `true`, the component's drag handle is selected.
+   */
+  @Prop({ mutable: true, reflect: true }) dragSelected = false;
+
+  /**
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
@@ -232,6 +237,11 @@ export class ListItem
    * Fires when the close button is clicked.
    */
   @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
+
+  /**
+   * Fires when the drag handle is selected.
+   */
+  @Event({ cancelable: false }) calciteListItemDragHandleChange: EventEmitter<void>;
 
   /**
    * Fires when the open button is clicked.
@@ -403,14 +413,24 @@ export class ListItem
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.handleItemClick}>
+      <td
+        class={{
+          [CSS.selectionContainer]: true,
+          [CSS.selectionContainerSingle]:
+            selectionMode === "single" || selectionMode === "single-persist",
+        }}
+        key="selection-container"
+        onClick={this.handleItemClick}
+      >
         <calcite-icon
           icon={
             selected
               ? selectionMode === "multiple"
                 ? ICONS.selectedMultiple
                 : ICONS.selectedSingle
-              : ICONS.unselected
+              : selectionMode === "multiple"
+                ? ICONS.unselectedMultiple
+                : ICONS.unselectedSingle
           }
           scale="s"
         />
@@ -419,7 +439,7 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+    const { label, dragHandle, dragSelected, dragDisabled, setPosition, setSize } = this;
 
     return dragHandle ? (
       <td
@@ -434,6 +454,8 @@ export class ListItem
         <calcite-handle
           disabled={dragDisabled}
           label={label}
+          onCalciteHandleChange={this.dragHandleSelectedChangeHandler}
+          selected={dragSelected}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -442,21 +464,12 @@ export class ListItem
   }
 
   renderOpen(): VNode {
-    const { el, open, openable, parentListEl } = this;
+    const { el, open, openable } = this;
     const dir = getElementDir(el);
+    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
 
-    const icon = openable
-      ? open
-        ? ICONS.open
-        : dir === "rtl"
-          ? ICONS.closedRTL
-          : ICONS.closedLTR
-      : ICONS.blank;
-
-    const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
-
-    return openable || parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
+    return openable ? (
+      <td class={CSS.openContainer} key="open-container" onClick={this.handleToggleClick}>
         <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
@@ -645,6 +658,8 @@ export class ListItem
             aria-setsize={setSize}
             class={{
               [CSS.container]: true,
+              [CSS.containerHover]: selectionMode !== "none",
+              [CSS.containerBorder]: showBorder,
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
             }}
@@ -677,6 +692,12 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private dragHandleSelectedChangeHandler = (event: CustomEvent): void => {
+    this.dragSelected = (event.target as HTMLCalciteHandleElement).selected;
+    this.calciteListItemDragHandleChange.emit();
+    event.stopPropagation();
+  };
 
   private emitInternalListItemActive = (): void => {
     this.calciteInternalListItemActive.emit();
@@ -752,21 +773,11 @@ export class ListItem
       return;
     }
 
-    const { parentListEl } = this;
     const listItemChildren = getListItemChildren(slotEl);
     const listItemChildLists = getListItemChildLists(slotEl);
     updateListItemChildren(listItemChildren);
-    const openable = !!listItemChildren.length || !!listItemChildLists.length;
 
-    if (openable && parentListEl && !parentListEl.openable) {
-      parentListEl.openable = true;
-    }
-
-    this.openable = openable;
-
-    if (!openable) {
-      this.open = false;
-    }
+    this.openable = !!listItemChildren.length || !!listItemChildLists.length;
   }
 
   private handleDefaultSlotChange = (event: Event): void => {

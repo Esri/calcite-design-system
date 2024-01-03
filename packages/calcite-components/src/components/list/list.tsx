@@ -292,8 +292,8 @@ export class List
     this.updateSelectedItems(true);
   }
 
-  @Listen("calciteInternalHandleChange")
-  handleCalciteInternalHandleChange(event: CustomEvent): void {
+  @Listen("calciteInternalAssistiveTextChange")
+  handleCalciteInternalAssistiveTextChange(event: CustomEvent): void {
     this.assistiveText = event.detail.message;
     event.stopPropagation();
   }
@@ -432,7 +432,7 @@ export class List
 
   @State() dataForFilter: ItemData = [];
 
-  dragSelector = "calcite-list-item";
+  dragSelector = listItemSelector;
 
   filterEl: HTMLCalciteFilterElement;
 
@@ -909,11 +909,11 @@ export class List
   private getTopLevelAncestorItemElement = (
     el: HTMLCalciteListItemElement,
   ): HTMLCalciteListItemElement | null => {
-    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>(listItemSelector);
 
     while (closestParent) {
       const closestListItemAncestor =
-        closestParent.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+        closestParent.parentElement.closest<HTMLCalciteListItemElement>(listItemSelector);
 
       if (closestListItemAncestor) {
         closestParent = closestListItemAncestor;
@@ -925,19 +925,20 @@ export class List
   };
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
+    const { handleSelector, dragSelector } = this;
     const { direction } = event.detail;
 
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-HANDLE",
+      (el: HTMLElement) => el?.tagName && el.matches(handleSelector),
     ) as HTMLCalciteHandleElement;
 
-    const sortItem = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM",
+    const dragEl = composedPath.find(
+      (el: HTMLElement) => el?.tagName && el.matches(dragSelector),
     ) as HTMLCalciteListItemElement;
 
-    const parentEl = sortItem?.parentElement as HTMLCalciteListElement;
+    const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
 
     if (!parentEl) {
       return;
@@ -948,7 +949,7 @@ export class List
     const sameParentItems = filteredItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
-    const oldIndex = sameParentItems.indexOf(sortItem);
+    const oldIndex = sameParentItems.indexOf(dragEl);
     let newIndex: number;
 
     if (direction === "up") {
@@ -965,13 +966,13 @@ export class List
         ? sameParentItems[newIndex]
         : sameParentItems[newIndex].nextSibling;
 
-    parentEl.insertBefore(sortItem, referenceEl);
+    parentEl.insertBefore(dragEl, referenceEl);
 
     this.updateListItems();
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
-      dragEl: sortItem,
+      dragEl,
       fromEl: parentEl,
       toEl: parentEl,
       newIndex,

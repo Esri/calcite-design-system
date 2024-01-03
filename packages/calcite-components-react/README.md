@@ -91,7 +91,7 @@ useEffect(
   (_) => {
     sliderEl.current.addEventListener("calciteSliderUpdate", onUpdate);
   },
-  [sliderEl]
+  [sliderEl],
 );
 ```
 

@@ -5,7 +5,10 @@
     "ng": "ng",
     "prepublishOnly": "./support/prepublishBuildForCorrectVersion.sh",
     "build": "ng build",
-    "clean": "rimraf dist node_modules .turbo .angular projects/component-library/dist"
+    "clean": "rimraf dist node_modules .turbo .angular projects/component-library/dist",
+    "lint": "concurrently npm:lint:*",
+    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore"
   },
   "dependencies": {
     "@angular/animations": "17.0.8",
