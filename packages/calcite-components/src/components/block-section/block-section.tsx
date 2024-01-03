@@ -132,7 +132,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the header has been clicked.
+   * Fires when the header has been clicked.
    */
   @Event({ cancelable: false }) calciteBlockSectionToggle: EventEmitter<void>;
 

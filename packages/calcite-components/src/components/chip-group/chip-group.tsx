@@ -93,7 +93,7 @@ export class ChipGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when the component's selection changes. */
+  /** Fires when the component's selection changes. */
   @Event({ cancelable: false }) calciteChipGroupSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
