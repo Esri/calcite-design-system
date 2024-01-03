@@ -51,10 +51,10 @@ export class DatePickerMonth {
   @Prop() activeDate: Date = new Date();
 
   /** Start date currently active. */
-  @Prop() startDate: Date;
+  @Prop() startDate?: Date;
 
   /** End date currently active.  */
-  @Prop() endDate: Date;
+  @Prop() endDate?: Date;
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @Prop() min: Date;
