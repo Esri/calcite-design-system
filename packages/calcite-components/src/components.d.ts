@@ -905,7 +905,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component: - `"multiple"` allows any number of selections, - `"single"` allows only one selection, - `"single-persist"` allow and require one selected item, - `"none"` does not allow any selections.
+          * Specifies the selection mode of the component: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allow and require one selected item, `"none"` does not allow any selections.
          */
         "selectionMode": Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -1137,7 +1137,7 @@ export namespace Components {
          */
         "selectionDisplay": SelectionDisplay;
         /**
-          * Specifies the selection mode: - `"multiple"` allows any number of selected items, - `"single"` allows only one selection, - `"single-persist"` allow and require one open item, - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"single-persist"` allow and require one open item, `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -7550,7 +7550,7 @@ declare namespace LocalJSX {
          */
         "messages"?: ActionBarMessages;
         /**
-          * Emits when the `expanded` property is toggled.
+          * Fires when the `expanded` property is toggled.
          */
         "onCalciteActionBarToggle"?: (event: CalciteActionBarCustomEvent<void>) => void;
         /**
@@ -7623,7 +7623,7 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
-          * Emits when the `open` property is toggled.
+          * Fires when the `open` property is toggled.
          */
         "onCalciteActionMenuOpen"?: (event: CalciteActionMenuCustomEvent<void>) => void;
         /**
@@ -7669,7 +7669,7 @@ declare namespace LocalJSX {
          */
         "messages"?: ActionPadMessages;
         /**
-          * Emits when the `expanded` property is toggled.
+          * Fires when the `expanded` property is toggled.
          */
         "onCalciteActionPadToggle"?: (event: CalciteActionPadCustomEvent<void>) => void;
         /**
@@ -7842,7 +7842,7 @@ declare namespace LocalJSX {
          */
         "onCalciteBlockOpen"?: (event: CalciteBlockCustomEvent<void>) => void;
         /**
-          * Emits when the component's header is clicked.
+          * Fires when the component's header is clicked.
           * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
          */
         "onCalciteBlockToggle"?: (event: CalciteBlockCustomEvent<void>) => void;
@@ -7865,7 +7865,7 @@ declare namespace LocalJSX {
          */
         "messages"?: BlockSectionMessages;
         /**
-          * Emits when the header has been clicked.
+          * Fires when the header has been clicked.
          */
         "onCalciteBlockSectionToggle"?: (event: CalciteBlockSectionCustomEvent<void>) => void;
         /**
@@ -8042,15 +8042,15 @@ declare namespace LocalJSX {
          */
         "name"?: string;
         /**
-          * Emits when the component's `checked` status changes.
+          * Fires when the component's `checked` status changes.
          */
         "onCalciteCheckboxChange"?: (event: CalciteCheckboxCustomEvent<void>) => void;
         /**
-          * Emits when the component is blurred.
+          * Fires when the component is blurred.
          */
         "onCalciteInternalCheckboxBlur"?: (event: CalciteCheckboxCustomEvent<boolean>) => void;
         /**
-          * Emits when the component is focused.
+          * Fires when the component is focused.
          */
         "onCalciteInternalCheckboxFocus"?: (event: CalciteCheckboxCustomEvent<boolean>) => void;
         /**
@@ -8151,7 +8151,7 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
-          * Emits when the component's selection changes.
+          * Fires when the component's selection changes.
          */
         "onCalciteChipGroupSelect"?: (event: CalciteChipGroupCustomEvent<void>) => void;
         /**
@@ -8164,7 +8164,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component: - `"multiple"` allows any number of selections, - `"single"` allows only one selection, - `"single-persist"` allow and require one selected item, - `"none"` does not allow any selections.
+          * Specifies the selection mode of the component: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allow and require one selected item, `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -8418,7 +8418,7 @@ declare namespace LocalJSX {
          */
         "selectionDisplay"?: SelectionDisplay;
         /**
-          * Specifies the selection mode: - `"multiple"` allows any number of selected items, - `"single"` allows only one selection, - `"single-persist"` allow and require one open item, - `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"single-persist"` allow and require one open item, `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -8471,7 +8471,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Emits whenever the component is selected or unselected.
+          * Fires whenever the component is selected or unselected.
          */
         "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
         /**
