@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Fragment,
   h,
-  // Listen,
   Prop,
   State,
   VNode,
@@ -136,25 +135,7 @@ export class DatePickerMonthHeader {
     return (
       <Fragment>
         <div class={{ text: true, [CSS.textReverse]: reverse }}>
-          <calcite-select
-            class="start-year"
-            label={"start year"}
-            onCalciteSelectChange={this.handleMonthChange}
-            width="full"
-          >
-            {months.abbreviated?.map((month: string, index: number) => {
-              return (
-                <calcite-option
-                  // disabled={year > this.endYear && this.disableYearsOutOfRange}
-                  selected={index === activeMonth}
-                  value={month}
-                >
-                  {month}
-                </calcite-option>
-              );
-            })}
-          </calcite-select>
-
+          {this.renderMonthPicker(months, activeMonth)}
           <calcite-year-picker
             max={this.max?.getFullYear()}
             min={this.min?.getFullYear()}
@@ -196,6 +177,29 @@ export class DatePickerMonthHeader {
           )}
         </div>
       </Fragment>
+    );
+  }
+
+  private renderMonthPicker(months: DateLocaleData["months"], activeMonth: number): VNode {
+    return (
+      <calcite-select
+        class="start-year"
+        label={"start year"}
+        onCalciteSelectChange={this.handleMonthChange}
+        width="full"
+      >
+        {months.abbreviated?.map((month: string, index: number) => {
+          return (
+            <calcite-option
+              // disabled={year > this.endYear && this.disableYearsOutOfRange}
+              selected={index === activeMonth}
+              value={month}
+            >
+              {month}
+            </calcite-option>
+          );
+        })}
+      </calcite-select>
     );
   }
 
@@ -265,6 +269,7 @@ export class DatePickerMonthHeader {
 
   private onYearChange = (event: Event): void => {
     const target = event.target as HTMLCalciteYearPickerElement;
+    console.log("year change");
     if (!Array.isArray(target.value)) {
       this.setYear({
         localizedYear: numberStringFormatter.localize(
