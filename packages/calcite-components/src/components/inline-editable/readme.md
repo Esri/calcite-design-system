@@ -37,15 +37,15 @@ Add "Save" and "Cancel" controls:
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                                                                  | Type                     | Default     |
-| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ | ----------- |
-| `afterConfirm`     | --                  | Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. | `() => Promise<void>`    | `undefined` |
-| `controls`         | `controls`          | When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component.                                                              | `boolean`                | `false`     |
-| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                     | `boolean`                | `false`     |
-| `editingEnabled`   | `editing-enabled`   | When `true`, inline editing is enabled on the component.                                                                                                     | `boolean`                | `false`     |
-| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                                                                                                  | `boolean`                | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                      | `InlineEditableMessages` | `undefined` |
-| `scale`            | `scale`             | Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale.   | `"l" \| "m" \| "s"`      | `undefined` |
+| Property           | Attribute         | Description                                                                                                                                                  | Type                                                                           | Default     |
+| ------------------ | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ----------- |
+| `afterConfirm`     | --                | Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. | `() => Promise<void>`                                                          | `undefined` |
+| `controls`         | `controls`        | When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component.                                                              | `boolean`                                                                      | `false`     |
+| `disabled`         | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                     | `boolean`                                                                      | `false`     |
+| `editingEnabled`   | `editing-enabled` | When `true`, inline editing is enabled on the component.                                                                                                     | `boolean`                                                                      | `false`     |
+| `loading`          | `loading`         | When `true`, a busy indicator is displayed.                                                                                                                  | `boolean`                                                                      | `false`     |
+| `messageOverrides` | --                | Use this property to override individual strings used by the component.                                                                                      | `{ enableEditing?: string; cancelEditing?: string; confirmChanges?: string; }` | `undefined` |
+| `scale`            | `scale`           | Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale.   | `"l" \| "m" \| "s"`                                                            | `undefined` |
 
 ## Events
 

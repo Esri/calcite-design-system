@@ -4,14 +4,14 @@
 
 ## Properties
 
-| Property           | Attribute           | Description                                                             | Type                           | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------- | ------------------------------ | ----------- |
-| `alignment`        | `alignment`         | Specifies the alignment of the component.                               | `"center" \| "end" \| "start"` | `"start"`   |
-| `colSpan`          | `col-span`          | Specifies the number of columns the component should span.              | `number`                       | `undefined` |
-| `description`      | `description`       | A description to display beneath heading content.                       | `string`                       | `undefined` |
-| `heading`          | `heading`           | A heading to display above description content.                         | `string`                       | `undefined` |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `TableHeaderMessages`          | `undefined` |
-| `rowSpan`          | `row-span`          | Specifies the number of rows the component should span.                 | `number`                       | `undefined` |
+| Property           | Attribute     | Description                                                             | Type                                                                                                                                           | Default     |
+| ------------------ | ------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `alignment`        | `alignment`   | Specifies the alignment of the component.                               | `"center" \| "end" \| "start"`                                                                                                                 | `"start"`   |
+| `colSpan`          | `col-span`    | Specifies the number of columns the component should span.              | `number`                                                                                                                                       | `undefined` |
+| `description`      | `description` | A description to display beneath heading content.                       | `string`                                                                                                                                       | `undefined` |
+| `heading`          | `heading`     | A heading to display above description content.                         | `string`                                                                                                                                       | `undefined` |
+| `messageOverrides` | --            | Use this property to override individual strings used by the component. | `{ all?: string; keyboardDeselectAll?: string; keyboardSelectAll?: string; rowNumber?: string; selected?: string; selectionColumn?: string; }` | `undefined` |
+| `rowSpan`          | `row-span`    | Specifies the number of rows the component should span.                 | `number`                                                                                                                                       | `undefined` |
 
 ## Methods
 

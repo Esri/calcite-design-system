@@ -4,11 +4,11 @@
 
 ## Properties
 
-| Property             | Attribute           | Description                                                             | Type                         | Default        |
-| -------------------- | ------------------- | ----------------------------------------------------------------------- | ---------------------------- | -------------- |
-| `label` *(required)* | `label`             | Accessible name for the component.                                      | `string`                     | `undefined`    |
-| `layout`             | `layout`            | Specifies the layout of the component.                                  | `"horizontal" \| "vertical"` | `"horizontal"` |
-| `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component. | `MenuMessages`               | `undefined`    |
+| Property             | Attribute | Description                                                             | Type                         | Default        |
+| -------------------- | --------- | ----------------------------------------------------------------------- | ---------------------------- | -------------- |
+| `label` *(required)* | `label`   | Accessible name for the component.                                      | `string`                     | `undefined`    |
+| `layout`             | `layout`  | Specifies the layout of the component.                                  | `"horizontal" \| "vertical"` | `"horizontal"` |
+| `messageOverrides`   | --        | Use this property to override individual strings used by the component. | `{ more?: string; }`         | `undefined`    |
 
 ## Methods
 
