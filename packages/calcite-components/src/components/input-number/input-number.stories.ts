@@ -92,63 +92,61 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const mediumIconForLargeInputStyling_TestOnly = (): string =>
-  html`
-    <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number
-    ><calcite-input-number
-      number-button-type="vertical"
-      lang="ar-EG"
-      value="123456"
-      scale="l"
-      icon="pen"
-    ></calcite-input-number>
-    <calcite-input-number number-button-type="horizontal" lang="ar-EG" value="123456" scale="l"></calcite-input-number
-    ><calcite-input-number
-      number-button-type="horizontal"
-      lang="ar-EG"
-      value="123456"
-      scale="l"
-      icon="pen"
-    ></calcite-input-number>
-  `;
+export const mediumIconForLargeInputStyling_TestOnly = (): string => html`
+  <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number
+  ><calcite-input-number
+    number-button-type="vertical"
+    lang="ar-EG"
+    value="123456"
+    scale="l"
+    icon="pen"
+  ></calcite-input-number>
+  <calcite-input-number number-button-type="horizontal" lang="ar-EG" value="123456" scale="l"></calcite-input-number
+  ><calcite-input-number
+    number-button-type="horizontal"
+    lang="ar-EG"
+    value="123456"
+    scale="l"
+    icon="pen"
+  ></calcite-input-number>
+`;
 
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html`<calcite-input-number lang="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;
 
-export const validationMessageAllScales_TestOnly = (): string =>
-  html`
-    <style>
-      .container {
-        display: flex;
-        flex-direction: column;
-        width: 400px;
-        height: 200px;
-        gap: 20px;
-      }
-    </style>
-    <div class="container">
-      <calcite-input-number
-        scale="s"
-        status="invalid"
-        validation-message="This field is required."
-        validation-icon="frown"
-      ></calcite-input-number>
-      <calcite-input-number
-        scale="m"
-        status="invalid"
-        validation-message="Value must be greater than 1337"
-        validation-icon
-        value="420"
-      ></calcite-input-number>
-      <calcite-input-number
-        scale="l"
-        status="invalid"
-        validation-message="Exceeds the maximum length of 2 characters"
-        validation-icon
-        value="123"
-      ></calcite-input-number>
-    </div>
-  `;
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input-number
+      scale="s"
+      status="invalid"
+      validation-message="This field is required."
+      validation-icon="frown"
+    ></calcite-input-number>
+    <calcite-input-number
+      scale="m"
+      status="invalid"
+      validation-message="Value must be greater than 1337"
+      validation-icon
+      value="420"
+    ></calcite-input-number>
+    <calcite-input-number
+      scale="l"
+      status="invalid"
+      validation-message="Exceeds the maximum length of 2 characters"
+      validation-icon
+      value="123"
+    ></calcite-input-number>
+  </div>
+`;
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(html`

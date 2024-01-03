@@ -84,7 +84,7 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
  */
 export function activateFocusTrap(
   component: FocusTrapComponent,
-  options?: Parameters<_FocusTrap["activate"]>[0]
+  options?: Parameters<_FocusTrap["activate"]>[0],
 ): void {
   if (!component.focusTrapDisabled) {
     component.focusTrap?.activate(options);
@@ -99,7 +99,7 @@ export function activateFocusTrap(
  */
 export function deactivateFocusTrap(
   component: FocusTrapComponent,
-  options?: Parameters<_FocusTrap["deactivate"]>[0]
+  options?: Parameters<_FocusTrap["deactivate"]>[0],
 ): void {
   component.focusTrap?.deactivate(options);
 }

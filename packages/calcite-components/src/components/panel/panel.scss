@@ -21,7 +21,9 @@
 .container {
   @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
-  transition: max-block-size var(--calcite-animation-timing), inline-size var(--calcite-animation-timing);
+  transition:
+    max-block-size var(--calcite-animation-timing),
+    inline-size var(--calcite-animation-timing);
 }
 
 .container[hidden] {

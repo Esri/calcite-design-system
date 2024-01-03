@@ -60,8 +60,9 @@ import List from "./shared-list-render";
   shadow: true,
 })
 export class PickList<
-  ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement
-> implements InteractiveComponent, LoadableComponent
+    ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement,
+  >
+  implements InteractiveComponent, LoadableComponent
 {
   // --------------------------------------------------------------------------
   //

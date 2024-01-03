@@ -220,7 +220,7 @@ describe("calcite-button", () => {
   it("renders as a button with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -244,7 +244,7 @@ describe("calcite-button", () => {
   it("renders as a link with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button href="/" kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button href="/" kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -268,7 +268,7 @@ describe("calcite-button", () => {
   it("passes attributes to rendered child link", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`
+      `<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -426,7 +426,7 @@ describe("calcite-button", () => {
   it("should not render loader with an icon-start ,width set to half and aligned space-between", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button icon-start='plus' width='half' , alignment='space-between'>Continue</calcite-button>`
+      `<calcite-button icon-start='plus' width='half' , alignment='space-between'>Continue</calcite-button>`,
     );
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
     expect(loader).toBeNull();
@@ -630,7 +630,7 @@ describe("calcite-button", () => {
             (window as TestWindow).called = true;
           });
         },
-        type
+        type,
       );
 
       const button = await page.find("calcite-button");
@@ -654,12 +654,10 @@ describe("calcite-button", () => {
       "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted.";
 
     const page = await newE2EPage();
-    await page.setContent(
-      html`
-        <calcite-button id="one" style="width: 100px">${longText}</calcite-button>
-        <calcite-button id="two" style="width: 100px">${shortText}</calcite-button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-button id="one" style="width: 100px">${longText}</calcite-button>
+      <calcite-button id="two" style="width: 100px">${shortText}</calcite-button>
+    `);
     await page.waitForChanges();
 
     const button1 = await page.find(`calcite-button[id='one'] >>> button`);
@@ -674,15 +672,17 @@ describe("calcite-button", () => {
 
   it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-button id="test-button" label="Info">Info</calcite-button>
-      <calcite-popover
-        id="popover-content"
-        positioning="fixed"
-        heading="About this data"
-        reference-element="test-button"
-      >
-        <p>Information</p>
-      </calcite-popover>`);
+    await page.setContent(
+      html`<calcite-button id="test-button" label="Info">Info</calcite-button>
+        <calcite-popover
+          id="popover-content"
+          positioning="fixed"
+          heading="About this data"
+          reference-element="test-button"
+        >
+          <p>Information</p>
+        </calcite-popover>`,
+    );
 
     const calciteButton = await page.find("calcite-button");
     const button = await page.find("calcite-button >>> button");

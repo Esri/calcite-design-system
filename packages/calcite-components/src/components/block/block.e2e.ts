@@ -61,7 +61,7 @@ describe("calcite-block", () => {
         </calcite-block>`,
         {
           shadowFocusTargetSelector: `.${CSS.toggle}`,
-        }
+        },
       );
     });
 
@@ -78,7 +78,7 @@ describe("calcite-block", () => {
         </calcite-block>`,
         {
           focusTargetSelector: `.${blockSectionClass}`,
-        }
+        },
       );
     });
   });
@@ -236,7 +236,7 @@ describe("calcite-block", () => {
       await page.setContent(
         `<calcite-block status="invalid">
           <div class="header-icon" slot=${SLOTS.icon} /></calcite-block>
-        </calcite-block>`
+        </calcite-block>`,
       );
 
       const headerIcon = await page.find("calcite-block >>> .header-icon");
@@ -252,7 +252,7 @@ describe("calcite-block", () => {
       await page.setContent(
         `<calcite-block status="invalid" loading>
           <div class="${headerIcon}" slot=${SLOTS.icon} /></calcite-block>
-        </calcite-block>`
+        </calcite-block>`,
       );
 
       const headerIconEle = await page.find(`calcite-block >>> .${headerIcon}`);
@@ -291,7 +291,7 @@ describe("calcite-block", () => {
       </style>
       <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-       </calcite-block>`
+       </calcite-block>`,
     );
     const content = await page.find(`calcite-block >>> .${CSS.content}`);
     const contentStyles = await content.getComputedStyle();
@@ -305,7 +305,7 @@ describe("calcite-block", () => {
     await page.setContent(
       `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
           <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        </calcite-block>`
+        </calcite-block>`,
     );
     const content = await page.find(`calcite-block >>> .${CSS.content}`);
     const contentStyles = await content.getComputedStyle();

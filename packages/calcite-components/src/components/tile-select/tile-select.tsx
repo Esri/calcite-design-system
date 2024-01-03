@@ -87,7 +87,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   /**
    * The selection mode of the component.
    *
-   * Use radio for single selection, and checkbox for multiple selections.
+   * Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
    */
   @Prop({ reflect: true }) type: TileSelectType = "radio";
 
@@ -277,7 +277,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   private renderInput(): void {
     this.input = document.createElement(
-      this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox"
+      this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox",
     );
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;

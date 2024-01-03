@@ -82,8 +82,9 @@ import { focusElement } from "../../utils/dom";
   assetsDirs: ["assets"],
 })
 export class ValueList<
-  ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements
+    ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement,
+  >
+  implements
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
@@ -102,7 +103,7 @@ export class ValueList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When provided, the method will be called to determine whether the element can  move from the list.
+   * When provided, the method will be called to determine whether the element can move from the list.
    */
   @Prop() canPull: (detail: DragDetail) => boolean;
 
@@ -457,7 +458,7 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  /** Returns the currently selected items */
+  /** Returns the component's selected items. */
   @Method()
   async getSelectedItems(): Promise<Map<string, HTMLCalciteValueListItemElement>> {
     return this.selectedValues;

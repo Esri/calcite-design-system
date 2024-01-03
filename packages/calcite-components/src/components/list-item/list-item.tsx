@@ -27,7 +27,7 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import {
   getDepth,
   getListItemChildren,
@@ -138,6 +138,11 @@ export class ListItem
   @Prop() dragHandle = false;
 
   /**
+   * When `true`, the component's drag handle is selected.
+   */
+  @Prop({ mutable: true, reflect: true }) dragSelected = false;
+
+  /**
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
@@ -232,6 +237,11 @@ export class ListItem
    * Fires when the close button is clicked.
    */
   @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
+
+  /**
+   * Fires when the drag handle is selected.
+   */
+  @Event({ cancelable: false }) calciteListItemDragHandleChange: EventEmitter<void>;
 
   /**
    * Fires when the open button is clicked.
@@ -403,14 +413,24 @@ export class ListItem
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.handleItemClick}>
+      <td
+        class={{
+          [CSS.selectionContainer]: true,
+          [CSS.selectionContainerSingle]:
+            selectionMode === "single" || selectionMode === "single-persist",
+        }}
+        key="selection-container"
+        onClick={this.handleItemClick}
+      >
         <calcite-icon
           icon={
             selected
               ? selectionMode === "multiple"
                 ? ICONS.selectedMultiple
                 : ICONS.selectedSingle
-              : ICONS.unselected
+              : selectionMode === "multiple"
+                ? ICONS.unselectedMultiple
+                : ICONS.unselectedSingle
           }
           scale="s"
         />
@@ -419,13 +439,14 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize } = this;
+    const { label, dragHandle, dragSelected, dragDisabled, setPosition, setSize } = this;
 
     return dragHandle ? (
       <td
         aria-label={label}
         class={CSS.dragContainer}
         key="drag-handle-container"
+        onFocusin={this.focusCellHandle}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.handleGridEl = el)}
@@ -433,6 +454,8 @@ export class ListItem
         <calcite-handle
           disabled={dragDisabled}
           label={label}
+          onCalciteHandleChange={this.dragHandleSelectedChangeHandler}
+          selected={dragSelected}
           setPosition={setPosition}
           setSize={setSize}
         />
@@ -441,21 +464,12 @@ export class ListItem
   }
 
   renderOpen(): VNode {
-    const { el, open, openable, parentListEl } = this;
+    const { el, open, openable } = this;
     const dir = getElementDir(el);
+    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
 
-    const icon = openable
-      ? open
-        ? ICONS.open
-        : dir === "rtl"
-        ? ICONS.closedRTL
-        : ICONS.closedLTR
-      : ICONS.blank;
-
-    const clickHandler = openable ? this.handleToggleClick : this.handleItemClick;
-
-    return openable || parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={clickHandler}>
+    return openable ? (
+      <td class={CSS.openContainer} key="open-container" onClick={this.handleToggleClick}>
         <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
@@ -469,6 +483,7 @@ export class ListItem
         class={CSS.actionsStart}
         hidden={!hasActionsStart}
         key="actions-start-container"
+        onFocusin={this.focusCellActionsStart}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsStartEl = el)}
@@ -486,6 +501,7 @@ export class ListItem
         class={CSS.actionsEnd}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
+        onFocusin={this.focusCellActionsEnd}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsEndEl = el)}
@@ -600,6 +616,7 @@ export class ListItem
         }}
         key="content-container"
         onClick={this.handleItemClick}
+        onFocusin={this.focusCellContent}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.contentEl = el)}
@@ -641,11 +658,14 @@ export class ListItem
             aria-setsize={setSize}
             class={{
               [CSS.container]: true,
+              [CSS.containerHover]: selectionMode !== "none",
+              [CSS.containerBorder]: showBorder,
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
             }}
             hidden={closed}
             onFocus={this.focusCellNull}
+            onFocusin={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             role="row"
             style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
@@ -672,6 +692,32 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private dragHandleSelectedChangeHandler = (event: CustomEvent): void => {
+    this.dragSelected = (event.target as HTMLCalciteHandleElement).selected;
+    this.calciteListItemDragHandleChange.emit();
+    event.stopPropagation();
+  };
+
+  private emitInternalListItemActive = (): void => {
+    this.calciteInternalListItemActive.emit();
+  };
+
+  private focusCellHandle = (): void => {
+    this.focusCell(this.handleGridEl);
+  };
+
+  private focusCellActionsStart = (): void => {
+    this.focusCell(this.actionsStartEl);
+  };
+
+  private focusCellContent = (): void => {
+    this.focusCell(this.contentEl);
+  };
+
+  private focusCellActionsEnd = (): void => {
+    this.focusCell(this.actionsEndEl);
+  };
 
   private emitCalciteInternalListItemChange(): void {
     this.calciteInternalListItemChange.emit();
@@ -727,21 +773,11 @@ export class ListItem
       return;
     }
 
-    const { parentListEl } = this;
     const listItemChildren = getListItemChildren(slotEl);
     const listItemChildLists = getListItemChildLists(slotEl);
     updateListItemChildren(listItemChildren);
-    const openable = !!listItemChildren.length || !!listItemChildLists.length;
 
-    if (openable && parentListEl && !parentListEl.openable) {
-      parentListEl.openable = true;
-    }
-
-    this.openable = openable;
-
-    if (!openable) {
-      this.open = false;
-    }
+    this.openable = !!listItemChildren.length || !!listItemChildLists.length;
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
@@ -763,7 +799,6 @@ export class ListItem
     }
 
     this.toggleSelected(event.shiftKey);
-    this.calciteInternalListItemActive.emit();
   };
 
   private toggleSelected = (shiftKey: boolean): void => {
@@ -787,7 +822,7 @@ export class ListItem
 
   private getGridCells(): HTMLTableCellElement[] {
     return [this.handleGridEl, this.actionsStartEl, this.contentEl, this.actionsEndEl].filter(
-      (el) => el && !el.hidden
+      (el) => el && !el.hidden,
     );
   }
 
@@ -853,17 +888,21 @@ export class ListItem
       focusMap.set(parentListEl, null);
     }
 
+    const gridCells = this.getGridCells();
+
+    gridCells.forEach((tableCell) => {
+      tableCell.tabIndex = -1;
+      tableCell.removeAttribute(activeCellTestAttribute);
+    });
+
     const focusedEl = getFirstTabbable(focusEl);
 
-    this.getGridCells().forEach((tableCell, cellIndex) => {
-      // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
-      if (tableCell === focusEl) {
-        tableCell.tabIndex = focusEl === focusedEl ? 0 : -1;
-        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
-      } else {
-        tableCell.tabIndex = -1;
-      }
-    });
+    // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
+    if (focusEl) {
+      focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
+      saveFocusIndex && focusMap.set(parentListEl, gridCells.indexOf(focusEl));
+      focusEl.setAttribute(activeCellTestAttribute, "");
+    }
 
     focusedEl?.focus();
   };

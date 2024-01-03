@@ -22,7 +22,7 @@ describe("calcite-segmented-control-item", () => {
   it("supports value, label and checked", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-segmented-control-item value='test-value' checked>test-label</calcite-segmented-control-item>"
+      "<calcite-segmented-control-item value='test-value' checked>test-label</calcite-segmented-control-item>",
     );
     const element = await page.find("calcite-segmented-control-item");
 
@@ -38,7 +38,7 @@ describe("calcite-segmented-control-item", () => {
   it("uses value as fallback label", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-segmented-control-item value='test-value' checked></calcite-segmented-control-item>"
+      "<calcite-segmented-control-item value='test-value' checked></calcite-segmented-control-item>",
     );
 
     const label = await page.find("calcite-segmented-control-item >>> label");

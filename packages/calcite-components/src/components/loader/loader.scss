@@ -152,7 +152,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply opacity-0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
-  transition: opacity var(--calcite-internal-animation-timing-medium) linear 1000ms,
+  transition:
+    opacity var(--calcite-internal-animation-timing-medium) linear 1000ms,
     transform var(--calcite-internal-animation-timing-medium) linear 1000ms;
 }
 
@@ -160,7 +161,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply opacity-0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
-  transition: opacity calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms,
+  transition:
+    opacity calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms,
     transform calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms;
 }
 
@@ -168,7 +170,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   color: theme("colors.brand");
   transform: scale(1.05, 1.05);
   transform-origin: center;
-  transition: color var(--calcite-internal-animation-timing-medium) linear,
+  transition:
+    color var(--calcite-internal-animation-timing-medium) linear,
     transform var(--calcite-internal-animation-timing-medium) linear;
 }
 

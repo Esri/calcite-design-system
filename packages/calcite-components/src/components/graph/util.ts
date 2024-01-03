@@ -90,7 +90,7 @@ export function range(data: DataSeries): Extent {
       min: [Math.min(min[0], x), Math.min(min[1], y)],
       max: [Math.max(max[0], x), Math.max(max[1], y)],
     }),
-    { min, max }
+    { min, max },
   );
 }
 

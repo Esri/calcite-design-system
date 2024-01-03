@@ -431,7 +431,7 @@ export class StepperItem
 
   private getItemPosition(): number {
     return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
-      this.el
+      this.el,
     );
   }
 
