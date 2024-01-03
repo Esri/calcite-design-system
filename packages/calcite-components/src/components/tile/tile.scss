@@ -1,13 +1,3 @@
-:host([scale="s"]) {
-  --calcite-tile-heading-line-height: 1.03125rem;
-}
-:host([scale="m"]) {
-  --calcite-tile-heading-line-height: 1.20313rem;
-}
-:host([scale="l"]) {
-  --calcite-tile-heading-line-height: 1.375rem;
-}
-
 :host {
   --calcite-tile-description-font-weight: 400;
   --calcite-tile-heading-font-weight: 500;
@@ -61,7 +51,6 @@
 
   .heading {
     font-weight: var(--calcite-tile-heading-font-weight);
-    line-height: var(--calcite-tile-heading-line-height);
     @apply text-color-2
       pointer-events-none
       break-words
@@ -98,6 +87,7 @@
   }
   .heading {
     font-size: var(--calcite-font-size--2);
+    line-height: 1.03125rem;
   }
   .description {
     font-size: var(--calcite-font-size--3);
@@ -110,6 +100,7 @@
   }
   .heading {
     font-size: var(--calcite-font-size--1);
+    line-height: 1.20313rem;
   }
   .description {
     font-size: var(--calcite-font-size--2);
@@ -122,6 +113,7 @@
   }
   .heading {
     font-size: var(--calcite-font-size-0);
+    line-height: 1.375rem;
   }
   .description {
     font-size: var(--calcite-font-size--1);
