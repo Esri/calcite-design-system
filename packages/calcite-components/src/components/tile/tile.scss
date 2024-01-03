@@ -1,6 +1,4 @@
 :host {
-  --calcite-tile-description-font-weight: 400;
-  --calcite-tile-heading-font-weight: 500;
   --calcite-tile-large-visual-block-size: 64px;
   --calcite-tile-large-visual-inline-size: 64px;
 
@@ -50,7 +48,7 @@
   }
 
   .heading {
-    font-weight: var(--calcite-tile-heading-font-weight);
+    font-weight: 500;
     @apply text-color-2
       pointer-events-none
       break-words
@@ -72,7 +70,7 @@
     }
   }
   .description {
-    font-weight: var(--calcite-tile-description-font-weight);
+    font-weight: 400;
     @apply text-color-3
       break-words
       pointer-events-none
