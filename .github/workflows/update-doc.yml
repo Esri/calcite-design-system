@@ -15,6 +15,7 @@ jobs:
         run: |
           npm install
           npm --workspace=@esri/calcite-design-tokens run build
+          npm --workspace=@esri/eslint-plugin-calcite-components run build
           npx --workspace=@esri/calcite-components stencil build --docs
           npm run --workspace=@esri/calcite-components lint:md
       - name: commit readme files/create pull request
