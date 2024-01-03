@@ -80,7 +80,7 @@ export class DatePickerMonthHeader {
   //
   //--------------------------------------------------------------------------
   /**
-   *  Changes to active date
+   *  Fires to active date
    *
    * @internal
    */

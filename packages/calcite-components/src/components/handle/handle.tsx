@@ -180,18 +180,18 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * Emits whenever the component is selected or unselected.
+   * Fires whenever the component is selected or unselected.
    *
    */
   @Event({ cancelable: false }) calciteHandleChange: EventEmitter<void>;
 
   /**
-   * Emits when the handle is selected and the up or down arrow key is pressed.
+   * Fires when the handle is selected and the up or down arrow key is pressed.
    */
   @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
 
   /**
-   * Emits when the assistive text has changed.
+   * Fires when the assistive text has changed.
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalAssistiveTextChange: EventEmitter<HandleChange>;

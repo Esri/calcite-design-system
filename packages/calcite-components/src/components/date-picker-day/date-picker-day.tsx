@@ -122,12 +122,12 @@ export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when user selects day.
+   * Fires when user selects day.
    */
   @Event({ cancelable: false }) calciteDaySelect: EventEmitter<void>;
 
   /**
-   * Emits when user hovers over a day.
+   * Fires when user hovers over a day.
    *
    * @internal
    */

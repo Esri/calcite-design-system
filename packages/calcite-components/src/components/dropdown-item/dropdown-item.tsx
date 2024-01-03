@@ -82,7 +82,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when the component is selected. */
+  /** Fires when the component is selected. */
   @Event({ cancelable: false }) calciteDropdownItemSelect: EventEmitter<void>;
 
   /**

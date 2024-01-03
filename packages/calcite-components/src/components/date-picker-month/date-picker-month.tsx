@@ -82,14 +82,14 @@ export class DatePickerMonth {
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when user selects the date.
+   * Fires when user selects the date.
    *
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
 
   /**
-   * Emits when user hovers the date.
+   * Fires when user hovers the date.
    *
    * @internal
    */

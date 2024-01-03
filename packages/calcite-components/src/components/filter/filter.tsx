@@ -146,7 +146,7 @@ export class Filter
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the filter text changes.
+   * Fires when the filter text changes.
    */
   @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
 
