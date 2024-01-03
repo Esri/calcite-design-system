@@ -87,7 +87,7 @@ export class CalciteNavigation implements LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** When `navigationAction` is true, emits when the displayed action selection changes.*/
+  /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
   @Event({ cancelable: false }) calciteNavigationActionSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ export class CalciteNavigation implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When `navigation-action` is `true`, sets focus on the component's action element. */
+  /** When `navigationAction` is `true`, sets focus on the component's action element. */
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
