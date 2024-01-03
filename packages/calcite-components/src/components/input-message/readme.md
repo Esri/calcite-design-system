@@ -42,6 +42,17 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 ## Dependencies
 
+### Used by
+
+- [calcite-combobox](../combobox)
+- [calcite-input](../input)
+- [calcite-input-date-picker](../input-date-picker)
+- [calcite-input-number](../input-number)
+- [calcite-input-text](../input-text)
+- [calcite-input-time-picker](../input-time-picker)
+- [calcite-select](../select)
+- [calcite-text-area](../text-area)
+
 ### Depends on
 
 - [calcite-icon](../icon)
@@ -51,9 +62,17 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 ```mermaid
 graph TD;
   calcite-input-message --> calcite-icon
+  calcite-combobox --> calcite-input-message
+  calcite-input --> calcite-input-message
+  calcite-input-date-picker --> calcite-input-message
+  calcite-input-number --> calcite-input-message
+  calcite-input-text --> calcite-input-message
+  calcite-input-time-picker --> calcite-input-message
+  calcite-select --> calcite-input-message
+  calcite-text-area --> calcite-input-message
   style calcite-input-message fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

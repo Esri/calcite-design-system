@@ -87,7 +87,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   /**
    * The selection mode of the component.
    *
-   * Use radio for single selection, and checkbox for multiple selections.
+   * Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
    */
   @Prop({ reflect: true }) type: TileSelectType = "radio";
 
