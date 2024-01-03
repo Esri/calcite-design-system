@@ -51,6 +51,26 @@ import { CSS, maxTickElementThreshold } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
+type ThumbType =
+  | "handle-min"
+  | "handle-min-labeled"
+  | "handle-min-precise"
+  | "handle-min-histogram"
+  | "handle-min-labeled-precise"
+  | "handle-min-labeled-histogram"
+  | "handle-min-precise-histogram"
+  | "handle-min-labeled-precise-histogram"
+  | "handle-max"
+  | "handle-max-labeled"
+  | "handle-max-precise"
+  | "handle-max-histogram"
+  | "handle-max-labeled-precise"
+  | "handle-max-labeled-histogram"
+  | "handle-max-precise-histogram"
+  | "handle-max-labeled-precise-histogram";
+type Percentage = string;
+type PercentageString = `${Percentage}%`;
+type SideOffset = { left: PercentageString } | { right: PercentageString };
 
 function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
@@ -254,38 +274,34 @@ export class Slider
   render(): VNode {
     const id = this.el.id || this.guid;
     const value = isRange(this.value) ? this.maxValue : this.value;
-    const displayedValue = this.determineGroupSeparator(value);
-    const displayedMinValue = this.determineGroupSeparator(this.minValue);
     const min = this.minValue || this.min;
     const useMinValue = this.shouldUseMinValue();
     const minInterval = this.getUnitInterval(useMinValue ? this.minValue : min) * 100;
     const maxInterval = this.getUnitInterval(value) * 100;
     const mirror = this.shouldMirror();
-    const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
-    const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
     const valueIsRange = isRange(this.value);
 
-    const handleTypes = this.getHandleType("max");
-    const handle = this.renderHandle({
-      type: handleTypes,
-      value: value,
-      displayedValue: displayedValue,
-      thumbPlacement: handleTypes.includes("histogram") ? "below" : "above",
-      rightThumbOffset: rightThumbOffset,
+    const thumbTypes = this.buildThumbType("max");
+    const thumb = this.renderThumb({
+      type: thumbTypes,
+      thumbPlacement: thumbTypes.includes("histogram") ? "below" : "above",
+      maxInterval,
+      minInterval,
+      mirror,
     });
 
-    const minHandleTypes = this.getHandleType("min");
-    const minHandle =
+    const minThumbTypes = this.buildThumbType("min");
+    const minThumb =
       valueIsRange &&
-      this.renderHandle({
-        type: minHandleTypes,
-        displayedValue: displayedMinValue,
-        value: this.minValue,
+      this.renderThumb({
+        type: minThumbTypes,
         thumbPlacement:
-          minHandleTypes.includes("histogram") || minHandleTypes.includes("precise")
+          minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
             ? "below"
             : "above",
-        leftThumbOffset: leftThumbOffset,
+        maxInterval,
+        minInterval,
+        mirror,
       });
 
     return (
@@ -307,7 +323,7 @@ export class Slider
             >
               <div
                 class={CSS.trackRange}
-                onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
+                onPointerDown={this.onTrackPointerDown}
                 style={{
                   left: `${mirror ? 100 - maxInterval : minInterval}%`,
                   right: `${mirror ? minInterval : 100 - maxInterval}%`,
@@ -339,8 +355,8 @@ export class Slider
               </div>
             </div>
             <div class={CSS.thumbContainer}>
-              {minHandle}
-              {handle}
+              {minThumb}
+              {thumb}
               <HiddenFormInputSlot component={this} />
             </div>
           </div>
@@ -349,50 +365,51 @@ export class Slider
     );
   }
 
-  private renderHandle({
+  private renderThumb({
     type,
-    value,
+    mirror,
     thumbPlacement,
-    displayedValue,
-    rightThumbOffset,
-    leftThumbOffset,
+    minInterval,
+    maxInterval,
   }: {
+    maxInterval: number;
+    minInterval: number;
+    mirror: boolean;
+    thumbPlacement: "above" | "below";
     type: string;
-    value: number;
-    thumbPlacement?: "above" | "below";
-    displayedValue?: string;
-    rightThumbOffset?: string;
-    leftThumbOffset?: string;
   }) {
-    const valueIsRange = isRange(this.value);
     const isLabeled = type.includes("labeled");
     const isPrecise = type.includes("precise");
-    const isMinHandle = type.includes("min");
-    const maxProp = isMinHandle ? "minValue" : valueIsRange ? "maxValue" : "value";
-    const ariaLabel = isMinHandle ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
-    const ariaValuenow = isMinHandle ? this.minValue : value;
-    const thumbClass = {
-      [CSS.thumb]: true,
-      [CSS.thumbValue]: !isMinHandle,
-      [CSS.thumbActive]: this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-      [CSS.thumbPrecise]: isPrecise,
-      [CSS.thumbMinValue]: isMinHandle,
-    };
+    const isMinThumb = type.includes("min");
 
-    const handleStyle: any = isMinHandle ? { left: leftThumbOffset } : { right: rightThumbOffset };
-    const handleLabelClasses = `${CSS.handleLabel} ${
-      isMinHandle ? CSS.handleLabelMinValue : CSS.handleLabelValue
+    const valueIsRange = isRange(this.value);
+    const value = isMinThumb
+      ? this.minValue
+      : valueIsRange
+        ? this.maxValue
+        : (this.value as number);
+    const valueProp = isMinThumb ? "minValue" : valueIsRange ? "maxValue" : "value";
+    const ariaLabel = isMinThumb ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
+    const ariaValuenow = isMinThumb ? this.minValue : value;
+    const displayedValue = isMinThumb
+      ? this.determineGroupSeparator(this.minValue)
+      : this.determineGroupSeparator(value);
+    const thumbStyle: SideOffset = isMinThumb
+      ? { left: `${mirror ? 100 - minInterval : minInterval}%` }
+      : { right: `${mirror ? maxInterval : 100 - maxInterval}%` };
+    const thumbLabelClasses = `${CSS.handleLabel} ${
+      isMinThumb ? CSS.handleLabelMinValue : CSS.handleLabelValue
     }`;
 
     const labels = isLabeled
       ? [
-          <span aria-hidden="true" class={handleLabelClasses}>
+          <span aria-hidden="true" class={thumbLabelClasses}>
             {displayedValue}
           </span>,
-          <span aria-hidden="true" class={`${handleLabelClasses} ${CSS.static}`}>
+          <span aria-hidden="true" class={`${thumbLabelClasses} ${CSS.static}`}>
             {displayedValue}
           </span>,
-          <span aria-hidden="true" class={`${handleLabelClasses} ${CSS.transformed}`}>
+          <span aria-hidden="true" class={`${thumbLabelClasses} ${CSS.transformed}`}>
             {displayedValue}
           </span>,
         ]
@@ -416,22 +433,23 @@ export class Slider
         aria-valuemax={this.max}
         aria-valuemin={this.min}
         aria-valuenow={ariaValuenow}
-        class={thumbClass}
+        class={{
+          [CSS.thumb]: true,
+          [CSS.thumbValue]: !isMinThumb,
+          [CSS.thumbActive]: this.lastDragProp !== "minMaxValue" && this.dragProp === valueProp,
+          [CSS.thumbPrecise]: isPrecise,
+          [CSS.thumbMinValue]: isMinThumb,
+        }}
+        data-value-prop={valueProp}
         key={type}
-        onBlur={() => (this.activeProp = null)}
-        onFocus={() => (this.activeProp = isMinHandle ? "minValue" : maxProp)}
-        onPointerDown={(event) =>
-          this.pointerDownDragStart(event, isMinHandle ? "minValue" : maxProp)
-        }
+        onBlur={this.onThumbBlur}
+        onFocus={this.onThumbFocus}
+        onPointerDown={this.onThumbPointerDown}
         role="slider"
-        style={handleStyle}
+        style={thumbStyle}
         tabIndex={0}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) =>
-          isMinHandle
-            ? (this.minHandle = el as HTMLDivElement)
-            : (this.maxHandle = el as HTMLDivElement)
-        }
+        ref={this.storeThumbRef}
       >
         {thumbContent}
       </div>
@@ -600,7 +618,7 @@ export class Slider
     }
     this.lastDragPropValue = this[prop];
     this.dragStart(prop);
-    const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
+    const isThumbActive = this.el.shadowRoot.querySelector(`.${CSS.thumb}:active`);
     if (!isThumbActive) {
       this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
@@ -695,26 +713,26 @@ export class Slider
   //
   //--------------------------------------------------------------------------
 
-  private getHandleType(type: "min" | "max"): string {
-    const handleTypes = ["handle"];
+  private buildThumbType(type: "min" | "max"): ThumbType {
+    const thumbTypeParts = ["thumb"];
 
     if (type === "min") {
-      handleTypes.push("min");
+      thumbTypeParts.push("min");
     }
 
     if (this.labelHandles) {
-      handleTypes.push("labeled");
+      thumbTypeParts.push("labeled");
     }
 
     if (this.precise) {
-      handleTypes.push("precise");
+      thumbTypeParts.push("precise");
     }
 
     if (this.hasHistogram) {
-      handleTypes.push("histogram");
+      thumbTypeParts.push("histogram");
     }
 
-    return handleTypes.join("-");
+    return thumbTypeParts.join("-") as ThumbType;
   }
 
   setValueFromMinMax(): void {
@@ -780,6 +798,24 @@ export class Slider
 
     return ticks;
   }
+
+  private onThumbBlur = () => {
+    this.activeProp = null;
+  };
+
+  private onThumbFocus = (event: FocusEvent) => {
+    const thumb = event.currentTarget as HTMLElement;
+    this.activeProp = thumb.getAttribute("data-value-prop") as ActiveSliderProperty;
+  };
+
+  private onThumbPointerDown = (event: PointerEvent) => {
+    const thumb = event.currentTarget as HTMLElement;
+    this.pointerDownDragStart(event, thumb.getAttribute("data-value-prop") as ActiveSliderProperty);
+  };
+
+  private onTrackPointerDown = (event: PointerEvent) => {
+    this.pointerDownDragStart(event, "minMaxValue");
+  };
 
   private pointerDownDragStart(event: PointerEvent, prop: ActiveSliderProperty): void {
     if (!isPrimaryPointerButton(event)) {
@@ -921,14 +957,17 @@ export class Slider
     this.emitInput();
   }
 
-  /**
-   * Set the reference of the track Element
-   *
-   * @internal
-   * @param node
-   */
   private storeTrackRef = (node: HTMLDivElement): void => {
     this.trackEl = node;
+  };
+
+  private storeThumbRef = (el: HTMLDivElement): void => {
+    if (!el) {
+      return;
+    }
+
+    const valueProp = el.getAttribute("data-value-prop") as ActiveSliderProperty;
+    valueProp === "minValue" ? (this.minHandle = el) : (this.maxHandle = el);
   };
 
   /**
@@ -1168,13 +1207,17 @@ export class Slider
       return;
     }
 
-    const minHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(".thumb--minValue");
-    const maxHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(".thumb--value");
+    const minHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.thumbMinValue}`,
+    );
+    const maxHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(`.${CSS.thumbValue}`);
 
-    const minTickLabel: HTMLSpanElement | null =
-      this.el.shadowRoot.querySelector(".tick__label--min");
-    const maxTickLabel: HTMLSpanElement | null =
-      this.el.shadowRoot.querySelector(".tick__label--max");
+    const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.tickMin}`,
+    );
+    const maxTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.tickMax}`,
+    );
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
       minTickLabel.style.opacity = this.isMinTickLabelObscured(minTickLabel, maxHandle) ? "0" : "1";
