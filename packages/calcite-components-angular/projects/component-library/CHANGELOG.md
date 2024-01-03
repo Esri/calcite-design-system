@@ -51,7 +51,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- __@esri/calcite-components-angular:__ Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize undefined versions
 
 ### Dependencies
 
@@ -63,11 +63,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
-- __deps:__ We are treating the `@stencil/core@v4` bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
+- **deps:** We are treating the `@stencil/core@v4` bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
 
 ### Build System
 
-- __deps:__ Bump Stencil to v4 ([#8108](https://github.com/Esri/calcite-design-system/issues/8108)) ([bcbb79f](https://github.com/Esri/calcite-design-system/commit/bcbb79f8c925d505bb4ee5e6a54861c5f6bb88b9))
+- **deps:** Bump Stencil to v4 ([#8108](https://github.com/Esri/calcite-design-system/issues/8108)) ([bcbb79f](https://github.com/Esri/calcite-design-system/commit/bcbb79f8c925d505bb4ee5e6a54861c5f6bb88b9))
 
 ### Dependencies
 
@@ -79,7 +79,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- __angular:__ Publish from the dist directory ([#8151](https://github.com/Esri/calcite-design-system/issues/8151)) ([d813f14](https://github.com/Esri/calcite-design-system/commit/d813f14c3c2fc7b765ccf27166f31201d91f2ac5))
+- **angular:** Publish from the dist directory ([#8151](https://github.com/Esri/calcite-design-system/issues/8151)) ([d813f14](https://github.com/Esri/calcite-design-system/commit/d813f14c3c2fc7b765ccf27166f31201d91f2ac5))
 
 ### Dependencies
 

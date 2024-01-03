@@ -9,7 +9,10 @@
   "scripts": {
     "build": "turbo run build --log-order=stream",
     "clean": "turbo run clean --log-order=stream && rimraf node_modules",
-    "lint": "turbo run lint --log-order=stream",
+    "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"{,documentation}/*.md\" --fix --dot --ignore-path .gitignore",
+    "lint:yml": "prettier --write \".github/**/*.yml\" >/dev/null",
+    "lint:json": "prettier --write \"*.json\" >/dev/null",
     "publish:next": "lerna publish from-package --dist-tag next --yes",
     "publish:rc": "lerna publish from-package --dist-tag rc --yes",
     "publish:latest": "lerna publish from-package --yes",

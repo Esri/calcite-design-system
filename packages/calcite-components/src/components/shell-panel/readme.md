@@ -42,7 +42,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
   <your-custom-element class="calcite-match-height">
-    <calcite-panel> ... </calcite-panel>
+    <calcite-panel> <img src="https://placebear.com/g/600/600" alt="" /> </calcite-panel>
   </your-custom-element>
 </calcite-shell-panel>
 ```
@@ -57,8 +57,8 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
   <calcite-flow>
-    <calcite-flow-item> ... </calcite-flow-item>
-    <calcite-flow-item> ... </calcite-flow-item>
+    <calcite-flow-item> <img src="https://placebear.com/g/600/600" alt="" /> </calcite-flow-item>
+    <calcite-flow-item> <img src="https://placebear.com/g/500/500" alt="" /> </calcite-flow-item>
   </calcite-flow>
 </calcite-shell-panel>
 ```
@@ -72,7 +72,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
     <calcite-action text="Save" icon="save"></calcite-action>
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
-  <calcite-panel> ... </calcite-panel>
+  <calcite-panel> <img src="https://placebear.com/g/600/600" alt="" /> </calcite-panel>
 </calcite-shell-panel>
 ```
 
@@ -84,7 +84,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 | `detached`            | `detached`              | <span style="color:red">**[DEPRECATED]**</span> use `displayMode` instead.<br/><br/>When `true`, the content area displays like a floating panel.                                                                                                                                   | `boolean`                        | `false`      |
 | `detachedHeightScale` | `detached-height-scale` | <span style="color:red">**[DEPRECATED]**</span> use `heightScale` instead.<br/><br/>When `displayMode` is `float`, specifies the maximum height of the component.                                                                                                                   | `"l" \| "m" \| "s"`              | `undefined`  |
 | `displayMode`         | `display-mode`          | Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content). | `"dock" \| "float" \| "overlay"` | `"dock"`     |
-| `heightScale`         | `height-scale`          | When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.                                                                                                                                               | `"l" \| "m" \| "s"`              | `undefined`  |
+| `heightScale`         | `height-scale`          | When `layout` is `horizontal`, specifies the maximum height of the component.                                                                                                                                                                                                       | `"l" \| "m" \| "s"`              | `undefined`  |
 | `layout`              | `layout`                | The direction of the component.                                                                                                                                                                                                                                                     | `"horizontal" \| "vertical"`     | `"vertical"` |
 | `messageOverrides`    | --                      | Use this property to override individual strings used by the component.                                                                                                                                                                                                             | `{ resize?: string; }`           | `undefined`  |
 | `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).                                                                                                                                                                          | `"end" \| "start"`               | `"start"`    |
@@ -113,4 +113,4 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
