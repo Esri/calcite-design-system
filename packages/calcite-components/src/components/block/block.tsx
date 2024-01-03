@@ -249,9 +249,9 @@ export class Block
   @Event({ cancelable: false }) calciteBlockOpen: EventEmitter<void>;
 
   /**
-   * Emits when the component's header is clicked.
+   * Fires when the component's header is clicked.
    *
-   * @deprecated use `openClose` events: `calciteBlock[Before]Open` and `calciteBlock[Before]Close` instead.
+   * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 

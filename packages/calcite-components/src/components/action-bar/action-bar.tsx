@@ -159,7 +159,7 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `expanded` property is toggled.
+   * Fires when the `expanded` property is toggled.
    */
   @Event({ cancelable: false }) calciteActionBarToggle: EventEmitter<void>;
 
