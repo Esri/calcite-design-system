@@ -28,6 +28,12 @@ Performs a filter on the component.
 
 This method can be useful because filtering is delayed and asynchronous.
 
+#### Parameters
+
+| Name    | Type     | Description              |
+| ------- | -------- | ------------------------ |
+| `value` | `string` | - The filter text value. |
+
 #### Returns
 
 Type: `Promise<void>`
@@ -59,6 +65,8 @@ graph TD;
   calcite-filter --> calcite-input
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-input --> calcite-input-message
+  calcite-input-message --> calcite-icon
   calcite-list --> calcite-filter
   calcite-pick-list --> calcite-filter
   calcite-value-list --> calcite-filter
