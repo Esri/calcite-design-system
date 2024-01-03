@@ -48,29 +48,7 @@ import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale } from "../interfaces";
 import { CSS, maxTickElementThreshold } from "./resources";
-
-type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
-type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
-type ThumbType =
-  | "handle-min"
-  | "handle-min-labeled"
-  | "handle-min-precise"
-  | "handle-min-histogram"
-  | "handle-min-labeled-precise"
-  | "handle-min-labeled-histogram"
-  | "handle-min-precise-histogram"
-  | "handle-min-labeled-precise-histogram"
-  | "handle-max"
-  | "handle-max-labeled"
-  | "handle-max-precise"
-  | "handle-max-histogram"
-  | "handle-max-labeled-precise"
-  | "handle-max-labeled-histogram"
-  | "handle-max-precise-histogram"
-  | "handle-max-labeled-precise-histogram";
-type Percentage = string;
-type PercentageString = `${Percentage}%`;
-type SideOffset = { left: PercentageString } | { right: PercentageString };
+import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 
 function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
@@ -660,11 +638,7 @@ export class Slider
   //--------------------------------------------------------------------------
 
   private buildThumbType(type: "min" | "max"): ThumbType {
-    const thumbTypeParts = ["thumb"];
-
-    if (type === "min") {
-      thumbTypeParts.push("min");
-    }
+    const thumbTypeParts: string[] = [type];
 
     if (this.labelHandles) {
       thumbTypeParts.push("labeled");
