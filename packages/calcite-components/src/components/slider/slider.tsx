@@ -472,81 +472,27 @@ export class Slider
 
   private renderTickLabel(tick: number): VNode {
     const valueIsRange = isRange(this.value);
-    const isMinTickLabel = tick === this.min;
-    const isMaxTickLabel = tick === this.max;
+    const isMinOrMaxTickLabel = tick === this.min || tick === this.max;
     const displayedTickValue = this.determineGroupSeparator(tick);
-    const tickLabel = (
+
+    const shouldDisplayLabel =
+      this.labelTicks &&
+      (!this.hasHistogram ||
+        (!this.precise && !this.labelHandles) ||
+        (this.precise && isMinOrMaxTickLabel)) &&
+      (!valueIsRange || !this.labelHandles || isMinOrMaxTickLabel);
+
+    return !shouldDisplayLabel ? null : (
       <span
         class={{
           tick__label: true,
-          [CSS.tickMin]: isMinTickLabel,
-          [CSS.tickMax]: isMaxTickLabel,
+          [CSS.tickMin]: tick === this.min,
+          [CSS.tickMax]: tick === this.max,
         }}
       >
         {displayedTickValue}
       </span>
     );
-    if (this.labelTicks && !this.hasHistogram && !valueIsRange) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      !this.hasHistogram &&
-      valueIsRange &&
-      !this.precise &&
-      !this.labelHandles
-    ) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      !this.hasHistogram &&
-      valueIsRange &&
-      !this.precise &&
-      this.labelHandles
-    ) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      !this.hasHistogram &&
-      valueIsRange &&
-      this.precise &&
-      (isMinTickLabel || isMaxTickLabel)
-    ) {
-      return tickLabel;
-    }
-    if (this.labelTicks && this.hasHistogram && !this.precise && !this.labelHandles) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      this.hasHistogram &&
-      this.precise &&
-      !this.labelHandles &&
-      (isMinTickLabel || isMaxTickLabel)
-    ) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      this.hasHistogram &&
-      !this.precise &&
-      this.labelHandles &&
-      (isMinTickLabel || isMaxTickLabel)
-    ) {
-      return tickLabel;
-    }
-    if (
-      this.labelTicks &&
-      this.hasHistogram &&
-      this.precise &&
-      this.labelHandles &&
-      (isMinTickLabel || isMaxTickLabel)
-    ) {
-      return tickLabel;
-    }
-    return null;
   }
 
   //--------------------------------------------------------------------------
