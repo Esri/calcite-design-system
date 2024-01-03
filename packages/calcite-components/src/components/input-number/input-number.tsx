@@ -320,6 +320,12 @@ export class InputNumber
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
+      if (newValue === "Infinity" || newValue === "-Infinity") {
+        this.setInputNumberValue(newValue);
+        this.previousEmittedNumberValue = newValue;
+        return;
+      }
+
       this.setNumberValue({
         origin: "direct",
         previousValue,
@@ -623,6 +629,11 @@ export class InputNumber
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      return;
+    }
+
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
@@ -656,6 +667,15 @@ export class InputNumber
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      event.preventDefault();
+      if (event.key === "Backspace" || event.key === "Delete") {
+        this.clearInputValue(event);
+      }
+      return;
+    }
+
     if (event.key === "ArrowUp") {
       /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
       event.preventDefault();
