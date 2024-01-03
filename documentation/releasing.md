@@ -25,7 +25,7 @@ The `latest` release process is mostly automated, but a few manual steps are req
 2. Make sure all of the workflows for the [most recent commit on `main`](https://github.com/Esri/calcite-design-system/commits/main) are completed.
    1. If time is short, you can cancel the `Build` workflow, which releases `next` and deploys storybook. We just want to make sure it doesn't deploy the `next` version after `latest` is released. If the most recent commit is a next release (titled `chore: release next`) then you can definitely cancel the `Build` workflow since it will be intentionally cancelled by the CI anyway.
 3. Review the PR created by `release-please` (titled `chore: release main`) to make sure the changelog(s) and package versioning looks correct.
-   1. There should be a commit on the PR's branch named `docs: remove prerelease changelog entries` that occurred __after__ the most recent commit on `main`.
+   1. There should be a commit on the PR's branch named `docs: remove prerelease changelog entries` that occurred **after** the most recent commit on `main`.
 4. Add the `skip visual snapshots` label. <!-- TODO: automate this in the release-please config -->
 5. Make sure the rest of the PR checks are passing.
 6. Approve and install the PR once all checks are passing. You will need to use Admin privilege to override the 6 approval rule [added above](#prevent-merging-pull-requests).
@@ -67,7 +67,7 @@ npm run publish:next
 npm run util:push-tags
 ```
 
-__IMPORTANT:__ If you need to change anything after running `version:next` (e.g., a changelog entry), make sure to amend the previous commit and recreate all of the tags using the new SHA (or `HEAD`) before continuing. For example:
+**IMPORTANT:** If you need to change anything after running `version:next` (e.g., a changelog entry), make sure to amend the previous commit and recreate all of the tags using the new SHA (or `HEAD`) before continuing. For example:
 
 ```sh
 # manual changelog entry updates were required after versioning...

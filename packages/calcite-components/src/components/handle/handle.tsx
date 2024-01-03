@@ -49,20 +49,20 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * @internal
+   * When `true`, the component is selected.
    */
-  @Prop({ mutable: true, reflect: true }) activated = false;
+  @Prop({ mutable: true, reflect: true }) selected = false;
 
   @Watch("messages")
   @Watch("label")
-  @Watch("activated")
+  @Watch("selected")
   @Watch("setPosition")
   @Watch("setSize")
   handleAriaTextChange(): void {
     const message = this.getAriaText("live");
 
     if (message) {
-      this.calciteInternalHandleChange.emit({
+      this.calciteInternalAssistiveTextChange.emit({
         message,
       });
     }
@@ -180,14 +180,21 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the handle is activated and the up or down arrow key is pressed.
+   * Emits whenever the component is selected or unselected.
+   *
+   */
+  @Event({ cancelable: false }) calciteHandleChange: EventEmitter<void>;
+
+  /**
+   * Emitted when the handle is selected and the up or down arrow key is pressed.
    */
   @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
 
   /**
-   * Emitted when the handle is activated or deactivated.
+   * Emitted when the assistive text has changed.
+   * @internal
    */
-  @Event({ cancelable: false }) calciteInternalHandleChange: EventEmitter<HandleChange>;
+  @Event({ cancelable: false }) calciteInternalAssistiveTextChange: EventEmitter<HandleChange>;
 
   // --------------------------------------------------------------------------
   //
@@ -210,7 +217,7 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   getAriaText(type: "label" | "live"): string {
-    const { setPosition, setSize, label, messages, activated } = this;
+    const { setPosition, setSize, label, messages, selected } = this;
 
     if (!messages || !label || typeof setSize !== "number" || typeof setPosition !== "number") {
       return null;
@@ -218,10 +225,10 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
 
     const text =
       type === "label"
-        ? activated
+        ? selected
           ? messages.dragHandleChange
           : messages.dragHandleIdle
-        : activated
+        : selected
           ? messages.dragHandleActive
           : messages.dragHandleCommit;
 
@@ -237,18 +244,19 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
 
     switch (event.key) {
       case " ":
-        this.activated = !this.activated;
+        this.selected = !this.selected;
+        this.calciteHandleChange.emit();
         event.preventDefault();
         break;
       case "ArrowUp":
-        if (!this.activated) {
+        if (!this.selected) {
           return;
         }
         event.preventDefault();
         this.calciteHandleNudge.emit({ direction: "up" });
         break;
       case "ArrowDown":
-        if (!this.activated) {
+        if (!this.selected) {
           return;
         }
         event.preventDefault();
@@ -262,7 +270,10 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
       return;
     }
 
-    this.activated = false;
+    if (this.selected) {
+      this.selected = false;
+      this.calciteHandleChange.emit();
+    }
   };
 
   // --------------------------------------------------------------------------
@@ -277,8 +288,8 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
       <span
         aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
         aria-label={this.disabled ? null : this.getAriaText("label")}
-        aria-pressed={this.disabled ? null : toAriaBoolean(this.activated)}
-        class={{ [CSS.handle]: true, [CSS.handleActivated]: !this.disabled && this.activated }}
+        aria-pressed={this.disabled ? null : toAriaBoolean(this.selected)}
+        class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
         role="button"

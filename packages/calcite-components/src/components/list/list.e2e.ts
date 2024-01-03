@@ -1015,7 +1015,7 @@ describe("calcite-list", () => {
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
       await page.keyboard.press("Space");
-      expect(await handle.getProperty("activated")).toBe(true);
+      expect(await handle.getProperty("selected")).toBe(true);
       await page.waitForChanges();
 
       let totalMoves = 0;
@@ -1125,7 +1125,7 @@ describe("calcite-list", () => {
       );
 
       await page.keyboard.press("Space");
-      expect(await handle.getProperty("activated")).toBe(true);
+      expect(await handle.getProperty("selected")).toBe(true);
       await page.waitForChanges();
 
       expect(assistiveTextElement.textContent).toBe(
@@ -1139,7 +1139,7 @@ describe("calcite-list", () => {
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      expect(await handle.getProperty("activated")).toBe(true);
+      expect(await handle.getProperty("selected")).toBe(true);
       await page.waitForTimeout(debounceTimeout);
 
       startIndex += 1;
@@ -1170,7 +1170,7 @@ describe("calcite-list", () => {
       await page.keyboard.press("ArrowUp");
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      expect(await handle.getProperty("activated")).toBe(false);
+      expect(await handle.getProperty("selected")).toBe(false);
     });
   });
 });

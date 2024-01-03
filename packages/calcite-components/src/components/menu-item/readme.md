@@ -12,7 +12,7 @@
 | `iconEnd`            | `icon-end`      | Specifies an icon to display at the end of the component.                                                   | `string`                               | `undefined` |
 | `iconFlipRtl`        | `icon-flip-rtl` | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). | `"both" \| "end" \| "start"`           | `undefined` |
 | `iconStart`          | `icon-start`    | Specifies an icon to display at the start of the component.                                                 | `string`                               | `undefined` |
-| `label` _(required)_ | `label`         | Accessible name for the component.                                                                          | `string`                               | `undefined` |
+| `label` *(required)* | `label`         | Accessible name for the component.                                                                          | `string`                               | `undefined` |
 | `messageOverrides`   | --              | Use this property to override individual strings used by the component.                                     | `{ submenu?: string; open?: string; }` | `undefined` |
 | `open`               | `open`          | When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.           | `boolean`                              | `false`     |
 | `rel`                | `rel`           | Defines the relationship between the `href` value and the current document.                                 | `string`                               | `undefined` |
@@ -63,4 +63,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
