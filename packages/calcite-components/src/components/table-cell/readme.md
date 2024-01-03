@@ -29,10 +29,9 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                | Description                                      |
-| ----------------------------------- | ------------------------------------------------ |
-| `--calcite-table-cell-background`   | Specifies the background color of the component. |
-| `--calcite-table-cell-border-color` | Specifies the border color of the component.     |
+| Name                              | Description                                      |
+| --------------------------------- | ------------------------------------------------ |
+| `--calcite-table-cell-background` | Specifies the background color of the component. |
 
 ## Dependencies
 

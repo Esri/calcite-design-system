@@ -79,6 +79,12 @@
 
 Updates the position of the component.
 
+#### Parameters
+
+| Name      | Type      | Description |
+| --------- | --------- | ----------- |
+| `delayed` | `boolean` |             |
+
 #### Returns
 
 Type: `Promise<void>`

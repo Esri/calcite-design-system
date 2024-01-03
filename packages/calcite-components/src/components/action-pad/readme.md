@@ -47,7 +47,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 | Property               | Attribute                 | Description                                                             | Type                                      | Default      |
 | ---------------------- | ------------------------- | ----------------------------------------------------------------------- | ----------------------------------------- | ------------ |
-| `actionsEndGroupLabel` | `actions-end-group-label` | Specifies the accessible label for the last action-group.               | `string`                                  | `undefined`  |
+| `actionsEndGroupLabel` | `actions-end-group-label` | Specifies the accessible label for the last `calcite-action-group`.     | `string`                                  | `undefined`  |
 | `expandDisabled`       | `expand-disabled`         | When `true`, the expand-toggling behavior is disabled.                  | `boolean`                                 | `false`      |
 | `expanded`             | `expanded`                | When `true`, the component is expanded.                                 | `boolean`                                 | `false`      |
 | `layout`               | `layout`                  | Indicates the layout of the component.                                  | `"grid" \| "horizontal" \| "vertical"`    | `"vertical"` |
@@ -80,9 +80,9 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                      | Description                                                                            |
-| ----------------------------------------- | -------------------------------------------------------------------------------------- |
-| `--calcite-action-pad-expanded-max-width` | optionally specify the expanded max width of the action pad when in "vertical" layout. |
+| Name                                      | Description                                                                       |
+| ----------------------------------------- | --------------------------------------------------------------------------------- |
+| `--calcite-action-pad-expanded-max-width` | When `layout` is `"vertical"`, specifies the expanded max width of the component. |
 
 ## Dependencies
 
