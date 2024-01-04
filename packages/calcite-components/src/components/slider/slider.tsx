@@ -369,9 +369,7 @@ export class Slider
     const valueProp = isMinThumb ? "minValue" : valueIsRange ? "maxValue" : "value";
     const ariaLabel = isMinThumb ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
     const ariaValuenow = isMinThumb ? this.minValue : value;
-    const displayedValue = isMinThumb
-      ? this.determineGroupSeparator(this.minValue)
-      : this.determineGroupSeparator(value);
+    const displayedValue = isMinThumb ? this.formatValue(this.minValue) : this.formatValue(value);
     const thumbStyle: SideOffset = isMinThumb
       ? { left: `${mirror ? 100 - minInterval : minInterval}%` }
       : { right: `${mirror ? maxInterval : 100 - maxInterval}%` };
@@ -468,7 +466,7 @@ export class Slider
           [CSS.tickMax]: isMaxTickLabel,
         }}
       >
-        {this.determineGroupSeparator(tick)}
+        {this.formatValue(tick)}
       </span>
     ) : null;
   }
@@ -1224,15 +1222,13 @@ export class Slider
    *
    * @param value
    */
-  private determineGroupSeparator = (value: number): string => {
-    if (typeof value === "number") {
-      numberStringFormatter.numberFormatOptions = {
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-        useGrouping: this.groupSeparator,
-      };
+  private formatValue = (value: number): string => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
 
-      return numberStringFormatter.localize(value.toString());
-    }
+    return numberStringFormatter.localize(value.toString());
   };
 }
