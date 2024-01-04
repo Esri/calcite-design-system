@@ -248,24 +248,30 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.minAsDate,
       this.maxAsDate
     );
-    let activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+    const activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
     const endDate =
       this.range && Array.isArray(this.valueAsDate)
         ? dateFromRange(this.valueAsDate[1], this.minAsDate, this.maxAsDate)
         : null;
     const activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
 
-    if (
-      (this.activeRange === "end" ||
-        (this.hoverRange?.focused === "end" && (!this.proximitySelectionDisabled || endDate))) &&
-      activeEndDate
-    ) {
-      activeDate = activeEndDate;
-    }
+    // if (
+    //   (this.activeRange === "end" ||
+    //     (this.hoverRange?.focused === "end" && (!this.proximitySelectionDisabled || endDate))) &&
+    //   activeEndDate
+    // ) {
+    //   activeDate = activeEndDate;
+    // }
 
-    if (this.range && this.mostRecentRangeValue) {
-      activeDate = this.mostRecentRangeValue;
-    }
+    // if (this.range && this.mostRecentRangeValue) {
+    //   activeDate = this.mostRecentRangeValue;
+    // }
+
+    console.log(activeDate, activeEndDate);
+    console.log(`%c  ${this.activeStartDate}, ${this.activeEndDate}`, "color:red");
+    console.log(`%c  ${this.activeDate}`, "color:green");
+
+    console.log("value as date", this.valueAsDate);
 
     const minStartDate = this.activeRange
       ? this.activeRange === "start"
@@ -296,7 +302,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         <div class="container">
           <div class="start">
             {this.renderCalendar(
-              this.getStartCalendarActiveDate(activeDate),
+              this.getStartCalendarActiveDate(
+                this.activeRange === "start" ? activeDate : activeEndDate
+              ),
               maxStartDate,
               minStartDate,
               date,
@@ -307,7 +315,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           <div class="end">
             {this.range &&
               this.renderCalendar(
-                this.getEndCalendarActiveDate(activeDate),
+                this.getEndCalendarActiveDate(
+                  this.activeRange === "end" ? activeEndDate : activeDate
+                ),
                 maxEndDate,
                 minEndDate,
                 date,
@@ -413,9 +423,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.activeStartDate = this.activeStartDate
           ? nextMonth(this.activeStartDate)
           : prevMonth(date);
+        // this.activeDate = this.activeStartDate;
       } else {
         this.activeStartDate = date;
         this.activeEndDate = this.activeEndDate ? prevMonth(this.activeEndDate) : nextMonth(date);
+        // this.activeDate = date;
       }
       this.mostRecentRangeValue = date;
     }
@@ -673,7 +685,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    * @param max
    */
   private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
+    return (
+      dateFromRange(this.activeStartDate || this.activeDate, min, max) ||
+      value ||
+      dateFromRange(new Date(), min, max)
+    );
   }
 
   private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {
@@ -685,24 +701,24 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   }
 
   private getStartCalendarActiveDate(activeDate: Date): Date {
-    if (this.range) {
-      if (this.activeStartDate) {
-        return this.activeStartDate;
-      } else {
-        return this.activeRange === "start" ? activeDate : prevMonth(activeDate);
-      }
-    }
-    return activeDate;
+    // if (this.range) {
+    //   if (this.activeStartDate) {
+    //     return this.activeStartDate;
+    //   } else {
+    return this.activeRange === "start" ? activeDate : prevMonth(activeDate);
+    //   }
+    // }
+    // return activeDate;
   }
 
   private getEndCalendarActiveDate(activeDate: Date): Date {
-    if (this.range) {
-      if (this.activeEndDate) {
-        return this.activeEndDate;
-      } else {
-        return this.activeRange === "end" ? activeDate : nextMonth(activeDate);
-      }
-    }
-    return activeDate;
+    // if (this.range) {
+    //   if (this.activeEndDate) {
+    //     return this.activeEndDate;
+    //   } else {
+    return this.activeRange === "end" ? activeDate : nextMonth(activeDate);
+    // }
+    // }
+    // return activeDate;
   }
 }
