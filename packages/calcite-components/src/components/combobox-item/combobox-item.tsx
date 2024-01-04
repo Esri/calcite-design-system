@@ -140,7 +140,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Emits whenever the component is selected or unselected.
+   * Fires whenever the component is selected or unselected.
    *
    */
   @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;

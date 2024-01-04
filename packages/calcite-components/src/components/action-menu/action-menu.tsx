@@ -131,7 +131,7 @@ export class ActionMenu implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `open` property is toggled.
+   * Fires when the `open` property is toggled.
    *
    */
   @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;

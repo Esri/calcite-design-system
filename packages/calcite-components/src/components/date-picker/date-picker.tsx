@@ -168,12 +168,12 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   //
   //--------------------------------------------------------------------------
   /**
-   * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
+   * Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
    */
   @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<void>;
 
   /**
-   * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
+   * Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
