@@ -267,12 +267,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     //   activeDate = this.mostRecentRangeValue;
     // }
 
-    console.log(activeDate, activeEndDate);
-    console.log(`%c  ${this.activeStartDate}, ${this.activeEndDate}`, "color:red");
-    console.log(`%c  ${this.activeDate}`, "color:green");
-
-    console.log("value as date", this.valueAsDate);
-
     const minStartDate = this.activeRange
       ? this.activeRange === "start"
         ? this.minAsDate
