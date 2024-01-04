@@ -84,7 +84,11 @@ export class Checkbox
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the name of the component on form submission. */
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   /** When `true`, the component must have a value in order for the form to submit. */
@@ -179,17 +183,17 @@ export class Checkbox
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when the component is blurred.
+   * Fires when the component is blurred.
    *
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalCheckboxBlur: EventEmitter<boolean>;
 
-  /** Emits when the component's `checked` status changes. */
+  /** Fires when the component's `checked` status changes. */
   @Event({ cancelable: false }) calciteCheckboxChange: EventEmitter<void>;
 
   /**
-   * Emits when the component is focused.
+   * Fires when the component is focused.
    *
    * @internal
    */
