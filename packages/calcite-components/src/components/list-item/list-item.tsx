@@ -229,7 +229,7 @@ export class ListItem
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the item's content is selected.
+   * Fires when the component is selected.
    */
   @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
 

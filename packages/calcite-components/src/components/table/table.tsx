@@ -80,7 +80,15 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections). */
+  /**
+   * Specifies the selection mode of the component:
+   *
+   * `"multiple"`: Allows any number of selections.
+   *
+   * `"single"`: Allows only one selection.
+   *
+   * `"none"`: Does not allow any selections.
+   */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
 

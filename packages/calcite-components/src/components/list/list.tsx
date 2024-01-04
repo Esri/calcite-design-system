@@ -190,10 +190,14 @@ export class List
 
   /**
    * Specifies the selection mode of the component:
-   * `"multiple"` allow any number of selected items,
-   * `"single"` allow only one selected item,
-   * `"single-persist"` allow one selected item and prevent de-selection,
-   * `"none"` does not allow any selections.
+   *
+   * `"multiple"`: Allows any number of selections.
+   *
+   * `"single"`: Allows only one selection.
+   *
+   * `"single-persist"`: Allows one selection and prevents de-selection.
+   *
+   * `"none"`: Does not allow any selections.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -221,7 +225,7 @@ export class List
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when any of the list item selections have changed.
+   * Fires when the component's selected items have changed.
    */
   @Event({ cancelable: false }) calciteListChange: EventEmitter<void>;
 
@@ -241,7 +245,7 @@ export class List
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   /**
-   * Fires when the order of the list has changed.
+   * Fires when the component's item order changes.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<ListDragDetail>;
 

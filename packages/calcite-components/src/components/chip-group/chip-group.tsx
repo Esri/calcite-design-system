@@ -51,10 +51,14 @@ export class ChipGroup implements InteractiveComponent {
 
   /**
    * Specifies the selection mode of the component:
-   * `"multiple"` allows any number of selections,
-   * `"single"` allows only one selection,
-   * `"single-persist"` allow and require one selected item,
-   * `"none"` does not allow any selections.
+   *
+   * `"multiple"`: Allows any number of selections.
+   *
+   * `"single"`: Allows only one selection.
+   *
+   * `"single-persist"`: Allows one selection and prevents de-selection.
+   *
+   * `"none"`: Does not allow any selections.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
