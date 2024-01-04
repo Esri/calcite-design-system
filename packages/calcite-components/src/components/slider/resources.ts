@@ -18,6 +18,7 @@ export const CSS = {
   thumbValue: "thumb--value",
   tick: "tick",
   tickActive: "tick--active",
+  tickLabel: "tick__label",
   tickMax: "tick__label--max",
   tickMin: "tick__label--min",
   ticks: "ticks",

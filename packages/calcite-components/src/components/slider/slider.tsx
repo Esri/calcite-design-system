@@ -449,21 +449,16 @@ export class Slider
   }
 
   private renderTickLabel(tick: number): VNode {
-    const valueIsRange = isRange(this.value);
-    const isMinOrMaxTickLabel = tick === this.min || tick === this.max;
+    const isAtEdge = tick === this.min || tick === this.max;
     const displayedTickValue = this.determineGroupSeparator(tick);
 
     const shouldDisplayLabel =
-      this.labelTicks &&
-      (!this.hasHistogram ||
-        (!this.precise && !this.labelHandles) ||
-        (this.precise && isMinOrMaxTickLabel)) &&
-      (!valueIsRange || !this.labelHandles || isMinOrMaxTickLabel);
+      this.labelTicks && (!this.hasHistogram || isAtEdge || this.labelHandles);
 
     return !shouldDisplayLabel ? null : (
       <span
         class={{
-          tick__label: true,
+          [CSS.tickLabel]: true,
           [CSS.tickMin]: tick === this.min,
           [CSS.tickMax]: tick === this.max,
         }}
