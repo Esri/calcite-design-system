@@ -1,7 +1,4 @@
 :host {
-  --calcite-tile-large-visual-block-size: 64px;
-  --calcite-tile-large-visual-inline-size: 64px;
-
   @apply bg-foreground-1
     text-color-3
     box-border
@@ -61,8 +58,8 @@
     min-block-size: theme("spacing.48");
     calcite-icon {
       align-self: self-end;
-      block-size: var(--calcite-tile-large-visual-block-size);
-      inline-size: var(--calcite-tile-large-visual-inline-size);
+      block-size: 64px;
+      inline-size: 64px;
       justify-self: center;
     }
     .content-container {
