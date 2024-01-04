@@ -724,7 +724,7 @@ export class InputDatePicker
 
   @State() effectiveLocale = "";
 
-  @State() focusedInput: "start" | "end";
+  @State() focusedInput: "start" | "end" = "start";
 
   @State() private localeData: DateLocaleData;
 
