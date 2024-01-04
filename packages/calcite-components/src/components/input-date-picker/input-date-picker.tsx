@@ -682,7 +682,8 @@ export class InputDatePicker
 
   renderToggleIcon(open: boolean): VNode {
     return (
-      <span class={CSS.toggleIcon}>
+      // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
+      <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
@@ -723,7 +724,7 @@ export class InputDatePicker
 
   @State() effectiveLocale = "";
 
-  @State() focusedInput: "start" | "end" = "start";
+  @State() focusedInput: "start" | "end";
 
   @State() private localeData: DateLocaleData;
 
@@ -774,24 +775,17 @@ export class InputDatePicker
 
   private onInputWrapperClick = (event: MouseEvent) => {
     const { range, endInput, startInput, currentOpenInput } = this;
-    if (!range || !this.open) {
-      this.open = !this.open;
-      return;
-    }
-
     const currentTarget = event.currentTarget as HTMLDivElement;
     const position = currentTarget.getAttribute("data-position") as "start" | "end";
     const path = event.composedPath();
-    const wasToggleClicked = path.find((el: HTMLElement) => {
-      return el.classList?.contains(CSS.toggleIcon);
-    });
+    const wasToggleClicked = path.find((el: HTMLElement) => el.classList?.contains(CSS.toggleIcon));
 
     if (wasToggleClicked) {
       const targetInput = position === "start" ? startInput : endInput;
       targetInput.setFocus();
     }
 
-    if (currentOpenInput === position) {
+    if (!range || !this.open || currentOpenInput === position) {
       this.open = !this.open;
     }
   };
