@@ -142,27 +142,22 @@ export class AccordionItem implements ConditionalSlotComponent {
     ) : null;
   }
 
+  renderIcon(dir: "start" | "end"): VNode {
+    return (
+      <calcite-icon
+        class={dir === "start" ? CSS.iconStart : CSS.iconEnd}
+        flipRtl={this.iconFlipRtl === "both" || this.iconFlipRtl === dir}
+        icon={dir === "start" ? this.iconStart : this.iconEnd}
+        key={`icon-${dir}`}
+        scale={getIconScale(this.scale)}
+      />
+    );
+  }
+
   render(): VNode {
-    const { iconFlipRtl } = this;
     const dir = getElementDir(this.el);
-    const iconStartEl = this.iconStart ? (
-      <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
-        icon={this.iconStart}
-        key="icon-start"
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
-    const iconEndEl = this.iconEnd ? (
-      <calcite-icon
-        class={CSS.iconEnd}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
-        icon={this.iconEnd}
-        key="icon-end"
-        scale={getIconScale(this.scale)}
-      />
-    ) : null;
+    const iconStartEl = this.iconStart ? this.renderIcon("start") : null;
+    const iconEndEl = this.iconEnd ? this.renderIcon("end") : null;
     const { description } = this;
     return (
       <Host>
