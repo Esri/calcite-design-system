@@ -168,6 +168,9 @@ function hasRegisteredFormComponentParent(
 
 function displayValidationMessage(event: Event) {
   if (event) {
+    // prevent the browser from showing the native validation popover
+    event?.preventDefault();
+
     // target is the hidden input, which is slotted in the actual form component
     const hiddenInput = event?.target as HTMLInputElement;
 
@@ -180,9 +183,6 @@ function displayValidationMessage(event: Event) {
     if (componentTagParts.length < 2 || componentTagParts[0] !== "calcite") {
       return;
     }
-
-    // prevent the browser from showing the native validation popover
-    event?.preventDefault();
 
     "status" in formComponent && (formComponent.status = "invalid");
     "validationIcon" in formComponent && (formComponent.validationIcon = true);
