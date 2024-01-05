@@ -346,6 +346,18 @@ export const richContentFilterEnabled = (): string => html`
   </calcite-list>
 `;
 
+export const filterEnabledWithHiddenItems = (): string => html`
+  <calcite-list filter-enabled>
+    <calcite-list-item-group hidden heading="Layers">
+      <calcite-list-item hidden label="Hidden item" description="I should not be displayed."> </calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom"> </calcite-list-item>
+    <calcite-list-item hidden label="Hidden item" description="I should not be displayed."> </calcite-list-item>
+    <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom"> </calcite-list-item>
+    <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom"> </calcite-list-item>
+  </calcite-list>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-list class="calcite-mode-dark" dir="rtl" ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
@@ -505,6 +517,7 @@ export const filteredChildListItems_TestOnly = (): string =>
       selection-appearance="border"
       selection-mode="single"
     >
+      <calcite-list-item label="Estuaries" value="estuaries" hidden></calcite-list-item>
       <calcite-list-item-group heading="Layers">
         <calcite-list-item selected label="Hiking trails" value="hiking-trails">
           <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
