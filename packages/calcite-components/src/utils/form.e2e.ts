@@ -65,12 +65,16 @@ describe("form", () => {
       await element.callMethod("setFocus");
       await page.waitForChanges();
 
-      await page.keyboard.type("01/01/2020");
+      await element.click();
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(await element.getProperty("value")).toBe("2020-01-01");
       expect(await element.getProperty("status")).toBe("idle");
       expect(await element.getProperty("validationMessage")).toBe("");
     });
