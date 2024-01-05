@@ -1,9 +1,13 @@
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 import { FunctionalComponent, h } from "@stencil/core";
 
-// any form <Component> with a `calcite<Component>Input` event needs to be included
-// in this array if its tag does not start with `calcite-input`
-const nonInputComponentsWithInputEvent = ["calcite-text-area", "calcite-combobox"];
+// any form <Component> with a `calcite<Component>Input` event needs to be included in this array
+const componentsWithInputEvent = [
+  "calcite-input",
+  "calcite-input-number",
+  "calcite-input-text",
+  "calcite-text-area",
+];
 
 /**
  * Exported for testing purposes.
@@ -191,10 +195,9 @@ function displayValidationMessage(event: Event) {
       )
       .join("");
 
-    const clearValidationEvent =
-      componentTagParts[1] === "input" || nonInputComponentsWithInputEvent.includes(componentTag)
-        ? `${componentTagCamelCase}Input`
-        : `${componentTagCamelCase}Change`;
+    const clearValidationEvent = componentsWithInputEvent.includes(componentTag)
+      ? `${componentTagCamelCase}Input`
+      : `${componentTagCamelCase}Change`;
 
     formComponent.addEventListener(
       clearValidationEvent,
