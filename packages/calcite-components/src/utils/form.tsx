@@ -264,10 +264,10 @@ export function afterConnectDefaultValueSet<T>(component: FormComponent<T>, valu
   component.defaultValue = value;
 }
 
+export const internalHiddenInputChangeEvent = "calciteInternalHiddenChangeInput";
+
 const hiddenInputChangeHandler = (event: Event) => {
-  event.target.dispatchEvent(
-    new CustomEvent("calciteInternalHiddenInputChange", { bubbles: true }),
-  );
+  event.target.dispatchEvent(new CustomEvent(internalHiddenInputChangeEvent, { bubbles: true }));
 };
 
 const removeHiddenInputChangeEventListener = (input: HTMLInputElement) =>
@@ -334,7 +334,7 @@ function syncHiddenFormInput(component: FormComponent): void {
     docFrag.append(input);
 
     // emits when hidden input is autofilled
-    input.addEventListener("change", hiddenInputChangeHandler);
+    input.addEventListener("input", hiddenInputChangeHandler);
 
     defaultSyncHiddenFormInput(component, input, value);
   });
