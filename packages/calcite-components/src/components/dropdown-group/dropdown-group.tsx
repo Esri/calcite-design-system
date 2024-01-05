@@ -43,13 +43,13 @@ export class DropdownGroup {
   @Prop() scale: Scale = "m";
 
   /**
-   * Specifies the selection mode of the component:
+   * Specifies the selection mode of the component, where:
    *
-   * `"multiple"`: Allows any number of selections.
+   * `"multiple"` allows any number of selections,
    *
-   * `"single"`: Allows only one selection.
+   * `"single"` allows only one selection, and
    *
-   * `"none"`: Does not allow any selections.
+   * `"none"` does not allow any selections.
    */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> =
     "single";

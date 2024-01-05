@@ -189,15 +189,15 @@ export class List
   @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * Specifies the selection mode of the component:
+   * Specifies the selection mode of the component, where:
    *
-   * `"multiple"`: Allows any number of selections.
+   * `"multiple"` allows any number of selections,
    *
-   * `"single"`: Allows only one selection.
+   * `"single"` allows only one selection,
    *
-   * `"single-persist"`: Allows one selection and prevents de-selection.
+   * `"single-persist"` allows one selection and prevents de-selection, and
    *
-   * `"none"`: Does not allow any selections.
+   * `"none"` does not allow any selections.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",

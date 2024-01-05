@@ -40,13 +40,13 @@ export class Accordion {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode of the component:
+   * Specifies the selection mode of the component, where:
    *
-   * `"multiple"`: Allows any number of selections.
+   * `"multiple"` allows any number of selections,
    *
-   * `"single"`: Allows only one selection.
+   * `"single"` allows only one selection, and
    *
-   * `"single-persist"`: Allows one selection and prevents de-selection.
+   * `"single-persist"` allows one selection and prevents de-selection.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple",
