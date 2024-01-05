@@ -1375,7 +1375,7 @@ export namespace Components {
         /**
           * End date currently active.
          */
-        "endDate": Date;
+        "endDate"?: Date;
         /**
           * The range of dates currently being hovered.
          */
@@ -1403,7 +1403,7 @@ export namespace Components {
         /**
           * Start date currently active.
          */
-        "startDate": Date;
+        "startDate"?: Date;
     }
     interface CalciteDatePickerMonthHeader {
         /**
@@ -1507,7 +1507,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children: - `"multiple"` allows any number of selected items, - `"single"` allows only one selection, - `"none"` doesn't allow for any selection.
+          * Specifies the selection mode for `calcite-dropdown-item` children: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"none"` doesn't allow for any selection.
          */
         "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -8558,11 +8558,11 @@ declare namespace LocalJSX {
          */
         "numberingSystem"?: NumberingSystem;
         /**
-          * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
+          * Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
          */
         "onCalciteDatePickerChange"?: (event: CalciteDatePickerCustomEvent<void>) => void;
         /**
-          * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
+          * Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
          */
         "onCalciteDatePickerRangeChange"?: (event: CalciteDatePickerCustomEvent<void>) => void;
         /**
@@ -8616,11 +8616,11 @@ declare namespace LocalJSX {
          */
         "highlighted"?: boolean;
         /**
-          * Emits when user selects day.
+          * Fires when user selects day.
          */
         "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
-          * Emits when user hovers over a day.
+          * Fires when user hovers over a day.
          */
         "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
@@ -8686,12 +8686,12 @@ declare namespace LocalJSX {
          */
         "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
-          * Emits when user hovers the date.
+          * Fires when user hovers the date.
          */
         "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
         /**
-          * Emits when user selects the date.
+          * Fires when user selects the date.
          */
         "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
@@ -8734,7 +8734,7 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
-          * Changes to active date
+          * Fires to active date
          */
         "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
         /**
@@ -8825,7 +8825,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children: - `"multiple"` allows any number of selected items, - `"single"` allows only one selection, - `"none"` doesn't allow for any selection.
+          * Specifies the selection mode for `calcite-dropdown-item` children: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"none"` doesn't allow for any selection.
          */
         "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -8855,7 +8855,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * Emits when the component is selected.
+          * Fires when the component is selected.
          */
         "onCalciteDropdownItemSelect"?: (event: CalciteDropdownItemCustomEvent<void>) => void;
         "onCalciteInternalDropdownCloseRequest"?: (event: CalciteDropdownItemCustomEvent<void>) => void;
@@ -8948,7 +8948,7 @@ declare namespace LocalJSX {
          */
         "messages"?: FilterMessages;
         /**
-          * Emits when the filter text changes.
+          * Fires when the filter text changes.
          */
         "onCalciteFilterChange"?: (event: CalciteFilterCustomEvent<void>) => void;
         /**
@@ -9097,15 +9097,15 @@ declare namespace LocalJSX {
          */
         "messages"?: HandleMessages;
         /**
-          * Emits whenever the component is selected or unselected.
+          * Fires whenever the component is selected or unselected.
          */
         "onCalciteHandleChange"?: (event: CalciteHandleCustomEvent<void>) => void;
         /**
-          * Emits when the handle is selected and the up or down arrow key is pressed.
+          * Fires when the handle is selected and the up or down arrow key is pressed.
          */
         "onCalciteHandleNudge"?: (event: CalciteHandleCustomEvent<HandleNudge>) => void;
         /**
-          * Emits when the assistive text has changed.
+          * Fires when the assistive text has changed.
          */
         "onCalciteInternalAssistiveTextChange"?: (event: CalciteHandleCustomEvent<HandleChange>) => void;
         /**
