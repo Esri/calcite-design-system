@@ -3788,6 +3788,18 @@ export namespace Components {
           * Sets focus on the fist focusable `calcite-radio-button` element in the component.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
     }
     interface CalciteRating {
         /**
@@ -11210,6 +11222,18 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteRadioButtonElement;
+        /**
+          * Specifies the status of the input field, which determines message and icons.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
     }
     interface CalciteRating {
         /**
