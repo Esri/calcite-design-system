@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.3...@esri/calcite-design-tokens@2.1.1-next.4) (2024-01-05)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
 ## [2.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.2...@esri/calcite-design-tokens@2.1.1-next.3) (2023-12-21)
 
 ### Reverts
