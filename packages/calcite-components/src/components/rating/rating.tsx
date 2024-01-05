@@ -106,7 +106,11 @@ export class Rating
   /** When `true`, the component's value can be read, but cannot be modified. */
   @Prop({ reflect: true }) readOnly = false;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true`, the component must have a value in order for the form to submit.
+   *
+   * @internal
+   */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */

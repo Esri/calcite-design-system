@@ -69,7 +69,11 @@ export class SegmentedControl
    */
   @Prop({ reflect: true }) form: string;
 
-  /** When `true`, the component must have a value in order for the form to submit. */
+  /**
+   * When `true`, the component must have a value in order for the form to submit.
+   *
+   * @internal
+   */
   @Prop({ reflect: true }) required = false;
 
   /**
