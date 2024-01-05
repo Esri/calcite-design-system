@@ -40,6 +40,13 @@ export class ListItemGroup implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * Hides the component when filtered.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filterHidden = false;
+
+  /**
    * The header text for all nested `calcite-list-item` rows.
    *
    */
