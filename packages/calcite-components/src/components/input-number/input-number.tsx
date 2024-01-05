@@ -321,7 +321,7 @@ export class InputNumber
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       if (newValue === "Infinity" || newValue === "-Infinity") {
-        this.setInputNumberValue(newValue);
+        this.displayedValue = newValue;
         this.previousEmittedNumberValue = newValue;
         return;
       }
@@ -408,7 +408,7 @@ export class InputNumber
 
   @State() defaultMessages: InputNumberMessages;
 
-  @State() localizedValue: string;
+  @State() displayedValue: string;
 
   @State() slottedActionElDisabledInternally = false;
 
@@ -433,10 +433,17 @@ export class InputNumber
     this.setPreviousNumberValue(this.value);
 
     this.warnAboutInvalidNumberValue(this.value);
-    this.setNumberValue({
-      origin: "connected",
-      value: isValidNumber(this.value) ? this.value : "",
-    });
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      this.displayedValue = this.value;
+      this.previousEmittedNumberValue = this.value;
+    } else {
+      this.setNumberValue({
+        origin: "connected",
+        value: isValidNumber(this.value) ? this.value : "",
+      });
+    }
+
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
@@ -653,7 +660,7 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.localizedValue;
+      this.childNumberEl.value = this.displayedValue;
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -837,13 +844,6 @@ export class InputNumber
     }
   }
 
-  private setInputNumberValue = (newInputValue: string): void => {
-    if (!this.childNumberEl) {
-      return;
-    }
-    this.childNumberEl.value = newInputValue;
-  };
-
   private setPreviousEmittedNumberValue = (value: string): void => {
     this.previousEmittedNumberValue = this.normalizeValue(value);
   };
@@ -906,7 +906,7 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    this.localizedValue =
+    this.displayedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? `${newLocalizedValue}${numberStringFormatter.decimal}`
         : newLocalizedValue;
@@ -919,7 +919,7 @@ export class InputNumber
     this.value = ["-", "."].includes(newValue) ? "" : newValue;
 
     if (origin === "direct") {
-      this.setInputNumberValue(newLocalizedValue);
+      this.displayedValue = newLocalizedValue;
       this.setPreviousEmittedNumberValue(newLocalizedValue);
     }
 
@@ -927,7 +927,7 @@ export class InputNumber
       const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
       if (calciteInputNumberInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue = numberStringFormatter.localize(this.previousValue);
+        this.displayedValue = numberStringFormatter.localize(this.previousValue);
       } else if (committing) {
         this.emitChangeIfUserModified();
       }
@@ -1051,7 +1051,7 @@ export class InputNumber
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         type="text"
-        value={this.localizedValue}
+        value={this.displayedValue}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setChildNumberElRef}
       />

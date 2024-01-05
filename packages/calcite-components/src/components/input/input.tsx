@@ -127,8 +127,7 @@ export class Input
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -374,7 +373,7 @@ export class Input
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       if (this.type === "number" && (newValue === "Infinity" || newValue === "-Infinity")) {
-        this.setInputValue(newValue);
+        this.displayedValue = newValue;
         this.previousEmittedValue = newValue;
         return;
       }
@@ -469,7 +468,7 @@ export class Input
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() localizedValue: string;
+  @State() displayedValue: string;
 
   @State() slottedActionElDisabledInternally = false;
 
@@ -495,11 +494,16 @@ export class Input
     this.setPreviousValue(this.value);
 
     if (this.type === "number") {
-      this.warnAboutInvalidNumberValue(this.value);
-      this.setValue({
-        origin: "connected",
-        value: isValidNumber(this.value) ? this.value : "",
-      });
+      if (this.value === "Infinity" || this.value === "-Infinity") {
+        this.displayedValue = this.value;
+        this.previousEmittedValue = this.value;
+      } else {
+        this.warnAboutInvalidNumberValue(this.value);
+        this.setValue({
+          origin: "connected",
+          value: isValidNumber(this.value) ? this.value : "",
+        });
+      }
     }
 
     this.mutationObserver?.observe(this.el, { childList: true });
@@ -750,7 +754,7 @@ export class Input
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.localizedValue;
+      this.childNumberEl.value = this.displayedValue;
     } else {
       this.setValue({
         nativeEvent,
@@ -942,16 +946,6 @@ export class Input
     }
   }
 
-  private setInputValue = (newInputValue: string): void => {
-    if (this.type === "text" && !this.childEl) {
-      return;
-    }
-    if (this.type === "number" && !this.childNumberEl) {
-      return;
-    }
-    this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
-  };
-
   private setPreviousEmittedValue = (value: string): void => {
     this.previousEmittedValue = this.normalizeValue(value);
   };
@@ -1012,7 +1006,7 @@ export class Input
       }
 
       // adds localized trailing decimal separator
-      this.localizedValue =
+      this.displayedValue =
         hasTrailingDecimalSeparator && isValueDeleted
           ? `${newLocalizedValue}${numberStringFormatter.decimal}`
           : newLocalizedValue;
@@ -1027,7 +1021,7 @@ export class Input
     }
 
     if (origin === "direct") {
-      this.setInputValue(value);
+      this.displayedValue = value;
       this.previousEmittedValue = value;
     }
 
@@ -1035,7 +1029,7 @@ export class Input
       const calciteInputInputEvent = this.calciteInputInput.emit();
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue =
+        this.displayedValue =
           this.type === "number"
             ? numberStringFormatter.localize(this.previousValue)
             : this.previousValue;
@@ -1166,7 +1160,7 @@ export class Input
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           type="text"
-          value={this.localizedValue}
+          value={this.displayedValue}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setChildNumberElRef}
         />
