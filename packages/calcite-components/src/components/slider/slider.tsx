@@ -920,7 +920,7 @@ export class Slider
   /**
    * Fires on all updates to the component.
    *
-   * **Note:** Will be fired frequently during drag. If you are performing any
+   * Note: Fires frequently during drag. To perform
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
@@ -929,7 +929,7 @@ export class Slider
   /**
    * Fires when the thumb is released on the component.
    *
-   * **Note:** If you need to constantly listen to the drag event,
+   * Note: To constantly listen to the drag event,
    * use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
