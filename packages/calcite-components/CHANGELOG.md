@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.10...@esri/calcite-components@2.2.0-next.11) (2024-01-05)
+
+### Bug Fixes
+
+- **button:** avoid needlessly overwriting title ([#8491](https://github.com/Esri/calcite-design-system/issues/8491)) ([350a983](https://github.com/Esri/calcite-design-system/commit/350a9836ec6b3ee541f0fbb10954589b65f14a13)), closes [#8417](https://github.com/Esri/calcite-design-system/issues/8417)
+- **input-date-picker:** ensure range icon toggles open corresponding date-picker ([#8554](https://github.com/Esri/calcite-design-system/issues/8554)) ([cfafd15](https://github.com/Esri/calcite-design-system/commit/cfafd158af72a7393793ec845ea457bdf2a14451)), closes [#7965](https://github.com/Esri/calcite-design-system/issues/7965)
+- **list, list-item, list-item-group:** honor hidden attribute on list-item and list-item-group ([#8541](https://github.com/Esri/calcite-design-system/issues/8541)) ([3851dc6](https://github.com/Esri/calcite-design-system/commit/3851dc63c60dd0ca44ca26406a9c4e5c5f552853)), closes [#8539](https://github.com/Esri/calcite-design-system/issues/8539)
+
 ## [2.2.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.9...@esri/calcite-components@2.2.0-next.10) (2024-01-02)
 
 ### Features

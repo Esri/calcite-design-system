@@ -5,11 +5,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-modal-content-background: Specifies the background color of content placed in the `content` slot.
- * @prop --calcite-modal-content-padding: Specifies the padding of the modal `content` slot.
- * @prop --calcite-modal-scrim-background: Specifies the background color of the modal scrim.
- * @prop --calcite-modal-width: Specifies a width of the modal, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
- * @prop --calcite-modal-height: Specifies a height of the modal, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
+ * @prop --calcite-modal-content-background: Specifies the background color of content placed in the component's `"content"` slot.
+ * @prop --calcite-modal-content-padding: Specifies the padding of the component's `"content"` slot.
+ * @prop --calcite-modal-scrim-background: Specifies the background color of the component's scrim.
+ * @prop --calcite-modal-width: Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
+ * @prop --calcite-modal-height: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
  *
  */
 

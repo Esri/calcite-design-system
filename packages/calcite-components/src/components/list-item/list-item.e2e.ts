@@ -52,6 +52,10 @@ describe("calcite-list-item", () => {
         propertyName: "dragSelected",
         defaultValue: false,
       },
+      {
+        propertyName: "filterHidden",
+        defaultValue: false,
+      },
     ]);
   });
 

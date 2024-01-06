@@ -61,7 +61,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * When `true`, the content area displays like a floating panel.
    *
-   * @deprecated use `displayMode` instead.
+   * @deprecated Use `displayMode` instead.
    */
   @Prop({ reflect: true }) detached = false;
 
@@ -88,7 +88,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * When `displayMode` is `float`, specifies the maximum height of the component.
    *
-   * @deprecated use `heightScale` instead.
+   * @deprecated Use `heightScale` instead.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale;
 

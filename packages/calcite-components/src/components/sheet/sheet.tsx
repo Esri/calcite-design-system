@@ -257,7 +257,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component's "close" button (the first focusable item).
+   * Sets focus on the component's "close" button - the first focusable item.
    *
    */
   @Method()
