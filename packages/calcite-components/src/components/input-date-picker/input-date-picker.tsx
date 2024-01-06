@@ -717,7 +717,8 @@ export class InputDatePicker
   transitionEl: HTMLDivElement;
 
   @Watch("layout")
-  @Watch("focusedInput")
+  // no need for re-opening of the date-picker. closes only on espace or end value selection in range.
+  // @Watch("focusedInput")
   setReferenceEl(): void {
     const { focusedInput, layout, endWrapper, startWrapper } = this;
 
@@ -804,6 +805,7 @@ export class InputDatePicker
   };
 
   deactivate = (): void => {
+    // this is causing date-picker to close when start date is selected from the end calendar.
     this.open = false;
     this.lastBlurredInput = "none";
   };
@@ -869,7 +871,7 @@ export class InputDatePicker
 
       if (submitForm(this)) {
         event.preventDefault();
-        this.restoreInputFocus();
+        this.restoreInputFocus(true);
       }
     } else if (key === "ArrowDown") {
       this.open = true;
@@ -878,7 +880,7 @@ export class InputDatePicker
     } else if (key === "Escape") {
       this.open = false;
       event.preventDefault();
-      this.restoreInputFocus();
+      this.restoreInputFocus(true);
     }
   };
 
@@ -959,6 +961,7 @@ export class InputDatePicker
     return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
   }
 
+  //update these logics to allow focus restoration during editing
   private shouldFocusRangeEnd(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
@@ -979,13 +982,15 @@ export class InputDatePicker
     this.restoreInputFocus();
   };
 
-  private restoreInputFocus(): void {
+  private restoreInputFocus(restore = false): void {
     if (!this.range) {
       this.startInput.setFocus();
       return;
     }
 
-    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+    //const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+    const focusedInput = restore && this.focusedInput === "start" ? this.startInput : this.endInput;
+
     focusedInput.setFocus();
   }
 
@@ -1057,7 +1062,6 @@ export class InputDatePicker
     this.userChangedValue = true;
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
-
     const changeEvent = this.calciteInputDatePickerChange.emit();
 
     if (changeEvent && changeEvent.defaultPrevented) {
