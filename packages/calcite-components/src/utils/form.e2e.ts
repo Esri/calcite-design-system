@@ -1,12 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../support/formatting";
+import { componentsWithInputEvent } from "./form";
 
 describe("form", () => {
   describe("constraint validation", () => {
     describe("required property", () => {
       const requiredValidationMessage = "Please fill out this field.";
 
-      for (const component of ["calcite-input", "calcite-input-number", "calcite-input-text", "calcite-text-area"]) {
+      for (const component of componentsWithInputEvent) {
         it(`${component}`, async () => {
           const page = await newE2EPage();
           await page.setContent(html`
