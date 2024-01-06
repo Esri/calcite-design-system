@@ -4,6 +4,10 @@
   --calcite-list-item-spacing-indent: theme("spacing.4");
 }
 
+:host([filter-hidden]) {
+  @apply hidden;
+}
+
 @include disabled();
 
 .container {
