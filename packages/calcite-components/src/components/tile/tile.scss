@@ -1,25 +1,27 @@
 :host {
-  @apply bg-foreground-1
-    text-color-3
-    box-border
-    inline-block
-    select-none
-    duration-150
-    ease-in-out;
+  --calcite-tile-background-color: var(--calcite-color-foreground-1);
+  --calcite-tile-text-color: var(--calcite-color-text-3);
+
+  background-color: var(--calcite-tile-background-color);
+  box-sizing: border-box;
+  color: var(--calcite-tile-text-color);
+  display: inline-block;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
 
   .container {
-    @apply pointer-events-none
-      grid
-      grid-cols-1;
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    pointer-events: none;
   }
 
   .content {
-    @apply flex
-      flex-auto
-      flex-col
-      justify-center;
-    // set width handles slotted content and heading word wrap
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
     inline-size: 10%;
+    justify-content: center;
   }
 
   .content-container {
