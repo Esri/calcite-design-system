@@ -170,12 +170,12 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   //
   //--------------------------------------------------------------------------
   /**
-   * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
+   * Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
    */
   @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<void>;
 
   /**
-   * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
+   * Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
@@ -246,7 +246,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     const date = dateFromRange(
       this.range && Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
-      this.maxAsDate
+      this.maxAsDate,
     );
     const activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
     const endDate =
@@ -449,7 +449,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           this.hoverRange.start = date;
           this.hoverRange.focused = "start";
         }
-      } else if (end) {
+      } else if (start && end) {
         const startDiff = getDaysDiff(date, start);
         const endDiff = getDaysDiff(date, end);
         if (endDiff > 0) {

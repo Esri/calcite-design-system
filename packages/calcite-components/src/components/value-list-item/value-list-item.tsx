@@ -21,6 +21,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -152,7 +153,7 @@ export class ValueListItem
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, this.el.closest("calcite-value-list") ? "managed" : false);
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------
@@ -287,24 +288,26 @@ export class ValueListItem
   render(): VNode {
     return (
       <Host id={this.el.id || this.guid}>
-        {this.renderHandle()}
-        <calcite-pick-list-item
-          description={this.description}
-          deselectDisabled={this.deselectDisabled}
-          disabled={this.disabled}
-          label={this.label}
-          metadata={this.metadata}
-          nonInteractive={this.nonInteractive}
-          onCalciteListItemChange={this.handleSelectChange}
-          removable={this.removable}
-          selected={this.selected}
-          value={this.value}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.getPickListRef}
-        >
-          {this.renderActionsStart()}
-          {this.renderActionsEnd()}
-        </calcite-pick-list-item>
+        <InteractiveContainer disabled={this.disabled}>
+          {this.renderHandle()}
+          <calcite-pick-list-item
+            description={this.description}
+            deselectDisabled={this.deselectDisabled}
+            disabled={this.disabled}
+            label={this.label}
+            metadata={this.metadata}
+            nonInteractive={this.nonInteractive}
+            onCalciteListItemChange={this.handleSelectChange}
+            removable={this.removable}
+            selected={this.selected}
+            value={this.value}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.getPickListRef}
+          >
+            {this.renderActionsStart()}
+            {this.renderActionsEnd()}
+          </calcite-pick-list-item>
+        </InteractiveContainer>
       </Host>
     );
   }

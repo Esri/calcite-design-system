@@ -31,7 +31,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
-  numberStringFormatter,
+  NumberStringFormat,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
@@ -87,13 +87,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     }
   }
 
-  /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
+  /** When `true`, the component closes automatically. Recommended for passive, non-blocking alerts. */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
+  /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
 
-  /** Specifies the kind of the component (will apply to top border and icon). */
+  /** Specifies the kind of the component, which will apply to top border and icon. */
   @Prop({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
@@ -116,7 +116,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** Specifies the placement of the component */
+  /** Specifies the placement of the component. */
   @Prop({ reflect: true }) placement: MenuPlacement = "bottom";
 
   /** Specifies the size of the component. */
@@ -155,7 +155,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration]
+        DURATIONS[this.autoCloseDuration],
       );
     }
   }
@@ -169,10 +169,17 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+
     const open = this.open;
     if (open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
+
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
   }
 
   async componentWillLoad(): Promise<void> {
@@ -191,7 +198,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     window.dispatchEvent(
       new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
         detail: { alert: this.el },
-      })
+      }),
     );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
@@ -201,12 +208,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   render(): VNode {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      signDisplay: "always",
-    };
-
     const { open, autoClose, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
@@ -265,7 +266,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private renderQueueCount(): VNode {
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
-    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
+    const queueText = this.numberStringFormatter.numberFormatter.format(queueNumber);
 
     return (
       <div
@@ -361,7 +362,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
         detail: { queue },
-      })
+      }),
     );
   }
 
@@ -371,7 +372,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component's "close" button (the first focusable item). */
+  /** Sets focus on the component's "close" button, the first focusable item. */
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
@@ -402,6 +403,22 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
+  }
+
+  @State() numberStringFormatter = new NumberStringFormat();
+
+  @Watch("numberingSystem")
+  numberingSystemChange(): void {
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
   }
 
   @State() hasEndActions = false;
@@ -451,7 +468,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         this.initialOpenTime = Date.now();
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
-          DURATIONS[this.autoCloseDuration]
+          DURATIONS[this.autoCloseDuration],
         );
       }
     } else {

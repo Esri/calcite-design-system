@@ -49,7 +49,7 @@ export class TabNav {
   @Prop({ reflect: true }) syncId: string;
 
   /**
-   * Specifies the component's selected tab-title.
+   * Specifies the component's selected `calcite-tab-title`.
    *
    * @readonly
    */
@@ -333,7 +333,7 @@ export class TabNav {
   handleTabFocus = (
     event: CustomEvent,
     el: HTMLCalciteTabTitleElement,
-    destination: FocusElementInGroupDestination
+    destination: FocusElementInGroupDestination,
   ): void => {
     focusElementInGroup(this.enabledTabTitles, el, destination);
 
@@ -379,7 +379,7 @@ export class TabNav {
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
     return filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
-      "calcite-tab-title:not([disabled])"
+      "calcite-tab-title:not([disabled])",
     ).filter((tabTitle) => !tabTitle.closed);
   }
 
@@ -389,7 +389,7 @@ export class TabNav {
     const visibleTabTitlesIndices = tabTitles.reduce(
       (tabTitleIndices, tabTitle, index) =>
         !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
-      []
+      [],
     );
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
@@ -399,7 +399,7 @@ export class TabNav {
     } else if (totalVisibleTabTitles > 1) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
-        (value) => value > closedTabTitleIndex
+        (value) => value > closedTabTitleIndex,
       );
 
       if (this.selectedTabId === closedTabTitleIndex) {

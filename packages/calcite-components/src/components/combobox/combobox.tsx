@@ -46,6 +46,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -74,6 +75,7 @@ import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } fr
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
 import { getIconScale } from "../../utils/component";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
+import { Validation } from "../functional/Validation";
 
 interface ItemData {
   label: string;
@@ -177,6 +179,12 @@ export class Combobox
     this.setMaxScrollerHeight();
   }
 
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop() validationIcon: string | boolean;
+
   /**
    * Specifies the name of the component.
    *
@@ -211,10 +219,10 @@ export class Combobox
 
   /**
    * Specifies the selection mode:
-   * - "multiple" allows any number of selected items (default),
-   * - "single" allows only one selection,
-   * - "single-persist" allow and require one open item,
-   * - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   * `"multiple"` allows any number of selected items,
+   * `"single"` allows only one selection,
+   * `"single-persist"` allow and require one open item,
+   * `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -371,7 +379,7 @@ export class Combobox
         flipPlacements: filteredFlipPlacements,
         type: "menu",
       },
-      delayed
+      delayed,
     );
   }
 
@@ -877,7 +885,7 @@ export class Combobox
     const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
     const largestSelectedIndicatorChipWidth = Math.max(
       allSelectedIndicatorChipElWidth,
-      selectedIndicatorChipElWidth
+      selectedIndicatorChipElWidth,
     );
 
     this.setCompactSelectionDisplay({
@@ -889,7 +897,7 @@ export class Combobox
 
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-        (chipEl) => chipEl.closable
+        (chipEl) => chipEl.closable,
       );
 
       const availableHorizontalChipElSpace = Math.round(
@@ -897,7 +905,7 @@ export class Combobox
           ((this.selectedHiddenChipsCount > 0 ? selectedIndicatorChipElWidth : 0) +
             chipContainerElGap +
             inputWidth +
-            chipContainerElGap)
+            chipContainerElGap),
       );
 
       this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
@@ -917,7 +925,7 @@ export class Combobox
     largestSelectedIndicatorChipWidth,
   }): void {
     const newCompactBreakpoint = Math.round(
-      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth
+      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth,
     );
     if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
       this.maxCompactBreakpoint = newCompactBreakpoint;
@@ -1022,7 +1030,7 @@ export class Combobox
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item &&
       filteredData.some(({ label, value }) =>
-        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel
+        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
       );
 
     return debounce((text: string): void => {
@@ -1120,7 +1128,7 @@ export class Combobox
       this.items
         .filter(
           (item) =>
-            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
+            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
         )
         /** Preserve order of entered tags */
         .sort((a, b) => {
@@ -1185,7 +1193,7 @@ export class Combobox
 
   getItems(): HTMLCalciteComboboxItemElement[] {
     const items: HTMLCalciteComboboxItemElement[] = Array.from(
-      this.el.querySelectorAll(ComboboxItem)
+      this.el.querySelectorAll(ComboboxItem),
     );
     return items.filter((item) => !item.disabled);
   }
@@ -1641,73 +1649,83 @@ export class Combobox
     const isClearable = !this.clearDisabled && this.value?.length > 0;
     return (
       <Host onClick={this.comboboxFocusHandler}>
-        <div
-          aria-autocomplete="list"
-          aria-controls={`${listboxUidPrefix}${guid}`}
-          aria-expanded={toAriaBoolean(open)}
-          aria-haspopup="listbox"
-          aria-label={getLabelText(this)}
-          aria-live="polite"
-          aria-owns={`${listboxUidPrefix}${guid}`}
-          class={{
-            wrapper: true,
-            "wrapper--single": singleSelectionMode || !this.selectedItems.length,
-            "wrapper--active": open,
-          }}
-          onClick={this.clickHandler}
-          onKeyDown={this.keyDownHandler}
-          role="combobox"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setReferenceEl}
-        >
+        <InteractiveContainer disabled={this.disabled}>
           <div
+            aria-autocomplete="list"
+            aria-controls={`${listboxUidPrefix}${guid}`}
+            aria-expanded={toAriaBoolean(open)}
+            aria-haspopup="listbox"
+            aria-label={getLabelText(this)}
+            aria-live="polite"
+            aria-owns={`${listboxUidPrefix}${guid}`}
             class={{
-              "grid-input": true,
-              [CSS.selectionDisplayFit]: fitSelectionDisplay,
-              [CSS.selectionDisplaySingle]: singleSelectionDisplay,
+              wrapper: true,
+              "wrapper--single": singleSelectionMode || !this.selectedItems.length,
+              "wrapper--active": open,
             }}
-            ref={this.setChipContainerEl}
+            onClick={this.clickHandler}
+            onKeyDown={this.keyDownHandler}
+            role="combobox"
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setReferenceEl}
           >
-            {this.renderIconStart()}
-            {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
-            {!singleSelectionMode &&
-              !allSelectionDisplay && [
-                this.renderSelectedIndicatorChip(),
-                this.renderSelectedIndicatorChipCompact(),
-                this.renderAllSelectedIndicatorChip(),
-                this.renderAllSelectedIndicatorChipCompact(),
-              ]}
-            <label
-              class="screen-readers-only"
-              htmlFor={`${inputUidPrefix}${guid}`}
-              id={`${labelUidPrefix}${guid}`}
+            <div
+              class={{
+                "grid-input": true,
+                [CSS.selectionDisplayFit]: fitSelectionDisplay,
+                [CSS.selectionDisplaySingle]: singleSelectionDisplay,
+              }}
+              ref={this.setChipContainerEl}
             >
-              {label}
-            </label>
-            {this.renderInput()}
+              {this.renderIconStart()}
+              {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
+              {!singleSelectionMode &&
+                !allSelectionDisplay && [
+                  this.renderSelectedIndicatorChip(),
+                  this.renderSelectedIndicatorChipCompact(),
+                  this.renderAllSelectedIndicatorChip(),
+                  this.renderAllSelectedIndicatorChipCompact(),
+                ]}
+              <label
+                class="screen-readers-only"
+                htmlFor={`${inputUidPrefix}${guid}`}
+                id={`${labelUidPrefix}${guid}`}
+              >
+                {label}
+              </label>
+              {this.renderInput()}
+            </div>
+            {isClearable ? (
+              <XButton
+                disabled={this.disabled}
+                key="close-button"
+                label={this.messages.clear}
+                scale={this.scale}
+              />
+            ) : null}
+            {this.renderIconEnd()}
           </div>
-          {isClearable ? (
-            <XButton
-              disabled={this.disabled}
-              key="close-button"
-              label={this.messages.clear}
+          <ul
+            aria-labelledby={`${labelUidPrefix}${guid}`}
+            aria-multiselectable="true"
+            class="screen-readers-only"
+            id={`${listboxUidPrefix}${guid}`}
+            role="listbox"
+            tabIndex={-1}
+          >
+            {this.renderListBoxOptions()}
+          </ul>
+          {this.renderFloatingUIContainer()}
+          <HiddenFormInputSlot component={this} />
+          {this.validationMessage ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
               scale={this.scale}
+              status={this.status}
             />
           ) : null}
-          {this.renderIconEnd()}
-        </div>
-        <ul
-          aria-labelledby={`${labelUidPrefix}${guid}`}
-          aria-multiselectable="true"
-          class="screen-readers-only"
-          id={`${listboxUidPrefix}${guid}`}
-          role="listbox"
-          tabIndex={-1}
-        >
-          {this.renderListBoxOptions()}
-        </ul>
-        {this.renderFloatingUIContainer()}
-        <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }

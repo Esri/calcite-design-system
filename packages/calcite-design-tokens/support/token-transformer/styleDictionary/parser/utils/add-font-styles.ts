@@ -6,7 +6,7 @@ import { DeepKeyTokenMap, SingleToken } from "../../../../types/tokenStudio/desi
 function recurse(
   slice: SingleToken<false> | DeepKeyTokenMap<false>,
   copy: DeepKeyTokenMap<false>,
-  alwaysAddFontStyle = false
+  alwaysAddFontStyle = false,
 ): void {
   for (const key in slice) {
     const token = slice[key];
@@ -26,7 +26,7 @@ function recurse(
 
 export function addFontStyles(
   dictionary: DeepKeyTokenMap<false>,
-  transformOpts?: TransformOptions
+  transformOpts?: TransformOptions,
 ): DeepKeyTokenMap<false> {
   const copy = { ...dictionary };
   recurse(copy, copy, transformOpts?.alwaysAddFontStyle);

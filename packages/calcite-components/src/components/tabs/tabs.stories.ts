@@ -346,7 +346,7 @@ export const inlineTabsJustifyAgainstTheStartOfTheNavWidth_TestOnly = (): string
   </calcite-tabs>
 `;
 
-export const TabChildrenWithPercentageHeights = (): string => html`
+export const Tab100PercentHeightNoVerticalScroll = (): string => html`
   <calcite-tabs style="height: 250px;">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Boats</calcite-tab-title>
@@ -356,24 +356,39 @@ export const TabChildrenWithPercentageHeights = (): string => html`
     </calcite-tab>
   </calcite-tabs>
 `;
-TabChildrenWithPercentageHeights.parameters = {
+Tab100PercentHeightNoVerticalScroll.parameters = {
   chromatic: { delay: 1000 },
 };
 
-export const updateIndicatorOffset_TestOnly = (): string => html`<calcite-tabs>
+export const Tab200PercentHeightWithVerticalScroll = (): string => html`
+  <calcite-tabs style="height: 250px;">
     <calcite-tab-nav slot="title-group">
-      <calcite-tab-title id="tab-title">Boats</calcite-tab-title>
-      <calcite-tab-title selected>Ships</calcite-tab-title>
-      <calcite-tab-title>Yachts</calcite-tab-title>
+      <calcite-tab-title selected>Boats</calcite-tab-title>
     </calcite-tab-nav>
-    <calcite-tab>Tab 1 content</calcite-tab>
-    <calcite-tab>Tab 2 content</calcite-tab>
-    <calcite-tab>Tab 3 content</calcite-tab>
+    <calcite-tab style="background: pink;">
+      <div style="background: linear-gradient(to bottom, red, transparent); height: 200%;">Tab 1 content</div>
+    </calcite-tab>
   </calcite-tabs>
-  <script>
-    const tabTitle = document.getElementById("tab-title");
-    setTimeout(() => (tabTitle.iconStart = "bullet-point"), 300);
-  </script>`;
+`;
+Tab200PercentHeightWithVerticalScroll.parameters = {
+  chromatic: { delay: 1000 },
+};
+
+export const updateIndicatorOffset_TestOnly = (): string =>
+  html`<calcite-tabs>
+      <calcite-tab-nav slot="title-group">
+        <calcite-tab-title id="tab-title">Boats</calcite-tab-title>
+        <calcite-tab-title selected>Ships</calcite-tab-title>
+        <calcite-tab-title>Yachts</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab>Tab 1 content</calcite-tab>
+      <calcite-tab>Tab 2 content</calcite-tab>
+      <calcite-tab>Tab 3 content</calcite-tab>
+    </calcite-tabs>
+    <script>
+      const tabTitle = document.getElementById("tab-title");
+      setTimeout(() => (tabTitle.iconStart = "bullet-point"), 300);
+    </script>`;
 
 updateIndicatorOffset_TestOnly.parameters = {
   chromatic: { delay: 1000 },

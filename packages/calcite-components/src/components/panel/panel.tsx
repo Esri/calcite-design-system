@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -21,6 +20,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -292,8 +292,8 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar")
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
@@ -583,7 +583,7 @@ export class Panel
   }
 
   render(): VNode {
-    const { loading, panelKeyDownHandler, closed, closable } = this;
+    const { disabled, loading, panelKeyDownHandler, closed, closable } = this;
 
     const panelNode = (
       <article
@@ -602,10 +602,10 @@ export class Panel
     );
 
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

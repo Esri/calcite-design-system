@@ -49,14 +49,14 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
 
       await writeFile(
         declarationFile,
-        format(typingsContent, {
+        await format(typingsContent, {
           filepath: declarationFile,
-        })
+        }),
       );
       const t9nPath = `${bundle.split("/t9n")[0]}/t9n`;
       const relativeT9nPath = `${rootManifestFilePath}${t9nPath}`;
       return relativeT9nPath.replace(/\//g, manifestFilePathSeparator);
-    })
+    }),
   );
 
   console.log("finished generating t9n string typings");

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -28,6 +28,11 @@
       calcite-table {
         width: 80vw;
         margin: 2rem auto;
+      }
+
+      calcite-modal calcite-table {
+        margin: 0;
+        width: auto;
       }
 
       .theme-ranger-station {
@@ -232,6 +237,481 @@
 
   <body>
     <demo-dom-swapper>
+      <calcite-modal id="modal" open>
+        <div slot="content" class="table-wrapper">
+          <calcite-table caption="Simple table">
+            <calcite-table-row slot="table-header">
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Last Heading" alignment="end"></calcite-table-header>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>
+        </div>
+      </calcite-modal>
+
+      <h3>Scroll in parent testing</h3>
+      <div style="display: inline-flex; flex-direction: row; gap: 1rem; margin: 0 auto; text-align: center">
+        <calcite-panel
+          heading="Table"
+          style="display: block; width: 300px; margin: 0 auto; border: 1px solid var(--calcite-ui-border-3)"
+        >
+          <calcite-table
+            caption="Simple table"
+            open="true"
+            page-size="3"
+            style="width: calc(100% - 1rem); margin: 0.5rem"
+          >
+            <calcite-table-row slot="table-header">
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Last Heading" alignment="end"></calcite-table-header>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>
+        </calcite-panel>
+        <calcite-panel
+          heading="Table"
+          style="width: 300px; margin: 0 auto; border: 1px solid var(--calcite-ui-border-3)"
+        >
+          <calcite-table
+            caption="Simple table"
+            open="true"
+            style="width: calc(100% - 1rem); height: 140px; margin: 0.5rem"
+          >
+            <calcite-table-row slot="table-header">
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Last Heading" alignment="end"></calcite-table-header>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>
+        </calcite-panel>
+        <calcite-table caption="Simple table" open="true" style="width: 30vw; height: 200px">
+          <calcite-table-row slot="table-header">
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Last Heading" alignment="end"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell alignment="end">cell content</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>
+      </div>
       <h3>A11y testing</h3>
 
       <calcite-table selection-mode="multiple" numbered caption="Accessibility testing table" page-size="10">
@@ -1439,8 +1919,8 @@
           <span>Features</span>
           <calcite-chip-group selection-mode="multiple" id="preview-chips">
             <calcite-chip appearance="outline-fill" icon="number-circle-1" value="numbered">Numbered</calcite-chip>
-            <calcite-chip appearance="outline-fill" icon="list-rectangle" value="zebra">Zebra</calcite-chip>
-            <calcite-chip appearance="outline-fill" icon="border-radius-sharp" value="Bordered">Bordered</calcite-chip>
+            <calcite-chip appearance="outline-fill" icon="list-rectangle" value="striped">Striped</calcite-chip>
+            <calcite-chip appearance="outline-fill" icon="border-radius-sharp" value="bordered">Bordered</calcite-chip>
           </calcite-chip-group>
         </div>
         <div>
@@ -2688,6 +3168,30 @@
             <calcite-chip scale="s">Another thing</calcite-chip>
           </calcite-table-cell>
         </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell>footer</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
       </calcite-table>
 
       <h3>Localized numbers</h3>
@@ -2885,8 +3389,8 @@
         </calcite-table-row>
       </calcite-table>
 
-      <h3>zebra</h3>
-      <calcite-table zebra caption="zebra">
+      <h3>striped</h3>
+      <calcite-table striped caption="striped">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -2941,8 +3445,8 @@
         </calcite-table-row>
       </calcite-table>
 
-      <h3>Bordered-zebra</h3>
-      <calcite-table bordered zebra caption="Bordered-zebra table">
+      <h3>Bordered-striped</h3>
+      <calcite-table bordered striped caption="Bordered-striped table">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -2998,7 +3502,7 @@
       </calcite-table>
 
       <h3>Disabled rows</h3>
-      <calcite-table caption="Bordered-zebra table">
+      <calcite-table caption="Bordered-striped table">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3187,7 +3691,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span</h3>
-      <calcite-table bordered zebra caption="Using row-span and col-span table">
+      <calcite-table bordered striped caption="Using row-span and col-span table">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3224,7 +3728,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span and numbered</h3>
-      <calcite-table bordered zebra numbered caption="Using row-span and col-span table">
+      <calcite-table bordered striped numbered caption="Using row-span and col-span table">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3261,7 +3765,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span</h3>
-      <calcite-table bordered zebra caption="Using row-span and col-span table">
+      <calcite-table bordered striped caption="Using row-span and col-span table">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header col-span="3" heading="Heading" description="Description"></calcite-table-header>
@@ -3466,6 +3970,52 @@
         </calcite-table-row>
       </calcite-table>
 
+      <h3>Headers in rows and table-head with selection-mode</h3>
+      <calcite-table selection-mode="multiple" caption="Headers in rows and table-head table">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+        </calcite-table-row>
+
+        <calcite-table-row>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading" description="description in row"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-header heading="Footer heading" description="footer description"></calcite-table-header>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-header heading="Footer heading" description="footer description"></calcite-table-header>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
       <h3>selection-mode single</h3>
       <calcite-table selection-mode="single" caption="selection-mode single table">
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>
@@ -3499,7 +4049,7 @@
       </calcite-table>
 
       <h3>selection-mode multiple with selected at load</h3>
-      <calcite-table selection-mode="multiple" numbered caption="selection-mode multiple and numbered table">
+      <calcite-table bordered selection-mode="multiple" numbered caption="selection-mode multiple and numbered table">
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>
         <calcite-action slot="selection-actions" icon="send"></calcite-action>
         <calcite-action slot="selection-actions" icon="copy"></calcite-action>
@@ -3661,6 +4211,8 @@
         page-size="4"
         selection-mode="multiple"
         numbered
+        striped
+        bordered
         caption="selection-mode multiple with selected at load"
       >
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>

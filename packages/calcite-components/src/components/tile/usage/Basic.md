@@ -1,7 +1,7 @@
 ```html
 <calcite-tile
-  description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-  heading="Tile heading lorem ipsum"
+  description="Explore a curated collection of high-quality images and visuals. Find inspiration for your projects and discover the beauty of photography."
+  heading="Discover stunning images"
   href="#"
   icon="images"
 ></calcite-tile>

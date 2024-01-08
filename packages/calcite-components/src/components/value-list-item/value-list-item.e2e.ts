@@ -60,7 +60,7 @@ describe("calcite-value-list-item", () => {
     await page.evaluate(() =>
       document.addEventListener("calciteListItemChange", (event: CustomEvent): void => {
         (window as any).eventDetail = event.detail;
-      })
+      }),
     );
 
     await item.click();
@@ -120,7 +120,7 @@ describe("calcite-value-list-item", () => {
         }
       },
       partSelector,
-      partMethodToInvoke
+      partMethodToInvoke,
     );
   }
 

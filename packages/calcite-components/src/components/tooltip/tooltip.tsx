@@ -89,6 +89,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   @Watch("open")
   openHandler(): void {
     onToggleOpenCloseComponent(this);
+    this.reposition(true);
   }
 
   /**
@@ -238,7 +239,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         arrowEl,
         type: "tooltip",
       },
-      delayed
+      delayed,
     );
   }
 
@@ -249,7 +250,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   onBeforeOpen(): void {
-    this.reposition(true);
     this.calciteTooltipBeforeOpen.emit();
   }
 
@@ -263,7 +263,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   onClose(): void {
     this.calciteTooltipClose.emit();
-    this.reposition(true);
   }
 
   private setTransitionEl = (el): void => {

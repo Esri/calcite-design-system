@@ -188,7 +188,9 @@
   items-stretch
   self-stretch
   p-0;
-  transition: max-block-size var(--calcite-animation-timing), max-inline-size var(--calcite-animation-timing);
+  transition:
+    max-block-size var(--calcite-animation-timing),
+    max-inline-size var(--calcite-animation-timing);
 }
 
 :host([layout="vertical"]) .content {

@@ -94,7 +94,7 @@ export class Popover
    */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** When `true`, display a close button within the component. */
+  /** When `true`, displays a close button within the component. */
   @Prop({ reflect: true }) closable = false;
 
   /**
@@ -194,7 +194,7 @@ export class Popover
   @Watch("open")
   openHandler(): void {
     onToggleOpenCloseComponent(this);
-
+    this.reposition(true);
     this.setExpandedAttr();
   }
 
@@ -253,7 +253,7 @@ export class Popover
   @Element() el: HTMLCalcitePopoverElement;
 
   mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements()
+    this.updateFocusTrapElements(),
   );
 
   filteredFlipPlacements: EffectivePlacement[];
@@ -381,7 +381,7 @@ export class Popover
         arrowEl,
         type: "popover",
       },
-      delayed
+      delayed,
     );
   }
 
@@ -499,7 +499,6 @@ export class Popover
   };
 
   onBeforeOpen(): void {
-    this.reposition(true);
     this.calcitePopoverBeforeOpen.emit();
   }
 
@@ -515,7 +514,6 @@ export class Popover
   onClose(): void {
     this.calcitePopoverClose.emit();
     deactivateFocusTrap(this);
-    this.reposition(true);
   }
 
   storeArrowEl = (el: SVGElement): void => {

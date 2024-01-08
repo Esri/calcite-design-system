@@ -1,4 +1,7 @@
 {
+  "all": "Kaikki",
+  "allSelected": "Kaikki valitut",
   "clear": "Tyhjennä arvo",
-  "removeTag": "Poista tunniste"
+  "removeTag": "Poista tunniste",
+  "selected": "valitut"
 }

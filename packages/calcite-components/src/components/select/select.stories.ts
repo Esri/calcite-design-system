@@ -10,10 +10,10 @@ import { select, boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";
 import optionGroupReadme from "../option-group/readme.md";
-import { storyFilters } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
-  { exceptions } = { exceptions: [] }
+  { exceptions } = { exceptions: [] },
 ) => {
   const group = "select";
 
@@ -51,8 +51,24 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
           return this;
         },
       },
+      {
+        name: "validation-message",
+        commit(): Attribute {
+          this.value = text("validation-message", "", group);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "validation-icon",
+        commit(): Attribute {
+          this.value = select("validation-icon", ["", ...iconNames], "", group);
+          delete this.build;
+          return this;
+        },
+      },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -114,7 +130,7 @@ export const simple = (): string =>
           value="some-fixed-value"
         ></calcite-option>
         <calcite-option label="another fixed option" value="another-fixed-value"></calcite-option>
-      `
+      `,
     )}
   </div>`;
 
@@ -130,13 +146,13 @@ export const grouped = (): string =>
           ${create("calcite-option", createOptionAttributes())}
           <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
           <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
-        `
+        `,
       )}
       <calcite-option-group label="group B (fixed)">
         <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
         <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
       </calcite-option-group>
-    `
+    `,
   );
 
 export const darkModeRTL_TestOnly = (): string =>
@@ -161,13 +177,13 @@ export const darkModeRTL_TestOnly = (): string =>
           ${create("calcite-option", createOptionAttributes())}
           <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
           <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
-        `
+        `,
       )}
       <calcite-option-group label="group B (fixed)">
         <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
         <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
       </calcite-option-group>
-    `
+    `,
   );
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
@@ -177,4 +193,30 @@ export const disabledAndLargeScaleGetsMediumChevron_TestOnly = (): string => htm
     <calcite-option label="first" value="1"></calcite-option>
     <calcite-option label="second" value="2"></calcite-option>
   </calcite-select>
+`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-select scale="s" validation-message="This field is required." validation-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+    <calcite-select scale="m" validation-message="This field is required." validation-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+    <calcite-select scale="l" validation-message="This field is required." validation-icon status="invalid">
+      <calcite-option label="first" value="1"></calcite-option>
+      <calcite-option label="second" value="2"></calcite-option>
+    </calcite-select>
+  </div>
 `;

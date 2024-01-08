@@ -31,15 +31,17 @@ describe("calcite-menu", () => {
   describe("mouse support", () => {
     it("should open the submenu on click", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-menu>
-        <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
-          <calcite-menu-item id="ArcGISJS" text="ArcGISJS" slot="submenu-item">
-            <calcite-menu-item text="API" id="API" slot="submenu-item"></calcite-menu-item>
-            <calcite-menu-item text="Widgets" id="Widgets" slot="submenu-item"> </calcite-menu-item>
+      await page.setContent(
+        html`<calcite-menu>
+          <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
+            <calcite-menu-item id="ArcGISJS" text="ArcGISJS" slot="submenu-item">
+              <calcite-menu-item text="API" id="API" slot="submenu-item"></calcite-menu-item>
+              <calcite-menu-item text="Widgets" id="Widgets" slot="submenu-item"> </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item text="Calcite" id="Calcite" slot="submenu-item"> </calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item text="Calcite" id="Calcite" slot="submenu-item"> </calcite-menu-item>
-        </calcite-menu-item>
-      </calcite-menu>`);
+        </calcite-menu>`,
+      );
 
       const menuItem = await page.find("calcite-menu-item[id='ArcGISOnline']");
       const menuItemMenu = await page.find("calcite-menu-item[id='ArcGISOnline'] >>> calcite-menu");
@@ -62,12 +64,14 @@ describe("calcite-menu", () => {
 
     it("should close any opened submenu when clicked outside", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-menu>
-        <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
-          <calcite-menu-item text="ArcGISJS" slot="submenu-item"> </calcite-menu-item>
-          <calcite-menu-item text="Calcite" slot="submenu-item"> </calcite-menu-item>
-        </calcite-menu-item>
-      </calcite-menu>`);
+      await page.setContent(
+        html`<calcite-menu>
+          <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
+            <calcite-menu-item text="ArcGISJS" slot="submenu-item"> </calcite-menu-item>
+            <calcite-menu-item text="Calcite" slot="submenu-item"> </calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu>`,
+      );
 
       const menuItem = await page.find("calcite-menu-item[id='ArcGISOnline']");
       const menuItemMenu = await page.find("calcite-menu-item[id='ArcGISOnline'] >>> calcite-menu");
@@ -90,16 +94,18 @@ describe("calcite-menu", () => {
   describe("keyboard support", () => {
     it("should open and close horizontal calcite-menu", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-menu>
-        <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
-          <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item">
-            <calcite-menu-item text="Rocky Mountains" id="RockyMountains" slot="submenu-item"></calcite-menu-item>
-            <calcite-menu-item text="Smoky Mountains" id="SmokyMountains" slot="submenu-item"> </calcite-menu-item>
+      await page.setContent(
+        html`<calcite-menu>
+          <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
+            <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item">
+              <calcite-menu-item text="Rocky Mountains" id="RockyMountains" slot="submenu-item"></calcite-menu-item>
+              <calcite-menu-item text="Smoky Mountains" id="SmokyMountains" slot="submenu-item"> </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item text="Rivers" id="Rivers" slot="submenu-item"> </calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item text="Rivers" id="Rivers" slot="submenu-item"> </calcite-menu-item>
-        </calcite-menu-item>
-        <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
-      </calcite-menu>`);
+          <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
+        </calcite-menu>`,
+      );
 
       const menuItemMenu = await page.find("calcite-menu-item[id='Nature'] >>> calcite-menu");
       const submenuItemMenu = await page.find("calcite-menu-item[id='Mountains'] >>> calcite-menu");
@@ -174,16 +180,18 @@ describe("calcite-menu", () => {
 
     it("should open and close vertical calcite-menu", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-menu layout="vertical">
-        <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
-          <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item">
-            <calcite-menu-item text="Rocky Mountains" id="RockyMountains" slot="submenu-item"></calcite-menu-item>
-            <calcite-menu-item text="Smoky Mountains" id="SmokyMountains" slot="submenu-item"> </calcite-menu-item>
+      await page.setContent(
+        html`<calcite-menu layout="vertical">
+          <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
+            <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item">
+              <calcite-menu-item text="Rocky Mountains" id="RockyMountains" slot="submenu-item"></calcite-menu-item>
+              <calcite-menu-item text="Smoky Mountains" id="SmokyMountains" slot="submenu-item"> </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item text="Rivers" id="Rivers" slot="submenu-item"> </calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item text="Rivers" id="Rivers" slot="submenu-item"> </calcite-menu-item>
-        </calcite-menu-item>
-        <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
-      </calcite-menu>`);
+          <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
+        </calcite-menu>`,
+      );
 
       const menuItemMenu = await page.find("calcite-menu-item[id='Nature'] >>> calcite-menu");
       const submenuItemMenu = await page.find("calcite-menu-item[id='Mountains'] >>> calcite-menu");
@@ -259,12 +267,14 @@ describe("calcite-menu", () => {
 
   it("should close opened submenu on Escape", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-menu>
-      <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
-        <calcite-menu-item text="ArcGISJS" slot="submenu-item"> </calcite-menu-item>
-        <calcite-menu-item text="Calcite" slot="submenu-item"> </calcite-menu-item>
-      </calcite-menu-item>
-    </calcite-menu>`);
+    await page.setContent(
+      html`<calcite-menu>
+        <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
+          <calcite-menu-item text="ArcGISJS" slot="submenu-item"> </calcite-menu-item>
+          <calcite-menu-item text="Calcite" slot="submenu-item"> </calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu>`,
+    );
 
     const menuItem = await page.find("calcite-menu-item[id='ArcGISOnline']");
     const menuItemMenu = await page.find("calcite-menu-item[id='ArcGISOnline'] >>> calcite-menu");

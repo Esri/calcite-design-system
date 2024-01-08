@@ -21,6 +21,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -248,9 +249,9 @@ export class Block
   @Event({ cancelable: false }) calciteBlockOpen: EventEmitter<void>;
 
   /**
-   * Emits when the component's header is clicked.
+   * Fires when the component's header is clicked.
    *
-   * @deprecated use `openClose` events: `calciteBlock[Before]Open` and `calciteBlock[Before]Close` instead.
+   * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 
@@ -372,24 +373,26 @@ export class Block
 
     return (
       <Host>
-        <article
-          aria-busy={toAriaBoolean(loading)}
-          class={{
-            [CSS.container]: true,
-          }}
-        >
-          {headerNode}
-          <section
-            aria-labelledby={IDS.toggle}
-            class={CSS.content}
-            hidden={!open}
-            id={IDS.content}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setTransitionEl}
+        <InteractiveContainer disabled={this.disabled}>
+          <article
+            aria-busy={toAriaBoolean(loading)}
+            class={{
+              [CSS.container]: true,
+            }}
           >
-            {this.renderScrim()}
-          </section>
-        </article>
+            {headerNode}
+            <section
+              aria-labelledby={IDS.toggle}
+              class={CSS.content}
+              hidden={!open}
+              id={IDS.content}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.setTransitionEl}
+            >
+              {this.renderScrim()}
+            </section>
+          </article>
+        </InteractiveContainer>
       </Host>
     );
   }

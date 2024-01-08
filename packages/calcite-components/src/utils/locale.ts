@@ -167,7 +167,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
 
   if (!contextualLocales.includes(locale)) {
     console.warn(
-      `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`
+      `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`,
     );
     return defaultLocale;
   }
@@ -370,7 +370,7 @@ export class NumberStringFormat {
 
     this._numberFormatter = new Intl.NumberFormat(
       this._numberFormatOptions.locale,
-      this._numberFormatOptions as Intl.NumberFormatOptions
+      this._numberFormatOptions as Intl.NumberFormatOptions,
     );
 
     this._digits = [
@@ -405,7 +405,7 @@ export class NumberStringFormat {
             .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
             .replace(new RegExp(`[${this._group}]`, "g"), "")
             .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
-            .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex)
+            .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex),
         )
       : numberString;
 
@@ -416,7 +416,7 @@ export class NumberStringFormat {
             ? new BigDecimal(nonExpoNumString.trim())
                 .format(this)
                 .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
-            : nonExpoNumString
+            : nonExpoNumString,
         )
       : numberString;
 }

@@ -4,12 +4,10 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-table-cell-background: Specifies the background color of the component.
- * @prop --calcite-table-cell-border-color: Specifies the border color of the component.
  */
 
 :host {
-  --calcite-internal-table-cell-background-internal: var(--calcite-table-cell-background, transparent);
-  --calcite-internal-table-cell-border-color-internal: var(--calcite-table-cell-border-color, transparent);
+  --calcite-internal-table-cell-background: var(--calcite-table-cell-background, transparent);
   @apply contents;
 }
 
@@ -28,12 +26,17 @@
 td {
   @apply text-start focus-base align-middle text-color-1 whitespace-normal;
   background: var(--calcite-internal-table-cell-background);
-  border-inline-end: 1px solid var(--calcite-color-border-3);
   font-size: var(--calcite-internal-table-cell-font-size);
+  border-inline-end: 1px solid var(--calcite-color-border-3);
+
   &:focus {
     @apply focus-inset;
   }
   padding: var(--calcite-internal-table-cell-padding);
+}
+
+td.last-cell {
+  border-inline-end: 0;
 }
 
 .number-cell {
@@ -58,8 +61,7 @@ td {
 }
 
 .selected-cell:not(.number-cell):not(.footer-cell) {
-  --calcite-table-cell-background: var(--calcite-color-foreground-current);
-  background: var(--calcite-color-foreground-current);
+  --calcite-internal-table-cell-background: var(--calcite-color-foreground-current);
 }
 
 .selection-cell.selected-cell {
@@ -80,3 +82,5 @@ td {
     @apply pointer-events-none mt-1;
   }
 }
+
+@include disabled();
