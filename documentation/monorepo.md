@@ -80,7 +80,7 @@ Make the following changes and submit a PR:
 1. In [`release-please-config.json`](https://github.com/Esri/calcite-design-system/blob/main/release-please-config.json) under the `packages` field, add the new package's path as well as any package-specific configurations. The only required field is the package's name, taken from the `name` field in its `package.json`.
 1. If the new package needs to be linked to Calcite Component's version, add its name to the `LINKED_VERSIONS_TRACKING_PACKAGES` array in [`support/syncLinkedPackageVersions.ts`](https://github.com/Esri/calcite-design-system/blob/main/support/syncLinkedPackageVersions.ts).
 1. Potentially rename the new package's NPM scripts so they match the pipeline names in `turbo.json` (build, test, clean, etc.). Note: having all of the NPM scripts that are specified in `turbo.json` is not required.
-1. If present and when possible, the `test` NPM script should _not_ build first. Turbo will make sure the `build` script runs first and will cache the results.
+1. If present and when possible, the `test` NPM script should *not* build first. Turbo will make sure the `build` script runs first and will cache the results.
 1. Potentially rename directories for consistency with the other packages:
 
 - `src/` - source code
@@ -147,7 +147,7 @@ The release CI consists of three GitHub Actions and three scripts.
 
 `next` releases happen in the `deploy-next.yml` GitHub Action, which runs on pushes to `main`. The Action runs the `isNextDeployable.ts` script to determine whether any fixes, feats, or breaking changes were installed since the most recent [git tag](#git-tags) (aka release). If there are deployable changes, Lerna versions the relevant packages and generates the new changelog entries.
 
-The `syncLinkedPackageVersions.ts` executes after Lerna versions the packages. The script makes sure CCR's (and potentially other packages in the future) semver version isn't greater or less than CC's version. CCR's version is bumped to CC's version if it is behind. If CCR's version is greater, `next` releases __for all packages__ will be blocked until CC's version catches up.
+The `syncLinkedPackageVersions.ts` executes after Lerna versions the packages. The script makes sure CCR's (and potentially other packages in the future) semver version isn't greater or less than CC's version. CCR's version is bumped to CC's version if it is behind. If CCR's version is greater, `next` releases **for all packages** will be blocked until CC's version catches up.
 
 After versioning, a commit is created, which is tagged for each released package. [Lerna publishes to NPM in topological order](https://github.com/lerna/lerna/tree/main/libs/commands/publish#lifecycle-scripts), which ensures local dependencies are published before the packages that depend on them. Lastly, the commit and tags are pushed to `main`.
 

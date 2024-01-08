@@ -22,7 +22,7 @@
 | `appearance`   | `appearance` | Specifies the appearance style of the component.                                                                                                      | `"outline" \| "outline-fill" \| "solid"` | `"solid"`      |
 | `disabled`     | `disabled`   | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                              | `boolean`                                | `false`        |
 | `form`         | `form`       | The ID of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any. | `string`                                 | `undefined`    |
-| `layout`       | `layout`     | Defines the layout of the component.                                                                                                                  | `"grid" \| "horizontal" \| "vertical"`   | `"horizontal"` |
+| `layout`       | `layout`     | Defines the layout of the component.                                                                                                                  | `"horizontal" \| "vertical"`             | `"horizontal"` |
 | `name`         | `name`       | Specifies the name of the component. Required to pass the component's `value` on form submission.                                                     | `string`                                 | `undefined`    |
 | `scale`        | `scale`      | Specifies the size of the component.                                                                                                                  | `"l" \| "m" \| "s"`                      | `"m"`          |
 | `selectedItem` | --           | The component's selected item `HTMLElement`.                                                                                                          | `HTMLCalciteSegmentedControlItemElement` | `undefined`    |
@@ -53,4 +53,4 @@ Type: `Promise<void>`
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

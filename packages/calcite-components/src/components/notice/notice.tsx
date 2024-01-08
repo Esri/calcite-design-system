@@ -79,7 +79,7 @@ export class Notice
     onToggleOpenCloseComponent(this);
   }
 
-  /** Specifies the kind of the component (will apply to top border and icon). */
+  /** Specifies the kind of the component, which will apply to top border and icon. */
   @Prop({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind

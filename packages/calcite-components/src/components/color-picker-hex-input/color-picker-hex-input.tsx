@@ -82,14 +82,14 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
    *
-   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @Prop() allowEmpty = false;
 
   /**
-   * When true, the component will allow updates to the color's alpha value.
+   * When `true`, the component will allow updates to the color's alpha value.
    */
   @Prop() alphaChannel = false;
 

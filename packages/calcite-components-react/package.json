@@ -1,7 +1,7 @@
 {
   "name": "@esri/calcite-components-react",
   "sideEffects": false,
-  "version": "2.2.0-next.4",
+  "version": "2.2.0-next.11",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "A set of React components that wrap calcite components",
   "license": "SEE LICENSE.md",
@@ -10,6 +10,9 @@
     "prebuild": "npm run patch:jsx-import",
     "clean": "rimraf dist node_modules .turbo",
     "compile": "npm run tsc",
+    "lint": "concurrently npm:lint:*",
+    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore",
     "patch:jsx-import": "tsx support/patchJSXImport.ts",
     "tsc": "tsc"
   },
@@ -20,7 +23,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@esri/calcite-components": "^2.2.0-next.4"
+    "@esri/calcite-components": "^2.2.0-next.11"
   },
   "peerDependencies": {
     "react": ">=16.7",

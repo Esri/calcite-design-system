@@ -313,7 +313,7 @@ export namespace Components {
     }
     interface CalciteActionBar {
         /**
-          * Specifies the accessible label for the last action-group.
+          * Specifies the accessible label for the last `calcite-action-group`.
          */
         "actionsEndGroupLabel": string;
         /**
@@ -325,7 +325,7 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
-          * The layout direction of the actions.
+          * Specifies the layout direction of the actions.
          */
         "layout": Extract<"horizontal" | "vertical", Layout>;
         /**
@@ -367,7 +367,7 @@ export namespace Components {
          */
         "expanded": boolean;
         /**
-          * Specifies the label of the component. Required for accessibility.
+          * Accessible name for the component.
          */
         "label": string;
         /**
@@ -440,7 +440,7 @@ export namespace Components {
     }
     interface CalciteActionPad {
         /**
-          * Specifies the accessible label for the last action-group.
+          * Specifies the accessible label for the last `calcite-action-group`.
          */
         "actionsEndGroupLabel": string;
         /**
@@ -478,11 +478,11 @@ export namespace Components {
     }
     interface CalciteAlert {
         /**
-          * When `true`, the component closes automatically (recommended for passive, non-blocking alerts).
+          * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose": boolean;
         /**
-          * Specifies the duration before the component automatically closes (only use with `autoClose`).
+          * Specifies the duration before the component automatically closes - only use with `autoClose`.
          */
         "autoCloseDuration": AlertDuration;
         /**
@@ -494,7 +494,7 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Specifies the kind of the component (will apply to top border and icon).
+          * Specifies the kind of the component, which will apply to top border and icon.
          */
         "kind": Extract<
     "brand" | "danger" | "info" | "success" | "warning",
@@ -521,7 +521,7 @@ export namespace Components {
          */
         "open": boolean;
         /**
-          * Specifies the placement of the component
+          * Specifies the placement of the component.
          */
         "placement": MenuPlacement;
         /**
@@ -529,7 +529,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Sets focus on the component's "close" button (the first focusable item).
+          * Sets focus on the component's "close" button, the first focusable item.
          */
         "setFocus": () => Promise<void>;
         /**
@@ -639,7 +639,7 @@ export namespace Components {
          */
         "text": string;
         /**
-          * Specifies the component's toggle display -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
          */
         "toggleDisplay": BlockSectionToggleDisplay;
     }
@@ -680,7 +680,7 @@ export namespace Components {
          */
         "iconStart": string;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to the border and background if applicable.
          */
         "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -730,7 +730,7 @@ export namespace Components {
          */
         "target": string;
         /**
-          * Specifies the default behavior of the button.
+          * Specifies the default behavior of the component.
           * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
          */
         "type": string;
@@ -796,7 +796,7 @@ export namespace Components {
          */
         "label": string;
         /**
-          * Specifies the name of the component on form submission.
+          * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name": string;
         /**
@@ -905,7 +905,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component.
+          * Specifies the selection mode of the component: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allow and require one selected item, `"none"` does not allow any selections.
          */
         "selectionMode": Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -918,15 +918,15 @@ export namespace Components {
     }
     interface CalciteColorPicker {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty": boolean;
         /**
-          * When true, the component will allow updates to the color's alpha value.
+          * When `true`, the component will allow updates to the color's alpha value.
          */
         "alphaChannel": boolean;
         /**
-          * When true, hides the RGB/HSV channel inputs
+          * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled": boolean;
         /**
@@ -943,7 +943,7 @@ export namespace Components {
          */
         "format": Format;
         /**
-          * When true, hides the hex input
+          * When `true`, hides the hex input.
          */
         "hexDisabled": boolean;
         /**
@@ -974,7 +974,7 @@ export namespace Components {
          */
         "numberingSystem": NumberingSystem;
         /**
-          * When true, hides the saved colors section
+          * When `true`, hides the saved colors section.
          */
         "savedDisabled": boolean;
         /**
@@ -999,11 +999,11 @@ export namespace Components {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.  When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty": boolean;
         /**
-          * When true, the component will allow updates to the color's alpha value.
+          * When `true`, the component will allow updates to the color's alpha value.
          */
         "alphaChannel": boolean;
         /**
@@ -1137,7 +1137,7 @@ export namespace Components {
          */
         "selectionDisplay": SelectionDisplay;
         /**
-          * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"single-persist"` allow and require one open item, `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -1327,11 +1327,11 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Date is the end of date range
+          * Date is the end of date range.
          */
         "endOfRange": boolean;
         /**
-          * Date is currently highlighted as part of the range
+          * Date is currently highlighted as part of the range,
          */
         "highlighted": boolean;
         /**
@@ -1343,7 +1343,7 @@ export namespace Components {
          */
         "rangeEdge": "start" | "end" | undefined;
         /**
-          * Date is being hovered and within the set range
+          * Date is being hovered and within the set range.
          */
         "rangeHover": boolean;
         /**
@@ -1355,7 +1355,7 @@ export namespace Components {
          */
         "selected": boolean;
         /**
-          * Date is the start of date range
+          * Date is the start of date range.
          */
         "startOfRange": boolean;
         /**
@@ -1365,7 +1365,7 @@ export namespace Components {
     }
     interface CalciteDatePickerMonth {
         /**
-          * Date currently active.
+          * The currently active Date.
          */
         "activeDate": Date;
         /**
@@ -1373,15 +1373,15 @@ export namespace Components {
          */
         "dateTimeFormat": Intl.DateTimeFormat;
         /**
-          * End date currently active
+          * End date currently active.
          */
         "endDate"?: Date;
         /**
-          * The range of dates currently being hovered
+          * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
         /**
-          * CLDR locale data for current locale
+          * CLDR locale data for current locale.
          */
         "localeData": DateLocaleData;
         /**
@@ -1407,7 +1407,7 @@ export namespace Components {
     }
     interface CalciteDatePickerMonthHeader {
         /**
-          * Focused date with indicator (will become selected date if user proceeds)
+          * The focused date is indicated and will become the selected date if the user proceeds.
          */
         "activeDate": Date;
         /**
@@ -1415,7 +1415,7 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
-          * CLDR locale data for translated calendar info
+          * CLDR locale data for translated calendar info.
          */
         "localeData": DateLocaleData;
         /**
@@ -1507,7 +1507,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection.
+          * Specifies the selection mode for `calcite-dropdown-item` children: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"none"` doesn't allow for any selection.
          */
         "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -1743,38 +1743,41 @@ export namespace Components {
     }
     interface CalciteGraph {
         /**
-          * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value
+          * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value.
          */
         "colorStops": ColorStop[];
         /**
-          * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value
+          * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value.
          */
         "data": DataSeries;
         /**
-          * End of highlight color if highlighting range
+          * End of highlight color if highlighting range.
          */
         "highlightMax": number;
         /**
-          * Start of highlight color if highlighting range
+          * Start of highlight color if highlighting range.
          */
         "highlightMin": number;
         /**
-          * Highest point of the range
+          * Highest point of the range.
          */
         "max": number;
         /**
-          * Lowest point of the range
+          * Lowest point of the range.
          */
         "min": number;
     }
     interface CalciteHandle {
-        "activated": boolean;
+        /**
+          * When `true`, disables unselecting the component when blurred.
+         */
+        "blurUnselectDisabled": boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
         /**
-          * Value for the button title attribute
+          * Value for the button title attribute.
          */
         "dragHandle": string;
         "label": string;
@@ -1783,9 +1786,13 @@ export namespace Components {
          */
         "messageOverrides": Partial<HandleMessages>;
         /**
-          * Made into a prop for testing purposes only
+          * Made into a prop for testing purposes only.
          */
         "messages": HandleMessages;
+        /**
+          * When `true`, the component is selected.
+         */
+        "selected": boolean;
         /**
           * Sets focus on the component.
          */
@@ -2835,6 +2842,14 @@ export namespace Components {
          */
         "dragHandle": boolean;
         /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragSelected": boolean;
+        /**
+          * Hides the component when filtered.
+         */
+        "filterHidden": boolean;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label": string;
@@ -2891,6 +2906,10 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        /**
+          * Hides the component when filtered.
+         */
+        "filterHidden": boolean;
         /**
           * The header text for all nested `calcite-list-item` rows.
          */
@@ -4515,7 +4534,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the component's selected tab-title.
+          * Specifies the component's selected `calcite-tab-title`.
           * @readonly
          */
         "selectedTitle": HTMLCalciteTabTitleElement;
@@ -4624,7 +4643,7 @@ export namespace Components {
          */
         "numberingSystem"?: NumberingSystem;
         /**
-          * Specifies the page size of the component. When `true`, renders `calcite-pagination`
+          * Specifies the page size of the component. When `true`, renders `calcite-pagination`.
          */
         "pageSize": number;
         /**
@@ -4637,7 +4656,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteTableRowElement[];
         /**
-          * Specifies the selection mode of the component.
+          * Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections).
          */
         "selectionMode": Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
@@ -4768,11 +4787,11 @@ export namespace Components {
          */
         "layout": TabLayout;
         /**
-          * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
+          * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`.
          */
         "position": TabPosition;
         /**
-          * Specifies the size of the component, defaults to `m`.
+          * Specifies the size of the component.
          */
         "scale": Scale;
     }
@@ -4973,7 +4992,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * The selection mode of the component.  Use radio for single selection, and checkbox for multiple selections.
+          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
          */
         "type": TileSelectType;
         /**
@@ -5131,7 +5150,7 @@ export namespace Components {
     interface CalciteTree {
         "child": boolean;
         /**
-          * Displays indentation guide lines.
+          * When `true`, displays indentation guide lines.
          */
         "lines": boolean;
         /**
@@ -5186,7 +5205,7 @@ export namespace Components {
      */
     interface CalciteValueList {
         /**
-          * When provided, the method will be called to determine whether the element can  move from the list.
+          * When provided, the method will be called to determine whether the element can move from the list.
          */
         "canPull": (detail: DragDetail) => boolean;
         /**
@@ -5224,7 +5243,7 @@ export namespace Components {
          */
         "filteredItems": HTMLCalciteValueListItemElement[];
         /**
-          * Returns the currently selected items
+          * Returns the component's selected items.
          */
         "getSelectedItems": () => Promise<Map<string, HTMLCalciteValueListItemElement>>;
         /**
@@ -6242,8 +6261,9 @@ declare global {
         new (): HTMLCalciteGraphElement;
     };
     interface HTMLCalciteHandleElementEventMap {
+        "calciteHandleChange": void;
         "calciteHandleNudge": HandleNudge;
-        "calciteInternalHandleChange": HandleChange;
+        "calciteInternalAssistiveTextChange": HandleChange;
     }
     interface HTMLCalciteHandleElement extends Components.CalciteHandle, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteHandleElementEventMap>(type: K, listener: (this: HTMLCalciteHandleElement, ev: CalciteHandleCustomEvent<HTMLCalciteHandleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6469,6 +6489,7 @@ declare global {
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
         "calciteListItemClose": void;
+        "calciteListItemDragHandleChange": void;
         "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
         "calciteInternalListItemSelectMultiple": {
@@ -7635,7 +7656,7 @@ declare namespace LocalJSX {
     }
     interface CalciteActionBar {
         /**
-          * Specifies the accessible label for the last action-group.
+          * Specifies the accessible label for the last `calcite-action-group`.
          */
         "actionsEndGroupLabel"?: string;
         /**
@@ -7647,7 +7668,7 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
-          * The layout direction of the actions.
+          * Specifies the layout direction of the actions.
          */
         "layout"?: Extract<"horizontal" | "vertical", Layout>;
         /**
@@ -7659,7 +7680,7 @@ declare namespace LocalJSX {
          */
         "messages"?: ActionBarMessages;
         /**
-          * Emits when the `expanded` property is toggled.
+          * Fires when the `expanded` property is toggled.
          */
         "onCalciteActionBarToggle"?: (event: CalciteActionBarCustomEvent<void>) => void;
         /**
@@ -7685,7 +7706,7 @@ declare namespace LocalJSX {
          */
         "expanded"?: boolean;
         /**
-          * Specifies the label of the component. Required for accessibility.
+          * Accessible name for the component.
          */
         "label"?: string;
         /**
@@ -7732,7 +7753,7 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
-          * Emits when the `open` property is toggled.
+          * Fires when the `open` property is toggled.
          */
         "onCalciteActionMenuOpen"?: (event: CalciteActionMenuCustomEvent<void>) => void;
         /**
@@ -7754,7 +7775,7 @@ declare namespace LocalJSX {
     }
     interface CalciteActionPad {
         /**
-          * Specifies the accessible label for the last action-group.
+          * Specifies the accessible label for the last `calcite-action-group`.
          */
         "actionsEndGroupLabel"?: string;
         /**
@@ -7778,7 +7799,7 @@ declare namespace LocalJSX {
          */
         "messages"?: ActionPadMessages;
         /**
-          * Emits when the `expanded` property is toggled.
+          * Fires when the `expanded` property is toggled.
          */
         "onCalciteActionPadToggle"?: (event: CalciteActionPadCustomEvent<void>) => void;
         /**
@@ -7792,11 +7813,11 @@ declare namespace LocalJSX {
     }
     interface CalciteAlert {
         /**
-          * When `true`, the component closes automatically (recommended for passive, non-blocking alerts).
+          * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
          */
         "autoClose"?: boolean;
         /**
-          * Specifies the duration before the component automatically closes (only use with `autoClose`).
+          * Specifies the duration before the component automatically closes - only use with `autoClose`.
          */
         "autoCloseDuration"?: AlertDuration;
         /**
@@ -7808,7 +7829,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to top border and icon).
+          * Specifies the kind of the component, which will apply to top border and icon.
          */
         "kind"?: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
@@ -7859,7 +7880,7 @@ declare namespace LocalJSX {
          */
         "open"?: boolean;
         /**
-          * Specifies the placement of the component
+          * Specifies the placement of the component.
          */
         "placement"?: MenuPlacement;
         /**
@@ -7951,8 +7972,8 @@ declare namespace LocalJSX {
          */
         "onCalciteBlockOpen"?: (event: CalciteBlockCustomEvent<void>) => void;
         /**
-          * Emits when the component's header is clicked.
-          * @deprecated use `openClose` events: `calciteBlock[Before]Open` and `calciteBlock[Before]Close` instead.
+          * Fires when the component's header is clicked.
+          * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
          */
         "onCalciteBlockToggle"?: (event: CalciteBlockCustomEvent<void>) => void;
         /**
@@ -7974,7 +7995,7 @@ declare namespace LocalJSX {
          */
         "messages"?: BlockSectionMessages;
         /**
-          * Emits when the header has been clicked.
+          * Fires when the header has been clicked.
          */
         "onCalciteBlockSectionToggle"?: (event: CalciteBlockSectionCustomEvent<void>) => void;
         /**
@@ -7990,7 +8011,7 @@ declare namespace LocalJSX {
          */
         "text"?: string;
         /**
-          * Specifies the component's toggle display -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
          */
         "toggleDisplay"?: BlockSectionToggleDisplay;
     }
@@ -8031,7 +8052,7 @@ declare namespace LocalJSX {
          */
         "iconStart"?: string;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to the border and background if applicable.
          */
         "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -8077,7 +8098,7 @@ declare namespace LocalJSX {
          */
         "target"?: string;
         /**
-          * Specifies the default behavior of the button.
+          * Specifies the default behavior of the component.
           * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
          */
         "type"?: string;
@@ -8147,19 +8168,19 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * Specifies the name of the component on form submission.
+          * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name"?: string;
         /**
-          * Emits when the component's `checked` status changes.
+          * Fires when the component's `checked` status changes.
          */
         "onCalciteCheckboxChange"?: (event: CalciteCheckboxCustomEvent<void>) => void;
         /**
-          * Emits when the component is blurred.
+          * Fires when the component is blurred.
          */
         "onCalciteInternalCheckboxBlur"?: (event: CalciteCheckboxCustomEvent<boolean>) => void;
         /**
-          * Emits when the component is focused.
+          * Fires when the component is focused.
          */
         "onCalciteInternalCheckboxFocus"?: (event: CalciteCheckboxCustomEvent<boolean>) => void;
         /**
@@ -8260,7 +8281,7 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
-          * Emits when the component's selection changes.
+          * Fires when the component's selection changes.
          */
         "onCalciteChipGroupSelect"?: (event: CalciteChipGroupCustomEvent<void>) => void;
         /**
@@ -8273,7 +8294,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component.
+          * Specifies the selection mode of the component: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allow and require one selected item, `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -8282,15 +8303,15 @@ declare namespace LocalJSX {
     }
     interface CalciteColorPicker {
         /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty"?: boolean;
         /**
-          * When true, the component will allow updates to the color's alpha value.
+          * When `true`, the component will allow updates to the color's alpha value.
          */
         "alphaChannel"?: boolean;
         /**
-          * When true, hides the RGB/HSV channel inputs
+          * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled"?: boolean;
         /**
@@ -8307,7 +8328,7 @@ declare namespace LocalJSX {
          */
         "format"?: Format;
         /**
-          * When true, hides the hex input
+          * When `true`, hides the hex input.
          */
         "hexDisabled"?: boolean;
         /**
@@ -8346,7 +8367,7 @@ declare namespace LocalJSX {
          */
         "onCalciteColorPickerInput"?: (event: CalciteColorPickerCustomEvent<void>) => void;
         /**
-          * When true, hides the saved colors section
+          * When `true`, hides the saved colors section.
          */
         "savedDisabled"?: boolean;
         /**
@@ -8367,11 +8388,11 @@ declare namespace LocalJSX {
     }
     interface CalciteColorPickerHexInput {
         /**
-          * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.  When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
          */
         "allowEmpty"?: boolean;
         /**
-          * When true, the component will allow updates to the color's alpha value.
+          * When `true`, the component will allow updates to the color's alpha value.
          */
         "alphaChannel"?: boolean;
         /**
@@ -8527,7 +8548,7 @@ declare namespace LocalJSX {
          */
         "selectionDisplay"?: SelectionDisplay;
         /**
-          * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"single-persist"` allow and require one open item, `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -8580,7 +8601,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Emits whenever the component is selected or unselected.
+          * Fires whenever the component is selected or unselected.
          */
         "onCalciteComboboxItemChange"?: (event: CalciteComboboxItemCustomEvent<void>) => void;
         /**
@@ -8667,11 +8688,11 @@ declare namespace LocalJSX {
          */
         "numberingSystem"?: NumberingSystem;
         /**
-          * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
+          * Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
          */
         "onCalciteDatePickerChange"?: (event: CalciteDatePickerCustomEvent<void>) => void;
         /**
-          * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
+          * Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
          */
         "onCalciteDatePickerRangeChange"?: (event: CalciteDatePickerCustomEvent<void>) => void;
         /**
@@ -8717,19 +8738,19 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Date is the end of date range
+          * Date is the end of date range.
          */
         "endOfRange"?: boolean;
         /**
-          * Date is currently highlighted as part of the range
+          * Date is currently highlighted as part of the range,
          */
         "highlighted"?: boolean;
         /**
-          * Emitted when user selects day
+          * Fires when user selects day.
          */
         "onCalciteDaySelect"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
-          * Emitted when user hovers over a day
+          * Fires when user hovers over a day.
          */
         "onCalciteInternalDayHover"?: (event: CalciteDatePickerDayCustomEvent<void>) => void;
         /**
@@ -8741,7 +8762,7 @@ declare namespace LocalJSX {
          */
         "rangeEdge"?: "start" | "end" | undefined;
         /**
-          * Date is being hovered and within the set range
+          * Date is being hovered and within the set range.
          */
         "rangeHover"?: boolean;
         /**
@@ -8753,7 +8774,7 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
         /**
-          * Date is the start of date range
+          * Date is the start of date range.
          */
         "startOfRange"?: boolean;
         /**
@@ -8763,7 +8784,7 @@ declare namespace LocalJSX {
     }
     interface CalciteDatePickerMonth {
         /**
-          * Date currently active.
+          * The currently active Date.
          */
         "activeDate"?: Date;
         /**
@@ -8771,15 +8792,15 @@ declare namespace LocalJSX {
          */
         "dateTimeFormat"?: Intl.DateTimeFormat;
         /**
-          * End date currently active
+          * End date currently active.
          */
         "endDate"?: Date;
         /**
-          * The range of dates currently being hovered
+          * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
         /**
-          * CLDR locale data for current locale
+          * CLDR locale data for current locale.
          */
         "localeData"?: DateLocaleData;
         /**
@@ -8795,12 +8816,12 @@ declare namespace LocalJSX {
          */
         "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
-          * Event emitted when user hovers the date.
+          * Fires when user hovers the date.
          */
         "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
         /**
-          * Event emitted when user selects the date.
+          * Fires when user selects the date.
          */
         "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
@@ -8818,7 +8839,7 @@ declare namespace LocalJSX {
     }
     interface CalciteDatePickerMonthHeader {
         /**
-          * Focused date with indicator (will become selected date if user proceeds)
+          * The focused date is indicated and will become the selected date if the user proceeds.
          */
         "activeDate"?: Date;
         /**
@@ -8826,7 +8847,7 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
-          * CLDR locale data for translated calendar info
+          * CLDR locale data for translated calendar info.
          */
         "localeData"?: DateLocaleData;
         /**
@@ -8843,7 +8864,7 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
-          * Changes to active date
+          * Fires to active date
          */
         "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
         /**
@@ -8934,7 +8955,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection.
+          * Specifies the selection mode for `calcite-dropdown-item` children: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"none"` doesn't allow for any selection.
          */
         "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -9057,7 +9078,7 @@ declare namespace LocalJSX {
          */
         "messages"?: FilterMessages;
         /**
-          * This event fires when the filter text changes.
+          * Fires when the filter text changes.
          */
         "onCalciteFilterChange"?: (event: CalciteFilterCustomEvent<void>) => void;
         /**
@@ -9159,38 +9180,41 @@ declare namespace LocalJSX {
     }
     interface CalciteGraph {
         /**
-          * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value
+          * Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value.
          */
         "colorStops"?: ColorStop[];
         /**
-          * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value
+          * Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value.
          */
         "data"?: DataSeries;
         /**
-          * End of highlight color if highlighting range
+          * End of highlight color if highlighting range.
          */
         "highlightMax"?: number;
         /**
-          * Start of highlight color if highlighting range
+          * Start of highlight color if highlighting range.
          */
         "highlightMin"?: number;
         /**
-          * Highest point of the range
+          * Highest point of the range.
          */
         "max": number;
         /**
-          * Lowest point of the range
+          * Lowest point of the range.
          */
         "min": number;
     }
     interface CalciteHandle {
-        "activated"?: boolean;
+        /**
+          * When `true`, disables unselecting the component when blurred.
+         */
+        "blurUnselectDisabled"?: boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
         /**
-          * Value for the button title attribute
+          * Value for the button title attribute.
          */
         "dragHandle"?: string;
         "label"?: string;
@@ -9199,17 +9223,25 @@ declare namespace LocalJSX {
          */
         "messageOverrides"?: Partial<HandleMessages>;
         /**
-          * Made into a prop for testing purposes only
+          * Made into a prop for testing purposes only.
          */
         "messages"?: HandleMessages;
         /**
-          * Emitted when the handle is activated and the up or down arrow key is pressed.
+          * Fires whenever the component is selected or unselected.
+         */
+        "onCalciteHandleChange"?: (event: CalciteHandleCustomEvent<void>) => void;
+        /**
+          * Fires when the handle is selected and the up or down arrow key is pressed.
          */
         "onCalciteHandleNudge"?: (event: CalciteHandleCustomEvent<HandleNudge>) => void;
         /**
-          * Emitted when the handle is activated or deactivated.
+          * Fires when the assistive text has changed.
          */
-        "onCalciteInternalHandleChange"?: (event: CalciteHandleCustomEvent<HandleChange>) => void;
+        "onCalciteInternalAssistiveTextChange"?: (event: CalciteHandleCustomEvent<HandleChange>) => void;
+        /**
+          * When `true`, the component is selected.
+         */
+        "selected"?: boolean;
         "setPosition"?: number;
         "setSize"?: number;
     }
@@ -10313,6 +10345,14 @@ declare namespace LocalJSX {
          */
         "dragHandle"?: boolean;
         /**
+          * When `true`, the component's drag handle is selected.
+         */
+        "dragSelected"?: boolean;
+        /**
+          * Hides the component when filtered.
+         */
+        "filterHidden"?: boolean;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label"?: string;
@@ -10339,6 +10379,10 @@ declare namespace LocalJSX {
           * Fires when the close button is clicked.
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the drag handle is selected.
+         */
+        "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Emits when the item's content is selected.
          */
@@ -10384,6 +10428,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * Hides the component when filtered.
+         */
+        "filterHidden"?: boolean;
         /**
           * The header text for all nested `calcite-list-item` rows.
          */
@@ -12048,7 +12096,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the component's selected tab-title.
+          * Specifies the component's selected `calcite-tab-title`.
           * @readonly
          */
         "selectedTitle"?: HTMLCalciteTabTitleElement;
@@ -12180,7 +12228,7 @@ declare namespace LocalJSX {
          */
         "onCalciteTableSelect"?: (event: CalciteTableCustomEvent<void>) => void;
         /**
-          * Specifies the page size of the component. When `true`, renders `calcite-pagination`
+          * Specifies the page size of the component. When `true`, renders `calcite-pagination`.
          */
         "pageSize"?: number;
         /**
@@ -12193,7 +12241,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteTableRowElement[];
         /**
-          * Specifies the selection mode of the component.
+          * Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections).
          */
         "selectionMode"?: Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
@@ -12321,11 +12369,11 @@ declare namespace LocalJSX {
          */
         "layout"?: TabLayout;
         /**
-          * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`, defaults to `top`.
+          * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`.
          */
         "position"?: TabPosition;
         /**
-          * Specifies the size of the component, defaults to `m`.
+          * Specifies the size of the component.
          */
         "scale"?: Scale;
     }
@@ -12526,7 +12574,7 @@ declare namespace LocalJSX {
          */
         "onCalciteTileSelectChange"?: (event: CalciteTileSelectCustomEvent<void>) => void;
         /**
-          * The selection mode of the component.  Use radio for single selection, and checkbox for multiple selections.
+          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
          */
         "type"?: TileSelectType;
         /**
@@ -12694,7 +12742,7 @@ declare namespace LocalJSX {
     interface CalciteTree {
         "child"?: boolean;
         /**
-          * Displays indentation guide lines.
+          * When `true`, displays indentation guide lines.
          */
         "lines"?: boolean;
         /**
@@ -12754,7 +12802,7 @@ declare namespace LocalJSX {
      */
     interface CalciteValueList {
         /**
-          * When provided, the method will be called to determine whether the element can  move from the list.
+          * When provided, the method will be called to determine whether the element can move from the list.
          */
         "canPull"?: (detail: DragDetail) => boolean;
         /**

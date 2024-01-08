@@ -72,7 +72,7 @@ Renders a header and icon with the icon.
 | `description`          | `description`   | A description for the component, which displays below the heading.                       | `string`                                                                      | `undefined` |
 | `disabled`             | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                                                                     | `false`     |
 | `dragHandle`           | `drag-handle`   | When `true`, displays a drag handle in the header.                                       | `boolean`                                                                     | `false`     |
-| `heading` _(required)_ | `heading`       | The component header text.                                                               | `string`                                                                      | `undefined` |
+| `heading` *(required)* | `heading`       | The component header text.                                                               | `string`                                                                      | `undefined` |
 | `headingLevel`         | `heading-level` | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                  | `undefined` |
 | `loading`              | `loading`       | When `true`, a busy indicator is displayed.                                              | `boolean`                                                                     | `false`     |
 | `messageOverrides`     | --              | Use this property to override individual strings used by the component.                  | `{ collapse?: string; expand?: string; loading?: string; options?: string; }` | `undefined` |
@@ -146,4 +146,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

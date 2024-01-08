@@ -59,7 +59,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Specifies the accessible label for the last action-group.
+   * Specifies the accessible label for the last `calcite-action-group`.
    */
   @Prop() actionsEndGroupLabel: string;
 
@@ -124,7 +124,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `expanded` property is toggled.
+   * Fires when the `expanded` property is toggled.
    */
   @Event({ cancelable: false }) calciteActionPadToggle: EventEmitter<void>;
 

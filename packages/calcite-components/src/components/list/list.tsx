@@ -189,7 +189,15 @@ export class List
   @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection,
+   *
+   * `"single-persist"` allows one selection and prevents de-selection, and
+   *
+   * `"none"` does not allow any selections.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -217,32 +225,32 @@ export class List
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when any of the list item selections have changed.
+   * Fires when the component's selected items have changed.
    */
   @Event({ cancelable: false }) calciteListChange: EventEmitter<void>;
 
   /**
-   * Emits when the component's dragging has ended.
+   * Fires when the component's dragging has ended.
    */
   @Event({ cancelable: false }) calciteListDragEnd: EventEmitter<ListDragDetail>;
 
   /**
-   * Emits when the component's dragging has started.
+   * Fires when the component's dragging has started.
    */
   @Event({ cancelable: false }) calciteListDragStart: EventEmitter<ListDragDetail>;
 
   /**
-   * Emits when the component's filter has changed.
+   * Fires when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   /**
-   * Emitted when the order of the list has changed.
+   * Fires when the component's item order changes.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<ListDragDetail>;
 
   /**
-   * Emitted when the default slot has changes in order to notify parent lists.
+   * Fires when the default slot has changes in order to notify parent lists.
    */
   @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
@@ -254,13 +262,13 @@ export class List
 
     event.stopPropagation();
 
-    const { enabledListItems } = this;
-    const currentIndex = enabledListItems.findIndex((listItem) => listItem.active);
+    const { focusableItems } = this;
+    const currentIndex = focusableItems.findIndex((listItem) => listItem.active);
 
     const prevIndex = currentIndex - 1;
 
-    if (enabledListItems[prevIndex]) {
-      this.focusRow(enabledListItems[prevIndex]);
+    if (focusableItems[prevIndex]) {
+      this.focusRow(focusableItems[prevIndex]);
     }
   }
 
@@ -288,8 +296,8 @@ export class List
     this.updateSelectedItems(true);
   }
 
-  @Listen("calciteInternalHandleChange")
-  handleCalciteInternalHandleChange(event: CustomEvent): void {
+  @Listen("calciteInternalAssistiveTextChange")
+  handleCalciteInternalAssistiveTextChange(event: CustomEvent): void {
     this.assistiveText = event.detail.message;
     event.stopPropagation();
   }
@@ -332,16 +340,16 @@ export class List
 
     event.stopPropagation();
     const { target, detail } = event;
-    const { enabledListItems, lastSelectedInfo } = this;
+    const { focusableItems, lastSelectedInfo } = this;
     const selectedItem = target as HTMLCalciteListItemElement;
 
     if (detail.selectMultiple && !!lastSelectedInfo) {
-      const currentIndex = enabledListItems.indexOf(selectedItem);
-      const lastSelectedIndex = enabledListItems.indexOf(lastSelectedInfo.selectedItem);
+      const currentIndex = focusableItems.indexOf(selectedItem);
+      const lastSelectedIndex = focusableItems.indexOf(lastSelectedInfo.selectedItem);
       const startIndex = Math.min(lastSelectedIndex, currentIndex);
       const endIndex = Math.max(lastSelectedIndex, currentIndex);
 
-      enabledListItems
+      focusableItems
         .slice(startIndex, endIndex + 1)
         .forEach((item) => (item.selected = lastSelectedInfo.selected));
     } else {
@@ -428,11 +436,11 @@ export class List
 
   @State() dataForFilter: ItemData = [];
 
-  dragSelector = "calcite-list-item";
-
-  enabledListItems: HTMLCalciteListItemElement[] = [];
+  dragSelector = listItemSelector;
 
   filterEl: HTMLCalciteFilterElement;
+
+  focusableItems: HTMLCalciteListItemElement[] = [];
 
   handleSelector = "calcite-handle";
 
@@ -443,6 +451,8 @@ export class List
   listItems: HTMLCalciteListItemElement[] = [];
 
   mutationObserver = createObserver("mutation", () => this.updateListItems());
+
+  visibleItems: HTMLCalciteListItemElement[] = [];
 
   parentListEl: HTMLCalciteListElement;
 
@@ -471,7 +481,7 @@ export class List
       return this.filterEl?.setFocus();
     }
 
-    return this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
+    return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -557,7 +567,7 @@ export class List
   private renderItemAriaLive(): VNode {
     const {
       messages,
-      enabledListItems,
+      filteredItems,
       parentListEl,
       effectiveLocale,
       numberingSystem,
@@ -579,12 +589,12 @@ export class List
         <div key="aria-item-count">
           {messages.total.replace(
             "{count}",
-            numberStringFormatter.localize(enabledListItems.length.toString()),
+            numberStringFormatter.localize(filteredItems.length.toString()),
           )}
         </div>
-        {enabledListItems.length ? (
+        {filteredItems.length ? (
           <ol key="aria-item-list">
-            {enabledListItems.map((item) => (
+            {filteredItems.map((item) => (
               <li>{item.label}</li>
             ))}
           </ol>
@@ -654,17 +664,17 @@ export class List
   };
 
   private setActiveListItem = (): void => {
-    const { enabledListItems } = this;
+    const { focusableItems } = this;
 
-    if (!enabledListItems.some((item) => item.active)) {
-      if (enabledListItems[0]) {
-        enabledListItems[0].active = true;
+    if (!focusableItems.some((item) => item.active)) {
+      if (focusableItems[0]) {
+        focusableItems[0].active = true;
       }
     }
   };
 
   private updateSelectedItems = (emit = false): void => {
-    this.selectedItems = this.enabledListItems.filter((item) => item.selected);
+    this.selectedItems = this.visibleItems.filter((item) => item.selected);
     if (emit) {
       this.calciteListChange.emit();
     }
@@ -679,10 +689,10 @@ export class List
     filteredItems: HTMLCalciteListItemElement[];
     visibleParents: WeakSet<HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement>;
   }): void {
-    const hidden =
+    const filterHidden =
       !visibleParents.has(el) && !filteredItems.includes(el as HTMLCalciteListItemElement);
 
-    el.hidden = hidden;
+    el.filterHidden = filterHidden;
 
     const closestParent = el.parentElement.closest(parentSelector) as
       | HTMLCalciteListItemElement
@@ -692,7 +702,7 @@ export class List
       return;
     }
 
-    if (!hidden) {
+    if (!filterHidden) {
       visibleParents.add(closestParent);
     }
 
@@ -704,16 +714,16 @@ export class List
   }
 
   private updateFilteredItems = (emit = false): void => {
-    const { listItems, filteredData, filterText } = this;
+    const { visibleItems, filteredData, filterText } = this;
 
     const values = filteredData.map((item) => item.value);
 
-    const lastDescendantItems = listItems?.filter((listItem) =>
-      listItems.every((li) => li === listItem || !listItem.contains(li)),
+    const lastDescendantItems = visibleItems?.filter((listItem) =>
+      visibleItems.every((li) => li === listItem || !listItem.contains(li)),
     );
 
     const filteredItems =
-      listItems.filter((item) => !filterText || values.includes(item.value)) || [];
+      visibleItems.filter((item) => !filterText || values.includes(item.value)) || [];
 
     const visibleParents = new WeakSet<HTMLElement>();
 
@@ -809,8 +819,9 @@ export class List
         this.filterEl.items = this.dataForFilter;
       }
     }
+    this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
     this.updateFilteredItems(emit);
-    this.enabledListItems = this.filteredItems.filter((item) => !item.disabled && !item.closed);
+    this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
     this.updateSelectedItems(emit);
     this.setUpSorting();
@@ -821,13 +832,13 @@ export class List
   };
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
-    const { enabledListItems } = this;
+    const { focusableItems } = this;
 
     if (!focusEl) {
       return;
     }
 
-    enabledListItems.forEach((listItem) => (listItem.active = listItem === focusEl));
+    focusableItems.forEach((listItem) => (listItem.active = listItem === focusEl));
 
     focusEl.setFocus();
   };
@@ -848,15 +859,15 @@ export class List
     }
 
     const { key } = event;
-    const filteredItems = this.enabledListItems.filter((listItem) => this.isNavigable(listItem));
-    const currentIndex = filteredItems.findIndex((listItem) => listItem.active);
+    const navigableItems = this.focusableItems.filter((listItem) => this.isNavigable(listItem));
+    const currentIndex = navigableItems.findIndex((listItem) => listItem.active);
 
     if (key === "ArrowDown") {
       event.preventDefault();
       const nextIndex = event.target === this.filterEl ? 0 : currentIndex + 1;
 
-      if (filteredItems[nextIndex]) {
-        this.focusRow(filteredItems[nextIndex]);
+      if (navigableItems[nextIndex]) {
+        this.focusRow(navigableItems[nextIndex]);
       }
     } else if (key === "ArrowUp") {
       event.preventDefault();
@@ -868,19 +879,19 @@ export class List
 
       const prevIndex = currentIndex - 1;
 
-      if (filteredItems[prevIndex]) {
-        this.focusRow(filteredItems[prevIndex]);
+      if (navigableItems[prevIndex]) {
+        this.focusRow(navigableItems[prevIndex]);
       }
     } else if (key === "Home") {
       event.preventDefault();
-      const homeItem = filteredItems[0];
+      const homeItem = navigableItems[0];
 
       if (homeItem) {
         this.focusRow(homeItem);
       }
     } else if (key === "End") {
       event.preventDefault();
-      const endItem = filteredItems[filteredItems.length - 1];
+      const endItem = navigableItems[navigableItems.length - 1];
 
       if (endItem) {
         this.focusRow(endItem);
@@ -902,11 +913,11 @@ export class List
   private getTopLevelAncestorItemElement = (
     el: HTMLCalciteListItemElement,
   ): HTMLCalciteListItemElement | null => {
-    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>(listItemSelector);
 
     while (closestParent) {
       const closestListItemAncestor =
-        closestParent.parentElement.closest<HTMLCalciteListItemElement>("calcite-list-item");
+        closestParent.parentElement.closest<HTMLCalciteListItemElement>(listItemSelector);
 
       if (closestListItemAncestor) {
         closestParent = closestListItemAncestor;
@@ -918,30 +929,31 @@ export class List
   };
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
+    const { handleSelector, dragSelector } = this;
     const { direction } = event.detail;
 
     const composedPath = event.composedPath();
 
     const handle = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-HANDLE",
+      (el: HTMLElement) => el?.tagName && el.matches(handleSelector),
     ) as HTMLCalciteHandleElement;
 
-    const sortItem = composedPath.find(
-      (el: HTMLElement) => el.tagName === "CALCITE-LIST-ITEM",
+    const dragEl = composedPath.find(
+      (el: HTMLElement) => el?.tagName && el.matches(dragSelector),
     ) as HTMLCalciteListItemElement;
 
-    const parentEl = sortItem?.parentElement as HTMLCalciteListElement;
+    const parentEl = dragEl?.parentElement as HTMLCalciteListElement;
 
     if (!parentEl) {
       return;
     }
 
-    const { enabledListItems } = this;
+    const { filteredItems } = this;
 
-    const sameParentItems = enabledListItems.filter((item) => item.parentElement === parentEl);
+    const sameParentItems = filteredItems.filter((item) => item.parentElement === parentEl);
 
     const lastIndex = sameParentItems.length - 1;
-    const oldIndex = sameParentItems.indexOf(sortItem);
+    const oldIndex = sameParentItems.indexOf(dragEl);
     let newIndex: number;
 
     if (direction === "up") {
@@ -951,27 +963,26 @@ export class List
     }
 
     this.disconnectObserver();
+    handle.blurUnselectDisabled = true;
 
     const referenceEl =
       (direction === "up" && newIndex !== lastIndex) || (direction === "down" && newIndex === 0)
         ? sameParentItems[newIndex]
         : sameParentItems[newIndex].nextSibling;
 
-    parentEl.insertBefore(sortItem, referenceEl);
+    parentEl.insertBefore(dragEl, referenceEl);
 
     this.updateListItems();
     this.connectObserver();
 
     this.calciteListOrderChange.emit({
-      dragEl: sortItem,
+      dragEl,
       fromEl: parentEl,
       toEl: parentEl,
       newIndex,
       oldIndex,
     });
 
-    handle.setFocus().then(() => {
-      handle.activated = true;
-    });
+    handle.setFocus().then(() => (handle.blurUnselectDisabled = false));
   }
 }
