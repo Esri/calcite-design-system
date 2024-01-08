@@ -40,8 +40,13 @@ export class Accordion {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item),
-   * or `"single-persist"` (allow and require one open item).
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection, and
+   *
+   * `"single-persist"` allows one selection and prevents de-selection.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple",
