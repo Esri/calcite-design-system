@@ -106,6 +106,17 @@ describe("calcite-list", () => {
         <calcite-list-item label="test" description="hello world"></calcite-list-item>
       </calcite-list>`,
     );
+    accessible(
+      html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
+        <calcite-list-item label="Apples" value="apples"></calcite-list-item>
+        <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
+        <calcite-list-item label="Pears" value="pears"></calcite-list-item>
+        <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+          <div slot="title">No fruits found</div>
+          <div slot="message">Try a different fruit?</div>
+        </calcite-notice>
+      </calcite-list>`,
+    );
   });
 
   describe("disabled", () => {
