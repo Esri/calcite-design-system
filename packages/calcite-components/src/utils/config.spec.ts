@@ -1,4 +1,4 @@
-import type { CalciteConfig } from "./config";
+import { getCalciteConfig, type CalciteConfig } from "./config";
 
 describe("config", () => {
   let config: CalciteConfig;
@@ -6,14 +6,15 @@ describe("config", () => {
   /**
    * Need to load the config at runtime to allow test to specify custom configuration if needed.
    */
-  async function loadConfig(): Promise<CalciteConfig> {
-    return import("./config");
+  async function loadConfig(): Promise<void> {
+    await import("./config");
   }
 
   beforeEach(() => jest.resetModules());
 
   it("has defaults", async () => {
-    config = await loadConfig();
+    await loadConfig();
+    config = getCalciteConfig();
     expect(config.focusTrapStack).toHaveLength(0);
   });
 
@@ -24,7 +25,8 @@ describe("config", () => {
       focusTrapStack: customFocusTrapStack,
     };
 
-    config = await loadConfig();
+    await loadConfig();
+    config = getCalciteConfig();
 
     expect(config.focusTrapStack).toBe(customFocusTrapStack);
   });
