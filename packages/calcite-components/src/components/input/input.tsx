@@ -24,7 +24,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  internalHiddenInputChangeEvent,
+  internalHiddenInputInputEvent,
   submitForm,
 } from "../../utils/form";
 import {
@@ -500,7 +500,7 @@ export class Input
     this.mutationObserver?.observe(this.el, { childList: true });
 
     this.setDisabledAction();
-    this.el.addEventListener(internalHiddenInputChangeEvent, this.onHiddenFormInputChange);
+    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   disconnectedCallback(): void {
@@ -511,7 +511,7 @@ export class Input
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener(internalHiddenInputChangeEvent, this.onHiddenFormInputChange);
+    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -887,7 +887,7 @@ export class Input
     }
   }
 
-  private onHiddenFormInputChange = (event: Event): void => {
+  private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setValue({
         value: (event.target as HTMLInputElement).value,
