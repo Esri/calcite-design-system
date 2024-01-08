@@ -344,7 +344,12 @@ export class InputDatePicker
 
   @Listen("calciteDaySelect")
   calciteDaySelectHandler(): void {
-    if (this.shouldFocusRangeStart() || this.shouldFocusRangeEnd()) {
+    if (
+      this.shouldFocusRangeStart() ||
+      this.shouldFocusRangeEnd() ||
+      this.focusedInput === "start"
+    ) {
+      console.log("do not close");
       return;
     }
 
@@ -431,7 +436,7 @@ export class InputDatePicker
         flipPlacements: filteredFlipPlacements,
         type: "menu",
       },
-      delayed,
+      delayed
     );
   }
 
@@ -830,7 +835,8 @@ export class InputDatePicker
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
     deactivateFocusTrap(this);
-    this.restoreInputFocus();
+    //should we restore the focus when user clicks outside?
+    //this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
   }
@@ -844,7 +850,8 @@ export class InputDatePicker
   };
 
   private blurHandler = (): void => {
-     // this is causing date-picker to close when start date is selected from the end calendar.
+    // this is causing date-picker to close when start date is selected from the end calendar.
+
     this.open = false;
   };
 
@@ -1019,8 +1026,11 @@ export class InputDatePicker
       this.startInput.setFocus();
       return;
     }
+    if (restore) {
+      //do nothing
+    }
 
-    //const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+    // const focusedInput = this.focusedInput === "start" ? this.endInput : this.startInput;
     const focusedInput = restore && this.focusedInput === "start" ? this.startInput : this.endInput;
 
     focusedInput.setFocus();
@@ -1032,13 +1042,13 @@ export class InputDatePicker
         ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
         : this.valueAsDate) as Date,
       this.minAsDate,
-      this.maxAsDate,
+      this.maxAsDate
     );
     const endDate = this.range
       ? dateFromRange(
           (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined,
           this.minAsDate,
-          this.maxAsDate,
+          this.maxAsDate
         )
       : null;
 
@@ -1135,7 +1145,7 @@ export class InputDatePicker
 
   private warnAboutInvalidValue(value: string): void {
     console.warn(
-      `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`,
+      `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`
     );
   }
 
@@ -1149,8 +1159,8 @@ export class InputDatePicker
             this.commonDateSeparators?.includes(char)
               ? this.localeData?.separator
               : numberKeys?.includes(char)
-                ? numberStringFormatter?.numberFormatter?.format(Number(char))
-                : char,
+              ? numberStringFormatter?.numberFormatter?.format(Number(char))
+              : char
           )
           .join("")
       : "";
@@ -1160,7 +1170,7 @@ export class InputDatePicker
       ? value
           .split("")
           .map((char: string) =>
-            numberKeys.includes(char) ? numberStringFormatter.delocalize(char) : char,
+            numberKeys.includes(char) ? numberStringFormatter.delocalize(char) : char
           )
           .join("")
       : "";

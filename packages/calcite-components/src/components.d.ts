@@ -1431,6 +1431,7 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        "position": "start" | "end";
         /**
           * Specifies the size of the component.
          */
@@ -3076,7 +3077,7 @@ export namespace Components {
          */
         "numberingSystem": NumberingSystem;
         /**
-          * When either `rangeLabels` is `true`, specifies the format of displayed labels.
+          * When `rangeLabels` is `true`, specifies the format of displayed labels.
          */
         "rangeLabelType": MeterLabelType;
         /**
@@ -3088,7 +3089,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values.
+          * When `rangeLabelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values.
          */
         "unitLabel": string;
         /**
@@ -3100,7 +3101,7 @@ export namespace Components {
          */
         "valueLabel": boolean;
         /**
-          * When either `valueLabel` is `true`, specifies the format of displayed label.
+          * When `valueLabel` is `true`, specifies the format of displayed label.
          */
         "valueLabelType": MeterLabelType;
     }
@@ -3126,11 +3127,11 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
-          * Sets the component to always be fullscreen (overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`).
+          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`.
          */
         "fullscreen": boolean;
         /**
-          * Specifies the kind of the component (will apply to top border).
+          * Specifies the kind of the component, which will apply to top border.
          */
         "kind": Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
         /**
@@ -3184,20 +3185,19 @@ export namespace Components {
         /**
           * Focused date with indicator (will become selected date if user proceeds)
          */
-        "activeDate": Date;
-        "activeMonthIndex": number;
+        "activeMonth": string;
         /**
-          * Specifies the latest allowed date (`"yyyy-mm-dd"`).
+          * Specifies the latest allowed month (`"yyyy-mm"`).
          */
-        "max": Date;
+        "max": string;
         /**
-          * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
+          * Specifies the earliest allowed month (`"yyyy-mm"`).
          */
-        "min": Date;
+        "min": string;
         /**
-          * Already selected date.
+          * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
          */
-        "selectedMonthYear": Date;
+        "value": string;
     }
     interface CalciteMonthPickerItem {
         "isActive": boolean;
@@ -3213,13 +3213,13 @@ export namespace Components {
          */
         "navigationAction": boolean;
         /**
-          * When `navigation-action` is `true`, sets focus on the component's action element.
+          * When `navigationAction` is `true`, sets focus on the component's action element.
          */
         "setFocus": () => Promise<void>;
     }
     interface CalciteNavigationLogo {
         /**
-          * When true, the component is highlighted.
+          * When `true`, the component is highlighted.
          */
         "active": boolean;
         /**
@@ -3267,7 +3267,7 @@ export namespace Components {
     }
     interface CalciteNavigationUser {
         /**
-          * When true, the component is highlighted.
+          * When `true`, the component is highlighted.
          */
         "active": boolean;
         /**
@@ -3313,7 +3313,7 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Specifies the kind of the component (will apply to top border and icon).
+          * Specifies the kind of the component, which will apply to top border and icon.
          */
         "kind": Extract<
     "brand" | "danger" | "info" | "success" | "warning",
@@ -3504,12 +3504,12 @@ export namespace Components {
          */
         "filterText": string;
         /**
-          * The currently filtered data.
+          * The component's filtered data.
           * @readonly
          */
         "filteredData": ItemData1;
         /**
-          * The currently filtered items.
+          * The component's filtered items.
           * @readonly
          */
         "filteredItems": HTMLCalcitePickListItemElement[];
@@ -3622,7 +3622,7 @@ export namespace Components {
          */
         "autoClose": boolean;
         /**
-          * When `true`, display a close button within the component.
+          * When `true`, displays a close button within the component.
          */
         "closable": boolean;
         /**
@@ -4067,7 +4067,7 @@ export namespace Components {
          */
         "position": LogicalFlowPosition;
         /**
-          * Sets focus on the component's "close" button (the first focusable item).
+          * Sets focus on the component's "close" button - the first focusable item.
          */
         "setFocus": () => Promise<void>;
         /**
@@ -4110,12 +4110,12 @@ export namespace Components {
         "collapsed": boolean;
         /**
           * When `true`, the content area displays like a floating panel.
-          * @deprecated use `displayMode` instead.
+          * @deprecated Use `displayMode` instead.
          */
         "detached": boolean;
         /**
           * When `displayMode` is `float`, specifies the maximum height of the component.
-          * @deprecated use `heightScale` instead.
+          * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale": Scale;
         /**
@@ -4317,7 +4317,7 @@ export namespace Components {
          */
         "dropdownLabel": string;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to border and background, if applicable.
          */
         "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -8866,6 +8866,7 @@ declare namespace LocalJSX {
           * Fires to active date
          */
         "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        "position"?: "start" | "end";
         /**
           * Specifies the size of the component.
          */
@@ -10598,7 +10599,7 @@ declare namespace LocalJSX {
          */
         "numberingSystem"?: NumberingSystem;
         /**
-          * When either `rangeLabels` is `true`, specifies the format of displayed labels.
+          * When `rangeLabels` is `true`, specifies the format of displayed labels.
          */
         "rangeLabelType"?: MeterLabelType;
         /**
@@ -10610,7 +10611,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values.
+          * When `rangeLabelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values.
          */
         "unitLabel"?: string;
         /**
@@ -10622,7 +10623,7 @@ declare namespace LocalJSX {
          */
         "valueLabel"?: boolean;
         /**
-          * When either `valueLabel` is `true`, specifies the format of displayed label.
+          * When `valueLabel` is `true`, specifies the format of displayed label.
          */
         "valueLabelType"?: MeterLabelType;
     }
@@ -10648,11 +10649,11 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
-          * Sets the component to always be fullscreen (overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`).
+          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`.
          */
         "fullscreen"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to top border).
+          * Specifies the kind of the component, which will apply to top border.
          */
         "kind"?: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
         /**
@@ -10708,24 +10709,23 @@ declare namespace LocalJSX {
         /**
           * Focused date with indicator (will become selected date if user proceeds)
          */
-        "activeDate"?: Date;
-        "activeMonthIndex"?: number;
+        "activeMonth"?: string;
         /**
-          * Specifies the latest allowed date (`"yyyy-mm-dd"`).
+          * Specifies the latest allowed month (`"yyyy-mm"`).
          */
-        "max"?: Date;
+        "max"?: string;
         /**
-          * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
+          * Specifies the earliest allowed month (`"yyyy-mm"`).
          */
-        "min"?: Date;
+        "min"?: string;
         /**
           * Emits whenever the component is selected.
          */
         "onCalciteMonthPickerChange"?: (event: CalciteMonthPickerCustomEvent<void>) => void;
         /**
-          * Already selected date.
+          * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
          */
-        "selectedMonthYear"?: Date;
+        "value"?: string;
     }
     interface CalciteMonthPickerItem {
         "isActive"?: boolean;
@@ -10745,13 +10745,13 @@ declare namespace LocalJSX {
          */
         "navigationAction"?: boolean;
         /**
-          * When `navigationAction` is true, emits when the displayed action selection changes.
+          * When `navigationAction` is `true`, emits when the displayed action selection changes.
          */
         "onCalciteNavigationActionSelect"?: (event: CalciteNavigationCustomEvent<void>) => void;
     }
     interface CalciteNavigationLogo {
         /**
-          * When true, the component is highlighted.
+          * When `true`, the component is highlighted.
          */
         "active"?: boolean;
         /**
@@ -10795,7 +10795,7 @@ declare namespace LocalJSX {
     }
     interface CalciteNavigationUser {
         /**
-          * When true, the component is highlighted.
+          * When `true`, the component is highlighted.
          */
         "active"?: boolean;
         /**
@@ -10837,7 +10837,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to top border and icon).
+          * Specifies the kind of the component, which will apply to top border and icon.
          */
         "kind"?: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
@@ -11035,12 +11035,12 @@ declare namespace LocalJSX {
          */
         "filterText"?: string;
         /**
-          * The currently filtered data.
+          * The component's filtered data.
           * @readonly
          */
         "filteredData"?: ItemData1;
         /**
-          * The currently filtered items.
+          * The component's filtered items.
           * @readonly
          */
         "filteredItems"?: HTMLCalcitePickListItemElement[];
@@ -11167,7 +11167,7 @@ declare namespace LocalJSX {
          */
         "autoClose"?: boolean;
         /**
-          * When `true`, display a close button within the component.
+          * When `true`, displays a close button within the component.
          */
         "closable"?: boolean;
         /**
@@ -11681,12 +11681,12 @@ declare namespace LocalJSX {
         "collapsed"?: boolean;
         /**
           * When `true`, the content area displays like a floating panel.
-          * @deprecated use `displayMode` instead.
+          * @deprecated Use `displayMode` instead.
          */
         "detached"?: boolean;
         /**
           * When `displayMode` is `float`, specifies the maximum height of the component.
-          * @deprecated use `heightScale` instead.
+          * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale"?: Scale;
         /**
@@ -11795,11 +11795,11 @@ declare namespace LocalJSX {
          */
         "numberingSystem"?: NumberingSystem;
         /**
-          * Fires when the thumb is released on the component.  **Note:** If you need to constantly listen to the drag event, use `calciteSliderInput` instead.
+          * Fires when the thumb is released on the component.  Note: To constantly listen to the drag event, use `calciteSliderInput` instead.
          */
         "onCalciteSliderChange"?: (event: CalciteSliderCustomEvent<void>) => void;
         /**
-          * Fires on all updates to the component.  **Note:** Will be fired frequently during drag. If you are performing any expensive operations consider using a debounce or throttle to avoid locking up the main thread.
+          * Fires on all updates to the component.  Note: Fires frequently during drag. To perform expensive operations consider using a debounce or throttle to avoid locking up the main thread.
          */
         "onCalciteSliderInput"?: (event: CalciteSliderCustomEvent<void>) => void;
         /**
@@ -11898,7 +11898,7 @@ declare namespace LocalJSX {
          */
         "dropdownLabel"?: string;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to border and background, if applicable.
          */
         "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**

@@ -246,7 +246,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     const date = dateFromRange(
       this.range && Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
-      this.maxAsDate,
+      this.maxAsDate
     );
     const activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
     const endDate =
@@ -259,27 +259,27 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     //   activeDate = this.mostRecentRangeValue;
     // }
 
-    const minDate = this.activeRange
-      ? this.activeRange === "start"
-        ? this.minAsDate
-        : date
-      : this.minAsDate;
+    const minDate =
+      this.range && this.activeRange
+        ? this.activeRange === "start"
+          ? this.minAsDate
+          : date
+        : this.minAsDate;
 
     //allows start date to go beyond the end date
-    const maxDate = this.activeRange
-      ? this.activeRange === "start"
-        ? endDate
-        : this.maxAsDate
-      : this.maxAsDate;
+    const maxDate =
+      this.range && this.activeRange
+        ? this.activeRange === "start"
+          ? endDate
+          : this.maxAsDate
+        : this.maxAsDate;
 
     return (
       <Host onBlur={this.resetActiveDates} onKeyDown={this.keyDownHandler}>
         <div class="container">
           <div class="start">
             {this.renderCalendar(
-              this.getStartCalendarActiveDate(
-                this.activeRange === "start" ? activeDate : activeEndDate
-              ),
+              this.activeRange === "end" ? prevMonth(activeEndDate) : activeDate,
               maxDate,
               minDate,
               date,
@@ -290,9 +290,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           <div class="end">
             {this.range &&
               this.renderCalendar(
-                this.getEndCalendarActiveDate(
-                  this.activeRange === "end" ? activeEndDate : activeDate
-                ),
+                this.activeRange === "end" ? activeEndDate : nextMonth(activeDate),
                 //allows start date to go beyond the end date.
                 this.maxAsDate,
                 minDate,
@@ -686,13 +684,5 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       value ||
       dateFromRange(nextMonth(new Date()), min, max)
     );
-  }
-
-  private getStartCalendarActiveDate(activeDate: Date): Date {
-    return this.activeRange === "start" ? activeDate : prevMonth(activeDate);
-  }
-
-  private getEndCalendarActiveDate(activeDate: Date): Date {
-    return this.activeRange === "end" ? activeDate : nextMonth(activeDate);
   }
 }
