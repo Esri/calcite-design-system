@@ -6,6 +6,7 @@ export const CSS = {
   tableContainer: "table-container",
   sticky: "sticky-pos",
   assistiveText: "assistive-text",
+  noResultsContainer: "no-results-container",
 };
 
 export const debounceTimeout = 0;
@@ -13,6 +14,7 @@ export const debounceTimeout = 0;
 export type SelectionAppearance = "border" | "icon";
 
 export const SLOTS = {
+  filterNoResults: "filter-no-results",
   filterActionsStart: "filter-actions-start",
   filterActionsEnd: "filter-actions-end",
 };
