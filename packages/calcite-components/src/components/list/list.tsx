@@ -558,6 +558,7 @@ export class List
             </tbody>
           </table>
           <div
+            aria-live="polite"
             class={CSS.noResultsContainer}
             hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
           >
