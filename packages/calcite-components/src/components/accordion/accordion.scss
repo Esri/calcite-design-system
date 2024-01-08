@@ -3,30 +3,24 @@
 
 // scale variants for child
 :host([scale="s"]) {
-  --calcite-accordion-space: 0.25rem 0.5rem;
-
-  --calcite-accordion-item-spacing-unit: theme("spacing.1");
-  --calcite-accordion-icon-margin: theme("spacing.2");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.2");
-  @apply text-n2h;
+  --calcite-accordion-space-block: 0.25rem;
+  --calcite-accordion-space-inline: 0.5rem;
+  --calcite-accordion-font-size: var(--calcite-font-size-sm);
+  --calcite-accordion-line-height: 1rem /* 16px */;
 }
 
 :host([scale="m"]) {
-  --calcite-accordion-space: 0.5rem 0.75rem;
-
-  --calcite-accordion-item-spacing-unit: theme("spacing.2");
-  --calcite-accordion-icon-margin: theme("spacing.3");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.3");
-  @apply text-n1h;
+  --calcite-accordion-space-block: 0.5rem;
+  --calcite-accordion-space-inline: 0.75rem;
+  --calcite-accordion-font-size: var(--calcite-font-size);
+  --calcite-accordion-line-height: 1rem /* 16px */;
 }
 
 :host([scale="l"]) {
-  --calcite-accordion-space: 0.75rem 1rem;
-
-  --calcite-accordion-item-spacing-unit: theme("spacing.3");
-  --calcite-accordion-icon-margin: theme("spacing.4");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.4");
-  @apply text-0h;
+  --calcite-accordion-space-block: 0.75rem;
+  --calcite-accordion-space-inline: 1rem;
+  --calcite-accordion-font-size: var(--calcite-font-size-md);
+  --calcite-accordion-line-height: 1.25rem /* 20px */;
 }
 
 :host {
@@ -40,7 +34,9 @@
   --calcite-accordion-item-description-color: var(--calcite-color-text-3);
   --calcite-accordion-item-content-color: var(--calcite-color-text-3);
   --calcite-accordion-item-icon-color: var(--calcite-color-text-3);
-  --calcite-accordion-item-space: var(--calcite-accordion-space, 1rem);
+  --calcite-accordion-icon-space: var(var(--calcite-accordion-space-inline));
+  font-size: var(--calcite-accordion-font-size);
+  line-height: var(--calcite-accordion-line-height);
 }
 
 .accordion--transparent {

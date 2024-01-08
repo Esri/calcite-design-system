@@ -4,6 +4,8 @@
  * These properties can be overridden
  *
  * @prop --calcite-accordion-item-background: Specifies the background color of the accordion item.
+ * @prop --calcite-accordion-item-color: Specifies the text/icon color for accordion items.
+
  * @prop --calcite-accordion-item-space: Specifies the base spacing multiplier for padding and margin of the accordion item.
  * @prop --calcite-accordion-item-header-background: Specifies the background color of the accordion item header.
  * @prop --calcite-accordion-item-size: Specifies a base size for the accordion item.
@@ -19,43 +21,15 @@
   * Local props
   * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
   *
-  * --calcite-internal-accordion-item-icon-rotation
-  * --calcite-internal-accordion-item-flex-direction
-  * --calcite-internal-accordion-item-icon-spacing-start
-  * --calcite-internal-accordion-item-icon-spacing-end
+  * --calcite-internal-accordion-item-border-block-start-color
+  * --calcite-internal-accordion-item-border-block-end-color
+  * --calcite-internal-accordion-item-border-inline-start-color
+  * --calcite-internal-accordion-item-border-inline-end-color
   * --calcite-internal-accordion-item-header-outline-color
   * --calcite-internal-accordion-item-content-display
+  * --calcite-internal-accordion-space-inline-start
+  * --calcite-internal-accordion-space-inline-end
 */
-
-%icon-position {
-  /* icon rotation variables */
-  --calcite-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
-  --calcite-accordion-item-active-icon-rotation: theme("rotate.0");
-  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.90");
-  --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
-}
-
-// icon position variants for child
-.icon-position--start {
-  @extend %icon-position;
-  --calcite-accordion-item-flex-direction: row-reverse;
-  --calcite-accordion-item-icon-spacing-start: 0;
-  --calcite-accordion-item-icon-spacing-end: theme("spacing.4");
-}
-
-.icon-position--end {
-  @extend %icon-position;
-  --calcite-accordion-item-flex-direction: row;
-  --calcite-accordion-item-icon-spacing-start: var(--calcite-accordion-icon-margin);
-  --calcite-accordion-item-icon-spacing-end: 0;
-}
-
-.icon-position--end:not(.icon-type--plus-minus) {
-  --calcite-accordion-item-icon-rotation: theme("rotate.0");
-  --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
-  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.0");
-  --calcite-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
-}
 
 :host {
   --calcite-internal-accordion-item-header-outline-color: var(--calcite-color-transparent);
@@ -94,6 +68,38 @@
   }
 }
 
+:host([expanded]) {
+  .expand-icon {
+    --calcite-accordion-item-icon-rotation: 180deg;
+  }
+  .calcite--rtl .expand-icon {
+    --calcite-accordion-item-icon-rotation: calc(theme("rotate.180") * -1);
+  }
+}
+
+.icon-position--start {
+  --calcite-internal-accordion-space-inline-start: 0;
+  --calcite-internal-accordion-space-inline-end: var(--calcite-accordion-space-inline);
+  --calcite-internal-accordion-item-flex-direction: row-reverse;
+}
+
+.icon-position--end {
+  --calcite-internal-accordion-space-inline-start: var(--calcite-accordion-space-inline);
+  --calcite-internal-accordion-space-inline-end: 0;
+  --calcite-internal-accordion-item-flex-direction: row;
+}
+
+.icon-position--end:not(.icon-type--plus-minus) {
+  --calcite-accordion-item-icon-rotation: theme("rotate.0");
+  --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
+  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.0");
+  --calcite-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
+}
+
+.calcite--rtl .expand-icon {
+  --calcite-accordion-item-icon-rotation: 0deg;
+}
+
 .header {
   display: flex;
   align-items: stretch;
@@ -102,7 +108,6 @@
   outline-offset: calc(-2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
   outline-color: var(--calcite-internal-accordion-item-header-outline-color, transparent);
   background: var(--calcite-accordion-item-header-background, var(--calcite-accordion-item-background));
-  color: var(--calcite-accordion-item-header-color, var(--calcite-accordion-color));
   border-style: solid;
   border-width: var(--calcite-border-width-sm);
   border-block-start-color: var(
@@ -144,8 +149,9 @@
 .header-content {
   flex-grow: 1;
   cursor: pointer;
-  padding: var(--calcite-accordion-item-space);
-  flex-direction: var(--calcite-accordion-item-flex-direction);
+  padding-block: var(--calcite-accordion-space-block);
+  padding-inline: var(--calcite-accordion-space-inline);
+  flex-direction: var(--calcite-internal-accordion-item-flex-direction);
 }
 
 .heading,
@@ -155,17 +161,19 @@
 }
 
 .heading {
+  color: var(--calcite-accordion-item-color, var(--calcite-accordion-color));
   font-weight: var(--calcite-font-weight-medium);
 }
 
 .description {
   margin-block-start: 0.25rem /* 4px */;
-  color: var(--calcite-accordion-item-description-color, var(--calcite-accordion-color));
+  color: var(--calcite-accordion-item-color, var(--calcite-accordion-color));
 }
 
 .content {
   text-align: initial;
-  padding: var(--calcite-accordion-item-space);
+  padding-block: var(--calcite-accordion-space-block);
+  padding-inline: var(--calcite-accordion-space-inline);
   padding-block-start: 0px;
   display: var(--calcite-internal-accordion-item-content-display, none);
   color: var(--calcite-accordion-item-content-color, var(--calcite-accordion-color));
@@ -174,7 +182,7 @@
 .expand-icon,
 .icon--start,
 .icon--end {
-  color: var(--calcite-accordion-item-icon-color, var(--calcite-accordion-color));
+  color: var(--calcite-accordion-item-color, var(--calcite-accordion-color));
 }
 
 .icon--start,
@@ -184,30 +192,18 @@
 }
 
 .icon--start {
-  margin-inline-end: var(--calcite-accordion-icon-space);
+  margin-inline-end: var(--calcite-accordion-space-inline);
 }
 
 .icon--end {
-  margin-inline-end: var(--calcite-accordion-icon-space);
-  margin-inline-start: var(--calcite-accordion-icon-space);
+  margin-inline-end: var(--calcite-accordion-space-inline);
+  margin-inline-start: var(--calcite-accordion-space-inline);
 }
 
 .expand-icon {
-  margin-inline-start: var(--calcite-accordion-item-icon-spacing-start);
-  margin-inline-end: var(--calcite-accordion-item-icon-spacing-end);
+  margin-inline-start: var(--calcite-internal-accordion-space-inline-start);
+  margin-inline-end: var(--calcite-internal-accordion-space-inline-end);
   transform: rotate(var(--calcite-accordion-item-icon-rotation));
-}
-
-.calcite--rtl .expand-icon {
-  transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
-}
-
-:host([expanded]) .expand-icon {
-  transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
-}
-
-:host([expanded]) .calcite--rtl .expand-icon {
-  transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
 }
 
 @media (forced-colors: active) {
