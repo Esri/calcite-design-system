@@ -2846,6 +2846,10 @@ export namespace Components {
          */
         "dragSelected": boolean;
         /**
+          * Hides the component when filtered.
+         */
+        "filterHidden": boolean;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label": string;
@@ -2902,6 +2906,10 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        /**
+          * Hides the component when filtered.
+         */
+        "filterHidden": boolean;
         /**
           * The header text for all nested `calcite-list-item` rows.
          */
@@ -10243,6 +10251,10 @@ declare namespace LocalJSX {
          */
         "dragSelected"?: boolean;
         /**
+          * Hides the component when filtered.
+         */
+        "filterHidden"?: boolean;
+        /**
           * The label text of the component. Displays above the description text.
          */
         "label"?: string;
@@ -10318,6 +10330,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * Hides the component when filtered.
+         */
+        "filterHidden"?: boolean;
         /**
           * The header text for all nested `calcite-list-item` rows.
          */

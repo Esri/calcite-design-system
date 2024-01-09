@@ -152,7 +152,7 @@ export class InputDatePicker
     }
   }
 
-  /** Selected date as a string in ISO format (YYYY-MM-DD) */
+  /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @Prop({ mutable: true }) value: string | string[] = "";
 
   @Watch("value")

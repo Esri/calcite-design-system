@@ -143,6 +143,13 @@ export class ListItem
   @Prop({ mutable: true, reflect: true }) dragSelected = false;
 
   /**
+   * Hides the component when filtered.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filterHidden = false;
+
+  /**
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
@@ -229,7 +236,7 @@ export class ListItem
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when the item's content is selected.
+   * Fires when the component is selected.
    */
   @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
 

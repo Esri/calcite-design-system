@@ -306,7 +306,7 @@ describe("calcite-list", () => {
     expect(await list.getProperty("filteredItems")).toHaveLength(3);
     expect(await list.getProperty("filteredData")).toHaveLength(3);
 
-    const visibleItems = await page.findAll("calcite-list-item:not([hidden])");
+    const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
     expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
   });
