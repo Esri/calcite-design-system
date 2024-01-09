@@ -109,14 +109,8 @@ describe("form", () => {
         await element.callMethod("setFocus");
         await page.waitForChanges();
 
-        await element.click();
-        await page.waitForChanges();
-
+        await page.keyboard.type("12/12/2012");
         await page.keyboard.press("Tab");
-        await page.keyboard.press("Tab");
-        await page.keyboard.press("Tab");
-        await page.keyboard.press("Tab");
-        await page.keyboard.press("Enter");
         await page.waitForChanges();
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -149,7 +143,7 @@ describe("form", () => {
         await page.waitForChanges();
 
         await page.keyboard.type("12:00 PM");
-        await page.keyboard.press("Enter");
+        await page.keyboard.press("Tab");
         await page.waitForChanges();
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
