@@ -2,7 +2,7 @@ import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from 
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { debounceTimeout, CSS } from "./resources";
+import { debounceTimeout } from "./resources";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
@@ -543,7 +543,7 @@ describe("calcite-list", () => {
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
   });
 
-  it("should show noFilterResults", async () => {
+  it("should show no-results content when filter does not match", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-list>
@@ -558,7 +558,7 @@ describe("calcite-list", () => {
     );
     await page.waitForChanges();
 
-    const noResultsContainer = await page.find(`calcite-list >>> .${CSS.noResultsContainer}`);
+    const noResultsContainer = await page.find(`calcite-list >>> [data-test-id="no-results-container"]`);
 
     expect(await noResultsContainer.isVisible()).toBe(false);
 

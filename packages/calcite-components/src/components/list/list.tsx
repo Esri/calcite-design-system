@@ -559,7 +559,7 @@ export class List
           </table>
           <div
             aria-live="polite"
-            class={CSS.noResultsContainer}
+            data-test-id="no-results-container"
             hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
           >
             <slot

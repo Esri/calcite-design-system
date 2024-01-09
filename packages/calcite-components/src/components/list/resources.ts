@@ -6,7 +6,6 @@ export const CSS = {
   tableContainer: "table-container",
   sticky: "sticky-pos",
   assistiveText: "assistive-text",
-  noResultsContainer: "no-results-container",
 };
 
 export const debounceTimeout = 0;
