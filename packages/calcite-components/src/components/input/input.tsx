@@ -948,6 +948,16 @@ export class Input
     }
   }
 
+  private setInputValue = (newInputValue: string): void => {
+    if (this.type === "text" && !this.childEl) {
+      return;
+    }
+    if (this.type === "number" && !this.childNumberEl) {
+      return;
+    }
+    this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
+  };
+
   private setPreviousEmittedValue = (value: string): void => {
     this.previousEmittedValue = this.normalizeValue(value);
   };
@@ -1023,7 +1033,7 @@ export class Input
     }
 
     if (origin === "direct") {
-      this.displayedValue = value;
+      this.setInputValue(value);
       this.previousEmittedValue = value;
     }
 
