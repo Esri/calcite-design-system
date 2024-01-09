@@ -7,6 +7,48 @@ describe("form", () => {
     describe("required property", () => {
       const requiredValidationMessage = "Please fill out this field.";
 
+      const getInputEventName = (component: string): string =>
+        component
+          .split("-")
+          .map((part: string, index: number) => (index === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`))
+          .join("")
+          .concat("Input");
+
+      for (const component of ["calcite-input", "calcite-input-number", "calcite-input-text"]) {
+        it(`${component} - enter to submit`, async () => {
+          const page = await newE2EPage();
+          await page.setContent(html`
+          <form>
+            <${component} required name="${component}"></${component}>
+          </form>
+        `);
+
+          const element = await page.find(component);
+
+          const clearValidationEventName = getInputEventName(component);
+          const inputEvent = await page.spyOnEvent(clearValidationEventName);
+
+          await element.callMethod("setFocus");
+          await page.waitForChanges();
+
+          await page.keyboard.press("Enter");
+          await page.waitForChanges();
+
+          expect(await element.getProperty("status")).toBe("invalid");
+          expect(await element.getProperty("validationMessage")).toBe(requiredValidationMessage);
+          expect(await element.getProperty("validationIcon")).toBe(true);
+
+          await page.keyboard.press("1");
+          await page.waitForChanges();
+
+          expect(inputEvent).toHaveReceivedEventTimes(1);
+          expect(await element.getProperty("value")).toBe("1");
+          expect(await element.getProperty("status")).toBe("idle");
+          expect(await element.getProperty("validationMessage")).toBe("");
+          expect(await element.getProperty("validationIcon")).toBe(false);
+        });
+      }
+
       for (const component of componentsWithInputEvent) {
         it(`${component}`, async () => {
           const page = await newE2EPage();
@@ -20,12 +62,7 @@ describe("form", () => {
           const submitButton = await page.find("calcite-button");
           const element = await page.find(component);
 
-          const clearValidationEventName = component
-            .split("-")
-            .map((part: string, index: number) => (index === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`))
-            .join("")
-            .concat("Input");
-
+          const clearValidationEventName = getInputEventName(component);
           const inputEvent = await page.spyOnEvent(clearValidationEventName);
 
           await submitButton.click();

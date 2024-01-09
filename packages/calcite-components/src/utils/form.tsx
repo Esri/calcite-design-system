@@ -171,9 +171,6 @@ function hasRegisteredFormComponentParent(
 
 function displayValidationMessage(event: Event) {
   if (event) {
-    // prevent the browser from showing the native validation popover
-    event?.preventDefault();
-
     // target is the hidden input, which is slotted in the actual form component
     const hiddenInput = event?.target as HTMLInputElement;
 
@@ -187,14 +184,13 @@ function displayValidationMessage(event: Event) {
       return;
     }
 
+    // prevent the browser from showing the native validation popover
+    event?.preventDefault();
+
     "status" in formComponent && (formComponent.status = "invalid");
     "validationIcon" in formComponent && (formComponent.validationIcon = true);
     "validationMessage" in formComponent &&
       (formComponent.validationMessage = hiddenInput.validationMessage);
-
-    if (componentsWithInputEvent.includes(componentTag)) {
-      hiddenInput?.focus();
-    }
 
     const componentTagCamelCase = componentTagParts
       .map((part: string, index: number) =>
