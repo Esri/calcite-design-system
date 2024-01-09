@@ -192,7 +192,9 @@ function displayValidationMessage(event: Event) {
     "validationMessage" in formComponent &&
       (formComponent.validationMessage = hiddenInput.validationMessage);
 
-    hiddenInput?.focus();
+    if (componentsWithInputEvent.includes(componentTag)) {
+      hiddenInput?.focus();
+    }
 
     const componentTagCamelCase = componentTagParts
       .map((part: string, index: number) =>
