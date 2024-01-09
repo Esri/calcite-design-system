@@ -85,9 +85,11 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /**
-   * The selection mode of the component.
+   * Specifies the selection mode of the component, where:
    *
-   * Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
+   * `"radio"` is for single selection, and
+   *
+   * `"checkbox"` is for multiple selections.
    */
   @Prop({ reflect: true }) type: TileSelectType = "radio";
 
