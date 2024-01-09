@@ -431,7 +431,7 @@ describe("calcite-action-menu", () => {
 
       await page.$eval("button", (el) => el.focus());
       await page.waitForChanges();
-      await page.waitForChanges();
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(await actionMenu.getProperty("open")).toBe(false);
     });
