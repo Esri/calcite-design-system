@@ -17,7 +17,7 @@ export interface CalciteConfig {
   focusTrapStack: FocusTrap[];
 }
 
-export const defaultConfig: CalciteConfig = {
+const defaultConfig: CalciteConfig = {
   focusTrapStack: [],
 };
 
