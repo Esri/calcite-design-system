@@ -402,7 +402,7 @@ describe("calcite-action-menu", () => {
       expect(await trigger.getProperty("active")).toBe(false);
     });
 
-    it("should close on focusout", async () => {
+    it("should close on blur", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
             <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
