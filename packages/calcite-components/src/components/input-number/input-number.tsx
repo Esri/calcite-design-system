@@ -846,6 +846,13 @@ export class InputNumber
     }
   }
 
+  private setInputNumberValue = (newInputValue: string): void => {
+    if (!this.childNumberEl) {
+      return;
+    }
+    this.childNumberEl.value = newInputValue;
+  };
+
   private setPreviousEmittedNumberValue = (value: string): void => {
     this.previousEmittedNumberValue = this.normalizeValue(value);
   };
@@ -921,7 +928,7 @@ export class InputNumber
     this.value = ["-", "."].includes(newValue) ? "" : newValue;
 
     if (origin === "direct") {
-      this.displayedValue = newLocalizedValue;
+      this.setInputNumberValue(newLocalizedValue);
       this.setPreviousEmittedNumberValue(newLocalizedValue);
     }
 
