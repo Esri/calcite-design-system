@@ -432,6 +432,7 @@ describe("calcite-action-menu", () => {
       const button = await page.find("button");
       await button.focus();
       await page.waitForChanges();
+      await page.waitForSelector("calcite-action-menu >>> calcite-popover:not([open])");
 
       expect(await actionMenu.getProperty("open")).toBe(false);
     });
