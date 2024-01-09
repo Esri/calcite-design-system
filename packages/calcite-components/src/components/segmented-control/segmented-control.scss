@@ -1,3 +1,7 @@
+:host {
+  @apply flex flex-col;
+}
+
 .item-wrapper {
   @apply bg-foreground-1 flex;
   inline-size: fit-content;
@@ -19,6 +23,7 @@
 :host([width="full"] > .item-wrapper) {
   @apply w-full;
   min-inline-size: fit-content;
+
   ::slotted(calcite-segmented-control-item) {
     @apply flex-auto;
   }
