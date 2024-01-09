@@ -1,10 +1,8 @@
 :host {
   --calcite-tile-background-color: var(--calcite-color-foreground-1);
-  --calcite-tile-text-color: var(--calcite-color-text-3);
 
   background-color: var(--calcite-tile-background-color);
   box-sizing: border-box;
-  color: var(--calcite-tile-text-color);
   display: inline-block;
   transition-duration: 150ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -25,17 +23,17 @@
   }
 
   .content-container {
-    @apply focus-base
-      text-color-2
-      flex
-      w-full
-      flex-auto
-      items-stretch
-      p-0;
+    align-items: stretch;
+    display: flex;
+    flex: 1 1 auto;
+    outline-color: transparent;
+    padding: 0px;
+    inline-size: 100%;
   }
 
   .content-slot-container {
-    @apply bg-foreground-1 flex items-center;
+    align-items: center;
+    display: flex;
 
     &:first-child {
       padding-inline: 0 0.75rem;
@@ -47,17 +45,17 @@
   }
 
   .heading {
+    color: var(--calcite-color-text-2);
     font-weight: 500;
-    @apply text-color-2
-      pointer-events-none
-      break-words
-      duration-150
-      ease-in-out;
+    overflow-wrap: break-word;
+    pointer-events: none;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
   .large-visual {
-    @apply items-center
-      text-center;
+    align-items: center;
     min-block-size: theme("spacing.48");
+    text-align: center;
     calcite-icon {
       align-self: self-end;
       block-size: 64px;
@@ -65,16 +63,16 @@
       justify-self: center;
     }
     .content-container {
-      @apply self-center;
+      align-self: center;
     }
   }
   .description {
+    color: var(--calcite-color-text-3);
     font-weight: 400;
-    @apply text-color-3
-      break-words
-      pointer-events-none
-      duration-150
-      ease-in-out;
+    overflow-wrap: break-word;
+    pointer-events: none;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -121,23 +119,23 @@
 :host([href]),
 :host([href]:hover) {
   .heading {
-    @apply underline;
     color: var(--calcite-color-text-link);
+    text-decoration-line: underline;
   }
 }
 :host(:not([embed])) {
-  @apply p-3;
   box-shadow: 0 0 0 1px var(--calcite-color-border-2);
+  padding: 0.75rem;
 }
 :host(:not([embed])[href]:hover) {
-  @apply cursor-pointer;
   box-shadow: 0 0 0 2px var(--calcite-color-brand);
+  cursor: pointer;
 }
 :host(:not([embed])[href]:active) {
   box-shadow: 0 0 0 3px var(--calcite-color-brand);
 }
 :host([icon][heading]:not([description]):not([embed])) {
-  @apply p-0;
+  padding: 0px;
 }
 
 @include disabled();
@@ -145,10 +143,10 @@
 :host(:hover),
 :host([active]) {
   .heading {
-    @apply text-color-1;
+    color: var(--calcite-color-text-1);
   }
   .description {
-    @apply text-color-2;
+    color: var(--calcite-color-text-2);
   }
 }
 
