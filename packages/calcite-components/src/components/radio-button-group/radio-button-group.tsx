@@ -201,9 +201,7 @@ export class RadioButtonGroup implements LoadableComponent {
   render(): VNode {
     return (
       <Host role="radiogroup">
-        <div>
-          <slot />
-        </div>
+        <slot />
         {this.validationMessage ? (
           <Validation
             icon={this.validationIcon}
