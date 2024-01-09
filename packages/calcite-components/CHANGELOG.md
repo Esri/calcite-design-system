@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.11...@esri/calcite-components@2.2.0-next.12) (2024-01-09)
+
+### Bug Fixes
+
+- **action:** update component tokens to support transparent ([#8532](https://github.com/Esri/calcite-design-system/issues/8532)) ([81cb5cc](https://github.com/Esri/calcite-design-system/commit/81cb5cc58d082c5d62d91a5dcaa5cfa8d993e626)), closes [#8519](https://github.com/Esri/calcite-design-system/issues/8519)
+- **input, input-number, input-text:** restore focus on input after browser validation error is displayed and user continues typing ([#8563](https://github.com/Esri/calcite-design-system/issues/8563)) ([5897965](https://github.com/Esri/calcite-design-system/commit/5897965a917dc0e329658de43670cc7fd020bd9c)), closes [#8072](https://github.com/Esri/calcite-design-system/issues/8072)
+
 ## [2.2.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.10...@esri/calcite-components@2.2.0-next.11) (2024-01-05)
 
 ### Bug Fixes
