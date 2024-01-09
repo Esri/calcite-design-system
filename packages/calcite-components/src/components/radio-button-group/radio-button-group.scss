@@ -6,13 +6,13 @@
   @apply flex-row flex-wrap;
 }
 :host([layout="horizontal"][scale="s"]) {
-  @apply gap-4;
+  @apply gap-x-4;
 }
 :host([layout="horizontal"][scale="m"]) {
-  @apply gap-5;
+  @apply gap-x-5;
 }
 :host([layout="horizontal"][scale="l"]) {
-  @apply gap-6;
+  @apply gap-x-6;
 }
 :host([layout="vertical"]) {
   @apply flex-col;
