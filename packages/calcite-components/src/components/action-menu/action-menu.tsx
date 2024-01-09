@@ -224,7 +224,7 @@ export class ActionMenu implements LoadableComponent {
 
     menuButtonEl.addEventListener("pointerdown", this.menuButtonClick);
     menuButtonEl.addEventListener("keydown", this.menuButtonKeyDown);
-    menuButtonEl.addEventListener("focusout", this.menuButtonFocusOut);
+    menuButtonEl.addEventListener("blur", this.menuButtonBlur);
   };
 
   disconnectMenuButtonEl = (): void => {
@@ -236,7 +236,7 @@ export class ActionMenu implements LoadableComponent {
 
     menuButtonEl.removeEventListener("pointerdown", this.menuButtonClick);
     menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
-    menuButtonEl.removeEventListener("focusout", this.menuButtonFocusOut);
+    menuButtonEl.removeEventListener("blur", this.menuButtonBlur);
   };
 
   setMenuButtonEl = (event: Event): void => {
@@ -419,7 +419,7 @@ export class ActionMenu implements LoadableComponent {
     return !!supportedKeys.find((k) => k === key);
   }
 
-  private menuButtonFocusOut = (): void => {
+  private menuButtonBlur = (): void => {
     this.open = false;
   };
 
