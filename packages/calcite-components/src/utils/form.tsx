@@ -192,15 +192,17 @@ function displayValidationMessage(event: Event) {
     "validationMessage" in formComponent &&
       (formComponent.validationMessage = hiddenInput.validationMessage);
 
+    hiddenInput?.focus();
+
     const componentTagCamelCase = componentTagParts
       .map((part: string, index: number) =>
         index === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`,
       )
       .join("");
 
-    const clearValidationEvent = componentsWithInputEvent.includes(componentTag)
-      ? `${componentTagCamelCase}Input`
-      : `${componentTagCamelCase}Change`;
+    const clearValidationEvent = `${componentTagCamelCase}${
+      componentsWithInputEvent.includes(componentTag) ? "Input" : "Change"
+    }`;
 
     formComponent.addEventListener(
       clearValidationEvent,
@@ -209,9 +211,7 @@ function displayValidationMessage(event: Event) {
         "validationIcon" in formComponent && (formComponent.validationIcon = false);
         "validationMessage" in formComponent && (formComponent.validationMessage = "");
       },
-      {
-        once: true,
-      },
+      { once: true },
     );
   }
 }
