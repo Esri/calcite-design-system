@@ -462,6 +462,11 @@ export class ColorPicker
     }
 
     input.value = inputValue;
+
+    if (inputValue !== "" && this.shiftKeyChannelAdjustment !== 0) {
+      // we treat nudging as a change event since the input won't emit when modifying the value directly
+      this.handleChannelChange(event);
+    }
   };
 
   // using @Listen as a workaround for VDOM listener not firing
