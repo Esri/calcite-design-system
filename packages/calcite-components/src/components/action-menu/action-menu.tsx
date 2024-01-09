@@ -224,6 +224,7 @@ export class ActionMenu implements LoadableComponent {
 
     menuButtonEl.addEventListener("pointerdown", this.menuButtonClick);
     menuButtonEl.addEventListener("keydown", this.menuButtonKeyDown);
+    menuButtonEl.addEventListener("focusout", this.menuButtonFocusOut);
   };
 
   disconnectMenuButtonEl = (): void => {
@@ -235,6 +236,7 @@ export class ActionMenu implements LoadableComponent {
 
     menuButtonEl.removeEventListener("pointerdown", this.menuButtonClick);
     menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
+    menuButtonEl.removeEventListener("focusout", this.menuButtonFocusOut);
   };
 
   setMenuButtonEl = (event: Event): void => {
@@ -417,6 +419,10 @@ export class ActionMenu implements LoadableComponent {
     return !!supportedKeys.find((k) => k === key);
   }
 
+  private menuButtonFocusOut = (): void => {
+    this.open = false;
+  };
+
   menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
     const { actionElements, activeMenuItemIndex, open } = this;
@@ -435,11 +441,6 @@ export class ActionMenu implements LoadableComponent {
 
       const action = actionElements[activeMenuItemIndex];
       action ? action.click() : this.toggleOpen(false);
-    }
-
-    if (key === "Tab") {
-      this.open = false;
-      return;
     }
 
     if (key === "Escape") {
