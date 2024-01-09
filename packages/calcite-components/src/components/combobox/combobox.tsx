@@ -214,11 +214,15 @@ export class Combobox
   @Prop({ reflect: true }) required = false;
 
   /**
-   * Specifies the selection mode:
-   * `"multiple"` allows any number of selected items,
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
    * `"single"` allows only one selection,
-   * `"single-persist"` allow and require one open item,
-   * `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   *
+   * `"single-persist"` allows one selection and prevents de-selection, and
+   *
+   * `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
