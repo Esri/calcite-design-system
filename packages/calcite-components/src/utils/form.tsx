@@ -231,6 +231,7 @@ export function submitForm(component: FormOwner): boolean {
 
   formEl.addEventListener("invalid", displayValidationMessage, true);
   formEl.requestSubmit();
+  formEl.removeEventListener("invalid", displayValidationMessage, true);
 
   return true;
 }
