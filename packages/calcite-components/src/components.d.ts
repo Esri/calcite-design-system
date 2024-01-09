@@ -3789,7 +3789,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Specifies the status of the input field, which determines message and icons.
+          * Specifies the status of the validation message.
          */
         "status": Status;
         /**
@@ -3907,6 +3907,18 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * The component's `selectedItem` value.
          */
@@ -11223,7 +11235,7 @@ declare namespace LocalJSX {
          */
         "selectedItem"?: HTMLCalciteRadioButtonElement;
         /**
-          * Specifies the status of the input field, which determines message and icons.
+          * Specifies the status of the validation message.
          */
         "status"?: Status;
         /**
@@ -11341,6 +11353,18 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteSegmentedControlItemElement;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * The component's `selectedItem` value.
          */

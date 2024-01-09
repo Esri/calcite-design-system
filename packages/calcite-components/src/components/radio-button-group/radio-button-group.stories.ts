@@ -74,7 +74,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const validationMessageVertical_TestOnly = (): string => html`
+export const validationMessage_TestOnly = (): string => html`
   <style>
     .container {
       display: flex;

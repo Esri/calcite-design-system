@@ -18,4 +18,5 @@
   @apply flex-col;
 }
 
+@include form-validation-message();
 @include base-component();

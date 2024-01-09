@@ -1,23 +1,22 @@
-:host {
+.item-wrapper {
   @apply bg-foreground-1 flex;
   inline-size: fit-content;
   outline: 1px solid var(--calcite-color-border-input);
   outline-offset: -1px;
 }
 
-:host([appearance="outline"]) {
+:host([appearance="outline"]) > .item-wrapper {
   @apply bg-transparent;
 }
 
 @include disabled();
 
-:host([layout="vertical"]) {
+:host([layout="vertical"]) > .item-wrapper {
   @apply flex-col items-start self-start;
 }
 
 // segmented control width for full
-
-:host([width="full"]) {
+:host([width="full"] > .item-wrapper) {
   @apply w-full;
   min-inline-size: fit-content;
   ::slotted(calcite-segmented-control-item) {
@@ -25,9 +24,10 @@
   }
 }
 
-:host([width="full"][layout="vertical"]) ::slotted(calcite-segmented-control-item) {
+:host([width="full"][layout="vertical"]) ::slotted(calcite-segmented-control-item) > .item-wrapper {
   @apply justify-start;
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();

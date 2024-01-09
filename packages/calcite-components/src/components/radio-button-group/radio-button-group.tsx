@@ -77,7 +77,7 @@ export class RadioButtonGroup implements LoadableComponent {
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the status of the validation message. */
   @Prop({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation message to display under the component. */
@@ -201,7 +201,9 @@ export class RadioButtonGroup implements LoadableComponent {
   render(): VNode {
     return (
       <Host role="radiogroup">
-        <slot />
+        <div>
+          <slot />
+        </div>
         {this.validationMessage ? (
           <Validation
             icon={this.validationIcon}
