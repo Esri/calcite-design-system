@@ -65,11 +65,11 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   @Prop() text: string;
 
   /**
-   * Specifies how the component's toggle is displayed -
+   * Specifies how the component's toggle is displayed, where:
    *
-   * `"button"` (selectable header), or
+   * `"button"` sets the toggle to a selectable header, and
    *
-   * `"switch"` (toggle switch).
+   * `"switch"` sets the toggle to a switch.
    */
   @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
