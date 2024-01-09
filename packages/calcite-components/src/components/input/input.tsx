@@ -638,6 +638,11 @@ export class Input
     nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
+
+    if (value === "Infinity" || value === "-Infinity") {
+      return;
+    }
+
     const adjustment = direction === "up" ? 1 : -1;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
     const inputVal = new BigDecimal(value !== "" ? value : "0");

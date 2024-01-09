@@ -127,8 +127,7 @@ export class InputNumber
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -565,6 +564,11 @@ export class InputNumber
     nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
+
+    if (value === "Infinity" || value === "-Infinity") {
+      return;
+    }
+
     const adjustment = direction === "up" ? 1 : -1;
     const stepHandleInteger =
       this.integer && this.step !== "any" ? Math.round(this.step) : this.step;
