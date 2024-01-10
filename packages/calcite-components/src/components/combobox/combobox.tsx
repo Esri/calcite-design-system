@@ -183,7 +183,7 @@ export class Combobox
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.

@@ -10,6 +10,7 @@ import {
   openClose,
   renders,
   t9n,
+  reflects,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -35,6 +36,23 @@ describe("calcite-input-date-picker", () => {
     hidden("calcite-input-date-picker");
   });
 
+  describe("reflects", () => {
+    reflects("calcite-input-date-picker ", [
+      {
+        propertyName: "scale",
+        value: "s",
+      },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
+      },
+    ]);
+  });
+
   describe("defaults", () => {
     defaults("calcite-input-date-picker", [
       {
@@ -43,6 +61,18 @@ describe("calcite-input-date-picker", () => {
       },
       {
         propertyName: "flipPlacements",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
         defaultValue: undefined,
       },
     ]);

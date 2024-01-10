@@ -64,6 +64,10 @@ describe("calcite-input", () => {
         propertyName: "scale",
         value: "s",
       },
+      {
+        propertyName: "validationIcon",
+        value: true,
+      },
     ]);
   });
 
@@ -92,6 +96,14 @@ describe("calcite-input", () => {
       {
         propertyName: "value",
         defaultValue: "",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
       },
     ]);
   });
