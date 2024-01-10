@@ -67,9 +67,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Prop({ mutable: true }) activeDate: Date;
 
   @Watch("activeDate")
-  activeDateWatcher(newActiveDate: Date): void {
+  activeDateWatcher(): void {
     if (this.activeRange === "end") {
-      this.activeEndDate = newActiveDate;
+      // this.activeEndDate = newActiveDate;
     }
   }
 
@@ -94,11 +94,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Watch("valueAsDate")
   valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
     if (this.range && Array.isArray(newValueAsDate)) {
-      const { activeStartDate, activeEndDate } = this;
-      const newActiveStartDate = newValueAsDate[0];
-      const newActiveEndDate = newValueAsDate[1];
-      this.activeStartDate = activeStartDate !== newActiveStartDate && newActiveStartDate;
-      this.activeEndDate = activeEndDate !== newActiveEndDate && newActiveEndDate;
     } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
       this.activeDate = newValueAsDate as Date;
     }
@@ -266,18 +261,18 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     const maxDate =
       this.range && this.activeRange
         ? this.activeRange === "start"
-          ? endDate
-          : this.maxAsDate
+          ? this.maxAsDate
+          : endDate
         : this.maxAsDate;
-
+    console.log(this.activeStartDate, this.activeEndDate);
     return (
       <Host onBlur={this.resetActiveDates} onKeyDown={this.keyDownHandler}>
         <div class="container">
           <div class="start">
             {this.renderCalendar(
-              this.activeRange === "end" && this.displayedEndDate
-                ? prevMonth(this.displayedEndDate)
-                : this.displayedStartDate,
+              this.activeRange === "end" && this.activeEndDate
+                ? prevMonth(this.activeEndDate)
+                : this.activeStartDate,
               maxDate,
               minDate,
               date,
@@ -288,9 +283,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           <div class="end">
             {this.range &&
               this.renderCalendar(
-                this.activeRange === "end" && this.displayedEndDate
-                  ? this.displayedEndDate
-                  : nextMonth(this.displayedStartDate),
+                this.activeRange === "end" && this.activeEndDate
+                  ? this.activeEndDate
+                  : nextMonth(this.activeStartDate),
                 this.maxAsDate,
                 minDate,
                 date,
@@ -322,16 +317,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @State() activeStartDate: Date;
 
   /**
-   * Active end date.
-   */
-  @State() displayedEndDate: Date;
-
-  /**
-   * Active start date.
-   */
-  @State() displayedStartDate: Date;
-
-  /**
    * The DateTimeFormat used to provide screen reader labels.
    *
    * @internal
@@ -354,6 +339,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @State() private localeData: DateLocaleData;
 
   @State() private mostRecentRangeValue?: Date;
+
+  @State() private mostRecentActiveDateValue?: Date;
 
   @State() startAsDate: Date;
 
@@ -403,35 +390,32 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     } else {
       if (target.position === "end") {
         this.activeEndDate = date;
-        this.displayedEndDate = date;
         this.activeStartDate = prevMonth(date);
-        // this.activeStartDate = this.activeStartDate
-        //   ? nextMonth(this.activeStartDate)
-        // : prevMonth(date);
-        this.displayedStartDate = this.activeStartDate;
-        // this.activeDate = this.activeStartDate;
       } else {
         this.activeStartDate = date;
         this.activeEndDate = nextMonth(date);
-        //this.activeEndDate ? prevMonth(this.activeEndDate) : nextMonth(date);
-        // this.activeDate = date;
-        this.displayedStartDate = date;
-        this.displayedEndDate = this.activeEndDate;
       }
     }
   };
 
   monthActiveDateChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
+    const target = event.target as HTMLCalciteDatePickerMonthElement;
     if (!this.range) {
       this.activeDate = date;
     } else {
-      if (this.activeRange === "end") {
+      if (this.activeRange === "end" && target.position === "end") {
         this.activeEndDate = date;
-        this.displayedStartDate = date;
-      } else {
+        this.mostRecentActiveDateValue = null;
+      } else if (this.activeRange === "start" && target.position === "start") {
         this.activeStartDate = date;
-        this.displayedStartDate = date;
+        this.mostRecentActiveDateValue = null;
+      } else if (this.activeRange === "end" && target.position !== "end") {
+        this.mostRecentActiveDateValue = date;
+        this.activeStartDate = date;
+      } else if (this.activeRange === "start" && target.position !== "start") {
+        this.mostRecentActiveDateValue = date;
+        this.activeEndDate = date;
       }
       this.mostRecentRangeValue = date;
     }
@@ -562,6 +546,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           onCalciteInternalDatePickerHover={this.monthHoverChange}
           onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
           onCalciteInternalDatePickerSelect={this.monthDateChange}
+          position={position}
           scale={this.scale}
           selectedDate={position === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
@@ -584,7 +569,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.activeEndDate = new Date(valueAsDate[1]);
       }
     }
-    this.setDisplayedDates();
   };
 
   private getEndDate(): Date {
@@ -598,7 +582,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.valueAsDate = [startDate, date];
     this.mostRecentRangeValue = newEndDate;
     this.calciteDatePickerRangeChange.emit();
-    //this.activeEndDate = date || null;
   }
 
   private getStartDate(): Date {
@@ -611,7 +594,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.valueAsDate = [date, endDate];
     this.mostRecentRangeValue = date;
     this.calciteDatePickerRangeChange.emit();
-    //this.activeStartDate = date || null;
   }
 
   /**
@@ -636,8 +618,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
     const start = this.getStartDate();
     const end = this.getEndDate();
-
-    // debugger;
 
     if (!start || (!end && date < start)) {
       if (start) {
@@ -715,8 +695,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.maxAsDate
       );
 
-      this.displayedStartDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
-      this.displayedEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
+      this.activeStartDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+      this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
     }
   }
 }

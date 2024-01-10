@@ -1392,6 +1392,7 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        "position": "start" | "end";
         /**
           * Specifies the size of the component.
          */
@@ -8824,6 +8825,7 @@ declare namespace LocalJSX {
           * Fires when user selects the date.
          */
         "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "position"?: "start" | "end";
         /**
           * Specifies the size of the component.
          */
