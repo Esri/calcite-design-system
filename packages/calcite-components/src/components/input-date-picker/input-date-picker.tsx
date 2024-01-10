@@ -349,7 +349,6 @@ export class InputDatePicker
       this.shouldFocusRangeEnd() ||
       this.focusedInput === "start"
     ) {
-      console.log("do not close");
       return;
     }
 
@@ -752,7 +751,7 @@ export class InputDatePicker
   transitionEl: HTMLDivElement;
 
   @Watch("layout")
-  // no need for re-opening of the date-picker. closes only on espace or end value selection in range.
+  // no need for re-opening of the date-picker. closes only on espace or value/end-value selection in range.
   // @Watch("focusedInput")
   setReferenceEl(): void {
     const { focusedInput, layout, endWrapper, startWrapper } = this;
@@ -851,7 +850,6 @@ export class InputDatePicker
 
   private blurHandler = (): void => {
     // this is causing date-picker to close when start date is selected from the end calendar.
-
     this.open = false;
   };
 

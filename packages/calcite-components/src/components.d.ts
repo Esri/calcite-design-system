@@ -3185,19 +3185,20 @@ export namespace Components {
         /**
           * Focused date with indicator (will become selected date if user proceeds)
          */
-        "activeMonth": string;
+        "activeDate": Date;
+        "activeMonthIndex": number;
         /**
-          * Specifies the latest allowed month (`"yyyy-mm"`).
+          * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
-        "max": string;
+        "max": Date;
         /**
-          * Specifies the earliest allowed month (`"yyyy-mm"`).
+          * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
-        "min": string;
+        "min": Date;
         /**
-          * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
+          * Already selected date.
          */
-        "value": string;
+        "selectedMonthYear": Date;
     }
     interface CalciteMonthPickerItem {
         "isActive": boolean;
@@ -10709,23 +10710,24 @@ declare namespace LocalJSX {
         /**
           * Focused date with indicator (will become selected date if user proceeds)
          */
-        "activeMonth"?: string;
+        "activeDate"?: Date;
+        "activeMonthIndex"?: number;
         /**
-          * Specifies the latest allowed month (`"yyyy-mm"`).
+          * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
-        "max"?: string;
+        "max"?: Date;
         /**
-          * Specifies the earliest allowed month (`"yyyy-mm"`).
+          * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
-        "min"?: string;
+        "min"?: Date;
         /**
           * Emits whenever the component is selected.
          */
         "onCalciteMonthPickerChange"?: (event: CalciteMonthPickerCustomEvent<void>) => void;
         /**
-          * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
+          * Already selected date.
          */
-        "value"?: string;
+        "selectedMonthYear"?: Date;
     }
     interface CalciteMonthPickerItem {
         "isActive"?: boolean;

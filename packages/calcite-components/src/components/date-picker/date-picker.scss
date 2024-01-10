@@ -51,6 +51,13 @@
   flex-direction: row;
 }
 
+:host([range]) {
+  .start,
+  .end {
+    inline-size: 50%;
+  }
+}
+
 :host([range]) .start {
   margin-inline-end: 12px;
 }

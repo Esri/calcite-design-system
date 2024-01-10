@@ -223,6 +223,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
+    this.setDisplayedDates();
   }
 
   disconnectedCallback(): void {
@@ -248,16 +249,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.minAsDate,
       this.maxAsDate
     );
-    const activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+
     const endDate =
       this.range && Array.isArray(this.valueAsDate)
         ? dateFromRange(this.valueAsDate[1], this.minAsDate, this.maxAsDate)
         : null;
-    const activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
-
-    // if (this.range && this.mostRecentRangeValue) {
-    //   activeDate = this.mostRecentRangeValue;
-    // }
 
     const minDate =
       this.range && this.activeRange
@@ -279,7 +275,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         <div class="container">
           <div class="start">
             {this.renderCalendar(
-              this.activeRange === "end" ? prevMonth(activeEndDate) : activeDate,
+              this.activeRange === "end" && this.displayedEndDate
+                ? prevMonth(this.displayedEndDate)
+                : this.displayedStartDate,
               maxDate,
               minDate,
               date,
@@ -290,8 +288,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           <div class="end">
             {this.range &&
               this.renderCalendar(
-                this.activeRange === "end" ? activeEndDate : nextMonth(activeDate),
-                //allows start date to go beyond the end date.
+                this.activeRange === "end" && this.displayedEndDate
+                  ? this.displayedEndDate
+                  : nextMonth(this.displayedStartDate),
                 this.maxAsDate,
                 minDate,
                 date,
@@ -321,6 +320,16 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    * Active start date.
    */
   @State() activeStartDate: Date;
+
+  /**
+   * Active end date.
+   */
+  @State() displayedEndDate: Date;
+
+  /**
+   * Active start date.
+   */
+  @State() displayedStartDate: Date;
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
@@ -394,16 +403,21 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     } else {
       if (target.position === "end") {
         this.activeEndDate = date;
-        this.activeStartDate = this.activeStartDate
-          ? nextMonth(this.activeStartDate)
-          : prevMonth(date);
+        this.displayedEndDate = date;
+        this.activeStartDate = prevMonth(date);
+        // this.activeStartDate = this.activeStartDate
+        //   ? nextMonth(this.activeStartDate)
+        // : prevMonth(date);
+        this.displayedStartDate = this.activeStartDate;
         // this.activeDate = this.activeStartDate;
       } else {
         this.activeStartDate = date;
-        this.activeEndDate = this.activeEndDate ? prevMonth(this.activeEndDate) : nextMonth(date);
+        this.activeEndDate = nextMonth(date);
+        //this.activeEndDate ? prevMonth(this.activeEndDate) : nextMonth(date);
         // this.activeDate = date;
+        this.displayedStartDate = date;
+        this.displayedEndDate = this.activeEndDate;
       }
-      this.mostRecentRangeValue = date;
     }
   };
 
@@ -414,8 +428,10 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     } else {
       if (this.activeRange === "end") {
         this.activeEndDate = date;
+        this.displayedStartDate = date;
       } else {
         this.activeStartDate = date;
+        this.displayedStartDate = date;
       }
       this.mostRecentRangeValue = date;
     }
@@ -568,6 +584,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.activeEndDate = new Date(valueAsDate[1]);
       }
     }
+    this.setDisplayedDates();
   };
 
   private getEndDate(): Date {
@@ -581,7 +598,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.valueAsDate = [startDate, date];
     this.mostRecentRangeValue = newEndDate;
     this.calciteDatePickerRangeChange.emit();
-    this.activeEndDate = date || null;
+    //this.activeEndDate = date || null;
   }
 
   private getStartDate(): Date {
@@ -594,7 +611,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.valueAsDate = [date, endDate];
     this.mostRecentRangeValue = date;
     this.calciteDatePickerRangeChange.emit();
-    this.activeStartDate = date || null;
+    //this.activeStartDate = date || null;
   }
 
   /**
@@ -619,6 +636,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
     const start = this.getStartDate();
     const end = this.getEndDate();
+
+    // debugger;
 
     if (!start || (!end && date < start)) {
       if (start) {
@@ -671,11 +690,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    * @param max
    */
   private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return (
-      dateFromRange(this.activeStartDate || this.activeDate, min, max) ||
-      value ||
-      dateFromRange(new Date(), min, max)
-    );
+    return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
   }
 
   private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {
@@ -684,5 +699,24 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       value ||
       dateFromRange(nextMonth(new Date()), min, max)
     );
+  }
+
+  private setDisplayedDates(): void {
+    if (this.range) {
+      const date = dateFromRange(
+        Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
+        this.minAsDate,
+        this.maxAsDate
+      );
+
+      const endDate = dateFromRange(
+        Array.isArray(this.valueAsDate) ? this.valueAsDate[1] : null,
+        this.minAsDate,
+        this.maxAsDate
+      );
+
+      this.displayedStartDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+      this.displayedEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
+    }
   }
 }
