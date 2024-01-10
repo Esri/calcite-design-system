@@ -751,12 +751,33 @@ describe("calcite-input", () => {
 
       await input.callMethod("setFocus");
       await page.waitForChanges();
-      await input.setProperty("value", "not a random value");
+      input.setProperty("value", "not a random value");
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
       expect(inputEventSpy).not.toHaveReceivedEvent();
       expect(changeEventSpy).not.toHaveReceivedEvent();
+    });
+
+    it("Setting the value to Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
+      const input = await page.find("calcite-input");
+
+      await input.callMethod("setFocus");
+      await page.waitForChanges();
+
+      input.setProperty("value", "Infinity");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("Infinity");
+
+      await typeNumberValue(page, "123");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("Infinity");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("");
     });
   });
 
@@ -1923,7 +1944,7 @@ describe("calcite-input", () => {
     expect(await button.getProperty("disabled")).toBe(true);
     expect(await input.getProperty("disabled")).toBe(false);
 
-    await input.setProperty("disabled", true);
+    input.setProperty("disabled", true);
     await input.callMethod("setFocus");
     await page.waitForChanges();
     await page.keyboard.type("2");
@@ -1932,7 +1953,7 @@ describe("calcite-input", () => {
     expect(await button.getProperty("disabled")).toBe(true);
     expect(await input.getProperty("disabled")).toBe(true);
 
-    await input.setProperty("disabled", false);
+    input.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
     await page.waitForChanges();
@@ -1942,7 +1963,7 @@ describe("calcite-input", () => {
     expect(await button.getProperty("disabled")).toBe(true);
     expect(await input.getProperty("disabled")).toBe(false);
 
-    await button.setProperty("disabled", false);
+    button.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
     await page.waitForChanges();
@@ -1952,7 +1973,7 @@ describe("calcite-input", () => {
     expect(await button.getProperty("disabled")).toBe(false);
     expect(await input.getProperty("disabled")).toBe(false);
 
-    await input.setProperty("disabled", true);
+    input.setProperty("disabled", true);
     await page.waitForChanges();
     await input.callMethod("setFocus");
     await page.waitForChanges();
