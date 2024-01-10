@@ -385,9 +385,10 @@ export class TabNav {
 
   private handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
+    const selectionModified = closedTabTitleEl.selected;
 
     const visibleTabTitlesIndices = tabTitles.reduce(
-      (tabTitleIndices, tabTitle, index) =>
+      (tabTitleIndices: number[], tabTitle, index) =>
         !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
       [],
     );
@@ -396,6 +397,10 @@ export class TabNav {
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
+
+      if (selectionModified) {
+        tabTitles[visibleTabTitlesIndices[0]].click(); // trigger selection-related events since they were modified after user interaction
+      }
     } else if (totalVisibleTabTitles > 1) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
@@ -404,6 +409,7 @@ export class TabNav {
 
       if (this.selectedTabId === closedTabTitleIndex) {
         this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
+        tabTitles[this.selectedTabId].click(); // trigger selection-related events since they were modified after user interaction
       }
     }
 
