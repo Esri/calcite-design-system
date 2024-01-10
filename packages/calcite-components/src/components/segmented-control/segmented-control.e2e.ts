@@ -68,14 +68,10 @@ describe("calcite-segmented-control", () => {
         propertyName: "status",
         value: "invalid",
       },
-      // {
-      //   propertyName: "validationIcon",
-      //   value: true,
-      // },
-      // {
-      //   propertyName: "validationMessage",
-      //   value: "Please fill out this field.",
-      // },
+      {
+        propertyName: "validationIcon",
+        value: true,
+      },
     ]);
   });
 

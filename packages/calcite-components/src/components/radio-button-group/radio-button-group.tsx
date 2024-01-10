@@ -84,7 +84,7 @@ export class RadioButtonGroup implements LoadableComponent {
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   @Watch("scale")
   onScaleChange(): void {

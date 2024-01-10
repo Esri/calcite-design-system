@@ -112,8 +112,7 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" },
       { propertyName: "status", value: "invalid" },
-      // { propertyName: "validationIcon", value: true },
-      // { propertyName: "validationMessage", value:"Please fill out this field." },
+      { propertyName: "validationIcon", value: true },
     ]);
   });
 

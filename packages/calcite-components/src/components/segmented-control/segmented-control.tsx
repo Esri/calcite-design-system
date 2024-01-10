@@ -136,7 +136,7 @@ export class SegmentedControl
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
