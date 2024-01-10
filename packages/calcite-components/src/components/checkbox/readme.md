@@ -36,7 +36,8 @@
 | `guid`          | `guid`          | The `id` attribute of the component. When omitted, a globally unique identifier is used.                                                                                | `string`                         | `undefined` |
 | `indeterminate` | `indeterminate` | When `true`, the component is initially indeterminate, which is independent from its `checked` value. The state is visual only, and can look different across browsers. | `boolean`                        | `false`     |
 | `label`         | `label`         | Accessible name for the component.                                                                                                                                      | `string`                         | `undefined` |
-| `name`          | `name`          | Specifies the name of the component on form submission.                                                                                                                 | `string`                         | `undefined` |
+| `name`          | `name`          | Specifies the name of the component. Required to pass the component's `value` on form submission.                                                                       | `string`                         | `undefined` |
+| `required`      | `required`      | When `true`, the component must have a value in order for the form to submit.                                                                                           | `boolean`                        | `false`     |
 | `scale`         | `scale`         | Specifies the size of the component.                                                                                                                                    | `"l" \| "m" \| "s"`              | `"m"`       |
 | `status`        | `status`        | Specifies the status of the input field, which determines message and icons.                                                                                            | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
 | `value`         | `value`         | The component's value.                                                                                                                                                  | `any`                            | `undefined` |
@@ -45,7 +46,7 @@
 
 | Event                   | Description                                          | Type                |
 | ----------------------- | ---------------------------------------------------- | ------------------- |
-| `calciteCheckboxChange` | Emits when the component's `checked` status changes. | `CustomEvent<void>` |
+| `calciteCheckboxChange` | Fires when the component's `checked` status changes. | `CustomEvent<void>` |
 
 ## Methods
 
