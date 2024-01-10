@@ -1,9 +1,10 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { Scale } from "../interfaces";
 import { TabPosition } from "../tabs/interfaces";
+import { CSS as TabTitleCSS } from "../tab-title/resources";
 
 describe("calcite-tabs", () => {
   const tabsContent = html`
@@ -359,5 +360,76 @@ describe("calcite-tabs", () => {
     const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
 
     expect(selectedTitleOnEmit).toBe("boats");
+  });
+
+  describe("closing tabs", () => {
+    let page: E2EPage;
+    let tabsActivateSpy: EventSpy;
+    let tabChangeSpy: EventSpy;
+    let allTabTitles: E2EElement[];
+    let allTabs: E2EElement[];
+
+    beforeEach(async (): Promise<void> => {
+      page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tabs>
+          <calcite-tab-nav slot="title-group">
+            <calcite-tab-title id="tab-title-1" closable>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title id="tab-title-2" closable>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title id="tab-title-3" closable>Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title id="tab-title-4" closable selected>Tab 4 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab id="tab-1">Tab 1 Content</calcite-tab>
+          <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
+          <calcite-tab id="tab-3">Tab 3 Content</calcite-tab>
+          <calcite-tab id="tab-4" selected>Tab 4 Content</calcite-tab>
+        </calcite-tabs>
+      `);
+
+      allTabTitles = await page.findAll("calcite-tab-title");
+      allTabs = await page.findAll("calcite-tab");
+
+      const tabNav = await page.find("calcite-tab-nav");
+      const tabs = await page.find("calcite-tabs");
+
+      tabsActivateSpy = await tabNav.spyOnEvent("calciteTabsActivate");
+      tabChangeSpy = await tabs.spyOnEvent("calciteTabChange");
+    });
+
+    it("should emit tab change events when closing affects selected tab", async () => {
+      await page.click(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`);
+      await page.waitForChanges();
+
+      expect(tabsActivateSpy).toHaveReceivedEventTimes(1);
+      expect(tabChangeSpy).toHaveReceivedEventTimes(1);
+
+      expect(await allTabTitles[0].isVisible()).toBe(true);
+      expect(await allTabTitles[1].isVisible()).toBe(true);
+      expect(await allTabTitles[2].isVisible()).toBe(true);
+      expect(await allTabTitles[3].isVisible()).toBe(false);
+
+      expect(await allTabs[0].isVisible()).toBe(false);
+      expect(await allTabs[1].isVisible()).toBe(false);
+      expect(await allTabs[2].isVisible()).toBe(true);
+      expect(await allTabs[3].isVisible()).toBe(false);
+    });
+
+    it("should NOT emit tab change events when closing does not affect selected tab", async () => {
+      await page.click(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`);
+      await page.waitForChanges();
+
+      expect(tabsActivateSpy).toHaveReceivedEventTimes(0);
+      expect(tabChangeSpy).toHaveReceivedEventTimes(0);
+
+      expect(await allTabTitles[0].isVisible()).toBe(false);
+      expect(await allTabTitles[1].isVisible()).toBe(true);
+      expect(await allTabTitles[2].isVisible()).toBe(true);
+      expect(await allTabTitles[3].isVisible()).toBe(true);
+
+      expect(await allTabs[0].isVisible()).toBe(false);
+      expect(await allTabs[1].isVisible()).toBe(false);
+      expect(await allTabs[2].isVisible()).toBe(false);
+      expect(await allTabs[3].isVisible()).toBe(true);
+    });
   });
 });
