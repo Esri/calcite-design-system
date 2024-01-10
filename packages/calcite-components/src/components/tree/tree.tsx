@@ -56,6 +56,8 @@ export class Tree {
    * `"single"` allows one selection, and
    *
    * `"single-persist"` allows and requires one selection.
+   *
+   * @default "single"
    */
   @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode = "single";
 

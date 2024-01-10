@@ -379,7 +379,7 @@ export class InputDatePicker
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the component's value changes.
+   * Fires when the component's `value` changes.
    */
   @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
 

@@ -77,11 +77,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * Specifies the display mode of the component, where:
    *
-   * `"dock"` full height, displays adjacent to center content,
+   * `"dock"` displays at full height adjacent to center content,
    *
-   * `"float"` not full height, content is separated detached from `calcite-action-bar`, displays on top of center content, and
+   * `"overlay"` displays at full height on top of center content, and
    *
-   * `"overlay"` full height, displays on top of center content.
+   * `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "dock";
 
