@@ -399,7 +399,7 @@ export class TabNav {
       this.selectedTabId = visibleTabTitlesIndices[0];
 
       if (selectionModified) {
-        tabTitles[visibleTabTitlesIndices[0]].click(); // trigger selection-related events since they were modified after user interaction
+        tabTitles[visibleTabTitlesIndices[0]].activateTab();
       }
     } else if (totalVisibleTabTitles > 1) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
@@ -409,7 +409,7 @@ export class TabNav {
 
       if (this.selectedTabId === closedTabTitleIndex) {
         this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
-        tabTitles[this.selectedTabId].click(); // trigger selection-related events since they were modified after user interaction
+        tabTitles[this.selectedTabId].activateTab();
       }
     }
 
