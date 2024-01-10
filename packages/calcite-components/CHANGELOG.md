@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.14...@esri/calcite-components@2.2.0-next.15) (2024-01-10)
+
+### Features
+
+- **action-menu:** Close menu on blur instead of on tab key. ([#8577](https://github.com/Esri/calcite-design-system/issues/8577)) ([ccfbd0c](https://github.com/Esri/calcite-design-system/commit/ccfbd0c69f3f83149808f16dfaa389dc463c2442))
+
+### Bug Fixes
+
+- **input, input-number:** support setting value property to Infinity ([#8547](https://github.com/Esri/calcite-design-system/issues/8547)) ([f6ac698](https://github.com/Esri/calcite-design-system/commit/f6ac698435fd0a28d22d8f410ab5a45c1c951c00)), closes [#7866](https://github.com/Esri/calcite-design-system/issues/7866)
+
 ## [2.2.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.13...@esri/calcite-components@2.2.0-next.14) (2024-01-09)
 
 ### Bug Fixes

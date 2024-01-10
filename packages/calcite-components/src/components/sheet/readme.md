@@ -96,7 +96,7 @@ sheet.beforeClose = beforeClose;
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component's "close" button (the first focusable item).
+Sets focus on the component's "close" button - the first focusable item.
 
 #### Returns
 

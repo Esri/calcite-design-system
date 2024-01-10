@@ -117,19 +117,19 @@ Renders a panel with a header and a footer.
 
 ## Properties
 
-| Property           | Attribute       | Description                                                                              | Type                                                                        | Default     |
-| ------------------ | --------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------- |
-| `closable`         | `closable`      | When `true`, displays a close button in the trailing side of the header.                 | `boolean`                                                                   | `false`     |
-| `closed`           | `closed`        | When `true`, the component will be hidden.                                               | `boolean`                                                                   | `false`     |
-| `collapsed`        | `collapsed`     | When `true`, hides the component's content area.                                         | `boolean`                                                                   | `false`     |
-| `collapsible`      | `collapsible`   | When `true`, the component is collapsible.                                               | `boolean`                                                                   | `false`     |
-| `description`      | `description`   | A description for the component.                                                         | `string`                                                                    | `undefined` |
-| `disabled`         | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                                                                   | `false`     |
-| `heading`          | `heading`       | The component header text.                                                               | `string`                                                                    | `undefined` |
-| `headingLevel`     | `heading-level` | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                | `undefined` |
-| `loading`          | `loading`       | When `true`, a busy indicator is displayed.                                              | `boolean`                                                                   | `false`     |
-| `menuOpen`         | `menu-open`     | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                                                                   | `false`     |
-| `messageOverrides` | --              | Use this property to override individual strings used by the component.                  | `{ close?: string; options?: string; collapse?: string; expand?: string; }` | `undefined` |
+| Property           | Attribute           | Description                                                                              | Type                         | Default     |
+| ------------------ | ------------------- | ---------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the header.                 | `boolean`                    | `false`     |
+| `closed`           | `closed`            | When `true`, the component will be hidden.                                               | `boolean`                    | `false`     |
+| `collapsed`        | `collapsed`         | When `true`, hides the component's content area.                                         | `boolean`                    | `false`     |
+| `collapsible`      | `collapsible`       | When `true`, the component is collapsible.                                               | `boolean`                    | `false`     |
+| `description`      | `description`       | A description for the component.                                                         | `string`                     | `undefined` |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
+| `heading`          | `heading`           | The component header text.                                                               | `string`                     | `undefined` |
+| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                    | `false`     |
+| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                    | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `PanelMessages`              | `undefined` |
 
 ## Events
 
