@@ -8,29 +8,29 @@ If you are looking for a list that handles more advanced usage like selection, s
 
 ## Properties
 
-| Property           | Attribute       | Description                                                                                                                               | Type                        | Default     |
-| ------------------ | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
-| `closable`         | `closable`      | When `true`, a close button is added to the component.                                                                                    | `boolean`                   | `false`     |
-| `closed`           | `closed`        | When `true`, hides the component.                                                                                                         | `boolean`                   | `false`     |
-| `description`      | `description`   | A description for the component. Displays below the label text.                                                                           | `string`                    | `undefined` |
-| `disabled`         | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                  | `boolean`                   | `false`     |
-| `dragDisabled`     | `drag-disabled` | When `true`, the item is not draggable.                                                                                                   | `boolean`                   | `false`     |
-| `dragSelected`     | `drag-selected` | When `true`, the component's drag handle is selected.                                                                                     | `boolean`                   | `false`     |
-| `label`            | `label`         | The label text of the component. Displays above the description text.                                                                     | `string`                    | `undefined` |
-| `messageOverrides` | --              | Use this property to override individual strings used by the component.                                                                   | `{ close?: string; }`       | `undefined` |
-| `metadata`         | --              | Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.                                  | `{ [x: string]: unknown; }` | `undefined` |
-| `open`             | `open`          | When `true`, the item is open to show child components.                                                                                   | `boolean`                   | `false`     |
-| `selected`         | `selected`      | When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or`"multiple"`, the component is selected. | `boolean`                   | `false`     |
-| `value`            | `value`         | The component's value.                                                                                                                    | `any`                       | `undefined` |
+| Property           | Attribute           | Description                                                                                                                               | Type                        | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
+| `closable`         | `closable`          | When `true`, a close button is added to the component.                                                                                    | `boolean`                   | `false`     |
+| `closed`           | `closed`            | When `true`, hides the component.                                                                                                         | `boolean`                   | `false`     |
+| `description`      | `description`       | A description for the component. Displays below the label text.                                                                           | `string`                    | `undefined` |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                  | `boolean`                   | `false`     |
+| `dragDisabled`     | `drag-disabled`     | When `true`, the item is not draggable.                                                                                                   | `boolean`                   | `false`     |
+| `dragSelected`     | `drag-selected`     | When `true`, the component's drag handle is selected.                                                                                     | `boolean`                   | `false`     |
+| `label`            | `label`             | The label text of the component. Displays above the description text.                                                                     | `string`                    | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                   | `ListItemMessages`          | `undefined` |
+| `metadata`         | --                  | Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.                                  | `{ [x: string]: unknown; }` | `undefined` |
+| `open`             | `open`              | When `true`, the item is open to show child components.                                                                                   | `boolean`                   | `false`     |
+| `selected`         | `selected`          | When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or`"multiple"`, the component is selected. | `boolean`                   | `false`     |
+| `value`            | `value`             | The component's value.                                                                                                                    | `any`                       | `undefined` |
 
 ## Events
 
-| Event                             | Description                                | Type                |
-| --------------------------------- | ------------------------------------------ | ------------------- |
-| `calciteListItemClose`            | Fires when the close button is clicked.    | `CustomEvent<void>` |
-| `calciteListItemDragHandleChange` | Fires when the drag handle is selected.    | `CustomEvent<void>` |
-| `calciteListItemSelect`           | Emits when the item's content is selected. | `CustomEvent<void>` |
-| `calciteListItemToggle`           | Fires when the open button is clicked.     | `CustomEvent<void>` |
+| Event                             | Description                             | Type                |
+| --------------------------------- | --------------------------------------- | ------------------- |
+| `calciteListItemClose`            | Fires when the close button is clicked. | `CustomEvent<void>` |
+| `calciteListItemDragHandleChange` | Fires when the drag handle is selected. | `CustomEvent<void>` |
+| `calciteListItemSelect`           | Fires when the component is selected.   | `CustomEvent<void>` |
+| `calciteListItemToggle`           | Fires when the open button is clicked.  | `CustomEvent<void>` |
 
 ## Methods
 

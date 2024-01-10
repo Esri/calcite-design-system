@@ -4,10 +4,10 @@
 
 ## Properties
 
-| Property        | Attribute        | Description                                                                                                                                                                                                                          | Type                               | Default     |
-| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- | ----------- |
-| `groupTitle`    | `group-title`    | Specifies and displays a group title.                                                                                                                                                                                                | `string`                           | `undefined` |
-| `selectionMode` | `selection-mode` | Specifies the selection mode for `calcite-dropdown-item` children, defaults to `single`: - `multiple` allows any number of selected items, - `single` allows only one selection (default), - `none` doesn't allow for any selection. | `"multiple" \| "none" \| "single"` | `"single"`  |
+| Property        | Attribute        | Description                                                                                                                                                                           | Type                               | Default     |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
+| `groupTitle`    | `group-title`    | Specifies and displays a group title.                                                                                                                                                 | `string`                           | `undefined` |
+| `selectionMode` | `selection-mode` | Specifies the selection mode of the component, where: `"multiple"` allows any number of selections, `"single"` allows only one selection, and `"none"` does not allow any selections. | `"multiple" \| "none" \| "single"` | `"single"`  |
 
 ## Slots
 
