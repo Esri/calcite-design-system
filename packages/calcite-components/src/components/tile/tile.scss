@@ -13,6 +13,10 @@
     pointer-events: none;
   }
 
+  calcite-icon {
+    color: var(--calcite-color-text-3);
+  }
+
   .content {
     display: flex;
     flex: 1 1 auto;
