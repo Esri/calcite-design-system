@@ -1,20 +1,30 @@
 :host {
-  @apply flex;
+  display: flex;
+  flex-direction: column;
+}
+
+:host > .item-wrapper {
+  display: flex;
   max-inline-size: 100vw;
 }
-:host([layout="horizontal"]) {
+
+:host([layout="horizontal"]) > .item-wrapper {
   @apply flex-row flex-wrap;
 }
-:host([layout="horizontal"][scale="s"]) {
+
+:host([layout="horizontal"][scale="s"]) > .item-wrapper {
   @apply gap-x-4;
 }
-:host([layout="horizontal"][scale="m"]) {
+
+:host([layout="horizontal"][scale="m"]) > .item-wrapper {
   @apply gap-x-5;
 }
-:host([layout="horizontal"][scale="l"]) {
+
+:host([layout="horizontal"][scale="l"]) > .item-wrapper {
   @apply gap-x-6;
 }
-:host([layout="vertical"]) {
+
+:host([layout="vertical"]) > .item-wrapper {
   @apply flex-col;
 }
 

@@ -21,6 +21,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-radio-button`s.
@@ -201,7 +202,9 @@ export class RadioButtonGroup implements LoadableComponent {
   render(): VNode {
     return (
       <Host role="radiogroup">
-        <slot />
+        <div class={CSS.itemWrapper}>
+          <slot />
+        </div>
         {this.validationMessage ? (
           <Validation
             icon={this.validationIcon}
