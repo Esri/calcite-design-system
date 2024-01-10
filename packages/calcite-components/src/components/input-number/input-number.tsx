@@ -24,6 +24,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  internalHiddenInputInputEvent,
   submitForm,
 } from "../../utils/form";
 import {
@@ -126,8 +127,7 @@ export class InputNumber
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -320,6 +320,12 @@ export class InputNumber
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
+      if (newValue === "Infinity" || newValue === "-Infinity") {
+        this.displayedValue = newValue;
+        this.previousEmittedNumberValue = newValue;
+        return;
+      }
+
       this.setNumberValue({
         origin: "direct",
         previousValue,
@@ -402,7 +408,7 @@ export class InputNumber
 
   @State() defaultMessages: InputNumberMessages;
 
-  @State() localizedValue: string;
+  @State() displayedValue: string;
 
   @State() slottedActionElDisabledInternally = false;
 
@@ -427,13 +433,20 @@ export class InputNumber
     this.setPreviousNumberValue(this.value);
 
     this.warnAboutInvalidNumberValue(this.value);
-    this.setNumberValue({
-      origin: "connected",
-      value: isValidNumber(this.value) ? this.value : "",
-    });
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      this.displayedValue = this.value;
+      this.previousEmittedNumberValue = this.value;
+    } else {
+      this.setNumberValue({
+        origin: "connected",
+        value: isValidNumber(this.value) ? this.value : "",
+      });
+    }
+
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
-    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   componentDidLoad(): void {
@@ -448,7 +461,7 @@ export class InputNumber
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -551,6 +564,11 @@ export class InputNumber
     nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
+
+    if (value === "Infinity" || value === "-Infinity") {
+      return;
+    }
+
     const adjustment = direction === "up" ? 1 : -1;
     const stepHandleInteger =
       this.integer && this.step !== "any" ? Math.round(this.step) : this.step;
@@ -623,6 +641,11 @@ export class InputNumber
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      return;
+    }
+
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
@@ -642,7 +665,7 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.localizedValue;
+      this.childNumberEl.value = this.displayedValue;
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -656,6 +679,15 @@ export class InputNumber
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      event.preventDefault();
+      if (event.key === "Backspace" || event.key === "Delete") {
+        this.clearInputValue(event);
+      }
+      return;
+    }
+
     if (event.key === "ArrowUp") {
       /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
       event.preventDefault();
@@ -785,13 +817,14 @@ export class InputNumber
     input.max = this.max?.toString(10) ?? "";
   }
 
-  hiddenInputChangeHandler = (event: Event): void => {
+  private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setNumberValue({
         value: (event.target as HTMLInputElement).value,
         origin: "direct",
       });
     }
+    this.setFocus();
     event.stopPropagation();
   };
 
@@ -886,7 +919,7 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    this.localizedValue =
+    this.displayedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? `${newLocalizedValue}${numberStringFormatter.decimal}`
         : newLocalizedValue;
@@ -907,7 +940,7 @@ export class InputNumber
       const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
       if (calciteInputNumberInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue = numberStringFormatter.localize(this.previousValue);
+        this.displayedValue = numberStringFormatter.localize(this.previousValue);
       } else if (committing) {
         this.emitChangeIfUserModified();
       }
@@ -1031,7 +1064,7 @@ export class InputNumber
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         type="text"
-        value={this.localizedValue}
+        value={this.displayedValue}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setChildNumberElRef}
       />

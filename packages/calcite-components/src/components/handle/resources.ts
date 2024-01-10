@@ -1,6 +1,6 @@
 export const CSS = {
   handle: "handle",
-  handleActivated: "handle--activated",
+  handleSelected: "handle--selected",
 };
 
 export const ICONS = {

@@ -76,14 +76,14 @@ export class PickList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The currently filtered items.
+   * The component's filtered items.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalcitePickListItemElement[] = [];
 
   /**
-   * The currently filtered data.
+   * The component's filtered data.
    *
    * @readonly
    */

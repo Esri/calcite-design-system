@@ -92,6 +92,8 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
+export const Infinity_TestOnly = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
+
 export const mediumIconForLargeInputStyling_TestOnly = (): string => html`
   <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number
   ><calcite-input-number

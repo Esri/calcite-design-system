@@ -94,7 +94,7 @@ export class Popover
    */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** When `true`, display a close button within the component. */
+  /** When `true`, displays a close button within the component. */
   @Prop({ reflect: true }) closable = false;
 
   /**
