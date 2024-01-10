@@ -4454,6 +4454,11 @@ export namespace Components {
         "syncId": string;
     }
     interface CalciteTabTitle {
+        /**
+          * This activates a tab in order for it and its associated tab-title be selected.
+          * @param userTriggered - when `true`, user-interaction events will be emitted in addition to internal events
+         */
+        "activateTab": (userTriggered?: boolean) => Promise<void>;
         "bordered": boolean;
         /**
           * When `true`, a close button is added to the component.
