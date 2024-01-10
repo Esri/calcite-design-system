@@ -15,6 +15,7 @@ import {
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
+import { testPostValidationFocusing } from "../input/common/tests";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -721,6 +722,27 @@ describe("calcite-input-number", () => {
       expect(await element.getProperty("value")).toBe("2");
       const input = await page.find("calcite-input-number >>> input");
       expect(await input.getProperty("value")).toBe("2");
+    });
+
+    it("Setting the value to -Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+      const input = await page.find("calcite-input-number");
+
+      await input.callMethod("setFocus");
+      await page.waitForChanges();
+
+      input.setProperty("value", "-Infinity");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("-Infinity");
+
+      await typeNumberValue(page, "123");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("-Infinity");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("");
     });
   });
 
@@ -1716,6 +1738,8 @@ describe("calcite-input-number", () => {
       submitsOnEnter: true,
       inputType: "number",
     });
+
+    testPostValidationFocusing("calcite-input-number");
   });
 
   describe("translation support", () => {

@@ -648,26 +648,42 @@ describe("calcite-button", () => {
     t9n("calcite-button");
   });
 
-  it("shows tooltip for buttons with truncated long text", async () => {
-    const shortText = "Hi!";
-    const longText =
-      "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted.";
+  describe("automatic tooltip", () => {
+    it("shows tooltip for buttons with truncated long text", async () => {
+      const shortText = "Hi!";
+      const longText =
+        "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted.";
 
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-button id="one" style="width: 100px">${longText}</calcite-button>
-      <calcite-button id="two" style="width: 100px">${shortText}</calcite-button>
-    `);
-    await page.waitForChanges();
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-button id="one" style="width: 100px">${longText}</calcite-button>
+        <calcite-button id="two" style="width: 100px">${shortText}</calcite-button>
+      `);
+      await page.waitForChanges();
 
-    const button1 = await page.find(`calcite-button[id='one'] >>> button`);
-    const button2 = await page.find(`calcite-button[id='two'] >>> button`);
+      const button1 = await page.find(`calcite-button[id='one'] >>> button`);
+      const button2 = await page.find(`calcite-button[id='two'] >>> button`);
 
-    expect(button1).toHaveAttribute("title");
-    expect(button2).not.toHaveAttribute("title");
+      expect(button1).toHaveAttribute("title");
+      expect(button2).not.toHaveAttribute("title");
 
-    expect(button1.textContent.length).toBeLessThan(longText.length);
-    expect(button1.getAttribute("title")).toEqual(longText);
+      expect(button1.textContent.length).toBeLessThan(longText.length);
+      expect(button1.getAttribute("title")).toEqual(longText);
+    });
+
+    it("does not show tooltip for buttons without text content", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-button style="width:32px;height:32px" scale="s">
+          <calcite-icon icon="compass-needle" scale="m" />
+        </calcite-button>
+      `);
+      await page.waitForChanges();
+
+      const button = await page.find(`calcite-button >>> button`);
+
+      expect(button).not.toHaveAttribute("title");
+    });
   });
 
   it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {

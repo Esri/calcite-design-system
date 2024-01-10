@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.2.0-next.13...@esri/calcite-components-angular@2.2.0-next.14) (2024-01-09)
+
+**Note:** Version bump only for package @esri/calcite-components-angular
+
+## [2.2.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.2.0-next.12...@esri/calcite-components-angular@2.2.0-next.13) (2024-01-09)
+
+**Note:** Version bump only for package @esri/calcite-components-angular
+
+## [2.2.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.2.0-next.11...@esri/calcite-components-angular@2.2.0-next.12) (2024-01-09)
+
+**Note:** Version bump only for package @esri/calcite-components-angular
+
+## [2.2.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.2.0-next.10...@esri/calcite-components-angular@2.2.0-next.11) (2024-01-05)
+
+**Note:** Version bump only for package @esri/calcite-components-angular
+
 ## [2.2.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.2.0-next.9...@esri/calcite-components-angular@2.2.0-next.10) (2024-01-02)
 
 **Note:** Version bump only for package @esri/calcite-components-angular
@@ -51,7 +67,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- __@esri/calcite-components-angular:__ Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize undefined versions
 
 ### Dependencies
 
@@ -63,11 +79,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
-- __deps:__ We are treating the `@stencil/core@v4` bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
+- **deps:** We are treating the `@stencil/core@v4` bump as a precautionary measure, particularly due to its potential impact on projects using `calcite-components` and Stencil.
 
 ### Build System
 
-- __deps:__ Bump Stencil to v4 ([#8108](https://github.com/Esri/calcite-design-system/issues/8108)) ([bcbb79f](https://github.com/Esri/calcite-design-system/commit/bcbb79f8c925d505bb4ee5e6a54861c5f6bb88b9))
+- **deps:** Bump Stencil to v4 ([#8108](https://github.com/Esri/calcite-design-system/issues/8108)) ([bcbb79f](https://github.com/Esri/calcite-design-system/commit/bcbb79f8c925d505bb4ee5e6a54861c5f6bb88b9))
 
 ### Dependencies
 
@@ -79,7 +95,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- __angular:__ Publish from the dist directory ([#8151](https://github.com/Esri/calcite-design-system/issues/8151)) ([d813f14](https://github.com/Esri/calcite-design-system/commit/d813f14c3c2fc7b765ccf27166f31201d91f2ac5))
+- **angular:** Publish from the dist directory ([#8151](https://github.com/Esri/calcite-design-system/issues/8151)) ([d813f14](https://github.com/Esri/calcite-design-system/commit/d813f14c3c2fc7b765ccf27166f31201d91f2ac5))
 
 ### Dependencies
 

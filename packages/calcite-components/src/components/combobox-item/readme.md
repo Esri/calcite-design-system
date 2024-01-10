@@ -14,8 +14,8 @@
 | `icon`                   | `icon`            | Specifies an icon to display.                                                                | `string`                 | `undefined` |
 | `iconFlipRtl`            | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                | `false`     |
 | `selected`               | `selected`        | When `true`, the component is selected.                                                      | `boolean`                | `false`     |
-| `textLabel` _(required)_ | `text-label`      | The component's text.                                                                        | `string`                 | `undefined` |
-| `value` _(required)_     | `value`           | The component's value.                                                                       | `any`                    | `undefined` |
+| `textLabel` *(required)* | `text-label`      | The component's text.                                                                        | `string`                 | `undefined` |
+| `value` *(required)*     | `value`           | The component's value.                                                                       | `any`                    | `undefined` |
 
 ## Events
 
@@ -50,4 +50,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -124,7 +124,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `expanded` property is toggled.
+   * Fires when the `expanded` property is toggled.
    */
   @Event({ cancelable: false }) calciteActionPadToggle: EventEmitter<void>;
 

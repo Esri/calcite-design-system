@@ -4,17 +4,19 @@
 
 ## Properties
 
-| Property           | Attribute     | Description                                                             | Type                                                                                                                                 | Default     |
-| ------------------ | ------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| `dragHandle`       | `drag-handle` | Value for the button title attribute                                    | `string`                                                                                                                             | `undefined` |
-| `messageOverrides` | --            | Use this property to override individual strings used by the component. | `{ dragHandle?: string; dragHandleActive?: string; dragHandleChange?: string; dragHandleCommit?: string; dragHandleIdle?: string; }` | `undefined` |
+| Property           | Attribute     | Description                                                                              | Type                                                                                                                                 | Default     |
+| ------------------ | ------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| `disabled`         | `disabled`    | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                                                                                                                            | `false`     |
+| `dragHandle`       | `drag-handle` | Value for the button title attribute                                                     | `string`                                                                                                                             | `undefined` |
+| `messageOverrides` | --            | Use this property to override individual strings used by the component.                  | `{ dragHandle?: string; dragHandleActive?: string; dragHandleChange?: string; dragHandleCommit?: string; dragHandleIdle?: string; }` | `undefined` |
+| `selected`         | `selected`    | When `true`, the component is selected.                                                  | `boolean`                                                                                                                            | `false`     |
 
 ## Events
 
-| Event                         | Description                                                                   | Type                        |
-| ----------------------------- | ----------------------------------------------------------------------------- | --------------------------- |
-| `calciteHandleNudge`          | Emitted when the handle is activated and the up or down arrow key is pressed. | `CustomEvent<HandleNudge>`  |
-| `calciteInternalHandleChange` | Emitted when the handle is activated or deactivated.                          | `CustomEvent<HandleChange>` |
+| Event                 | Description                                                                  | Type                       |
+| --------------------- | ---------------------------------------------------------------------------- | -------------------------- |
+| `calciteHandleChange` | Emits whenever the component is selected or unselected.                      | `CustomEvent<void>`        |
+| `calciteHandleNudge`  | Emitted when the handle is selected and the up or down arrow key is pressed. | `CustomEvent<HandleNudge>` |
 
 ## Methods
 
@@ -49,4 +51,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

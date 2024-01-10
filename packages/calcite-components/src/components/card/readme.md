@@ -22,7 +22,7 @@
 | Property            | Attribute            | Description                                                             | Type                                                             | Default         |
 | ------------------- | -------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------- | --------------- |
 | `loading`           | `loading`            | When `true`, a busy indicator is displayed.                             | `boolean`                                                        | `false`         |
-| `messageOverrides`  | --                   | Use this property to override individual strings used by the component. | `{ select?: string; deselect?: string; loading?: string; }`      | `undefined`     |
+| `messageOverrides`  | --                   | Use this property to override individual strings used by the component. | `{ select?: string; loading?: string; }`                         | `undefined`     |
 | `selectable`        | `selectable`         | When `true`, the component is selectable.                               | `boolean`                                                        | `false`         |
 | `selected`          | `selected`           | When `true`, the component is selected.                                 | `boolean`                                                        | `false`         |
 | `thumbnailPosition` | `thumbnail-position` | Sets the placement of the thumbnail defined in the `thumbnail` slot.    | `"block-end" \| "block-start" \| "inline-end" \| "inline-start"` | `"block-start"` |
@@ -64,4 +64,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

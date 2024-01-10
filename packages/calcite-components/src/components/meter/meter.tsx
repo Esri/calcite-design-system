@@ -98,13 +98,13 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
   @Prop({ reflect: true }) rangeLabels = false;
 
-  /** When either `rangeLabels` is `true`, specifies the format of displayed labels. */
+  /** When `rangeLabels` is `true`, specifies the format of displayed labels. */
   @Prop({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** When `labelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
+  /** When `rangeLabelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
   @Prop() unitLabel = "";
 
   /** Specifies the current value of the component. */
@@ -113,7 +113,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   /** When `true`, displays the current value. */
   @Prop({ reflect: true }) valueLabel = false;
 
-  /** When either `valueLabel` is `true`, specifies the format of displayed label. */
+  /** When `valueLabel` is `true`, specifies the format of displayed label. */
   @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
 
   @Watch("rangeLabels")

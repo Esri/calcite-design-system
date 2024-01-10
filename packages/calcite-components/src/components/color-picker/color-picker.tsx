@@ -95,12 +95,14 @@ export class ColorPicker
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   *
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @Prop({ reflect: true }) allowEmpty = false;
 
   /**
-   * When true, the component will allow updates to the color's alpha value.
+   * When `true`, the component will allow updates to the color's alpha value.
    */
   @Prop() alphaChannel = false;
 
@@ -116,7 +118,7 @@ export class ColorPicker
     }
   }
 
-  /** When true, hides the RGB/HSV channel inputs */
+  /** When `true`, hides the RGB/HSV channel inputs. */
   @Prop() channelsDisabled = false;
 
   /**
@@ -161,7 +163,7 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideChannels = false;
 
-  /** When true, hides the hex input */
+  /** When `true`, hides the hex input. */
   @Prop() hexDisabled = false;
 
   /**
@@ -178,7 +180,7 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideSaved = false;
 
-  /** When true, hides the saved colors section */
+  /** When `true`, hides the saved colors section. */
   @Prop({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */
@@ -460,6 +462,11 @@ export class ColorPicker
     }
 
     input.value = inputValue;
+
+    if (inputValue !== "" && this.shiftKeyChannelAdjustment !== 0) {
+      // we treat nudging as a change event since the input won't emit when modifying the value directly
+      this.handleChannelChange(event);
+    }
   };
 
   // using @Listen as a workaround for VDOM listener not firing

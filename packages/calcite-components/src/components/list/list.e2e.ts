@@ -3,7 +3,7 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
-import { CSS, activeCellTestAttribute } from "../list-item/resources";
+import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
 import { ListDragDetail } from "./interfaces";
@@ -104,6 +104,17 @@ describe("calcite-list", () => {
         </calcite-list-item>
         <calcite-list-item label="test" non-interactive description="hello world"></calcite-list-item>
         <calcite-list-item label="test" description="hello world"></calcite-list-item>
+      </calcite-list>`,
+    );
+    accessible(
+      html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
+        <calcite-list-item label="Apples" value="apples"></calcite-list-item>
+        <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
+        <calcite-list-item label="Pears" value="pears"></calcite-list-item>
+        <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+          <div slot="title">No fruits found</div>
+          <div slot="message">Try a different fruit?</div>
+        </calcite-notice>
       </calcite-list>`,
     );
   });
@@ -306,7 +317,7 @@ describe("calcite-list", () => {
     expect(await list.getProperty("filteredItems")).toHaveLength(3);
     expect(await list.getProperty("filteredData")).toHaveLength(3);
 
-    const visibleItems = await page.findAll("calcite-list-item:not([hidden])");
+    const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
     expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
   });
@@ -350,7 +361,7 @@ describe("calcite-list", () => {
     expect(await items[2].getProperty("selected")).toBe(false);
     expect(await items[3].getProperty("selected")).toBe(false);
 
-    await page.$eval("#item-4", clickItemContent, `.${CSS.contentContainer}`);
+    await page.$eval("#item-4", clickItemContent, `.${ListItemCSS.contentContainer}`);
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
     expect(eventSpy).toHaveReceivedEventTimes(2);
@@ -373,7 +384,7 @@ describe("calcite-list", () => {
     expect(await items[2].getProperty("selected")).toBe(true);
     expect(await items[3].getProperty("selected")).toBe(false);
 
-    await page.$eval("#item-1", clickItemContent, `.${CSS.contentContainer}`);
+    await page.$eval("#item-1", clickItemContent, `.${ListItemCSS.contentContainer}`);
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
     expect(eventSpy).toHaveReceivedEventTimes(4);
@@ -502,7 +513,9 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     const list = await page.find("calcite-list");
     const listItemOne = await page.find(`calcite-list-item[value=one]`);
-    const listItemOneContentContainer = await page.find(`calcite-list-item[value=one] >>> .${CSS.contentContainer}`);
+    const listItemOneContentContainer = await page.find(
+      `calcite-list-item[value=one] >>> .${ListItemCSS.contentContainer}`,
+    );
 
     const calciteListChangeEvent = list.waitForEvent("calciteListChange");
     await listItemOneContentContainer.click();
@@ -528,6 +541,35 @@ describe("calcite-list", () => {
     await page.waitForTimeout(listDebounceTimeout);
     expect(await listItemOne.getProperty("selected")).toBe(false);
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
+  });
+
+  it("should show no-results content when filter does not match", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-list>
+        <calcite-list-item label="Apples" value="apples"></calcite-list-item>
+        <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
+        <calcite-list-item label="Pears" value="pears"></calcite-list-item>
+        <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+          <div slot="title">No fruits found</div>
+          <div slot="message">Try a different fruit?</div>
+        </calcite-notice>
+      </calcite-list>`,
+    );
+    await page.waitForChanges();
+
+    const noResultsContainer = await page.find(`calcite-list >>> [data-test-id="no-results-container"]`);
+
+    expect(await noResultsContainer.isVisible()).toBe(false);
+
+    const list = await page.find("calcite-list");
+    list.setProperty("filterText", "Bananas");
+    await page.waitForChanges();
+    expect(await noResultsContainer.isVisible()).toBe(false);
+
+    list.setProperty("filterEnabled", true);
+    await page.waitForChanges();
+    expect(await noResultsContainer.isVisible()).toBe(true);
   });
 
   describe("keyboard navigation", () => {
@@ -687,7 +729,7 @@ describe("calcite-list", () => {
 
       await list.press("ArrowRight");
 
-      expect(await isElementFocused(page, `.${CSS.contentContainer}`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.${ListItemCSS.contentContainer}`, { shadowed: true })).toBe(true);
 
       await list.press("ArrowRight");
 
@@ -695,7 +737,7 @@ describe("calcite-list", () => {
 
       await list.press("ArrowLeft");
 
-      expect(await isElementFocused(page, `.${CSS.contentContainer}`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.${ListItemCSS.contentContainer}`, { shadowed: true })).toBe(true);
 
       await list.press("ArrowLeft");
 
@@ -755,7 +797,7 @@ describe("calcite-list", () => {
 
       await list.press("ArrowRight");
 
-      expect(await isElementFocused(page, `.${CSS.contentContainer}`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.${ListItemCSS.contentContainer}`, { shadowed: true })).toBe(true);
 
       await list.press("ArrowRight");
 
@@ -763,7 +805,7 @@ describe("calcite-list", () => {
 
       await list.press("ArrowLeft");
 
-      expect(await isElementFocused(page, `.${CSS.contentContainer}`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `.${ListItemCSS.contentContainer}`, { shadowed: true })).toBe(true);
 
       await list.press("ArrowLeft");
 
@@ -791,7 +833,7 @@ describe("calcite-list", () => {
       `);
       await page.waitForChanges();
       const items = await page.findAll("calcite-list-item");
-      const secondHandleCell = await page.find(`#two >>> .${CSS.dragContainer}`);
+      const secondHandleCell = await page.find(`#two >>> .${ListItemCSS.dragContainer}`);
 
       expect(await items[0].getProperty("active")).toBe(true);
       expect(await items[1].getProperty("active")).toBe(false);

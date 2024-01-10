@@ -6,6 +6,10 @@
   --calcite-list-item-icon-color: theme("colors.brand");
 }
 
+:host([filter-hidden]) {
+  @apply hidden;
+}
+
 @include disabled();
 
 .indent {

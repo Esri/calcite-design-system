@@ -2,6 +2,10 @@
   @apply flex flex-col bg-foreground-1;
 }
 
+:host([filter-hidden]) {
+  @apply hidden;
+}
+
 @include disabled();
 
 .container {
