@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.13...@esri/calcite-components@2.2.0-next.14) (2024-01-09)
+
+### Bug Fixes
+
+- **color-picker:** emit color change when nudging color channels by using the shift key ([#8579](https://github.com/Esri/calcite-design-system/issues/8579)) ([4250598](https://github.com/Esri/calcite-design-system/commit/425059871e3ecb9a6b73e4592e3a2f695891336b)), closes [#7351](https://github.com/Esri/calcite-design-system/issues/7351)
+
 ## [2.2.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.12...@esri/calcite-components@2.2.0-next.13) (2024-01-09)
 
 ### Features
