@@ -75,8 +75,7 @@ export class Rating
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * Made into a prop for testing purposes only

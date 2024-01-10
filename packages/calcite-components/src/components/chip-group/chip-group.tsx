@@ -50,10 +50,14 @@ export class ChipGroup implements InteractiveComponent {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode of the component:
+   * Specifies the selection mode of the component, where:
+   *
    * `"multiple"` allows any number of selections,
+   *
    * `"single"` allows only one selection,
-   * `"single-persist"` allow and require one selected item,
+   *
+   * `"single-persist"` allows one selection and prevents de-selection, and
+   *
    * `"none"` does not allow any selections.
    */
   @Prop({ reflect: true }) selectionMode: Extract<

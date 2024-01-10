@@ -12,6 +12,7 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
+import { testPostValidationFocusing } from "../input/common/tests";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -450,6 +451,8 @@ describe("calcite-input-text", () => {
 
   describe("is form-associated", () => {
     formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true });
+
+    testPostValidationFocusing("calcite-input-text");
   });
 
   describe("translation support", () => {

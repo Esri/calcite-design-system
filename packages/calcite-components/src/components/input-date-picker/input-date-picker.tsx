@@ -152,7 +152,7 @@ export class InputDatePicker
     }
   }
 
-  /** Selected date as a string in ISO format (YYYY-MM-DD) */
+  /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @Prop({ mutable: true }) value: string | string[] = "";
 
   @Watch("value")
@@ -305,11 +305,7 @@ export class InputDatePicker
   /** When `true`, activates a range for the component. */
   @Prop({ reflect: true }) range = false;
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /**

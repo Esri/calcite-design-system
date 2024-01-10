@@ -196,7 +196,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item), or `"single-persist"` (allow and require one open item).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"single-persist"` allows one selection and prevents de-selection.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "multiple",
@@ -905,7 +905,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allow and require one selected item, `"none"` does not allow any selections.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -1137,7 +1137,7 @@ export namespace Components {
          */
         "selectionDisplay": SelectionDisplay;
         /**
-          * Specifies the selection mode: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"single-persist"` allow and require one open item, `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -1202,7 +1202,7 @@ export namespace Components {
          */
         "selected": boolean;
         /**
-          * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -1507,7 +1507,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"none"` doesn't allow for any selection.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -2174,7 +2174,7 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
-          * Selected date as a string in ISO format (YYYY-MM-DD)
+          * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
         "value": string | string[];
         /**
@@ -2616,7 +2616,7 @@ export namespace Components {
          */
         "messages": InputTimeZoneMessages;
         /**
-          * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options related
+          * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options that show timezone offsets.  Using `"name"` will provide options that show the IANA time zone names.
           * @default "offset"
          */
         "mode": TimeZoneMode;
@@ -2800,7 +2800,7 @@ export namespace Components {
          */
         "selectionAppearance": SelectionAppearance;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -4656,7 +4656,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteTableRowElement[];
         /**
-          * Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
@@ -7423,7 +7423,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item), or `"single-persist"` (allow and require one open item).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"single-persist"` allows one selection and prevents de-selection.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "multiple",
@@ -8176,7 +8176,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allow and require one selected item, `"none"` does not allow any selections.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -8430,7 +8430,7 @@ declare namespace LocalJSX {
          */
         "selectionDisplay"?: SelectionDisplay;
         /**
-          * Specifies the selection mode: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"single-persist"` allow and require one open item, `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -8495,7 +8495,7 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
         /**
-          * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -8837,7 +8837,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"none"` doesn't allow for any selection.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -9519,7 +9519,7 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
-          * Selected date as a string in ISO format (YYYY-MM-DD)
+          * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
         "value"?: string | string[];
         /**
@@ -9979,7 +9979,7 @@ declare namespace LocalJSX {
          */
         "messages"?: InputTimeZoneMessages;
         /**
-          * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options related
+          * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options that show timezone offsets.  Using `"name"` will provide options that show the IANA time zone names.
           * @default "offset"
          */
         "mode"?: TimeZoneMode;
@@ -10153,27 +10153,27 @@ declare namespace LocalJSX {
          */
         "numberingSystem"?: NumberingSystem;
         /**
-          * Emitted when the default slot has changes in order to notify parent lists.
+          * Fires when the default slot has changes in order to notify parent lists.
          */
         "onCalciteInternalListDefaultSlotChange"?: (event: CalciteListCustomEvent<void>) => void;
         /**
-          * Emits when any of the list item selections have changed.
+          * Fires when the component's selected items have changed.
          */
         "onCalciteListChange"?: (event: CalciteListCustomEvent<void>) => void;
         /**
-          * Emits when the component's dragging has ended.
+          * Fires when the component's dragging has ended.
          */
         "onCalciteListDragEnd"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
         /**
-          * Emits when the component's dragging has started.
+          * Fires when the component's dragging has started.
          */
         "onCalciteListDragStart"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
         /**
-          * Emits when the component's filter has changed.
+          * Fires when the component's filter has changed.
          */
         "onCalciteListFilter"?: (event: CalciteListCustomEvent<void>) => void;
         /**
-          * Emitted when the order of the list has changed.
+          * Fires when the component's item order changes.
          */
         "onCalciteListOrderChange"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
         /**
@@ -10190,7 +10190,7 @@ declare namespace LocalJSX {
          */
         "selectionAppearance"?: SelectionAppearance;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -10266,7 +10266,7 @@ declare namespace LocalJSX {
          */
         "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
-          * Emits when the item's content is selected.
+          * Fires when the component is selected.
          */
         "onCalciteListItemSelect"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
@@ -10319,7 +10319,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Emitted when the default slot has changes in order to notify parent lists.
+          * Fires when changes occur in the default slot, notifying parent lists of the changes.
          */
         "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
     }
@@ -12123,7 +12123,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteTableRowElement[];
         /**
-          * Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
