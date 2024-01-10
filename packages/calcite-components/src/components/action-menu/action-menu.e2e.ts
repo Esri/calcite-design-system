@@ -430,7 +430,7 @@ describe("calcite-action-menu", () => {
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       const button = await page.find("button");
-      button.focus();
+      await button.focus();
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(false);
