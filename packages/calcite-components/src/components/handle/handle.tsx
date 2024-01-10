@@ -27,7 +27,7 @@ import {
 } from "../../utils/t9n";
 import { HandleMessages } from "./assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./interfaces";
-import { CSS, ICONS } from "./resources";
+import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -217,7 +217,7 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   private getTooltip(): string {
-    return this.messages?.dragHandle.replace("{itemLabel}", this.label) ?? "";
+    return this.messages?.dragHandle.replace(SUBSTITUTIONS.itemLabel, this.label) ?? "";
   }
 
   getAriaText(type: "label" | "live"): string {
@@ -236,9 +236,9 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
           ? messages.dragHandleActive
           : messages.dragHandleCommit;
 
-    const replacePosition = text.replace("{position}", setPosition.toString());
-    const replaceLabel = replacePosition.replace("{itemLabel}", label);
-    return replaceLabel.replace("{total}", setSize.toString());
+    const replacePosition = text.replace(SUBSTITUTIONS.position, setPosition.toString());
+    const replaceLabel = replacePosition.replace(SUBSTITUTIONS.itemLabel, label);
+    return replaceLabel.replace(SUBSTITUTIONS.total, setSize.toString());
   }
 
   handleKeyDown = (event: KeyboardEvent): void => {
