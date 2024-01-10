@@ -75,10 +75,10 @@
 
 ## Properties
 
-| Property           | Attribute | Description                                                             | Type                    | Default     |
-| ------------------ | --------- | ----------------------------------------------------------------------- | ----------------------- | ----------- |
-| `loading`          | `loading` | When `true`, a busy indicator is displayed.                             | `boolean`               | `false`     |
-| `messageOverrides` | --        | Use this property to override individual strings used by the component. | `{ loading?: string; }` | `undefined` |
+| Property           | Attribute           | Description                                                             | Type            | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | --------------- | ----------- |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                             | `boolean`       | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ScrimMessages` | `undefined` |
 
 ## Slots
 

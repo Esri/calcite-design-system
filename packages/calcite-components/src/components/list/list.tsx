@@ -448,6 +448,8 @@ export class List
 
   @State() hasFilterActionsStart = false;
 
+  @State() hasFilterNoResults = false;
+
   listItems: HTMLCalciteListItemElement[] = [];
 
   mutationObserver = createObserver("mutation", () => this.updateListItems());
@@ -499,8 +501,10 @@ export class List
       filterEnabled,
       filterPlaceholder,
       filterText,
+      filteredItems,
       hasFilterActionsStart,
       hasFilterActionsEnd,
+      hasFilterNoResults,
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -553,6 +557,16 @@ export class List
               <slot onSlotchange={this.handleDefaultSlotChange} />
             </tbody>
           </table>
+          <div
+            aria-live="polite"
+            data-test-id="no-results-container"
+            hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
+          >
+            <slot
+              name={SLOTS.filterNoResults}
+              onSlotchange={this.handleFilterNoResultsSlotChange}
+            />
+          </div>
         </div>
       </InteractiveContainer>
     );
@@ -661,6 +675,10 @@ export class List
 
   private handleFilterActionsEndSlotChange = (event: Event): void => {
     this.hasFilterActionsEnd = slotChangeHasAssignedElement(event);
+  };
+
+  private handleFilterNoResultsSlotChange = (event: Event): void => {
+    this.hasFilterNoResults = slotChangeHasAssignedElement(event);
   };
 
   private setActiveListItem = (): void => {

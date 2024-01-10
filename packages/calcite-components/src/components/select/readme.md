@@ -119,6 +119,7 @@ Specify the underlying value for each option.
 | `form`               | `form`               | The ID of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any. | `string`                         | `undefined` |
 | `label` *(required)* | `label`              | Accessible name for the component.                                                                                                                    | `string`                         | `undefined` |
 | `name`               | `name`               | Specifies the name of the component. Required to pass the component's `value` on form submission.                                                     | `string`                         | `undefined` |
+| `required`           | `required`           | When `true`, the component must have a value in order for the form to submit.                                                                         | `boolean`                        | `false`     |
 | `scale`              | `scale`              | Specifies the size of the component.                                                                                                                  | `"l" \| "m" \| "s"`              | `"m"`       |
 | `selectedOption`     | --                   | The component's selected option `HTMLElement`.                                                                                                        | `HTMLCalciteOptionElement`       | `undefined` |
 | `status`             | `status`             | Specifies the status of the input field, which determines message and icons.                                                                          | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
@@ -151,10 +152,10 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                         | Description                                  |
-| ---------------------------- | -------------------------------------------- |
-| `--calcite-select-font-size` | The font size of items in the component.     |
-| `--calcite-select-spacing`   | The padding around the selected option text. |
+| Name                         | Description                                          |
+| ---------------------------- | ---------------------------------------------------- |
+| `--calcite-select-font-size` | The font size of `calcite-option`s in the component. |
+| `--calcite-select-spacing`   | The padding around the selected option text.         |
 
 ## Dependencies
 

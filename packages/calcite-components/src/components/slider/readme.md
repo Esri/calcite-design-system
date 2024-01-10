@@ -60,10 +60,10 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 
 ## Events
 
-| Event                 | Description                                                                                                                                                                                                      | Type                |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calciteSliderChange` | Fires when the thumb is released on the component. **Note:** If you need to constantly listen to the drag event, use `calciteSliderInput` instead.                                                               | `CustomEvent<void>` |
-| `calciteSliderInput`  | Fires on all updates to the component. **Note:** Will be fired frequently during drag. If you are performing any expensive operations consider using a debounce or throttle to avoid locking up the main thread. | `CustomEvent<void>` |
+| Event                 | Description                                                                                                                                                                           | Type                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteSliderChange` | Fires when the thumb is released on the component. Note: To constantly listen to the drag event, use `calciteSliderInput` instead.                                                    | `CustomEvent<void>` |
+| `calciteSliderInput`  | Fires on all updates to the component. Note: Fires frequently during drag. To perform expensive operations consider using a debounce or throttle to avoid locking up the main thread. | `CustomEvent<void>` |
 
 ## Methods
 

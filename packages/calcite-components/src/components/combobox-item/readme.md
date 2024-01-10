@@ -21,7 +21,7 @@
 
 | Event                       | Description                                             | Type                |
 | --------------------------- | ------------------------------------------------------- | ------------------- |
-| `calciteComboboxItemChange` | Emits whenever the component is selected or unselected. | `CustomEvent<void>` |
+| `calciteComboboxItemChange` | Fires whenever the component is selected or unselected. | `CustomEvent<void>` |
 
 ## Slots
 
