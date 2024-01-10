@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.15...@esri/calcite-components@2.2.0-next.16) (2024-01-10)
+
+### Features
+
+- **tabs:** emit selection-related events when selection is modified after closing the selected tab ([#8582](https://github.com/Esri/calcite-design-system/issues/8582)) ([b15c940](https://github.com/Esri/calcite-design-system/commit/b15c940777c6a3ae503a904377d65d80d9a8855b)), closes [#7221](https://github.com/Esri/calcite-design-system/issues/7221)
+
 ## [2.2.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.14...@esri/calcite-components@2.2.0-next.15) (2024-01-10)
 
 ### Features
