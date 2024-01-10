@@ -19,7 +19,7 @@
 
 | Event                   | Description                                | Type                |
 | ----------------------- | ------------------------------------------ | ------------------- |
-| `calciteActionMenuOpen` | Emits when the `open` property is toggled. | `CustomEvent<void>` |
+| `calciteActionMenuOpen` | Fires when the `open` property is toggled. | `CustomEvent<void>` |
 
 ## Methods
 

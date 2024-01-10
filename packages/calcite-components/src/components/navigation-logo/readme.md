@@ -14,7 +14,7 @@
 
 | Property      | Attribute       | Description                                                                                                                               | Type      | Default     |
 | ------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`      | `active`        | When true, the component is highlighted.                                                                                                  | `boolean` | `undefined` |
+| `active`      | `active`        | When `true`, the component is highlighted.                                                                                                | `boolean` | `undefined` |
 | `description` | `description`   | A description for the component, which displays below the `heading`.                                                                      | `string`  | `undefined` |
 | `heading`     | `heading`       | Specifies heading text for the component, such as a product or organization name.                                                         | `string`  | `undefined` |
 | `href`        | `href`          | Specifies the URL destination of the component, which can be set as an absolute or relative path.                                         | `string`  | `undefined` |
