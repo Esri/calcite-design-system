@@ -78,7 +78,7 @@ export class InputTimeZone
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -151,9 +151,9 @@ export class InputTimeZone
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.
+   * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.
    *
-   * It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
    *
    * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
    */
@@ -211,14 +211,29 @@ export class InputTimeZone
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneBeforeClose: EventEmitter<void>;
 
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneBeforeOpen: EventEmitter<void>;
 
+  /**
+   * Fires when the component's `value` changes.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneChange: EventEmitter<void>;
 
+  /**
+   * Fires after the component is closed and animation is complete.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneClose: EventEmitter<void>;
 
+  /**
+   * Fires after the component is opened and animation is complete.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------

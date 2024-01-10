@@ -8,80 +8,174 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
+import { ActionMessages } from "./components/action/assets/action/t9n";
+import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
+import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, Sync } from "./components/alert/interfaces";
 import { NumberingSystem } from "./utils/locale";
+import { AlertMessages } from "./components/alert/assets/alert/t9n";
 import { HeadingLevel } from "./components/functional/Heading";
+import { BlockMessages } from "./components/block/assets/block/t9n";
 import { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
+import { BlockSectionMessages } from "./components/block-section/assets/block-section/t9n";
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
+import { ButtonMessages } from "./components/button/assets/button/t9n";
+import { CardMessages } from "./components/card/assets/card/t9n";
+import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
+import { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
+import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
+import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
+import { FilterMessages } from "./components/filter/assets/filter/t9n";
 import { FlowItemLikeElement } from "./components/flow/interfaces";
+import { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
 import { ColorStop, DataSeries } from "./components/graph/interfaces";
+import { HandleMessages } from "./components/handle/assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./components/handle/interfaces";
+import { InlineEditableMessages } from "./components/inline-editable/assets/inline-editable/t9n";
 import { InputPlacement } from "./components/input/interfaces";
+import { InputMessages } from "./components/input/assets/input/t9n";
+import { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
+import { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
+import { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
+import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
+import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 import { TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
+import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
+import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
+import { MenuMessages } from "./components/menu/assets/menu/t9n";
+import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 import { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 import { MeterLabelType } from "./components/meter/interfaces";
+import { ModalMessages } from "./components/modal/assets/modal/t9n";
+import { NoticeMessages } from "./components/notice/assets/notice/t9n";
+import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
+import { PanelMessages } from "./components/panel/assets/panel/t9n";
 import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 import { ICON_TYPES } from "./components/pick-list/resources";
+import { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
+import { PopoverMessages } from "./components/popover/assets/popover/t9n";
+import { RatingMessages } from "./components/rating/assets/rating/t9n";
+import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
+import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { DragDetail } from "./utils/sortableComponent";
+import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
+import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
+import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+import { TableMessages } from "./components/table/assets/table/t9n";
+import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
+import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
+import { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 import { TileSelectType } from "./components/tile-select/interfaces";
 import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+import { TipMessages } from "./components/tip/assets/tip/t9n";
+import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
+import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
+export { ActionMessages } from "./components/action/assets/action/t9n";
+export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
+export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, Sync } from "./components/alert/interfaces";
 export { NumberingSystem } from "./utils/locale";
+export { AlertMessages } from "./components/alert/assets/alert/t9n";
 export { HeadingLevel } from "./components/functional/Heading";
+export { BlockMessages } from "./components/block/assets/block/t9n";
 export { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
+export { BlockSectionMessages } from "./components/block-section/assets/block-section/t9n";
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
+export { ButtonMessages } from "./components/button/assets/button/t9n";
+export { CardMessages } from "./components/card/assets/card/t9n";
+export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
+export { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
+export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
+export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
+export { FilterMessages } from "./components/filter/assets/filter/t9n";
 export { FlowItemLikeElement } from "./components/flow/interfaces";
+export { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
 export { ColorStop, DataSeries } from "./components/graph/interfaces";
+export { HandleMessages } from "./components/handle/assets/handle/t9n";
 export { HandleChange, HandleNudge } from "./components/handle/interfaces";
+export { InlineEditableMessages } from "./components/inline-editable/assets/inline-editable/t9n";
 export { InputPlacement } from "./components/input/interfaces";
+export { InputMessages } from "./components/input/assets/input/t9n";
+export { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
+export { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
+export { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
+export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
+export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 export { TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
+export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
+export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
+export { MenuMessages } from "./components/menu/assets/menu/t9n";
+export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 export { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 export { MeterLabelType } from "./components/meter/interfaces";
+export { ModalMessages } from "./components/modal/assets/modal/t9n";
+export { NoticeMessages } from "./components/notice/assets/notice/t9n";
+export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
+export { PanelMessages } from "./components/panel/assets/panel/t9n";
 export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 export { ICON_TYPES } from "./components/pick-list/resources";
+export { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
+export { PopoverMessages } from "./components/popover/assets/popover/t9n";
+export { RatingMessages } from "./components/rating/assets/rating/t9n";
+export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
+export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { DragDetail } from "./utils/sortableComponent";
+export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
+export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
+export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+export { TableMessages } from "./components/table/assets/table/t9n";
+export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
+export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
+export { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 export { TileSelectType } from "./components/tile-select/interfaces";
 export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+export { TipMessages } from "./components/tip/assets/tip/t9n";
+export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
+export { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 export { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export namespace Components {
     interface CalciteAccordion {
@@ -545,7 +639,7 @@ export namespace Components {
          */
         "text": string;
         /**
-          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed, where:  `"button"` sets the toggle to a selectable header, and  `"switch"` sets the toggle to a switch.
          */
         "toggleDisplay": BlockSectionToggleDisplay;
     }
@@ -681,7 +775,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -756,7 +850,7 @@ export namespace Components {
          */
         "interactive": boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to border and background if applicable.
          */
         "kind": Extract<"brand" | "inverse" | "neutral", Kind>;
         /**
@@ -1039,7 +1133,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteComboboxItemElement[];
         /**
-          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:  `"all"` displays all selections with individual `calcite-chip`s,  `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and  `"single"` displays one `calcite-chip` with the total number of selections.
          */
         "selectionDisplay": SelectionDisplay;
         /**
@@ -1486,7 +1580,7 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background).
+          * Specifies the kind of the component, which will apply to border and background.
          */
         "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -2137,7 +2231,7 @@ export namespace Components {
          */
         "enterKeyHint": string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2539,7 +2633,7 @@ export namespace Components {
          */
         "overlayPositioning": OverlayPositioning;
         /**
-          * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+          * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
           * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
          */
         "referenceDate": Date | string;
@@ -3628,7 +3722,7 @@ export namespace Components {
          */
         "focused": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3781,7 +3875,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4002,7 +4096,7 @@ export namespace Components {
          */
         "detachedHeightScale": Scale;
         /**
-          * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content).
+          * Specifies the display mode of the component, where:  `"dock"` full height, displays adjacent to center content,  `"float"` not full height, content is separated detached from `calcite-action-bar`, displays on top of center content, and  `"overlay"` full height, displays on top of center content.
          */
         "displayMode": DisplayMode1;
         /**
@@ -4379,7 +4473,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4723,7 +4817,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4903,7 +4997,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
+          * Specifies the selection mode of the component, where:  `"radio"` is for single selection, and  `"checkbox"` is for multiple selections.
          */
         "type": TileSelectType;
         /**
@@ -5074,8 +5168,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteTreeItemElement[];
         /**
-          * Specifies the selection mode, where `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections, `"children"` allows any number of selections from one parent from corresponding parent and child selections, `"multichildren"` allows any number of selections from corresponding parent and child selections, `"multiple"` allows any number of selections, `"none"` allows no selections, `"single"` allows one selection, and `"single-persist"` allows and requires one selection.
-          * @default "single"
+          * Specifies the selection mode of the component, where:  `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,  `"children"` allows any number of selections from one parent from corresponding parent and child selections,  `"multichildren"` allows any number of selections from corresponding parent and child selections,  `"multiple"` allows any number of selections,  `"none"` allows no selections,  `"single"` allows one selection, and  `"single-persist"` allows and requires one selection.
          */
         "selectionMode": SelectionMode;
     }
@@ -7800,7 +7893,7 @@ declare namespace LocalJSX {
          */
         "text"?: string;
         /**
-          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed, where:  `"button"` sets the toggle to a selectable header, and  `"switch"` sets the toggle to a switch.
          */
         "toggleDisplay"?: BlockSectionToggleDisplay;
     }
@@ -7936,7 +8029,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -8019,7 +8112,7 @@ declare namespace LocalJSX {
          */
         "interactive"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to border and background if applicable.
          */
         "kind"?: Extract<"brand" | "inverse" | "neutral", Kind>;
         /**
@@ -8333,7 +8426,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteComboboxItemElement[];
         /**
-          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:  `"all"` displays all selections with individual `calcite-chip`s,  `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and  `"single"` displays one `calcite-chip` with the total number of selections.
          */
         "selectionDisplay"?: SelectionDisplay;
         /**
@@ -8820,7 +8913,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background).
+          * Specifies the kind of the component, which will apply to border and background.
          */
         "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -9483,7 +9576,7 @@ declare namespace LocalJSX {
          */
         "enterKeyHint"?: string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9894,10 +9987,25 @@ declare namespace LocalJSX {
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name"?: string;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
         "onCalciteInputTimeZoneBeforeClose"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
         "onCalciteInputTimeZoneBeforeOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires when the component's value changes.
+         */
         "onCalciteInputTimeZoneChange"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires after the component is closed and animation is complete.
+         */
         "onCalciteInputTimeZoneClose"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires after the component is opened and animation is complete.
+         */
         "onCalciteInputTimeZoneOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
         /**
           * When `true`, displays and positions the component.
@@ -9908,7 +10016,7 @@ declare namespace LocalJSX {
          */
         "overlayPositioning"?: OverlayPositioning;
         /**
-          * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+          * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
           * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
          */
         "referenceDate"?: Date | string;
@@ -11051,7 +11159,7 @@ declare namespace LocalJSX {
          */
         "focused"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11216,7 +11324,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11449,7 +11557,7 @@ declare namespace LocalJSX {
          */
         "detachedHeightScale"?: Scale;
         /**
-          * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content).
+          * Specifies the display mode of the component, where:  `"dock"` full height, displays adjacent to center content,  `"float"` not full height, content is separated detached from `calcite-action-bar`, displays on top of center content, and  `"overlay"` full height, displays on top of center content.
          */
         "displayMode"?: DisplayMode1;
         /**
@@ -11827,7 +11935,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -12183,7 +12291,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -12363,7 +12471,7 @@ declare namespace LocalJSX {
          */
         "onCalciteTileSelectChange"?: (event: CalciteTileSelectCustomEvent<void>) => void;
         /**
-          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
+          * Specifies the selection mode of the component, where:  `"radio"` is for single selection, and  `"checkbox"` is for multiple selections.
          */
         "type"?: TileSelectType;
         /**
@@ -12548,8 +12656,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteTreeItemElement[];
         /**
-          * Specifies the selection mode, where `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections, `"children"` allows any number of selections from one parent from corresponding parent and child selections, `"multichildren"` allows any number of selections from corresponding parent and child selections, `"multiple"` allows any number of selections, `"none"` allows no selections, `"single"` allows one selection, and `"single-persist"` allows and requires one selection.
-          * @default "single"
+          * Specifies the selection mode of the component, where:  `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,  `"children"` allows any number of selections from one parent from corresponding parent and child selections,  `"multichildren"` allows any number of selections from corresponding parent and child selections,  `"multiple"` allows any number of selections,  `"none"` allows no selections,  `"single"` allows one selection, and  `"single-persist"` allows and requires one selection.
          */
         "selectionMode"?: SelectionMode;
     }

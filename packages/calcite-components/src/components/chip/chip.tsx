@@ -78,7 +78,7 @@ export class Chip
   @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
     "solid";
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  /** Specifies the kind of the component, which will apply to border and background if applicable. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /** When `true`, a close button is added to the component. */
