@@ -216,6 +216,10 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   //
   // --------------------------------------------------------------------------
 
+  private getTooltip(): string {
+    return this.messages?.dragHandle.replace("{itemLabel}", this.label) ?? "";
+  }
+
   getAriaText(type: "label" | "live"): string {
     const { setPosition, setSize, label, messages, selected } = this;
 
@@ -294,7 +298,7 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
         onKeyDown={this.handleKeyDown}
         role="button"
         tabIndex={this.disabled ? null : 0}
-        title={this.messages?.dragHandle}
+        title={this.getTooltip()}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el): void => {
           this.handleButton = el;
