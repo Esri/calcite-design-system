@@ -1,5 +1,5 @@
 {
-  "dragHandle": "Reposition or move: {itemLabel}",
+  "dragHandle": "Reposition: {itemLabel}",
   "dragHandleActive": "Reordering {itemLabel}, current position {position} of {total}.",
   "dragHandleChange": "{itemLabel}, new position {position} of {total}. Press space to confirm.",
   "dragHandleCommit": "{itemLabel}, current position {position} of {total}.",
