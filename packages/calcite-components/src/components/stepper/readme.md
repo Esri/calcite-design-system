@@ -45,15 +45,15 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 
 ## Properties
 
-| Property           | Attribute          | Description                                                                  | Type                                                            | Default        |
-| ------------------ | ------------------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------- |
-| `icon`             | `icon`             | When `true`, displays a status icon in the `calcite-stepper-item` heading.   | `boolean`                                                       | `false`        |
-| `layout`           | `layout`           | Defines the layout of the component.                                         | `"horizontal" \| "vertical"`                                    | `"horizontal"` |
-| `messageOverrides` | --                 | Use this property to override individual strings used by the component.      | `{ label?: string; previousStep?: string; nextStep?: string; }` | `undefined`    |
-| `numbered`         | `numbered`         | When `true`, displays the step number in the `calcite-stepper-item` heading. | `boolean`                                                       | `false`        |
-| `numberingSystem`  | `numbering-system` | Specifies the Unicode numeral system used by the component for localization. | `"arab" \| "arabext" \| "latn"`                                 | `undefined`    |
-| `scale`            | `scale`            | Specifies the size of the component.                                         | `"l" \| "m" \| "s"`                                             | `"m"`          |
-| `selectedItem`     | --                 | Specifies the component's selected item.                                     | `HTMLCalciteStepperItemElement`                                 | `null`         |
+| Property           | Attribute           | Description                                                                  | Type                            | Default        |
+| ------------------ | ------------------- | ---------------------------------------------------------------------------- | ------------------------------- | -------------- |
+| `icon`             | `icon`              | When `true`, displays a status icon in the `calcite-stepper-item` heading.   | `boolean`                       | `false`        |
+| `layout`           | `layout`            | Defines the layout of the component.                                         | `"horizontal" \| "vertical"`    | `"horizontal"` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.      | `StepperMessages`               | `undefined`    |
+| `numbered`         | `numbered`          | When `true`, displays the step number in the `calcite-stepper-item` heading. | `boolean`                       | `false`        |
+| `numberingSystem`  | `numbering-system`  | Specifies the Unicode numeral system used by the component for localization. | `"arab" \| "arabext" \| "latn"` | `undefined`    |
+| `scale`            | `scale`             | Specifies the size of the component.                                         | `"l" \| "m" \| "s"`             | `"m"`          |
+| `selectedItem`     | --                  | Specifies the component's selected item.                                     | `HTMLCalciteStepperItemElement` | `null`         |
 
 ## Events
 
