@@ -1,7 +1,5 @@
 :host {
-  --calcite-tile-background-color: var(--calcite-color-foreground-1);
-
-  background-color: var(--calcite-tile-background-color);
+  background-color: var(--calcite-color-foreground-1);
   box-sizing: border-box;
   display: inline-block;
   transition-duration: 150ms;
@@ -54,7 +52,7 @@
   }
   .large-visual {
     align-items: center;
-    min-block-size: theme("spacing.48");
+    min-block-size: 12rem;
     text-align: center;
     calcite-icon {
       align-self: self-end;
