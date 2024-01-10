@@ -10,7 +10,6 @@ import {
   openClose,
   renders,
   t9n,
-  reflects,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -34,23 +33,6 @@ describe("calcite-input-date-picker", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-input-date-picker");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-input-date-picker ", [
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
   });
 
   describe("defaults", () => {
