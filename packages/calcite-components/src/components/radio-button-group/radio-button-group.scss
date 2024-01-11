@@ -28,5 +28,13 @@
   @apply flex-col;
 }
 
+:host([validation-message][layout="horizontal"]) > .item-wrapper {
+  --calcite-label-margin-bottom: 0;
+}
+
+:host([validation-message][layout="vertical"]) > .item-wrapper > ::slotted(calcite-label:last-child) {
+  --calcite-label-margin-bottom: 0;
+}
+
 @include form-validation-message();
 @include base-component();
