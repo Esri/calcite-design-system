@@ -218,7 +218,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
-    this.setDisplayedDates();
+    this.setActiveDates();
   }
 
   disconnectedCallback(): void {
@@ -244,6 +244,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.minAsDate,
       this.maxAsDate
     );
+    const activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
 
     const endDate =
       this.range && Array.isArray(this.valueAsDate)
@@ -257,14 +258,18 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           : date
         : this.minAsDate;
 
+    const startCalendarActiveDate = this.range
+      ? this.activeRange === "end" && this.activeEndDate
+        ? prevMonth(this.activeEndDate)
+        : this.activeStartDate
+      : activeDate;
+
     return (
       <Host onBlur={this.resetActiveDates} onKeyDown={this.keyDownHandler}>
         <div class="container">
           <div class="start">
             {this.renderCalendar(
-              this.activeRange === "end" && this.activeEndDate
-                ? prevMonth(this.activeEndDate)
-                : this.activeStartDate,
+              startCalendarActiveDate,
               this.maxAsDate,
               minDate,
               date,
@@ -673,7 +678,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     );
   }
 
-  private setDisplayedDates(): void {
+  private setActiveDates(): void {
     if (this.range) {
       const date = dateFromRange(
         Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,

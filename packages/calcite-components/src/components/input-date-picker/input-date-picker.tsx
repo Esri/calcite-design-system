@@ -343,7 +343,7 @@ export class InputDatePicker
     if (
       this.shouldFocusRangeStart() ||
       this.shouldFocusRangeEnd() ||
-      this.focusedInput === "start"
+      (this.focusedInput === "start" && this.range)
     ) {
       return;
     }
