@@ -47,6 +47,18 @@ describe("calcite-combobox", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -100,6 +112,14 @@ describe("calcite-combobox", () => {
       {
         propertyName: "selectionMode",
         value: "single",
+      },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
       },
     ]);
   });
