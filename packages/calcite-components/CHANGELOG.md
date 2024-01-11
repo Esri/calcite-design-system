@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.16...@esri/calcite-components@2.2.0-next.17) (2024-01-11)
+
+### Features
+
+- reflect validationIcon property ([#8583](https://github.com/Esri/calcite-design-system/issues/8583)) ([b3d38b3](https://github.com/Esri/calcite-design-system/commit/b3d38b3dcb699c28e36ca32f600117274a36c56b)), closes [#8057](https://github.com/Esri/calcite-design-system/issues/8057) [/github.com/Esri/calcite-design-system/pull/8561#issuecomment-1884074225](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/8561/issues/issuecomment-1884074225) [/github.com/Esri/calcite-design-system/pull/8561#issuecomment-1879355882](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/8561/issues/issuecomment-1879355882)
+
 ## [2.2.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.15...@esri/calcite-components@2.2.0-next.16) (2024-01-10)
 
 ### Features
