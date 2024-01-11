@@ -82,6 +82,8 @@ describe("calcite-input-time-zone", () => {
       { propertyName: "open", value: true },
       { propertyName: "scale", value: "m" },
       { propertyName: "overlayPositioning", value: "absolute" },
+      { propertyName: "status", value: "invalid" },
+      { propertyName: "validationIcon", value: true },
     ]);
   });
 
@@ -94,6 +96,9 @@ describe("calcite-input-time-zone", () => {
       { propertyName: "open", defaultValue: false },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
       { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "status", defaultValue: "idle" },
+      { propertyName: "validationIcon", defaultValue: undefined },
+      { propertyName: "validationMessage", defaultValue: undefined },
     ]);
   });
 
