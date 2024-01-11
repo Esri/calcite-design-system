@@ -11,9 +11,9 @@
 
 ## Events
 
-| Event                                           | Description                                                                | Type                     |
-| ----------------------------------------------- | -------------------------------------------------------------------------- | ------------------------ |
-| `calciteInternalListItemGroupDefaultSlotChange` | Emitted when the default slot has changes in order to notify parent lists. | `CustomEvent<DragEvent>` |
+| Event                                           | Description                                                                          | Type                     |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------ |
+| `calciteInternalListItemGroupDefaultSlotChange` | Fires when changes occur in the default slot, notifying parent lists of the changes. | `CustomEvent<DragEvent>` |
 
 ## Slots
 

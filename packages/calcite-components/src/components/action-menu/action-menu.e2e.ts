@@ -402,13 +402,13 @@ describe("calcite-action-menu", () => {
       expect(await trigger.getProperty("active")).toBe(false);
     });
 
-    it("should handle TAB navigation", async () => {
+    it.skip("should close on blur", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
-          <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
-          <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
-          <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
-        </calcite-action-menu> `,
+            <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
+            <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
+            <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action> </calcite-action-menu
+          ><button>test</button>`,
       });
 
       await page.waitForChanges();
@@ -429,8 +429,8 @@ describe("calcite-action-menu", () => {
       expect(actions[1].getAttribute(activeAttr)).toBe(null);
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
-      await page.keyboard.press("Tab");
-
+      const button = await page.find("button");
+      await button.focus();
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(false);

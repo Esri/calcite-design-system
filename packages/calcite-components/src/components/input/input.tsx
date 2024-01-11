@@ -24,6 +24,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  internalHiddenInputInputEvent,
   submitForm,
 } from "../../utils/form";
 import {
@@ -123,12 +124,11 @@ export class Input
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -213,7 +213,7 @@ export class Input
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -373,6 +373,12 @@ export class Input
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
+      if (this.type === "number" && (newValue === "Infinity" || newValue === "-Infinity")) {
+        this.displayedValue = newValue;
+        this.previousEmittedValue = newValue;
+        return;
+      }
+
       this.setValue({
         origin: "direct",
         previousValue,
@@ -463,7 +469,7 @@ export class Input
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() localizedValue: string;
+  @State() displayedValue: string;
 
   @State() slottedActionElDisabledInternally = false;
 
@@ -489,17 +495,22 @@ export class Input
     this.setPreviousValue(this.value);
 
     if (this.type === "number") {
-      this.warnAboutInvalidNumberValue(this.value);
-      this.setValue({
-        origin: "connected",
-        value: isValidNumber(this.value) ? this.value : "",
-      });
+      if (this.value === "Infinity" || this.value === "-Infinity") {
+        this.displayedValue = this.value;
+        this.previousEmittedValue = this.value;
+      } else {
+        this.warnAboutInvalidNumberValue(this.value);
+        this.setValue({
+          origin: "connected",
+          value: isValidNumber(this.value) ? this.value : "",
+        });
+      }
     }
 
     this.mutationObserver?.observe(this.el, { childList: true });
 
     this.setDisabledAction();
-    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   disconnectedCallback(): void {
@@ -510,7 +521,7 @@ export class Input
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -627,6 +638,11 @@ export class Input
     nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
+
+    if (value === "Infinity" || value === "-Infinity") {
+      return;
+    }
+
     const adjustment = direction === "up" ? 1 : -1;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
     const inputVal = new BigDecimal(value !== "" ? value : "0");
@@ -723,6 +739,11 @@ export class Input
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      return;
+    }
+
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
@@ -739,7 +760,7 @@ export class Input
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.localizedValue;
+      this.childNumberEl.value = this.displayedValue;
     } else {
       this.setValue({
         nativeEvent,
@@ -753,6 +774,15 @@ export class Input
     if (this.type !== "number" || this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      event.preventDefault();
+      if (event.key === "Backspace" || event.key === "Delete") {
+        this.clearInputValue(event);
+      }
+      return;
+    }
+
     if (event.key === "ArrowUp") {
       /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
       event.preventDefault();
@@ -886,13 +916,14 @@ export class Input
     }
   }
 
-  hiddenInputChangeHandler = (event: Event): void => {
+  private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setValue({
         value: (event.target as HTMLInputElement).value,
         origin: "direct",
       });
     }
+    this.setFocus();
     event.stopPropagation();
   };
 
@@ -992,7 +1023,7 @@ export class Input
       }
 
       // adds localized trailing decimal separator
-      this.localizedValue =
+      this.displayedValue =
         hasTrailingDecimalSeparator && isValueDeleted
           ? `${newLocalizedValue}${numberStringFormatter.decimal}`
           : newLocalizedValue;
@@ -1015,7 +1046,7 @@ export class Input
       const calciteInputInputEvent = this.calciteInputInput.emit();
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue =
+        this.displayedValue =
           this.type === "number"
             ? numberStringFormatter.localize(this.previousValue)
             : this.previousValue;
@@ -1146,7 +1177,7 @@ export class Input
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           type="text"
-          value={this.localizedValue}
+          value={this.displayedValue}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setChildNumberElRef}
         />

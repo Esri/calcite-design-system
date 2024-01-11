@@ -196,7 +196,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item), or `"single-persist"` (allow and require one open item).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"single-persist"` allows one selection and prevents de-selection.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "multiple",
@@ -639,7 +639,7 @@ export namespace Components {
          */
         "text": string;
         /**
-          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed, where:  `"button"` sets the toggle to a selectable header, and  `"switch"` sets the toggle to a switch.
          */
         "toggleDisplay": BlockSectionToggleDisplay;
     }
@@ -775,7 +775,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -850,7 +850,7 @@ export namespace Components {
          */
         "interactive": boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to border and background if applicable.
          */
         "kind": Extract<"brand" | "inverse" | "neutral", Kind>;
         /**
@@ -905,7 +905,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allow and require one selected item, `"none"` does not allow any selections.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -1133,11 +1133,11 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteComboboxItemElement[];
         /**
-          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:  `"all"` displays all selections with individual `calcite-chip`s,  `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and  `"single"` displays one `calcite-chip` with the total number of selections.
          */
         "selectionDisplay": SelectionDisplay;
         /**
-          * Specifies the selection mode: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"single-persist"` allow and require one open item, `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -1202,7 +1202,7 @@ export namespace Components {
          */
         "selected": boolean;
         /**
-          * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode": Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -1509,7 +1509,7 @@ export namespace Components {
          */
         "scale": Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"none"` doesn't allow for any selection.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -1582,7 +1582,7 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background).
+          * Specifies the kind of the component, which will apply to border and background.
          */
         "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -2176,7 +2176,7 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
-          * Selected date as a string in ISO format (YYYY-MM-DD)
+          * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
         "value": string | string[];
         /**
@@ -2233,7 +2233,7 @@ export namespace Components {
          */
         "enterKeyHint": string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2618,7 +2618,7 @@ export namespace Components {
          */
         "messages": InputTimeZoneMessages;
         /**
-          * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options related
+          * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options that show timezone offsets.  Using `"name"` will provide options that show the IANA time zone names.
           * @default "offset"
          */
         "mode": TimeZoneMode;
@@ -2635,7 +2635,7 @@ export namespace Components {
          */
         "overlayPositioning": OverlayPositioning;
         /**
-          * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+          * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
           * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
          */
         "referenceDate": Date | string;
@@ -2802,7 +2802,7 @@ export namespace Components {
          */
         "selectionAppearance": SelectionAppearance;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -3747,7 +3747,7 @@ export namespace Components {
          */
         "focused": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3900,7 +3900,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4121,7 +4121,7 @@ export namespace Components {
          */
         "detachedHeightScale": Scale;
         /**
-          * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content).
+          * Specifies the display mode of the component, where:  `"dock"` full height, displays adjacent to center content,  `"float"` not full height, content is separated detached from `calcite-action-bar`, displays on top of center content, and  `"overlay"` full height, displays on top of center content.
          */
         "displayMode": DisplayMode1;
         /**
@@ -4498,7 +4498,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4573,6 +4573,11 @@ export namespace Components {
         "syncId": string;
     }
     interface CalciteTabTitle {
+        /**
+          * This activates a tab in order for it and its associated tab-title be selected.
+          * @param userTriggered - when `true`, user-interaction events will be emitted in addition to internal events
+         */
+        "activateTab": (userTriggered?: boolean) => Promise<void>;
         "bordered": boolean;
         /**
           * When `true`, a close button is added to the component.
@@ -4681,7 +4686,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteTableRowElement[];
         /**
-          * Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
@@ -4837,7 +4842,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -5017,7 +5022,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
+          * Specifies the selection mode of the component, where:  `"radio"` is for single selection, and  `"checkbox"` is for multiple selections.
          */
         "type": TileSelectType;
         /**
@@ -5188,8 +5193,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteTreeItemElement[];
         /**
-          * Specifies the selection mode, where `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections, `"children"` allows any number of selections from one parent from corresponding parent and child selections, `"multichildren"` allows any number of selections from corresponding parent and child selections, `"multiple"` allows any number of selections, `"none"` allows no selections, `"single"` allows one selection, and `"single-persist"` allows and requires one selection.
-          * @default "single"
+          * Specifies the selection mode of the component, where:  `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,  `"children"` allows any number of selections from one parent from corresponding parent and child selections,  `"multichildren"` allows any number of selections from corresponding parent and child selections,  `"multiple"` allows any number of selections,  `"none"` allows no selections,  `"single"` allows one selection, and  `"single-persist"` allows and requires one selection.
          */
         "selectionMode": SelectionMode;
     }
@@ -7542,7 +7546,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item), or `"single-persist"` (allow and require one open item).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"single-persist"` allows one selection and prevents de-selection.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "multiple",
@@ -8012,7 +8016,7 @@ declare namespace LocalJSX {
          */
         "text"?: string;
         /**
-          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed, where:  `"button"` sets the toggle to a selectable header, and  `"switch"` sets the toggle to a switch.
          */
         "toggleDisplay"?: BlockSectionToggleDisplay;
     }
@@ -8148,7 +8152,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -8231,7 +8235,7 @@ declare namespace LocalJSX {
          */
         "interactive"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to border and background if applicable.
          */
         "kind"?: Extract<"brand" | "inverse" | "neutral", Kind>;
         /**
@@ -8295,7 +8299,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteChipElement[];
         /**
-          * Specifies the selection mode of the component: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allow and require one selected item, `"none"` does not allow any selections.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -8545,11 +8549,11 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteComboboxItemElement[];
         /**
-          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:  `"all"` displays all selections with individual `calcite-chip`s,  `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and  `"single"` displays one `calcite-chip` with the total number of selections.
          */
         "selectionDisplay"?: SelectionDisplay;
         /**
-          * Specifies the selection mode: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"single-persist"` allow and require one open item, `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -8614,7 +8618,7 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
         /**
-          * Specifies the selection mode: - "multiple" allows any number of selected items (default), - "single" allows only one selection, - "single-persist" allow and require one open item, - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
          */
         "selectionMode"?: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -8958,7 +8962,7 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
         /**
-          * Specifies the selection mode for `calcite-dropdown-item` children: `"multiple"` allows any number of selected items, `"single"` allows only one selection, `"none"` doesn't allow for any selection.
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
     }
@@ -9034,7 +9038,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background).
+          * Specifies the kind of the component, which will apply to border and background.
          */
         "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -9640,7 +9644,7 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
-          * Selected date as a string in ISO format (YYYY-MM-DD)
+          * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
         "value"?: string | string[];
         /**
@@ -9697,7 +9701,7 @@ declare namespace LocalJSX {
          */
         "enterKeyHint"?: string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -10100,7 +10104,7 @@ declare namespace LocalJSX {
          */
         "messages"?: InputTimeZoneMessages;
         /**
-          * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options related
+          * This specifies the type of `value` and the associated options presented to the user:  Using `"offset"` will provide options that show timezone offsets.  Using `"name"` will provide options that show the IANA time zone names.
           * @default "offset"
          */
         "mode"?: TimeZoneMode;
@@ -10108,10 +10112,25 @@ declare namespace LocalJSX {
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name"?: string;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
         "onCalciteInputTimeZoneBeforeClose"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
         "onCalciteInputTimeZoneBeforeOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires when the component's value changes.
+         */
         "onCalciteInputTimeZoneChange"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires after the component is closed and animation is complete.
+         */
         "onCalciteInputTimeZoneClose"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires after the component is opened and animation is complete.
+         */
         "onCalciteInputTimeZoneOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
         /**
           * When `true`, displays and positions the component.
@@ -10122,7 +10141,7 @@ declare namespace LocalJSX {
          */
         "overlayPositioning"?: OverlayPositioning;
         /**
-          * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+          * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
           * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
          */
         "referenceDate"?: Date | string;
@@ -10274,27 +10293,27 @@ declare namespace LocalJSX {
          */
         "numberingSystem"?: NumberingSystem;
         /**
-          * Emitted when the default slot has changes in order to notify parent lists.
+          * Fires when the default slot has changes in order to notify parent lists.
          */
         "onCalciteInternalListDefaultSlotChange"?: (event: CalciteListCustomEvent<void>) => void;
         /**
-          * Emits when any of the list item selections have changed.
+          * Fires when the component's selected items have changed.
          */
         "onCalciteListChange"?: (event: CalciteListCustomEvent<void>) => void;
         /**
-          * Emits when the component's dragging has ended.
+          * Fires when the component's dragging has ended.
          */
         "onCalciteListDragEnd"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
         /**
-          * Emits when the component's dragging has started.
+          * Fires when the component's dragging has started.
          */
         "onCalciteListDragStart"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
         /**
-          * Emits when the component's filter has changed.
+          * Fires when the component's filter has changed.
          */
         "onCalciteListFilter"?: (event: CalciteListCustomEvent<void>) => void;
         /**
-          * Emitted when the order of the list has changed.
+          * Fires when the component's item order changes.
          */
         "onCalciteListOrderChange"?: (event: CalciteListCustomEvent<ListDragDetail>) => void;
         /**
@@ -10311,7 +10330,7 @@ declare namespace LocalJSX {
          */
         "selectionAppearance"?: SelectionAppearance;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection,  `"single-persist"` allows one selection and prevents de-selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -10387,7 +10406,7 @@ declare namespace LocalJSX {
          */
         "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
-          * Emits when the item's content is selected.
+          * Fires when the component is selected.
          */
         "onCalciteListItemSelect"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
@@ -10440,7 +10459,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Emitted when the default slot has changes in order to notify parent lists.
+          * Fires when changes occur in the default slot, notifying parent lists of the changes.
          */
         "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
     }
@@ -11296,7 +11315,7 @@ declare namespace LocalJSX {
          */
         "focused"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11461,7 +11480,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11694,7 +11713,7 @@ declare namespace LocalJSX {
          */
         "detachedHeightScale"?: Scale;
         /**
-          * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content).
+          * Specifies the display mode of the component, where:  `"dock"` full height, displays adjacent to center content,  `"float"` not full height, content is separated detached from `calcite-action-bar`, displays on top of center content, and  `"overlay"` full height, displays on top of center content.
          */
         "displayMode"?: DisplayMode1;
         /**
@@ -12072,7 +12091,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -12275,7 +12294,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteTableRowElement[];
         /**
-          * Specifies the selection mode - `"none"` (no `calcite-table-row` selections), `"single"` (allow one `calcite-table-row` selection), or `"multiple"` (allow any number of `calcite-table-row` selections).
+          * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<"none" | "multiple" | "single", SelectionMode>;
         /**
@@ -12428,7 +12447,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -12608,7 +12627,7 @@ declare namespace LocalJSX {
          */
         "onCalciteTileSelectChange"?: (event: CalciteTileSelectCustomEvent<void>) => void;
         /**
-          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
+          * Specifies the selection mode of the component, where:  `"radio"` is for single selection, and  `"checkbox"` is for multiple selections.
          */
         "type"?: TileSelectType;
         /**
@@ -12793,8 +12812,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteTreeItemElement[];
         /**
-          * Specifies the selection mode, where `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections, `"children"` allows any number of selections from one parent from corresponding parent and child selections, `"multichildren"` allows any number of selections from corresponding parent and child selections, `"multiple"` allows any number of selections, `"none"` allows no selections, `"single"` allows one selection, and `"single-persist"` allows and requires one selection.
-          * @default "single"
+          * Specifies the selection mode of the component, where:  `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,  `"children"` allows any number of selections from one parent from corresponding parent and child selections,  `"multichildren"` allows any number of selections from corresponding parent and child selections,  `"multiple"` allows any number of selections,  `"none"` allows no selections,  `"single"` allows one selection, and  `"single-persist"` allows and requires one selection.
          */
         "selectionMode"?: SelectionMode;
     }

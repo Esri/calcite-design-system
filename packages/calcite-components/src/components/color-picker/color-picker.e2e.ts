@@ -1029,10 +1029,12 @@ describe("calcite-color-picker", () => {
 
           describe("allows nudging values", () => {
             let page: E2EPage;
+            let changeEventSpy: EventSpy;
 
             beforeEach(async () => {
               page = await newE2EPage();
               await page.setContent(html`<calcite-color-picker value="#408048"></calcite-color-picker>`);
+              changeEventSpy = await page.spyOnEvent("calciteColorPickerChange");
             });
 
             it("allows nudging RGB values", async () => {
@@ -1043,6 +1045,8 @@ describe("calcite-color-picker", () => {
               await assertChannelValueNudge(page, rInput);
               await assertChannelValueNudge(page, bInput);
               await assertChannelValueNudge(page, gInput);
+
+              expect(changeEventSpy).toHaveReceivedEventTimes(12);
             });
 
             it("allows nudging HSV values", async () => {
@@ -1051,9 +1055,12 @@ describe("calcite-color-picker", () => {
               const [, , , hInput, sInput, vInput] = await page.findAll(`calcite-color-picker >>> .${CSS.channel}`);
               await hsvModeButton.click();
 
-              await assertChannelValueNudge(page, hInput);
+              // asserting out of HSV order to avoid event not emitting due to nudged color being equal internally to previous color
               await assertChannelValueNudge(page, vInput);
+              await assertChannelValueNudge(page, hInput);
               await assertChannelValueNudge(page, sInput);
+
+              expect(changeEventSpy).toHaveReceivedEventTimes(12);
             });
 
             const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
@@ -1560,12 +1567,14 @@ describe("calcite-color-picker", () => {
 
           describe("allows nudging values", () => {
             let page: E2EPage;
+            let changeEventSpy: EventSpy;
 
             beforeEach(async () => {
               page = await newE2EPage();
               await page.setContent(
                 html`<calcite-color-picker alpha-channel value="#40804880"></calcite-color-picker>`,
               );
+              changeEventSpy = await page.spyOnEvent("calciteColorPickerChange");
             });
 
             it("allows nudging RGBA values", async () => {
@@ -1579,6 +1588,8 @@ describe("calcite-color-picker", () => {
               await assertChannelValueNudge(page, gInput);
               await assertChannelValueNudge(page, bInput);
               await assertChannelValueNudge(page, rgbAInput);
+
+              expect(changeEventSpy).toHaveReceivedEventTimes(16);
             });
 
             it("allows nudging HSVA values", async () => {
@@ -1588,10 +1599,13 @@ describe("calcite-color-picker", () => {
               );
               await hsvModeButton.click();
 
+              // asserting out of HSV order to avoid event not emitting due to nudged color being equal internally to previous color
+              await assertChannelValueNudge(page, vInput);
               await assertChannelValueNudge(page, hInput);
               await assertChannelValueNudge(page, sInput);
-              await assertChannelValueNudge(page, vInput);
               await assertChannelValueNudge(page, hsvAInput);
+
+              expect(changeEventSpy).toHaveReceivedEventTimes(16);
             });
           });
 

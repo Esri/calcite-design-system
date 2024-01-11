@@ -122,8 +122,13 @@ export class Combobox
   @Prop({ reflect: true }) clearDisabled = false;
 
   /**
-   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections
-   * - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
+   *
+   * `"all"` displays all selections with individual `calcite-chip`s,
+   *
+   * `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and
+   *
+   * `"single"` displays one `calcite-chip` with the total number of selections.
    */
   @Prop({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
@@ -153,7 +158,7 @@ export class Combobox
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -183,7 +188,7 @@ export class Combobox
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -210,19 +215,19 @@ export class Combobox
     this.reposition(true);
   }
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /**
-   * Specifies the selection mode:
-   * `"multiple"` allows any number of selected items,
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
    * `"single"` allows only one selection,
-   * `"single-persist"` allow and require one open item,
-   * `"ancestors"` is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   *
+   * `"single-persist"` allows one selection and prevents de-selection, and
+   *
+   * `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",

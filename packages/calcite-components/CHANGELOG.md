@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.16...@esri/calcite-components@2.2.0-next.17) (2024-01-11)
+
+### Features
+
+- reflect validationIcon property ([#8583](https://github.com/Esri/calcite-design-system/issues/8583)) ([b3d38b3](https://github.com/Esri/calcite-design-system/commit/b3d38b3dcb699c28e36ca32f600117274a36c56b)), closes [#8057](https://github.com/Esri/calcite-design-system/issues/8057) [/github.com/Esri/calcite-design-system/pull/8561#issuecomment-1884074225](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/8561/issues/issuecomment-1884074225) [/github.com/Esri/calcite-design-system/pull/8561#issuecomment-1879355882](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/8561/issues/issuecomment-1879355882)
+
+## [2.2.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.15...@esri/calcite-components@2.2.0-next.16) (2024-01-10)
+
+### Features
+
+- **tabs:** emit selection-related events when selection is modified after closing the selected tab ([#8582](https://github.com/Esri/calcite-design-system/issues/8582)) ([b15c940](https://github.com/Esri/calcite-design-system/commit/b15c940777c6a3ae503a904377d65d80d9a8855b)), closes [#7221](https://github.com/Esri/calcite-design-system/issues/7221)
+
+## [2.2.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.14...@esri/calcite-components@2.2.0-next.15) (2024-01-10)
+
+### Features
+
+- **action-menu:** Close menu on blur instead of on tab key. ([#8577](https://github.com/Esri/calcite-design-system/issues/8577)) ([ccfbd0c](https://github.com/Esri/calcite-design-system/commit/ccfbd0c69f3f83149808f16dfaa389dc463c2442))
+
+### Bug Fixes
+
+- **input, input-number:** support setting value property to Infinity ([#8547](https://github.com/Esri/calcite-design-system/issues/8547)) ([f6ac698](https://github.com/Esri/calcite-design-system/commit/f6ac698435fd0a28d22d8f410ab5a45c1c951c00)), closes [#7866](https://github.com/Esri/calcite-design-system/issues/7866)
+
+## [2.2.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.13...@esri/calcite-components@2.2.0-next.14) (2024-01-09)
+
+### Bug Fixes
+
+- **color-picker:** emit color change when nudging color channels by using the shift key ([#8579](https://github.com/Esri/calcite-design-system/issues/8579)) ([4250598](https://github.com/Esri/calcite-design-system/commit/425059871e3ecb9a6b73e4592e3a2f695891336b)), closes [#7351](https://github.com/Esri/calcite-design-system/issues/7351)
+
+## [2.2.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.12...@esri/calcite-components@2.2.0-next.13) (2024-01-09)
+
+### Features
+
+- **checkbox, combobox, input-date-picker, input-time-picker, segmented-control, select:** add required property ([#8517](https://github.com/Esri/calcite-design-system/issues/8517)) ([72a1ce4](https://github.com/Esri/calcite-design-system/commit/72a1ce4dd8d94ed092c4c24c37e7209eff67e544)), closes [#8057](https://github.com/Esri/calcite-design-system/issues/8057)
+- **list:** Add "filter-no-results" slot to display content when no filtered items are shown ([#8569](https://github.com/Esri/calcite-design-system/issues/8569)) ([f1fc7f6](https://github.com/Esri/calcite-design-system/commit/f1fc7f678e35927f1ef189e581c2713967367ff0)), closes [#8564](https://github.com/Esri/calcite-design-system/issues/8564)
+
+## [2.2.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.11...@esri/calcite-components@2.2.0-next.12) (2024-01-09)
+
+### Bug Fixes
+
+- **action:** update component tokens to support transparent ([#8532](https://github.com/Esri/calcite-design-system/issues/8532)) ([81cb5cc](https://github.com/Esri/calcite-design-system/commit/81cb5cc58d082c5d62d91a5dcaa5cfa8d993e626)), closes [#8519](https://github.com/Esri/calcite-design-system/issues/8519)
+- **input, input-number, input-text:** restore focus on input after browser validation error is displayed and user continues typing ([#8563](https://github.com/Esri/calcite-design-system/issues/8563)) ([5897965](https://github.com/Esri/calcite-design-system/commit/5897965a917dc0e329658de43670cc7fd020bd9c)), closes [#8072](https://github.com/Esri/calcite-design-system/issues/8072)
+
 ## [2.2.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.10...@esri/calcite-components@2.2.0-next.11) (2024-01-05)
 
 ### Bug Fixes

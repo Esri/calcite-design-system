@@ -189,7 +189,15 @@ export class List
   @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection,
+   *
+   * `"single-persist"` allows one selection and prevents de-selection, and
+   *
+   * `"none"` does not allow any selections.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -217,32 +225,32 @@ export class List
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when any of the list item selections have changed.
+   * Fires when the component's selected items have changed.
    */
   @Event({ cancelable: false }) calciteListChange: EventEmitter<void>;
 
   /**
-   * Emits when the component's dragging has ended.
+   * Fires when the component's dragging has ended.
    */
   @Event({ cancelable: false }) calciteListDragEnd: EventEmitter<ListDragDetail>;
 
   /**
-   * Emits when the component's dragging has started.
+   * Fires when the component's dragging has started.
    */
   @Event({ cancelable: false }) calciteListDragStart: EventEmitter<ListDragDetail>;
 
   /**
-   * Emits when the component's filter has changed.
+   * Fires when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   /**
-   * Emitted when the order of the list has changed.
+   * Fires when the component's item order changes.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<ListDragDetail>;
 
   /**
-   * Emitted when the default slot has changes in order to notify parent lists.
+   * Fires when the default slot has changes in order to notify parent lists.
    */
   @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
@@ -440,6 +448,8 @@ export class List
 
   @State() hasFilterActionsStart = false;
 
+  @State() hasFilterNoResults = false;
+
   listItems: HTMLCalciteListItemElement[] = [];
 
   mutationObserver = createObserver("mutation", () => this.updateListItems());
@@ -491,8 +501,10 @@ export class List
       filterEnabled,
       filterPlaceholder,
       filterText,
+      filteredItems,
       hasFilterActionsStart,
       hasFilterActionsEnd,
+      hasFilterNoResults,
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -545,6 +557,16 @@ export class List
               <slot onSlotchange={this.handleDefaultSlotChange} />
             </tbody>
           </table>
+          <div
+            aria-live="polite"
+            data-test-id="no-results-container"
+            hidden={!(hasFilterNoResults && filterEnabled && filterText && !filteredItems.length)}
+          >
+            <slot
+              name={SLOTS.filterNoResults}
+              onSlotchange={this.handleFilterNoResultsSlotChange}
+            />
+          </div>
         </div>
       </InteractiveContainer>
     );
@@ -653,6 +675,10 @@ export class List
 
   private handleFilterActionsEndSlotChange = (event: Event): void => {
     this.hasFilterActionsEnd = slotChangeHasAssignedElement(event);
+  };
+
+  private handleFilterNoResultsSlotChange = (event: Event): void => {
+    this.hasFilterNoResults = slotChangeHasAssignedElement(event);
   };
 
   private setActiveListItem = (): void => {

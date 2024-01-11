@@ -29,6 +29,18 @@ describe("calcite-text-area", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -57,6 +69,14 @@ describe("calcite-text-area", () => {
       {
         propertyName: "scale",
         value: "s",
+      },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
       },
     ]);
   });

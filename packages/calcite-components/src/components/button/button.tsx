@@ -97,7 +97,7 @@ export class Button
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -404,7 +404,8 @@ export class Button
   private setTooltipText = (): void => {
     const { contentEl } = this;
     if (contentEl) {
-      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || null : null;
+      this.tooltipText =
+        contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || null : null;
     }
   };
 
