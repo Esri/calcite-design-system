@@ -324,7 +324,7 @@ export class Block
   }
 
   render(): VNode {
-    const { collapsible, el, loading, open, messages } = this;
+    const { collapsible, el, loading, open, heading, messages } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
@@ -341,7 +341,7 @@ export class Block
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? <calcite-handle /> : null}
+        {this.dragHandle ? <calcite-handle label={heading} /> : null}
         {collapsible ? (
           <button
             aria-controls={IDS.content}

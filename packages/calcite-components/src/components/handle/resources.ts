@@ -6,3 +6,9 @@ export const CSS = {
 export const ICONS = {
   drag: "drag",
 };
+
+export const SUBSTITUTIONS = {
+  itemLabel: "{itemLabel}",
+  position: "{position}",
+  total: "{total}",
+};
