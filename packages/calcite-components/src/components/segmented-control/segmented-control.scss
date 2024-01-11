@@ -20,7 +20,7 @@
 }
 
 // segmented control width for full
-:host([width="full"] > .item-wrapper) {
+:host([width="full"]) > .item-wrapper {
   @apply w-full;
   min-inline-size: fit-content;
 
@@ -29,8 +29,10 @@
   }
 }
 
-:host([width="full"][layout="vertical"]) ::slotted(calcite-segmented-control-item) > .item-wrapper {
-  @apply justify-start;
+:host([width="full"][layout="vertical"]) > .item-wrapper {
+  ::slotted(calcite-segmented-control-item) {
+    @apply justify-start;
+  }
 }
 
 @include form-validation-message();
