@@ -1,10 +1,9 @@
 :host {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 }
 
 :host > .item-wrapper {
-  display: flex;
+  @apply flex;
   max-inline-size: 100vw;
 }
 
