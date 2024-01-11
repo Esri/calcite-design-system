@@ -257,14 +257,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           : date
         : this.minAsDate;
 
-    //allows start date to go beyond the end date
-    const maxDate =
-      this.range && this.activeRange
-        ? this.activeRange === "start"
-          ? this.maxAsDate
-          : endDate
-        : this.maxAsDate;
-    console.log(this.activeStartDate, this.activeEndDate);
     return (
       <Host onBlur={this.resetActiveDates} onKeyDown={this.keyDownHandler}>
         <div class="container">
@@ -273,7 +265,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
               this.activeRange === "end" && this.activeEndDate
                 ? prevMonth(this.activeEndDate)
                 : this.activeStartDate,
-              maxDate,
+              this.maxAsDate,
               minDate,
               date,
               endDate,
