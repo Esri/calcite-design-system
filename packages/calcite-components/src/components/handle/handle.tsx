@@ -217,7 +217,17 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   private getTooltip(): string {
-    return this.messages?.dragHandle.replace(SUBSTITUTIONS.itemLabel, this.label) ?? "";
+    const { label, messages } = this;
+
+    if (!messages) {
+      return "";
+    }
+
+    if (!label) {
+      return messages.dragHandleUntitled;
+    }
+
+    return messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label);
   }
 
   getAriaText(type: "label" | "live"): string {
