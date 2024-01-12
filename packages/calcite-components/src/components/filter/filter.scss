@@ -37,7 +37,7 @@
 }
 
 label {
-  margin-inline: var(--calcite-spacing-xs);
+  margin-inline: var(--calcite-spacing-xxs);
   margin-block: 0;
   display: flex;
   position: relative;
@@ -53,10 +53,10 @@ input[type="text"] {
   border-style: none;
   background-color: transparent;
   line-height: var(--calcite-internal-filter-input-line-height);
-  margin-block-end: var(--calcite-spacing-xs);
-  padding-block: var(--calcite-spacing-xs);
+  margin-block-end: var(--calcite-spacing-xxs);
+  padding-block: var(--calcite-spacing-xxs);
   inline-size: 100%;
-  padding-inline-end: var(--calcite-spacing-xs);
+  padding-inline-end: var(--calcite-spacing-xxs);
   padding-inline-start: var(--calcite-spacing-xxl);
   transition:
     padding var(--calcite-animation-timing),
@@ -85,7 +85,7 @@ input[type="text"]:focus {
   border-color: var(--calcite-color-brand);
   outline: var(--calcite-internal-filter-outline);
   outline-offset: var(--calcite-internal-filter-outline-offset);
-  padding-inline: var(--calcite-spacing-xs);
+  padding-inline: var(--calcite-spacing-xxs);
   & ~ .search-icon {
     inset-inline-start: calc(var(--calcite-spacing-lg) * -1);
     opacity: var(--calcite-opacity-0);
