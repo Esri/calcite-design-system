@@ -11,27 +11,8 @@
  *
  */
 
-/**
-  * Internal Properties
-  *
-  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
-  *
-  * --calcite-internal-card-background-color
-  * --calcite-internal-card-border-color
-  * --calcite-internal-card-box-shadow
-  * --calcite-internal-card-corner-radius
-  * --calcite-internal-card-subtitle-color
-  * --calcite-internal-card-title-color
-  */
-
 :host {
   @apply block max-w-full;
-  --calcite-internal-card-background-color: var(--calcite-card-background-color, var(--calcite-color-foreground-1));
-  --calcite-internal-card-border-color: var(--calcite-card-border-color, var(--calcite-color-border-3));
-  --calcite-internal-card-box-shadow: var(--calcite-card-box-shadow, var(--calcite-shadow-none));
-  --calcite-internal-card-corner-radius: var(--calcite-card-corner-radius, var(--calcite-corner-radius-sharp));
-  --calcite-internal-card-subtitle-color: var(--calcite-card-subtitle-color, var(--calcite-color-text-2));
-  --calcite-internal-card-title-color: var(--calcite-card-title-color, var(--calcite-color-text-1));
 }
 
 .calcite-card-container {
@@ -43,10 +24,10 @@
     duration-150
     ease-in-out
     overflow-hidden;
-  border: 1px solid var(--calcite-internal-card-border-color);
-  border-radius: var(--calcite-internal-card-corner-radius);
-  background-color: var(--calcite-internal-card-background-color);
-  box-shadow: var(--calcite-internal-card-box-shadow);
+  border: var(--calcite-border-width-sm) solid var(--calcite-card-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-card-corner-radius, var(--calcite-corner-radius-sharp));
+  background-color: var(--calcite-card-background-color, var(--calcite-color-foreground-1));
+  box-shadow: var(--calcite-card-box-shadow, var(--calcite-shadow-none));
 }
 
 .container {
@@ -55,7 +36,7 @@
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
   @apply pointer-events-none;
-  opacity: $calcite-opacity-0;
+  opacity: var(--calcite-opacity-0);
 }
 
 :host([loading]) .calcite-card-loader-container {
@@ -64,48 +45,48 @@
 
 .header {
   @apply flex flex-col;
-  padding-inline: $calcite-spacing-md;
-  padding-block-start: $calcite-spacing-md;
-  padding-block-end: $calcite-spacing-xxs;
+  padding-inline: var(--calcite-spacing-md);
+  padding-block-start: var(--calcite-spacing-md);
+  padding-block-end: var(--calcite-spacing-xxs);
 }
 
 .footer {
   @apply flex mt-auto flex-row content-between justify-between;
-  padding-inline: $calcite-spacing-md;
-  padding-block-start: $calcite-spacing-xxs;
-  padding-block-end: $calcite-spacing-md;
+  padding-inline: var(--calcite-spacing-md);
+  padding-block-start: var(--calcite-spacing-xxs);
+  padding-block-end: var(--calcite-spacing-md);
 }
 
 .card-content {
   @apply text-n2-wrap;
   color: var(--calcite-color-text-3);
-  padding: $calcite-spacing-md;
+  padding: var(--calcite-spacing-md);
 }
 
 :host([selected]) .calcite-card-container {
-  border-color: var(--calcite-color-brand);
+  --calcite-card-container-border-color: var(--calcite-color-brand);
 }
 
 // slotted content
 @include slotted("title", "*") {
   @apply text-n1-wrap;
   margin: 0;
-  font-weight: $calcite-font-weight-medium;
-  color: var(--calcite-internal-card-title-color);
+  font-weight: var(--calcite-font-weight)-medium;
+  color: var(--calcite-card-title-color, var(--calcite-color-text-1));
 }
 
 :host([selectable]) {
   .header {
     // prevents overlap with checkbox (default header padding + no-overlap spacing)
-    padding-inline-end: $calcite-spacing-xxxl;
+    padding-inline-end: var(--calcite-spacing-xxxl);
   }
 }
 
 @include slotted("subtitle", "*") {
   @apply text-n2-wrap font-normal;
   margin: 0;
-  margin-block-start: $calcite-spacing-sm;
-  color: var(--calcite-internal-card-subtitle-color);
+  margin-block-start: var(--calcite-spacing-sm);
+  color: var(--calcite-card-subtitle-color, var(--calcite-color-text-2));
 }
 
 @include slotted("thumbnail", "img") {
@@ -122,8 +103,8 @@
 
 .checkbox-wrapper {
   @apply absolute;
-  inset-block-start: $calcite-spacing-sm;
-  inset-inline-end: $calcite-spacing-sm;
+  inset-block-start: var(--calcite-spacing-sm);
+  inset-inline-end: var(--calcite-spacing-sm);
   margin: 0;
   padding: 0;
 }
