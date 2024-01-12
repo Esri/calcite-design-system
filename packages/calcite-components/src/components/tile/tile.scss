@@ -1,12 +1,11 @@
 :host {
-  @apply text-color-3
+  @apply bg-foreground-1
+    text-color-3
     box-border
     inline-block
     select-none
     duration-150
     ease-in-out;
-
-  background-color: var(--calcite-color-foreground-1);
 
   .container {
     @apply pointer-events-none
