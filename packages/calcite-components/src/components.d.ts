@@ -660,7 +660,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -775,7 +775,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -1070,7 +1070,7 @@ export namespace Components {
          */
         "flipPlacements": EffectivePlacement[];
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -1857,6 +1857,20 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
+    interface CalciteInnerLabel {
+        /**
+          * @todo add doc
+         */
+        "label": string | null;
+        /**
+          * @todo add doc
+         */
+        "required": boolean;
+        /**
+          * @todo add doc
+         */
+        "scale": Scale;
+    }
     interface CalciteInput {
         /**
           * Specifies a comma separated list of unique file type specifiers for limiting accepted file types. This property only has an effect when `type` is "file". Read the native attribute's documentation on MDN for more info.
@@ -1898,7 +1912,7 @@ export namespace Components {
          */
         "files": FileList | undefined;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2075,7 +2089,7 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2231,7 +2245,7 @@ export namespace Components {
          */
         "enterKeyHint": string;
         /**
-          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2401,7 +2415,7 @@ export namespace Components {
          */
         "enterKeyHint": string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2520,7 +2534,7 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2600,7 +2614,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3040,7 +3054,7 @@ export namespace Components {
          */
         "fillType": "single" | "range";
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3722,7 +3736,7 @@ export namespace Components {
          */
         "focused": boolean;
         /**
-          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3811,7 +3825,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3875,7 +3889,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3952,7 +3966,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4096,7 +4110,7 @@ export namespace Components {
          */
         "detachedHeightScale": Scale;
         /**
-          * Specifies the display mode of the component, where:  `"dock"` full height, displays adjacent to center content,  `"float"` not full height, content is separated detached from `calcite-action-bar`, displays on top of center content, and  `"overlay"` full height, displays on top of center content.
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
          */
         "displayMode": DisplayMode1;
         /**
@@ -4134,7 +4148,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4473,7 +4487,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4817,7 +4831,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -5169,6 +5183,7 @@ export namespace Components {
         "selectedItems": HTMLCalciteTreeItemElement[];
         /**
           * Specifies the selection mode of the component, where:  `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,  `"children"` allows any number of selections from one parent from corresponding parent and child selections,  `"multichildren"` allows any number of selections from corresponding parent and child selections,  `"multiple"` allows any number of selections,  `"none"` allows no selections,  `"single"` allows one selection, and  `"single-persist"` allows and requires one selection.
+          * @default "single"
          */
         "selectionMode": SelectionMode;
     }
@@ -6205,6 +6220,12 @@ declare global {
     var HTMLCalciteInlineEditableElement: {
         prototype: HTMLCalciteInlineEditableElement;
         new (): HTMLCalciteInlineEditableElement;
+    };
+    interface HTMLCalciteInnerLabelElement extends Components.CalciteInnerLabel, HTMLStencilElement {
+    }
+    var HTMLCalciteInnerLabelElement: {
+        prototype: HTMLCalciteInnerLabelElement;
+        new (): HTMLCalciteInnerLabelElement;
     };
     interface HTMLCalciteInputElementEventMap {
         "calciteInternalInputFocus": void;
@@ -7332,6 +7353,7 @@ declare global {
         "calcite-handle": HTMLCalciteHandleElement;
         "calcite-icon": HTMLCalciteIconElement;
         "calcite-inline-editable": HTMLCalciteInlineEditableElement;
+        "calcite-inner-label": HTMLCalciteInnerLabelElement;
         "calcite-input": HTMLCalciteInputElement;
         "calcite-input-date-picker": HTMLCalciteInputDatePickerElement;
         "calcite-input-message": HTMLCalciteInputMessageElement;
@@ -7914,7 +7936,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -8029,7 +8051,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -8341,7 +8363,7 @@ declare namespace LocalJSX {
          */
         "flipPlacements"?: EffectivePlacement[];
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9189,6 +9211,20 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
+    interface CalciteInnerLabel {
+        /**
+          * @todo add doc
+         */
+        "label"?: string | null;
+        /**
+          * @todo add doc
+         */
+        "required"?: boolean;
+        /**
+          * @todo add doc
+         */
+        "scale"?: Scale;
+    }
     interface CalciteInput {
         /**
           * Specifies a comma separated list of unique file type specifiers for limiting accepted file types. This property only has an effect when `type` is "file". Read the native attribute's documentation on MDN for more info.
@@ -9230,7 +9266,7 @@ declare namespace LocalJSX {
          */
         "files"?: FileList | undefined;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9409,7 +9445,7 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9461,7 +9497,7 @@ declare namespace LocalJSX {
          */
         "onCalciteInputDatePickerBeforeOpen"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
         /**
-          * Fires when the component's value changes.
+          * Fires when the component's `value` changes.
          */
         "onCalciteInputDatePickerChange"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
         /**
@@ -9576,7 +9612,7 @@ declare namespace LocalJSX {
          */
         "enterKeyHint"?: string;
         /**
-          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9748,7 +9784,7 @@ declare namespace LocalJSX {
          */
         "enterKeyHint"?: string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9872,7 +9908,7 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9900,7 +9936,7 @@ declare namespace LocalJSX {
          */
         "onCalciteInputTimePickerBeforeOpen"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
         /**
-          * Fires when the time value is changed as a result of user input.
+          * Fires when the component's `value` is changes.
          */
         "onCalciteInputTimePickerChange"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
         /**
@@ -9963,7 +9999,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9996,7 +10032,7 @@ declare namespace LocalJSX {
          */
         "onCalciteInputTimeZoneBeforeOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
         /**
-          * Fires when the component's value changes.
+          * Fires when the component's `value` changes.
          */
         "onCalciteInputTimeZoneChange"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
         /**
@@ -10460,7 +10496,7 @@ declare namespace LocalJSX {
          */
         "fillType"?: "single" | "range";
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11159,7 +11195,7 @@ declare namespace LocalJSX {
          */
         "focused"?: boolean;
         /**
-          * The 'ID' of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11260,7 +11296,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11324,7 +11360,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11405,7 +11441,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11557,7 +11593,7 @@ declare namespace LocalJSX {
          */
         "detachedHeightScale"?: Scale;
         /**
-          * Specifies the display mode of the component, where:  `"dock"` full height, displays adjacent to center content,  `"float"` not full height, content is separated detached from `calcite-action-bar`, displays on top of center content, and  `"overlay"` full height, displays on top of center content.
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
          */
         "displayMode"?: DisplayMode1;
         /**
@@ -11597,7 +11633,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11935,7 +11971,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -12291,7 +12327,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The `ID` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -12657,6 +12693,7 @@ declare namespace LocalJSX {
         "selectedItems"?: HTMLCalciteTreeItemElement[];
         /**
           * Specifies the selection mode of the component, where:  `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,  `"children"` allows any number of selections from one parent from corresponding parent and child selections,  `"multichildren"` allows any number of selections from corresponding parent and child selections,  `"multiple"` allows any number of selections,  `"none"` allows no selections,  `"single"` allows one selection, and  `"single-persist"` allows and requires one selection.
+          * @default "single"
          */
         "selectionMode"?: SelectionMode;
     }
@@ -12872,6 +12909,7 @@ declare namespace LocalJSX {
         "calcite-handle": CalciteHandle;
         "calcite-icon": CalciteIcon;
         "calcite-inline-editable": CalciteInlineEditable;
+        "calcite-inner-label": CalciteInnerLabel;
         "calcite-input": CalciteInput;
         "calcite-input-date-picker": CalciteInputDatePicker;
         "calcite-input-message": CalciteInputMessage;
@@ -12984,6 +13022,7 @@ declare module "@stencil/core" {
             "calcite-handle": LocalJSX.CalciteHandle & JSXBase.HTMLAttributes<HTMLCalciteHandleElement>;
             "calcite-icon": LocalJSX.CalciteIcon & JSXBase.HTMLAttributes<HTMLCalciteIconElement>;
             "calcite-inline-editable": LocalJSX.CalciteInlineEditable & JSXBase.HTMLAttributes<HTMLCalciteInlineEditableElement>;
+            "calcite-inner-label": LocalJSX.CalciteInnerLabel & JSXBase.HTMLAttributes<HTMLCalciteInnerLabelElement>;
             "calcite-input": LocalJSX.CalciteInput & JSXBase.HTMLAttributes<HTMLCalciteInputElement>;
             "calcite-input-date-picker": LocalJSX.CalciteInputDatePicker & JSXBase.HTMLAttributes<HTMLCalciteInputDatePickerElement>;
             "calcite-input-message": LocalJSX.CalciteInputMessage & JSXBase.HTMLAttributes<HTMLCalciteInputMessageElement>;
