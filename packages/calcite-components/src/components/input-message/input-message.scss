@@ -8,6 +8,8 @@
 
 :host {
   @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
+  --calcite-input-message-spacing-value: theme("spacing.1");
+  margin-block-start: var(--calcite-input-message-spacing-value);
 }
 
 .calcite-input-message-icon {
@@ -37,14 +39,10 @@
 
 :host([scale="m"]) {
   @apply text-n2h;
-  --calcite-input-message-spacing-value: theme("spacing.1");
-  margin-block-start: var(--calcite-input-message-spacing-value);
 }
 
 :host([scale="l"]) {
   @apply text-n1h;
-  --calcite-input-message-spacing-value: theme("spacing.1");
-  margin-block-start: var(--calcite-input-message-spacing-value);
 }
 
 @include base-component();
