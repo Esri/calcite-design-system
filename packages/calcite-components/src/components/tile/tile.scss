@@ -1,38 +1,39 @@
 :host {
+  @apply box-border
+    inline-block
+    select-none
+    duration-150
+    ease-in-out;
+
   background-color: var(--calcite-color-foreground-1);
-  box-sizing: border-box;
-  display: inline-block;
-  transition-duration: 150ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  user-select: none;
 
   .container {
-    display: grid;
+    @apply pointer-events-none
+      grid
+      grid-cols-1;
     gap: var(--calcite-spacing-md);
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    pointer-events: none;
   }
 
   .content {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
+    @apply flex
+      flex-auto
+      flex-col
+      justify-center;
     inline-size: 10%;
-    justify-content: center;
   }
 
   .content-container {
-    align-items: stretch;
-    display: flex;
-    flex: 1 1 auto;
-    outline-color: transparent;
-    padding: 0px;
+    @apply focus-base
+      text-color-2
+      flex
+      flex-auto
+      items-stretch
+      p-0;
     inline-size: 100%;
   }
 
   .content-slot-container {
-    align-items: center;
-    display: flex;
+    @apply flex items-center;
 
     &:first-child {
       padding-inline: 0 0.75rem;
@@ -44,17 +45,17 @@
   }
 
   .heading {
+    @apply pointer-events-none
+      break-words;
     color: var(--calcite-color-text-2);
     font-size: var(--calcite-font-size--1);
     font-weight: 500;
     line-height: 1.20313rem;
-    overflow-wrap: break-word;
-    pointer-events: none;
   }
   .large-visual {
-    align-items: center;
-    min-block-size: 12rem;
-    text-align: center;
+    @apply items-center
+      text-center;
+    min-block-size: theme("spacing.48");
     calcite-icon {
       align-self: self-end;
       block-size: 64px;
@@ -62,16 +63,16 @@
       justify-self: center;
     }
     .content-container {
-      align-self: center;
+      @apply self-center;
     }
   }
   .description {
+    @apply break-words
+      pointer-events-none;
     color: var(--calcite-color-text-3);
     font-size: var(--calcite-font-size--2);
     font-weight: 400;
     line-height: 1.03125rem;
-    overflow-wrap: break-word;
-    pointer-events: none;
   }
 }
 
@@ -112,8 +113,8 @@
 :host([href]),
 :host([href]:hover) {
   .heading {
+    @apply underline;
     color: var(--calcite-color-text-link);
-    text-decoration-line: underline;
   }
 }
 :host(:not([embed])) {
@@ -127,8 +128,8 @@
   padding: var(--calcite-spacing-lg);
 }
 :host(:not([embed])[href]:hover) {
+  @apply cursor-pointer;
   box-shadow: 0 0 0 2px var(--calcite-color-brand);
-  cursor: pointer;
 }
 :host(:not([embed])[href]:active) {
   box-shadow: 0 0 0 3px var(--calcite-color-brand);
