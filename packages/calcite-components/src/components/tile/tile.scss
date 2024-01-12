@@ -92,7 +92,7 @@
 
 :host([scale="l"]) {
   .container {
-    gap: var(--calcite-spacing-lg);
+    gap: var(--calcite-spacing-xl);
   }
   .heading {
     font-size: var(--calcite-font-size-0);
@@ -125,7 +125,7 @@
   padding: var(--calcite-spacing-sm);
 }
 :host(:not([embed])[scale="l"]) {
-  padding: var(--calcite-spacing-lg);
+  padding: var(--calcite-spacing-xl);
 }
 :host(:not([embed])[href]:hover) {
   @apply cursor-pointer;
