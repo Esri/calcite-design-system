@@ -170,48 +170,46 @@ function hasRegisteredFormComponentParent(
 }
 
 function displayValidationMessage(event: Event) {
-  if (event) {
-    // target is the hidden input, which is slotted in the actual form component
-    const hiddenInput = event?.target as HTMLInputElement;
+  // target is the hidden input, which is slotted in the actual form component
+  const hiddenInput = event?.target as HTMLInputElement;
 
-    // not necessarily a calcite-input, but we don't have an HTMLCalciteFormElement type
-    const formComponent = hiddenInput?.parentElement as HTMLCalciteInputElement;
+  // not necessarily a calcite-input, but we don't have an HTMLCalciteFormElement type
+  const formComponent = hiddenInput?.parentElement as HTMLCalciteInputElement;
 
-    const componentTag = formComponent?.nodeName?.toLowerCase();
-    const componentTagParts = componentTag?.split("-");
+  const componentTag = formComponent?.nodeName?.toLowerCase();
+  const componentTagParts = componentTag?.split("-");
 
-    if (componentTagParts.length < 2 || componentTagParts[0] !== "calcite") {
-      return;
-    }
-
-    // prevent the browser from showing the native validation popover
-    event?.preventDefault();
-
-    "status" in formComponent && (formComponent.status = "invalid");
-    "validationIcon" in formComponent && (formComponent.validationIcon = true);
-    "validationMessage" in formComponent &&
-      (formComponent.validationMessage = hiddenInput.validationMessage);
-
-    const componentTagCamelCase = componentTagParts
-      .map((part: string, index: number) =>
-        index === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`,
-      )
-      .join("");
-
-    const clearValidationEvent = `${componentTagCamelCase}${
-      componentsWithInputEvent.includes(componentTag) ? "Input" : "Change"
-    }`;
-
-    formComponent.addEventListener(
-      clearValidationEvent,
-      () => {
-        "status" in formComponent && (formComponent.status = "idle");
-        "validationIcon" in formComponent && (formComponent.validationIcon = false);
-        "validationMessage" in formComponent && (formComponent.validationMessage = "");
-      },
-      { once: true },
-    );
+  if (componentTagParts.length < 2 || componentTagParts[0] !== "calcite") {
+    return;
   }
+
+  // prevent the browser from showing the native validation popover
+  event?.preventDefault();
+
+  "status" in formComponent && (formComponent.status = "invalid");
+  "validationIcon" in formComponent && (formComponent.validationIcon = true);
+  "validationMessage" in formComponent &&
+    (formComponent.validationMessage = hiddenInput.validationMessage);
+
+  const componentTagCamelCase = componentTagParts
+    .map((part: string, index: number) =>
+      index === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`,
+    )
+    .join("");
+
+  const clearValidationEvent = `${componentTagCamelCase}${
+    componentsWithInputEvent.includes(componentTag) ? "Input" : "Change"
+  }`;
+
+  formComponent.addEventListener(
+    clearValidationEvent,
+    () => {
+      "status" in formComponent && (formComponent.status = "idle");
+      "validationIcon" in formComponent && (formComponent.validationIcon = false);
+      "validationMessage" in formComponent && (formComponent.validationMessage = "");
+    },
+    { once: true },
+  );
 }
 
 /**
@@ -230,6 +228,19 @@ export function submitForm(component: FormOwner): boolean {
   formEl.addEventListener("invalid", displayValidationMessage, true);
   formEl.requestSubmit();
   formEl.removeEventListener("invalid", displayValidationMessage, true);
+
+  const formAssociatedEls = formEl.querySelectorAll("[status]");
+
+  // focus the first invalid element that has a validation message
+  for (const el of formAssociatedEls) {
+    if (
+      (el as HTMLCalciteInputElement)?.status === "invalid" &&
+      (el as HTMLCalciteInputElement)?.validationMessage
+    ) {
+      (el as HTMLCalciteInputElement)?.setFocus();
+      break;
+    }
+  }
 
   return true;
 }
