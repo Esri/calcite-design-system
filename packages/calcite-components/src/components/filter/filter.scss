@@ -6,7 +6,8 @@
  * @prop --calcite-filter-background: Specifies the background color of the filter.
  * @prop --calcite-filter-color: Specifies the text/icon color for filter.
  * @prop --calcite-filter-icon-color: Specifies a color used for filter icons.
- *
+ * @prop --calcite-filter-input-color: Specifies a color used for the filter input.
+ * @prop --calcite-filter-width: Specifies a width used for the filter.
  */
 
 :host {
@@ -15,7 +16,7 @@
   --calcite-filter-color: var(--calcite-color-text-2);
   --calcite-filter-icon-color: var(--calcite-color-text-2);
   --calcite-filter-input-color: var(--calcite-color-text-1);
-  --calcite-filter-width: var(--calcite-size-relative-100);
+  --calcite-filter-width: 100%;
   --calcite-internal-filter-outline: 2px solid transparent;
   --calcite-internal-filter-outline-offset: 2px;
   --calcite-internal-filter-input-line-height: 1rem;
@@ -32,7 +33,7 @@
 .container {
   padding: var(--calcite-spacing-sm);
   display: flex;
-  inline-size: var(--calcite-size-relative-100);
+  inline-size: 100%;
 }
 
 label {
@@ -42,7 +43,7 @@ label {
   position: relative;
   overflow: hidden;
   align-items: center;
-  inline-size: var(--calcite-size-relative-100);
+  inline-size: 100%;
 }
 
 input[type="text"] {
@@ -54,7 +55,7 @@ input[type="text"] {
   line-height: var(--calcite-internal-filter-input-line-height);
   margin-block-end: var(--calcite-spacing-xs);
   padding-block: var(--calcite-spacing-xs);
-  inline-size: var(--calcite-size-relative-100);
+  inline-size: 100%;
   padding-inline-end: var(--calcite-spacing-xs);
   padding-inline-start: var(--calcite-spacing-xxl);
   transition:
@@ -66,7 +67,7 @@ input[type="text"] {
 }
 
 calcite-input {
-  inline-size: var(--calcite-size-relative-100);
+  inline-size: 100%;
 }
 
 .search-icon {
