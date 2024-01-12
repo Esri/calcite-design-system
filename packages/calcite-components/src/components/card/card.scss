@@ -1,6 +1,3 @@
-@import "~@esri/calcite-design-tokens/dist/scss/core";
-@import "~@esri/calcite-design-tokens/dist/scss/global";
-
 /**
  * CSS Custom Properties
  *
@@ -14,7 +11,7 @@
  *
  */
 
-/*
+/**
   * Internal Properties
   *
   * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
@@ -25,7 +22,7 @@
   * --calcite-internal-card-corner-radius
   * --calcite-internal-card-subtitle-color
   * --calcite-internal-card-title-color
-*/
+  */
 
 :host {
   @apply block max-w-full;
