@@ -234,11 +234,11 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const theming_TestOnly = (): string => html`
   <calcite-card
-    style="--calcite-card-corner-radius: var(--calcite-corner-radius-round),
-      --calcite-card-background-color: var(--calcite-color-foreground-3),
-      --calcite-card-border-color: var(--calcite-color-status-success),
-      --calcite-card-box-shadow: var(--calcite-shadow-md),
-      --calcite-card-title-color: var(--calcite-color-status-success),
+    style="--calcite-card-corner-radius: var(--calcite-corner-radius-round);
+      --calcite-card-background-color: var(--calcite-color-foreground-3);
+      --calcite-card-border-color: var(--calcite-color-status-success);
+      --calcite-card-box-shadow: var(--calcite-shadow-md);
+      --calcite-card-title-color: var(--calcite-color-status-success);
       --calcite-card-subtitle-color: var(--calcite-color-status-danger)"
   >
     <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
