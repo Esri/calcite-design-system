@@ -6,25 +6,13 @@
  * @prop --calcite-input-message-spacing-value: The top margin spacing above the component.
  */
 
-:host([scale="m"]),
-:host([scale="l"]) {
+:host {
+  @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
   --calcite-input-message-spacing-value: theme("spacing.1");
 }
 
-:host {
-  @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
-}
-
-:host([scale="m"]),
-:host([scale="l"]) {
-  margin-block-start: var(--calcite-input-message-spacing-value);
-}
-
 .calcite-input-message-icon {
-  @apply transition-default
-    pointer-events-none
-    inline-flex
-    flex-shrink-0;
+  @apply transition-default pointer-events-none inline-flex flex-shrink-0;
   margin-inline-end: theme("margin.2");
 }
 
@@ -44,21 +32,18 @@
   color: var(--calcite-color-brand);
 }
 
-// Validation Text
-:host([status]) {
-  @apply text-color-1;
-}
-
-:host([status][scale="s"]) {
+:host([scale="s"]) {
   @apply text-n3h;
 }
 
-:host([status][scale="m"]) {
+:host([scale="m"]) {
   @apply text-n2h mt-1;
+  margin-block-start: var(--calcite-input-message-spacing-value);
 }
 
-:host([status][scale="l"]) {
+:host([scale="l"]) {
   @apply text-n1h mt-1;
+  margin-block-start: var(--calcite-input-message-spacing-value);
 }
 
 @include base-component();
