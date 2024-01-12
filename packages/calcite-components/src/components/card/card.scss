@@ -1,22 +1,55 @@
+@import "~@esri/calcite-design-tokens/dist/scss/core";
+@import "~@esri/calcite-design-tokens/dist/scss/global";
+
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-card-background-color: Specifies the background color of the component.
+ * @prop --calcite-card-box-shadow: Specifies box shadow of the component.
+ * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-card-subtitle-color: Specifies the color of the component's `"subtitle"` slot.
+ * @prop --calcite-card-title-color: Specifies the color of the component's `"title"` slot.
+ *
+ */
+
+/*
+  * Internal Properties
+  *
+  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
+  *
+  * --calcite-internal-card-background-color
+  * --calcite-internal-card-border-color
+  * --calcite-internal-card-box-shadow
+  * --calcite-internal-card-corner-radius
+  * --calcite-internal-card-subtitle-color
+  * --calcite-internal-card-title-color
+*/
+
 :host {
   @apply block max-w-full;
-  & .calcite-card-container {
-    @apply bg-foreground-1
-    border-color-2
-    text-color-3
-    relative
+  --calcite-internal-card-background-color: var(--calcite-card-background-color, var(--calcite-color-foreground-1));
+  --calcite-internal-card-border-color: var(--calcite-card-border-color, var(--calcite-color-border-3));
+  --calcite-internal-card-box-shadow: var(--calcite-card-box-shadow, var(--calcite-shadow-none));
+  --calcite-internal-card-corner-radius: var(--calcite-card-corner-radius, var(--calcite-corner-radius-sharp));
+  --calcite-internal-card-subtitle-color: var(--calcite-card-subtitle-color, var(--calcite-color-text-2));
+  --calcite-internal-card-title-color: var(--calcite-card-title-color, var(--calcite-color-text-1));
+}
+
+.calcite-card-container {
+  @apply relative
     flex
     h-full
     flex-col
     justify-between
-    border
-    border-solid
-    shadow-none
     duration-150
     ease-in-out
     overflow-hidden;
-    border-radius: var(--calcite-border-radius-base);
-  }
+  border: 1px solid var(--calcite-internal-card-border-color);
+  border-radius: var(--calcite-internal-card-corner-radius);
+  background-color: var(--calcite-internal-card-background-color);
+  box-shadow: var(--calcite-internal-card-box-shadow);
 }
 
 .container {
@@ -24,64 +57,58 @@
 }
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
-  @apply pointer-events-none opacity-0;
+  @apply pointer-events-none;
+  opacity: $calcite-opacity-0;
 }
 
 :host([loading]) .calcite-card-loader-container {
-  @apply absolute
-    inset-0
-    flex
-    items-center;
-}
-
-.header,
-.footer {
-  @apply flex px-3 pt-3 pb-1;
+  @apply absolute inset-0 flex items-center;
 }
 
 .header {
-  @apply flex-col;
+  @apply flex flex-col;
+  padding-inline: $calcite-spacing-md;
+  padding-block-start: $calcite-spacing-md;
+  padding-block-end: $calcite-spacing-xxs;
 }
 
 .footer {
-  @apply mt-auto flex-row content-between
-    justify-between
-    px-3
-    pt-1
-    pb-3;
+  @apply flex mt-auto flex-row content-between justify-between;
+  padding-inline: $calcite-spacing-md;
+  padding-block-start: $calcite-spacing-xxs;
+  padding-block-end: $calcite-spacing-md;
 }
 
 .card-content {
-  @apply text-color-3
-    text-n2-wrap
-    p-3;
+  @apply text-n2-wrap;
+  color: var(--calcite-color-text-3);
+  padding: $calcite-spacing-md;
 }
 
 :host([selected]) .calcite-card-container {
-  @apply border-color-brand;
+  border-color: var(--calcite-color-brand);
 }
 
 // slotted content
 @include slotted("title", "*") {
-  @apply text-color-1
-    text-n1-wrap
-    m-0
-    font-medium;
+  @apply text-n1-wrap;
+  margin: 0;
+  font-weight: $calcite-font-weight-medium;
+  color: var(--calcite-internal-card-title-color);
 }
 
 :host([selectable]) {
   .header {
     // prevents overlap with checkbox (default header padding + no-overlap spacing)
-    padding-inline-end: theme("spacing.8");
+    padding-inline-end: $calcite-spacing-xxxl;
   }
 }
 
 @include slotted("subtitle", "*") {
-  @apply text-color-2
-    text-n2-wrap
-    m-0
-    mt-2
-    font-normal;
+  @apply text-n2-wrap font-normal;
+  margin: 0;
+  margin-block-start: $calcite-spacing-sm;
+  color: var(--calcite-internal-card-subtitle-color);
 }
 
 @include slotted("thumbnail", "img") {
@@ -97,9 +124,11 @@
 }
 
 .checkbox-wrapper {
-  @apply absolute m-0 p-0;
-  inset-block-start: theme("spacing.2");
-  inset-inline-end: theme("spacing.2");
+  @apply absolute;
+  inset-block-start: $calcite-spacing-sm;
+  inset-inline-end: $calcite-spacing-sm;
+  margin: 0;
+  padding: 0;
 }
 
 .thumbnail-wrapper {
