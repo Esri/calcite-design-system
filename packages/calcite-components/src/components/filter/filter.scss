@@ -1,50 +1,78 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden
+ *
+ * @prop --calcite-filter-background: Specifies the background color of the filter.
+ * @prop --calcite-filter-color: Specifies the text/icon color for filter.
+ * @prop --calcite-filter-icon-color: Specifies a color used for filter icons.
+ *
+ */
+
 :host {
-  @extend %component-host;
-  @apply flex w-full;
+  @include base-host();
+  --calcite-filter-background: var(--calcite-color-foreground-1);
+  --calcite-filter-color: var(--calcite-color-text-2);
+  --calcite-filter-icon-color: var(--calcite-color-text-2);
+  --calcite-filter-input-color: var(--calcite-color-text-1);
+  --calcite-filter-width: var(--calcite-size-relative-100);
+  --calcite-internal-filter-outline: 2px solid transparent;
+  --calcite-internal-filter-outline-offset: 2px;
+  --calcite-internal-filter-input-line-height: 1rem;
+
+  display: flex;
+  background-color: var(--calcite-filter-background);
+  color: var(--calcite-filter-color);
+  font-size: var(--calcite-font-size--1);
+  inline-size: var(--calcite-filter-width);
 }
 
 @include disabled();
 
 .container {
-  @apply flex w-full p-2;
+  padding: var(--calcite-spacing-sm);
+  display: flex;
+  inline-size: var(--calcite-size-relative-100);
 }
 
 label {
-  @apply relative
-    mx-1
-    my-0
-    flex w-full
-    items-center
-    overflow-hidden;
+  margin-inline: var(--calcite-spacing-xs);
+  margin-block: 0;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  inline-size: var(--calcite-size-relative-100);
 }
 
 input[type="text"] {
-  @apply font-inherit
-    text-color-1
-    text-n2h
-    mb-1
-    w-full
-    border-none
-    bg-transparent
-    py-1;
-  padding-inline-end: theme("spacing.1");
-  padding-inline-start: theme("spacing.6");
+  font-family: inherit;
+  color: var(--calcite-filter-input-color);
+  font-size: var(--calcite-font-size--2);
+  border-style: none;
+  background-color: transparent;
+  line-height: var(--calcite-internal-filter-input-line-height);
+  margin-block-end: var(--calcite-spacing-xs);
+  padding-block: var(--calcite-spacing-xs);
+  inline-size: var(--calcite-size-relative-100);
+  padding-inline-end: var(--calcite-spacing-xs);
+  padding-inline-start: var(--calcite-spacing-xxl);
   transition:
     padding var(--calcite-animation-timing),
     box-shadow var(--calcite-animation-timing);
   &::-ms-clear {
-    @apply hidden;
+    display: none;
   }
 }
 
 calcite-input {
-  @apply w-full;
+  inline-size: var(--calcite-size-relative-100);
 }
 
 .search-icon {
-  @apply text-color-2
-    absolute
-    flex;
+  position: absolute;
+  display: flex;
+  color: var(--calcite-filter-icon-color);
   inset-inline-start: 0;
   transition:
     inset-inline-start var(--calcite-animation-timing),
@@ -53,24 +81,13 @@ calcite-input {
 }
 
 input[type="text"]:focus {
-  @apply border-color-brand outline-none;
-  padding-inline: theme("padding.1");
+  border-color: var(--calcite-color-brand);
+  outline: var(--calcite-internal-filter-outline);
+  outline-offset: var(--calcite-internal-filter-outline-offset);
+  padding-inline: var(--calcite-spacing-xs);
   & ~ .search-icon {
-    inset-inline-start: calc(theme("spacing.4") * -1);
-    @apply opacity-0;
-  }
-}
-
-.clear-button {
-  @apply text-color-2
-    flex
-    cursor-pointer
-    items-center
-    border-0
-    bg-transparent;
-  &:hover,
-  &:focus {
-    @apply text-color-1;
+    inset-inline-start: calc(var(--calcite-spacing-lg) * -1);
+    opacity: var(--calcite-opacity-0);
   }
 }
 
