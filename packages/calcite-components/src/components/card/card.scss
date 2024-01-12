@@ -36,7 +36,7 @@
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
   @apply pointer-events-none;
-  opacity: var(--calcite-opacity-0);
+  opacity: $calcite-opacity-0;
 }
 
 :host([loading]) .calcite-card-loader-container {
@@ -71,7 +71,7 @@
 @include slotted("title", "*") {
   @apply text-n1-wrap;
   margin: 0;
-  font-weight: var(--calcite-font-weight)-medium;
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-card-title-color, var(--calcite-color-text-1));
 }
 
