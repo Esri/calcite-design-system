@@ -4950,6 +4950,10 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
     }
     interface CalciteTileSelect {
         /**
@@ -12424,6 +12428,10 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
     }
     interface CalciteTileSelect {
         /**
