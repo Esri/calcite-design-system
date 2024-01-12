@@ -5,7 +5,9 @@ import { initModeChangeEvent } from "./mode";
  *
  * @see {@link https://stenciljs.com/docs/config#globalscript}
  */
-export default function (): void {
+export default async function (): Promise<void> {
+  await import("./config");
+
   const isBrowser =
     typeof window !== "undefined" &&
     typeof location !== "undefined" &&
