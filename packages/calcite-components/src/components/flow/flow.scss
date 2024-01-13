@@ -1,41 +1,54 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden
+ *
+ * @prop --calcite-flow-animation-timing: Specifies the animation timing for the flow.
+ * @prop --calcite-flow-animation-advance: Specifies the advancing animation for the flow.
+ * @prop --calcite-flow-animation-retreat: Specifies the retreating animation for the flow.
+ */
+
 :host {
-  @extend %component-host;
-  @apply relative
-    flex
-    w-full
-    flex-auto
-    items-stretch
-    overflow-hidden
-    bg-transparent;
+  @include base-host();
+  position: relative;
+  display: flex;
+  inline-size: 100%;
+  flex: 1 1 auto;
+  align-items: stretch;
+  overflow: hidden;
+
+  --calcite-flow-animation-timing: var(--calcite-animation-timing);
+  --calcite-flow-animation-advance: calcite-frame-advance var(--calcite-flow-animation-timing);
+  --calcite-flow-animation-retreat: calcite-frame-retreat var(--calcite-flow-animation-timing);
 
   .frame {
-    @apply relative
-      m-0
-      flex
-      w-full
-      flex-auto
-      flex-col
-      items-stretch
-      p-0;
+    position: relative;
+    display: flex;
+    margin: 0;
+    inline-size: 100%;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
   }
 
   ::slotted(calcite-flow-item),
   ::slotted(calcite-panel) {
-    @apply h-full;
+    block-size: 100%;
   }
 
   ::slotted(.calcite-match-height:last-child) {
-    @apply flex
-    flex-auto
-    overflow-hidden;
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
   }
 
   .frame--advancing {
-    animation: calcite-frame-advance var(--calcite-animation-timing);
+    animation: var(--calcite-flow-animation-advance);
   }
 
   .frame--retreating {
-    animation: calcite-frame-retreat var(--calcite-animation-timing);
+    animation: var(--calcite-flow-animation-retreat);
   }
 
   @keyframes calcite-frame-advance {
