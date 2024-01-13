@@ -28,7 +28,7 @@
 }
 
 :host([scale="s"]) calcite-input-message {
-  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-xs) * -1);
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-xxs) * -1);
 }
 
 :host([scale="m"]) calcite-input-message {
@@ -36,7 +36,7 @@
 }
 
 :host([scale="l"]) calcite-input-message {
-  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-lg) * -1);
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-md) * -1);
 }
 
 @include form-validation-message();

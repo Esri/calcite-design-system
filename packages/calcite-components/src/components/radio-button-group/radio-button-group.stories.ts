@@ -79,7 +79,6 @@ export const darkModeRTL_TestOnly = (): string => html`
     dir="rtl"
     name="dark"
     layout="vertical"
-    scale="l"
     status="valid"
     validation-icon
     validation-message="Thanks for not selecting Ember"
