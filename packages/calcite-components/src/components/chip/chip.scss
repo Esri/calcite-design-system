@@ -1,3 +1,5 @@
+@import "~@esri/calcite-design-tokens/dist/scss/core";
+
 /**
  * CSS Custom Properties
  *
@@ -51,7 +53,7 @@
   --calcite-internal-chip-spacing-l: var(--calcite-spacing-md);
   --calcite-internal-chip-icon-size: var(--calcite-size-xxxl);
   --calcite-internal-chip-image-size: var(--calcite-size-xxxl);
-  --calcite-internal-chip-container-size: 44px;
+  --calcite-internal-chip-container-size: var(--calcite-size-44);
 }
 
 .container {
