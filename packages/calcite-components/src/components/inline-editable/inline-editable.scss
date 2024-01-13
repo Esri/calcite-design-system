@@ -4,7 +4,6 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-inline-editable-background-color: Specifies the background color of the component.
- * @prop --calcite-inline-editable-size: Specifies the size of the component.
  */
 :host {
   --calcite-inline-editable-background-color: var(--calcite-ui-foreground-1);
@@ -13,15 +12,15 @@
 }
 
 :host([scale="s"]) {
-  --calcite-inline-editable-size: 1.5rem;
+  --calcite-internal-inline-editable-size: 1.5rem;
 }
 
 :host([scale="m"]) {
-  --calcite-inline-editable-size: 2rem;
+  --calcite-internal-inline-editable-size: 2rem;
 }
 
 :host([scale="l"]) {
-  --calcite-inline-editable-size: 2.75rem;
+  --calcite-internal-inline-editable-size: 2.75rem;
 }
 
 :host(:not([editing-enabled]):not([disabled]):hover) {
@@ -43,7 +42,7 @@
 
 .controls-wrapper {
   @apply flex;
-  block-size: var(--calcite-inline-editable-size);
+  block-size: var(--calcite-internal-inline-editable-size);
 }
 
 @include disabled();
