@@ -28,9 +28,6 @@ darkMode_TestOnly.parameters = { modes: modesDarkDefault };
 
 const themeStyles = `
   --calcite-filter-background: red;
-  --calcite-filter-color: blue;
-  --calcite-filter-icon-color: purple;
-  --calcite-filter-input-color: gray;
   --calcite-filter-width: 50%;
 `;
 
