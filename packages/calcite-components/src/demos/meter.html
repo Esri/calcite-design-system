@@ -29,6 +29,17 @@
         --calcite-color-status-warning: #8ebad1;
         --calcite-color-status-danger: #35c4b1;
       }
+
+      .token-theming {
+        --calcite-meter-background-color: rgb(208, 190, 230);
+        --calcite-meter-border-color: rgb(184, 48, 153);
+        --calcite-meter-box-shadow: var(--calcite-shadow-sm);
+        --calcite-meter-corner-radius: 0px;
+        --calcite-meter-fill-color: rgb(174, 69, 174);
+        --calcite-meter-range-text-color: rgb(28, 110, 164);
+        --calcite-meter-unit-text-color: pink;
+        --calcite-meter-value-text-color: purple;
+      }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
@@ -36,13 +47,11 @@
   <body>
     <demo-dom-swapper>
       <div class="parent">
-        <h3>Interactive Example</h3>
-      </div>
-      <div class="parent">
         <div class="child">
           <calcite-label>
-            Example 1
+            Themed
             <calcite-meter
+              class="token-theming"
               group-separator
               unit-label="GB"
               value-label
@@ -52,6 +61,7 @@
               low="4600"
               high="7600"
               value="-2200"
+              value-label-type="units"
             ></calcite-meter>
           </calcite-label>
           <calcite-label>
@@ -74,6 +84,7 @@
       </div>
       <div class="parent">
         <div class="child">
+          <h3>Interactive Example</h3>
           <calcite-label>
             Meter
             <calcite-meter
