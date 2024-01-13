@@ -742,6 +742,12 @@ export class Combobox
         break;
       case "Delete":
       case "Backspace":
+        if (
+          this.selectionDisplay === "single" ||
+          (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0)
+        ) {
+          return;
+        }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
           this.removeActiveChip();
