@@ -27,12 +27,16 @@
   @apply flex-col;
 }
 
-:host([validation-message][layout="horizontal"]) > .item-wrapper {
-  --calcite-label-margin-bottom: 0;
+:host([scale="s"]) calcite-input-message {
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-xs) * -1);
 }
 
-:host([validation-message][layout="vertical"]) > .item-wrapper > ::slotted(calcite-label:last-child) {
-  --calcite-label-margin-bottom: 0;
+:host([scale="m"]) calcite-input-message {
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-sm) * -1);
+}
+
+:host([scale="l"]) calcite-input-message {
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-lg) * -1);
 }
 
 @include form-validation-message();
