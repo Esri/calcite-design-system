@@ -1120,14 +1120,118 @@ describe("calcite-combobox", () => {
         chips = await page.findAll("#myCombobox >>> calcite-chip");
         expect(chips.length).toEqual(2);
       });
+    });
+  });
 
-      it("should delete last chip on Delete", async () => {
-        await element.click();
+  describe("deleting items with the keyboard", () => {
+    it("should delete last item on Delete in all selection-display mode", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox id="myCombobox">
+          <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
+          <calcite-combobox-item-group label="Last Item">
+            <calcite-combobox-item id="three" value="three" label="three"></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox>
+      `);
 
-        await element.press("Backspace");
-        chips = await page.findAll("#myCombobox >>> calcite-chip");
-        expect(chips.length).toEqual(2);
-      });
+      const element = await page.find("#myCombobox");
+      await element.click();
+
+      const item1 = await page.find("calcite-combobox-item#one");
+      const item2 = await page.find("calcite-combobox-item#two");
+      const item3 = await page.find("calcite-combobox-item:last-child");
+      await item1.click();
+      await item2.click();
+      await item3.click();
+
+      await element.click();
+      await element.press("Backspace");
+      const chips = await page.findAll("#myCombobox >>> calcite-chip");
+      expect(chips.length).toEqual(2);
+      expect((await element.getProperty("selectedItems")).length).toBe(2);
+    });
+
+    it("should not delete any items on Delete in single selection-display mode", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox id="myCombobox" selection-display="single">
+          <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
+          <calcite-combobox-item-group label="Last Item">
+            <calcite-combobox-item id="three" value="three" label="three"></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox>
+      `);
+
+      const element = await page.find("#myCombobox");
+      await element.click();
+
+      const item1 = await page.find("calcite-combobox-item#one");
+      const item2 = await page.find("calcite-combobox-item#two");
+      const item3 = await page.find("calcite-combobox-item:last-child");
+      await item1.click();
+      await item2.click();
+      await item3.click();
+
+      await element.click();
+      await element.press("Backspace");
+      expect((await element.getProperty("selectedItems")).length).toBe(3);
+    });
+
+    it("should not delete any items on Delete in fit selection-display mode when there are overflowed chips", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox id="myCombobox" selection-display="fit" style="width:350px">
+          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item-group text-label="Last Item">
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox>
+      `);
+
+      const element = await page.find("#myCombobox");
+      await element.click();
+
+      const item1 = await page.find("calcite-combobox-item#one");
+      const item2 = await page.find("calcite-combobox-item#two");
+      const item3 = await page.find("calcite-combobox-item:last-child");
+      await item1.click();
+      await item2.click();
+      await item3.click();
+
+      await element.click();
+      await element.press("Backspace");
+      expect((await element.getProperty("selectedItems")).length).toBe(3);
+    });
+
+    it("should delete last item on Delete in fit selection-display mode when there are no overflowed chips", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox id="myCombobox" selection-display="fit" style="width:400px">
+          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item-group text-label="Last Item">
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox>
+      `);
+
+      const element = await page.find("#myCombobox");
+      await element.click();
+
+      const item1 = await page.find("calcite-combobox-item#one");
+      const item2 = await page.find("calcite-combobox-item#two");
+      const item3 = await page.find("calcite-combobox-item:last-child");
+      await item1.click();
+      await item2.click();
+      await item3.click();
+
+      await element.click();
+      await element.press("Backspace");
+      expect((await element.getProperty("selectedItems")).length).toBe(2);
     });
   });
 
