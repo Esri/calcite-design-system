@@ -181,7 +181,7 @@ export const thumbnailRounded = (): string => html`
   <div id="card-container" style="width:260px;">
     <style>
       calcite-card {
-        --calcite-border-radius-base: 12px;
+        --calcite-card-corner-radius: 12px;
       }
     </style>
     <calcite-card>
@@ -231,3 +231,19 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const theming_TestOnly = (): string => html`
+  <calcite-card
+    style="--calcite-card-corner-radius: var(--calcite-corner-radius-round);
+      --calcite-card-background-color: var(--calcite-color-foreground-3);
+      --calcite-card-border-color: var(--calcite-color-status-success);
+      --calcite-card-box-shadow: var(--calcite-shadow-md);
+      --calcite-card-title-color: var(--calcite-color-status-success);
+      --calcite-card-subtitle-color: var(--calcite-color-status-danger)"
+  >
+    <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+    <span slot="subtitle"
+      >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
+    >
+  </calcite-card>
+`;

@@ -1,22 +1,34 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-card-background-color: Specifies the background color of the component.
+ * @prop --calcite-card-border-color: Specifies the border color of the component.
+ * @prop --calcite-card-box-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-card-subtitle-color: Specifies the color of the component's `"subtitle"` slot.
+ * @prop --calcite-card-title-color: Specifies the color of the component's `"title"` slot.
+ *
+ */
+
 :host {
   @apply block max-w-full;
-  & .calcite-card-container {
-    @apply bg-foreground-1
-    border-color-2
-    text-color-3
-    relative
+}
+
+.calcite-card-container {
+  @apply relative
     flex
     h-full
     flex-col
     justify-between
-    border
-    border-solid
-    shadow-none
     duration-150
     ease-in-out
     overflow-hidden;
-    border-radius: var(--calcite-border-radius-base);
-  }
+  border: var(--calcite-border-width-sm) solid var(--calcite-card-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-card-corner-radius, var(--calcite-corner-radius-sharp));
+  background-color: var(--calcite-card-background-color, var(--calcite-color-foreground-1));
+  box-shadow: var(--calcite-card-box-shadow, var(--calcite-shadow-none));
 }
 
 .container {
@@ -24,64 +36,58 @@
 }
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
-  @apply pointer-events-none opacity-0;
+  @apply pointer-events-none;
+  opacity: $calcite-opacity-0;
 }
 
 :host([loading]) .calcite-card-loader-container {
-  @apply absolute
-    inset-0
-    flex
-    items-center;
-}
-
-.header,
-.footer {
-  @apply flex px-3 pt-3 pb-1;
+  @apply absolute inset-0 flex items-center;
 }
 
 .header {
-  @apply flex-col;
+  @apply flex flex-col;
+  padding-inline: var(--calcite-spacing-md);
+  padding-block-start: var(--calcite-spacing-md);
+  padding-block-end: var(--calcite-spacing-xxs);
 }
 
 .footer {
-  @apply mt-auto flex-row content-between
-    justify-between
-    px-3
-    pt-1
-    pb-3;
+  @apply flex mt-auto flex-row content-between justify-between;
+  padding-inline: var(--calcite-spacing-md);
+  padding-block-start: var(--calcite-spacing-xxs);
+  padding-block-end: var(--calcite-spacing-md);
 }
 
 .card-content {
-  @apply text-color-3
-    text-n2-wrap
-    p-3;
+  @apply text-n2-wrap;
+  color: var(--calcite-color-text-3);
+  padding: var(--calcite-spacing-md);
 }
 
 :host([selected]) .calcite-card-container {
-  @apply border-color-brand;
+  --calcite-card-container-border-color: var(--calcite-color-brand);
 }
 
 // slotted content
 @include slotted("title", "*") {
-  @apply text-color-1
-    text-n1-wrap
-    m-0
-    font-medium;
+  @apply text-n1-wrap;
+  margin: 0;
+  font-weight: var(--calcite-font-weight-medium);
+  color: var(--calcite-card-title-color, var(--calcite-color-text-1));
 }
 
 :host([selectable]) {
   .header {
     // prevents overlap with checkbox (default header padding + no-overlap spacing)
-    padding-inline-end: theme("spacing.8");
+    padding-inline-end: var(--calcite-spacing-xxxl);
   }
 }
 
 @include slotted("subtitle", "*") {
-  @apply text-color-2
-    text-n2-wrap
-    m-0
-    mt-2
-    font-normal;
+  @apply text-n2-wrap font-normal;
+  margin: 0;
+  margin-block-start: var(--calcite-spacing-sm);
+  color: var(--calcite-card-subtitle-color, var(--calcite-color-text-2));
 }
 
 @include slotted("thumbnail", "img") {
@@ -91,15 +97,20 @@
 @include slotted("footer-start", "*") {
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
+  color: var(--calcite-color-text-3);
 }
+
 @include slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
+  color: var(--calcite-color-text-3);
 }
 
 .checkbox-wrapper {
-  @apply absolute m-0 p-0;
-  inset-block-start: theme("spacing.2");
-  inset-inline-end: theme("spacing.2");
+  @apply absolute;
+  inset-block-start: var(--calcite-spacing-sm);
+  inset-inline-end: var(--calcite-spacing-sm);
+  margin: 0;
+  padding: 0;
 }
 
 .thumbnail-wrapper {
