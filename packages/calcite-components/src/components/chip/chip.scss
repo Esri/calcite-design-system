@@ -1,56 +1,57 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-chip-background-color: Specifies the background color of the component.
+ * @prop --calcite-chip-border-color: Specifies the border color of the component.
+ * @prop --calcite-chip-box-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-chip-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-chip-icon-color: Specifies the color of the component's icon property.
+ * @prop --calcite-chip-text-color: Specifies the color of the component's `"default"` slot.
+ *
+ */
+
+/**
+  * Local props
+  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
+  *
+  * --calcite-internal-chip-spacing-s
+  * --calcite-internal-chip-spacing-l
+  * --calcite-internal-chip-icon-size
+  * --calcite-internal-chip-image-size
+  * --calcite-internal-chip-container-size
+*/
+
+:host {
+  @apply inline-flex;
+}
+
 :host([scale="s"]) {
-  @apply text-n2 h-6;
-  --calcite-chip-spacing-s-internal: theme("spacing[1]");
-  --calcite-chip-spacing-l-internal: theme("spacing[2]");
-  .close,
-  .select-icon--active {
-    @apply h-4 w-4;
-  }
-
-  .image-container {
-    @apply h-5 w-5;
-  }
-
-  .container.is-circle {
-    @apply w-6 h-6;
-  }
+  @apply text-n2;
+  --calcite-internal-chip-spacing-s: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-spacing-l: var(--calcite-spacing-sm);
+  --calcite-internal-chip-icon-size: var(--calcite-size-lg);
+  --calcite-internal-chip-image-size: var(--calcite-size-xl);
+  --calcite-internal-chip-container-size: var(--calcite-size-xxl);
 }
 
 :host([scale="m"]) {
-  @apply text-n1 h-8;
-  --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
-  --calcite-chip-spacing-l-internal: theme("spacing[2]");
-
-  .close,
-  .image-container,
-  .select-icon--active {
-    @apply h-6 w-6;
-  }
-
-  .container.is-circle {
-    @apply w-8 h-8;
-  }
+  @apply text-n1;
+  --calcite-internal-chip-spacing-s: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-spacing-l: var(--calcite-spacing-sm);
+  --calcite-internal-chip-icon-size: var(--calcite-size-xxl);
+  --calcite-internal-chip-image-size: var(--calcite-size-xxl);
+  --calcite-internal-chip-container-size: var(--calcite-size-xxxl);
 }
 
 :host([scale="l"]) {
-  @apply text-0 h-11;
-  --calcite-chip-spacing-s-internal: theme("spacing[2]");
-  --calcite-chip-spacing-l-internal: theme("spacing[3]");
-  .image-container,
-  .close,
-  .select-icon--active {
-    @apply h-8 w-8;
-  }
-
-  .container.is-circle {
-    @apply w-11 h-11;
-  }
-}
-
-:host {
-  @apply inline-flex
-    cursor-default
-    rounded-full;
+  @apply text-0;
+  --calcite-internal-chip-spacing-s: var(--calcite-spacing-sm);
+  --calcite-internal-chip-spacing-l: var(--calcite-spacing-md);
+  --calcite-internal-chip-icon-size: var(--calcite-size-xxxl);
+  --calcite-internal-chip-image-size: var(--calcite-size-xxxl);
+  --calcite-internal-chip-container-size: 44px;
 }
 
 .container {
@@ -58,16 +59,22 @@
   h-full
   max-w-full
   items-center
-  rounded-full
   focus-base
   justify-center
-  border
-  border-solid
-  border-color-1
+  cursor-default
   box-border
   font-medium;
+  border: var(--calcite-border-width-sm) solid var(--calcite-chip-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-chip-corner-radius, 9999px);
+  background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-1));
+  box-shadow: var(--calcite-chip-box-shadow, var(--calcite-shadow-none));
+  block-size: var(--calcite-internal-chip-container-size);
+
+  &.is-circle {
+    inline-size: var(--calcite-internal-chip-container-size);
+  }
   &:not(.is-circle) {
-    padding-inline: var(--calcite-chip-spacing-s-internal);
+    padding-inline: var(--calcite-internal-chip-spacing-s);
   }
   &.selectable {
     @apply cursor-pointer;
@@ -78,7 +85,7 @@
 }
 
 :host([scale="s"]) .container.image--slotted {
-  padding-inline-start: calc(theme("spacing[0.5]") / 2);
+  padding-inline-start: calc(var(--calcite-internal-chip-spacing-s) / 2);
 }
 
 :host([scale="s"]) .container.is-circle {
@@ -87,7 +94,7 @@
 
 .container.text--slotted .title {
   @apply truncate;
-  padding-inline: var(--calcite-chip-spacing-s-internal);
+  padding-inline: var(--calcite-internal-chip-spacing-s);
 }
 
 .container:not(.text--slotted) .title {
@@ -99,49 +106,49 @@
 }
 
 .container.closable {
-  padding-inline-end: calc(var(--calcite-chip-spacing-l-internal) / 2);
+  padding-inline-end: calc(var(--calcite-internal-chip-spacing-l) / 2);
 }
 
 .container:not(.is-circle) {
   &.image--slotted {
-    padding-inline-start: calc(var(--calcite-chip-spacing-l-internal) / 2);
+    padding-inline-start: calc(var(--calcite-internal-chip-spacing-l) / 2);
   }
 
   &.image--slotted .image-container {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+    margin-inline-end: var(--calcite-internal-chip-spacing-s);
   }
 
   &.image--slotted .image-container ~ .chip-icon {
-    margin-inline-start: var(--calcite-chip-spacing-s-internal);
+    margin-inline-start: var(--calcite-internal-chip-spacing-s);
   }
 
   &.selectable:not(.text--slotted) .chip-icon {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+    margin-inline-end: var(--calcite-internal-chip-spacing-s);
   }
 
   &:not(.selectable):not(.text--slotted) .chip-icon {
-    margin-inline-start: var(--calcite-chip-spacing-s-internal);
+    margin-inline-start: var(--calcite-internal-chip-spacing-s);
   }
 
   &:not(.text--slotted) .chip-icon {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+    margin-inline-end: var(--calcite-internal-chip-spacing-s);
   }
 
   &:not(.text-slotted).image--slotted .image-container {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+    margin-inline-end: var(--calcite-internal-chip-spacing-s);
   }
 
   &:not(.closable):not(.text--slotted).image--slotted.selectable .image-container {
     margin-inline-end: 0;
     ~ .chip-icon {
-      margin-inline-start: calc(var(--calcite-chip-spacing-s-internal) * 2);
+      margin-inline-start: calc(var(--calcite-internal-chip-spacing-s) * 2);
     }
   }
 }
 
 .chip-icon {
   @apply relative my-0 inline-flex duration-150 ease-in-out;
-  margin-inline: var(--calcite-chip-spacing-s-internal);
+  margin-inline: var(--calcite-internal-chip-spacing-s);
 }
 
 .image-container {
@@ -149,6 +156,8 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  block-size: var(--calcite-internal-chip-image-size);
+  inline-size: var(--calcite-internal-chip-image-size);
 }
 
 .close {
@@ -162,20 +171,20 @@
     bg-transparent;
   -webkit-appearance: none;
   display: flex;
-  border-radius: 50%;
+  border-radius: var(--calcite-chip-corner-radius, 9999px);
   align-content: center;
   justify-content: center;
-  --calcite-chip-transparent-hover: var(--calcite-color-transparent-hover);
-  --calcite-chip-transparent-press: var(--calcite-color-transparent-press);
+  block-size: var(--calcite-internal-chip-icon-size);
+  inline-size: var(--calcite-internal-chip-icon-size);
   &:hover {
-    background-color: var(--calcite-chip-transparent-hover);
+    background-color: var(--calcite-color-transparent-hover);
   }
   &:focus {
-    background-color: var(--calcite-chip-transparent-hover);
+    background-color: var(--calcite-color-transparent-hover);
     @apply focus-inset;
   }
   &:active {
-    background-color: var(--calcite-chip-transparent-press);
+    background-color: var(--calcite-color-transparent-press);
   }
   & calcite-icon {
     color: inherit;
@@ -196,12 +205,14 @@
     opacity 0.15s ease-in-out,
     inline-size 0.15s ease-in-out;
   &.select-icon--active {
+    block-size: var(--calcite-internal-chip-icon-size);
+    inline-size: var(--calcite-internal-chip-icon-size);
     visibility: visible;
     opacity: 0.5;
   }
 }
 .container:not(.is-circle).image--slotted .select-icon.select-icon--active {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  margin-inline-end: var(--calcite-internal-chip-spacing-s);
 }
 
 :host([selected]) .select-icon {
@@ -217,79 +228,85 @@ slot[name="image"]::slotted(*) {
 }
 
 :host([kind="neutral"]) {
-  background-color: var(--calcite-color-foreground-2);
-  color: var(--calcite-color-text-1);
   .container {
-    border-color: transparent;
+    background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-2));
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
+    border-color: var(--calcite-chip-border-color, transparent);
   }
   .close {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-chip-icon-color, var(--calcite-color-text-3));
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-chip-icon-color, var(--calcite-color-text-3));
   }
 }
-
 :host([kind="inverse"]) {
-  background-color: var(--calcite-color-inverse);
-  @apply text-color-inverse;
   .container {
-    border-color: transparent;
+    background-color: var(--calcite-chip-background-color, var(--calcite-color-inverse));
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
+    border-color: var(--calcite-chip-border-color, transparent);
   }
   .close {
-    @apply text-color-inverse;
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
+    color: var(--calcite-chip-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
 :host([kind="brand"]) {
-  background-color: var(--calcite-color-brand);
-  color: var(--calcite-color-text-inverse);
   .container {
-    border-color: transparent;
+    background-color: var(--calcite-chip-background-color, var(--calcite-color-brand));
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
+    border-color: var(--calcite-chip-border-color, transparent);
   }
   .close {
-    @apply text-color-inverse;
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-inverse));
+    color: var(--calcite-chip-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
 :host([appearance="outline-fill"]),
 :host([appearance="outline"]) {
-  @apply text-color-1 bg-foreground-1;
+  .container {
+    background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-1));
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
+  }
   .close {
-    @apply text-color-3;
+    color: var(--calcite-chip-icon-color, var(--calcite-color-text-3));
   }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-chip-icon-color, var(--calcite-color-text-3));
   }
 }
 
 :host([appearance="outline-fill"]) {
-  @apply bg-foreground-1;
+  .container {
+    background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-1));
+  }
 }
 
 :host([appearance="outline"]) {
-  @apply bg-transparent;
+  .container {
+    background-color: var(--calcite-chip-background-color, transparent);
+  }
 }
 
 :host([kind="neutral"][appearance="outline-fill"]) .container,
 :host([kind="neutral"][appearance="outline"]) .container {
-  border-color: var(--calcite-color-border-1);
+  border-color: var(--calcite-chip-border-color, var(--calcite-color-border-1));
 }
 
 :host([kind="inverse"][appearance="outline-fill"]) .container,
 :host([kind="inverse"][appearance="outline"]) .container {
-  border-color: var(--calcite-color-border-inverse);
+  border-color: var(--calcite-chip-border-color, var(--calcite-color-border-inverse));
 }
 
 :host([kind="brand"][appearance="outline-fill"]) .container,
 :host([kind="brand"][appearance="outline"]) .container {
-  border-color: var(--calcite-color-brand);
+  border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
 }
 
 :host([kind="brand"][appearance="solid"]),

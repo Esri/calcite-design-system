@@ -48,69 +48,78 @@
 
       .themed-children calcite-chip:first-of-type {
         --calcite-color-brand: var(--calcite-color-status-danger);
-        --calcite-color-text-1: var(--calcite-color-status-danger);
-        --calcite-color-border-1: var(--calcite-color-status-danger);
-        --calcite-color-foreground-1: rgba(255, 0, 0, 0.15);
+        --calcite-chip-text-color: var(--calcite-color-status-danger);
+        --calcite-chip-border-color: var(--calcite-color-status-danger);
+        --calcite-chip-background-color: rgba(255, 0, 0, 0.15);
       }
 
       .themed-children calcite-chip:nth-of-type(2) {
         --calcite-color-brand: var(--calcite-color-status-success);
-        --calcite-color-text-1: var(--calcite-color-status-success);
-        --calcite-color-border-1: var(--calcite-color-status-success);
-        --calcite-color-foreground-1: rgba(0, 128, 0, 0.15);
+        --calcite-chip-text-color: var(--calcite-color-status-success);
+        --calcite-chip-border-color: var(--calcite-color-status-success);
+        --calcite-chip-background-color: rgba(0, 128, 0, 0.15);
       }
 
       .themed-children calcite-chip:nth-of-type(3) {
         --calcite-color-brand: var(--calcite-color-status-info);
-        --calcite-color-text-1: var(--calcite-color-status-info);
-        --calcite-color-border-1: var(--calcite-color-status-info);
-        --calcite-color-foreground-1: rgba(0, 0, 255, 0.15);
+        --calcite-chip-text-color: var(--calcite-color-status-info);
+        --calcite-chip-border-color: var(--calcite-color-status-info);
+        --calcite-chip-background-color: rgba(0, 0, 255, 0.15);
       }
 
       .themed-children calcite-chip:nth-of-type(4) {
         --calcite-color-brand: orange;
-        --calcite-color-text-1: orange;
-        --calcite-color-border-1: orange;
-        --calcite-color-foreground-1: rgba(255, 165, 0, 0.15);
+        --calcite-chip-text-color: orange;
+        --calcite-chip-border-color: orange;
+        --calcite-chip-background-color: rgba(255, 165, 0, 0.15);
       }
 
       .themed-children calcite-chip:nth-of-type(5) {
         --calcite-color-brand: purple;
-        --calcite-color-text-1: purple;
-        --calcite-color-border-1: purple;
-        --calcite-color-foreground-1: rgba(128, 0, 128, 0.15);
+        --calcite-chip-text-color: purple;
+        --calcite-chip-border-color: purple;
+        --calcite-chip-background-color: rgba(128, 0, 128, 0.15);
       }
 
       .themed-children calcite-chip:nth-of-type(6) {
         --calcite-color-brand: pink;
-        --calcite-color-text-1: pink;
-        --calcite-color-border-1: pink;
-        --calcite-color-foreground-1: rgba(255, 192, 203, 0.15);
+        --calcite-chip-text-color: pink;
+        --calcite-chip-border-color: pink;
+        --calcite-chip-background-color: rgba(255, 192, 203, 0.15);
       }
 
       .themed-children calcite-chip:nth-of-type(7) {
         --calcite-color-brand: teal;
-        --calcite-color-text-1: teal;
-        --calcite-color-border-1: teal;
-        --calcite-color-foreground-1: rgba(0, 128, 128, 0.15);
+        --calcite-chip-text-color: teal;
+        --calcite-chip-border-color: teal;
+        --calcite-chip-background-color: rgba(0, 128, 128, 0.15);
       }
 
       .themed-children-card calcite-chip:first-of-type {
-        --calcite-color-foreground-2: rgb(222 239 220);
-        --calcite-color-text-1: var(--calcite-color-status-success);
-        --calcite-ui-icon-color: var(--calcite-color-status-success);
+        --calcite-chip-background-color: rgb(222 239 220);
+        --calcite-chip-text-color: var(--calcite-color-status-success);
+        --calcite-chip-icon-color: var(--calcite-color-status-success);
       }
 
       .themed-children-card calcite-chip:nth-of-type(2) {
-        --calcite-color-foreground-2: rgb(221 238 249);
-        --calcite-color-text-1: var(--calcite-color-status-info);
-        --calcite-ui-icon-color: var(--calcite-color-status-info);
+        --calcite-chip-background-color: rgb(221 238 249);
+        --calcite-chip-text-color: var(--calcite-color-status-info);
+        --calcite-chip-icon-color: var(--calcite-color-status-info);
       }
 
       .themed-children-card calcite-chip:nth-of-type(3) {
-        --calcite-color-foreground-2: rgb(221 238 249);
-        --calcite-color-text-1: var(--calcite-color-status-info);
-        --calcite-ui-icon-color: var(--calcite-color-status-info);
+        --calcite-chip-background-color: rgb(221 238 249);
+        --calcite-chip-text-color: var(--calcite-color-status-info);
+        --calcite-chip-icon-color: var(--calcite-color-status-info);
+      }
+
+      .themed calcite-chip {
+        --calcite-chip-background-color: rgb(182, 101, 101);
+        --calcite-chip-border-color: rgb(183, 61, 61);
+        --calcite-chip-box-shadow: var(--calcite-shadow-sm);
+        --calcite-chip-corner-radius: 4px;
+        --calcite-chip-icon-color: rgb(244, 229, 229);
+        --calcite-chip-text-color: rgb(244, 229, 229);
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -158,7 +167,41 @@
 
       <!-- Closable -->
       <div class="parent">
-        <div class="child right-aligned-text">Basic</div>
+        <div class="child right-aligned-text">Basic Closable</div>
+
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" closable scale="s">My great chip</calcite-chip>
+            <calcite-chip value="chip" closable scale="m" kind="inverse">My great chip</calcite-chip>
+            <calcite-chip value="chip" closable scale="l" kind="brand">My great chip</calcite-chip>
+          </div>
+        </div>
+
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" closable scale="s" appearance="outline">My great chip</calcite-chip>
+            <calcite-chip value="chip" closable scale="m" appearance="outline" kind="inverse"
+              >My great chip</calcite-chip
+            >
+            <calcite-chip value="chip" closable scale="l" appearance="outline" kind="brand">My great chip</calcite-chip>
+          </div>
+        </div>
+
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" closable scale="s" appearance="outline-fill">My great chip</calcite-chip>
+            <calcite-chip value="chip" closable scale="m" appearance="outline-fill" kind="inverse"
+              >My great chip</calcite-chip
+            >
+            <calcite-chip value="chip" closable scale="l" appearance="outline-fill" kind="brand"
+              >My great chip</calcite-chip
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Closable -->
+      <div class="parent themed">
+        <div class="child right-aligned-text">Themed Basic Closable</div>
 
         <div class="child">
           <div class="chip-group">
@@ -198,15 +241,15 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip value="chip" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
             <calcite-chip value="chip" scale="m" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
             <calcite-chip value="chip" scale="l" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
           </div>
@@ -215,15 +258,15 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip value="chip" appearance="outline" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
             <calcite-chip value="chip" scale="m" appearance="outline" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
             <calcite-chip value="chip" scale="l" appearance="outline" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
           </div>
@@ -232,15 +275,15 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip value="chip" appearance="outline-fill" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
             <calcite-chip value="chip" scale="m" appearance="outline-fill" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
             <calcite-chip value="chip" scale="l" appearance="outline-fill" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
               Siamese Cat
             </calcite-chip>
           </div>
@@ -332,7 +375,91 @@
           </div>
         </div>
       </div>
+      <!-- Slotted avatar -->
+      <div class="parent themed">
+        <div class="child right-aligned-text">Themed Slotted avatar</div>
 
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" scale="s">
+              <calcite-avatar
+                slot="image"
+                scale="s"
+                user-id="52e44e112b1f429182515dba79b71eb8"
+                username="au"
+              ></calcite-avatar>
+              User Name
+            </calcite-chip>
+            <calcite-chip value="chip" scale="m" kind="inverse">
+              <calcite-avatar slot="image" user-id="52e44e112b1f429182515dba79b71eb8" username="au"></calcite-avatar>
+              User Name
+            </calcite-chip>
+            <calcite-chip value="chip" scale="l" kind="brand">
+              <calcite-avatar
+                slot="image"
+                scale="l"
+                user-id="52e44e112b1f429182515dba79b71eb8"
+                username="au"
+              ></calcite-avatar>
+              User Name
+            </calcite-chip>
+          </div>
+        </div>
+
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" appearance="outline" scale="s">
+              <calcite-avatar
+                slot="image"
+                scale="s"
+                user-id="52e44e112b1f429182515dba79b71eb8"
+                username="au"
+              ></calcite-avatar>
+              User Name
+            </calcite-chip>
+            <calcite-chip value="chip" appearance="outline" scale="m" kind="inverse">
+              <calcite-avatar slot="image" user-id="52e44e112b1f429182515dba79b71eb8" username="au"></calcite-avatar>
+              User Name
+            </calcite-chip>
+            <calcite-chip value="chip" appearance="outline" scale="l" kind="brand">
+              <calcite-avatar
+                slot="image"
+                scale="l"
+                user-id="52e44e112b1f429182515dba79b71eb8"
+                username="au"
+              ></calcite-avatar>
+              User Name
+            </calcite-chip>
+          </div>
+        </div>
+
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" appearance="outline-fill" scale="s">
+              <calcite-avatar
+                slot="image"
+                scale="s"
+                user-id="52e44e112b1f429182515dba79b71eb8"
+                username="au"
+              ></calcite-avatar>
+              User Name
+            </calcite-chip>
+            <calcite-chip value="chip" appearance="outline-fill" scale="m" kind="inverse">
+              <calcite-avatar slot="image" user-id="52e44e112b1f429182515dba79b71eb8" username="au"></calcite-avatar>
+              User Name
+            </calcite-chip>
+            <calcite-chip value="chip" appearance="outline-fill" scale="l" kind="brand">
+              <calcite-avatar
+                slot="image"
+                scale="l"
+                user-id="52e44e112b1f429182515dba79b71eb8"
+                username="au"
+              ></calcite-avatar>
+              User Name
+            </calcite-chip>
+          </div>
+        </div>
+      </div>
       <!-- Slotted avatar and icon -->
       <div class="parent">
         <div class="child right-aligned-text">Slotted avatar and icon</div>
@@ -469,6 +596,43 @@
       </div>
 
       <!-- Icon (closable)-->
+      <div class="parent themed">
+        <div class="child right-aligned-text">Themed Icon (closable)</div>
+
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" closable icon="embark" scale="s"> Maritime </calcite-chip>
+            <calcite-chip value="chip" closable icon="embark" scale="m" kind="inverse"> Maritime </calcite-chip>
+            <calcite-chip value="chip" closable icon="embark" scale="l" kind="brand"> Maritime </calcite-chip>
+          </div>
+        </div>
+
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" closable icon="embark" appearance="outline" scale="s"> Maritime </calcite-chip>
+            <calcite-chip value="chip" closable icon="embark" appearance="outline" scale="m" kind="inverse">
+              Maritime
+            </calcite-chip>
+            <calcite-chip value="chip" closable icon="embark" appearance="outline" scale="l" kind="brand">
+              Maritime
+            </calcite-chip>
+          </div>
+        </div>
+
+        <div class="child">
+          <div class="chip-group">
+            <calcite-chip value="chip" closable icon="embark" appearance="outline-fill" scale="s">
+              Maritime
+            </calcite-chip>
+            <calcite-chip value="chip" closable icon="embark" appearance="outline-fill" scale="m" kind="inverse">
+              Maritime
+            </calcite-chip>
+            <calcite-chip value="chip" closable icon="embark" appearance="outline-fill" scale="l" kind="brand">
+              Maritime
+            </calcite-chip>
+          </div>
+        </div>
+      </div>
       <div class="parent">
         <div class="child right-aligned-text">Icon (closable)</div>
 
@@ -506,7 +670,6 @@
           </div>
         </div>
       </div>
-
       <!-- Just icon -->
       <div class="parent">
         <div class="child right-aligned-text">Just Icon</div>
@@ -785,13 +948,13 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip value="chip" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip value="chip" scale="m" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip value="chip" scale="l" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
           </div>
         </div>
@@ -799,13 +962,13 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip value="chip" appearance="outline" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip value="chip" appearance="outline" scale="m" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip value="chip" appearance="outline" scale="l" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
           </div>
         </div>
@@ -813,13 +976,13 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip value=" chip" appearance="outline-fill" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip value=" chip" appearance="outline-fill" scale="m" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip value=" chip" appearance="outline-fill" scale="l" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
           </div>
         </div>
@@ -832,13 +995,13 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip closable value="chip" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip closable value="chip" scale="m" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip closable value="chip" scale="l" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
           </div>
         </div>
@@ -846,13 +1009,13 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip closable value="chip" appearance="outline" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip closable value="chip" appearance="outline" scale="m" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip closable value="chip" appearance="outline" scale="l" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
           </div>
         </div>
@@ -860,13 +1023,13 @@
         <div class="child">
           <div class="chip-group">
             <calcite-chip closable value="chip" appearance="outline-fill" scale="s">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip closable value="chip" appearance="outline-fill" scale="m" kind="inverse">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
             <calcite-chip closable value="chip" appearance="outline-fill" scale="l" kind="brand">
-              <img slot="image" src="https://placekitten.com/80/80" />
+              <img slot="image" src="https://placebear.com/80/80" />
             </calcite-chip>
           </div>
         </div>
@@ -947,7 +1110,7 @@
         <div class="child">
           <div style="width: 280px; margin: 0 auto">
             <calcite-card selectable>
-              <img slot="thumbnail" alt="Sample image alt" src="https://placeimg.com/280/200/nature" />
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/200" />
               <h3 slot="title">My great Workforce project that might wrap two lines</h3>
               <span slot="subtitle">Johnathan Smith</span>
               <calcite-chip-group class="themed-children-card" scale="s" slot="footer-start" style="flex-flow: row">
@@ -979,7 +1142,7 @@
               <img
                 slot="thumbnail"
                 alt="Sample image alt"
-                src="https://placeimg.com/400/200/nature"
+                src="https://placebear.com/400/200"
                 style="width: 340px; height: 200px"
               />
               <h3 slot="title">My great Workforce project that might wrap two lines</h3>
