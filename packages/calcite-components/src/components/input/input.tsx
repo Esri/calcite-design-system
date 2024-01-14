@@ -890,13 +890,6 @@ export class Input
     }
   };
 
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
     const { type } = this;
 

@@ -169,6 +169,21 @@ function hasRegisteredFormComponentParent(
   return hasRegisteredFormComponentParent;
 }
 
+function clearFormValidation(component: HTMLCalciteInputElement | FormComponent): void {
+  "status" in component && (component.status = "idle");
+  "validationIcon" in component && (component.validationIcon = false);
+  "validationMessage" in component && (component.validationMessage = "");
+}
+
+function setInvalidFormValidation(
+  component: HTMLCalciteInputElement | FormComponent,
+  message: string,
+): void {
+  "status" in component && (component.status = "invalid");
+  "validationIcon" in component && (component.validationIcon = true);
+  "validationMessage" in component && (component.validationMessage = message);
+}
+
 function displayValidationMessage(event: Event) {
   // target is the hidden input, which is slotted in the actual form component
   const hiddenInput = event?.target as HTMLInputElement;
@@ -186,10 +201,7 @@ function displayValidationMessage(event: Event) {
   // prevent the browser from showing the native validation popover
   event?.preventDefault();
 
-  "status" in formComponent && (formComponent.status = "invalid");
-  "validationIcon" in formComponent && (formComponent.validationIcon = true);
-  "validationMessage" in formComponent &&
-    (formComponent.validationMessage = hiddenInput.validationMessage);
+  setInvalidFormValidation(formComponent, hiddenInput?.validationMessage || "");
 
   const componentTagCamelCase = componentTagParts
     .map((part: string, index: number) =>
@@ -201,15 +213,9 @@ function displayValidationMessage(event: Event) {
     componentsWithInputEvent.includes(componentTag) ? "Input" : "Change"
   }`;
 
-  formComponent.addEventListener(
-    clearValidationEvent,
-    () => {
-      "status" in formComponent && (formComponent.status = "idle");
-      "validationIcon" in formComponent && (formComponent.validationIcon = false);
-      "validationMessage" in formComponent && (formComponent.validationMessage = "");
-    },
-    { once: true },
-  );
+  formComponent.addEventListener(clearValidationEvent, () => clearFormValidation(formComponent), {
+    once: true,
+  });
 }
 
 /**
@@ -294,6 +300,7 @@ export function findAssociatedForm(component: FormOwner): HTMLFormElement | null
 }
 
 function onFormReset<T>(this: FormComponent<T>): void {
+  clearFormValidation(this);
   if (isCheckable(this)) {
     this.checked = this.defaultChecked;
     return;
