@@ -27,7 +27,7 @@ export const darkMode_TestOnly = (): string => html`<calcite-filter placeholder=
 darkMode_TestOnly.parameters = { modes: modesDarkDefault };
 
 const themeStyles = `
-  --calcite-filter-background: red;
+  --calcite-filter-background-color: red;
   --calcite-filter-width: 50%;
 `;
 

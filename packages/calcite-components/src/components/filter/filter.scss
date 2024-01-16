@@ -3,17 +3,17 @@
  *
  * These properties can be overridden
  *
- * @prop --calcite-filter-background: Specifies the background color of the filter.
+ * @prop --calcite-filter-background-color: Specifies the background color of the filter.
  * @prop --calcite-filter-width: Specifies a width used for the filter.
  */
 
 :host {
   @include base-host();
-  --calcite-filter-background: var(--calcite-color-foreground-1);
+  --calcite-filter-background-color: var(--calcite-color-foreground-1);
   --calcite-filter-width: 100%;
 
   display: flex;
-  background-color: var(--calcite-filter-background);
+  background-color: var(--calcite-filter-background-color);
   inline-size: var(--calcite-filter-width);
 }
 
