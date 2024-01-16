@@ -164,6 +164,7 @@ export const theming_TestOnly = (): string => html`
       --calcite-chip-box-shadow: var(--calcite-shadow-sm);
       --calcite-chip-corner-radius: 4px;
       --calcite-chip-icon-color: rgb(244, 229, 229);
+      --calcite-chip-close-icon-color: orange;
       --calcite-chip-text-color: rgb(244, 229, 229);"
   >
     Example Chip
