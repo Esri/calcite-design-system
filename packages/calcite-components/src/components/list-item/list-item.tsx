@@ -474,7 +474,7 @@ export class ListItem
     const { el, open, openable, messages } = this;
     const dir = getElementDir(el);
     const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
-    const tooltip = messages ? (open ? messages.collapse : messages.expand) : "";
+    const tooltip = open ? messages.collapse : messages.expand;
 
     return openable ? (
       <td
