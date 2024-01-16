@@ -403,7 +403,7 @@ export class RadioButton
     }
 
     const radioButtons = Array.from(
-      this.rootNode.querySelectorAll("calcite-radio-button:not([hidden]"),
+      this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])"),
     ).filter(
       (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name,
     ) as HTMLCalciteRadioButtonElement[];
