@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.18...@esri/calcite-components@2.2.0-next.19) (2024-01-16)
+
+### Bug Fixes
+
+- **text-area:** prevent infinite render loop when `max-length` property is defined ([#8610](https://github.com/Esri/calcite-design-system/issues/8610)) ([f30d933](https://github.com/Esri/calcite-design-system/commit/f30d9330fe4ed071891b2d7b18013c056c5ebc0d)), closes [#7968](https://github.com/Esri/calcite-design-system/issues/7968)
+
 ## [2.2.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.17...@esri/calcite-components@2.2.0-next.18) (2024-01-12)
 
 ### Features
