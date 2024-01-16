@@ -13,13 +13,15 @@ import {
   Watch,
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
-import { Layout, Scale } from "../interfaces";
+import { Layout, Scale, Status } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-radio-button`s.
@@ -75,6 +77,15 @@ export class RadioButtonGroup implements LoadableComponent {
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the validation message. */
+  @Prop({ reflect: true }) status: Status = "idle";
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   @Watch("scale")
   onScaleChange(): void {
@@ -191,7 +202,17 @@ export class RadioButtonGroup implements LoadableComponent {
   render(): VNode {
     return (
       <Host role="radiogroup">
-        <slot />
+        <div class={CSS.itemWrapper}>
+          <slot />
+        </div>
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }
