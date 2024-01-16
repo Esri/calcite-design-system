@@ -388,14 +388,14 @@ export class TextArea
 
   @State() effectiveLocale = "";
 
-  @State() localizedCharacterLengthObj: CharacterLengthObj;
-
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
 
   private guid = guid();
+
+  private localizedCharacterLengthObj: CharacterLengthObj;
 
   //--------------------------------------------------------------------------
   //
@@ -432,6 +432,7 @@ export class TextArea
   };
 
   renderCharacterLimit = (): VNode | null => {
+    console.log("render characterLimit");
     if (this.maxLength) {
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
@@ -538,7 +539,7 @@ export class TextArea
       }
     },
     RESIZE_TIMEOUT,
-    { leading: false },
+    { leading: false }
   );
 
   private isCharacterLimitExceeded(): boolean {
