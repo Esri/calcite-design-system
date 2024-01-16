@@ -26,7 +26,7 @@ describe("calcite-tabs", () => {
   });
 
   describe("honors hidden attribute", () => {
-    hidden(tabsSnippet);
+    hidden("calcite-tabs");
   });
 
   describe("defaults", () => {
@@ -46,7 +46,7 @@ describe("calcite-tabs", () => {
   });
 
   describe("accessible: checked", () => {
-    accessible(tabsSnippet);
+    accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`);
   });
 
   it("sets up basic aria attributes", async () => {
@@ -283,7 +283,6 @@ describe("calcite-tabs", () => {
       },
       wrappedTabTemplateHTML,
     );
-
     expect(finalSelectedItem.tabTitle).toBe("title-2");
     expect(finalSelectedItem.tab).toBe("tab-2");
   });
