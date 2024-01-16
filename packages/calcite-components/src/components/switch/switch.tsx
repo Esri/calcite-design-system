@@ -20,6 +20,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
@@ -50,7 +51,7 @@ export class Switch
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -199,20 +200,22 @@ export class Switch
   render(): VNode {
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <div
-          aria-checked={toAriaBoolean(this.checked)}
-          aria-label={getLabelText(this)}
-          class="container"
-          role="switch"
-          tabIndex={0}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setSwitchEl}
-        >
-          <div class="track">
-            <div class="handle" />
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            aria-checked={toAriaBoolean(this.checked)}
+            aria-label={getLabelText(this)}
+            class="container"
+            role="switch"
+            tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setSwitchEl}
+          >
+            <div class="track">
+              <div class="handle" />
+            </div>
+            <HiddenFormInputSlot component={this} />
           </div>
-          <HiddenFormInputSlot component={this} />
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }

@@ -17,15 +17,51 @@ export const simple = (): string => html`
     ${boolean("active", false)}
     description="${text(
       "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
     )}"
     ${boolean("disabled", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
     icon="${select("icon", iconNames, "layer")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
   >
   </calcite-tile>
+`;
+
+export const scales = (): string => html`
+  <div style="width: 300px">
+    <calcite-label scale="s"
+      >small
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+      </calcite-tile>
+    </calcite-label>
+    <calcite-label scale="m"
+      >medium
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+      </calcite-tile>
+    </calcite-label>
+    <calcite-label scale="l"
+      >large
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+      </calcite-tile>
+    </calcite-label>
+  </div>
 `;
 
 export const largeTile = (): string => html`
@@ -46,7 +82,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     ${boolean("active", false)}
     description="${text(
       "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
     )}"
     ${boolean("disabled", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
@@ -85,7 +121,7 @@ export const disabled_TestOnly = (): string => html`
     ${boolean("active", false)}
     description="${text(
       "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
     )}"
     ${boolean("disabled", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"

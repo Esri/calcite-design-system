@@ -21,7 +21,9 @@
 .container {
   @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
-  transition: max-block-size var(--calcite-animation-timing), inline-size var(--calcite-animation-timing);
+  transition:
+    max-block-size var(--calcite-animation-timing),
+    inline-size var(--calcite-animation-timing);
 }
 
 .container[hidden] {
@@ -31,7 +33,7 @@
 .header {
   @apply bg-foreground-1 flex flex-col
     z-header;
-  border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-ui-border-3));
+  border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-color-border-3));
 }
 
 .header-container {
@@ -42,7 +44,7 @@
 }
 
 .header-container--border-end {
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 .action-bar-container {
@@ -114,7 +116,7 @@
 
   flex: 0 0 auto;
   padding: var(--calcite-panel-footer-padding, theme("spacing.2"));
-  border-block-start: 1px solid var(--calcite-ui-border-3);
+  border-block-start: 1px solid var(--calcite-color-border-3);
 }
 
 .fab-container {

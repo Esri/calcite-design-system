@@ -172,7 +172,7 @@ export class Pagination
   }
 
   private resizeObserver = createObserver("resize", (entries) =>
-    entries.forEach(this.resizeHandler)
+    entries.forEach(this.resizeHandler),
   );
 
   //--------------------------------------------------------------------------

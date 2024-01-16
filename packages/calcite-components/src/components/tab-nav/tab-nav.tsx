@@ -51,7 +51,7 @@ export class TabNav {
   @Prop({ reflect: true }) syncId: string;
 
   /**
-   * Specifies the component's selected tab-title.
+   * Specifies the component's selected `calcite-tab-title`.
    *
    * @readonly
    */
@@ -380,7 +380,7 @@ export class TabNav {
           // TODO: need to update map when tab-titles are removed
           this.tabTitleToIntersectionObserverEntry.set(
             entry.target as HTMLCalciteTabTitleElement,
-            entry
+            entry,
           );
         });
 
@@ -388,7 +388,7 @@ export class TabNav {
       },
       {
         root: this.tabNavEl,
-      }
+      },
     );
   };
 
@@ -451,7 +451,7 @@ export class TabNav {
   handleTabFocus = (
     event: CustomEvent,
     el: HTMLCalciteTabTitleElement,
-    destination: FocusElementInGroupDestination
+    destination: FocusElementInGroupDestination,
   ): void => {
     focusElementInGroup(this.enabledTabTitles, el, destination);
 
@@ -497,31 +497,39 @@ export class TabNav {
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
     return filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
-      "calcite-tab-title:not([disabled])"
+      "calcite-tab-title:not([disabled])",
     ).filter((tabTitle) => !tabTitle.closed);
   }
 
   private handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
+    const selectionModified = closedTabTitleEl.selected;
 
-    const visibleTabTitlesIndices = tabTitles
-      .filter((tabTitle) => !tabTitle.closed)
-      .map((_, index) => index);
-
+    const visibleTabTitlesIndices = tabTitles.reduce(
+      (tabTitleIndices: number[], tabTitle, index) =>
+        !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
+      [],
+    );
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
+
+      if (selectionModified) {
+        tabTitles[visibleTabTitlesIndices[0]].activateTab();
+      }
     } else if (totalVisibleTabTitles > 1) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
 
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
-        (value) => value > closedTabTitleIndex
+        (value) => value > closedTabTitleIndex,
       );
 
-      this.selectedTabId =
-        nextTabTitleIndex !== undefined ? nextTabTitleIndex : totalVisibleTabTitles - 1;
+      if (this.selectedTabId === closedTabTitleIndex) {
+        this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
+        tabTitles[this.selectedTabId].activateTab();
+      }
     }
 
     requestAnimationFrame(() => {
@@ -532,7 +540,7 @@ export class TabNav {
     });
   }
 
-  renderScrollingAction = (overflowDirection: "start" | "end"): VNode => {
+  private renderScrollingAction = (overflowDirection: "start" | "end"): VNode => {
     const isEnd = overflowDirection === "end";
 
     return (
@@ -553,7 +561,7 @@ export class TabNav {
     );
   };
 
-  renderScrollingActions(): VNode[] {
+  private renderScrollingActions(): VNode[] {
     const startScrollingAction = this.renderScrollingAction("start");
     const endScrollingAction = this.renderScrollingAction("end");
     return [startScrollingAction, endScrollingAction];

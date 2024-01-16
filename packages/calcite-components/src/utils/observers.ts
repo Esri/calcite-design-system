@@ -15,28 +15,28 @@ type ObserverType = "mutation" | "intersection" | "resize";
 type ObserverCallbackType<T extends ObserverType> = T extends "mutation"
   ? MutationCallback
   : T extends "intersection"
-  ? IntersectionObserverCallback
-  : T extends "resize"
-  ? ResizeObserverCallback
-  : never;
+    ? IntersectionObserverCallback
+    : T extends "resize"
+      ? ResizeObserverCallback
+      : never;
 
 type ObserverOptions<T extends ObserverType> = T extends "intersection" ? IntersectionObserverInit : never;
 
 type ObserverClassType<T extends ObserverType> = T extends "mutation"
   ? typeof ExtendedMutationObserver
   : T extends "intersection"
-  ? typeof IntersectionObserver
-  : T extends "resize"
-  ? typeof ResizeObserver
-  : never;
+    ? typeof IntersectionObserver
+    : T extends "resize"
+      ? typeof ResizeObserver
+      : never;
 
 type ObserverInstanceType<T extends ObserverType> = T extends "mutation"
   ? ExtendedMutationObserver
   : T extends "intersection"
-  ? IntersectionObserver
-  : T extends "resize"
-  ? ResizeObserver
-  : never;
+    ? IntersectionObserver
+    : T extends "resize"
+      ? ResizeObserver
+      : never;
 
 /**
  * This utility ensures observers are created only for browser contexts.
@@ -48,7 +48,7 @@ type ObserverInstanceType<T extends ObserverType> = T extends "mutation"
 export function createObserver<T extends ObserverType>(
   type: T,
   callback: ObserverCallbackType<T>,
-  options?: ObserverOptions<T>
+  options?: ObserverOptions<T>,
 ): ObserverInstanceType<T> | undefined {
   if (!Build.isBrowser) {
     return undefined;
@@ -93,8 +93,8 @@ function getObserver<T extends ObserverType>(type: T): ObserverClassType<T> {
       type === "intersection"
         ? window.IntersectionObserver
         : type === "mutation"
-        ? ExtendedMutationObserver
-        : window.ResizeObserver
+          ? ExtendedMutationObserver
+          : window.ResizeObserver
     ) as any;
   })();
 }

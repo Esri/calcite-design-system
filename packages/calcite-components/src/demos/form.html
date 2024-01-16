@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,7 +18,7 @@
       .child {
         flex: 0 1 21%;
         margin: 0 25px;
-        color: var(--calcite-ui-text-3);
+        color: var(--calcite-color-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
@@ -30,7 +30,7 @@
 
       hr {
         margin: 25px 0;
-        border-top: 1px solid var(--calcite-ui-border-2);
+        border-top: 1px solid var(--calcite-color-border-2);
       }
     </style>
   </head>
@@ -225,7 +225,7 @@
               Array.from(formData.keys()).map((key) => [
                 key,
                 formData.getAll(key).length > 1 ? formData.getAll(key) : formData.get(key),
-              ])
+              ]),
             );
             console.log(entries);
           });

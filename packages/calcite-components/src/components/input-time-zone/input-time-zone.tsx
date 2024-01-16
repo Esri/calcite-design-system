@@ -12,7 +12,11 @@ import {
   Watch,
 } from "@stencil/core";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  InteractiveComponent,
+  InteractiveContainer,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -74,7 +78,7 @@ export class InputTimeZone
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -105,7 +109,9 @@ export class InputTimeZone
   /**
    * This specifies the type of `value` and the associated options presented to the user:
    *
-   * Using `"offset"` will provide options related
+   * Using `"offset"` will provide options that show timezone offsets.
+   *
+   * Using `"name"` will provide options that show the IANA time zone names.
    *
    * @default "offset"
    */
@@ -117,6 +123,12 @@ export class InputTimeZone
   handleTimeZoneItemPropsChange(): void {
     this.updateTimeZoneItemsAndSelection();
   }
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -139,9 +151,9 @@ export class InputTimeZone
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.
+   * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.
    *
-   * It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
    *
    * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
    */
@@ -199,14 +211,29 @@ export class InputTimeZone
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneBeforeClose: EventEmitter<void>;
 
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneBeforeOpen: EventEmitter<void>;
 
+  /**
+   * Fires when the component's `value` changes.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneChange: EventEmitter<void>;
 
+  /**
+   * Fires after the component is closed and animation is complete.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneClose: EventEmitter<void>;
 
+  /**
+   * Fires after the component is opened and animation is complete.
+   */
   @Event({ cancelable: false }) calciteInputTimeZoneOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
@@ -295,7 +322,7 @@ export class InputTimeZone
     return this.timeZoneItems.find(
       ({ value }) =>
         // intentional == to match string to number
-        value == valueToMatch
+        value == valueToMatch,
     );
   }
 
@@ -323,7 +350,7 @@ export class InputTimeZone
       this.mode,
       this.referenceDate instanceof Date
         ? this.referenceDate
-        : new Date(this.referenceDate ?? Date.now())
+        : new Date(this.referenceDate ?? Date.now()),
     );
   }
 
@@ -369,41 +396,45 @@ export class InputTimeZone
   render(): VNode {
     return (
       <Host>
-        <calcite-combobox
-          clearDisabled={true}
-          disabled={this.disabled}
-          label={this.messages.chooseTimeZone}
-          lang={this.effectiveLocale}
-          maxItems={this.maxItems}
-          onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
-          onCalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
-          onCalciteComboboxChange={this.onComboboxChange}
-          onCalciteComboboxClose={this.onComboboxClose}
-          onCalciteComboboxOpen={this.onComboboxOpen}
-          open={this.open}
-          overlayPositioning={this.overlayPositioning}
-          scale={this.scale}
-          selectionMode="single-persist"
-          status={this.status}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setComboboxRef}
-        >
-          {this.timeZoneItems.map((group) => {
-            const selected = this.selectedTimeZoneItem === group;
-            const { label, value } = group;
+        <InteractiveContainer disabled={this.disabled}>
+          <calcite-combobox
+            clearDisabled={true}
+            disabled={this.disabled}
+            label={this.messages.chooseTimeZone}
+            lang={this.effectiveLocale}
+            maxItems={this.maxItems}
+            onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
+            onCalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
+            onCalciteComboboxChange={this.onComboboxChange}
+            onCalciteComboboxClose={this.onComboboxClose}
+            onCalciteComboboxOpen={this.onComboboxOpen}
+            open={this.open}
+            overlayPositioning={this.overlayPositioning}
+            scale={this.scale}
+            selectionMode="single-persist"
+            status={this.status}
+            validation-icon={this.validationIcon}
+            validation-message={this.validationMessage}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setComboboxRef}
+          >
+            {this.timeZoneItems.map((group) => {
+              const selected = this.selectedTimeZoneItem === group;
+              const { label, value } = group;
 
-            return (
-              <calcite-combobox-item
-                data-value={value}
-                key={label}
-                selected={selected}
-                textLabel={label}
-                value={`${group.filterValue}`}
-              />
-            );
-          })}
-        </calcite-combobox>
-        <HiddenFormInputSlot component={this} />
+              return (
+                <calcite-combobox-item
+                  data-value={value}
+                  key={label}
+                  selected={selected}
+                  textLabel={label}
+                  value={`${group.filterValue}`}
+                />
+              );
+            })}
+          </calcite-combobox>
+          <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }

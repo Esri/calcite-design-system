@@ -8,8 +8,8 @@
  */
 
 :host {
-  --calcite-internal-table-header-background: var(--calcite-table-header-background, var(--calcite-ui-foreground-2));
-  --calcite-internal-table-header-border-color: var(--calcite-table-border-color, var(--calcite-ui-border-3));
+  --calcite-internal-table-header-background: var(--calcite-table-header-background, var(--calcite-color-foreground-2));
+  --calcite-internal-table-header-border-color: var(--calcite-table-border-color, var(--calcite-color-border-3));
   @apply contents;
 }
 
@@ -38,6 +38,10 @@ th {
   }
 }
 
+th.last-cell {
+  border-inline-end: 0;
+}
+
 th.body-row,
 th.footer-row {
   @apply align-middle;
@@ -52,6 +56,10 @@ th.footer-row {
   @apply cursor-pointer align-middle text-color-3;
 }
 
+.selected-cell:not(.number-cell):not(.footer-cell) {
+  --calcite-internal-table-header-background: var(--calcite-color-foreground-current);
+}
+
 .number-cell,
 .selection-cell {
   @apply text-color-2;
@@ -60,7 +68,7 @@ th.footer-row {
 }
 
 .selection-cell calcite-icon.active {
-  color: var(--calcite-ui-brand);
+  color: var(--calcite-color-brand);
 }
 .number-cell calcite-icon,
 .selection-cell calcite-icon {

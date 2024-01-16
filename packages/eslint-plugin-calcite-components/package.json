@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "0.2.4-next.0",
+  "version": "1.0.1-next.2",
   "description": "ESLint rules for @esri/calcite-components",
   "main": "dist/index.js",
   "files": [
@@ -8,20 +8,23 @@
   ],
   "scripts": {
     "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
+    "lint": "concurrently npm:lint:*",
+    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
     "test": "jest"
   },
   "dependencies": {
-    "stencil-eslint-core": "0.3.1"
+    "stencil-eslint-core": "0.4.1"
   },
   "peerDependencies": {
-    "eslint": "8.44.0"
+    "eslint": ">=8.0.0"
   },
   "license": "SEE LICENSE.md",
-  "engines": {
-    "node": ">=14.0.0"
-  },
   "packageManager": "npm@8.19.4",
   "volta": {
-    "node": "16.20.0"
+    "extends": "../../package.json"
+  },
+  "devDependencies": {
+    "ts-node": "10.9.2"
   }
 }

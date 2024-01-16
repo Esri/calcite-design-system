@@ -27,15 +27,15 @@
 
 ## Events
 
-| Event                           | Description                                                                         | Type                |
-| ------------------------------- | ----------------------------------------------------------------------------------- | ------------------- |
-| `calciteNavigationActionSelect` | When `navigationAction` is true, emits when the displayed action selection changes. | `CustomEvent<void>` |
+| Event                           | Description                                                                           | Type                |
+| ------------------------------- | ------------------------------------------------------------------------------------- | ------------------- |
+| `calciteNavigationActionSelect` | When `navigationAction` is `true`, emits when the displayed action selection changes. | `CustomEvent<void>` |
 
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-When `navigation-action` is `true`, sets focus on the component's action element.
+When `navigationAction` is `true`, sets focus on the component's action element.
 
 #### Returns
 
@@ -81,4 +81,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

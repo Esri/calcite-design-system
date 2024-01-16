@@ -17,7 +17,7 @@ describe("calcite-tip-manager", () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        `<calcite-tip-manager><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager>`
+        `<calcite-tip-manager><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager>`,
       );
       const tipManager = await page.find("calcite-tip-manager");
       expect(tipManager).not.toBeNull();
@@ -38,9 +38,11 @@ describe("calcite-tip-manager", () => {
     });
 
     describe("accessible", () => {
-      accessible(html`<calcite-tip-manager
-        ><calcite-tip heading="sample"><p>basic render</p></calcite-tip></calcite-tip-manager
-      >`);
+      accessible(
+        html`<calcite-tip-manager
+          ><calcite-tip heading="sample"><p>basic render</p></calcite-tip></calcite-tip-manager
+        >`,
+      );
     });
 
     it("should pre-select the correct tip if the selected attribute is set", async () => {
@@ -49,7 +51,7 @@ describe("calcite-tip-manager", () => {
         `<calcite-tip-manager>
           <calcite-tip id="one"><p>no pre-selected attribute</p></calcite-tip>
           <calcite-tip id="two" selected><p>pre-selected and not first</p></calcite-tip>
-        </calcite-tip-manager>`
+        </calcite-tip-manager>`,
       );
 
       await page.waitForChanges();
@@ -172,7 +174,7 @@ describe("calcite-tip-manager", () => {
     it("pagination should be hidden if there is 1 or fewer tips", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-tip-manager><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager>`
+        `<calcite-tip-manager><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager>`,
       );
 
       const pagination = await page.find(`calcite-tip-manager >>> .${CSS.pagination}`);
@@ -213,7 +215,7 @@ describe("calcite-tip-manager", () => {
         `<calcite-tip-manager>
           <calcite-tip id="one"><p>dynamically adding/removing tips</p></calcite-tip>
           <calcite-tip id="two"><p>dynamically adding/removing tips</p></calcite-tip>
-        </calcite-tip-manager>`
+        </calcite-tip-manager>`,
       );
       const tipManager = await page.find("calcite-tip-manager");
 
@@ -233,7 +235,7 @@ describe("calcite-tip-manager", () => {
     await page.setContent(
       `<calcite-tip-manager heading-level="1">
         <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
-      </calcite-tip-manager>`
+      </calcite-tip-manager>`,
     );
 
     await page.waitForChanges();

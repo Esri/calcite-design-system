@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,7 +16,7 @@
       .child {
         flex: 1 0 15%;
         margin: 0 25px;
-        color: var(--calcite-ui-text-3);
+        color: var(--calcite-color-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
@@ -28,7 +28,7 @@
 
       hr {
         margin: 25px 0;
-        border-top: 1px solid var(--calcite-ui-border-2);
+        border-top: 1px solid var(--calcite-color-border-2);
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -1074,6 +1074,82 @@
           <div style="width: 20vw">
             <p>Single</p>
             <calcite-combobox label="demo combobox 3" selection-mode="single" allow-custom-values>
+              <calcite-combobox-item value="Trees" text-label="Trees">
+                <calcite-combobox-item
+                  value="CommercialDamageAssessment - Damage to Commercial Buildings"
+                  text-label="CommercialDamageAssessment - Damage to Commercial Buildings"
+                  selected
+                ></calcite-combobox-item>
+                <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+                <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+        </div>
+      </div>
+
+      <div class="parent">
+        <h3 class="child right-aligned-text">Validation message</h3>
+        <div class="child" style="align-self: flex-start">
+          <div style="width: 20vw">
+            <p>Multi</p>
+            <calcite-combobox
+              label="demo combobox 1"
+              selection-mode="multiple"
+              allow-custom-values
+              status="invalid"
+              validation-message="Error message"
+              validation-icon
+            >
+              <calcite-combobox-item value="Trees" text-label="Trees">
+                <calcite-combobox-item
+                  value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+                  text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+                  selected
+                ></calcite-combobox-item>
+                <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+                <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+        </div>
+
+        <div class="child" style="align-self: flex-start">
+          <div style="width: 20vw">
+            <p>Ancestors</p>
+            <calcite-combobox
+              label="demo combobox 2"
+              selection-mode="ancestors"
+              allow-custom-values
+              status="invalid"
+              validation-message="Error message"
+              validation-icon
+            >
+              <calcite-combobox-item value="Trees" text-label="Trees">
+                <calcite-combobox-item
+                  value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+                  text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+                  selected
+                ></calcite-combobox-item>
+                <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+                <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+        </div>
+
+        <div class="child" style="align-self: flex-start">
+          <div style="width: 20vw">
+            <p>Single</p>
+            <calcite-combobox
+              label="demo combobox 3"
+              selection-mode="single"
+              allow-custom-values
+              status="invalid"
+              validation-message="Error message"
+              validation-icon
+            >
               <calcite-combobox-item value="Trees" text-label="Trees">
                 <calcite-combobox-item
                   value="CommercialDamageAssessment - Damage to Commercial Buildings"

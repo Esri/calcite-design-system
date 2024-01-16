@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components-angular",
-  "version": "1.12.0-next.7",
+  "version": "2.2.0-next.19",
   "sideEffects": false,
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "A set of Angular components that wrap Esri's Calcite Components.",
@@ -20,8 +20,8 @@
     "@angular/core": ">=16.0.0"
   },
   "dependencies": {
-    "@esri/calcite-components": "^1.12.0-next.7",
-    "tslib": "2.3.0"
+    "@esri/calcite-components": "^2.2.0-next.19",
+    "tslib": "2.6.2"
   },
   "lerna": {
     "command": {

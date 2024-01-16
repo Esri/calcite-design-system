@@ -33,14 +33,16 @@ describe("calcite-split-button", () => {
         </calcite-split-button>`,
       {
         shadowFocusTargetSelector: "calcite-button",
-      }
+      },
     );
   });
 
   describe("accessible", () => {
-    accessible(html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`);
+    accessible(
+      html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
+        ${content}
+      </calcite-split-button>`,
+    );
   });
 
   describe("accessible when disabled", () => {
@@ -194,7 +196,7 @@ describe("calcite-split-button", () => {
       element.setProperty("scale", elementScale);
       await page.waitForChanges();
       const dropdownScale = elementScaleToDropdownScale[elementScale];
-      expect(dropdown).toEqualAttribute("width", dropdownScale);
+      expect(dropdown).toEqualAttribute("width-scale", dropdownScale);
       expect(dropdown).toEqualAttribute("scale", dropdownScale);
       expect(primaryButton).toEqualAttribute("scale", elementScaleToButtonScale[elementScale]);
     }

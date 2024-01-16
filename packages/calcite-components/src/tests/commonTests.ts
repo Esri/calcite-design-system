@@ -5,11 +5,16 @@ import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
-import { JSX } from "../components";
+import type { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
-import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "./utils";
-import { InteractiveHTMLElement } from "../utils/interactive";
+import {
+  GlobalTestProps,
+  IntrinsicElementsWithProp,
+  isElementFocused,
+  newProgrammaticE2EPage,
+  skipAnimations,
+} from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -88,7 +93,7 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
     await page.waitForFunction(() => (window as AxeOwningWindow).axe);
 
     expect(
-      await page.evaluate(async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag), tag)
+      await page.evaluate(async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag), tag),
     ).toHaveNoViolations();
   });
 }
@@ -112,7 +117,7 @@ export async function renders(
   options?: {
     visible?: boolean;
     display: string;
-  }
+  },
 ): Promise<void> {
   it(`renders`, async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
@@ -155,7 +160,7 @@ export function reflects(
   propsToTest: {
     propertyName: string;
     value: any;
-  }[]
+  }[],
 ): void {
   const cases = propsToTest.map(({ propertyName, value }) => [propertyName, value]);
 
@@ -223,7 +228,7 @@ export function defaults(
   propsToTest: {
     propertyName: string;
     defaultValue: any;
-  }[]
+  }[],
 ): void {
   it.each(propsToTest.map(({ propertyName, defaultValue }) => [propertyName, defaultValue]))(
     "%p",
@@ -232,7 +237,7 @@ export function defaults(
       const element = await page.find(tag);
       const prop = await element.getProperty(propertyName);
       expect(prop).toEqual(defaultValue);
-    }
+    },
   );
 }
 
@@ -306,8 +311,8 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
         await page.$eval(
           tag,
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement?.matches(selector),
-          options?.shadowFocusTargetSelector
-        )
+          options?.shadowFocusTargetSelector,
+        ),
       ).toBe(true);
     }
 
@@ -315,7 +320,7 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
     await page.waitForChanges();
 
     expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
-      true
+      true,
     );
   });
 }
@@ -337,7 +342,7 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
 export function slots(
   componentTagOrHTML: TagOrHTML,
   slots: Record<string, string> | string[],
-  includeDefaultSlot = false
+  includeDefaultSlot = false,
 ): void {
   it("has slots", async () => {
     const page = await simplePageSetup(componentTagOrHTML);
@@ -368,7 +373,7 @@ export function slots(
         }
       },
       slotNames,
-      includeDefaultSlot
+      includeDefaultSlot,
     );
 
     await page.waitForChanges();
@@ -376,7 +381,7 @@ export function slots(
     const slotted = await page.evaluate(() =>
       Array.from(document.querySelectorAll(".slotted-into-named-slot"))
         .filter((slotted) => slotted.assignedSlot)
-        .map((slotted) => slotted.slot)
+        .map((slotted) => slotted.slot),
     );
 
     expect(slotNames).toEqual(slotted);
@@ -419,8 +424,8 @@ async function assertLabelable({
   expect(
     await page.evaluate(
       (focusTargetSelector: string): boolean => !!document.activeElement?.closest(focusTargetSelector),
-      focusTargetSelector
-    )
+      focusTargetSelector,
+    ),
   ).toBe(true);
 
   if (shadowFocusTargetSelector) {
@@ -428,8 +433,8 @@ async function assertLabelable({
       await page.$eval(
         componentTag,
         (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-        shadowFocusTargetSelector
-      )
+        shadowFocusTargetSelector,
+      ),
     ).toBe(true);
   }
 
@@ -474,7 +479,7 @@ interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" 
  */
 export function labelable(
   componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
-  options?: LabelableOptions
+  options?: LabelableOptions,
 ): void {
   const id = "labelable-id";
   const labelTitle = "My Component";
@@ -710,7 +715,7 @@ interface FormAssociatedOptions {
  */
 export function formAssociated(
   componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
-  options: FormAssociatedOptions
+  options: FormAssociatedOptions,
 ): void {
   it("supports association via ancestry", () => testAncestorFormAssociated());
   it("supports association via form ID", () => testIdFormAssociated());
@@ -758,7 +763,7 @@ export function formAssociated(
         keeping things simple by using submit-type input
         this should cover button and calcite-button submit cases
         -->
-        <input id="submitter" form="test-form" type="submit" />`
+        <input id="submitter" form="test-form" type="submit" />`,
     );
     await page.waitForChanges();
     const component = await page.find(tag);
@@ -794,7 +799,7 @@ export function formAssociated(
   async function assertValueSubmissionType(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions
+    options: FormAssociatedOptions,
   ): Promise<void> {
     const name = await component.getProperty("name");
     const inputType = options.inputType ?? "text";
@@ -802,13 +807,13 @@ export function formAssociated(
     const hiddenFormInputType = await page.evaluate(
       async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
         const hiddenFormInput = document.querySelector<HTMLInputElement>(
-          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
         );
 
         return hiddenFormInput.type;
       },
       name,
-      hiddenFormInputSlotName
+      hiddenFormInputSlotName,
     );
 
     if (await isCheckable(page, component, options)) {
@@ -821,7 +826,7 @@ export function formAssociated(
   async function assertValueResetOnFormReset(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions
+    options: FormAssociatedOptions,
   ): Promise<void> {
     const resettablePropName = (await isCheckable(page, component, options)) ? "checked" : "value";
     const initialValue = await component.getProperty(resettablePropName);
@@ -837,7 +842,7 @@ export function formAssociated(
   async function assertValueSubmittedOnFormSubmit(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions
+    options: FormAssociatedOptions,
   ): Promise<void> {
     const stringifiedTestValue = stringifyTestValue(options.testValue);
     const name = await component.getProperty("name");
@@ -873,7 +878,7 @@ export function formAssociated(
             ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
               // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
               "#000"
-            : undefined
+            : undefined,
         );
 
         component.setProperty("required", false);
@@ -912,10 +917,10 @@ export function formAssociated(
         async (
           form: HTMLFormElement,
           inputName: string,
-          hiddenFormInputSlotName: string
+          hiddenFormInputSlotName: string,
         ): Promise<SubmitValueResult> => {
           const hiddenFormInput = document.querySelector(
-            `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+            `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
           );
 
           let resolve: (value: SubmitValueResult) => void;
@@ -948,7 +953,7 @@ export function formAssociated(
           return submitPromise;
         },
         name,
-        hiddenFormInputSlotName
+        hiddenFormInputSlotName,
       );
     }
   }
@@ -956,7 +961,7 @@ export function formAssociated(
   async function assertFormSubmitOnEnter(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions
+    options: FormAssociatedOptions,
   ): Promise<void> {
     type TestWindow = GlobalTestProps<{
       called: boolean;
@@ -1063,7 +1068,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
             anchor.addEventListener("click", (event) => event.preventDefault(), { once: true });
           }
         },
-        true
+        true,
       );
     });
   };
@@ -1101,7 +1106,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
   const getTabAndClickFocusTarget = async (
     page: E2EPage,
     tag: string,
-    focusTarget: DisabledOptions["focusTarget"]
+    focusTarget: DisabledOptions["focusTarget"],
   ): Promise<string[]> => {
     if (typeof focusTarget === "object") {
       return [focusTarget.tab, focusTarget.click];
@@ -1171,7 +1176,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
       page,
-      tabFocusTarget
+      tabFocusTarget,
     );
 
     async function resetFocusOrder(): Promise<void> {
@@ -1248,17 +1253,19 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
     });
 
+    type InteractiveCalciteComponents = IntrinsicElementsWithProp<"disabled"> & HTMLElement;
+
     // this needs to run in the browser context to ensure disabling and events fire immediately after being set
     await page.$eval(
       tag,
-      (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
+      (component: InteractiveCalciteComponents, allExpectedEvents: string[]) => {
         component.disabled = false;
         allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
 
         component.disabled = true;
         allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
       },
-      allExpectedEvents
+      allExpectedEvents,
     );
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
@@ -1301,7 +1308,7 @@ export function floatingUIOwner(
      * Use this to specify the selector in the shadow DOM for the floating-ui element.
      */
     shadowSelector?: string;
-  }
+  },
 ): void {
   it("owns a floating-ui", async () => {
     const page = await simplePageSetup(componentTagOrHTML);
@@ -1329,7 +1336,7 @@ export function floatingUIOwner(
 
           return floatingUIEl.getAttribute("style");
         },
-        options?.shadowSelector
+        options?.shadowSelector,
       );
     }
 
@@ -1345,7 +1352,7 @@ export function floatingUIOwner(
     await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
     await page.waitForChanges();
 
-    expect(await getTransform()).not.toBe(initialClosedTransform);
+    expect(await getTransform()).toBe(initialClosedTransform);
 
     await scrollTo(0, 0);
     await page.waitForChanges();
@@ -1390,9 +1397,12 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   beforeEach(async () => {
     const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
     page = e2ePage;
+
+    type CalciteComponentsWithMessages = IntrinsicElementsWithProp<"messages"> & HTMLElement;
+
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
-      return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
+      return page.$eval(tag, (component: CalciteComponentsWithMessages) => component.messages);
     };
   });
 
@@ -1443,7 +1453,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
         };
       },
       enMessages,
-      fakeBundleIdentifier
+      fakeBundleIdentifier,
     );
 
     component.setAttribute("lang", "es");
@@ -1524,7 +1534,7 @@ interface OpenCloseOptions {
  * @param {object} [options] - Additional options to assert.
  */
 
-export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): Promise<void> {
+export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): void {
   const defaultOptions: OpenCloseOptions = {
     initialToggleValue: false,
     openPropName: "open",
@@ -1532,9 +1542,9 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
   const customizedOptions = { ...defaultOptions, ...options };
 
   type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
-  const eventSequence = await setUpEventSequence(componentTagOrHTML);
+  const eventSequence = setUpEventSequence(componentTagOrHTML);
 
-  async function setUpEventSequence(componentTagOrHTML: TagOrHTML): Promise<string[]> {
+  function setUpEventSequence(componentTagOrHTML: TagOrHTML): string[] {
     const tag = getTag(componentTagOrHTML);
 
     const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
@@ -1543,29 +1553,31 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
     return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
   }
 
-  const addEventListeners = async (): Promise<void> => {
-    const receivedEvents: string[] = [];
-
-    (window as EventOrderWindow).events = receivedEvents;
-
-    eventSequence.forEach((eventType) => {
-      document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-    });
-  };
-
   async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
-    customizedOptions.initialToggleValue
-      ? await page.evaluate(() => {
-          addEventListeners();
+    await page.evaluate(
+      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
+        const receivedEvents: string[] = [];
 
-          const component = document.createElement(componentTagOrHTML);
-          component[customizedOptions.openPropName] = true;
+        (window as EventOrderWindow).events = receivedEvents;
 
-          document.body.append(component);
-        })
-      : await page.evaluate(() => {
-          addEventListeners();
+        eventSequence.forEach((eventType) => {
+          document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
         });
+
+        if (!initialToggleValue) {
+          return;
+        }
+
+        const component = document.createElement(componentTagOrHTML);
+        component[openPropName] = true;
+
+        document.body.append(component);
+      },
+      eventSequence,
+      customizedOptions.initialToggleValue,
+      customizedOptions.openPropName,
+      componentTagOrHTML,
+    );
   }
 
   async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
@@ -1573,12 +1585,14 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
     const element = await page.find(tag);
 
     const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) =>
-      page.waitForEvent(event)
+      page.waitForEvent(event),
     );
 
     const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
-      eventSequence.map(async (event) => await element.spyOnEvent(event))
+      eventSequence.map(async (event) => await element.spyOnEvent(event)),
     );
+
+    await page.waitForChanges();
 
     if (customizedOptions.beforeToggle) {
       await customizedOptions.beforeToggle.open(page);
@@ -1619,43 +1633,38 @@ export async function openClose(componentTagOrHTML: TagOrHTML, options?: OpenClo
    * `skipAnimations` utility sets the animation duration to 0.01. This is a workaround for an issue with the animation utility.
    * Because this still leaves a very small duration, we can still test the animation events, but faster.
    */
-  it(`emits with animations enabled`, async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    await skipAnimations(page);
-    await setUpPage(componentTagOrHTML, page);
-    await testOpenCloseEvents(componentTagOrHTML, page);
-  });
 
-  it(`emits with animations disabled`, async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    await page.addStyleTag({
-      content: `
-        :root {
-          --calcite-animation-duration: 0s;
-        }
-      `,
+  if (customizedOptions.initialToggleValue === true) {
+    it("emits on initialization with animations enabled", async () => {
+      const page = await newProgrammaticE2EPage();
+      await skipAnimations(page);
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
     });
-    await setUpPage(componentTagOrHTML, page);
-    await testOpenCloseEvents(componentTagOrHTML, page);
-  });
 
-  it("emits on initialization with animations enabled", async () => {
-    const page = await newProgrammaticE2EPage();
-    await skipAnimations(page);
-    await setUpPage(componentTagOrHTML, page);
-    await testOpenCloseEvents(componentTagOrHTML, page);
-  });
-
-  it("emits on initialization with animations disabled", async () => {
-    const page = await newProgrammaticE2EPage();
-    await page.addStyleTag({
-      content: `
-        :root {
-          --calcite-animation-duration: 0s;
-        }
-      `,
+    it("emits on initialization with animations disabled", async () => {
+      const page = await newProgrammaticE2EPage();
+      await page.addStyleTag({
+        content: `:root { --calcite-duration-factor: 0; }`,
+      });
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
     });
-    await setUpPage(componentTagOrHTML, page);
-    await testOpenCloseEvents(componentTagOrHTML, page);
-  });
+  } else {
+    it(`emits with animations enabled`, async () => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      await skipAnimations(page);
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
+
+    it(`emits with animations disabled`, async () => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      await page.addStyleTag({
+        content: `:root { --calcite-duration-factor: 0; }`,
+      });
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
+  }
 }

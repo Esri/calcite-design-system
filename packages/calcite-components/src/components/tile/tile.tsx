@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -9,9 +9,11 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { SLOTS } from "./resources";
+import { Scale } from "../interfaces";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
@@ -74,6 +76,11 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
 
   @Prop({ reflect: true }) iconFlipRtl = false;
 
+  /**
+   * Specifies the size of the component.
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -111,20 +118,10 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   renderTile(): VNode {
     const { icon, el, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
-    const iconStyle = isLargeVisual
-      ? {
-          height: "64px",
-          width: "64px",
-        }
-      : undefined;
 
     return (
       <div class={{ container: true, "large-visual": isLargeVisual }}>
-        {icon && (
-          <div class="icon">
-            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
-          </div>
-        )}
+        {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
         <div class="content-container">
           {getSlotted(el, SLOTS.contentStart) ? (
             <div class="content-slot-container">
@@ -146,16 +143,18 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   render(): VNode {
+    const { disabled } = this;
+
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         {this.href ? (
-          <calcite-link disabled={this.disabled} href={this.href}>
+          <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>
         ) : (
           this.renderTile()
         )}
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

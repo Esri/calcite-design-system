@@ -80,7 +80,7 @@
     // ensure lines don't overlap focus outline
     block-size: 96%;
     content: "";
-    background-color: var(--calcite-ui-border-2);
+    background-color: var(--calcite-color-border-2);
   }
 }
 
@@ -143,7 +143,9 @@
   @apply relative h-0 overflow-hidden opacity-0 origin-top;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
-  transition: var(--calcite-animation-timing) $easing-function, opacity var(--calcite-animation-timing) $easing-function,
+  transition:
+    var(--calcite-animation-timing) $easing-function,
+    opacity var(--calcite-animation-timing) $easing-function,
     all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
 
   .item--expanded > & {
@@ -159,7 +161,7 @@
   .checkmark,
   .bullet-point {
     @apply transition-default opacity-0;
-    color: var(--calcite-ui-border-1);
+    color: var(--calcite-color-border-1);
   }
 }
 
@@ -242,7 +244,7 @@
 :host([selected]) {
   .checkmark,
   .bullet-point {
-    color: var(--calcite-ui-brand);
+    color: var(--calcite-color-brand);
   }
 }
 

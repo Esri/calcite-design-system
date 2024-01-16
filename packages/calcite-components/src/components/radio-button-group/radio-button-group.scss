@@ -1,21 +1,43 @@
 :host {
+  @apply flex flex-col;
+}
+
+:host > .item-wrapper {
   @apply flex;
   max-inline-size: 100vw;
 }
-:host([layout="horizontal"]) {
+
+:host([layout="horizontal"]) > .item-wrapper {
   @apply flex-row flex-wrap;
 }
-:host([layout="horizontal"][scale="s"]) {
-  @apply gap-4;
+
+:host([layout="horizontal"][scale="s"]) > .item-wrapper {
+  @apply gap-x-4;
 }
-:host([layout="horizontal"][scale="m"]) {
-  @apply gap-5;
+
+:host([layout="horizontal"][scale="m"]) > .item-wrapper {
+  @apply gap-x-5;
 }
-:host([layout="horizontal"][scale="l"]) {
-  @apply gap-6;
+
+:host([layout="horizontal"][scale="l"]) > .item-wrapper {
+  @apply gap-x-6;
 }
-:host([layout="vertical"]) {
+
+:host([layout="vertical"]) > .item-wrapper {
   @apply flex-col;
 }
 
+:host([scale="s"]) calcite-input-message {
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-xxs) * -1);
+}
+
+:host([scale="m"]) calcite-input-message {
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-sm) * -1);
+}
+
+:host([scale="l"]) calcite-input-message {
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-md) * -1);
+}
+
+@include form-validation-message();
 @include base-component();
