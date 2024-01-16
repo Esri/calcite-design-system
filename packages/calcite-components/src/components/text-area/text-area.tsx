@@ -432,7 +432,6 @@ export class TextArea
   };
 
   renderCharacterLimit = (): VNode | null => {
-    console.log("render characterLimit");
     if (this.maxLength) {
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
