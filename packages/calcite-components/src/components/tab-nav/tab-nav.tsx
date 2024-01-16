@@ -583,29 +583,24 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   }
 
   private renderScrollingAction = (overflowDirection: "start" | "end"): VNode => {
+    const { bordered, messages, overflowingStartTabTitle, overflowingEndTabTitle, scale } = this;
     const isEnd = overflowDirection === "end";
 
     return (
       <calcite-action
-        appearance={
-          (this.el.parentElement as HTMLCalciteTabsElement).bordered ? "solid" : "transparent"
-        }
+        appearance={bordered ? "solid" : "transparent"}
         class={isEnd ? CSS.arrowEnd : CSS.arrowStart}
-        hidden={
-          (!isEnd && !this.overflowingStartTabTitle) || (isEnd && !this.overflowingEndTabTitle)
-        }
+        hidden={(!isEnd && !overflowingStartTabTitle) || (isEnd && !overflowingEndTabTitle)}
         icon={isEnd ? ICON.chevronRight : ICON.chevronLeft}
         key={overflowDirection}
         onClick={isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
-        scale={this.scale}
-        text={isEnd ? this.messages.nextTabTitles : this.messages.previousTabTitles}
+        scale={scale}
+        text={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
       />
     );
   };
 
   private renderScrollingActions(): VNode[] {
-    const startScrollingAction = this.renderScrollingAction("start");
-    const endScrollingAction = this.renderScrollingAction("end");
-    return [startScrollingAction, endScrollingAction];
+    return [this.renderScrollingAction("start"), this.renderScrollingAction("end")];
   }
 }
