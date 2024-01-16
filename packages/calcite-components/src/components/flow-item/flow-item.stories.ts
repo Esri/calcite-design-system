@@ -300,7 +300,7 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
 
 const themeStyles = `
   --calcite-flow-item-color: blue;
-  --calcite-flow-item-background: red;
+  --calcite-flow-item-background-color: red;
 `;
 
 export const themed_TestOnly = (): string =>
