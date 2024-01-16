@@ -1,6 +1,18 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../support/formatting";
 import { componentsWithInputEvent } from "./form";
+
+async function assertValidationIdle(element: E2EElement) {
+  expect(await element.getProperty("status")).toBe("idle");
+  expect(await element.getProperty("validationMessage")).toBe("");
+  expect(await element.getProperty("validationIcon")).toBe(false);
+}
+
+async function assertValidationInvalid(element: E2EElement, message: string) {
+  expect(await element.getProperty("status")).toBe("invalid");
+  expect(await element.getProperty("validationMessage")).toBe(message);
+  expect(element.getAttribute("validation-icon")).toBe("");
+}
 
 describe("form", () => {
   describe("constraint validation", () => {
@@ -34,18 +46,14 @@ describe("form", () => {
           await page.keyboard.press("Enter");
           await page.waitForChanges();
 
-          expect(await element.getProperty("status")).toBe("invalid");
-          expect(await element.getProperty("validationMessage")).toBe(requiredValidationMessage);
-          expect(await element.getProperty("validationIcon")).toBe(true);
+          await assertValidationInvalid(element, requiredValidationMessage);
 
           await page.keyboard.press("1");
           await page.waitForChanges();
 
           expect(inputEvent).toHaveReceivedEventTimes(1);
           expect(await element.getProperty("value")).toBe("1");
-          expect(await element.getProperty("status")).toBe("idle");
-          expect(await element.getProperty("validationMessage")).toBe("");
-          expect(await element.getProperty("validationIcon")).toBe(false);
+          await assertValidationIdle(element);
         });
       }
 
@@ -68,9 +76,7 @@ describe("form", () => {
           await submitButton.click();
           await page.waitForChanges();
 
-          expect(await element.getProperty("status")).toBe("invalid");
-          expect(await element.getProperty("validationMessage")).toBe(requiredValidationMessage);
-          expect(await element.getProperty("validationIcon")).toBe(true);
+          await assertValidationInvalid(element, requiredValidationMessage);
 
           await element.callMethod("setFocus");
           await page.waitForChanges();
@@ -80,9 +86,7 @@ describe("form", () => {
 
           expect(inputEvent).toHaveReceivedEventTimes(1);
           expect(await element.getProperty("value")).toBe("1");
-          expect(await element.getProperty("status")).toBe("idle");
-          expect(await element.getProperty("validationMessage")).toBe("");
-          expect(await element.getProperty("validationIcon")).toBe(false);
+          await assertValidationIdle(element);
         });
       }
 
@@ -102,9 +106,7 @@ describe("form", () => {
         await submitButton.click();
         await page.waitForChanges();
 
-        expect(await element.getProperty("status")).toBe("invalid");
-        expect(await element.getProperty("validationMessage")).toBe(requiredValidationMessage);
-        expect(await element.getProperty("validationIcon")).toBe(true);
+        await assertValidationInvalid(element, requiredValidationMessage);
 
         await element.callMethod("setFocus");
         await page.waitForChanges();
@@ -114,9 +116,7 @@ describe("form", () => {
         await page.waitForChanges();
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
-        expect(await element.getProperty("status")).toBe("idle");
-        expect(await element.getProperty("validationMessage")).toBe("");
-        expect(await element.getProperty("validationIcon")).toBe(false);
+        await assertValidationIdle(element);
       });
 
       it(`calcite-input-time-picker`, async () => {
@@ -135,9 +135,7 @@ describe("form", () => {
         await submitButton.click();
         await page.waitForChanges();
 
-        expect(await element.getProperty("status")).toBe("invalid");
-        expect(await element.getProperty("validationMessage")).toBe(requiredValidationMessage);
-        expect(await element.getProperty("validationIcon")).toBe(true);
+        await assertValidationInvalid(element, requiredValidationMessage);
 
         await element.callMethod("setFocus");
         await page.waitForChanges();
@@ -148,9 +146,7 @@ describe("form", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
         expect(await element.getProperty("value")).toBe("12:00");
-        expect(await element.getProperty("status")).toBe("idle");
-        expect(await element.getProperty("validationMessage")).toBe("");
-        expect(await element.getProperty("validationIcon")).toBe(false);
+        await assertValidationIdle(element);
       });
 
       it(`calcite-select`, async () => {
@@ -174,9 +170,7 @@ describe("form", () => {
         await submitButton.click();
         await page.waitForChanges();
 
-        expect(await element.getProperty("status")).toBe("invalid");
-        expect(await element.getProperty("validationMessage")).toBe(requiredValidationMessage);
-        expect(await element.getProperty("validationIcon")).toBe(true);
+        await assertValidationInvalid(element, requiredValidationMessage);
 
         await element.callMethod("setFocus");
         await page.waitForChanges();
@@ -186,9 +180,7 @@ describe("form", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
         expect(await element.getProperty("value")).toBe("uno");
-        expect(await element.getProperty("status")).toBe("idle");
-        expect(await element.getProperty("validationMessage")).toBe("");
-        expect(await element.getProperty("validationIcon")).toBe(false);
+        await assertValidationIdle(element);
       });
 
       it(`calcite-combobox`, async () => {
@@ -209,9 +201,7 @@ describe("form", () => {
         await submitButton.click();
         await page.waitForChanges();
 
-        expect(await element.getProperty("status")).toBe("invalid");
-        expect(await element.getProperty("validationMessage")).toBe(requiredValidationMessage);
-        expect(await element.getProperty("validationIcon")).toBe(true);
+        await assertValidationInvalid(element, requiredValidationMessage);
 
         await element.callMethod("setFocus");
         await page.waitForChanges();
@@ -222,9 +212,82 @@ describe("form", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
         expect(await element.getProperty("value")).toBe("Pine");
-        expect(await element.getProperty("status")).toBe("idle");
-        expect(await element.getProperty("validationMessage")).toBe("");
-        expect(await element.getProperty("validationIcon")).toBe(false);
+        await assertValidationIdle(element);
+      });
+
+      it(`calcite-radio-group`, async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <form>
+            <calcite-radio-button-group required>
+              <calcite-label>
+                1
+                <calcite-radio-button name="1" value="1"></calcite-radio-button>
+              </calcite-label>
+              <calcite-label>
+                2
+                <calcite-radio-button name="2" value="2"></calcite-radio-button>
+              </calcite-label>
+              <calcite-label>
+                3
+                <calcite-radio-button name="3" value="3"></calcite-radio-button>
+              </calcite-label>
+            </calcite-radio-button-group>
+            <calcite-button type="submit">Submit</calcite-button>
+          </form>
+        `);
+
+        const submitButton = await page.find("calcite-button");
+        const element = await page.find("calcite-radio-group");
+        const changeEvent = await page.spyOnEvent("calciteRadioButtonChange");
+
+        await submitButton.click();
+        await page.waitForChanges();
+
+        await assertValidationInvalid(element, requiredValidationMessage);
+
+        await element.callMethod("setFocus");
+        await page.waitForChanges();
+
+        await page.keyboard.press("Space");
+        await page.waitForChanges();
+
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+        expect(await element.getProperty("value")).toBe("1");
+        await assertValidationIdle(element);
+      });
+
+      it(`calcite-segmented-control`, async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <form>
+            <calcite-segmented-control required>
+              <calcite-segmented-control-item name="1" value="1"></calcite-segmented-control-item>
+              <calcite-segmented-control-item name="2" value="2"></calcite-segmented-control-item>
+              <calcite-segmented-control-item name="3" value="3"></calcite-segmented-control-item>
+            </calcite-segmented-control>
+            <calcite-button type="submit">Submit</calcite-button>
+          </form>
+        `);
+
+        const submitButton = await page.find("calcite-button");
+        const element = await page.find("calcite-segmented-control");
+        const changeEvent = await page.spyOnEvent("calciteSegmentedControlChange");
+
+        await submitButton.click();
+        await page.waitForChanges();
+
+        await assertValidationInvalid(element, requiredValidationMessage);
+
+        await element.callMethod("setFocus");
+        await page.waitForChanges();
+
+        await page.keyboard.press("Space");
+        await page.waitForChanges();
+
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+        expect(await element.getProperty("value")).toBe("1");
+        await assertValidationIdle(element);
       });
     });
   });
