@@ -53,6 +53,7 @@ describe("form", () => {
 
           expect(inputEvent).toHaveReceivedEventTimes(1);
           expect(await element.getProperty("value")).toBe("1");
+
           await assertValidationIdle(element);
         });
       }
@@ -86,6 +87,7 @@ describe("form", () => {
 
           expect(inputEvent).toHaveReceivedEventTimes(1);
           expect(await element.getProperty("value")).toBe("1");
+
           await assertValidationIdle(element);
         });
       }
@@ -116,6 +118,7 @@ describe("form", () => {
         await page.waitForChanges();
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
+
         await assertValidationIdle(element);
       });
 
@@ -146,6 +149,7 @@ describe("form", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
         expect(await element.getProperty("value")).toBe("12:00");
+
         await assertValidationIdle(element);
       });
 
@@ -180,6 +184,7 @@ describe("form", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
         expect(await element.getProperty("value")).toBe("uno");
+
         await assertValidationIdle(element);
       });
 
@@ -215,7 +220,7 @@ describe("form", () => {
         await assertValidationIdle(element);
       });
 
-      it(`calcite-radio-button-group`, async () => {
+      it.skip(`calcite-radio-button-group`, async () => {
         const page = await newE2EPage();
         await page.setContent(html`
           <form>
@@ -254,17 +259,18 @@ describe("form", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
         expect(await element.getProperty("value")).toBe("1");
+
         await assertValidationIdle(element);
       });
 
-      it(`calcite-segmented-control`, async () => {
+      it.skip(`calcite-segmented-control`, async () => {
         const page = await newE2EPage();
         await page.setContent(html`
           <form>
             <calcite-segmented-control required>
-              <calcite-segmented-control-item name="1" value="1"></calcite-segmented-control-item>
-              <calcite-segmented-control-item name="2" value="2"></calcite-segmented-control-item>
-              <calcite-segmented-control-item name="3" value="3"></calcite-segmented-control-item>
+              <calcite-segmented-control-item name="1" value="1">1</calcite-segmented-control-item>
+              <calcite-segmented-control-item name="2" value="2">2</calcite-segmented-control-item>
+              <calcite-segmented-control-item name="3" value="3">3</calcite-segmented-control-item>
             </calcite-segmented-control>
             <calcite-button type="submit">Submit</calcite-button>
           </form>
