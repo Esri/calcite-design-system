@@ -334,7 +334,7 @@ describe("calcite-modal", () => {
         <calcite-modal open id="modal1">
           <div slot="header">Modal 1</div>
           <div slot="content">
-            <calcite-button id="openBtn">open second modal</calcite-button>
+            <calcite-button id="openButton">open second modal</calcite-button>
           </div>
         </calcite-modal>
       `);
