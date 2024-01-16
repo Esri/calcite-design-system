@@ -235,18 +235,17 @@ export function submitForm(component: FormOwner): boolean {
   formEl.requestSubmit();
   formEl.removeEventListener("invalid", displayValidationMessage, true);
 
-  const formAssociatedEls = formEl.querySelectorAll("[status]");
+  requestAnimationFrame(() => {
+    const invalidEls = formEl.querySelectorAll("[status=invalid]");
 
-  // focus the first invalid element that has a validation message
-  for (const el of formAssociatedEls) {
-    if (
-      (el as HTMLCalciteInputElement)?.status === "invalid" &&
-      (el as HTMLCalciteInputElement)?.validationMessage
-    ) {
-      (el as HTMLCalciteInputElement)?.setFocus();
-      break;
+    // focus the first invalid element that has a validation message
+    for (const el of invalidEls) {
+      if ((el as HTMLCalciteInputElement)?.validationMessage) {
+        (el as HTMLCalciteInputElement)?.setFocus();
+        break;
+      }
     }
-  }
+  });
 
   return true;
 }

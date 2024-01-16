@@ -215,7 +215,7 @@ describe("form", () => {
         await assertValidationIdle(element);
       });
 
-      it(`calcite-radio-group`, async () => {
+      it(`calcite-radio-button-group`, async () => {
         const page = await newE2EPage();
         await page.setContent(html`
           <form>
@@ -238,8 +238,8 @@ describe("form", () => {
         `);
 
         const submitButton = await page.find("calcite-button");
-        const element = await page.find("calcite-radio-group");
-        const changeEvent = await page.spyOnEvent("calciteRadioButtonChange");
+        const element = await page.find("calcite-radio-button-group");
+        const changeEvent = await page.spyOnEvent("calciteRadioButtonGroupChange");
 
         await submitButton.click();
         await page.waitForChanges();
@@ -287,6 +287,7 @@ describe("form", () => {
 
         expect(changeEvent).toHaveReceivedEventTimes(1);
         expect(await element.getProperty("value")).toBe("1");
+
         await assertValidationIdle(element);
       });
     });
