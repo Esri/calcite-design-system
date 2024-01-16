@@ -326,6 +326,40 @@ describe("calcite-modal", () => {
       await page.keyboard.press("Tab");
       expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
     });
+
+    it("subsequently opening a modal dynamically gets focus trapped", async () => {
+      const page = await newE2EPage();
+      await skipAnimations(page);
+      await page.setContent(html`
+        <calcite-modal open id="modal1">
+          <div slot="header">Modal 1</div>
+          <div slot="content">
+            <calcite-button id="openBtn">open second modal</calcite-button>
+          </div>
+        </calcite-modal>
+      `);
+
+      await page.evaluate(() => {
+        const btn = document.getElementById("openButton");
+        btn.addEventListener("click", () => {
+          const button = document.createElement("calcite-button");
+          button.innerHTML = "focusable";
+          button.slot = "content";
+
+          const modal2 = document.createElement("calcite-modal");
+          modal2.id = "modal2";
+          modal2.append(button);
+          document.body.append(modal2);
+          modal2.open = true;
+        });
+      });
+
+      await page.waitForEvent("calciteModalOpen");
+      await page.click("#openButton");
+      await page.waitForEvent("calciteModalOpen");
+
+      expect(await isElementFocused(page, "#modal2")).toBe(true);
+    });
   });
 
   describe("setFocus", () => {

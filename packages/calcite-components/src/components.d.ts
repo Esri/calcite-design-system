@@ -1857,20 +1857,6 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
-    interface CalciteInnerLabel {
-        /**
-          * @todo add doc
-         */
-        "label": string | null;
-        /**
-          * @todo add doc
-         */
-        "required": boolean;
-        /**
-          * @todo add doc
-         */
-        "scale": Scale;
-    }
     interface CalciteInput {
         /**
           * Specifies a comma separated list of unique file type specifiers for limiting accepted file types. This property only has an effect when `type` is "file". Read the native attribute's documentation on MDN for more info.
@@ -6221,12 +6207,6 @@ declare global {
         prototype: HTMLCalciteInlineEditableElement;
         new (): HTMLCalciteInlineEditableElement;
     };
-    interface HTMLCalciteInnerLabelElement extends Components.CalciteInnerLabel, HTMLStencilElement {
-    }
-    var HTMLCalciteInnerLabelElement: {
-        prototype: HTMLCalciteInnerLabelElement;
-        new (): HTMLCalciteInnerLabelElement;
-    };
     interface HTMLCalciteInputElementEventMap {
         "calciteInternalInputFocus": void;
         "calciteInternalInputBlur": void;
@@ -7353,7 +7333,6 @@ declare global {
         "calcite-handle": HTMLCalciteHandleElement;
         "calcite-icon": HTMLCalciteIconElement;
         "calcite-inline-editable": HTMLCalciteInlineEditableElement;
-        "calcite-inner-label": HTMLCalciteInnerLabelElement;
         "calcite-input": HTMLCalciteInputElement;
         "calcite-input-date-picker": HTMLCalciteInputDatePickerElement;
         "calcite-input-message": HTMLCalciteInputMessageElement;
@@ -9208,20 +9187,6 @@ declare namespace LocalJSX {
         "onCalciteInternalInlineEditableEnableEditingChange"?: (event: CalciteInlineEditableCustomEvent<void>) => void;
         /**
           * Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale.
-         */
-        "scale"?: Scale;
-    }
-    interface CalciteInnerLabel {
-        /**
-          * @todo add doc
-         */
-        "label"?: string | null;
-        /**
-          * @todo add doc
-         */
-        "required"?: boolean;
-        /**
-          * @todo add doc
          */
         "scale"?: Scale;
     }
@@ -12909,7 +12874,6 @@ declare namespace LocalJSX {
         "calcite-handle": CalciteHandle;
         "calcite-icon": CalciteIcon;
         "calcite-inline-editable": CalciteInlineEditable;
-        "calcite-inner-label": CalciteInnerLabel;
         "calcite-input": CalciteInput;
         "calcite-input-date-picker": CalciteInputDatePicker;
         "calcite-input-message": CalciteInputMessage;
@@ -13022,7 +12986,6 @@ declare module "@stencil/core" {
             "calcite-handle": LocalJSX.CalciteHandle & JSXBase.HTMLAttributes<HTMLCalciteHandleElement>;
             "calcite-icon": LocalJSX.CalciteIcon & JSXBase.HTMLAttributes<HTMLCalciteIconElement>;
             "calcite-inline-editable": LocalJSX.CalciteInlineEditable & JSXBase.HTMLAttributes<HTMLCalciteInlineEditableElement>;
-            "calcite-inner-label": LocalJSX.CalciteInnerLabel & JSXBase.HTMLAttributes<HTMLCalciteInnerLabelElement>;
             "calcite-input": LocalJSX.CalciteInput & JSXBase.HTMLAttributes<HTMLCalciteInputElement>;
             "calcite-input-date-picker": LocalJSX.CalciteInputDatePicker & JSXBase.HTMLAttributes<HTMLCalciteInputDatePickerElement>;
             "calcite-input-message": LocalJSX.CalciteInputMessage & JSXBase.HTMLAttributes<HTMLCalciteInputMessageElement>;
