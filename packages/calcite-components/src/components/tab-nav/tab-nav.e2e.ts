@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
   describe("defaults", () => {
