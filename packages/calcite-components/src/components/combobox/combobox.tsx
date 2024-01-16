@@ -742,10 +742,10 @@ export class Combobox
         break;
       case "Delete":
       case "Backspace":
-        if (
+        const notDeletable =
           this.selectionDisplay === "single" ||
-          (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0)
-        ) {
+          (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0);
+        if (notDeletable) {
           return;
         }
         if (this.activeChipIndex > -1) {
