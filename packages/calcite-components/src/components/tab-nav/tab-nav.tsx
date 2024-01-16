@@ -598,7 +598,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         key={overflowDirection}
         onClick={isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
         scale={this.scale}
-        text="Placeholder"
+        text={isEnd ? this.messages.nextTabTitles : this.messages.previousTabTitles}
       />
     );
   };
