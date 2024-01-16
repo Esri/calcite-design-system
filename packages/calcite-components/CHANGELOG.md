@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.19...@esri/calcite-components@2.2.0-next.20) (2024-01-16)
+
+### Features
+
+- **radio-button-group, segmented control:** add validationMessage, validationIcon, and status properties ([#8561](https://github.com/Esri/calcite-design-system/issues/8561)) ([d4c5efc](https://github.com/Esri/calcite-design-system/commit/d4c5efcb088a3fc8cb8c1474caf293bcc43f7602)), closes [#8057](https://github.com/Esri/calcite-design-system/issues/8057)
+
+## [2.2.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.18...@esri/calcite-components@2.2.0-next.19) (2024-01-16)
+
+### Bug Fixes
+
+- **text-area:** prevent infinite render loop when `max-length` property is defined ([#8610](https://github.com/Esri/calcite-design-system/issues/8610)) ([f30d933](https://github.com/Esri/calcite-design-system/commit/f30d9330fe4ed071891b2d7b18013c056c5ebc0d)), closes [#7968](https://github.com/Esri/calcite-design-system/issues/7968)
+
+## [2.2.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.17...@esri/calcite-components@2.2.0-next.18) (2024-01-12)
+
+### Features
+
+- **handle, block, list-item:** improve drag handle tooltip to include item label ([#8584](https://github.com/Esri/calcite-design-system/issues/8584)) ([6e643e2](https://github.com/Esri/calcite-design-system/commit/6e643e2f5384174d6b56233230b92a3b7716abab)), closes [#8581](https://github.com/Esri/calcite-design-system/issues/8581)
+- **tile:** add visual scales ([#8496](https://github.com/Esri/calcite-design-system/issues/8496)) ([7638ec4](https://github.com/Esri/calcite-design-system/commit/7638ec43caf4f443514ca89f678076f91c6d0730)), closes [#4759](https://github.com/Esri/calcite-design-system/issues/4759)
+
+### Bug Fixes
+
+- **input-message:** add missing margin to scale="s", spacing CSS variable has effect ([#8592](https://github.com/Esri/calcite-design-system/issues/8592)) ([49b0a20](https://github.com/Esri/calcite-design-system/commit/49b0a206eadfa193fa581f8c874a0b957bfb2c88)), closes [/github.com/Esri/calcite-design-system/pull/8561#issuecomment-1887992460](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/8561/issues/issuecomment-1887992460)
+
 ## [2.2.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.16...@esri/calcite-components@2.2.0-next.17) (2024-01-11)
 
 ### Features
