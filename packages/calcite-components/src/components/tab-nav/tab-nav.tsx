@@ -23,6 +23,15 @@ import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { ICON, CSS } from "./resources";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { TabNavMessages } from "./assets/tab-nav/t9n";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -33,7 +42,7 @@ import { ICON, CSS } from "./resources";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class TabNav {
+export class TabNav implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -91,6 +100,25 @@ export class TabNav {
    */
   @Prop({ mutable: true }) indicatorWidth: number;
 
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: TabNavMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<TabNavMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("selectedTabId")
   async selectedTabIdChanged(): Promise<void> {
     if (
@@ -126,6 +154,8 @@ export class TabNav {
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
     this.resizeObserver?.observe(this.el);
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -134,6 +164,7 @@ export class TabNav {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTabId = storedTab;
     }
+    await setUpMessages(this);
   }
 
   componentWillRender(): void {
@@ -165,6 +196,8 @@ export class TabNav {
   disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
     this.intersectionObserver?.disconnect();
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   //--------------------------------------------------------------------------
@@ -338,6 +371,15 @@ export class TabNav {
   activeIndicatorContainerEl: HTMLDivElement;
 
   animationActiveDuration = 0.3;
+
+  @State() defaultMessages: TabNavMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   resizeObserver = createObserver("resize", () => {
     if (!this.activeIndicatorEl) {
