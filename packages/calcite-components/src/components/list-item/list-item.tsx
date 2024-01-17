@@ -671,7 +671,7 @@ export class ListItem
             aria-setsize={setSize}
             class={{
               [CSS.container]: true,
-              [CSS.containerHover]: selectionMode !== "none",
+              [CSS.containerHover]: true,
               [CSS.containerBorder]: showBorder,
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
