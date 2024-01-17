@@ -500,13 +500,6 @@ export class InputText
     }
   };
 
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
     if (this.minLength != null) {
       input.minLength = this.minLength;

@@ -804,13 +804,6 @@ export class InputNumber
     }
   };
 
-  onFormReset(): void {
-    this.setNumberValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "number";
     input.min = this.min?.toString(10) ?? "";
