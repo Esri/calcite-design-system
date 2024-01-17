@@ -16,7 +16,6 @@
 
 :host([bordered]) calcite-action {
   box-shadow: inset 0 1px 0 var(--calcite-ui-border-1);
-  background-color: var(--calcite-ui-foreground-1);
 }
 
 :host([bordered]:not([position="bottom"])) calcite-action {
@@ -24,7 +23,9 @@
 }
 
 :host([bordered][position="bottom"]) calcite-action {
-  box-shadow: inset 0 1px 0 var(--calcite-ui-border-1), inset 0 -1px 0 var(--calcite-ui-border-1);
+  box-shadow:
+    inset 0 1px 0 var(--calcite-ui-border-1),
+    inset 0 -1px 0 var(--calcite-ui-border-1);
 }
 
 :host([bordered]) calcite-action {
@@ -35,6 +36,16 @@
   display: none;
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+:host([layout="center"]) {
+  ::slotted(calcite-tab-title) {
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 
 :host([layout="center"]:not([bordered])) {
@@ -73,7 +84,7 @@
     w-full
     justify-start
     whitespace-nowrap
-    overflow-auto;
+    overflow-hidden;
 }
 
 // prevent indicator overflow in horizontal scrolling situations
@@ -110,10 +121,6 @@ calcite-action {
 .arrow-start {
   @apply h-full overflow-hidden;
   inset-inline-start: 0;
-}
-
-:host([layout="center"]) .tab-nav {
-  @apply justify-evenly;
 }
 
 :host .position-bottom .tab-nav-active-indicator {
