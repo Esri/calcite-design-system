@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.21...@esri/calcite-components@2.2.0-next.22) (2024-01-17)
+
+### Features
+
+- use input-message to display validation messages for invalid fields after form submission ([#8574](https://github.com/Esri/calcite-design-system/issues/8574)) ([fd392fe](https://github.com/Esri/calcite-design-system/commit/fd392fe5658bf1b08c0bbcbdb74b4e3e47a1d360)), closes [#8000](https://github.com/Esri/calcite-design-system/issues/8000)
+
 ## [2.2.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.20...@esri/calcite-components@2.2.0-next.21) (2024-01-17)
 
 ### Features
