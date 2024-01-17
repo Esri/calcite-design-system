@@ -205,7 +205,7 @@
   transition:
     opacity 0.15s ease-in-out,
     inline-size 0.15s ease-in-out;
-  &.select-dd-active {
+  &.select-icon--active {
     block-size: var(--calcite-internal-chip-icon-size);
     inline-size: var(--calcite-internal-chip-icon-size);
     visibility: visible;
