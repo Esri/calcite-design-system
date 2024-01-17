@@ -214,23 +214,23 @@ export const complexUnitRTL_TestOnly = (): string =>
   ></calcite-meter>`;
 
 export const theming_TestOnly = (): string => html`
-    <calcite-meter
-      unit-label="GB"
-      value-label
-      range-labels
-      value-label-type="units"
-      min="0"
-      max="12400"
-      low="4600"
-      high="7600"
-      value="2200"
-      style="--calcite-meter-background-color: rgb(208, 190, 230);
+  <calcite-meter
+    unit-label="GB"
+    value-label
+    range-labels
+    value-label-type="units"
+    min="0"
+    max="12400"
+    low="4600"
+    high="7600"
+    value="2200"
+    style="--calcite-meter-background-color: rgb(208, 190, 230);
       --calcite-meter-border-color: rgb(184, 48, 153);
       --calcite-meter-box-shadow: var(--calcite-shadow-sm);
       --calcite-meter-corner-radius: 0px;
       --calcite-meter-fill-color: rgb(174, 69, 174);
       --calcite-meter-range-text-color: rgb(28, 110, 164);
       --calcite-meter-unit-text-color: pink;
-      --calcite-meter-value-text-color: purple;
-    ></calcite-meter>
-  `;
+      --calcite-meter-value-text-color: purple;"
+  ></calcite-meter>
+`;
