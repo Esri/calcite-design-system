@@ -1377,6 +1377,10 @@ export namespace Components {
          */
         "endDate"?: Date;
         /**
+          * The currently active Date.
+         */
+        "focusedDate": Date;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
@@ -8801,6 +8805,10 @@ declare namespace LocalJSX {
           * End date currently active.
          */
         "endDate"?: Date;
+        /**
+          * The currently active Date.
+         */
+        "focusedDate"?: Date;
         /**
           * The range of dates currently being hovered.
          */

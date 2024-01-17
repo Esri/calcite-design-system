@@ -142,7 +142,7 @@ export class DatePickerDay implements InteractiveComponent {
   componentWillLoad(): void {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(
       this.el,
-      "calcite-date-picker",
+      "calcite-date-picker"
     ) as HTMLCalciteDatePickerElement;
   }
 

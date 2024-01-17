@@ -99,7 +99,7 @@ export class DatePickerMonthHeader {
   componentWillLoad(): void {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(
       this.el,
-      "calcite-date-picker",
+      "calcite-date-picker"
     ) as HTMLCalciteDatePickerElement;
   }
 
@@ -238,38 +238,9 @@ export class DatePickerMonthHeader {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  /**
-   * Increment year on UP/DOWN keys
-   *
-   * @param event
-   */
-  private onYearKey = (event: KeyboardEvent): void => {
-    const localizedYear = this.parseCalendarYear((event.target as HTMLInputElement).value);
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        this.setYear({ localizedYear, offset: -1 });
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.setYear({ localizedYear, offset: 1 });
-        break;
-    }
-  };
-
-  private formatCalendarYear(year: number): string {
-    return numberStringFormatter.localize(`${formatCalendarYear(year, this.localeData)}`);
-  }
-
-  private parseCalendarYear(year: string): string {
-    return numberStringFormatter.localize(
-      `${parseCalendarYear(Number(numberStringFormatter.delocalize(year)), this.localeData)}`,
-    );
-  }
 
   private onYearChange = (event: Event): void => {
     const target = event.target as HTMLCalciteYearPickerElement;
-    console.log("year change");
     if (!Array.isArray(target.value)) {
       this.setYear({
         localizedYear: numberStringFormatter.localize(

@@ -1,7 +1,7 @@
 @include base-component();
 
 .calendar {
-  @apply mb-1;
+  @apply mb-1 flex;
 }
 
 .week-headers {

@@ -8,6 +8,7 @@ import {
   Listen,
   Prop,
   VNode,
+  Watch,
 } from "@stencil/core";
 import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
@@ -49,6 +50,23 @@ export class DatePickerMonth {
 
   /** The currently active Date.*/
   @Prop() activeDate: Date = new Date();
+
+  @Watch("selectedDate")
+  updateFocusedDate(newActiveDate: Date): void {
+    this.focusedDate = newActiveDate;
+  }
+
+  @Watch("activeDate")
+  updateFocusedDateWithActive(newActiveDate: Date): void {
+    if (!this.selectedDate) {
+      this.focusedDate = newActiveDate;
+    }
+  }
+
+  /** The currently active Date.
+   * @internal
+   */
+  @Prop({ mutable: true }) focusedDate: Date;
 
   /** Start date currently active. */
   @Prop() startDate?: Date;
@@ -187,6 +205,11 @@ export class DatePickerMonth {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.focusedDate = this.selectedDate || this.activeDate;
+  }
+
   render(): VNode {
     const month = this.activeDate.getMonth();
     const year = this.activeDate.getFullYear();
@@ -198,60 +221,53 @@ export class DatePickerMonth {
     const curMonDays = this.getCurrentMonthDays(month, year);
     const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
-    let dayInWeek = 0;
-    const getDayInWeek = () => dayInWeek++ % 7;
+    const endCalendarPrevMonDays = this.getPreviousMonthDays(month + 1, year, startOfWeek);
+    const endCalendarCurrMonDays = this.getCurrentMonthDays(month + 1, year);
+    const endCalendarNextMonDays = this.getNextMonthDays(month + 1, year, startOfWeek);
 
-    const days: Day[] = [
-      ...prevMonDays.map((day) => {
-        return {
-          active: false,
-          day,
-          dayInWeek: getDayInWeek(),
-          date: new Date(year, month - 1, day),
-        };
-      }),
-      ...curMonDays.map((day) => {
-        const date = new Date(year, month, day);
-        const active = sameDate(date, this.activeDate);
-        return {
-          active,
-          currentMonth: true,
-          day,
-          dayInWeek: getDayInWeek(),
-          date,
-          ref: true,
-        };
-      }),
-      ...nextMonDays.map((day) => {
-        return {
-          active: false,
-          day,
-          dayInWeek: getDayInWeek(),
-          date: new Date(year, month + 1, day),
-        };
-      }),
-    ];
+    const days = this.getDays(prevMonDays, curMonDays, nextMonDays);
+    const weeks = this.getWeeks(days);
 
-    const weeks: Day[][] = [];
-    for (let i = 0; i < days.length; i += 7) {
-      weeks.push(days.slice(i, i + 7));
-    }
+    const nextMonthDays = this.getDays(
+      endCalendarPrevMonDays,
+      endCalendarCurrMonDays,
+      endCalendarNextMonDays,
+      "end"
+    );
+    const nextMonthWeeks = this.getWeeks(nextMonthDays);
 
     return (
       <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
         <div class="calendar" role="grid">
-          <div class="week-headers" role="row">
-            {adjustedWeekDays.map((weekday) => (
-              <span class="week-header" role="columnheader">
-                {weekday}
-              </span>
+          <div class="month">
+            <div class="week-headers" role="row">
+              {adjustedWeekDays.map((weekday) => (
+                <span class="week-header" role="columnheader">
+                  {weekday}
+                </span>
+              ))}
+            </div>
+            {weeks.map((days) => (
+              <div class="week-days" role="row">
+                {days.map((day) => this.renderDateDay(day))}
+              </div>
             ))}
           </div>
-          {weeks.map((days) => (
-            <div class="week-days" role="row">
-              {days.map((day) => this.renderDateDay(day))}
+
+          <div class="month">
+            <div class="week-headers" role="row">
+              {adjustedWeekDays.map((weekday) => (
+                <span class="week-header" role="columnheader">
+                  {weekday}
+                </span>
+              ))}
             </div>
-          ))}
+            {nextMonthWeeks.map((days) => (
+              <div class="week-days" role="row">
+                {days.map((day) => this.renderDateDay(day))}
+              </div>
+            ))}
+          </div>
         </div>
       </Host>
     );
@@ -292,11 +308,13 @@ export class DatePickerMonth {
    * @param step
    */
   private addDays(step = 0) {
-    const nextDate = new Date(this.activeDate);
-    nextDate.setDate(this.activeDate.getDate() + step);
+    const nextDate = new Date(this.focusedDate);
+    nextDate.setDate(this.focusedDate.getDate() + step);
     this.calciteInternalDatePickerActiveDateChange.emit(
       dateFromRange(nextDate, this.min, this.max)
     );
+
+    this.focusedDate = dateFromRange(nextDate, this.min, this.max);
     this.activeFocus = true;
   }
 
@@ -356,6 +374,22 @@ export class DatePickerMonth {
       return days;
     }
     for (let i = 0; i < (DAYS_MAXIMUM_INDEX - (endDay - startOfWeek)) % DAYS_PER_WEEK; i++) {
+      days.push(i + 1);
+    }
+    return days;
+  }
+
+  /**
+   * Get dates for  the next month
+   *
+   * @param month
+   * @param year
+   * @param startOfWeek
+   */
+  private getNextMonthWholeDays(month: number, year: number): number[] {
+    const num = new Date(year, month + 2, 0).getDate();
+    const days = [];
+    for (let i = 0; i < num; i++) {
       days.push(i + 1);
     }
     return days;
@@ -521,5 +555,58 @@ export class DatePickerMonth {
             (this.endDate && sameDate(date, this.startDate))) &&
           ((start && date > start) || sameDate(date, start))));
     return cond1 || cond2;
+  }
+
+  private getDays = (
+    prevMonthDays: number[],
+    currMonthDays: number[],
+    nextMonthDays: number[],
+    position: "start" | "end" = "start"
+  ): Day[] => {
+    let month = this.activeDate.getMonth();
+    const year = this.activeDate.getFullYear();
+    let dayInWeek = 0;
+    const getDayInWeek = () => dayInWeek++ % 7;
+    month = position === "end" ? month + 1 : month;
+    const days: Day[] = [
+      ...prevMonthDays.map((day) => {
+        return {
+          active: false,
+          day,
+          dayInWeek: getDayInWeek(),
+          date: new Date(year, month - 1, day),
+        };
+      }),
+      ...currMonthDays.map((day) => {
+        const date = new Date(year, month, day);
+        const active = sameDate(date, this.focusedDate);
+        return {
+          active,
+          currentMonth: true,
+          day,
+          dayInWeek: getDayInWeek(),
+          date,
+          ref: true,
+        };
+      }),
+      ...nextMonthDays.map((day) => {
+        return {
+          active: false,
+          day,
+          dayInWeek: getDayInWeek(),
+          date: new Date(year, month + 1, day),
+        };
+      }),
+    ];
+
+    return days;
+  };
+
+  private getWeeks(days: Day[]): Day[][] {
+    const weeks: Day[][] = [];
+    for (let i = 0; i < days.length; i += 7) {
+      weeks.push(days.slice(i, i + 7));
+    }
+    return weeks;
   }
 }
