@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  ::slotted(calcite-tile) {
+    margin-block-end: 1px;
+    margin-inline-end: 1px;
+  }
+}
+
+@include disabled();
+@include base-component();

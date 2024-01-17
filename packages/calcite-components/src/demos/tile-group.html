@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Tile Group</title>
+    <style>
+      .parent {
+        display: flex;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .child {
+        display: inline-flex;
+        flex-direction: column;
+        flex: 0 1 50%;
+        padding: 15px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 21%;
+        align-self: center;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+    <script type="module" src="./_assets/demo-spacer.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <div class="parent">
+        <div class="child right-aligned-text">scale</div>
+        <div class="child">small</div>
+        <div class="child">medium</div>
+        <div class="child">large</div>
+        <div class="child"></div>
+      </div>
+
+      <!-- heading only -->
+      <div class="parent">
+        <div class="child right-aligned-text">heading only</div>
+
+        <div class="child">
+          <calcite-tile-group scale="s">
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+          </calcite-tile-group>
+        </div>
+        <div class="child">
+          <calcite-tile-group>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+          </calcite-tile-group>
+        </div>
+        <div class="child">
+          <calcite-tile-group scale="l">
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+            <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+          </calcite-tile-group>
+        </div>
+        <div class="child"></div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>
