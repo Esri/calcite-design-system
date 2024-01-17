@@ -65,7 +65,7 @@
 }
 
 :host([selected]) .calcite-card-container {
-  --calcite-card-container-border-color: var(--calcite-color-brand);
+  --calcite-card-border-color: var(--calcite-color-brand);
 }
 
 // slotted content
