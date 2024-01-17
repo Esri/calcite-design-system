@@ -916,8 +916,6 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
-    interface CalciteCode {
-    }
     interface CalciteColorPicker {
         /**
           * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
@@ -1908,6 +1906,11 @@ export namespace Components {
          */
         "groupSeparator": boolean;
         /**
+          * When `true`, the component will not be visible.
+          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+         */
+        "hidden": boolean;
+        /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
         "icon": string | boolean;
@@ -2236,6 +2239,11 @@ export namespace Components {
          */
         "groupSeparator": boolean;
         /**
+          * When `true`, the component will not be visible.
+          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+         */
+        "hidden": boolean;
+        /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
@@ -2396,6 +2404,11 @@ export namespace Components {
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
+        /**
+          * When `true`, the component will not be visible.
+          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+         */
+        "hidden": boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -3717,6 +3730,10 @@ export namespace Components {
          */
         "guid": string;
         /**
+          * When `true`, the component is not displayed and is not focusable or checkable.
+         */
+        "hidden": boolean;
+        /**
           * The hovered state of the component.
          */
         "hovered": boolean;
@@ -3750,6 +3767,10 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        /**
+          * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
+         */
+        "hidden": boolean;
         /**
           * Defines the layout of the component.
          */
@@ -4938,6 +4959,10 @@ export namespace Components {
          */
         "heading": string;
         /**
+          * When `true`, the component is not displayed and is not focusable.
+         */
+        "hidden": boolean;
+        /**
           * When embed is `"false"`, the URL for the component.
          */
         "href": string;
@@ -4971,6 +4996,10 @@ export namespace Components {
           * The component header text, which displays between the icon and description.
          */
         "heading": string;
+        /**
+          * When `true`, the component is not displayed and is not focusable or checkable.
+         */
+        "hidden": boolean;
         /**
           * Specifies an icon to display.
          */
@@ -5888,12 +5917,6 @@ declare global {
     var HTMLCalciteChipGroupElement: {
         prototype: HTMLCalciteChipGroupElement;
         new (): HTMLCalciteChipGroupElement;
-    };
-    interface HTMLCalciteCodeElement extends Components.CalciteCode, HTMLStencilElement {
-    }
-    var HTMLCalciteCodeElement: {
-        prototype: HTMLCalciteCodeElement;
-        new (): HTMLCalciteCodeElement;
     };
     interface HTMLCalciteColorPickerElementEventMap {
         "calciteColorPickerChange": void;
@@ -7317,7 +7340,6 @@ declare global {
         "calcite-checkbox": HTMLCalciteCheckboxElement;
         "calcite-chip": HTMLCalciteChipElement;
         "calcite-chip-group": HTMLCalciteChipGroupElement;
-        "calcite-code": HTMLCalciteCodeElement;
         "calcite-color-picker": HTMLCalciteColorPickerElement;
         "calcite-color-picker-hex-input": HTMLCalciteColorPickerHexInputElement;
         "calcite-color-picker-swatch": HTMLCalciteColorPickerSwatchElement;
@@ -8189,8 +8211,6 @@ declare namespace LocalJSX {
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   >;
-    }
-    interface CalciteCode {
     }
     interface CalciteColorPicker {
         /**
@@ -9247,6 +9267,11 @@ declare namespace LocalJSX {
          */
         "groupSeparator"?: boolean;
         /**
+          * When `true`, the component will not be visible.
+          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+         */
+        "hidden"?: boolean;
+        /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
         "icon"?: string | boolean;
@@ -9588,6 +9613,11 @@ declare namespace LocalJSX {
          */
         "groupSeparator"?: boolean;
         /**
+          * When `true`, the component will not be visible.
+          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+         */
+        "hidden"?: boolean;
+        /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
@@ -9750,6 +9780,11 @@ declare namespace LocalJSX {
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
+        /**
+          * When `true`, the component will not be visible.
+          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+         */
+        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -11161,6 +11196,10 @@ declare namespace LocalJSX {
          */
         "guid"?: string;
         /**
+          * When `true`, the component is not displayed and is not focusable or checkable.
+         */
+        "hidden"?: boolean;
+        /**
           * The hovered state of the component.
          */
         "hovered"?: boolean;
@@ -11206,6 +11245,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
+         */
+        "hidden"?: boolean;
         /**
           * Defines the layout of the component.
          */
@@ -12419,6 +12462,10 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
+          * When `true`, the component is not displayed and is not focusable.
+         */
+        "hidden"?: boolean;
+        /**
           * When embed is `"false"`, the URL for the component.
          */
         "href"?: string;
@@ -12452,6 +12499,10 @@ declare namespace LocalJSX {
           * The component header text, which displays between the icon and description.
          */
         "heading"?: string;
+        /**
+          * When `true`, the component is not displayed and is not focusable or checkable.
+         */
+        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
          */
@@ -12858,7 +12909,6 @@ declare namespace LocalJSX {
         "calcite-checkbox": CalciteCheckbox;
         "calcite-chip": CalciteChip;
         "calcite-chip-group": CalciteChipGroup;
-        "calcite-code": CalciteCode;
         "calcite-color-picker": CalciteColorPicker;
         "calcite-color-picker-hex-input": CalciteColorPickerHexInput;
         "calcite-color-picker-swatch": CalciteColorPickerSwatch;
@@ -12971,7 +13021,6 @@ declare module "@stencil/core" {
             "calcite-checkbox": LocalJSX.CalciteCheckbox & JSXBase.HTMLAttributes<HTMLCalciteCheckboxElement>;
             "calcite-chip": LocalJSX.CalciteChip & JSXBase.HTMLAttributes<HTMLCalciteChipElement>;
             "calcite-chip-group": LocalJSX.CalciteChipGroup & JSXBase.HTMLAttributes<HTMLCalciteChipGroupElement>;
-            "calcite-code": LocalJSX.CalciteCode & JSXBase.HTMLAttributes<HTMLCalciteCodeElement>;
             "calcite-color-picker": LocalJSX.CalciteColorPicker & JSXBase.HTMLAttributes<HTMLCalciteColorPickerElement>;
             "calcite-color-picker-hex-input": LocalJSX.CalciteColorPickerHexInput & JSXBase.HTMLAttributes<HTMLCalciteColorPickerHexInputElement>;
             "calcite-color-picker-swatch": LocalJSX.CalciteColorPickerSwatch & JSXBase.HTMLAttributes<HTMLCalciteColorPickerSwatchElement>;
