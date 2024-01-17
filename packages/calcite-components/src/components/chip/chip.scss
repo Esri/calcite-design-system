@@ -205,7 +205,7 @@
   transition:
     opacity 0.15s ease-in-out,
     inline-size 0.15s ease-in-out;
-  &.select-icon--active {
+  &.select-dd-active {
     block-size: var(--calcite-internal-chip-icon-size);
     inline-size: var(--calcite-internal-chip-icon-size);
     visibility: visible;
@@ -279,7 +279,7 @@ slot[name="image"]::slotted(*) {
     color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-3));
   }
   .chip-icon {
-    color: var(--calcite-chip-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-chip-icon-color, var(--calcite-color-text-1));
   }
 }
 
