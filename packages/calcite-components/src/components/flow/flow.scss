@@ -1,15 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden
- *
- * @prop --calcite-internal-flow-animation-timing: Specifies the animation timing for the flow.
- * @prop --calcite-internal-flow-animation-opacity-start: Specifies the animation starting opacity for the flow.
- * @prop --calcite-internal-flow-animation-opacity-end: Specifies the animation ending opacity for the flow.
- * @prop --calcite-internal-flow-animation-advance: Specifies the advancing animation for the flow.
- * @prop --calcite-internal-flow-animation-retreat: Specifies the retreating animation for the flow.
- */
-
 :host {
   @include base-host();
   position: relative;
