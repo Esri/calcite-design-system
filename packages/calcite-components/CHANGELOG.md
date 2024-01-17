@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.20...@esri/calcite-components@2.2.0-next.21) (2024-01-17)
+
+### Features
+
+- **list-item:** Add tooltip for expanding and collapsing ([#8612](https://github.com/Esri/calcite-design-system/issues/8612)) ([4964491](https://github.com/Esri/calcite-design-system/commit/49644913539edb5734f064b87a4dcd677474f626)), closes [#8613](https://github.com/Esri/calcite-design-system/issues/8613)
+
+### Bug Fixes
+
+- **combobox:** only allow deleting visible chips with the keyboard ([#8603](https://github.com/Esri/calcite-design-system/issues/8603)) ([2d38241](https://github.com/Esri/calcite-design-system/commit/2d382413b0e89736410e01f9c95ffe151c15506a)), closes [#8469](https://github.com/Esri/calcite-design-system/issues/8469)
+- **modal:** ensure focus trapping in dynamically created, subsequently opened modals ([#8593](https://github.com/Esri/calcite-design-system/issues/8593)) ([4ec6b94](https://github.com/Esri/calcite-design-system/commit/4ec6b948d4d26a07b6acf92a0c760746fe853162)), closes [#8340](https://github.com/Esri/calcite-design-system/issues/8340) [/github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/components/modal/modal.tsx#L519-L523](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/components/modal/modal.tsx/issues/L519-L523) [/github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/components/modal/modal.tsx#L489](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/components/modal/modal.tsx/issues/L489)
+
 ## [2.2.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0-next.19...@esri/calcite-components@2.2.0-next.20) (2024-01-16)
 
 ### Features
