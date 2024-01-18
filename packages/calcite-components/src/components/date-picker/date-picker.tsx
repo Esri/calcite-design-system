@@ -550,6 +550,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
             onCalciteInternalDatePickerSelect={this.monthDateChange}
             position={position}
+            range={this.range}
             scale={this.scale}
             // selectedDate={position === "end" ? endDate : date}
             selectedDate={date}
@@ -587,7 +588,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.valueAsDate = [startDate, date];
     this.mostRecentRangeValue = newEndDate;
     this.calciteDatePickerRangeChange.emit();
-    // this.activeEndDate = date;
   }
 
   private getStartDate(): Date {
@@ -643,9 +643,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           if (this.activeRange == "end") {
             this.setEndDate(date);
           } else {
-            //allows start end to go beyond end date and set the end date to empty
+            //debugger;
+            //allows start end to go beyond end date and set the end date to empty while editing
             if (date > end) {
               this.setEndDate(null);
+              this.activeEndDate = null;
             }
             this.setStartDate(date);
           }

@@ -149,14 +149,18 @@ export class DatePickerMonthHeader {
         <div class="chevron-container">
           {this.position !== "end" && (
             <a
-              aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
+              aria-disabled={`${
+                this.prevMonthDate.getMonth() === activeMonth || this.min > this.activeDate
+              }`}
               aria-label={messages.prevMonth}
               class={CSS.chevron}
               href="#"
               onClick={this.prevMonthClick}
               onKeyDown={this.prevMonthKeydown}
               role="button"
-              tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
+              tabindex={
+                this.prevMonthDate.getMonth() === activeMonth || this.min > this.activeDate ? -1 : 0
+              }
             >
               <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={getIconScale(this.scale)} />
             </a>

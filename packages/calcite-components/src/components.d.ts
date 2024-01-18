@@ -1397,6 +1397,7 @@ export namespace Components {
          */
         "min": Date;
         "position": "start" | "end";
+        "range": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -8839,6 +8840,7 @@ declare namespace LocalJSX {
          */
         "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         "position"?: "start" | "end";
+        "range"?: boolean;
         /**
           * Specifies the size of the component.
          */

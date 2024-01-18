@@ -83,6 +83,8 @@ export class DatePickerMonth {
   /** @internal */
   @Prop() position: "start" | "end";
 
+  @Prop({ reflect: true }) range: boolean;
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -254,20 +256,22 @@ export class DatePickerMonth {
             ))}
           </div>
 
-          <div class="month">
-            <div class="week-headers" role="row">
-              {adjustedWeekDays.map((weekday) => (
-                <span class="week-header" role="columnheader">
-                  {weekday}
-                </span>
+          {this.range && (
+            <div class="month">
+              <div class="week-headers" role="row">
+                {adjustedWeekDays.map((weekday) => (
+                  <span class="week-header" role="columnheader">
+                    {weekday}
+                  </span>
+                ))}
+              </div>
+              {nextMonthWeeks.map((days) => (
+                <div class="week-days" role="row">
+                  {days.map((day) => this.renderDateDay(day))}
+                </div>
               ))}
             </div>
-            {nextMonthWeeks.map((days) => (
-              <div class="week-days" role="row">
-                {days.map((day) => this.renderDateDay(day))}
-              </div>
-            ))}
-          </div>
+          )}
         </div>
       </Host>
     );
