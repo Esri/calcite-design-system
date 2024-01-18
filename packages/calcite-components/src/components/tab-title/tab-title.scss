@@ -15,40 +15,9 @@
 :host([layout="center"]) .scale-m,
 :host([layout="center"]) .scale-l {
   @apply my-0 text-center;
-  flex-basis: theme("spacing.48");
+  flex-basis: auto;
   .content {
     @apply m-auto;
-  }
-}
-
-// center the text visually and not affected by the x button so as to avoid moving when on or off
-:host([layout="center"][closable]) {
-  .content {
-    padding-inline-start: 32px; //28px button width + 0.25rem padding
-  }
-}
-
-:host([layout="center"][bordered][closable]) .scale-s {
-  .content {
-    padding-inline-start: 36px; //28px button width + 0.5rem padding
-  }
-}
-
-:host([layout="center"][bordered][closable]) .scale-m {
-  .content {
-    padding-inline-start: 40px; //28px button width + 0.75rem padding
-  }
-}
-
-:host([layout="center"][closable]) .scale-l {
-  .content {
-    padding-inline-start: 40px; //36px button width + .25 padding
-  }
-}
-
-:host([layout="center"][closable][bordered]) .scale-s {
-  .content {
-    padding-inline-start: 52px; //36px button width + 1rem padding
   }
 }
 
