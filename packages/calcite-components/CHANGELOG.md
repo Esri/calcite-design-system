@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0...@esri/calcite-components@2.2.1-next.0) (2024-01-18)
+
+### Bug Fixes
+
+- **list-item:** always show hover and pointer styling ([#8622](https://github.com/Esri/calcite-design-system/issues/8622)) ([4a8a91a](https://github.com/Esri/calcite-design-system/commit/4a8a91ae7fed59203f856b005974d5bca4771cf1)), closes [#6700](https://github.com/Esri/calcite-design-system/issues/6700) [/github.com/Esri/calcite-design-system/issues/6123#issuecomment-1361770131](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/6123/issues/issuecomment-1361770131)
+
 ## [2.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0...@esri/calcite-components@2.2.0) (2024-01-17)
 
 ### Features
