@@ -14,6 +14,18 @@
   min-block-size: theme("spacing.11");
 }
 
+.tab-titles-slot-wrapper--start-overflow {
+  mask-image: linear-gradient(to right, transparent 0%, white 5%);
+}
+
+.tab-titles-slot-wrapper--end-overflow {
+  mask-image: linear-gradient(to right, white 95%, transparent 100%);
+}
+
+.tab-titles-slot-wrapper--start-overflow.tab-titles-slot-wrapper--end-overflow {
+  mask-image: linear-gradient(to right, transparent 5%, white 10%, white 90%, transparent 100%);
+}
+
 :host([bordered]) calcite-action {
   box-shadow: inset 0 1px 0 var(--calcite-ui-border-1);
 }

@@ -8,4 +8,6 @@ export const CSS = {
   arrowStart: "arrow-start",
   container: "tab-nav",
   tabTitleSlotWrapper: "tab-titles-slot-wrapper",
+  tabTitleSlotWrapperEndOverflow: "tab-titles-slot-wrapper--end-overflow",
+  tabTitleSlotWrapperStartOverflow: "tab-titles-slot-wrapper--start-overflow",
 };

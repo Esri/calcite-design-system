@@ -224,7 +224,13 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.storeContainerRef}
         >
-          <div class={CSS.tabTitleSlotWrapper}>
+          <div
+            class={{
+              [CSS.tabTitleSlotWrapper]: true,
+              [CSS.tabTitleSlotWrapperStartOverflow]: !!this.overflowingStartTabTitle,
+              [CSS.tabTitleSlotWrapperEndOverflow]: !!this.overflowingEndTabTitle,
+            }}
+          >
             <slot onSlotchange={this.onSlotChange} />
           </div>
           <div
