@@ -8,7 +8,6 @@ import {
 } from "../../utils/interactive";
 import { TileGroupLayout } from "./interfaces";
 import { Scale } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tile` elements.
@@ -59,8 +58,6 @@ export class TileGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  private mutationObserver = createObserver("mutation", () => this.updateTiles());
-
   private updateTiles = (): void => {
     this.el.querySelectorAll("calcite-tile").forEach((item) => (item.scale = this.scale));
   };
@@ -73,7 +70,6 @@ export class TileGroup implements InteractiveComponent {
 
   connectedCallback(): void {
     connectInteractive(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
     this.updateTiles();
   }
 
@@ -83,7 +79,6 @@ export class TileGroup implements InteractiveComponent {
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
-    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {

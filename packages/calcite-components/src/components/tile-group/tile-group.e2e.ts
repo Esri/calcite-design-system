@@ -7,7 +7,7 @@ describe("calcite-tile-group", () => {
     renders("calcite-tile-group", { display: "flex" });
   });
 
-  describe("honors hidden attribute", () => {
+  describe("honors hidden attribute.", () => {
     hidden("calcite-tile-group");
   });
 
@@ -32,16 +32,16 @@ describe("calcite-tile-group", () => {
   describe("disabled", () => {
     disabled(
       html`<calcite-tile-group>
-        <calcite-tile heading="Uno" type="radio" value="one"></calcite-tile>
-        <calcite-tile heading="Dos" type="radio" value="two"></calcite-tile>
-        <calcite-tile heading="Tres" type="radio" value="three"></calcite-tile>
+        <calcite-tile></calcite-tile>
+        <calcite-tile></calcite-tile>
+        <calcite-tile></calcite-tile>
       </calcite-tile-group>`,
       { focusTarget: "child" },
     );
   });
 
   describe("prop passing", () => {
-    it("tiles receive parent scale prop", async () => {
+    it("tiles receive parent scale prop on initial load and when scale attribute is mutated", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-tile-group scale="s">
@@ -51,12 +51,20 @@ describe("calcite-tile-group", () => {
         </calcite-tile-group>
       `);
 
-      const tiles = await page.findAll("calcite-tile");
+      let tiles = await page.findAll("calcite-tile");
+      tiles.forEach((tile) => {
+        expect(tile.getAttribute("scale")).toBe("s");
+      });
 
-      for (let i = 0; i < tiles.length; i++) {
-        const scale = tiles[i].getAttribute("scale");
-        expect(scale).toBe("s");
-      }
+      await page.$eval("calcite-tile-group", (element: HTMLCalciteTileGroupElement) =>
+        element.setAttribute("scale", "l"),
+      );
+      await page.waitForChanges();
+
+      tiles = await page.findAll("calcite-tile");
+      tiles.forEach((tile) => {
+        expect(tile.getAttribute("scale")).toBe("l");
+      });
     });
   });
 });
