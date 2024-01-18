@@ -1906,11 +1906,6 @@ export namespace Components {
          */
         "groupSeparator": boolean;
         /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
-        /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
         "icon": string | boolean;
@@ -2239,11 +2234,6 @@ export namespace Components {
          */
         "groupSeparator": boolean;
         /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
-        /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
@@ -2404,11 +2394,6 @@ export namespace Components {
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -3730,10 +3715,6 @@ export namespace Components {
          */
         "guid": string;
         /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden": boolean;
-        /**
           * The hovered state of the component.
          */
         "hovered": boolean;
@@ -3767,10 +3748,6 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
-        /**
-          * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
-         */
-        "hidden": boolean;
         /**
           * Defines the layout of the component.
          */
@@ -4959,10 +4936,6 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * When `true`, the component is not displayed and is not focusable.
-         */
-        "hidden": boolean;
-        /**
           * When embed is `"false"`, the URL for the component.
          */
         "href": string;
@@ -4996,10 +4969,6 @@ export namespace Components {
           * The component header text, which displays between the icon and description.
          */
         "heading": string;
-        /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden": boolean;
         /**
           * Specifies an icon to display.
          */
@@ -9267,11 +9236,6 @@ declare namespace LocalJSX {
          */
         "groupSeparator"?: boolean;
         /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
-        /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
         "icon"?: string | boolean;
@@ -9613,11 +9577,6 @@ declare namespace LocalJSX {
          */
         "groupSeparator"?: boolean;
         /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
-        /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
@@ -9780,11 +9739,6 @@ declare namespace LocalJSX {
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -11196,10 +11150,6 @@ declare namespace LocalJSX {
          */
         "guid"?: string;
         /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden"?: boolean;
-        /**
           * The hovered state of the component.
          */
         "hovered"?: boolean;
@@ -11245,10 +11195,6 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
-        /**
-          * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
-         */
-        "hidden"?: boolean;
         /**
           * Defines the layout of the component.
          */
@@ -12462,10 +12408,6 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * When `true`, the component is not displayed and is not focusable.
-         */
-        "hidden"?: boolean;
-        /**
           * When embed is `"false"`, the URL for the component.
          */
         "href"?: string;
@@ -12499,10 +12441,6 @@ declare namespace LocalJSX {
           * The component header text, which displays between the icon and description.
          */
         "heading"?: string;
-        /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
          */
