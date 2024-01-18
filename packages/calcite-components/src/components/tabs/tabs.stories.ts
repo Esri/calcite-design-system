@@ -2,7 +2,6 @@ import { select } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import { locales } from "../../utils/locale";
 import { html } from "../../../support/formatting";
 import readme3 from "../tab-nav/readme.md";
 import readme4 from "../tab-title/readme.md";
@@ -465,15 +464,79 @@ export const noVerticalScrollbarInsideShellPanel_TestOnly = (): string => html`
 
 export const responsiveTabs = (): string =>
   createBreakpointStories(html`
-    <calcite-tabs
-      lang="${select("locale", locales, "en")}"
-      layout="${select("layout", ["inline", "center"], "inline")}"
-      position="${select("position", ["top", "bottom"], "top")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      ${boolean("bordered", false)}
-    >
-      <calcite-tabs>
-        <calcite-tab-nav slot="title-group" id="testSubject">
+    <style>
+      .breakpoint-story-container {
+        flex-direction: column;
+      }
+    </style>
+    <calcite-tabs scale="{scale}">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title selected icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
+          <calcite-tab-title closable>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen">Tab 6 Title</calcite-tab-title>
+          <calcite-tab-title closable>Tab 7 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 8 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+        <calcite-tab>Tab 5 Content</calcite-tab>
+        <calcite-tab>Tab 6 Content</calcite-tab>
+        <calcite-tab>Tab 7 Content</calcite-tab>
+        <calcite-tab>Tab 8 Content</calcite-tab>
+      </calcite-tabs>
+    </calcite-tabs>
+    
+    <calcite-tabs layout="center" scale="{scale}">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title selected icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
+          <calcite-tab-title closable>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen">Tab 6 Title</calcite-tab-title>
+          <calcite-tab-title closable>Tab 7 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 8 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+        <calcite-tab>Tab 5 Content</calcite-tab>
+        <calcite-tab>Tab 6 Content</calcite-tab>
+        <calcite-tab>Tab 7 Content</calcite-tab>
+        <calcite-tab>Tab 8 Content</calcite-tab>
+      </calcite-tabs>
+    </calcite-tabs>
+    
+    <calcite-tabs bordered scale="{scale}">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title selected icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
+          <calcite-tab-title closable>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen">Tab 6 Title</calcite-tab-title>
+          <calcite-tab-title closable>Tab 7 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 8 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+        <calcite-tab>Tab 5 Content</calcite-tab>
+        <calcite-tab>Tab 6 Content</calcite-tab>
+        <calcite-tab>Tab 7 Content</calcite-tab>
+        <calcite-tab>Tab 8 Content</calcite-tab>
+      </calcite-tabs>
+    </calcite-tabs>
+    
+    <calcite-tabs bordered layout="center" scale="{scale}">
+        <calcite-tab-nav slot="title-group">
           <calcite-tab-title selected icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
