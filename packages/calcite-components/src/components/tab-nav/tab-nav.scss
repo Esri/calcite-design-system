@@ -3,27 +3,59 @@
 }
 
 .scale-s {
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-32};
   min-block-size: theme("spacing.6");
 }
 
 .scale-m {
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-48};
   min-block-size: theme("spacing.8");
 }
 
 .scale-l {
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-64};
   min-block-size: theme("spacing.11");
 }
 
 .tab-titles-slot-wrapper--start-overflow {
-  mask-image: linear-gradient(to right, transparent 0%, white 5%);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    transparent var(--calcite-internal-tab-nav-scroller-button-width),
+    white var(--calcite-internal-tab-nav-scroller-button-width),
+    white 50%,
+    transparent 50%
+  );
 }
 
 .tab-titles-slot-wrapper--end-overflow {
-  mask-image: linear-gradient(to right, white 95%, transparent 100%);
+  mask-image: linear-gradient(
+    to left,
+    transparent,
+    transparent var(--calcite-internal-tab-nav-scroller-button-width),
+    white var(--calcite-internal-tab-nav-scroller-button-width),
+    white 50%,
+    transparent 50%
+  );
 }
 
 .tab-titles-slot-wrapper--start-overflow.tab-titles-slot-wrapper--end-overflow {
-  mask-image: linear-gradient(to right, transparent 5%, white 10%, white 90%, transparent 100%);
+  mask-image: linear-gradient(
+      to right,
+      transparent,
+      transparent var(--calcite-internal-tab-nav-scroller-button-width),
+      white var(--calcite-internal-tab-nav-scroller-button-width),
+      white 50%,
+      transparent 50%
+    ),
+    linear-gradient(
+      to left,
+      transparent,
+      transparent var(--calcite-internal-tab-nav-scroller-button-width),
+      white var(--calcite-internal-tab-nav-scroller-button-width),
+      white 50%,
+      transparent 50%
+    );
 }
 
 :host([bordered]) calcite-action {
