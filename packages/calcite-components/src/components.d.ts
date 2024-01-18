@@ -4990,6 +4990,10 @@ export namespace Components {
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
         "layout": TileGroupLayout;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
     }
     interface CalciteTileSelect {
         /**
@@ -12510,6 +12514,10 @@ declare namespace LocalJSX {
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
         "layout"?: TileGroupLayout;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
     }
     interface CalciteTileSelect {
         /**

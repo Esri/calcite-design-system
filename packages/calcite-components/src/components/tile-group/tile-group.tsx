@@ -1,4 +1,4 @@
-import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Prop, VNode, Watch } from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -7,6 +7,8 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { TileGroupLayout } from "./interfaces";
+import { Scale } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tile` elements.
@@ -33,6 +35,16 @@ export class TileGroup implements InteractiveComponent {
    */
   @Prop({ reflect: true }) layout: TileGroupLayout = "horizontal";
 
+  /**
+   * Specifies the size of the component.
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("scale")
+  scaleWatcher(): void {
+    this.updateTiles();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -43,12 +55,26 @@ export class TileGroup implements InteractiveComponent {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private mutationObserver = createObserver("mutation", () => this.updateTiles());
+
+  private updateTiles = (): void => {
+    this.el.querySelectorAll("calcite-tile").forEach((item) => (item.scale = this.scale));
+  };
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
     connectInteractive(this);
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.updateTiles();
   }
 
   componentDidRender(): void {
@@ -57,6 +83,7 @@ export class TileGroup implements InteractiveComponent {
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
