@@ -23,8 +23,7 @@
     transparent,
     transparent var(--calcite-internal-tab-nav-scroller-button-width),
     white var(--calcite-internal-tab-nav-scroller-button-width),
-    white 50%,
-    transparent 50%
+    white 50%
   );
 }
 
@@ -34,8 +33,7 @@
     transparent,
     transparent var(--calcite-internal-tab-nav-scroller-button-width),
     white var(--calcite-internal-tab-nav-scroller-button-width),
-    white 50%,
-    transparent 50%
+    white 50%
   );
 }
 
@@ -58,6 +56,7 @@
     );
 }
 
+// TODO: use class vs element
 :host([bordered]) calcite-action {
   box-shadow: inset 0 1px 0 var(--calcite-ui-border-1);
 }
@@ -74,6 +73,22 @@
 
 :host([bordered]) calcite-action {
   @apply border-color-1 border border-solid;
+  border-block-end: none;
+}
+
+:host(:not([bordered])) calcite-action {
+  //::before {
+  // TODO: fix
+  box-sizing: border-box;
+  border-inline-end: 1px solid var(--calcite-ui-border-1);
+  //
+  //content: "";
+  //top: 2px;
+  //bottom: 2px;
+  //position: absolute;
+  //height: 100%;
+  //width: 100%;
+  //}
 }
 
 .tab-nav::-webkit-scrollbar {
