@@ -58,6 +58,10 @@
     white-space: nowrap;
     overflow: hidden;
   }
+
+  ::slotted(calcite-tab-title[selected]) {
+    overflow: unset;
+  }
 }
 
 :host([layout="center"]:not([bordered])) {
