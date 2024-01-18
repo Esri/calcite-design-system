@@ -7,5 +7,9 @@
   }
 }
 
+:host([layout="vertical"]) {
+  flex-direction: column;
+}
+
 @include disabled();
 @include base-component();

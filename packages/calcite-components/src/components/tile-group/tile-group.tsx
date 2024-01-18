@@ -6,6 +6,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { TileGroupLayout } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-tile` elements.
@@ -24,6 +25,13 @@ export class TileGroup implements InteractiveComponent {
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * Defines the layout of the component.
+   *
+   * Use `"horizontal"` for rows, and `"vertical"` for a single column.
+   */
+  @Prop({ reflect: true }) layout: TileGroupLayout = "horizontal";
 
   //--------------------------------------------------------------------------
   //

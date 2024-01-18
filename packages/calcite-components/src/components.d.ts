@@ -84,6 +84,7 @@ import { TableMessages } from "./components/table/assets/table/t9n";
 import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
 import { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
+import { TileGroupLayout } from "./components/tile-group/interfaces";
 import { TileSelectType } from "./components/tile-select/interfaces";
 import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
 import { TipMessages } from "./components/tip/assets/tip/t9n";
@@ -170,6 +171,7 @@ export { TableMessages } from "./components/table/assets/table/t9n";
 export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
 export { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
+export { TileGroupLayout } from "./components/tile-group/interfaces";
 export { TileSelectType } from "./components/tile-select/interfaces";
 export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
 export { TipMessages } from "./components/tip/assets/tip/t9n";
@@ -4984,6 +4986,10 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout": TileGroupLayout;
     }
     interface CalciteTileSelect {
         /**
@@ -12500,6 +12506,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout"?: TileGroupLayout;
     }
     interface CalciteTileSelect {
         /**
