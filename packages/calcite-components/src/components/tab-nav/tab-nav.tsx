@@ -139,8 +139,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   @Watch("selectedTitle")
   selectedTitleChanged(): void {
-    this.updateOffsetPosition();
-    this.updateActiveWidth();
+    this.updateActiveIndicator();
     // reset the animation time on tab selection
     this.activeIndicatorEl.style.transitionDuration = `${this.animationActiveDuration}s`;
   }
@@ -172,9 +171,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     this.layout = parentTabsEl?.layout;
     this.bordered = parentTabsEl?.bordered;
-    // fix issue with active tab-title not lining up with blue indicator
+
     if (this.selectedTitle) {
-      this.updateOffsetPosition();
+      this.updateActiveIndicator();
     }
   }
 
@@ -230,11 +229,15 @@ export class TabNav implements LocalizedComponent, T9nComponent {
               [CSS.tabTitleSlotWrapperStartOverflow]: !!this.overflowingStartTabTitle,
               [CSS.tabTitleSlotWrapperEndOverflow]: !!this.overflowingEndTabTitle,
             }}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => (this.tabTitleContainerEl = el)}
           >
             <slot onSlotchange={this.onSlotChange} />
           </div>
           <div
-            class="tab-nav-active-indicator-container"
+            class={{
+              [CSS.activeIndicatorContainer]: true,
+            }}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.activeIndicatorContainerEl = el)}
           >
@@ -334,8 +337,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   @Listen("calciteInternalTabIconChanged")
   iconStartChangeHandler(): void {
-    this.updateActiveWidth();
-    this.updateOffsetPosition();
+    this.updateActiveIndicator();
   }
 
   //--------------------------------------------------------------------------
@@ -366,19 +368,19 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   @State() private overflowingEndTabTitle: HTMLCalciteTabTitleElement = null;
 
-  @State() selectedTabId: TabID;
+  @State() private selectedTabId: TabID;
 
-  @State() viewportVisibleTabTitleIndices: Map<object, number>;
+  private activeIndicatorEl: HTMLElement;
 
-  parentTabsEl: HTMLCalciteTabsElement;
+  private activeIndicatorContainerEl: HTMLDivElement;
 
-  tabNavEl: HTMLDivElement;
+  private animationActiveDuration = 0.3;
 
-  activeIndicatorEl: HTMLElement;
+  private parentTabsEl: HTMLCalciteTabsElement;
 
-  activeIndicatorContainerEl: HTMLDivElement;
+  private tabNavEl: HTMLDivElement;
 
-  animationActiveDuration = 0.3;
+  private tabTitleContainerEl: HTMLDivElement;
 
   @State() defaultMessages: TabNavMessages;
 
@@ -396,8 +398,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     // remove active indicator transition duration during resize to prevent wobble
     this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.updateActiveWidth();
-    this.updateOffsetPosition();
+    this.updateActiveIndicator();
   });
 
   private intersectionObserver: IntersectionObserver;
@@ -407,6 +408,20 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private updateActiveIndicator(): void {
+    const dir = getElementDir(this.el);
+    const tabTitleScrollLeft = this.tabTitleContainerEl?.scrollLeft;
+    const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
+    const tabLeft = this.selectedTitle?.offsetLeft;
+    const tabWidth = this.selectedTitle?.offsetWidth;
+    const offsetRight = navWidth - tabLeft - tabWidth;
+    this.indicatorOffset =
+      (dir === "ltr"
+        ? tabLeft - this.tabNavEl?.scrollLeft
+        : offsetRight + this.tabNavEl?.scrollLeft) - tabTitleScrollLeft;
+    this.indicatorWidth = this.selectedTitle?.offsetWidth;
+  }
 
   private disconnectIntersectionObserver(): void {
     this.intersectionObserver?.disconnect();
@@ -473,6 +488,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         behavior: "smooth",
         inline: direction === "forward" ? "start" : "end",
       });
+
+      this.updateActiveIndicator();
     });
   };
 
@@ -494,25 +511,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     event.stopPropagation();
   };
 
-  handleContainerScroll = (): void => {
+  private handleContainerScroll = (): void => {
     // remove active indicator transition duration while container is scrolling to prevent wobble
     this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.updateOffsetPosition();
+    this.updateActiveIndicator();
   };
-
-  updateOffsetPosition(): void {
-    const dir = getElementDir(this.el);
-    const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
-    const tabLeft = this.selectedTitle?.offsetLeft;
-    const tabWidth = this.selectedTitle?.offsetWidth;
-    const offsetRight = navWidth - (tabLeft + tabWidth);
-    this.indicatorOffset =
-      dir !== "rtl" ? tabLeft - this.tabNavEl?.scrollLeft : offsetRight + this.tabNavEl?.scrollLeft;
-  }
-
-  updateActiveWidth(): void {
-    this.indicatorWidth = this.selectedTitle?.offsetWidth;
-  }
 
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
     // In most cases, since these indexes correlate with tab contents, we want to consider all tab titles.
@@ -569,9 +572,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     }
 
     requestAnimationFrame(() => {
-      this.updateOffsetPosition();
-      this.updateActiveWidth();
-
+      this.updateActiveIndicator();
       tabTitles[this.selectedTabId].focus();
     });
   }
