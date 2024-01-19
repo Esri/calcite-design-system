@@ -285,16 +285,16 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   @Listen("calciteInternalTabsActivate")
   internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
+    const activatedTabTitle = event.target as HTMLCalciteTabTitleElement;
+
     this.selectedTabId = event.detail.tab
       ? event.detail.tab
-      : this.getIndexOfTabTitle(event.target as HTMLCalciteTabTitleElement);
+      : this.getIndexOfTabTitle(activatedTabTitle);
     event.stopPropagation();
 
-    if (this.selectedTabId === this.getIndexOfTabTitle(this.overflowingEndTabTitle)) {
-      this.scrollToNextTabTitles();
-    } else if (this.selectedTabId === this.getIndexOfTabTitle(this.overflowingStartTabTitle)) {
-      this.scrollToPreviousTabTitles();
-    }
+    activatedTabTitle.scrollIntoView({
+      behavior: "smooth",
+    });
   }
 
   @Listen("calciteTabsActivate")
