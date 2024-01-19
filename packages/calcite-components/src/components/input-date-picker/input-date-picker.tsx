@@ -742,6 +742,8 @@ export class InputDatePicker
 
   private userChangedValue = false;
 
+  rangeStartValueChangedByUser = false;
+
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
@@ -845,7 +847,6 @@ export class InputDatePicker
   };
 
   private blurHandler = (): void => {
-    // this is causing date-picker to close when start date is selected from the end calendar.
     this.open = false;
   };
 
@@ -991,14 +992,15 @@ export class InputDatePicker
   private shouldFocusRangeStart(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
-    return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
+    return !!(endValue && !startValue && this.focusedInput === "start" && this.startInput);
   }
 
   //update these logics to allow focus restoration during editing
+  // these values might always be false considering focusInput is changed in restoreInputFocus method.
   private shouldFocusRangeEnd(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
-    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
+    return !!(startValue && !endValue && this.focusedInput === "end" && this.endInput);
   }
 
   private handleDateRangeChange = (event: CustomEvent<void>): void => {
@@ -1020,14 +1022,15 @@ export class InputDatePicker
       this.startInput.setFocus();
       return;
     }
-    if (restore) {
-      //do nothing
-    }
 
-    // const focusedInput = this.focusedInput === "start" ? this.endInput : this.startInput;
+    //avoid closing of date-picker while editing
+    this.rangeStartValueChangedByUser = !restore && this.focusedInput === "start";
+
     const focusedInput = restore && this.focusedInput === "start" ? this.startInput : this.endInput;
-
     focusedInput.setFocus();
+
+    //this is avoid delay in updating focusedInput value while the `blur` handler in `date-picker` causing update in activeDate.
+    this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
   }
 
   private localizeInputValues(): void {
