@@ -40,10 +40,10 @@ export class YearPicker implements LocalizedComponent {
   @Prop() disableYearsOutOfRange = false;
 
   /** Specifies the latest allowed year (`"yyyy"`). */
-  @Prop() max = 2100;
+  @Prop({ mutable: true }) max = 2100;
 
   /** Specifies the earliest allowed year (`"yyyy"`). */
-  @Prop() min = 1900;
+  @Prop({ mutable: true }) min = 1900;
 
   @Watch("min")
   handleMinChange(value: number): void {
