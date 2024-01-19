@@ -581,7 +581,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const { bordered, messages, overflowingStartTabTitle, overflowingEndTabTitle, scale } = this;
     const isEnd = overflowDirection === "end";
 
-    const classes = isEnd ? CSS.arrowEnd : CSS.arrowStart;
     const hidden = (isEnd && !overflowingEndTabTitle) || (!isEnd && !overflowingStartTabTitle);
     const icon = isEnd ? ICON.chevronRight : ICON.chevronLeft;
     const onClick = isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles;
@@ -590,7 +589,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     return (
       <calcite-action
         appearance={bordered ? "solid" : "transparent"}
-        class={classes}
+        class={{
+          [CSS.scrollButton]: true,
+          [CSS.scrollBackwardButton]: !isEnd,
+          [CSS.scrollForwardButton]: isEnd,
+        }}
         hidden={hidden}
         icon={icon}
         key={overflowDirection}
