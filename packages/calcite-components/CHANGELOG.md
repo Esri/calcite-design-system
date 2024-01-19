@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.1-next.0...@esri/calcite-components@2.2.1-next.1) (2024-01-19)
+
+### Bug Fixes
+
+- **action-menu:** clicking an action menu item should call click event. ([#8627](https://github.com/Esri/calcite-design-system/issues/8627)) ([b12ef6b](https://github.com/Esri/calcite-design-system/commit/b12ef6bf2cd8c9587c1f5b3aeab890d21336ffd4)), closes [#8577](https://github.com/Esri/calcite-design-system/issues/8577) [#8628](https://github.com/Esri/calcite-design-system/issues/8628)
+
 ## [2.2.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0...@esri/calcite-components@2.2.1-next.0) (2024-01-18)
 
 ### Bug Fixes
