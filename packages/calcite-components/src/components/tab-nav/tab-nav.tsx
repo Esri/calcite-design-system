@@ -229,6 +229,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
               [CSS.tabTitleSlotWrapperStartOverflow]: !!this.overflowingStartTabTitle,
               [CSS.tabTitleSlotWrapperEndOverflow]: !!this.overflowingEndTabTitle,
             }}
+            onWheel={this.onTabTitleWheel}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.tabTitleContainerEl = el)}
           >
@@ -426,6 +427,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   private disconnectIntersectionObserver(): void {
     this.intersectionObserver?.disconnect();
   }
+
+  private onTabTitleWheel = (event: WheelEvent): void => {
+    event.preventDefault();
+    (event.currentTarget as HTMLDivElement).scrollBy(event.deltaY, 0);
+  };
 
   private onSlotChange = (event: Event): void => {
     this.disconnectIntersectionObserver();
