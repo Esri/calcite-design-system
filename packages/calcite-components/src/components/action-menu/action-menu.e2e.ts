@@ -501,6 +501,7 @@ describe("calcite-action-menu", () => {
       expect(actions[1].getAttribute(activeAttr)).toBe(null);
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
+      // native click is used to close the open menu
       await page.$eval("calcite-action", (el: HTMLCalciteActionElement) => el.click());
 
       expect(await actionMenu.getProperty("open")).toBe(false);
