@@ -249,8 +249,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             />
           </div>
           {this.layout === "inline" && [
-            this.renderScrollingAction("start"),
-            this.renderScrollingAction("end"),
+            this.renderScrollButton("start"),
+            this.renderScrollButton("end"),
           ]}
         </div>
       </Host>
@@ -577,14 +577,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     });
   }
 
-  private renderScrollingAction = (overflowDirection: "start" | "end"): VNode => {
+  private renderScrollButton = (overflowDirection: "start" | "end"): VNode => {
     const { bordered, messages, overflowingStartTabTitle, overflowingEndTabTitle, scale } = this;
     const isEnd = overflowDirection === "end";
-
-    const hidden = (isEnd && !overflowingEndTabTitle) || (!isEnd && !overflowingStartTabTitle);
-    const icon = isEnd ? ICON.chevronRight : ICON.chevronLeft;
-    const onClick = isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles;
-    const text = isEnd ? messages.nextTabTitles : messages.previousTabTitles;
 
     return (
       <calcite-action
@@ -594,12 +589,12 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           [CSS.scrollBackwardButton]: !isEnd,
           [CSS.scrollForwardButton]: isEnd,
         }}
-        hidden={hidden}
-        icon={icon}
+        hidden={(isEnd && !overflowingEndTabTitle) || (!isEnd && !overflowingStartTabTitle)}
+        icon={isEnd ? ICON.chevronRight : ICON.chevronLeft}
         key={overflowDirection}
-        onClick={onClick}
+        onClick={isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
         scale={scale}
-        text={text}
+        text={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
       />
     );
   };
