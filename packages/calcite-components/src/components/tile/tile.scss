@@ -4,19 +4,32 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tile-background-color: Specifies the background color of the component.
- * @prop --calcite-tile-text-color: Specifies the text color of the component.
+ * @prop --calcite-tile-border-color: Specifies the border color of the component.
+ * @prop --calcite-tile-border-color-active: Specifies the border color of the component when in an active state.
+ * @prop --calcite-tile-border-color-hover: Specifies the border color of the component when in a hover state.
+ * @prop --calcite-tile-description-text-color: Specifies the description text color of the component.
+ * @prop --calcite-tile-description-text-color-hover: Specifies the description text color of the component when in an active or hover state.
+ * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
+ * @prop --calcite-tile-heading-text-color-hover: Specifies the heading text color of the component when in an active or hover state.
+ * @prop --calcite-tile-icon-color: Specifies the icon color of the component.
  */
 
 :host {
   --calcite-tile-background-color: var(--calcite-color-foreground-1);
-  --calcite-tile-text-color: var(--calcite-color-text-3);
+  --calcite-tile-border-color: var(--calcite-color-border-2);
+  --calcite-tile-border-color-active: var(--calcite-color-brand);
+  --calcite-tile-border-color-hover: var(--calcite-color-brand);
+  --calcite-tile-description-text-color: var(--calcite-color-text-3);
+  --calcite-tile-description-text-color-hover: var(--calcite-color-text-2);
+  --calcite-tile-heading-text-color: var(--calcite-color-text-2);
+  --calcite-tile-heading-text-color-hover: var(--calcite-color-text-1);
+  --calcite-tile-icon-color: var(--calcite-color-text-3);
 
   box-sizing: border-box;
   display: inline-block;
 
   .tile {
     background-color: var(--calcite-tile-background-color);
-    color: var(--calcite-tile-text-color);
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: var(--calcite-spacing-md);
@@ -36,7 +49,6 @@
 
   .content-container {
     align-items: stretch;
-    color: var(--calcite-color-text-2); /* TODO: add component token here */
     display: flex;
     outline-color: transparent;
     padding: 0px;
@@ -57,7 +69,7 @@
   }
 
   .heading {
-    color: var(--calcite-color-text-2);
+    color: var(--calcite-tile-heading-text-color);
     font-size: var(--calcite-font-size--1);
     font-weight: 500;
     line-height: 1.20313rem;
@@ -65,7 +77,7 @@
   }
   .large-visual {
     align-items: center;
-    min-block-size: 12rem; /* TODO: use semantic token here */
+    min-block-size: 12rem;
     text-align: center;
 
     calcite-icon {
@@ -79,7 +91,7 @@
     }
   }
   .description {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-tile-description-text-color);
     font-size: var(--calcite-font-size--2);
     font-weight: 400;
     line-height: 1.03125rem;
@@ -117,7 +129,7 @@
 
 :host(:not([href])) {
   calcite-icon {
-    color: var(--calcite-color-text-3);
+    color: var(--calcite-tile-icon-color);
   }
 }
 
@@ -130,7 +142,7 @@
 }
 :host(:not([embed])) {
   .tile {
-    box-shadow: 0 0 0 1px var(--calcite-color-border-2);
+    box-shadow: 0 0 0 1px var(--calcite-tile-border-color);
     padding: var(--calcite-spacing-md);
   }
 }
@@ -146,13 +158,13 @@
 }
 :host(:not([embed])[href]:hover) {
   .tile {
-    box-shadow: 0 0 0 2px var(--calcite-color-brand);
+    box-shadow: 0 0 0 2px var(--calcite-tile-border-color-hover);
     cursor: pointer;
   }
 }
 :host(:not([embed])[href]:active) {
   .tile {
-    box-shadow: 0 0 0 3px var(--calcite-color-brand);
+    box-shadow: 0 0 0 3px var(--calcite-tile-border-color-active);
   }
 }
 :host([icon][heading]:not([description]):not([embed])) {
@@ -166,10 +178,10 @@
 :host(:hover),
 :host([active]) {
   .heading {
-    color: var(--calcite-color-text-1);
+    color: var(--calcite-tile-heading-text-color-hover);
   }
   .description {
-    color: var(--calcite-color-text-2);
+    color: var(--calcite-tile-description-text-color-hover);
   }
 }
 
