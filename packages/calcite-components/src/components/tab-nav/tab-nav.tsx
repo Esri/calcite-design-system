@@ -254,10 +254,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          {this.layout === "inline" && [
-            this.renderScrollButton("start"),
-            this.renderScrollButton("end"),
-          ]}
+          {this.renderScrollButton("start")}
+          {this.renderScrollButton("end")}
         </div>
       </Host>
     );
@@ -490,7 +488,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   private storeTabTitleWrapperRef = (el: HTMLDivElement) => {
     this.tabTitleContainerEl = el;
 
-    if (!el || this.layout === "center") {
+    if (!el) {
       return;
     }
 

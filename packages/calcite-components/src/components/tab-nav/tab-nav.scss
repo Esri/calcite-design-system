@@ -93,10 +93,10 @@
 :host([layout="center"]) {
   ::slotted(calcite-tab-title) {
     display: flex;
-    flex-basis: 0;
     flex-grow: 1;
+    flex-shrink: 0;
+    min-inline-size: auto;
     white-space: nowrap;
-    overflow: hidden;
   }
 
   ::slotted(calcite-tab-title[selected]) {
