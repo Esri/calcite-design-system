@@ -84,21 +84,6 @@
   border-block-end: none;
 }
 
-:host(:not([bordered])) .scroll-button {
-  //::before {
-  // TODO: fix
-  box-sizing: border-box;
-  border-inline-end: 1px solid var(--calcite-ui-border-1);
-  //
-  //content: "";
-  //top: 2px;
-  //bottom: 2px;
-  //position: absolute;
-  //height: 100%;
-  //width: 100%;
-  //}
-}
-
 .tab-nav::-webkit-scrollbar {
   display: none;
   -ms-overflow-style: none;
@@ -178,20 +163,46 @@
     ease-out;
 }
 
-.scroll-button {
+.scroll-button-container {
   @apply absolute;
   inset-block-start: 50%;
   transform: translateY(-50%);
 }
 
-.scroll-button--forward {
-  @apply h-full overflow-hidden;
+.scroll-button-container:not([hidden]) {
+  @apply flex h-full overflow-hidden;
+}
+
+.scroll-button-container--forward {
   inset-inline-end: 0;
 }
 
-.scroll-button--backward {
-  @apply h-full overflow-hidden;
+.scroll-button-container--backward {
   inset-inline-start: 0;
+}
+
+:host(:not([bordered])) {
+  .scroll-button-container--backward {
+    ::before {
+      inset-inline-end: 0;
+      position: absolute;
+      content: "";
+      background-color: var(--calcite-color-border-3);
+      inset-block: 6px;
+      inline-size: var(--calcite-border-width-md);
+    }
+  }
+
+  .scroll-button-container--forward {
+    ::before {
+      inset-inline-start: 0;
+      position: absolute;
+      content: "";
+      background-color: var(--calcite-color-border-3);
+      inset-block: 6px;
+      inline-size: var(--calcite-border-width-md);
+    }
+  }
 }
 
 :host .position-bottom .tab-nav-active-indicator {
