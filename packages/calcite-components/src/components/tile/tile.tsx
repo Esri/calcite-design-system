@@ -137,7 +137,7 @@ export class Tile implements InteractiveComponent {
     const isLargeVisual = heading && icon && !description;
 
     return (
-      <div class={{ container: true, "large-visual": isLargeVisual }}>
+      <div class={{ [CSS.tile]: true, "large-visual": isLargeVisual }}>
         {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
         <div class="content-container">
           <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>
