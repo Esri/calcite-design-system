@@ -90,6 +90,33 @@ describe("calcite-button", () => {
     hidden("calcite-button");
   });
 
+  it("renders child element as disabled or aria-disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button disabled>Continue</calcite-button>`);
+
+    let elementAsButton = await page.find("calcite-button >>> button");
+    let elementAsLink = await page.find("calcite-button >>> a");
+
+    expect(elementAsButton).not.toBeNull();
+    expect(elementAsLink).toBeNull();
+
+    expect(await elementAsButton.getProperty("disabled")).toBe(true);
+    expect(await elementAsButton.getProperty("ariaDisabled")).toBe(null);
+
+    const element = await page.find("calcite-button");
+    element.setProperty("href", "#anchor");
+    await page.waitForChanges();
+
+    elementAsButton = await page.find("calcite-button >>> button");
+    elementAsLink = await page.find("calcite-button >>> a");
+
+    expect(elementAsButton).toBeNull();
+    expect(elementAsLink).not.toBeNull();
+
+    expect(await elementAsLink.getProperty("disabled")).toBe(undefined);
+    expect(await elementAsLink.getProperty("ariaDisabled")).toBe("true");
+  });
+
   it("renders as a button with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);
@@ -193,7 +220,7 @@ describe("calcite-button", () => {
   it("renders as a button with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -217,7 +244,7 @@ describe("calcite-button", () => {
   it("renders as a link with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button href="/" kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button href="/" kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -241,7 +268,7 @@ describe("calcite-button", () => {
   it("passes attributes to rendered child link", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`
+      `<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`,
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -399,7 +426,7 @@ describe("calcite-button", () => {
   it("should not render loader with an icon-start ,width set to half and aligned space-between", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button icon-start='plus' width='half' , alignment='space-between'>Continue</calcite-button>`
+      `<calcite-button icon-start='plus' width='half' , alignment='space-between'>Continue</calcite-button>`,
     );
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
     expect(loader).toBeNull();
@@ -454,11 +481,11 @@ describe("calcite-button", () => {
       page = await newE2EPage({ html: buttonSnippet });
       const buttonStyles = await page.evaluate(() => {
         buttonEl = document.querySelector("calcite-button");
-        buttonEl.style.setProperty("--calcite-button-transparent-hover", "rgba(34, 23, 200, 0.4)");
-        buttonEl.style.setProperty("--calcite-button-transparent-press", "rgba(1, 20, 44, 0.1");
+        buttonEl.style.setProperty("--calcite-color-transparent-hover", "rgba(34, 23, 200, 0.4)");
+        buttonEl.style.setProperty("--calcite-color-transparent-press", "rgba(1, 20, 44, 0.1");
         return {
-          hoverFocus: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-hover"),
-          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-press"),
+          hoverFocus: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-transparent-hover"),
+          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-transparent-press"),
         };
       });
       expect(buttonStyles.hoverFocus).toEqual("rgba(34, 23, 200, 0.4)");
@@ -472,12 +499,12 @@ describe("calcite-button", () => {
         await buttonEl.focus();
         await page.waitForChanges();
         buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
         buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
-        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
 
@@ -490,12 +517,12 @@ describe("calcite-button", () => {
         await buttonEl.focus();
         await page.waitForChanges();
         buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
-        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
 
         await buttonEl.hover();
         await page.waitForChanges();
         buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
-        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
 
@@ -505,7 +532,7 @@ describe("calcite-button", () => {
         html: `
         <style>
           :root {
-            --calcite-button-transparent-hover: ${overrideStyle};
+            --calcite-color-transparent-hover: ${overrideStyle};
           }
         </style>
         <div>${buttonSnippet}</div>`,
@@ -603,7 +630,7 @@ describe("calcite-button", () => {
             (window as TestWindow).called = true;
           });
         },
-        type
+        type,
       );
 
       const button = await page.find("calcite-button");
@@ -621,41 +648,57 @@ describe("calcite-button", () => {
     t9n("calcite-button");
   });
 
-  it("shows tooltip for buttons with truncated long text", async () => {
-    const shortText = "Hi!";
-    const longText =
-      "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted.";
+  describe("automatic tooltip", () => {
+    it("shows tooltip for buttons with truncated long text", async () => {
+      const shortText = "Hi!";
+      const longText =
+        "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted.";
 
-    const page = await newE2EPage();
-    await page.setContent(
-      html`
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-button id="one" style="width: 100px">${longText}</calcite-button>
         <calcite-button id="two" style="width: 100px">${shortText}</calcite-button>
-      `
-    );
-    await page.waitForChanges();
+      `);
+      await page.waitForChanges();
 
-    const button1 = await page.find(`calcite-button[id='one'] >>> button`);
-    const button2 = await page.find(`calcite-button[id='two'] >>> button`);
+      const button1 = await page.find(`calcite-button[id='one'] >>> button`);
+      const button2 = await page.find(`calcite-button[id='two'] >>> button`);
 
-    expect(button1).toHaveAttribute("title");
-    expect(button2).not.toHaveAttribute("title");
+      expect(button1).toHaveAttribute("title");
+      expect(button2).not.toHaveAttribute("title");
 
-    expect(button1.textContent.length).toBeLessThan(longText.length);
-    expect(button1.getAttribute("title")).toEqual(longText);
+      expect(button1.textContent.length).toBeLessThan(longText.length);
+      expect(button1.getAttribute("title")).toEqual(longText);
+    });
+
+    it("does not show tooltip for buttons without text content", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-button style="width:32px;height:32px" scale="s">
+          <calcite-icon icon="compass-needle" scale="m" />
+        </calcite-button>
+      `);
+      await page.waitForChanges();
+
+      const button = await page.find(`calcite-button >>> button`);
+
+      expect(button).not.toHaveAttribute("title");
+    });
   });
 
   it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-button id="test-button" label="Info">Info</calcite-button>
-      <calcite-popover
-        id="popover-content"
-        positioning="fixed"
-        heading="About this data"
-        reference-element="test-button"
-      >
-        <p>Information</p>
-      </calcite-popover>`);
+    await page.setContent(
+      html`<calcite-button id="test-button" label="Info">Info</calcite-button>
+        <calcite-popover
+          id="popover-content"
+          positioning="fixed"
+          heading="About this data"
+          reference-element="test-button"
+        >
+          <p>Information</p>
+        </calcite-popover>`,
+    );
 
     const calciteButton = await page.find("calcite-button");
     const button = await page.find("calcite-button >>> button");

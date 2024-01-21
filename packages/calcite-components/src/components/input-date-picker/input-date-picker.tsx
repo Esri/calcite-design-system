@@ -46,6 +46,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
@@ -58,7 +59,7 @@ import {
 } from "../../utils/loadable";
 import {
   connectLocalized,
-  defaultNumberingSystem,
+  getSupportedNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
@@ -82,6 +83,7 @@ import { guid } from "../../utils/guid";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
+import { Validation } from "../functional/Validation";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -129,12 +131,11 @@ export class InputDatePicker
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
@@ -151,7 +152,7 @@ export class InputDatePicker
     }
   }
 
-  /** Selected date as a string in ISO format (YYYY-MM-DD) */
+  /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @Prop({ mutable: true }) value: string | string[] = "";
 
   @Watch("value")
@@ -258,7 +259,7 @@ export class InputDatePicker
   @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
 
     if (this.disabled || this.readOnly) {
@@ -266,10 +267,14 @@ export class InputDatePicker
       return;
     }
 
-    if (value) {
-      this.reposition(true);
-    }
+    this.reposition(true);
   }
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -300,11 +305,7 @@ export class InputDatePicker
   /** When `true`, activates a range for the component. */
   @Prop({ reflect: true }) range = false;
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /**
@@ -378,7 +379,7 @@ export class InputDatePicker
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the component's value changes.
+   * Fires when the component's `value` changes.
    */
   @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
 
@@ -426,7 +427,7 @@ export class InputDatePicker
         flipPlacements: filteredFlipPlacements,
         type: "menu",
       },
-      delayed
+      delayed,
     );
   }
 
@@ -441,7 +442,7 @@ export class InputDatePicker
     connectLocalized(this);
 
     const { open } = this;
-    open && this.openHandler(open);
+    open && this.openHandler();
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
@@ -451,8 +452,12 @@ export class InputDatePicker
         this.warnAboutInvalidValue(this.value);
         this.value = "";
       }
-    } else if (this.range && this.valueAsDate) {
-      this.setRangeValue(this.valueAsDate as Date[]);
+    } else if (this.valueAsDate) {
+      if (this.range) {
+        this.setRangeValue(this.valueAsDate as Date[]);
+      } else if (!Array.isArray(this.valueAsDate)) {
+        this.value = dateToISO(this.valueAsDate);
+      }
     }
 
     if (this.min) {
@@ -479,6 +484,7 @@ export class InputDatePicker
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -517,149 +523,163 @@ export class InputDatePicker
     };
 
     return (
-      <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler}>
-        {this.localeData && (
-          <div class="input-container">
-            <div
-              class="input-wrapper"
-              onClick={this.onInputWrapperClick}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setStartWrapper}
-            >
-              <calcite-input
-                aria-autocomplete="none"
-                aria-controls={this.dialogId}
-                aria-describedby={this.placeholderTextId}
-                aria-expanded={toAriaBoolean(this.open)}
-                aria-haspopup="dialog"
-                class={`input ${
-                  this.layout === "vertical" && this.range ? `no-bottom-border` : ``
-                }`}
-                disabled={disabled}
-                icon="calendar"
-                number-button-type="none"
-                numberingSystem={numberingSystem}
-                onCalciteInputInput={this.calciteInternalInputInputHandler}
-                onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
-                onCalciteInternalInputFocus={this.startInputFocus}
-                onFocus={this.startEndInputFocus}
-                placeholder={this.localeData?.placeholder}
-                readOnly={readOnly}
-                role="combobox"
-                scale={this.scale}
-                status={this.status}
-                type="text"
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={this.setStartInput}
-              />
-              {!this.readOnly && this.renderToggleIcon(this.open && this.focusedInput === "start")}
-              <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                Date Format: {this.localeData?.placeholder}
-              </span>
-            </div>
-            <div
-              aria-hidden={toAriaBoolean(!this.open)}
-              aria-label={messages.chooseDate}
-              aria-live="polite"
-              aria-modal="true"
-              class={{
-                [CSS.menu]: true,
-                [CSS.menuActive]: this.open,
-              }}
-              id={this.dialogId}
-              role="dialog"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setFloatingEl}
-            >
+      <Host onBlur={this.blurHandler} onKeyDown={this.keyDownHandler}>
+        <InteractiveContainer disabled={this.disabled}>
+          {this.localeData && (
+            <div class={CSS.inputContainer}>
               <div
-                class={{
-                  ["calendar-picker-wrapper"]: true,
-                  ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
-                  [FloatingCSS.animation]: true,
-                  [FloatingCSS.animationActive]: this.open,
-                }}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={this.setTransitionEl}
-              >
-                <calcite-date-picker
-                  activeDate={this.datePickerActiveDate}
-                  activeRange={this.focusedInput}
-                  headingLevel={this.headingLevel}
-                  max={this.max}
-                  maxAsDate={this.maxAsDate}
-                  messageOverrides={this.messageOverrides}
-                  min={this.min}
-                  minAsDate={this.minAsDate}
-                  numberingSystem={numberingSystem}
-                  onCalciteDatePickerChange={this.handleDateChange}
-                  onCalciteDatePickerRangeChange={this.handleDateRangeChange}
-                  proximitySelectionDisabled={this.proximitySelectionDisabled}
-                  range={this.range}
-                  scale={this.scale}
-                  tabIndex={this.open ? undefined : -1}
-                  valueAsDate={this.valueAsDate}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.setDatePickerRef}
-                />
-              </div>
-            </div>
-
-            {this.range && this.layout === "horizontal" && (
-              <div class="horizontal-arrow-container">
-                <calcite-icon flipRtl={true} icon="arrow-right" scale={getIconScale(this.scale)} />
-              </div>
-            )}
-            {this.range && this.layout === "vertical" && this.scale !== "s" && (
-              <div class="vertical-arrow-container">
-                <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
-              </div>
-            )}
-            {this.range && (
-              <div
-                class="input-wrapper"
+                class={CSS.inputWrapper}
+                data-position="start"
                 onClick={this.onInputWrapperClick}
+                onPointerDown={this.onInputWrapperPointerDown}
                 // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={this.setEndWrapper}
+                ref={this.setStartWrapper}
               >
-                <calcite-input
+                <calcite-input-text
                   aria-autocomplete="none"
                   aria-controls={this.dialogId}
+                  aria-describedby={this.placeholderTextId}
                   aria-expanded={toAriaBoolean(this.open)}
                   aria-haspopup="dialog"
                   class={{
-                    input: true,
-                    "border-top-color-one": this.layout === "vertical" && this.range,
+                    [CSS.input]: true,
+                    [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  number-button-type="none"
-                  numberingSystem={numberingSystem}
-                  onCalciteInputInput={this.calciteInternalInputInputHandler}
-                  onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
-                  onCalciteInternalInputFocus={this.endInputFocus}
-                  onFocus={this.startEndInputFocus}
+                  onCalciteInputTextInput={this.calciteInternalInputInputHandler}
+                  onCalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
+                  onCalciteInternalInputTextFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
                   role="combobox"
                   scale={this.scale}
                   status={this.status}
-                  type="text"
                   // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.setEndInput}
+                  ref={this.setStartInput}
                 />
-                {!this.readOnly && this.renderToggleIcon(this.open && this.focusedInput === "end")}
+                {!this.readOnly &&
+                  this.renderToggleIcon(this.open && this.focusedInput === "start")}
+                <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
+                  Date Format: {this.localeData?.placeholder}
+                </span>
               </div>
-            )}
-          </div>
-        )}
-        <HiddenFormInputSlot component={this} />
+              <div
+                aria-hidden={toAriaBoolean(!this.open)}
+                aria-label={messages.chooseDate}
+                aria-live="polite"
+                aria-modal="true"
+                class={{
+                  [CSS.menu]: true,
+                  [CSS.menuActive]: this.open,
+                }}
+                id={this.dialogId}
+                role="dialog"
+                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                ref={this.setFloatingEl}
+              >
+                <div
+                  class={{
+                    [CSS.calendarWrapper]: true,
+                    [CSS.calendarWrapperEnd]: this.focusedInput === "end",
+                    [FloatingCSS.animation]: true,
+                    [FloatingCSS.animationActive]: this.open,
+                  }}
+                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                  ref={this.setTransitionEl}
+                >
+                  <calcite-date-picker
+                    activeDate={this.datePickerActiveDate}
+                    activeRange={this.focusedInput}
+                    headingLevel={this.headingLevel}
+                    max={this.max}
+                    maxAsDate={this.maxAsDate}
+                    messageOverrides={this.messageOverrides}
+                    min={this.min}
+                    minAsDate={this.minAsDate}
+                    numberingSystem={numberingSystem}
+                    onCalciteDatePickerChange={this.handleDateChange}
+                    onCalciteDatePickerRangeChange={this.handleDateRangeChange}
+                    proximitySelectionDisabled={this.proximitySelectionDisabled}
+                    range={this.range}
+                    scale={this.scale}
+                    tabIndex={this.open ? undefined : -1}
+                    valueAsDate={this.valueAsDate}
+                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                    ref={this.setDatePickerRef}
+                  />
+                </div>
+              </div>
+
+              {this.range && this.layout === "horizontal" && (
+                <div class={CSS.horizontalArrowContainer}>
+                  <calcite-icon
+                    flipRtl={true}
+                    icon="arrow-right"
+                    scale={getIconScale(this.scale)}
+                  />
+                </div>
+              )}
+              {this.range && this.layout === "vertical" && this.scale !== "s" && (
+                <div class={CSS.verticalArrowContainer}>
+                  <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
+                </div>
+              )}
+              {this.range && (
+                <div
+                  class={CSS.inputWrapper}
+                  data-position="end"
+                  onClick={this.onInputWrapperClick}
+                  onPointerDown={this.onInputWrapperPointerDown}
+                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                  ref={this.setEndWrapper}
+                >
+                  <calcite-input-text
+                    aria-autocomplete="none"
+                    aria-controls={this.dialogId}
+                    aria-expanded={toAriaBoolean(this.open)}
+                    aria-haspopup="dialog"
+                    class={{
+                      [CSS.input]: true,
+                      [CSS.inputBorderTopColorOne]: this.layout === "vertical" && this.range,
+                    }}
+                    disabled={disabled}
+                    icon="calendar"
+                    onCalciteInputTextInput={this.calciteInternalInputInputHandler}
+                    onCalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
+                    onCalciteInternalInputTextFocus={this.endInputFocus}
+                    placeholder={this.localeData?.placeholder}
+                    readOnly={readOnly}
+                    role="combobox"
+                    scale={this.scale}
+                    status={this.status}
+                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                    ref={this.setEndInput}
+                  />
+                  {!this.readOnly &&
+                    this.renderToggleIcon(this.open && this.focusedInput === "end")}
+                </div>
+              )}
+            </div>
+          )}
+          <HiddenFormInputSlot component={this} />
+          {this.validationMessage ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }
 
   renderToggleIcon(open: boolean): VNode {
     return (
-      <span class={CSS.toggleIcon}>
+      // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
+      <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
@@ -675,6 +695,8 @@ export class InputDatePicker
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteInputDatePickerElement;
+
+  private currentOpenInput: "start" | "end";
 
   private datePickerEl: HTMLCalciteDatePickerElement;
 
@@ -699,8 +721,6 @@ export class InputDatePicker
   @State() effectiveLocale = "";
 
   @State() focusedInput: "start" | "end" = "start";
-
-  private lastBlurredInput: "start" | "end" | "none" = "none";
 
   @State() private localeData: DateLocaleData;
 
@@ -745,14 +765,25 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
-  private onInputWrapperClick = () => {
-    if (this.range && this.lastBlurredInput !== "none" && this.open) {
-      // we keep the date-picker open when moving between inputs
-    } else {
-      this.open = !this.open;
+  private onInputWrapperPointerDown = (): void => {
+    this.currentOpenInput = this.focusedInput;
+  };
+
+  private onInputWrapperClick = (event: MouseEvent) => {
+    const { range, endInput, startInput, currentOpenInput } = this;
+    const currentTarget = event.currentTarget as HTMLDivElement;
+    const position = currentTarget.getAttribute("data-position") as "start" | "end";
+    const path = event.composedPath();
+    const wasToggleClicked = path.find((el: HTMLElement) => el.classList?.contains(CSS.toggleIcon));
+
+    if (wasToggleClicked) {
+      const targetInput = position === "start" ? startInput : endInput;
+      targetInput.setFocus();
     }
 
-    this.lastBlurredInput = "none";
+    if (!range || !this.open || currentOpenInput === position) {
+      this.open = !this.open;
+    }
   };
 
   setFilteredPlacements = (): void => {
@@ -807,9 +838,8 @@ export class InputDatePicker
     this.endInput = el;
   };
 
-  deactivate = (): void => {
+  private blurHandler = (): void => {
     this.open = false;
-    this.lastBlurredInput = "none";
   };
 
   private commitValue(): void {
@@ -888,12 +918,6 @@ export class InputDatePicker
 
   startInputFocus = (): void => {
     this.focusedInput = "start";
-  };
-
-  startEndInputFocus = (event: FocusEvent): void => {
-    const blurredEl = event.relatedTarget as HTMLElement;
-    this.lastBlurredInput =
-      blurredEl === this.startInput ? "start" : blurredEl === this.endInput ? "end" : "none";
   };
 
   endInputFocus = (): void => {
@@ -999,27 +1023,25 @@ export class InputDatePicker
         ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
         : this.valueAsDate) as Date,
       this.minAsDate,
-      this.maxAsDate
+      this.maxAsDate,
     );
     const endDate = this.range
       ? dateFromRange(
           (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined,
           this.minAsDate,
-          this.maxAsDate
+          this.maxAsDate,
         )
       : null;
 
     const formattingOptions = {
       // we explicitly set numberingSystem to prevent the browser-inferred value
       // see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195 for more info
-      numberingSystem: defaultNumberingSystem,
+      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
     };
 
-    const localizedDate =
-      date && this.formatNumerals(date.toLocaleDateString(this.effectiveLocale, formattingOptions));
+    const localizedDate = date && date.toLocaleDateString(this.effectiveLocale, formattingOptions);
     const localizedEndDate =
-      endDate &&
-      this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale, formattingOptions));
+      endDate && endDate.toLocaleDateString(this.effectiveLocale, formattingOptions);
 
     this.setInputValue(localizedDate ?? "", "start");
     this.setInputValue((this.range && localizedEndDate) ?? "", "end");
@@ -1105,7 +1127,7 @@ export class InputDatePicker
 
   private warnAboutInvalidValue(value: string): void {
     console.warn(
-      `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`
+      `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`,
     );
   }
 
@@ -1119,8 +1141,8 @@ export class InputDatePicker
             this.commonDateSeparators?.includes(char)
               ? this.localeData?.separator
               : numberKeys?.includes(char)
-              ? numberStringFormatter?.numberFormatter?.format(Number(char))
-              : char
+                ? numberStringFormatter?.numberFormatter?.format(Number(char))
+                : char,
           )
           .join("")
       : "";
@@ -1130,7 +1152,7 @@ export class InputDatePicker
       ? value
           .split("")
           .map((char: string) =>
-            numberKeys.includes(char) ? numberStringFormatter.delocalize(char) : char
+            numberKeys.includes(char) ? numberStringFormatter.delocalize(char) : char,
           )
           .join("")
       : "";

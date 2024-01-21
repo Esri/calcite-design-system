@@ -97,6 +97,7 @@ body:
       description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/main/packages) related to the request.
       options:
         - label: "@esri/calcite-components"
+        - label: "@esri/calcite-components-angular"
         - label: "@esri/calcite-components-react"
         - label: "@esri/calcite-design-tokens"
         - label: "@esri/eslint-plugin-calcite-components"

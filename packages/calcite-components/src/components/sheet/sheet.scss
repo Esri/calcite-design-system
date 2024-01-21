@@ -37,7 +37,8 @@
     opacity-0
     z-overlay
     invisible;
-  transition: visibility 0ms linear var(--calcite-internal-animation-timing-medium),
+  transition:
+    visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
 }
 
@@ -164,7 +165,8 @@
   background-color: theme("colors.background.foreground.1");
   max-block-size: 100%;
   visibility: hidden;
-  transition: transform var(--calcite-internal-animation-timing-medium) $easing-function,
+  transition:
+    transform var(--calcite-internal-animation-timing-medium) $easing-function,
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
   transform: var(--calcite-sheet-hidden-position-internal);
@@ -188,7 +190,9 @@
   transition-delay: 0ms;
   .content {
     @apply pointer-events-auto visible opacity-100;
-    transition: transform var(--calcite-internal-animation-timing-medium) $easing-function, visibility 0ms linear,
+    transition:
+      transform var(--calcite-internal-animation-timing-medium) $easing-function,
+      visibility 0ms linear,
       opacity var(--calcite-internal-animation-timing-medium) $easing-function,
       max-inline-size var(--calcite-internal-animation-timing-medium) $easing-function,
       max-block-size var(--calcite-internal-animation-timing-medium) $easing-function;

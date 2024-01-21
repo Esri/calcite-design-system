@@ -94,7 +94,7 @@ export class Popover
    */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** When `true`, display a close button within the component. */
+  /** When `true`, displays a close button within the component. */
   @Prop({ reflect: true }) closable = false;
 
   /**
@@ -192,13 +192,9 @@ export class Popover
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
-
-    if (value) {
-      this.reposition(true);
-    }
-
+    this.reposition(true);
     this.setExpandedAttr();
   }
 
@@ -257,7 +253,7 @@ export class Popover
   @Element() el: HTMLCalcitePopoverElement;
 
   mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements()
+    this.updateFocusTrapElements(),
   );
 
   filteredFlipPlacements: EffectivePlacement[];
@@ -304,6 +300,7 @@ export class Popover
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -384,7 +381,7 @@ export class Popover
         arrowEl,
         type: "popover",
       },
-      delayed
+      delayed,
     );
   }
 

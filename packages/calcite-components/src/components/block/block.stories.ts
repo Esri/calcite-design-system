@@ -23,7 +23,7 @@ export default {
 };
 
 const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes = (
-  { exceptions } = { exceptions: [] }
+  { exceptions } = { exceptions: [] },
 ) => {
   const group = "block";
 
@@ -87,7 +87,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -119,48 +119,44 @@ export const simple = (): string =>
       ${create(
         "calcite-block-section",
         createSectionAttributes(),
-        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`
+        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`,
       )}
 
       <calcite-block-section text="Nature" open>
         <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
       </calcite-block-section>
-    `
+    `,
   );
 
 export const withHeaderControl = (): string =>
   create(
     "calcite-block",
     createBlockAttributes({ exceptions: ["open"] }),
-    html`<label slot="control">test <input placeholder="I'm a header control" /></label>`
+    html`<label slot="control">test <input placeholder="I'm a header control" /></label>`,
   );
 
 export const withIconAndHeader = (): string =>
   create("calcite-block", createBlockAttributes({ exceptions: ["open"] }), html`<div slot="icon">✅</div>`);
 
-export const disabled_TestOnly = (): string => html`<calcite-block
-  heading="heading"
-  description="description"
-  open
-  collapsible
-  disabled
->
-  <calcite-block-section text="Nature" open>
-    <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
-  </calcite-block-section>
-</calcite-block>`;
+export const disabled_TestOnly = (): string =>
+  html`<calcite-block heading="heading" description="description" open collapsible disabled>
+    <calcite-block-section text="Nature" open>
+      <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
+    </calcite-block-section>
+  </calcite-block>`;
 
-export const paddingDisabled_TestOnly = (): string => html` <calcite-panel heading="Properties">
-  <calcite-block
-    heading="Example block heading"
-    description="example summary heading"
-    collapsible
-    open
-    style="--calcite-block-padding: 0;"
-  >
-    <div>calcite components ninja</div>
-  </calcite-block>
-</calcite-panel>`;
+export const paddingDisabled_TestOnly = (): string =>
+  html` <calcite-panel heading="Properties">
+    <calcite-block
+      heading="Example block heading"
+      description="example summary heading"
+      collapsible
+      open
+      style="--calcite-block-padding: 0;"
+    >
+      <div>calcite components ninja</div>
+    </calcite-block>
+  </calcite-panel>`;
 
 export const darkModeRTL_TestOnly = (): string =>
   create(
@@ -170,19 +166,19 @@ export const darkModeRTL_TestOnly = (): string =>
         name: "class",
         value: "calcite-mode-dark",
       },
-      { name: "dir", value: "rtl" }
+      { name: "dir", value: "rtl" },
     ),
     html`
       ${create(
         "calcite-block-section",
         createSectionAttributes(),
-        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`
+        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`,
       )}
 
       <calcite-block-section text="Nature" open>
         <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
       </calcite-block-section>
-    `
+    `,
   );
 
 export const contentCanTakeFullHeight_TestOnly = (): string =>
@@ -209,106 +205,111 @@ export const alignmentIconHeadingAndDescription_TestOnly = (): string =>
     ><calcite-icon scale="s" slot="icon" icon="layer"
   /></calcite-block>`;
 
-export const contentSpacing_TestOnly = (): string =>
-  html`
-    <calcite-block heading="Block heading" open>
-      <div>Some text that has padding built in</div>
-    </calcite-block>
-  `;
-
-export const loadingWithSlottedIcon_TestOnly = (): string =>
-  html`
-    <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
-      <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
-      <calcite-notice open>
-        <div slot="message">Use layer effects sparingly</div>
-      </calcite-notice>
-    </calcite-block>
-  `;
-
-export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string =>
-  html`
-    <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
-      <calcite-notice open>
-        <div slot="message">Use layer effects sparingly</div>
-      </calcite-notice>
-    </calcite-block>
-  `;
-
-export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string =>
-  html`
-    <calcite-panel style="width:250px">
-      <calcite-block
-        collapsible
-        open
-        heading="Planes, trains, and automobiles are some examples of modes of transportation"
-        description="Planes, trains, and automobiles are some examples of modes of transportation"
-      >
-        <calcite-notice open>
-          <div slot="message">Some more complex options.</div>
-        </calcite-notice>
-        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
-          <p>Block section content</p>
-        </calcite-block-section>
-        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
-          <p>Block section content</p>
-        </calcite-block-section>
-      </calcite-block>
-      <calcite-block
-        collapsible
-        heading="Planes, trains, and automobiles are some examples of modes of transportation"
-        description="Planes, trains, and automobiles are some examples of modes of transportation"
-      >
-        <calcite-notice open>
-          <div slot="message">Some more complex options.</div>
-        </calcite-notice>
-        <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
-          <p>Block section content</p>
-        </calcite-block-section>
-      </calcite-block>
-    </calcite-panel>
-  `;
-
-export const loadingWithStatusIcon_TestOnly = (): string =>
-  html`
-    <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
-      <calcite-input icon="form-field" placeholder="This is valid input field"></calcite-input>
-    </calcite-block>
-
-    <calcite-block heading="Invalid status" description="summary" status="invalid"> </calcite-block>
-  `;
-
-export const scrollingContainerSetup_TestOnly = (): string => html`<style>
-    calcite-block {
-      height: 250px;
-      overflow: hidden;
-    }
-
-    .scroll-container {
-      height: 100%;
-      overflow-y: scroll;
-    }
-
-    p {
-      background: linear-gradient(to bottom, red, transparent);
-      height: 500px;
-      margin: 0;
-    }
-  </style>
-  <calcite-block heading="Should scroll to the gradient at the bottom" open>
-    <div class="scroll-container">
-      <p></p>
-    </div>
+export const contentSpacing_TestOnly = (): string => html`
+  <calcite-block heading="Block heading" open>
+    <div>Some text that has padding built in</div>
   </calcite-block>
-  <script>
-    (async () => {
-      const block = document.querySelector("calcite-block");
-      await customElements.whenDefined("calcite-block");
-      await block.componentOnReady();
+`;
 
-      const scrollContainer = document.querySelector(".scroll-container");
-      scrollContainer.scrollTo(0, 500);
-    })();
-  </script>`;
+export const loadingWithSlottedIcon_TestOnly = (): string => html`
+  <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
+    <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
+    <calcite-notice open>
+      <div slot="message">Use layer effects sparingly</div>
+    </calcite-notice>
+  </calcite-block>
+`;
+
+export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string => html`
+  <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
+    <calcite-notice open>
+      <div slot="message">Use layer effects sparingly</div>
+    </calcite-notice>
+  </calcite-block>
+`;
+
+export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => html`
+  <calcite-panel style="width:250px">
+    <calcite-block
+      collapsible
+      open
+      heading="Planes, trains, and automobiles are some examples of modes of transportation"
+      description="Planes, trains, and automobiles are some examples of modes of transportation"
+    >
+      <calcite-notice open>
+        <div slot="message">Some more complex options.</div>
+      </calcite-notice>
+      <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+        <p>Block section content</p>
+      </calcite-block-section>
+      <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+        <p>Block section content</p>
+      </calcite-block-section>
+    </calcite-block>
+    <calcite-block
+      collapsible
+      heading="Planes, trains, and automobiles are some examples of modes of transportation"
+      description="Planes, trains, and automobiles are some examples of modes of transportation"
+    >
+      <calcite-notice open>
+        <div slot="message">Some more complex options.</div>
+      </calcite-notice>
+      <calcite-block-section open text="Planes, trains, and automobiles are some examples of modes of transportation">
+        <p>Block section content</p>
+      </calcite-block-section>
+    </calcite-block>
+  </calcite-panel>
+`;
+
+export const loadingWithStatusIcon_TestOnly = (): string => html`
+  <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
+    <calcite-input icon="form-field" placeholder="This is valid input field"></calcite-input>
+  </calcite-block>
+
+  <calcite-block heading="Invalid status" description="summary" status="invalid"> </calcite-block>
+`;
+
+export const scrollingContainerSetup_TestOnly = (): string =>
+  html`<style>
+      calcite-block {
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .scroll-container {
+        height: 100%;
+        overflow-y: scroll;
+      }
+
+      p {
+        background: linear-gradient(to bottom, red, transparent);
+        height: 500px;
+        margin: 0;
+      }
+    </style>
+    <calcite-block heading="Should scroll to the gradient at the bottom" open>
+      <div class="scroll-container">
+        <p></p>
+      </div>
+    </calcite-block>
+    <script>
+      (async () => {
+        const block = document.querySelector("calcite-block");
+        await customElements.whenDefined("calcite-block");
+        await block.componentOnReady();
+
+        const scrollContainer = document.querySelector(".scroll-container");
+        scrollContainer.scrollTo(0, 500);
+      })();
+    </script>`;
 
 scrollingContainerSetup_TestOnly.parameters = { chromatic: { delay: 500 } };
+
+export const toggleDisplayWithLongText_TestOnly = (): string =>
+  html`<calcite-block open heading="Calcite block" style="width:150px">
+    <calcite-block-section id="block-section" open text="Calcite block superlongggggtext" toggle-display="switch">
+      <calcite-notice open>
+        <div slot="message">Some more complex options.</div>
+      </calcite-notice>
+    </calcite-block-section>
+  </calcite-block>`;

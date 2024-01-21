@@ -31,7 +31,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
-  numberStringFormatter,
+  NumberStringFormat,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
@@ -46,8 +46,6 @@ import { KindIcons } from "../resources";
 import { AlertMessages } from "./assets/alert/t9n";
 import { AlertDuration, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
-import { Breakpoints, getBreakpoints } from "../../utils/responsive";
-import { createObserver } from "../../utils/observers";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -89,13 +87,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     }
   }
 
-  /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
+  /** When `true`, the component closes automatically. Recommended for passive, non-blocking alerts. */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
+  /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
 
-  /** Specifies the kind of the component (will apply to top border and icon). */
+  /** Specifies the kind of the component, which will apply to top border and icon. */
   @Prop({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
@@ -118,7 +116,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** Specifies the placement of the component */
+  /** Specifies the placement of the component. */
   @Prop({ reflect: true }) placement: MenuPlacement = "bottom";
 
   /** Specifies the size of the component. */
@@ -157,7 +155,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration]
+        DURATIONS[this.autoCloseDuration],
       );
     }
   }
@@ -171,19 +169,22 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+
     const open = this.open;
     if (open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
-    if (this.transitionEl) {
-      this.resizeObserver?.observe(this.transitionEl);
-    }
+
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    const [, breakpoints] = await Promise.all([setUpMessages(this), getBreakpoints()]);
-    this.breakpoints = breakpoints;
+    await setUpMessages(this);
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
@@ -191,36 +192,24 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.resizeObserver?.observe(this.transitionEl);
   }
 
   disconnectedCallback(): void {
     window.dispatchEvent(
       new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
         detail: { alert: this.el },
-      })
+      }),
     );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.slottedInShell = false;
-    this.resizeObserver?.disconnect();
   }
 
   render(): VNode {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      signDisplay: "always",
-    };
-
-    const { hasEndActions } = this;
-    const { open, autoClose, responsiveContainerWidth, label, placement, queued } = this;
+    const { open, autoClose, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
-    const widthBreakpoints = this.breakpoints.width;
-    const lessThanSmall = responsiveContainerWidth < widthBreakpoints.small;
-    const greaterOrEqualThanSmall = responsiveContainerWidth >= widthBreakpoints.small;
     const hidden = !open;
     const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     const hasQueuedAlerts = this.queueLength > 1;
@@ -244,23 +233,15 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
-          <div class={CSS.contentContainer}>
-            {effectiveIcon && greaterOrEqualThanSmall ? this.renderIcon(effectiveIcon) : null}
-            <div class={CSS.content}>
-              {effectiveIcon && lessThanSmall ? this.renderIcon(effectiveIcon) : null}
-              <div class={CSS.textContainer}>
-                <slot name={SLOTS.title} />
-                <slot name={SLOTS.message} />
-                <slot name={SLOTS.link} />
-              </div>
-            </div>
+          {effectiveIcon && this.renderIcon(effectiveIcon)}
+          <div class={CSS.textContainer}>
+            <slot name={SLOTS.title} />
+            <slot name={SLOTS.message} />
+            <slot name={SLOTS.link} />
           </div>
-          {lessThanSmall ? this.renderCloseButton() : null}
-          <div class={CSS.footer} hidden={!hasEndActions && !hasQueuedAlerts}>
-            {this.renderActionsEnd()}
-            {hasQueuedAlerts ? this.renderQueueCount() : null}
-          </div>
-          {greaterOrEqualThanSmall ? this.renderCloseButton() : null}
+          {this.renderActionsEnd()}
+          {hasQueuedAlerts ? this.renderQueueCount() : null}
+          {this.renderCloseButton()}
           {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>
@@ -285,7 +266,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private renderQueueCount(): VNode {
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
-    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
+    const queueText = this.numberStringFormatter.numberFormatter.format(queueNumber);
 
     return (
       <div
@@ -381,7 +362,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
         detail: { queue },
-      })
+      }),
     );
   }
 
@@ -391,7 +372,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component's "close" button (the first focusable item). */
+  /** Sets focus on the component's "close" button, the first focusable item. */
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
@@ -422,6 +403,22 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
+  }
+
+  @State() numberStringFormatter = new NumberStringFormat();
+
+  @Watch("numberingSystem")
+  numberingSystemChange(): void {
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
   }
 
   @State() hasEndActions = false;
@@ -435,11 +432,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** is the alert queued */
   @State() queued = false;
 
-  @State() responsiveContainerWidth: number;
-
   private autoCloseTimeoutId: number = null;
-
-  private breakpoints: Breakpoints;
 
   private closeButton: HTMLButtonElement;
 
@@ -448,11 +441,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   private lastMouseOverBegin: number;
 
   private queueTimeout: number;
-
-  private resizeObserver = createObserver(
-    "resize",
-    (entries) => (this.responsiveContainerWidth = entries[0].contentRect.width)
-  );
 
   private totalOpenTime = 0;
 
@@ -480,7 +468,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         this.initialOpenTime = Date.now();
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
-          DURATIONS[this.autoCloseDuration]
+          DURATIONS[this.autoCloseDuration],
         );
       }
     } else {

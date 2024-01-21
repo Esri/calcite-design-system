@@ -1,5 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
+
+const placeholderUrl = placeholderImage({
+  width: 120,
+  height: 120,
+});
 
 describe("calcite-avatar", () => {
   describe("renders", () => {
@@ -12,7 +18,7 @@ describe("calcite-avatar", () => {
 
   describe("accessible", () => {
     accessible("calcite-avatar");
-    accessible("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>");
+    accessible(`<calcite-avatar thumbnail="${placeholderUrl}"></calcite-avatar>`);
   });
 
   describe("defaults", () => {
@@ -26,9 +32,9 @@ describe("calcite-avatar", () => {
 
   it("renders thumbnail when provided", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>");
+    await page.setContent(`<calcite-avatar thumbnail="${placeholderUrl}"></calcite-avatar>`);
     const thumbnail = await page.find("calcite-avatar >>> .thumbnail");
-    expect(thumbnail).toEqualAttribute("src", "http://placekitten.com/120/120");
+    expect(thumbnail).toEqualAttribute("src", placeholderUrl);
   });
 
   it("renders initials when no thumbnail is provided", async () => {

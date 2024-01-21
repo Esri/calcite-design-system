@@ -17,6 +17,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -143,6 +144,13 @@ export class StepperItem
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
+   * Specifies if the user is viewing one `stepper-item` at a time.
+   * Helps in determining if header region is tabbable.
+   * @internal
+   */
+  @Prop({ reflect: true }) multipleViewMode = false;
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -234,7 +242,7 @@ export class StepperItem
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, true);
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {
@@ -249,35 +257,38 @@ export class StepperItem
         aria-current={this.selected ? "step" : "false"}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
+        tabIndex={this.disabled ? -1 : 0}
       >
-        <div class={CSS.container}>
-          {this.complete && (
-            <span aria-live="polite" class={CSS.visuallyHidden}>
-              {this.messages.complete}
-            </span>
-          )}
-          <div
-            class={CSS.stepperItemHeader}
-            tabIndex={
-              /* additional tab index logic needed because of display: contents */
-              this.layout === "horizontal" && !this.disabled ? 0 : null
-            }
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.headerEl = el)}
-          >
-            {this.icon ? this.renderIcon() : null}
-            {this.numbered ? (
-              <div class={CSS.stepperItemNumber}>{this.renderNumbers()}.</div>
-            ) : null}
-            <div class={CSS.stepperItemHeaderText}>
-              <span class={CSS.stepperItemHeading}>{this.heading}</span>
-              <span class={CSS.stepperItemDescription}>{this.description}</span>
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={CSS.container}>
+            {this.complete && (
+              <span aria-live="polite" class={CSS.visuallyHidden}>
+                {this.messages.complete}
+              </span>
+            )}
+            <div
+              class={CSS.stepperItemHeader}
+              tabIndex={
+                /* additional tab index logic needed because of display: contents */
+                this.layout === "horizontal" && !this.disabled && this.multipleViewMode ? 0 : null
+              }
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={(el) => (this.headerEl = el)}
+            >
+              {this.icon ? this.renderIcon() : null}
+              {this.numbered ? (
+                <div class={CSS.stepperItemNumber}>{this.renderNumbers()}.</div>
+              ) : null}
+              <div class={CSS.stepperItemHeaderText}>
+                <span class={CSS.stepperItemHeading}>{this.heading}</span>
+                <span class={CSS.stepperItemDescription}>{this.description}</span>
+              </div>
+            </div>
+            <div class={CSS.stepperItemContent}>
+              <slot />
             </div>
           </div>
-          <div class={CSS.stepperItemContent}>
-            <slot />
-          </div>
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -358,13 +369,15 @@ export class StepperItem
   };
 
   private renderIcon(): VNode {
-    const path = this.selected
-      ? "circleF"
-      : this.error
-      ? "exclamationMarkCircleF"
-      : this.complete
-      ? "checkCircleF"
-      : "circle";
+    let path = "circle";
+
+    if (this.selected && (this.multipleViewMode || (!this.error && !this.complete))) {
+      path = "circleF";
+    } else if (this.error) {
+      path = "exclamationMarkCircleF";
+    } else if (this.complete) {
+      path = "checkCircleF";
+    }
 
     return (
       <calcite-icon class="stepper-item-icon" flipRtl={this.iconFlipRtl} icon={path} scale="s" />
@@ -418,7 +431,7 @@ export class StepperItem
 
   private getItemPosition(): number {
     return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
-      this.el
+      this.el,
     );
   }
 

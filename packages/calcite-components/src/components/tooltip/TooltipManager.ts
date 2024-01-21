@@ -153,19 +153,19 @@ export default class TooltipManager {
   }
 
   private addListeners(): void {
-    document.addEventListener("keydown", this.keyDownHandler, { capture: true });
-    document.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    document.addEventListener("pointerdown", this.pointerDownHandler, { capture: true });
-    document.addEventListener("focusin", this.focusInHandler, { capture: true });
-    document.addEventListener("focusout", this.focusOutHandler, { capture: true });
+    window.addEventListener("keydown", this.keyDownHandler, { capture: true });
+    window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
+    window.addEventListener("pointerdown", this.pointerDownHandler, { capture: true });
+    window.addEventListener("focusin", this.focusInHandler, { capture: true });
+    window.addEventListener("focusout", this.focusOutHandler, { capture: true });
   }
 
   private removeListeners(): void {
-    document.removeEventListener("keydown", this.keyDownHandler, { capture: true });
-    document.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    document.removeEventListener("pointerdown", this.pointerDownHandler, { capture: true });
-    document.removeEventListener("focusin", this.focusInHandler, { capture: true });
-    document.removeEventListener("focusout", this.focusOutHandler, { capture: true });
+    window.removeEventListener("keydown", this.keyDownHandler, { capture: true });
+    window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
+    window.removeEventListener("pointerdown", this.pointerDownHandler, { capture: true });
+    window.removeEventListener("focusin", this.focusInHandler, { capture: true });
+    window.removeEventListener("focusout", this.focusOutHandler, { capture: true });
   }
 
   private clearHoverOpenTimeout(): void {
@@ -228,7 +228,7 @@ export default class TooltipManager {
 
         this.toggleTooltip(tooltip, true);
       },
-      this.activeTooltip ? 0 : TOOLTIP_OPEN_DELAY_MS
+      this.activeTooltip ? 0 : TOOLTIP_OPEN_DELAY_MS,
     );
   };
 

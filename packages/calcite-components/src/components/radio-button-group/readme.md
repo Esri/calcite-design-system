@@ -80,7 +80,7 @@ Renders all radio button inputs disabled, first one checked
 | `disabled`          | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity.                    | `boolean`                              | `false`        |
 | `hidden`            | `hidden`   | When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. | `boolean`                              | `false`        |
 | `layout`            | `layout`   | Defines the layout of the component.                                                                        | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
-| `name` _(required)_ | `name`     | Specifies the name of the component on form submission. Must be unique to other component instances.        | `string`                               | `undefined`    |
+| `name` *(required)* | `name`     | Specifies the name of the component on form submission. Must be unique to other component instances.        | `string`                               | `undefined`    |
 | `required`          | `required` | When `true`, the component must have a value in order for the form to submit.                               | `boolean`                              | `false`        |
 | `scale`             | `scale`    | Specifies the size of the component.                                                                        | `"l" \| "m" \| "s"`                    | `"m"`          |
 | `selectedItem`      | --         | Specifies the component's selected item.                                                                    | `HTMLCalciteRadioButtonElement`        | `null`         |
@@ -109,4 +109,4 @@ Type: `Promise<void>`
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

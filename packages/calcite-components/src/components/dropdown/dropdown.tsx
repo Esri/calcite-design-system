@@ -36,6 +36,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
@@ -77,16 +78,15 @@ export class Dropdown
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
-    if (!this.disabled) {
-      if (value) {
-        this.reposition(true);
-      }
-      onToggleOpenCloseComponent(this);
+  openHandler(): void {
+    onToggleOpenCloseComponent(this);
+
+    if (this.disabled) {
+      this.open = false;
       return;
     }
 
-    this.open = false;
+    this.reposition(true);
   }
 
   /**
@@ -173,7 +173,7 @@ export class Dropdown
   /**
    * Specifies the width of the component.
    */
-  @Prop({ reflect: true }) width: Scale;
+  @Prop({ reflect: true }) widthScale: Scale;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -207,11 +207,12 @@ export class Dropdown
     this.setFilteredPlacements();
     this.reposition(true);
     if (this.open) {
-      this.openHandler(this.open);
+      this.openHandler();
       onToggleOpenCloseComponent(this);
     }
     connectInteractive(this);
     this.updateItems();
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   componentWillLoad(): void {
@@ -238,43 +239,45 @@ export class Dropdown
     const { open, guid } = this;
     return (
       <Host>
-        <div
-          class="calcite-trigger-container"
-          id={`${guid}-menubutton`}
-          onClick={this.openCalciteDropdown}
-          onKeyDown={this.keyDownHandler}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setReferenceEl}
-        >
-          <slot
-            aria-controls={`${guid}-menu`}
-            aria-expanded={toAriaBoolean(open)}
-            aria-haspopup="menu"
-            name={SLOTS.dropdownTrigger}
-            onSlotchange={this.updateTriggers}
-          />
-        </div>
-        <div
-          aria-hidden={toAriaBoolean(!open)}
-          class="calcite-dropdown-wrapper"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setFloatingEl}
-        >
+        <InteractiveContainer disabled={this.disabled}>
           <div
-            aria-labelledby={`${guid}-menubutton`}
-            class={{
-              ["calcite-dropdown-content"]: true,
-              [FloatingCSS.animation]: true,
-              [FloatingCSS.animationActive]: open,
-            }}
-            id={`${guid}-menu`}
-            role="menu"
+            class="calcite-trigger-container"
+            id={`${guid}-menubutton`}
+            onClick={this.openCalciteDropdown}
+            onKeyDown={this.keyDownHandler}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setScrollerAndTransitionEl}
+            ref={this.setReferenceEl}
           >
-            <slot onSlotchange={this.updateGroups} />
+            <slot
+              aria-controls={`${guid}-menu`}
+              aria-expanded={toAriaBoolean(open)}
+              aria-haspopup="menu"
+              name={SLOTS.dropdownTrigger}
+              onSlotchange={this.updateTriggers}
+            />
           </div>
-        </div>
+          <div
+            aria-hidden={toAriaBoolean(!open)}
+            class="calcite-dropdown-wrapper"
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setFloatingEl}
+          >
+            <div
+              aria-labelledby={`${guid}-menubutton`}
+              class={{
+                ["calcite-dropdown-content"]: true,
+                [FloatingCSS.animation]: true,
+                [FloatingCSS.animationActive]: open,
+              }}
+              id={`${guid}-menu`}
+              role="menu"
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.setScrollerAndTransitionEl}
+            >
+              <slot onSlotchange={this.updateGroups} />
+            </div>
+          </div>
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -304,7 +307,7 @@ export class Dropdown
         flipPlacements: filteredFlipPlacements,
         type: "menu",
       },
-      delayed
+      delayed,
     );
   }
 
@@ -376,10 +379,15 @@ export class Dropdown
     this.closeCalciteDropdown();
   }
 
+  private getTraversableItems(): HTMLCalciteDropdownItemElement[] {
+    return this.items.filter((item) => !item.disabled && !item.hidden);
+  }
+
   @Listen("calciteInternalDropdownItemKeyEvent")
   calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = event.detail;
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
+    const traversableItems = this.getTraversableItems();
 
     switch (keyboardEvent.key) {
       case "Tab":
@@ -387,16 +395,16 @@ export class Dropdown
         this.updateTabIndexOfItems(target);
         break;
       case "ArrowDown":
-        focusElementInGroup(this.items, target, "next");
+        focusElementInGroup(traversableItems, target, "next");
         break;
       case "ArrowUp":
-        focusElementInGroup(this.items, target, "previous");
+        focusElementInGroup(traversableItems, target, "previous");
         break;
       case "Home":
-        focusElementInGroup(this.items, target, "first");
+        focusElementInGroup(traversableItems, target, "first");
         break;
       case "End":
-        focusElementInGroup(this.items, target, "last");
+        focusElementInGroup(traversableItems, target, "last");
         break;
     }
 
@@ -645,19 +653,17 @@ export class Dropdown
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
+    this.getFocusableElement(
+      this.getTraversableItems().find((item) => item.selected) || this.items[0],
+    );
   };
 
-  private getFocusableElement(item): void {
+  private getFocusableElement(item: HTMLCalciteDropdownItemElement): void {
     if (!item) {
       return;
     }
 
-    const target = item.attributes.isLink
-      ? item.shadowRoot.querySelector("a")
-      : (item as HTMLCalciteDropdownItemElement);
-
-    focusElement(target);
+    focusElement(item);
   }
 
   private toggleOpenEnd = (): void => {

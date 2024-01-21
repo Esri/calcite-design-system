@@ -1,7 +1,8 @@
-import { Component, Element, Fragment, h, Listen, Prop, State, VNode } from "@stencil/core";
+import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tab`s.
@@ -25,7 +26,7 @@ export class Tabs {
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Specifies the position of the component in relation to the `calcite-tab`s.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`.
    */
   @Prop({ reflect: true }) position: TabPosition = "top";
 
@@ -33,6 +34,12 @@ export class Tabs {
    * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("position")
+  @Watch("scale")
+  handleInheritableProps(): void {
+    this.updateItems();
+  }
 
   /**
    * When `true`, the component will display with a folder style menu.
@@ -44,6 +51,19 @@ export class Tabs {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.mutationObserver.observe(this.el, { childList: true });
+    this.updateItems();
+  }
+
+  async componentWillLoad(): Promise<void> {
+    this.updateItems();
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
 
   render(): VNode {
     return (
@@ -132,6 +152,42 @@ export class Tabs {
    * Stores an array of ids of `<calcite-tab>`s to match up ARIA attributes.
    */
   @State() tabs: HTMLCalciteTabElement[] = [];
+
+  mutationObserver = createObserver("mutation", (mutationsList: MutationRecord[]) => {
+    for (const mutation of mutationsList) {
+      const target = mutation.target as HTMLElement;
+      if (
+        target.nodeName === "CALCITE-TAB-NAV" ||
+        target.nodeName === "CALCITE-TAB-TITLE" ||
+        target.nodeName === "CALCITE-TAB"
+      ) {
+        this.updateItems();
+      }
+    }
+  });
+
+  private updateItems(): void {
+    const { position, scale } = this;
+
+    const nav = this.el.querySelector("calcite-tab-nav");
+    if (nav) {
+      nav.position = position;
+      nav.scale = scale;
+    }
+
+    Array.from(this.el.querySelectorAll("calcite-tab")).forEach((tab: HTMLCalciteTabElement) => {
+      if (tab.parentElement === this.el) {
+        tab.scale = scale;
+      }
+    });
+
+    Array.from(this.el.querySelectorAll("calcite-tab-nav > calcite-tab-title")).forEach(
+      (title: HTMLCalciteTabTitleElement) => {
+        title.position = position;
+        title.scale = scale;
+      },
+    );
+  }
 
   //--------------------------------------------------------------------------
   //

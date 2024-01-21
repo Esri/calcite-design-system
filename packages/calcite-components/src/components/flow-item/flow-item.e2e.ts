@@ -191,11 +191,11 @@ describe("calcite-flow-item", () => {
 
     expect(await top.isIntersectingViewport()).toBe(false);
 
-    await page.$eval("calcite-flow-item", (panel: HTMLCalcitePanelElement) =>
+    await page.$eval("calcite-flow-item", (panel: HTMLCalciteFlowItemElement) =>
       panel.scrollContentTo({
         top: 0,
         behavior: "auto",
-      })
+      }),
     );
 
     expect(await top.isIntersectingViewport()).toBe(true);

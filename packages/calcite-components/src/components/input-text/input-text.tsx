@@ -17,12 +17,14 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  internalHiddenInputInputEvent,
   submitForm,
 } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -43,10 +45,11 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { SetValueOrigin } from "../input/interfaces";
-import { Position, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 import { InputTextMessages } from "./assets/input-text/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -73,7 +76,7 @@ export class InputText
   //--------------------------------------------------------------------------
 
   /** Specifies the text alignment of the component's value. */
-  @Prop({ reflect: true }) alignment: Position = "start";
+  @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
    * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
@@ -100,19 +103,12 @@ export class InputText
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @Prop({ reflect: true })
   form: string;
-
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /**
    * Specifies an icon to display.
@@ -143,6 +139,12 @@ export class InputText
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @Prop({ reflect: true }) minLength: number;
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -327,7 +329,7 @@ export class InputText
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
-    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   disconnectedCallback(): void {
@@ -338,7 +340,7 @@ export class InputText
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -491,13 +493,6 @@ export class InputText
     }
   };
 
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
     if (this.minLength != null) {
       input.minLength = this.minLength;
@@ -508,13 +503,14 @@ export class InputText
     }
   }
 
-  hiddenInputChangeHandler = (event: Event): void => {
+  private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setValue({
         value: (event.target as HTMLInputElement).value,
         origin: "direct",
       });
     }
+    this.setFocus();
     event.stopPropagation();
   };
 
@@ -661,20 +657,30 @@ export class InputText
 
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.prefixText ? prefixText : null}
-          <div class={CSS.wrapper}>
-            {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
-            {this.loading ? loader : null}
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+            {this.prefixText ? prefixText : null}
+            <div class={CSS.wrapper}>
+              {childEl}
+              {this.isClearable ? inputClearButton : null}
+              {this.requestedIcon ? iconEl : null}
+              {this.loading ? loader : null}
+            </div>
+            <div class={CSS.actionWrapper}>
+              <slot name={SLOTS.action} />
+            </div>
+            {this.suffixText ? suffixText : null}
+            <HiddenFormInputSlot component={this} />
           </div>
-          <div class={CSS.actionWrapper}>
-            <slot name={SLOTS.action} />
-          </div>
-          {this.suffixText ? suffixText : null}
-          <HiddenFormInputSlot component={this} />
-        </div>
+          {this.validationMessage ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }

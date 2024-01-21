@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -20,7 +20,7 @@
       .child,
       .child-action-bar {
         margin: 10px 25px;
-        color: var(--calcite-ui-text-3);
+        color: var(--calcite-color-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
@@ -45,7 +45,7 @@
 
       hr {
         margin: 56px 0;
-        border-top: 1px solid var(--calcite-ui-border-2);
+        border-top: 1px solid var(--calcite-color-border-2);
       }
     </style>
 
@@ -178,6 +178,7 @@
 
           <calcite-action
             active
+            indicator
             scale="s"
             text="Transparent + active"
             text-enabled
@@ -193,6 +194,7 @@
 
           <calcite-action
             active
+            indicator
             scale="m"
             text="Transparent + active"
             text-enabled
@@ -203,7 +205,14 @@
         </div>
 
         <div class="child">
-          <calcite-action scale="l" text="Transparent" text-enabled appearance="transparent" icon="configure-popup">
+          <calcite-action
+            scale="l"
+            indicator
+            text="Transparent"
+            text-enabled
+            appearance="transparent"
+            icon="configure-popup"
+          >
           </calcite-action>
 
           <calcite-action
@@ -331,6 +340,32 @@
             </calcite-action>
           </calcite-action-group>
         </div>
+        <div class="child">
+          <calcite-action-group layout="grid" label="Shapes">
+            <calcite-action alignment="center" scale="s" appearance="solid" icon="polygon" text="polygon" text-enabled>
+            </calcite-action>
+            <calcite-action
+              indicator
+              alignment="center"
+              scale="s"
+              appearance="solid"
+              icon="rectangle"
+              text="rectangle"
+              text-enabled
+            >
+            </calcite-action>
+            <calcite-action
+              indicator
+              alignment="center"
+              scale="s"
+              appearance="solid"
+              icon="trash"
+              text="trash"
+              text-enabled
+            >
+            </calcite-action>
+          </calcite-action-group>
+        </div>
       </div>
       <!-- alignment center when enclosed within group (grid layout, no text) -->
       <div class="parent">
@@ -339,6 +374,13 @@
           <calcite-action-group layout="grid" label="More shapes">
             <calcite-action alignment="center" scale="s" appearance="solid" icon="polygon"></calcite-action>
             <calcite-action alignment="center" scale="s" appearance="solid" icon="rectangle"></calcite-action>
+            <calcite-action alignment="center" scale="s" appearance="solid" icon="trash"></calcite-action>
+          </calcite-action-group>
+        </div>
+        <div class="child">
+          <calcite-action-group layout="grid" label="More shapes">
+            <calcite-action alignment="center" scale="s" appearance="solid" icon="polygon"></calcite-action>
+            <calcite-action indicator alignment="center" scale="s" appearance="solid" icon="rectangle"></calcite-action>
             <calcite-action alignment="center" scale="s" appearance="solid" icon="trash"></calcite-action>
           </calcite-action-group>
         </div>
@@ -430,7 +472,7 @@
           <calcite-action-bar>
             <calcite-action-group label="Item things">
               <calcite-action text="Add" icon="plus"> </calcite-action>
-              <calcite-action text="Save" icon="save"> </calcite-action>
+              <calcite-action indicator text="Save" icon="save"> </calcite-action>
             </calcite-action-group>
             <calcite-action-group label="Layer things">
               <calcite-action text="Layers" icon="layers"> </calcite-action>
@@ -442,7 +484,7 @@
           <div>bottom actions</div>
           <calcite-action-bar>
             <calcite-action text="Add" icon="plus"> </calcite-action>
-            <calcite-action text="Save" icon="save"> </calcite-action>
+            <calcite-action indicator text="Save" icon="save"> </calcite-action>
             <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
         </div>
@@ -451,14 +493,14 @@
           <div>tall container</div>
           <calcite-action-bar>
             <calcite-action-group label="Manage">
-              <calcite-action text="Add" icon="plus"> </calcite-action>
-              <calcite-action text="Save" icon="save"> </calcite-action>
-              <calcite-action text="Layers" icon="layers"> </calcite-action>
+              <calcite-action indicator text="Add" icon="plus"> </calcite-action>
+              <calcite-action indicator text="Save" icon="save"> </calcite-action>
+              <calcite-action indicator text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
             <calcite-action-group label="Tinker">
               <calcite-action text="Add" icon="plus"> </calcite-action>
-              <calcite-action text="Save" active icon="save"> </calcite-action>
-              <calcite-action text="Layers" icon="layers"> </calcite-action>
+              <calcite-action indicator text="Save" active icon="save"> </calcite-action>
+              <calcite-action indicator text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
             <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
           </calcite-action-bar>
@@ -582,12 +624,12 @@
           <calcite-action-bar layout="horizontal" style="width: 100%">
             <calcite-action-group label="Poke around">
               <calcite-action text="Add" icon="plus"> </calcite-action>
-              <calcite-action text="Save" icon="save"> </calcite-action>
+              <calcite-action indicator text="Save" icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
             <calcite-action-group label="Mess with">
               <calcite-action text="Add" icon="plus"> </calcite-action>
-              <calcite-action text="Save" active icon="save"> </calcite-action>
+              <calcite-action indicator text="Save" active icon="save"> </calcite-action>
               <calcite-action text="Layers" icon="layers"> </calcite-action>
             </calcite-action-group>
             <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>

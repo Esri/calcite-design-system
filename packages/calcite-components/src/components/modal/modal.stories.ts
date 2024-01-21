@@ -20,7 +20,7 @@ export const simple = (): string => html`
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "s")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "s")}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
     ${boolean("escape-disabled", false)}
@@ -52,7 +52,7 @@ export const slots = (): string => html`
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "s")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "s")}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
     ${boolean("escape-disabled", false)}

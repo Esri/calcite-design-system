@@ -80,9 +80,9 @@ describe("repositioning", () => {
     expect(floatingEl.style.left).toBe("0");
   }
 
-  it("repositions for unopened components", async () => {
+  it("repositions only for open components", async () => {
     await reposition(fakeFloatingUiComponent, positionOptions);
-    assertOpenPositioning(floatingEl);
+    assertPreOpenPositioning(floatingEl);
 
     fakeFloatingUiComponent.open = true;
 
@@ -91,22 +91,22 @@ describe("repositioning", () => {
   });
 
   it("repositions immediately by default", async () => {
-    assertPreOpenPositioning(floatingEl);
-
     fakeFloatingUiComponent.open = true;
 
     reposition(fakeFloatingUiComponent, positionOptions);
+
+    assertPreOpenPositioning(floatingEl);
 
     await waitForAnimationFrame();
     assertOpenPositioning(floatingEl);
   });
 
   it("can reposition after a delay", async () => {
-    assertPreOpenPositioning(floatingEl);
-
     fakeFloatingUiComponent.open = true;
 
     reposition(fakeFloatingUiComponent, positionOptions, true);
+
+    assertPreOpenPositioning(floatingEl);
 
     await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
     assertOpenPositioning(floatingEl);
@@ -170,6 +170,6 @@ it("should have correct value for defaultOffsetDistance", () => {
 
 it("should filter computed placements", () => {
   expect(new Set(filterComputedPlacements([...placements], document.createElement("div")))).toEqual(
-    new Set(effectivePlacements)
+    new Set(effectivePlacements),
   );
 });

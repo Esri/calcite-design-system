@@ -17,19 +17,21 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon,
 } from "../../utils/dom";
-import { Position, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 
 import {
   connectForm,
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  internalHiddenInputInputEvent,
   submitForm,
 } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
@@ -67,6 +69,7 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/i
 import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -93,7 +96,7 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   /** Specifies the text alignment of the component's value. */
-  @Prop({ reflect: true }) alignment: Position = "start";
+  @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
    * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
@@ -120,24 +123,16 @@ export class InputNumber
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
-
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /**
    * Specifies an icon to display.
@@ -209,6 +204,12 @@ export class InputNumber
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @Prop({ reflect: true }) minLength: number;
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -312,6 +313,12 @@ export class InputNumber
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
+      if (newValue === "Infinity" || newValue === "-Infinity") {
+        this.displayedValue = newValue;
+        this.previousEmittedNumberValue = newValue;
+        return;
+      }
+
       this.setNumberValue({
         origin: "direct",
         previousValue,
@@ -319,8 +326,8 @@ export class InputNumber
           newValue == null || newValue == ""
             ? ""
             : isValidNumber(newValue)
-            ? newValue
-            : this.previousValue || "",
+              ? newValue
+              : this.previousValue || "",
       });
       this.warnAboutInvalidNumberValue(newValue);
     }
@@ -394,7 +401,7 @@ export class InputNumber
 
   @State() defaultMessages: InputNumberMessages;
 
-  @State() localizedValue: string;
+  @State() displayedValue: string;
 
   @State() slottedActionElDisabledInternally = false;
 
@@ -419,13 +426,20 @@ export class InputNumber
     this.setPreviousNumberValue(this.value);
 
     this.warnAboutInvalidNumberValue(this.value);
-    this.setNumberValue({
-      origin: "connected",
-      value: isValidNumber(this.value) ? this.value : "",
-    });
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      this.displayedValue = this.value;
+      this.previousEmittedNumberValue = this.value;
+    } else {
+      this.setNumberValue({
+        origin: "connected",
+        value: isValidNumber(this.value) ? this.value : "",
+      });
+    }
+
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
-    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   componentDidLoad(): void {
@@ -440,7 +454,7 @@ export class InputNumber
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -540,9 +554,14 @@ export class InputNumber
     direction: NumberNudgeDirection,
     inputMax: number | null,
     inputMin: number | null,
-    nativeEvent: KeyboardEvent | MouseEvent
+    nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
+
+    if (value === "Infinity" || value === "-Infinity") {
+      return;
+    }
+
     const adjustment = direction === "up" ? 1 : -1;
     const stepHandleInteger =
       this.integer && this.step !== "any" ? Math.round(this.step) : this.step;
@@ -563,8 +582,8 @@ export class InputNumber
     const finalValue = nudgedValueBelowInputMin()
       ? `${inputMin}`
       : nudgedValueAboveInputMax()
-      ? `${inputMax}`
-      : nudgedValue.toString();
+        ? `${inputMax}`
+        : nudgedValue.toString();
 
     this.setNumberValue({
       committing: true,
@@ -591,6 +610,7 @@ export class InputNumber
   };
 
   private inputNumberBlurHandler = () => {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
     this.calciteInternalInputNumberBlur.emit();
     this.emitChangeIfUserModified();
   };
@@ -614,6 +634,11 @@ export class InputNumber
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      return;
+    }
+
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
@@ -633,7 +658,7 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.localizedValue;
+      this.childNumberEl.value = this.displayedValue;
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -647,6 +672,15 @@ export class InputNumber
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      event.preventDefault();
+      if (event.key === "Backspace" || event.key === "Delete") {
+        this.clearInputValue(event);
+      }
+      return;
+    }
+
     if (event.key === "ArrowUp") {
       /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
       event.preventDefault();
@@ -714,7 +748,7 @@ export class InputNumber
 
   private nudgeNumberValue = (
     direction: NumberNudgeDirection,
-    nativeEvent: KeyboardEvent | MouseEvent
+    nativeEvent: KeyboardEvent | MouseEvent,
   ): void => {
     if (nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) {
       return;
@@ -740,11 +774,14 @@ export class InputNumber
     }, valueNudgeDelayInMs);
   };
 
-  private nudgeButtonPointerUpAndOutHandler = (event: PointerEvent): void => {
+  private nudgeButtonPointerUpHandler = (event: PointerEvent): void => {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
+    window.clearInterval(this.nudgeNumberValueIntervalId);
+  };
 
+  private nudgeButtonPointerOutHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
@@ -760,26 +797,20 @@ export class InputNumber
     }
   };
 
-  onFormReset(): void {
-    this.setNumberValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "number";
     input.min = this.min?.toString(10) ?? "";
     input.max = this.max?.toString(10) ?? "";
   }
 
-  hiddenInputChangeHandler = (event: Event): void => {
+  private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setNumberValue({
         value: (event.target as HTMLInputElement).value,
         origin: "direct",
       });
     }
+    this.setFocus();
     event.stopPropagation();
   };
 
@@ -869,12 +900,12 @@ export class InputNumber
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
         newLocalizedValue,
         newValue,
-        numberStringFormatter
+        numberStringFormatter,
       );
     }
 
     // adds localized trailing decimal separator
-    this.localizedValue =
+    this.displayedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? `${newLocalizedValue}${numberStringFormatter.decimal}`
         : newLocalizedValue;
@@ -895,7 +926,7 @@ export class InputNumber
       const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
       if (calciteInputNumberInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue = numberStringFormatter.localize(this.previousValue);
+        this.displayedValue = numberStringFormatter.localize(this.previousValue);
       } else if (committing) {
         this.emitChangeIfUserModified();
       }
@@ -959,8 +990,8 @@ export class InputNumber
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
-        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
         tabIndex={-1}
         type="button"
       >
@@ -978,8 +1009,8 @@ export class InputNumber
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
-        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
-        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
         tabIndex={-1}
         type="button"
       >
@@ -1019,7 +1050,7 @@ export class InputNumber
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         type="text"
-        value={this.localizedValue}
+        value={this.displayedValue}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setChildNumberElRef}
       />
@@ -1027,27 +1058,37 @@ export class InputNumber
 
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalDown
-            : null}
-          {this.prefixText ? prefixText : null}
-          <div class={CSS.wrapper}>
-            {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
-            {this.loading ? loader : null}
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalDown
+              : null}
+            {this.prefixText ? prefixText : null}
+            <div class={CSS.wrapper}>
+              {childEl}
+              {this.isClearable ? inputClearButton : null}
+              {this.requestedIcon ? iconEl : null}
+              {this.loading ? loader : null}
+            </div>
+            <div class={CSS.actionWrapper}>
+              <slot name={SLOTS.action} />
+            </div>
+            {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
+            {this.suffixText ? suffixText : null}
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalUp
+              : null}
+            <HiddenFormInputSlot component={this} />
           </div>
-          <div class={CSS.actionWrapper}>
-            <slot name={SLOTS.action} />
-          </div>
-          {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
-          {this.suffixText ? suffixText : null}
-          {this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalUp
-            : null}
-          <HiddenFormInputSlot component={this} />
-        </div>
+          {this.validationMessage ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }

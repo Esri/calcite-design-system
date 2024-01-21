@@ -1,0 +1,44 @@
+name: "Chromatic - Main"
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [labeled, synchronize]
+jobs:
+  run:
+    if: |
+      (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots') || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: package.json
+      - run: npm install
+      - run: npm --workspace="packages/calcite-design-tokens" run build
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          zip: true
+          exitOnceUploaded: true
+          autoAcceptChanges: main
+          workingDir: packages/calcite-components
+        env:
+          STORYBOOK_SCREENSHOT_TEST_BUILD: true
+          CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
+  skip:
+    if: contains(github.event.pull_request.labels.*.name, 'skip visual snapshots')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip Chromatic
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          context: UI Tests
+          description: Chromatic run skipped
+          state: success
+          sha: ${{github.event.pull_request.head.sha || github.sha}}

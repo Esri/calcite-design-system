@@ -1,4 +1,5 @@
 import { closestElementCrossShadowBoundary, isBefore, queryElementRoots } from "./dom";
+import { componentOnReady } from "./component";
 
 export interface LabelableComponent {
   /**
@@ -41,7 +42,7 @@ const labelToLabelables = new WeakMap<HTMLCalciteLabelElement, LabelableComponen
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
 const onLabelConnectedMap = new WeakMap<LabelableComponent, typeof onLabelConnected>();
 const onLabelDisconnectedMap = new WeakMap<LabelableComponent, typeof onLabelDisconnected>();
-const unlabeledComponents = new WeakSet<LabelableComponent>();
+const unlabeledComponents = new Set<LabelableComponent>();
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const { id } = componentEl;
@@ -70,7 +71,7 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
   let traversedElements: HTMLElement[];
   const customElementAncestorCheckEventType = "custom-element-ancestor-check";
 
-  const listener = (event) => {
+  const listener = (event: CustomEvent) => {
     event.stopImmediatePropagation();
     const composedPath = event.composedPath() as HTMLElement[];
     traversedElements = composedPath.slice(composedPath.indexOf(componentEl), composedPath.indexOf(label));
@@ -94,6 +95,10 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
  * @param component
  */
 export function connectLabel(component: LabelableComponent): void {
+  if (!component) {
+    return;
+  }
+
   const labelEl = findLabelForComponent(component.el);
 
   if (
@@ -132,6 +137,10 @@ export function connectLabel(component: LabelableComponent): void {
  * @param component
  */
 export function disconnectLabel(component: LabelableComponent): void {
+  if (!component) {
+    return;
+  }
+
   unlabeledComponents.delete(component);
   document.removeEventListener(labelConnectedEvent, onLabelConnectedMap.get(component));
   document.removeEventListener(labelDisconnectedEvent, onLabelDisconnectedMap.get(component));
@@ -151,7 +160,7 @@ export function disconnectLabel(component: LabelableComponent): void {
 
   labelToLabelables.set(
     component.labelEl,
-    labelables.filter((labelable) => labelable !== component).sort(sortByDOMOrder)
+    labelables.filter((labelable) => labelable !== component).sort(sortByDOMOrder),
   );
 
   component.labelEl = null;
@@ -201,4 +210,34 @@ function onLabelDisconnected(this: LabelableComponent): void {
   const boundOnLabelConnected = onLabelConnectedMap.get(this) || onLabelConnected.bind(this);
   onLabelConnectedMap.set(this, boundOnLabelConnected);
   document.addEventListener(labelConnectedEvent, boundOnLabelConnected);
+}
+
+/**
+ * Helper to associate an explicit label (i.e., using `for`) with a labelable component that does not have an associated label.
+ *
+ * @param label - the label element
+ */
+export async function associateExplicitLabelToUnlabeledComponent(label: HTMLCalciteLabelElement): Promise<void> {
+  await componentOnReady(label);
+
+  const alreadyLabeled = labelToLabelables.has(label);
+
+  if (alreadyLabeled) {
+    return;
+  }
+
+  const forComponentEl = label.ownerDocument?.getElementById(label.for);
+
+  if (!forComponentEl) {
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    for (const labelable of unlabeledComponents) {
+      if (labelable.el === forComponentEl) {
+        connectLabel(labelable);
+        break;
+      }
+    }
+  });
 }

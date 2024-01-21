@@ -35,7 +35,7 @@ export function getDepth(element: HTMLElement): number {
     element,
     null,
     XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
-    null
+    null,
   );
 
   return result.snapshotLength;

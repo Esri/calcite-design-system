@@ -4,6 +4,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -33,7 +34,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
 
   /**
-   * Specifies the kind of the component (will apply to border and background).
+   * Specifies the kind of the component, which will apply to border and background.
    */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
@@ -151,27 +152,29 @@ export class Fab implements InteractiveComponent, LoadableComponent {
     const title = !textEnabled ? label || text || null : null;
 
     return (
-      <calcite-button
-        appearance={appearance === "solid" ? "solid" : "outline-fill"}
-        class={CSS.button}
-        disabled={disabled}
-        iconFlipRtl={iconFlipRtl ? "start" : null}
-        iconStart={icon}
-        kind={kind}
-        label={label}
-        loading={loading}
-        round={true}
-        scale={scale}
-        title={title}
-        type="button"
-        width="auto"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(buttonEl): void => {
-          this.buttonEl = buttonEl;
-        }}
-      >
-        {this.textEnabled ? this.text : null}
-      </calcite-button>
+      <InteractiveContainer disabled={disabled}>
+        <calcite-button
+          appearance={appearance === "solid" ? "solid" : "outline-fill"}
+          class={CSS.button}
+          disabled={disabled}
+          iconFlipRtl={iconFlipRtl ? "start" : null}
+          iconStart={icon}
+          kind={kind}
+          label={label}
+          loading={loading}
+          round={true}
+          scale={scale}
+          title={title}
+          type="button"
+          width="auto"
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+          ref={(buttonEl): void => {
+            this.buttonEl = buttonEl;
+          }}
+        >
+          {this.textEnabled ? this.text : null}
+        </calcite-button>
+      </InteractiveContainer>
     );
   }
 }

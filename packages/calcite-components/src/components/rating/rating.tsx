@@ -16,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
@@ -35,7 +36,7 @@ import {
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { RatingMessages } from "./assets/rating/t9n";
-import { StarIcon } from "./function/star";
+import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
 
@@ -70,12 +71,11 @@ export class Rating
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * Made into a prop for testing purposes only
@@ -227,65 +227,77 @@ export class Rating
         onPointerOut={this.handleRatingPointerOut}
         onPointerOver={this.handleRatingPointerOver}
       >
-        <span class="wrapper">
-          <fieldset class="fieldset" disabled={this.disabled}>
-            <legend class="visually-hidden">{this.messages.rating}</legend>
-            {this.starsMap.map(
-              ({ average, checked, fraction, hovered, id, partial, selected, value, tabIndex }) => {
-                return (
-                  <label
-                    class={{
-                      star: true,
-                      selected,
-                      hovered,
-                      average,
-                      partial,
-                    }}
-                    data-value={value}
-                    htmlFor={id}
-                    onClick={this.handleLabelClick}
-                    onFocus={this.handleLabelFocus}
-                    onKeyDown={this.handleLabelKeyDown}
-                    onPointerDown={this.handleLabelPointerDown}
-                    onPointerOver={this.handleLabelPointerOver}
-                    tabIndex={tabIndex}
-                    // eslint-disable-next-line react/jsx-sort-props
-                    ref={this.setLabelEl}
-                  >
-                    <input
-                      checked={checked}
-                      class="visually-hidden"
-                      disabled={this.disabled || this.readOnly}
-                      id={id}
-                      name={this.guid}
-                      onChange={this.handleInputChange}
-                      tabIndex={-1}
-                      type="radio"
-                      value={value}
-                    />
-                    <StarIcon full={selected || average} scale={this.scale} />
-                    {partial && (
-                      <div class="fraction" style={{ width: `${fraction * 100}%` }}>
-                        <StarIcon full partial scale={this.scale} />
-                      </div>
-                    )}
-                    <span class="visually-hidden">
-                      {this.messages.stars.replace("{num}", `${value}`)}
-                    </span>
-                  </label>
-                );
-              }
-            )}
+        <InteractiveContainer disabled={this.disabled}>
+          <span class="wrapper">
+            <fieldset class="fieldset" disabled={this.disabled}>
+              <legend class="visually-hidden">{this.messages.rating}</legend>
+              {this.starsMap.map(
+                ({
+                  average,
+                  checked,
+                  fraction,
+                  hovered,
+                  id,
+                  partial,
+                  selected,
+                  value,
+                  tabIndex,
+                }) => {
+                  return (
+                    <label
+                      class={{
+                        star: true,
+                        selected,
+                        hovered,
+                        average,
+                        partial,
+                      }}
+                      data-value={value}
+                      htmlFor={id}
+                      onClick={this.handleLabelClick}
+                      onFocus={this.handleLabelFocus}
+                      onKeyDown={this.handleLabelKeyDown}
+                      onPointerDown={this.handleLabelPointerDown}
+                      onPointerOver={this.handleLabelPointerOver}
+                      tabIndex={tabIndex}
+                      // eslint-disable-next-line react/jsx-sort-props
+                      ref={this.setLabelEl}
+                    >
+                      <input
+                        checked={checked}
+                        class="visually-hidden"
+                        disabled={this.disabled || this.readOnly}
+                        id={id}
+                        name={this.guid}
+                        onChange={this.handleInputChange}
+                        tabIndex={-1}
+                        type="radio"
+                        value={value}
+                      />
+                      <StarIcon full={selected || average} scale={this.scale} />
+                      {partial && (
+                        <div class="fraction" style={{ width: `${fraction * 100}%` }}>
+                          <StarIcon full partial scale={this.scale} />
+                        </div>
+                      )}
+                      <span class="visually-hidden">
+                        {this.messages.stars.replace("{num}", `${value}`)}
+                      </span>
+                    </label>
+                  );
+                },
+              )}
 
-            {(this.count || this.average) && this.showChip ? (
-              <calcite-chip scale={this.scale} value={this.count?.toString()}>
-                {!!this.average && <span class="number--average">{this.average.toString()}</span>}
-                {!!this.count && <span class="number--count">({this.count?.toString()})</span>}
-              </calcite-chip>
-            ) : null}
-          </fieldset>
-          <HiddenFormInputSlot component={this} />
-        </span>
+              {(this.count || this.average) && this.showChip ? (
+                <calcite-chip scale={this.scale} value={this.count?.toString()}>
+                  {!!this.average && <span class="number--average">{this.average.toString()}</span>}
+                  {!!this.count && <span class="number--count">({this.count?.toString()})</span>}
+                </calcite-chip>
+              ) : null}
+            </fieldset>
+            <HiddenFormInputSlot component={this} />
+          </span>
+        </InteractiveContainer>
       </Host>
     );
   }

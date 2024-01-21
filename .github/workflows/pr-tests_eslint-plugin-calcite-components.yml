@@ -2,30 +2,22 @@ name: Run eslint-plugin-calcite-components tests
 
 on:
   pull_request:
-    paths:
-      - "packages/eslint-plugin-calcite-components/**"
-    branches:
-      - master
+    paths: ["packages/eslint-plugin-calcite-components/**"]
+    branches: [main, rc]
   push:
-    paths:
-      - "packages/eslint-plugin-calcite-components/**"
-    branches:
-      - master
+    paths: ["packages/eslint-plugin-calcite-components/**"]
+    branches: [main, rc]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: package.json
       - name: npm install, build, and test
         run: |
           npm install

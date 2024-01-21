@@ -21,7 +21,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is highlighted. */
+  /** When `true`, the component is highlighted. */
   @Prop({ reflect: true }) active: boolean;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/

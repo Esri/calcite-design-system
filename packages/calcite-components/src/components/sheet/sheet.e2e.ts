@@ -80,7 +80,7 @@ describe("calcite-sheet properties", () => {
     // set large page to ensure test sheet isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(
-      `<calcite-sheet position="inline-start" style="--calcite-sheet-width:600px;"></calcite-sheet>`
+      `<calcite-sheet position="inline-start" style="--calcite-sheet-width:600px;"></calcite-sheet>`,
     );
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
@@ -91,7 +91,7 @@ describe("calcite-sheet properties", () => {
         const s = elm.shadowRoot.querySelector(selector);
         return window.getComputedStyle(s).getPropertyValue("width");
       },
-      `.${CSS.content}`
+      `.${CSS.content}`,
     );
     expect(style).toEqual("420px");
   });
@@ -101,7 +101,7 @@ describe("calcite-sheet properties", () => {
     // set large page to ensure test sheet isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(
-      `<calcite-sheet position="inline-start" style="--calcite-sheet-width:600px;--calcite-sheet-max-width:600px;"></calcite-sheet>`
+      `<calcite-sheet position="inline-start" style="--calcite-sheet-width:600px;--calcite-sheet-max-width:600px;"></calcite-sheet>`,
     );
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
@@ -112,7 +112,7 @@ describe("calcite-sheet properties", () => {
         const s = elm.shadowRoot.querySelector(selector);
         return window.getComputedStyle(s).getPropertyValue("width");
       },
-      `.${CSS.content}`
+      `.${CSS.content}`,
     );
     expect(style).toEqual("600px");
   });
@@ -122,7 +122,7 @@ describe("calcite-sheet properties", () => {
     // set large page to ensure test sheet isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(
-      `<calcite-sheet position="block-start" style="--calcite-sheet-height:600px;" open></calcite-sheet>`
+      `<calcite-sheet position="block-start" style="--calcite-sheet-height:600px;" open></calcite-sheet>`,
     );
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
@@ -133,7 +133,7 @@ describe("calcite-sheet properties", () => {
         const s = elm.shadowRoot.querySelector(selector);
         return window.getComputedStyle(s).getPropertyValue("height");
       },
-      `.${CSS.content}`
+      `.${CSS.content}`,
     );
     expect(style).toEqual("600px");
   });
@@ -151,7 +151,7 @@ describe("calcite-sheet properties", () => {
       (elm: HTMLCalciteSheetElement) =>
         (elm.beforeClose = (
           window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose)
+        ).beforeClose),
     );
     await page.waitForChanges();
     expect(await sheet.getProperty("openedProp")).toBe(true);
@@ -175,7 +175,7 @@ describe("calcite-sheet properties", () => {
       (elm: HTMLCalciteSheetElement) =>
         (elm.beforeClose = (
           window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose)
+        ).beforeClose),
     );
     await page.waitForChanges();
     expect(await sheet.getProperty("openedProp")).toBe(true);
@@ -199,7 +199,7 @@ describe("calcite-sheet properties", () => {
       (elm: HTMLCalciteSheetElement) =>
         (elm.beforeClose = (
           window as GlobalTestProps<{ beforeClose: HTMLCalciteSheetElement["beforeClose"] }>
-        ).beforeClose)
+        ).beforeClose),
     );
     await page.waitForChanges();
     sheet.setProperty("open", true);
@@ -222,7 +222,7 @@ describe("calcite-sheet properties", () => {
     await page.$eval(
       "calcite-sheet",
       (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const sheet = await page.find("calcite-sheet");
@@ -241,7 +241,7 @@ describe("calcite-sheet properties", () => {
     await page.$eval(
       "calcite-sheet",
       (elm: HTMLCalciteSheetElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
 
     const sheet = await page.find("calcite-sheet");
@@ -355,7 +355,7 @@ describe("calcite-sheet properties", () => {
         ["calciteSheetBeforeOpen", "calciteSheetOpen", "calciteSheetBeforeClose", "calciteSheetClose"].forEach(
           (eventType) => {
             sheet.addEventListener(eventType, (event) => receivedEvents.push(event.type));
-          }
+          },
         );
       });
 

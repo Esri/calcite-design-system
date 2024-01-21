@@ -5,7 +5,7 @@ Developers building Esri applications are encouraged to use the default theme as
 ```html
 <style>
   .my-theme {
-    --calcite-ui-brand: red;
+    --calcite-color-brand: red;
   }
 </style>
 <div class="my-theme">
