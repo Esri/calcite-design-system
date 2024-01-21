@@ -32,7 +32,7 @@ describe("calcite-sheet properties", () => {
         defaultValue: false,
       },
       {
-        propertyName: "openedProp",
+        propertyName: "opened",
         defaultValue: false,
       },
     ]);
@@ -154,12 +154,12 @@ describe("calcite-sheet properties", () => {
         ).beforeClose),
     );
     await page.waitForChanges();
-    expect(await sheet.getProperty("openedProp")).toBe(true);
+    expect(await sheet.getProperty("opened")).toBe(true);
     const scrim = await page.find(`calcite-sheet >>> calcite-scrim`);
     await scrim.click();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await sheet.getProperty("openedProp")).toBe(false);
+    expect(await sheet.getProperty("opened")).toBe(false);
   });
 
   it("calls the beforeClose method prior to closing via escape", async () => {
@@ -178,12 +178,12 @@ describe("calcite-sheet properties", () => {
         ).beforeClose),
     );
     await page.waitForChanges();
-    expect(await sheet.getProperty("openedProp")).toBe(true);
+    expect(await sheet.getProperty("opened")).toBe(true);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await sheet.getProperty("openedProp")).toBe(false);
+    expect(await sheet.getProperty("opened")).toBe(false);
   });
 
   it("calls the beforeClose method prior to closing via attribute", async () => {
@@ -204,11 +204,11 @@ describe("calcite-sheet properties", () => {
     await page.waitForChanges();
     sheet.setProperty("open", true);
     await page.waitForChanges();
-    expect(await sheet.getProperty("openedProp")).toBe(true);
+    expect(await sheet.getProperty("opened")).toBe(true);
     sheet.removeAttribute("open");
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await sheet.getProperty("openedProp")).toBe(false);
+    expect(await sheet.getProperty("opened")).toBe(false);
   });
 
   it("should handle rejected 'beforeClose' promise'", async () => {
@@ -249,7 +249,7 @@ describe("calcite-sheet properties", () => {
     await page.waitForChanges();
 
     expect(await sheet.getProperty("open")).toBe(true);
-    expect(await sheet.getProperty("openedProp")).toBe(true);
+    expect(await sheet.getProperty("opened")).toBe(true);
     expect(sheet.getAttribute("open")).toBe(""); // Makes sure attribute is added back
   });
 

@@ -156,7 +156,7 @@
   @apply fixed inset-0 flex overflow-y-hidden;
 }
 
-:host([openedProp]) {
+:host([opened]) {
   visibility: visible !important;
 }
 

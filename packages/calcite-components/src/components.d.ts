@@ -3133,7 +3133,7 @@ export namespace Components {
         /**
           * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
          */
-        "openedProp": boolean;
+        "opened": boolean;
         /**
           * When `true`, disables the closing of the component when clicked outside.
          */
@@ -4035,7 +4035,7 @@ export namespace Components {
         /**
           * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
          */
-        "openedProp": boolean;
+        "opened": boolean;
         /**
           * When `true`, disables the closing of the component when clicked outside.
          */
@@ -10567,7 +10567,7 @@ declare namespace LocalJSX {
         /**
           * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
          */
-        "openedProp"?: boolean;
+        "opened"?: boolean;
         /**
           * When `true`, disables the closing of the component when clicked outside.
          */
@@ -11502,7 +11502,7 @@ declare namespace LocalJSX {
         /**
           * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
          */
-        "openedProp"?: boolean;
+        "opened"?: boolean;
         /**
           * When `true`, disables the closing of the component when clicked outside.
          */

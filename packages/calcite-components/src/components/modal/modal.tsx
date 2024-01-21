@@ -96,7 +96,7 @@ export class Modal
    *
    * @internal
    */
-  @Prop({ mutable: true, reflect: true }) openedProp = false;
+  @Prop({ mutable: true, reflect: true }) opened = false;
 
   /** Passes a function to run before the component closes. */
   @Prop() beforeClose: (el: HTMLCalciteModalElement) => Promise<void>;
@@ -218,7 +218,7 @@ export class Modal
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: this.openedProp,
+            [CSS.containerOpen]: this.opened,
             [CSS.slottedInShell]: this.slottedInShell,
           }}
         >
@@ -513,7 +513,7 @@ export class Modal
     }
   }
 
-  @Watch("openedProp")
+  @Watch("opened")
   handleOpenedChange(value: boolean): void {
     const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
     this.transitionEl.classList.add(idleClass);
@@ -532,7 +532,7 @@ export class Modal
   private async openModal(): Promise<void> {
     await componentOnReady(this.el);
     this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.openedProp = true;
+    this.opened = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
 
@@ -574,7 +574,7 @@ export class Modal
     }
 
     totalOpenModals--;
-    this.openedProp = false;
+    this.opened = false;
     this.removeOverflowHiddenClass();
   };
 
