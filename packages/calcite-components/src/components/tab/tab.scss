@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
+ */
+
 :host([selected]) {
   section,
   .container {
@@ -18,15 +26,18 @@
 }
 
 .scale-s .content {
-  @apply text-n2h py-1;
+  @apply text-n2h;
+  padding-block: var(--calcite-block-padding, theme("spacing.1"));
 }
 
 .scale-m .content {
-  @apply text-n1h py-2;
+  @apply text-n1h;
+  padding-block: var(--calcite-block-padding, theme("spacing.2"));
 }
 
 .scale-l .content {
-  @apply text-0h py-2.5;
+  @apply text-0h;
+  padding-block: var(--calcite-block-padding, theme("spacing[2.5]"));
 }
 
 section,
