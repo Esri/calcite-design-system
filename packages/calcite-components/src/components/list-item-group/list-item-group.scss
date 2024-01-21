@@ -3,6 +3,10 @@
   --calcite-list-item-spacing-indent: theme("spacing.4");
 }
 
+:host([filter-hidden]) {
+  @apply hidden;
+}
+
 @include disabled();
 
 .container {
@@ -16,11 +20,14 @@
 }
 
 ::slotted(calcite-list-item) {
-  @apply shadow-border-bottom mb-px;
+  @apply shadow-border-top;
+  margin-block-start: 1px;
 }
 
-::slotted(calcite-list-item:last-child) {
+// removes shadow for the first item of the group for both filtered and unfiltered items.
+::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
   @apply shadow-none;
+  margin-block-start: 0px;
 }
 
 @include base-component();

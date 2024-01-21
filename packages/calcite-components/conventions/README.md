@@ -7,7 +7,7 @@ This is a living document defining our best practices and reasoning for authorin
 Generally adhere to and follow these best practices for authoring components.
 
 - [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
-- [Custom Element Conformance - W3C Editor's Draft](https://w3c.github.io/webcomponents/spec/custom/#custom-element-conformance)
+- [Custom Element Conformance - W3C Editor's Draft](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element-conformance)
 
 ## Structure
 
@@ -79,7 +79,7 @@ Only attach additional data to your event if that data cannot be determined from
 
 `<calcite-tab-nav>` is also an example of this. The `event.details.tab` item contains the index of the selected tab or the tab name which cannot be easily determined from the state of `<calcite-tab-nav>` in some cases so it makes sense to include in the event.
 
-### Native event cancelation
+### Native event cancellation
 
 When a component **handles events for its own interaction** (e.g., moving between list items, closing an open menu), if the event is tied to default browser behavior (e.g., space key scrolling the page), `Event.preventDefault()` must be called to avoid mixed behavior.
 
@@ -375,45 +375,7 @@ There are utilities for common workflows in [`src/utils`](../src/utils).
 
 ### Global attributes
 
-The [`globalAttributes`](../src/utils/globalAttributes.ts) util was specifically made to access the `lang` global attribute when set on a Calcite component. However, it can be extended to allow additional [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#list_of_global_attributes) by adding to the [`allowedGlobalAttributes`](https://github.com/Esri/calcite-design-system/blob/a33aa0df0c5bf103f91187826e6b12b8ff266d90/src/utils/globalAttributes.ts#L4-L5) array. The util is used in [`calcite-pagination`](../src/components/pagination/pagination.tsx), which you can use as a reference.
-
-#### Usage steps
-
-1. Import the interface and watch/unwatch methods
-
-   ```js
-   import { GlobalAttrComponent, watchGlobalAttributes, unwatchGlobalAttributes } from "../../utils/globalAttributes";
-   ```
-
-2. Implement the interface
-
-   ```js
-   export class ComponentName implements GlobalAttrComponent {
-   ```
-
-3. Add `globalAttributes` state
-
-   ```js
-   @State() globalAttributes = {};
-   ```
-
-4. Add connect/disconnect callbacks
-
-   ```js
-   connectedCallback(): void {
-       watchGlobalAttributes(this, ["lang"]);
-   }
-
-   disconnectedCallback(): void {
-       unwatchGlobalAttributes(this);
-   }
-   ```
-
-5. Use the state to access `lang` (or another global attribute that may be allowed in the future).
-
-   ```js
-   const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
-   ```
+Watching global attributes on components is now possible with Stencil v4. Please refer to the [documentation page](https://stenciljs.com/docs/reactive-data#watching-native-html-attributes) for more information.
 
 ### BigDecimal
 
@@ -430,22 +392,22 @@ For such cases, the following pattern will enable developers to create custom ch
 - Must provide a `customItemSelectors` property to allow querying for custom elements in addition to their expected children.
 - An interface for the class (used by custom item classes) and element (used by parent component APIs) must be created in the parent's `interfaces.d.ts` file, where the necessary child APIs must be extracted.
 
-**Example**
+##### Example
 
-**`parent/interfaces.d.ts`**
+###### `parent/interfaces.d.ts`
 
 ```ts
 type ChildComponentLike = Pick<Components.CalciteChild, "required" | "props" | "from" | "parent">;
 type ChildComponentLikeElement = ChilcComponentLike & HTMLElement;
 ```
 
-**`parent/parent.tsx`**
+###### `parent/parent.tsx`
 
 ```tsx
   @Prop() selectedItem: HTMLChildComponentElement | ChildComponentLikeElement;
 ```
 
-**`custom-item/custom-item.tsx`**
+###### `custom-item/custom-item.tsx`
 
 ```tsx
 export class CustomItem implements ChildComponentLike {
@@ -483,4 +445,4 @@ export class CustomItem implements ChildComponentLike {
 - This pattern should be applied sparingly and on a case-by-case basis.
 - We can refine this pattern as we go on, but additional modifications needed to handle the custom items workflow will be considered out-of-scope and thus not supported.
 - Until we have documentation covering creating custom elements, `customItemSelectors` must be made internal and any `ChildComponentLike` types must be excluded from the doc.
-- Please refer to https://github.com/Esri/calcite-design-system/pull/7608/ as an example on how this pattern is applied.
+- Please refer to <https://github.com/Esri/calcite-design-system/pull/7608/> as an example on how this pattern is applied.

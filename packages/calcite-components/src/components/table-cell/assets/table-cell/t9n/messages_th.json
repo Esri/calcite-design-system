@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "กด Enter หรือ Space เพื่อยกเลิกการเลือกแถว",
+  "keyboardSelect": "กด Enter หรือ Space เพื่อเลือกแถว",
+  "row": "แถว",
+  "selected": "เลือก",
+  "unselected": "ยกเลิกการเลือกแล้ว"
 }

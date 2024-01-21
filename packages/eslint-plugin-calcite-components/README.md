@@ -35,7 +35,7 @@ Add a new `lint` script to `package.json`:
 
 Then you can run the linter:
 
-```
+```shell
 npm run lint
 ```
 
@@ -48,6 +48,10 @@ This rule helps prevent usage of specific events and allows suggesting alternati
 - [`@esri/calcite-components/ban-props-on-host`](./docs/ban-props-on-host.md)
 
 This rule catches props/attributes that should be in the encapsulated HTML structure and not on the host element.
+
+- [`@esri/calcite-components/enforce-ref-last-prop`](./docs/enforce-ref-last-prop.md)
+
+This ensures the node passed into the `ref` callback is in sync with its JSX attributes/properties when invoked.
 
 - [`@esri/calcite-components/require-event-emitter-type`](./docs/require-event-emitter-type.md)
 
@@ -62,6 +66,7 @@ This rule catches boolean props that are initialized in a way that does not conf
 ```json
 {
   "@esri/calcite-components/ban-props-on-host": "error",
+  "@esri/calcite-components/enforce-ref-last-prop": "error",
   "@esri/calcite-components/require-event-emitter-type": "error",
   "@esri/calcite-components/strict-boolean-attributes": "error"
 }
@@ -83,4 +88,4 @@ See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
 For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
-email: contracts@esri.com
+email: <contracts@esri.com>

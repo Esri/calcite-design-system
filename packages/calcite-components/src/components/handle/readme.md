@@ -4,15 +4,19 @@
 
 ## Properties
 
-| Property    | Attribute    | Description                          | Type     | Default    |
-| ----------- | ------------ | ------------------------------------ | -------- | ---------- |
-| `textTitle` | `text-title` | Value for the button title attribute | `string` | `"handle"` |
+| Property           | Attribute           | Description                                                                              | Type             | Default     |
+| ------------------ | ------------------- | ---------------------------------------------------------------------------------------- | ---------------- | ----------- |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`        | `false`     |
+| `dragHandle`       | `drag-handle`       | Value for the button title attribute.                                                    | `string`         | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `HandleMessages` | `undefined` |
+| `selected`         | `selected`          | When `true`, the component is selected.                                                  | `boolean`        | `false`     |
 
 ## Events
 
-| Event                | Description                                                                   | Type                       |
-| -------------------- | ----------------------------------------------------------------------------- | -------------------------- |
-| `calciteHandleNudge` | Emitted when the handle is activated and the up or down arrow key is pressed. | `CustomEvent<HandleNudge>` |
+| Event                 | Description                                                                | Type                       |
+| --------------------- | -------------------------------------------------------------------------- | -------------------------- |
+| `calciteHandleChange` | Fires whenever the component is selected or unselected.                    | `CustomEvent<void>`        |
+| `calciteHandleNudge`  | Fires when the handle is selected and the up or down arrow key is pressed. | `CustomEvent<HandleNudge>` |
 
 ## Methods
 
@@ -29,6 +33,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-block](../block)
+- [calcite-list-item](../list-item)
 
 ### Depends on
 
@@ -40,9 +45,10 @@ Type: `Promise<void>`
 graph TD;
   calcite-handle --> calcite-icon
   calcite-block --> calcite-handle
+  calcite-list-item --> calcite-handle
   style calcite-handle fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

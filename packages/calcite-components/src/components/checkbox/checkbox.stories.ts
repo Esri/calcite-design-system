@@ -19,6 +19,7 @@ export const simple = (): string => html`
       ${boolean("disabled", false)}
       ${boolean("indeterminate", false)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     ></calcite-checkbox>
     ${text("label", "Checkbox")}
   </calcite-label>

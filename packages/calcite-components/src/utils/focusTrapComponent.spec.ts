@@ -68,7 +68,9 @@ describe("focusTrapComponent", () => {
 
       // we clobber Stencil's custom Mock document implementation
       const { window: win } = new JSDOM();
-      window = win; // make window references use JSDOM
+
+      // make window references use JSDOM (which is a subset, hence the type cast)
+      window = win as any as Window & typeof globalThis;
       globalThis.MutationObserver = window.MutationObserver; // needed for focus-trap
 
       type TestGlobal = GlobalTestProps<{ calciteConfig: CalciteConfig }>;
@@ -89,7 +91,7 @@ describe("focusTrapComponent", () => {
         expect.anything(),
         expect.objectContaining({
           trapStack: customFocusTrapStack,
-        })
+        }),
       );
       expect(customFocusTrapStack).toHaveLength(0);
 

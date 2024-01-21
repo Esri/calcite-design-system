@@ -1,0 +1,1669 @@
+{
+  "semantic": {
+    "typography": {
+      "default": {
+        "default": {
+          "type": "typography",
+          "value": {
+            "fontFamily": "{semantic.font.family.default}",
+            "fontSize": "{semantic.font.size.default}",
+            "fontWeight": "{semantic.font.weight.regular}",
+            "letterSpacing": "{semantic.font.letter-spacing.normal}",
+            "lineHeight": "{semantic.font.line-height.fixed.base}",
+            "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
+            "textCase": "{semantic.font.text-case.none}",
+            "textDecoration": "{semantic.font.text-decoration.none}"
+          },
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "typography",
+              "element": "",
+              "category": "",
+              "group": "",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "light": {
+          "-3h": {
+            "value": {
+              "fontSize": "{semantic.font.size.xs}",
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.fixed.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "-3h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-2h": {
+            "value": {
+              "fontSize": "{semantic.font.size.sm}",
+              "fontWeight": "{semantic.font.weight.light}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "-2h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "-1h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "0h": {
+            "value": {
+              "fontSize": "{semantic.font.size.md}",
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.fixed.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "0h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "1h": {
+            "value": {
+              "fontSize": "{semantic.font.size.lg}",
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.fixed.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "1h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "regular": {
+          "-3h": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.fixed.sm}",
+              "fontSize": "{semantic.font.size.xs}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "-3h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-2h": {
+            "value": {
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "-2h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1h": {
+            "value": "{semantic.typography.default.default}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "-1h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "0h": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.fixed.lg}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "0h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "1h": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.fixed.xl}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "1h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "medium": {
+          "-3h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.fixed.sm}",
+              "fontSize": "{semantic.font.size.xs}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "-3h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-2h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "-2h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "-1h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "0h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.fixed.lg}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "0h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.fixed.xl}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "1h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "bold": {
+          "-3h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.fixed.sm}",
+              "fontSize": "{semantic.font.size.xs}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "-3h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-2h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "-2h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "-1h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "0h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.fixed.lg}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "0h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "1h": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.fixed.xl}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "default",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "1h",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        }
+      },
+      "wrap": {
+        "light": {
+          "-2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "-2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "-1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+
+          "0": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "0",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "3": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.light}",
+              "lineHeight": "{semantic.font.line-height.relative.tight}",
+              "fontSize": "{semantic.font.size.xxl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "light",
+                "state": "",
+                "scale": "3",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "regular": {
+          "-2": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "-2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "-1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "0": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "0",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "1": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "2": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "3": {
+            "value": {
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xxl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "regular",
+                "state": "",
+                "scale": "3",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "medium": {
+          "-2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "-2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "-1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "0": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "0",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "3": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.medium}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xxl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "medium",
+                "state": "",
+                "scale": "3",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "bold": {
+          "0": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.md}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "0",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.lg}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "3": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.xxl}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "3",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-2": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}",
+              "fontSize": "{semantic.font.size.sm}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "-2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "-1": {
+            "value": {
+              "fontWeight": "{semantic.font.weight.semibold}",
+              "lineHeight": "{semantic.font.line-height.relative.snug}"
+            },
+            "type": "typography",
+            "extensions": {
+              "calcite.extends": "{semantic.typography.default.default}"
+            },
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "wrap",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "bold",
+                "state": "",
+                "scale": "-1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        }
+      },
+      "hierarchy": {
+        "display": {
+          "1": {
+            "value": "{semantic.typography.wrap.bold.3}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "display",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "2": {
+            "value": "{semantic.typography.wrap.bold.2}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "display",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "heading": {
+          "1": {
+            "value": "{semantic.typography.wrap.medium.3}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "heading",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "1",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "2": {
+            "value": "{semantic.typography.wrap.medium.2}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "heading",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "2",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "3": {
+            "value": "{semantic.typography.wrap.medium.1}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "heading",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "3",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "4": {
+            "value": "{semantic.typography.wrap.medium.0}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "heading",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "4",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "5": {
+            "value": "{semantic.typography.wrap.medium.-1}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "heading",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "5",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "body": {
+          "snug": {
+            "value": "{semantic.typography.wrap.regular.-1}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "body",
+                "state": "",
+                "scale": "snug",
+                "context": "",
+                "mode": ""
+              }
+            }
+          },
+          "default": {
+            "value": "{semantic.typography.default.default}",
+            "type": "typography",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "typography",
+                "element": "",
+                "category": "hierarchy",
+                "group": "",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "body",
+                "state": "",
+                "scale": "default",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
+        },
+        "overline": {
+          "value": {
+            "lineHeight": "{semantic.font.line-height.fixed.sm}",
+            "textCase": "{semantic.font.text-case.uppercase}",
+            "fontWeight": "{semantic.font.weight.bold}"
+          },
+          "type": "typography",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "typography",
+              "element": "",
+              "category": "hierarchy",
+              "group": "",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "overline",
+              "state": "",
+              "scale": "default",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
+        "caption": {
+          "value": "{semantic.typography.wrap.regular.-2}",
+          "type": "typography",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "typography",
+              "element": "",
+              "category": "hierarchy",
+              "group": "",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "caption",
+              "state": "",
+              "scale": "default",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}

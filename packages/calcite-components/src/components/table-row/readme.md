@@ -4,11 +4,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                              | Type                | Default |
-| ---------- | ---------- | ---------------------------------------------------------------------------------------- | ------------------- | ------- |
-| `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`           | `false` |
-| `scale`    | `scale`    | Specifies the size of the component.                                                     | `"l" \| "m" \| "s"` | `"m"`   |
-| `selected` | `selected` | Is the component selected.                                                               | `boolean`           | `false` |
+| Property   | Attribute  | Description                                                                              | Type      | Default |
+| ---------- | ---------- | ---------------------------------------------------------------------------------------- | --------- | ------- |
+| `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false` |
+| `selected` | `selected` | When `true`, the component is selected.                                                  | `boolean` | `false` |
 
 ## Events
 
@@ -50,4 +49,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Premere Invio o Spazio per deselezionare la riga",
+  "keyboardSelect": "Premere Invio o Spazio per selezionare la riga",
+  "row": "riga",
+  "selected": "selezionato",
+  "unselected": "deselezionato"
 }

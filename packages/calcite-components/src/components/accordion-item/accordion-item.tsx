@@ -21,6 +21,7 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
+import { getIconScale } from "../../utils/component";
 import { SLOTS, CSS, IDS } from "./resources";
 import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
@@ -150,7 +151,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     ) : null;
     const iconEndEl = this.iconEnd ? (
@@ -159,7 +160,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         icon={this.iconEnd}
         key="icon-end"
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     ) : null;
     const { description } = this;
@@ -196,12 +197,12 @@ export class AccordionItem implements ConditionalSlotComponent {
                   this.iconType === "chevron"
                     ? "chevronDown"
                     : this.iconType === "caret"
-                    ? "caretDown"
-                    : this.expanded
-                    ? "minus"
-                    : "plus"
+                      ? "caretDown"
+                      : this.expanded
+                        ? "minus"
+                        : "plus"
                 }
-                scale={this.scale === "l" ? "m" : "s"}
+                scale={getIconScale(this.scale)}
               />
             </div>
             {this.renderActionsEnd()}
@@ -238,7 +239,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     const [accordion] = event.composedPath();
     const parent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
       this.el,
-      "calcite-accordion"
+      "calcite-accordion",
     );
 
     if (accordion !== parent) {
@@ -264,7 +265,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
     const closestAccordionParent = closestElementCrossShadowBoundary<HTMLCalciteAccordionElement>(
       accordionItem,
-      "calcite-accordion"
+      "calcite-accordion",
     );
 
     if (accordion !== closestAccordionParent) {
@@ -296,7 +297,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   private determineActiveItem(
     selectionMode: SelectionMode,
-    requestedItem: HTMLCalciteAccordionItemElement
+    requestedItem: HTMLCalciteAccordionItemElement,
   ): void {
     switch (selectionMode) {
       case "multiple":

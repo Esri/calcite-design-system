@@ -1,8 +1,18 @@
 # Developer Quick Start Guide
 
-1. **[Shadow DOM](#1-shadow-dom)**
-2. **[Tests](#2-tests)**: [Adding a test](#adding-a-test) | [Failed test example](#failed-test-example) | [How to test](#how-to-test)
-3. **[Storybook](#3-storybook)**: [Adding a new story](#adding-a-new-story)
+<details>
+    <summary>Table of Contents</summary>
+
+- [Developer Quick Start Guide](#developer-quick-start-guide)
+  - [1. Shadow DOM](#1-shadow-dom)
+  - [2. Tests](#2-tests)
+    - [Adding a test](#adding-a-test)
+      - [Failed test example](#failed-test-example)
+    - [How to test](#how-to-test)
+  - [3. Storybook](#3-storybook)
+    - [Adding a new story](#adding-a-new-story)
+
+</details>
 
 ## 1. Shadow DOM
 
@@ -52,7 +62,7 @@ customElements.define("ui-input-broken", UIInputBroken);
 
 As of today there are no great workarounds for associating elements across the Shadow DOM boundary. Either all the associated elements should exist in the light DOM or Shadow DOM.
 
-However, you _could_ extend the native element to allow an association.
+However, you *could* extend the native element to allow an association.
 
 [scroll to top](#developer-quick-start-guide)
 
@@ -86,7 +96,7 @@ describe("calcite-tree", () => {
             <a href="#">Child 2</a>
             <calcite-tree slot="children">
                 <calcite-tree-item>
-                <a href="http://www.google.com">Grandchild 1</a>
+                <a href="http://www.esri.com">Grandchild 1</a>
                 </calcite-tree-item>
             </calcite-tree>
             </calcite-tree-item>

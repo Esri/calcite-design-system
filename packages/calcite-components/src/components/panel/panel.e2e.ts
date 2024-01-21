@@ -3,14 +3,15 @@ import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
-const panelTemplate = (scrollable = false) => html`<div style="height: 200px; display: flex">
-  <calcite-panel>
-    <div>
-      ${scrollable ? '<p style="height: 400px">Hello world!</p>' : ""}
-      <p>Hello world!</p>
-    </div>
-  </calcite-panel>
-</div>`;
+const panelTemplate = (scrollable = false) =>
+  html`<div style="height: 200px; display: flex">
+    <calcite-panel>
+      <div>
+        ${scrollable ? '<p style="height: 400px">Hello world!</p>' : ""}
+        <p>Hello world!</p>
+      </div>
+    </calcite-panel>
+  </div>`;
 
 describe("calcite-panel", () => {
   describe("renders", () => {
@@ -30,6 +31,18 @@ describe("calcite-panel", () => {
       {
         propertyName: "headingLevel",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "collapsible",
+        defaultValue: false,
+      },
+      {
+        propertyName: "collapseDirection",
+        defaultValue: "down",
+      },
+      {
+        propertyName: "collapsed",
+        defaultValue: false,
       },
     ]);
   });
@@ -67,6 +80,29 @@ describe("calcite-panel", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
+  it("honors collapsed & collapsible properties", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-panel collapsed>test</calcite-panel>");
+
+    const element = await page.find("calcite-panel");
+    const container = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
+    const collapseButtonSelector = `calcite-panel >>> [data-test="collapse"]`;
+    expect(await page.find(collapseButtonSelector)).toBeNull();
+
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(true);
+
+    element.setProperty("collapsible", true);
+
+    await page.waitForChanges();
+
+    expect(await element.getProperty("collapsible")).toBe(true);
+    expect(await page.find(collapseButtonSelector)).not.toBeNull();
+    expect(await container.isVisible()).toBe(false);
+  });
+
   it("close event should fire when closed", async () => {
     const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
 
@@ -76,12 +112,44 @@ describe("calcite-panel", () => {
 
     await closeButton.click();
 
-    expect(calcitePanelClose).toHaveReceivedEvent();
+    expect(calcitePanelClose).toHaveReceivedEventTimes(1);
+  });
+
+  it("toggle event should fire when collapsed", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-panel collapsible>Hello World!</calcite-panel>");
+    await page.waitForChanges();
+
+    const calcitePanelToggle = await page.spyOnEvent("calcitePanelToggle", "window");
+
+    const toggleButton = await page.find("calcite-panel >>> [data-test=collapse]");
+
+    await toggleButton.click();
+
+    expect(calcitePanelToggle).toHaveReceivedEventTimes(1);
   });
 
   describe("accessible", () => {
     accessible(html`
       <calcite-panel>
+        <calcite-action-bar slot="${SLOTS.actionBar}">
+          <calcite-action-group>
+            <calcite-action text="Add" icon="plus"> </calcite-action>
+            <calcite-action text="Save" icon="save"> </calcite-action>
+            <calcite-action text="Layers" icon="layers"> </calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+        <div slot="${SLOTS.headerActionsStart}">test start</div>
+        <div slot="${SLOTS.headerContent}">test content</div>
+        <div slot="${SLOTS.headerActionsEnd}">test end</div>
+        <p>Content</p>
+        <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
+        <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
+      </calcite-panel>
+    `);
+
+    accessible(html`
+      <calcite-panel collapsible closable>
         <calcite-action-bar slot="${SLOTS.actionBar}">
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -168,7 +236,7 @@ describe("calcite-panel", () => {
       `<calcite-panel>
         <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
         <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
-      </calcite-panel>`
+      </calcite-panel>`,
     );
 
     await page.waitForChanges();
@@ -212,7 +280,7 @@ describe("calcite-panel", () => {
     await page.setContent(
       `<calcite-panel heading="test heading" description="test description">
         <div slot=${SLOTS.headerContent}>custom header content</div>
-      </calcite-panel>`
+      </calcite-panel>`,
     );
 
     const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);

@@ -97,9 +97,12 @@
   }
 }
 
-:host textarea,
-:host input {
-  transition: var(--calcite-animation-timing), block-size 0, outline-offset 0s;
+textarea,
+input {
+  transition:
+    var(--calcite-animation-timing),
+    block-size 0,
+    outline-offset 0s;
   -webkit-appearance: none;
   @apply font-inherit
     text-color-1
@@ -116,48 +119,50 @@
     font-normal;
 }
 
-:host input[type="search"]::-webkit-search-decoration {
+input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
 // states
-:host {
-  & input,
-  & textarea {
-    @apply text-color-1
-      border-color-input
-      border
-      border-solid;
-    &::placeholder,
-    &:-ms-input-placeholder,
-    &::-ms-input-placeholder {
-      @apply text-color-3 font-normal;
-    }
+input,
+textarea {
+  @apply border
+    border-color-input
+    border-solid
+    text-color-1
+    text-ellipsis;
+  &::placeholder,
+  &:-ms-input-placeholder,
+  &::-ms-input-placeholder {
+    @apply text-color-3 font-normal;
   }
-  & input:focus,
-  & textarea:focus {
-    @apply border-color-brand text-color-1;
+  &:placeholder-shown {
+    @apply text-ellipsis;
   }
-  & input[readonly],
-  & textarea[readonly] {
-    @apply bg-background font-medium;
-  }
-  & input[readonly]:focus,
-  & textarea[readonly]:focus {
-    @apply text-color-1;
-  }
-  & calcite-icon {
-    @apply text-color-3;
-  }
+}
+input:focus,
+textarea:focus {
+  @apply border-color-brand text-color-1;
+}
+input[readonly],
+textarea[readonly] {
+  @apply bg-background font-medium;
+}
+input[readonly]:focus,
+textarea[readonly]:focus {
+  @apply text-color-1;
+}
+calcite-icon {
+  @apply text-color-3;
 }
 
 //focus
-:host textarea,
-:host input {
+textarea,
+input {
   @apply focus-base;
 }
-:host textarea:focus,
-:host input:focus {
+textarea:focus,
+input:focus {
   @apply focus-inset;
 }
 
@@ -339,7 +344,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 // number buttons
-:host input[type="number"] {
+input[type="number"] {
   -moz-appearance: textfield;
 
   &::-webkit-inner-spin-button,
@@ -477,16 +482,16 @@ input[type="time"]::-webkit-clear-button {
 }
 
 // hide the default date picker
-:host input::-webkit-calendar-picker-indicator {
+:input::-webkit-calendar-picker-indicator {
   @apply hidden;
 }
 
-:host input[type="date"]::-webkit-input-placeholder {
+input[type="date"]::-webkit-input-placeholder {
   visibility: hidden !important;
 }
 
 // textarea resize icon
-:host textarea::-webkit-resizer {
+textarea::-webkit-resizer {
   @apply absolute
     bottom-0
     box-border
@@ -555,19 +560,23 @@ input[type="time"]::-webkit-clear-button {
   @apply border-t-color-1;
 }
 
-:host .inline-child {
-  @apply transition-default bg-transparent;
-  .editing-enabled {
-    background-color: inherit;
+// input needed for higher specificity of these overrides
+input {
+  &.inline-child {
+    @apply transition-default bg-transparent;
+    .editing-enabled {
+      background-color: inherit;
+    }
+  }
+
+  &.inline-child:not(.editing-enabled) {
+    @apply border-color-transparent
+      flex
+      cursor-pointer text-ellipsis;
+    padding-inline-start: 0;
   }
 }
 
-:host .inline-child:not(.editing-enabled) {
-  @apply border-color-transparent
-    flex
-    cursor-pointer text-ellipsis;
-  padding-inline-start: 0;
-}
-
+@include form-validation-message();
 @include hidden-form-input();
 @include base-component();

@@ -12,19 +12,23 @@
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                                    | Default         |
-| ------------------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| `allowEmpty`       | `allow-empty`       | When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component. When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`. | `boolean`                                                                                                                                                                                                                               | `false`         |
-| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                                                                                       | `boolean`                                                                                                                                                                                                                               | `false`         |
-| `format`           | `format`            | The format of `value`. When `"auto"`, the format will be inferred from `value` when set.                                                                                                                                                                                                                       | `"auto" \| "hex" \| "hexa" \| "hsl" \| "hsl-css" \| "hsla" \| "hsla-css" \| "hsv" \| "hsva" \| "rgb" \| "rgb-css" \| "rgba" \| "rgba-css"`                                                                                              | `defaultFormat` |
-| `hideChannels`     | `hide-channels`     | When `true`, hides the RGB/HSV channel inputs.                                                                                                                                                                                                                                                                 | `boolean`                                                                                                                                                                                                                               | `false`         |
-| `hideHex`          | `hide-hex`          | When `true`, hides the Hex input.                                                                                                                                                                                                                                                                              | `boolean`                                                                                                                                                                                                                               | `false`         |
-| `hideSaved`        | `hide-saved`        | When `true`, hides the saved colors section.                                                                                                                                                                                                                                                                   | `boolean`                                                                                                                                                                                                                               | `false`         |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                        | `ColorPickerMessages`                                                                                                                                                                                                                   | `undefined`     |
-| `numberingSystem`  | `numbering-system`  | Specifies the Unicode numeral system used by the component for localization.                                                                                                                                                                                                                                   | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined`     |
-| `scale`            | `scale`             | Specifies the size of the component.                                                                                                                                                                                                                                                                           | `"l" \| "m" \| "s"`                                                                                                                                                                                                                     | `"m"`           |
-| `storageId`        | `storage-id`        | Specifies the storage ID for colors.                                                                                                                                                                                                                                                                           | `string`                                                                                                                                                                                                                                | `undefined`     |
-| `value`            | `value`             | The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object. The type will be preserved as the color is updated.                                                                                                                                                             | `HSL \| HSL & ObjectWithAlpha \| HSV \| HSV & ObjectWithAlpha \| RGB \| RGB & ObjectWithAlpha \| string`                                                                                                                                | `defaultValue`  |
+| Property           | Attribute           | Description                                                                                                                                                                         | Type                                                                                                                                       | Default                                                           |
+| ------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| `allowEmpty`       | `allow-empty`       | When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. | `boolean`                                                                                                                                  | `false`                                                           |
+| `alphaChannel`     | `alpha-channel`     | When `true`, the component will allow updates to the color's alpha value.                                                                                                           | `boolean`                                                                                                                                  | `false`                                                           |
+| `channelsDisabled` | `channels-disabled` | When `true`, hides the RGB/HSV channel inputs.                                                                                                                                      | `boolean`                                                                                                                                  | `false`                                                           |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                            | `boolean`                                                                                                                                  | `false`                                                           |
+| `format`           | `format`            | The format of `value`. When `"auto"`, the format will be inferred from `value` when set.                                                                                            | `"auto" \| "hex" \| "hexa" \| "hsl" \| "hsl-css" \| "hsla" \| "hsla-css" \| "hsv" \| "hsva" \| "rgb" \| "rgb-css" \| "rgba" \| "rgba-css"` | `"auto"`                                                          |
+| `hexDisabled`      | `hex-disabled`      | When `true`, hides the hex input.                                                                                                                                                   | `boolean`                                                                                                                                  | `false`                                                           |
+| `hideChannels`     | `hide-channels`     | <span style="color:red">**[DEPRECATED]**</span> use `channelsDisabled` instead<br/><br/>When `true`, hides the RGB/HSV channel inputs.                                              | `boolean`                                                                                                                                  | `false`                                                           |
+| `hideHex`          | `hide-hex`          | <span style="color:red">**[DEPRECATED]**</span> use `hexDisabled` instead<br/><br/>When `true`, hides the hex input.                                                                | `boolean`                                                                                                                                  | `false`                                                           |
+| `hideSaved`        | `hide-saved`        | <span style="color:red">**[DEPRECATED]**</span> use `savedDisabled` instead<br/><br/>When `true`, hides the saved colors section.                                                   | `boolean`                                                                                                                                  | `false`                                                           |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                                             | `ColorPickerMessages`                                                                                                                      | `undefined`                                                       |
+| `numberingSystem`  | `numbering-system`  | Specifies the Unicode numeral system used by the component for localization.                                                                                                        | `"arab" \| "arabext" \| "latn"`                                                                                                            | `undefined`                                                       |
+| `savedDisabled`    | `saved-disabled`    | When `true`, hides the saved colors section.                                                                                                                                        | `boolean`                                                                                                                                  | `false`                                                           |
+| `scale`            | `scale`             | Specifies the size of the component.                                                                                                                                                | `"l" \| "m" \| "s"`                                                                                                                        | `"m"`                                                             |
+| `storageId`        | `storage-id`        | Specifies the storage ID for colors.                                                                                                                                                | `string`                                                                                                                                   | `undefined`                                                       |
+| `value`            | `value`             | The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object. The type will be preserved as the color is updated.                                  | `HSL \| HSL & ObjectWithAlpha \| HSV \| HSV & ObjectWithAlpha \| RGB \| RGB & ObjectWithAlpha \| string`                                   | `normalizeHex(     hexify(DEFAULT_COLOR, this.alphaChannel),   )` |
 
 ## Events
 
@@ -49,12 +53,12 @@ Type: `Promise<void>`
 
 - [calcite-tab-title](../tab-title)
 - [calcite-tab](../tab)
-- [calcite-input](../input)
+- [calcite-input-number](../input-number)
+- [calcite-color-picker-swatch](../color-picker-swatch)
 - [calcite-color-picker-hex-input](../color-picker-hex-input)
 - [calcite-tabs](../tabs)
 - [calcite-tab-nav](../tab-nav)
 - [calcite-button](../button)
-- [calcite-color-picker-swatch](../color-picker-swatch)
 
 ### Graph
 
@@ -62,17 +66,22 @@ Type: `Promise<void>`
 graph TD;
   calcite-color-picker --> calcite-tab-title
   calcite-color-picker --> calcite-tab
-  calcite-color-picker --> calcite-input
+  calcite-color-picker --> calcite-input-number
+  calcite-color-picker --> calcite-color-picker-swatch
   calcite-color-picker --> calcite-color-picker-hex-input
   calcite-color-picker --> calcite-tabs
   calcite-color-picker --> calcite-tab-nav
   calcite-color-picker --> calcite-button
-  calcite-color-picker --> calcite-color-picker-swatch
   calcite-tab-title --> calcite-icon
-  calcite-input --> calcite-progress
-  calcite-input --> calcite-icon
-  calcite-color-picker-hex-input --> calcite-input
-  calcite-color-picker-hex-input --> calcite-color-picker-swatch
+  calcite-input-number --> calcite-progress
+  calcite-input-number --> calcite-icon
+  calcite-input-number --> calcite-input-message
+  calcite-input-message --> calcite-icon
+  calcite-color-picker-hex-input --> calcite-input-text
+  calcite-color-picker-hex-input --> calcite-input-number
+  calcite-input-text --> calcite-progress
+  calcite-input-text --> calcite-icon
+  calcite-input-text --> calcite-input-message
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
   style calcite-color-picker fill:#f9f,stroke:#333,stroke-width:4px
@@ -80,4 +89,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -31,30 +31,33 @@ export const description_TestOnly = (): string =>
 export const thumbnail_TestOnly = (): string =>
   html`<calcite-navigation-logo thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const headingAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
-  heading="ArcGIS Online"
-  thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-/>`;
+export const headingAndThumbnail_TestOnly = (): string =>
+  html`<calcite-navigation-logo heading="ArcGIS Online" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const descriptionAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
-  description="City of AcmeCo"
-  thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-/>`;
+export const headingAndIcon_TestOnly = (): string =>
+  html`<calcite-navigation-logo heading="ArcGIS Online" icon="link-chart" />`;
 
-export const All_TestOnly = (): string => html`<calcite-navigation-logo
-  heading="ArcGIS Online"
-  description="City of AcmeCo"
-  thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-/>`;
+export const descriptionAndThumbnail_TestOnly = (): string =>
+  html`<calcite-navigation-logo
+    description="City of AcmeCo"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+  />`;
 
-export const slottedInNav_TestOnly = (): string =>
-  html`
-    <calcite-navigation style="--calcite-ui-brand: #bf390f">
-      <calcite-navigation-logo
-        heading="ArcGIS Online"
-        description="City of AcmeCo"
-        thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-        slot="logo"
-      />
-    </calcite-navigation>
-  `;
+export const All_TestOnly = (): string =>
+  html`<calcite-navigation-logo
+    icon="link-chart"
+    heading="ArcGIS Online"
+    description="City of AcmeCo"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+  />`;
+
+export const slottedInNav_TestOnly = (): string => html`
+  <calcite-navigation style="--calcite-color-brand: #bf390f">
+    <calcite-navigation-logo
+      heading="ArcGIS Online"
+      description="City of AcmeCo"
+      thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+      slot="logo"
+    />
+  </calcite-navigation>
+`;

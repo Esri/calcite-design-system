@@ -11,6 +11,7 @@ import {
   State,
   VNode,
 } from "@stencil/core";
+import { CSS } from "./resources";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
@@ -46,9 +47,11 @@ export class Tab {
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+  @Prop() scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -61,8 +64,12 @@ export class Tab {
 
     return (
       <Host aria-labelledby={this.labeledBy} id={id}>
-        <div class="container" role="tabpanel" tabIndex={this.selected ? 0 : -1}>
-          <section>
+        <div
+          class={{ [CSS.container]: true, [`scale-${this.scale}`]: true }}
+          role="tabpanel"
+          tabIndex={this.selected ? 0 : -1}
+        >
+          <section class={CSS.content}>
             <slot />
           </section>
         </div>
@@ -78,16 +85,12 @@ export class Tab {
     this.calciteInternalTabRegister.emit();
   }
 
-  componentWillRender(): void {
-    this.scale = this.parentTabsEl?.scale;
-  }
-
   disconnectedCallback(): void {
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabUnregister", {
         detail: this.el,
-      })
+      }),
     );
   }
 
@@ -144,7 +147,7 @@ export class Tab {
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
       nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
-      this.el
+      this.el,
     );
   }
 

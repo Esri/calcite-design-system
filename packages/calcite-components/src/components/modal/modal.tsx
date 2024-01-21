@@ -52,6 +52,11 @@ import {
 } from "../../utils/t9n";
 import { ModalMessages } from "./assets/modal/t9n";
 
+import { componentOnReady, getIconScale } from "../../utils/component";
+
+let totalOpenModals: number = 0;
+let initialDocumentOverflowStyle: string = "";
+
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
@@ -126,12 +131,12 @@ export class Modal
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the width of the component. */
-  @Prop({ reflect: true }) width: Scale = "m";
+  @Prop({ reflect: true }) widthScale: Scale = "m";
 
-  /** Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`). */
+  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @Prop({ reflect: true }) fullscreen: boolean;
 
-  /** Specifies the kind of the component (will apply to top border). */
+  /** Specifies the kind of the component, which will apply to top border. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
 
   /**
@@ -172,8 +177,7 @@ export class Modal
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      onToggleOpenCloseComponent(this);
-      requestAnimationFrame(() => this.openModal());
+      this.openModal();
     }
   }
 
@@ -290,17 +294,12 @@ export class Modal
         aria-label={this.messages.close}
         class={CSS.close}
         key="button"
-        onClick={this.closeModal}
+        onClick={this.handleCloseClick}
         title={this.messages.close}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
-        <calcite-icon
-          icon={ICONS.close}
-          scale={
-            this.scale === "s" ? "s" : this.scale === "m" ? "m" : this.scale === "l" ? "l" : null
-          }
-        />
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
     ) : null;
   }
@@ -358,7 +357,7 @@ export class Modal
   initialOverflowCSS: string;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver()
+    this.handleMutationObserver(),
   );
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -405,7 +404,7 @@ export class Modal
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
     if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.closeModal();
+      this.open = false;
       event.preventDefault();
     }
   }
@@ -502,19 +501,23 @@ export class Modal
   }
 
   @Watch("open")
-  async toggleModal(value: boolean): Promise<void> {
+  toggleModal(value: boolean): void {
     if (this.ignoreOpenChange) {
       return;
     }
 
-    onToggleOpenCloseComponent(this);
     if (value) {
-      this.transitionEl?.classList.add(CSS.openingIdle);
       this.openModal();
     } else {
-      this.transitionEl?.classList.add(CSS.closingIdle);
       this.closeModal();
     }
+  }
+
+  @Watch("opened")
+  handleOpenedChange(value: boolean): void {
+    const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
+    this.transitionEl.classList.add(idleClass);
+    onToggleOpenCloseComponent(this);
   }
 
   private openEnd = (): void => {
@@ -522,15 +525,13 @@ export class Modal
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
   };
 
-  /** Open the modal */
-  private openModal() {
-    if (this.ignoreOpenChange) {
-      return;
-    }
+  private handleCloseClick = () => {
+    this.open = false;
+  };
 
-    this.ignoreOpenChange = true;
+  private async openModal(): Promise<void> {
+    await componentOnReady(this.el);
     this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.open = true;
     this.opened = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
@@ -539,11 +540,14 @@ export class Modal
     this.contentId = ensureId(contentEl);
 
     if (!this.slottedInShell) {
-      this.initialOverflowCSS = document.documentElement.style.overflow;
+      if (totalOpenModals === 0) {
+        initialDocumentOverflowStyle = document.documentElement.style.overflow;
+      }
+
+      totalOpenModals++;
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
-    this.ignoreOpenChange = false;
   }
 
   private handleOutsideClose = (): void => {
@@ -551,15 +555,10 @@ export class Modal
       return;
     }
 
-    this.closeModal();
+    this.open = false;
   };
 
-  /** Close the modal, first running the `beforeClose` method */
   closeModal = async (): Promise<void> => {
-    if (this.ignoreOpenChange) {
-      return;
-    }
-
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
@@ -574,15 +573,13 @@ export class Modal
       }
     }
 
-    this.ignoreOpenChange = true;
-    this.open = false;
+    totalOpenModals--;
     this.opened = false;
     this.removeOverflowHiddenClass();
-    this.ignoreOpenChange = false;
   };
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
+    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private handleMutationObserver = (): void => {

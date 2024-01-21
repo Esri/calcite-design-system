@@ -50,6 +50,30 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
+        name: "collapsible",
+        commit(): Attribute {
+          this.value = boolean("collapsible", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "collapsed",
+        commit(): Attribute {
+          this.value = boolean("collapsed", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "collapse-direction",
+        commit(): Attribute {
+          this.value = select("collapseDirection", ["down", "up"], "down");
+          delete this.build;
+          return this;
+        },
+      },
+      {
         name: "height-scale",
         commit(): Attribute {
           this.value = select("heightScale", scale.values, scale.defaultValue);
@@ -66,7 +90,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -119,7 +143,7 @@ export const simple = (): string =>
       ${contentHTML}
       <calcite-fab slot="fab"></calcite-fab>
       ${footerHTML}
-    `
+    `,
   );
 
 export const onlyProps = (): string => html`
@@ -129,14 +153,22 @@ export const onlyProps = (): string => html`
       heading-level="${text("heading-level", "2")}"
       description="${text(
         "description",
-        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
       )}"
       heading="${text(
         "heading",
-        "flowItem title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+        "flowItem title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum",
       )}"
     />
   </div>
+`;
+
+export const collapsed_TestOnly = (): string => html`
+  <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
+`;
+
+export const collapseDirectionUp_TestOnly = (): string => html`
+  <calcite-flow-item collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`
@@ -158,7 +190,7 @@ export const darkModeRTL_TestOnly = (): string =>
         value: "calcite-mode-dark",
       },
     ]),
-    flowItemContent
+    flowItemContent,
   );
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
@@ -210,24 +242,58 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
   </div>
 `;
 
-export const withActionBar_TestOnly = (): string => html`<div style="width: 300px;">
-  <calcite-flow-item height-scale="s">
-    <calcite-action-bar slot="action-bar">
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"> </calcite-action>
-        <calcite-action text="Save" icon="save"> </calcite-action>
-        <calcite-action text="Layers" icon="layers"> </calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
-    <div slot="header-content">Header!</div>
-    <p>Slotted content!</p>
-  </calcite-flow-item>
-</div>`;
+export const overflowContent_TestOnly = (): string =>
+  html` <style>
+      .container {
+        max-height: 300px;
+        width: 300px;
+      }
+    </style>
+    <div class="container">
+      <calcite-flow>
+        <calcite-flow-item heading="My Panel">
+          <calcite-list>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+            <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          </calcite-list>
+        </calcite-flow-item>
+      </calcite-flow>
+    </div>`;
 
-export const footerPadding_TestOnly = (): string => html`<div style="width: 300px;">
-  <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
-    <div slot="header-content">Header!</div>
-    <p>Slotted content!</p>
-    <div slot="footer">Footer!</div>
-  </calcite-flow-item>
-</div>`;
+export const withActionBar_TestOnly = (): string =>
+  html`<div style="width: 300px;">
+    <calcite-flow-item height-scale="s">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+          <calcite-action text="Save" icon="save"> </calcite-action>
+          <calcite-action text="Layers" icon="layers"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+    </calcite-flow-item>
+  </div>`;
+
+export const footerPadding_TestOnly = (): string =>
+  html`<div style="width: 300px;">
+    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+      <div slot="footer">Footer!</div>
+    </calcite-flow-item>
+  </div>`;
+
+export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
+  html`<calcite-flow-item style="--calcite-flow-item-header-border-block-end:none;" height-scale="s" heading="My Panel"
+    >Slotted content!</calcite-flow-item
+  >`;

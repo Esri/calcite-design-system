@@ -19,6 +19,8 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
+import { getIconScale } from "../../utils/component";
+
 import {
   componentFocusable,
   LoadableComponent,
@@ -29,7 +31,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
-  numberStringFormatter,
+  NumberStringFormat,
 } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
@@ -85,13 +87,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     }
   }
 
-  /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
+  /** When `true`, the component closes automatically. Recommended for passive, non-blocking alerts. */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
+  /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
 
-  /** Specifies the kind of the component (will apply to top border and icon). */
+  /** Specifies the kind of the component, which will apply to top border and icon. */
   @Prop({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
@@ -114,7 +116,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** Specifies the placement of the component */
+  /** Specifies the placement of the component. */
   @Prop({ reflect: true }) placement: MenuPlacement = "bottom";
 
   /** Specifies the size of the component. */
@@ -147,19 +149,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ mutable: true }) slottedInShell: boolean;
 
-  @Watch("icon")
-  @Watch("kind")
-  updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
-  }
-
   @Watch("autoCloseDuration")
   updateDuration(): void {
     if (this.autoClose && this.autoCloseTimeoutId) {
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration]
+        DURATIONS[this.autoCloseDuration],
       );
     }
   }
@@ -173,18 +169,25 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+
     const open = this.open;
     if (open && !this.queued) {
-      this.openHandler();
       this.calciteInternalAlertRegister.emit();
-      onToggleOpenCloseComponent(this);
     }
+
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
   }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {
@@ -195,7 +198,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     window.dispatchEvent(
       new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
         detail: { alert: this.el },
-      })
+      }),
     );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
@@ -205,48 +208,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   render(): VNode {
-    const { hasEndActions } = this;
-    const closeButton = (
-      <button
-        aria-label={this.messages.close}
-        class="alert-close"
-        onClick={this.closeAlert}
-        type="button"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.closeButton = el)}
-      >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
-      </button>
-    );
-
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      signDisplay: "always",
-    };
-
-    const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
-    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
-
-    const queueCount = (
-      <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
-        <calcite-chip scale={this.scale} value={queueText}>
-          {queueText}
-        </calcite-chip>
-      </div>
-    );
-
-    const { open, autoClose, label, placement, queued, requestedIcon, iconFlipRtl } = this;
+    const { open, autoClose, label, placement, queued } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
-
-    const slotNode = (
-      <slot
-        key="actionsEndSlot"
-        name={SLOTS.actionsEnd}
-        onSlotchange={this.actionsEndSlotChangeHandler}
-      />
-    );
+    const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    const hasQueuedAlerts = this.queueLength > 1;
 
     return (
       <Host
@@ -257,38 +223,79 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       >
         <div
           class={{
-            container: true,
-            queued,
-            [placement]: true,
-            [CSS.slottedInShell]: this.slottedInShell,
+            [CSS.container]: true,
+            [CSS.containerQueued]: queued,
+            [`${CSS.container}--${placement}`]: true,
+            [CSS.containerSlottedInShell]: this.slottedInShell,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
-          {requestedIcon ? (
-            <div class="alert-icon">
-              <calcite-icon
-                flipRtl={iconFlipRtl}
-                icon={requestedIcon}
-                scale={this.scale === "l" ? "m" : "s"}
-              />
-            </div>
-          ) : null}
-          <div class="alert-content">
+          {effectiveIcon && this.renderIcon(effectiveIcon)}
+          <div class={CSS.textContainer}>
             <slot name={SLOTS.title} />
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
           </div>
-          <div class={CSS.actionsEnd} hidden={!hasEndActions}>
-            {slotNode}
-          </div>
-          {this.queueLength > 1 ? queueCount : null}
-          {closeButton}
-          {open && !queued && autoClose ? <div class="alert-dismiss-progress" /> : null}
+          {this.renderActionsEnd()}
+          {hasQueuedAlerts ? this.renderQueueCount() : null}
+          {this.renderCloseButton()}
+          {open && !queued && autoClose ? <div class={CSS.dismissProgress} /> : null}
         </div>
       </Host>
+    );
+  }
+
+  private renderCloseButton(): VNode {
+    return (
+      <button
+        aria-label={this.messages.close}
+        class={CSS.close}
+        key="close"
+        onClick={this.closeAlert}
+        type="button"
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={(el) => (this.closeButton = el)}
+      >
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
+      </button>
+    );
+  }
+
+  private renderQueueCount(): VNode {
+    const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
+    const queueText = this.numberStringFormatter.numberFormatter.format(queueNumber);
+
+    return (
+      <div
+        class={{
+          [CSS.queueCount]: true,
+          [CSS.queueCountActive]: this.queueLength > 1,
+        }}
+        key="queue-count"
+      >
+        <calcite-chip scale={this.scale} value={queueText}>
+          {queueText}
+        </calcite-chip>
+      </div>
+    );
+  }
+
+  private renderActionsEnd(): VNode {
+    return (
+      <div class={CSS.actionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.actionsEndSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  private renderIcon(icon: string): VNode {
+    return (
+      <div class={CSS.icon}>
+        <calcite-icon flipRtl={this.iconFlipRtl} icon={icon} scale={getIconScale(this.scale)} />
+      </div>
     );
   }
 
@@ -355,7 +362,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
         detail: { queue },
-      })
+      }),
     );
   }
 
@@ -365,7 +372,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component's "close" button (the first focusable item). */
+  /** Sets focus on the component's "close" button, the first focusable item. */
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
@@ -389,14 +396,30 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   @Element() el: HTMLCalciteAlertElement;
 
+  @State() defaultMessages: AlertMessages;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
   }
 
-  @State() defaultMessages: AlertMessages;
+  @State() numberStringFormatter = new NumberStringFormat();
+
+  @Watch("numberingSystem")
+  numberingSystemChange(): void {
+    this.numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always",
+    };
+  }
 
   @State() hasEndActions = false;
 
@@ -409,24 +432,19 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** is the alert queued */
   @State() queued = false;
 
-  /** the close button element */
-  private closeButton: HTMLButtonElement;
-
   private autoCloseTimeoutId: number = null;
 
-  private queueTimeout: number;
+  private closeButton: HTMLButtonElement;
 
   private initialOpenTime: number;
 
   private lastMouseOverBegin: number;
 
+  private queueTimeout: number;
+
   private totalOpenTime = 0;
 
   private totalHoverTime = 0;
-
-  /** the computed icon to render */
-  /* @internal */
-  @State() requestedIcon?: string;
 
   openTransitionProp = "opacity";
 
@@ -438,7 +456,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
   };
 
@@ -450,7 +468,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         this.initialOpenTime = Date.now();
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
-          DURATIONS[this.autoCloseDuration]
+          DURATIONS[this.autoCloseDuration],
         );
       }
     } else {

@@ -1,9 +1,11 @@
-When tab-nav is the only parent, tab-title can inherit its `scale` and `position` from tab-nav:
+Tabs `scale` and `position` properties are inherited by it's child components, tab-nav and tab-title.
 
 ```html
-<calcite-tab-nav scale="l" position="bottom">
-  <calcite-tab-title>Layers</calcite-tab-title>
-  <calcite-tab-title>Maps</calcite-tab-title>
-  <calcite-tab-title selected>Data</calcite-tab-title>
-</calcite-tab-nav>
+<calcite-tabs scale="l" position="bottom">
+  <calcite-tab-nav>
+    <calcite-tab-title>Layers</calcite-tab-title>
+    <calcite-tab-title>Maps</calcite-tab-title>
+    <calcite-tab-title selected>Data</calcite-tab-title>
+  </calcite-tab-nav>
+</calcite-tabs>
 ```

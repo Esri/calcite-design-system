@@ -20,6 +20,9 @@ import { colors } from "../../../node_modules/@esri/calcite-colors/dist/colors";
 import { Description, DocsPage } from "@storybook/addon-docs";
 import { Theme as Mode } from "storybook-addon-themes/dist/models/Theme";
 import React from "react";
+import { Scale } from "../src/components/interfaces";
+import { html } from "../support/formatting";
+import { Breakpoints } from "../src/utils/responsive";
 
 const autoValue = {
   name: "Auto",
@@ -109,7 +112,7 @@ interface DeferredAttribute {
 export const createComponentHTML = (
   tagName: string,
   attributes: Attributes,
-  contentHTML: string = ""
+  contentHTML: string = "",
 ): string =>
   `<${tagName} ${attributes
     .map(({ name, value }) => {
@@ -130,7 +133,7 @@ export const globalDocsPage: typeof DocsPage = () => (
 
 export const filterComponentAttributes = (
   attributesList: DeferredAttribute[],
-  exceptions: string[]
+  exceptions: string[],
 ): Attributes => {
   if (!exceptions.length) {
     return attributesList.map((attr) => attr.commit());
@@ -139,3 +142,70 @@ export const filterComponentAttributes = (
     .filter((attr) => !exceptions.find((except) => except === attr.name))
     .map((attr) => attr.commit());
 };
+
+/**
+ * This helper creates a story that captures all breakpoints across all scales for testing.
+ *
+ * @param singleStoryHtml – HTML story template with placeholders for `scale` attributes (e.g., `{scale}`).
+ * @param [focused] – when specified, creates a single story for the provided breakpoint and scale.
+ *   This should only be used if multiple stories cannot be displayed side-by-side.
+ */
+export function createBreakpointStories(
+  singleStoryHtml: string,
+  focused?: { breakpoint: keyof Breakpoints["width"]; scale: Scale },
+): string {
+  // we hard-code breakpoint values because we can't read them directly from the page when setting up a story
+  // based on https://github.com/Esri/calcite-design-tokens/blob/2e8fc1b8f410b5443fa53ca1c12ceef71e651b9a/tokens/core.json#L1533-L1553
+  const widthBreakpoints: { name: keyof Breakpoints["width"]; maxWidth: number }[] = [
+    { name: "xxsmall", maxWidth: 320 },
+    { name: "xsmall", maxWidth: 476 },
+    { name: "small", maxWidth: 768 },
+    { name: "medium", maxWidth: 1152 },
+    { name: "large", maxWidth: 1440 },
+  ];
+  const scales: Scale[] = ["s", "m", "l"];
+  const placeholderPattern = /"\{([^}]+)\}"/g;
+  const css = {
+    storiesContainer: "breakpoint-stories-container",
+    storyContainer: "breakpoint-story-container",
+  } as const;
+
+  let storyHTML = "";
+
+  scales
+    .filter((scale): boolean => !focused || focused.scale === scale)
+    .forEach((scale): void => {
+      storyHTML += html`<strong>scale = ${scale}</strong>`;
+
+      widthBreakpoints
+        .filter(({ name }): boolean => !focused || focused.breakpoint === name)
+        .forEach(({ name, maxWidth }): void => {
+          storyHTML += html`<strong>breakpoint = ${name}</strong>`;
+          storyHTML += html`<div class="${css.storyContainer}" style="width:${maxWidth - 1}px">
+            ${singleStoryHtml.replace(placeholderPattern, (_match, placeholder: string) =>
+              placeholder === "scale" ? scale : placeholder,
+            )}
+          </div>`;
+        });
+    });
+
+  return html`<div class="${css.storiesContainer}">
+    <style>
+      .${css.storiesContainer} {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: flex-start;
+      }
+
+      .${css.storyContainer} {
+        display: flex;
+      }
+
+      .${css.storyContainer} > * {
+        flex: 1;
+      }
+    </style>
+    ${storyHTML}
+  </div>`;
+}

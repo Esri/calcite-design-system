@@ -125,7 +125,11 @@ export class Flow implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   @Listen("calciteFlowItemBack")
-  async handleItemBackClick(): Promise<void> {
+  async handleItemBackClick(event: CustomEvent): Promise<void> {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     await this.back();
     return this.setFocus();
   }
@@ -146,8 +150,8 @@ export class Flow implements LoadableComponent {
 
     const newItems = Array.from<FlowItemLikeElement>(
       el.querySelectorAll(
-        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`
-      )
+        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`,
+      ),
     ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
 
     const oldItemCount = items.length;

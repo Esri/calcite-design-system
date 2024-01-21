@@ -5,6 +5,8 @@ export interface DragDetail {
   toEl: HTMLElement;
   fromEl: HTMLElement;
   dragEl: HTMLElement;
+  newIndex: number;
+  oldIndex: number;
 }
 
 export const CSS = {
@@ -58,19 +60,42 @@ export interface SortableComponent {
   canPut: (detail: DragDetail) => boolean;
 
   /**
+   * Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`.
+   */
+  onGlobalDragStart: () => void;
+
+  /**
+   * Called when any sortable component drag ends. For internal use only. Any public drag events should emit within `onDragEnd()`.
+   */
+  onGlobalDragEnd: () => void;
+
+  /**
+   * Called when a component's dragging ends.
+   */
+  onDragEnd: (detail: DragDetail) => void;
+
+  /**
+   * Called when a component's dragging starts.
+   */
+  onDragStart: (detail: DragDetail) => void;
+
+  /**
    * Called by any change to the list (add / update / remove).
    */
   onDragSort: (detail: DragDetail) => void;
+}
 
+export interface SortableComponentItem {
   /**
-   * Called when a sortable component drag starts.
+   * When `true`, the item is not draggable.
+   *
+   *
+   * Notes:
+   *
+   * This property should use the @Prop decorator and reflect.
+   * This property should be used to set the `calcite-handle` disabled property.
    */
-  onDragStart: () => void;
-
-  /**
-   * Called when a sortable component drag ends.
-   */
-  onDragEnd: () => void;
+  dragDisabled: boolean;
 }
 
 /**
@@ -93,24 +118,29 @@ export function connectSortableComponent(component: SortableComponent): void {
       group: {
         name: group,
         ...(!!component.canPull && {
-          pull: (to, from, dragEl) => component.canPull({ toEl: to.el, fromEl: from.el, dragEl }),
+          pull: (to, from, dragEl, { newIndex, oldIndex }) =>
+            component.canPull({ toEl: to.el, fromEl: from.el, dragEl, newIndex, oldIndex }),
         }),
         ...(!!component.canPut && {
-          put: (to, from, dragEl) => component.canPut({ toEl: to.el, fromEl: from.el, dragEl }),
+          put: (to, from, dragEl, { newIndex, oldIndex }) =>
+            component.canPut({ toEl: to.el, fromEl: from.el, dragEl, newIndex, oldIndex }),
         }),
       },
     }),
     handle,
-    onStart: () => {
+    filter: "[drag-disabled]",
+    onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = true;
-      onDragStart();
+      onGlobalDragStart();
+      component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
-    onEnd: () => {
+    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = false;
-      onDragEnd();
+      onGlobalDragEnd();
+      component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
-    onSort: ({ from: fromEl, item: dragEl, to: toEl }) => {
-      component.onDragSort({ fromEl, dragEl, toEl });
+    onSort: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+      component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
   });
 }
@@ -139,10 +169,10 @@ export function dragActive(component: SortableComponent): boolean {
   return component.dragEnabled && dragState.active;
 }
 
-function onDragStart(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onDragStart());
+function onGlobalDragStart(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragStart());
 }
 
-function onDragEnd(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onDragEnd());
+function onGlobalDragEnd(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragEnd());
 }

@@ -225,16 +225,16 @@ export function toAlphaMode(mode: SupportedMode): SupportedMode {
     mode === CSSColorMode.HEX
       ? CSSColorMode.HEXA
       : mode === CSSColorMode.RGB_CSS
-      ? CSSColorMode.RGBA_CSS
-      : mode === CSSColorMode.HSL_CSS
-      ? CSSColorMode.HSLA_CSS
-      : mode === ObjectColorMode.RGB
-      ? ObjectColorMode.RGBA
-      : mode === ObjectColorMode.HSL
-      ? ObjectColorMode.HSLA
-      : mode === ObjectColorMode.HSV
-      ? ObjectColorMode.HSVA
-      : mode;
+        ? CSSColorMode.RGBA_CSS
+        : mode === CSSColorMode.HSL_CSS
+          ? CSSColorMode.HSLA_CSS
+          : mode === ObjectColorMode.RGB
+            ? ObjectColorMode.RGBA
+            : mode === ObjectColorMode.HSL
+              ? ObjectColorMode.HSLA
+              : mode === ObjectColorMode.HSV
+                ? ObjectColorMode.HSVA
+                : mode;
 
   return alphaMode;
 }
@@ -244,16 +244,16 @@ export function toNonAlphaMode(mode: SupportedMode): SupportedMode {
     mode === CSSColorMode.HEXA
       ? CSSColorMode.HEX
       : mode === CSSColorMode.RGBA_CSS
-      ? CSSColorMode.RGB_CSS
-      : mode === CSSColorMode.HSLA_CSS
-      ? CSSColorMode.HSL_CSS
-      : mode === ObjectColorMode.RGBA
-      ? ObjectColorMode.RGB
-      : mode === ObjectColorMode.HSLA
-      ? ObjectColorMode.HSL
-      : mode === ObjectColorMode.HSVA
-      ? ObjectColorMode.HSV
-      : mode;
+        ? CSSColorMode.RGB_CSS
+        : mode === CSSColorMode.HSLA_CSS
+          ? CSSColorMode.HSL_CSS
+          : mode === ObjectColorMode.RGBA
+            ? ObjectColorMode.RGB
+            : mode === ObjectColorMode.HSLA
+              ? ObjectColorMode.HSL
+              : mode === ObjectColorMode.HSVA
+                ? ObjectColorMode.HSV
+                : mode;
 
   return nonAlphaMode;
 }

@@ -13,12 +13,13 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, getElementProp, toAriaBoolean, nodeListToArray } from "../../utils/dom";
+import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -35,6 +36,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
+import { getIconScale } from "../../utils/component";
 
 /**
  * Tab-titles are optionally individually closable.
@@ -66,7 +68,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Watch("selected")
   selectedHandler(): void {
     if (this.selected) {
-      this.emitActiveTab(false);
+      this.activateTab(false);
     }
   }
 
@@ -94,14 +96,18 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
   /**
-   * @internal
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   *
+   *  @internal
    */
-  @Prop({ reflect: true, mutable: true }) position: TabPosition;
+  @Prop() position: TabPosition = "top";
 
   /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) scale: Scale;
+  @Prop() scale: Scale = "m";
 
   /**
    * @internal
@@ -155,7 +161,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabTitleUnregister", {
         detail: this.el,
-      })
+      }),
     );
     this.resizeObserver?.disconnect();
     disconnectInteractive(this);
@@ -169,21 +175,14 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       this.updateHasText();
     }
     if (this.tab && this.selected) {
-      this.emitActiveTab(false);
+      this.activateTab(false);
     }
   }
 
   componentWillRender(): void {
     if (this.parentTabsEl) {
       this.layout = this.parentTabsEl.layout;
-      this.position = this.parentTabsEl.position;
-      this.scale = this.parentTabsEl.scale;
       this.bordered = this.parentTabsEl.bordered;
-    }
-    // handle case when tab-nav is only parent
-    if (!this.parentTabsEl && this.parentTabNavEl) {
-      this.position = getElementProp(this.parentTabNavEl, "position", this.position);
-      this.scale = getElementProp(this.parentTabNavEl, "scale", this.scale);
     }
   }
 
@@ -196,7 +195,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         class={{ [CSS.titleIcon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -205,7 +204,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         class={{ [CSS.titleIcon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -215,24 +214,27 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         aria-selected={toAriaBoolean(this.selected)}
         id={id}
         role="tab"
-        tabIndex={this.selected ? 0 : -1}
+        tabIndex={this.selected && !this.disabled ? 0 : -1}
       >
-        <div
-          class={{
-            container: true,
-            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
-          }}
-          hidden={closed}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => this.resizeObserver?.observe(el)}
-        >
-          <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
-            {this.iconStart ? iconStartEl : null}
-            <slot />
-            {this.iconEnd ? iconEndEl : null}
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            class={{
+              container: true,
+              [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
+              [`scale-${this.scale}`]: true,
+            }}
+            hidden={closed}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => this.resizeObserver?.observe(el)}
+          >
+            <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
+              {this.iconStart ? iconStartEl : null}
+              <slot />
+              {this.iconEnd ? iconEndEl : null}
+            </div>
+            {this.renderCloseButton()}
           </div>
-          {this.renderCloseButton()}
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -252,7 +254,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
-        <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
     ) : null;
   }
@@ -262,9 +264,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, () => {
-      return this.selected;
-    });
+    updateHostInteraction(this);
   }
 
   //--------------------------------------------------------------------------
@@ -296,11 +296,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   @Listen("click")
   onClick(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    this.emitActiveTab();
+    this.activateTab();
   }
 
   @Listen("keydown")
@@ -309,7 +305,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       case " ":
       case "Enter":
         if (!event.composedPath().includes(this.closeButtonEl)) {
-          this.emitActiveTab();
+          this.activateTab();
           event.preventDefault();
         }
         break;
@@ -415,9 +411,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
       nodeListToArray(this.el.parentElement.children).filter((el) =>
-        el.matches("calcite-tab-title")
+        el.matches("calcite-tab-title"),
       ),
-      this.el
+      this.el,
     );
   }
 
@@ -437,6 +433,26 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Method()
   async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
+  }
+
+  /**
+   * This activates a tab in order for it and its associated tab-title be selected.
+   *
+   * @param userTriggered - when `true`, user-interaction events will be emitted in addition to internal events
+   * @internal
+   */
+  @Method()
+  async activateTab(userTriggered = true): Promise<void> {
+    if (this.disabled || this.closed) {
+      return;
+    }
+    const payload = { tab: this.tab };
+    this.calciteInternalTabsActivate.emit(payload);
+
+    if (userTriggered) {
+      // emit in the next frame to let internal events sync up
+      requestAnimationFrame(() => this.calciteTabsActivate.emit());
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -492,19 +508,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   setupTextContentObserver(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  emitActiveTab(userTriggered = true): void {
-    if (this.disabled || this.closed) {
-      return;
-    }
-    const payload = { tab: this.tab };
-    this.calciteInternalTabsActivate.emit(payload);
-
-    if (userTriggered) {
-      // emit in the next frame to let internal events sync up
-      requestAnimationFrame(() => this.calciteTabsActivate.emit());
-    }
   }
 
   closeTabTitleAndNotify(): void {

@@ -7,12 +7,14 @@
 ### Basic
 
 ```html
-<calcite-tooltip placement="auto" reference-element="tooltip-button"
-  >This is the message of the tooltip</calcite-tooltip
->
+<calcite-tooltip placement="auto" reference-element="tooltip-button" id="tooltip-content">
+  Honeybees communicate through intricate dances, navigate using the sun's position, and play a vital role in
+  maintaining biodiversity by pollinating flowers and crops.
+</calcite-tooltip>
 <span>
-  Lorem <a id="tooltip-button" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-  incididunt ut labore et dolore magna aliqua.
+  Discover fascinating facts about the
+  <a id="tooltip-button" href="#" aria-describedby="tooltip-content">secret lives of honeybees</a> and their crucial
+  role in pollination.
 </span>
 ```
 
@@ -48,12 +50,12 @@
 | Property             | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                           | Type                                                                                                                                                                                                                                                                                                              | Default                 |
 | -------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
 | `closeOnClick`       | `close-on-click`      | Closes the component when the `referenceElement` is clicked.                                                                                                                                                                                                                                                                                                                          | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
-| `label` _(required)_ | `label`               | Accessible name for the component.                                                                                                                                                                                                                                                                                                                                                    | `string`                                                                                                                                                                                                                                                                                                          | `undefined`             |
+| `label`              | `label`               | <span style="color:red">**[DEPRECATED]**</span> No longer necessary. Overrides the context of the component's description, which could confuse assistive technology users.<br/><br/>Accessible name for the component.                                                                                                                                                                | `string`                                                                                                                                                                                                                                                                                                          | `undefined`             |
 | `offsetDistance`     | `offset-distance`     | Offset the position of the component away from the `referenceElement`.                                                                                                                                                                                                                                                                                                                | `number`                                                                                                                                                                                                                                                                                                          | `defaultOffsetDistance` |
 | `offsetSkidding`     | `offset-skidding`     | Offset the position of the component along the `referenceElement`.                                                                                                                                                                                                                                                                                                                    | `number`                                                                                                                                                                                                                                                                                                          | `0`                     |
 | `open`               | `open`                | When `true`, the component is open.                                                                                                                                                                                                                                                                                                                                                   | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `overlayPositioning` | `overlay-positioning` | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`                                                                                                                                                                                                                                                                                           | `"absolute"`            |
-| `placement`          | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                                                                                                                                 | `"auto" \| "top" \| "left" \| "right" \| "bottom-start" \| "leading-start" \| "bottom" \| "top-start" \| "top-end" \| "left-start" \| "left-end" \| "right-start" \| "right-end" \| "bottom-end" \| "auto-start" \| "auto-end" \| "leading" \| "leading-end" \| "trailing-end" \| "trailing" \| "trailing-start"` | `"auto"`                |
+| `placement`          | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                                                                                                                                 | `"auto" \| "top" \| "right" \| "bottom" \| "left" \| "top-start" \| "top-end" \| "right-start" \| "right-end" \| "bottom-start" \| "bottom-end" \| "left-start" \| "left-end" \| "auto-start" \| "auto-end" \| "leading-start" \| "leading" \| "leading-end" \| "trailing-end" \| "trailing" \| "trailing-start"` | `"auto"`                |
 | `referenceElement`   | `reference-element`   | The `referenceElement` to position the component according to its `"placement"` value. Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.                                                                                                               | `Element \| VirtualElement \| string`                                                                                                                                                                                                                                                                             | `undefined`             |
 
 ## Events
@@ -71,6 +73,12 @@
 
 Updates the position of the component.
 
+#### Parameters
+
+| Name      | Type      | Description |
+| --------- | --------- | ----------- |
+| `delayed` | `boolean` |             |
+
 #### Returns
 
 Type: `Promise<void>`
@@ -87,20 +95,6 @@ Type: `Promise<void>`
 | --------------------------- | ----------------------------------------- |
 | `--calcite-tooltip-z-index` | Sets the z-index value for the component. |
 
-## Dependencies
-
-### Used by
-
-- [calcite-flow-item](../flow-item)
-
-### Graph
-
-```mermaid
-graph TD;
-  calcite-flow-item --> calcite-tooltip
-  style calcite-tooltip fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

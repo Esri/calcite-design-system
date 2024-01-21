@@ -89,12 +89,16 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
 export const simple = (): string => create("calcite-fab", createAttributes());
-export const disabled_TestOnly = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;
+export const disabled_TestOnly = (): string => html`
+  <calcite-fab disabled icon="plus"></calcite-fab>
+  <br />
+  <calcite-fab disabled loading icon="plus"></calcite-fab>
+`;
 
 export const darkModeRTL_TestOnly = (): string =>
   create(
@@ -108,7 +112,7 @@ export const darkModeRTL_TestOnly = (): string =>
         name: "class",
         value: "calcite-mode-dark",
       },
-    ])
+    ]),
   );
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

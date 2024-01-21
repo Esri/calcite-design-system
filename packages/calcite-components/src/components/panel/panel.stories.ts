@@ -50,6 +50,30 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
+        name: "collapsed",
+        commit(): Attribute {
+          this.value = boolean("collapsed", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "collapsible",
+        commit(): Attribute {
+          this.value = boolean("collapsible", false);
+          delete this.build;
+          return this;
+        },
+      },
+      {
+        name: "collapse-direction",
+        commit(): Attribute {
+          this.value = select("collapseDirection", ["down", "up"], "down");
+          delete this.build;
+          return this;
+        },
+      },
+      {
         name: "height-scale",
         commit(): Attribute {
           this.value = select("heightScale", scale.values, scale.defaultValue);
@@ -66,7 +90,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -119,7 +143,7 @@ export const simple = (): string =>
       ${contentHTML}
       <calcite-fab slot="fab"></calcite-fab>
       ${footerHTML}
-    `
+    `,
   );
 
 export const onlyProps = (): string => html`
@@ -129,11 +153,11 @@ export const onlyProps = (): string => html`
       heading-level="${text("heading-level", "2")}"
       description="${text(
         "description",
-        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
       )}"
       heading="${text(
         "heading",
-        "Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+        "Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum",
       )}"
     />
   </div>
@@ -158,8 +182,10 @@ export const darkModeRTL_TestOnly = (): string =>
         value: "calcite-mode-dark",
       },
     ]),
-    panelContent
+    panelContent,
   );
+
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const closableWithActions_TestOnly = (): string => html`
   <calcite-panel
@@ -176,11 +202,113 @@ export const closableWithActions_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+export const collapsibleWithoutActions_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    collapsible
+    heading="Collapsible without actions"
+    description="A panel that can be collapsed"
+  >
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
 
-export const withActionBar_TestOnly = (): string => html`<div style="width: 300px;">
-  <calcite-panel height-scale="s">
-    <calcite-action-bar slot="action-bar">
+export const collapsibleWithActions_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const collapseDirectionUp_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    collapse-direction="up"
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const collapseDirectionUpCollapsed_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    collapsed
+    collapse-direction="up"
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const collapsedWithActions_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    collapsed
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const withActionBar_TestOnly = (): string =>
+  html`<div style="width: 300px;">
+    <calcite-panel height-scale="s">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+          <calcite-action text="Save" icon="save"> </calcite-action>
+          <calcite-action text="Layers" icon="layers"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+    </calcite-panel>
+  </div>`;
+
+export const footerPadding_TestOnly = (): string =>
+  html`<div style="width: 300px;">
+    <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+      <div slot="footer">Footer!</div>
+    </calcite-panel>
+  </div>`;
+
+export const actionBarBackgroundColor_TestOnly = (): string =>
+  html`<calcite-panel height-scale="s" style="width: 300px;">
+    <calcite-action-bar slot="action-bar" expand-disabled>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" icon="save"> </calcite-action>
@@ -189,135 +317,132 @@ export const withActionBar_TestOnly = (): string => html`<div style="width: 300p
     </calcite-action-bar>
     <div slot="header-content">Header!</div>
     <p>Slotted content!</p>
-  </calcite-panel>
-</div>`;
+    <p style="height: 400px">Hello world!</p>
+    <p style="height: 400px">Hello world!</p>
+    <p style="height: 400px">Hello world!</p>
+    <p slot="footer">Slotted content!</p>
+  </calcite-panel>`;
 
-export const footerPadding_TestOnly = (): string => html`<div style="width: 300px;">
-  <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
-    <div slot="header-content">Header!</div>
-    <p>Slotted content!</p>
-    <div slot="footer">Footer!</div>
-  </calcite-panel>
-</div>`;
+export const footerWithoutContent_TestOnly = (): string =>
+  html`<calcite-panel
+    height-scale="s"
+    heading="Header!"
+    style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
+  >
+    <p slot="footer">Footer content!</p>
+  </calcite-panel>`;
 
-export const actionBarBackgroundColor_TestOnly = (): string => html`<calcite-panel
-  height-scale="s"
-  style="width: 300px;"
->
-  <calcite-action-bar slot="action-bar" expand-disabled>
-    <calcite-action-group>
-      <calcite-action text="Add" icon="plus"> </calcite-action>
-      <calcite-action text="Save" icon="save"> </calcite-action>
-      <calcite-action text="Layers" icon="layers"> </calcite-action>
-    </calcite-action-group>
-  </calcite-action-bar>
-  <div slot="header-content">Header!</div>
-  <p>Slotted content!</p>
-  <p style="height: 400px">Hello world!</p>
-  <p style="height: 400px">Hello world!</p>
-  <p style="height: 400px">Hello world!</p>
-  <p slot="footer">Slotted content!</p>
-</calcite-panel>`;
+export const actionBarWithoutContent_TestOnly = (): string =>
+  html`<calcite-panel
+    height-scale="s"
+    heading="Header!"
+    style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
+  >
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </calcite-panel>`;
 
-export const footerWithoutContent_TestOnly = (): string => html`<calcite-panel
-  height-scale="s"
-  heading="Header!"
-  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
->
-  <p slot="footer">Footer content!</p>
-</calcite-panel>`;
+export const actionBarZIndex_TestOnly = (): string =>
+  html`<calcite-panel style="width: 400px;" height-scale="s" menu-open>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save">
+          <calcite-tooltip open overlay-positioning="fixed" placement="top" slot="tooltip">test</calcite-tooltip>
+        </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <p>Some content</p></calcite-panel
+  >`;
 
-export const actionBarWithoutContent_TestOnly = (): string => html`<calcite-panel
-  height-scale="s"
-  heading="Header!"
-  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
->
-  <calcite-action-bar slot="action-bar">
-    <calcite-action-group>
-      <calcite-action text="Add" icon="plus"> </calcite-action>
-      <calcite-action text="Save" icon="save"> </calcite-action>
-      <calcite-action text="Layers" icon="layers"> </calcite-action>
-    </calcite-action-group>
-  </calcite-action-bar>
-</calcite-panel>`;
+export const footerAndActionBarWithoutContent_TestOnly = (): string =>
+  html`<calcite-panel
+    height-scale="s"
+    heading="Header!"
+    style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
+  >
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <p slot="footer">Footer content!</p>
+  </calcite-panel>`;
 
-export const actionBarZIndex_TestOnly = (): string => html`<calcite-panel
-  style="width: 400px;"
-  height-scale="s"
-  menu-open
->
-  <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
-  <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-  <calcite-action-bar slot="action-bar">
-    <calcite-action-group>
-      <calcite-action text="Add" icon="plus"> </calcite-action>
-      <calcite-action text="Save" icon="save">
-        <calcite-tooltip open overlay-positioning="fixed" placement="top" slot="tooltip">test</calcite-tooltip>
-      </calcite-action>
-      <calcite-action text="Layers" icon="layers"> </calcite-action>
-    </calcite-action-group>
-  </calcite-action-bar>
-  <p>Some content</p></calcite-panel
->`;
-
-export const footerAndActionBarWithoutContent_TestOnly = (): string => html`<calcite-panel
-  height-scale="s"
-  heading="Header!"
-  style="width: 300px; height:auto; --calcite-internal-panel-header-border-block-end:none;"
->
-  <calcite-action-bar slot="action-bar">
-    <calcite-action-group>
-      <calcite-action text="Add" icon="plus"> </calcite-action>
-      <calcite-action text="Save" icon="save"> </calcite-action>
-      <calcite-action text="Layers" icon="layers"> </calcite-action>
-    </calcite-action-group>
-  </calcite-action-bar>
-  <p slot="footer">Footer content!</p>
-</calcite-panel>`;
-
-export const flexContent_TestOnly = (): string => html`<calcite-panel
-  style="height: 300px; width: 500px"
-  heading="My Panel"
-  ><div
-    style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
+export const flexContent_TestOnly = (): string =>
+  html`<calcite-panel style="height: 300px; width: 500px" heading="My Panel"
+    ><div
+      style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
     circle,
     white 1px,
     transparent 1px
   );"
-  ></div
-></calcite-panel>`;
+    ></div
+  ></calcite-panel>`;
 
-export const flexContentWithFAB_TestOnly = (): string => html`<calcite-panel
-  style="height: 300px; width: 500px"
-  heading="My Panel"
-  ><div
-    style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
+export const flexContentWithFAB_TestOnly = (): string =>
+  html`<calcite-panel style="height: 300px; width: 500px" heading="My Panel"
+    ><div
+      style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
   circle,
   white 1px,
   transparent 1px
 );"
-  ></div>
-  <calcite-fab slot="fab"></calcite-fab
-></calcite-panel>`;
+    ></div>
+    <calcite-fab slot="fab"></calcite-fab
+  ></calcite-panel>`;
 
-export const overflowContentWithFab_TestOnly = (): string => html` <calcite-panel
-  style="max-height: 300px; height: 300px; width: 500px"
-  heading="My Panel"
-  ><div style="min-height: 500px">My Content</div>
-  <calcite-fab slot="fab"></calcite-fab
-></calcite-panel>`;
+export const overflowContent_TestOnly = (): string =>
+  html` <style>
+      .container {
+        max-height: 300px;
+        width: 300px;
+      }
+    </style>
+    <div class="container">
+      <calcite-panel heading="My Panel">
+        <calcite-list>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+          <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        </calcite-list>
+      </calcite-panel>
+    </div>`;
 
-export const noOverflowContentWithFab_TestOnly = (): string => html` <calcite-panel
-  style="max-height: 300px; height: 300px; width: 500px"
-  heading="My Panel"
-  ><div>My Content</div>
-  <calcite-fab slot="fab"></calcite-fab
-></calcite-panel>`;
+export const overflowContentWithFab_TestOnly = (): string =>
+  html` <calcite-panel style="max-height: 300px; height: 300px; width: 500px" heading="My Panel"
+    ><div style="min-height: 500px">My Content</div>
+    <calcite-fab slot="fab"></calcite-fab
+  ></calcite-panel>`;
+
+export const noOverflowContentWithFab_TestOnly = (): string =>
+  html` <calcite-panel style="max-height: 300px; height: 300px; width: 500px" heading="My Panel"
+    ><div>My Content</div>
+    <calcite-fab slot="fab"></calcite-fab
+  ></calcite-panel>`;
 
 export const withTextContentOnly = (): string =>
   html`<calcite-panel height-scale="s" heading="My Panel">Slotted content!</calcite-panel>`;
 
 export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
-  html`<calcite-panel style="--calcite-internal-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
+  html`<calcite-panel style="--calcite-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-panel
   >`;

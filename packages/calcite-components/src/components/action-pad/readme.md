@@ -24,13 +24,8 @@ Renders an action pad with a tooltip on the expand action.
 ```html
 <calcite-action-pad id="action-pad-test">
   <calcite-action text="Add" icon="plus"></calcite-action>
+  <calcite-tooltip slot="expand-tooltip">Let's expand</calcite-tooltip>
 </calcite-action-pad>
-<calcite-tooltip id="tooltip">Expand</calcite-tooltip>
-<script>
-  var actionPad = document.getElementById("action-pad-test");
-  var tooltip = document.getElementById("tooltip");
-  actionPad.tooltipExpand = tooltip;
-</script>
 ```
 
 ### With-grouping
@@ -39,7 +34,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ```html
 <calcite-action-pad>
-  <calcite-action-group>
+  <calcite-action-group label="Manage item">
     <calcite-action text="Home" icon="home"></calcite-action>
     <calcite-action text="Styles" icon="add-in-edit"></calcite-action>
   </calcite-action-group>
@@ -50,20 +45,21 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Properties
 
-| Property           | Attribute           | Description                                                             | Type                                   | Default      |
-| ------------------ | ------------------- | ----------------------------------------------------------------------- | -------------------------------------- | ------------ |
-| `expandDisabled`   | `expand-disabled`   | When `true`, the expand-toggling behavior is disabled.                  | `boolean`                              | `false`      |
-| `expanded`         | `expanded`          | When `true`, the component is expanded.                                 | `boolean`                              | `false`      |
-| `layout`           | `layout`            | Indicates the layout of the component.                                  | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ActionPadMessages`                    | `undefined`  |
-| `position`         | `position`          | Arranges the component depending on the element's `dir` property.       | `"end" \| "start"`                     | `undefined`  |
-| `scale`            | `scale`             | Specifies the size of the expand `calcite-action`.                      | `"l" \| "m" \| "s"`                    | `undefined`  |
+| Property               | Attribute                 | Description                                                             | Type                                   | Default      |
+| ---------------------- | ------------------------- | ----------------------------------------------------------------------- | -------------------------------------- | ------------ |
+| `actionsEndGroupLabel` | `actions-end-group-label` | Specifies the accessible label for the last `calcite-action-group`.     | `string`                               | `undefined`  |
+| `expandDisabled`       | `expand-disabled`         | When `true`, the expand-toggling behavior is disabled.                  | `boolean`                              | `false`      |
+| `expanded`             | `expanded`                | When `true`, the component is expanded.                                 | `boolean`                              | `false`      |
+| `layout`               | `layout`                  | Indicates the layout of the component.                                  | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
+| `messageOverrides`     | `message-overrides`       | Use this property to override individual strings used by the component. | `ActionPadMessages`                    | `undefined`  |
+| `position`             | `position`                | Arranges the component depending on the element's `dir` property.       | `"end" \| "start"`                     | `undefined`  |
+| `scale`                | `scale`                   | Specifies the size of the expand `calcite-action`.                      | `"l" \| "m" \| "s"`                    | `undefined`  |
 
 ## Events
 
 | Event                    | Description                                    | Type                |
 | ------------------------ | ---------------------------------------------- | ------------------- |
-| `calciteActionPadToggle` | Emits when the `expanded` property is toggled. | `CustomEvent<void>` |
+| `calciteActionPadToggle` | Fires when the `expanded` property is toggled. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -84,9 +80,9 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                      | Description                                                                            |
-| ----------------------------------------- | -------------------------------------------------------------------------------------- |
-| `--calcite-action-pad-expanded-max-width` | optionally specify the expanded max width of the action pad when in "vertical" layout. |
+| Name                                      | Description                                                                       |
+| ----------------------------------------- | --------------------------------------------------------------------------------- |
+| `--calcite-action-pad-expanded-max-width` | When `layout` is `"vertical"`, specifies the expanded max width of the component. |
 
 ## Dependencies
 
@@ -114,4 +110,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

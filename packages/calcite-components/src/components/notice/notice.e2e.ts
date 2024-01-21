@@ -2,13 +2,14 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
+import { openClose } from "../../tests/commonTests";
 
 describe("calcite-notice", () => {
-  const noticeContent = `
-  <div slot="title">Title Text</div>
-  <div slot="message">Message Text</div>
-  <calcite-link slot="link" href="">Action</calcite-link>
-`;
+  const noticeContent = html`
+    <div slot="title">Title Text</div>
+    <div slot="message">Message Text</div>
+    <calcite-link slot="link" href="">Action</calcite-link>
+  `;
 
   describe("renders", () => {
     renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" });
@@ -32,6 +33,10 @@ describe("calcite-notice", () => {
 
   describe("accessible with icon and close button", () => {
     accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-notice");
   });
 
   describe("slots", () => {
@@ -85,11 +90,7 @@ describe("calcite-notice", () => {
 
   it("successfully closes a closable notice", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-notice id="notice-1" open closable>
-    ${noticeContent}
-    </calcite-notice>
-    `);
+    await page.setContent(html`<calcite-notice id="notice-1" open closable> ${noticeContent} </calcite-notice>`);
 
     const notice1 = await page.find("#notice-1 >>> .container");
     const noticeClose1 = await page.find(`#notice-1 >>> .${CSS.close}`);
@@ -117,7 +118,7 @@ describe("calcite-notice", () => {
         </calcite-notice>`,
         {
           shadowFocusTargetSelector: `.${CSS.close}`,
-        }
+        },
       );
     });
   });

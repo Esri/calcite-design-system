@@ -21,6 +21,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -41,6 +42,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
  * @slot - A slot for adding custom content.
@@ -60,11 +62,12 @@ export class Block
     InteractiveComponent,
     LocalizedComponent,
     T9nComponent,
-    LoadableComponent
+    LoadableComponent,
+    OpenCloseComponent
 {
   // --------------------------------------------------------------------------
   //
-  //  Properties
+  //  Public Properties
   //
   // --------------------------------------------------------------------------
 
@@ -102,6 +105,11 @@ export class Block
    * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(): void {
+    onToggleOpenCloseComponent(this);
+  }
 
   /**
    * Displays a status-related indicator icon.
@@ -148,6 +156,22 @@ export class Block
     focusFirstTabbable(this.el);
   }
 
+  onBeforeOpen(): void {
+    this.calciteBlockBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteBlockOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteBlockBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteBlockClose.emit();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -164,6 +188,10 @@ export class Block
   }
 
   @State() defaultMessages: BlockMessages;
+
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLElement;
 
   // --------------------------------------------------------------------------
   //
@@ -188,6 +216,10 @@ export class Block
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
     setUpLoadableComponent(this);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {
@@ -204,8 +236,22 @@ export class Block
   //
   // --------------------------------------------------------------------------
 
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteBlockBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteBlockBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteBlockClose: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteBlockOpen: EventEmitter<void>;
+
   /**
-   * Emits when the component's header is clicked.
+   * Fires when the component's header is clicked.
+   *
+   * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 
@@ -218,6 +264,10 @@ export class Block
   onHeaderClick = (): void => {
     this.open = !this.open;
     this.calciteBlockToggle.emit();
+  };
+
+  private setTransitionEl = (el: HTMLElement): void => {
+    this.transitionEl = el;
   };
 
   // --------------------------------------------------------------------------
@@ -274,7 +324,7 @@ export class Block
   }
 
   render(): VNode {
-    const { collapsible, el, loading, open, messages } = this;
+    const { collapsible, el, loading, open, heading, messages } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
@@ -291,7 +341,7 @@ export class Block
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? <calcite-handle /> : null}
+        {this.dragHandle ? <calcite-handle label={heading} /> : null}
         {collapsible ? (
           <button
             aria-controls={IDS.content}
@@ -303,14 +353,7 @@ export class Block
             title={toggleLabel}
           >
             {headerContent}
-            {!hasControl && !hasMenuActions ? (
-              <calcite-icon
-                aria-hidden="true"
-                class={CSS.toggleIcon}
-                icon={collapseIcon}
-                scale="s"
-              />
-            ) : null}
+            <calcite-icon aria-hidden="true" class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
           </button>
         ) : (
           headerContent
@@ -330,17 +373,26 @@ export class Block
 
     return (
       <Host>
-        <article
-          aria-busy={toAriaBoolean(loading)}
-          class={{
-            [CSS.container]: true,
-          }}
-        >
-          {headerNode}
-          <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
-            {this.renderScrim()}
-          </section>
-        </article>
+        <InteractiveContainer disabled={this.disabled}>
+          <article
+            aria-busy={toAriaBoolean(loading)}
+            class={{
+              [CSS.container]: true,
+            }}
+          >
+            {headerNode}
+            <section
+              aria-labelledby={IDS.toggle}
+              class={CSS.content}
+              hidden={!open}
+              id={IDS.content}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.setTransitionEl}
+            >
+              {this.renderScrim()}
+            </section>
+          </article>
+        </InteractiveContainer>
       </Host>
     );
   }

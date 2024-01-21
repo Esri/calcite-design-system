@@ -27,15 +27,15 @@ For example, after querying the search API, you'll get back a response similar t
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                       | Type                                                                                                                                                                                                                                    | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `groupSeparator`   | `group-separator`   | When `true`, number values are displayed with a group separator corresponding to the language and country format. | `boolean`                                                                                                                                                                                                                               | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                           | `PaginationMessages`                                                                                                                                                                                                                    | `undefined` |
-| `numberingSystem`  | `numbering-system`  | Specifies the Unicode numeral system used by the component for localization.                                      | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined` |
-| `pageSize`         | `page-size`         | Specifies the number of items per page.                                                                           | `number`                                                                                                                                                                                                                                | `20`        |
-| `scale`            | `scale`             | Specifies the size of the component.                                                                              | `"l" \| "m" \| "s"`                                                                                                                                                                                                                     | `"m"`       |
-| `startItem`        | `start-item`        | Specifies the starting item number.                                                                               | `number`                                                                                                                                                                                                                                | `1`         |
-| `totalItems`       | `total-items`       | Specifies the total number of items.                                                                              | `number`                                                                                                                                                                                                                                | `0`         |
+| Property           | Attribute           | Description                                                                                                       | Type                            | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----------- |
+| `groupSeparator`   | `group-separator`   | When `true`, number values are displayed with a group separator corresponding to the language and country format. | `boolean`                       | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                           | `PaginationMessages`            | `undefined` |
+| `numberingSystem`  | `numbering-system`  | Specifies the Unicode numeral system used by the component for localization.                                      | `"arab" \| "arabext" \| "latn"` | `undefined` |
+| `pageSize`         | `page-size`         | Specifies the number of items per page.                                                                           | `number`                        | `20`        |
+| `scale`            | `scale`             | Specifies the size of the component.                                                                              | `"l" \| "m" \| "s"`             | `"m"`       |
+| `startItem`        | `start-item`        | Specifies the starting item number.                                                                               | `number`                        | `1`         |
+| `totalItems`       | `total-items`       | Specifies the total number of items.                                                                              | `number`                        | `0`         |
 
 ## Events
 
@@ -61,7 +61,19 @@ Go to the previous page of results.
 
 Type: `Promise<void>`
 
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Dependencies
+
+### Used by
+
+- [calcite-table](../table)
 
 ### Depends on
 
@@ -72,9 +84,10 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-pagination --> calcite-icon
+  calcite-table --> calcite-pagination
   style calcite-pagination fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -27,11 +27,17 @@
   @apply bg-foreground-3;
 }
 
-.image {
+.image,
+.icon {
   @apply flex h-7 m-0 px-4;
 }
 
-.image ~ .container {
+.image ~ .icon {
+  @apply ps-0;
+}
+
+.image ~ .container,
+.icon ~ .container {
   @apply ps-0;
 }
 
@@ -41,8 +47,8 @@
 
 :host([active]) .anchor {
   @apply text-color-1;
-  border-color: var(--calcite-ui-brand);
-  --calcite-ui-icon-color: var(--calcite-ui-brand);
+  border-color: var(--calcite-color-brand);
+  --calcite-ui-icon-color: var(--calcite-color-brand);
 }
 
 .container {

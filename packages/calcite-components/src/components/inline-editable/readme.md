@@ -10,7 +10,7 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 
 ```html
 <calcite-inline-editable>
-  <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+  <calcite-input value="City of Acme Tree Survey" placeholder="City of Acme Tree Survey"></calcite-input>
 </calcite-inline-editable>
 ```
 
@@ -18,18 +18,20 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 
 ```html
 <calcite-label>
-  My great label
-  <calcite-inline-editable controls>
-    <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+  Survey name
+  <calcite-inline-editable>
+    <calcite-input value="City of Acme Tree Survey" placeholder="City of Acme Tree Survey"></calcite-input>
   </calcite-inline-editable>
 </calcite-label>
 ```
 
 ### With-save-and-cancel-controls
 
+Add "Save" and "Cancel" controls:
+
 ```html
 <calcite-inline-editable controls>
-  <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+  <calcite-input value="City of Acme Tree Survey" placeholder="City of Acme Tree Survey"></calcite-input>
 </calcite-inline-editable>
 ```
 
@@ -86,4 +88,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

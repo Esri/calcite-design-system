@@ -77,8 +77,8 @@ Renders groups of pick list items that are visually separated.
 | `filterEnabled`         | `filter-enabled`          | When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.                                                                                                                                                       | `boolean`                                                                                     | `false`     |
 | `filterPlaceholder`     | `filter-placeholder`      | Placeholder text for the filter input field.                                                                                                                                                                                                                          | `string`                                                                                      | `undefined` |
 | `filterText`            | `filter-text`             | Text for the filter input field.                                                                                                                                                                                                                                      | `string`                                                                                      | `undefined` |
-| `filteredData`          | --                        | The currently filtered data.                                                                                                                                                                                                                                          | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
-| `filteredItems`         | --                        | The currently filtered items.                                                                                                                                                                                                                                         | `HTMLCalcitePickListItemElement[]`                                                            | `[]`        |
+| `filteredData`          | --                        | The component's filtered data.                                                                                                                                                                                                                                        | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
+| `filteredItems`         | --                        | The component's filtered items.                                                                                                                                                                                                                                       | `HTMLCalcitePickListItemElement[]`                                                            | `[]`        |
 | `headingLevel`          | `heading-level`           | Specifies the number at which section headings should start.                                                                                                                                                                                                          | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                  | `undefined` |
 | `loading`               | `loading`                 | When `true`, a busy indicator is displayed.                                                                                                                                                                                                                           | `boolean`                                                                                     | `false`     |
 | `multiple`              | `multiple`                | Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-pick-list-item`s at a time. When `false`, only a single `calcite-pick-list-item` can be selected at a time, and a new selection will deselect previous selections. | `boolean`                                                                                     | `false`     |
@@ -105,9 +105,22 @@ Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
 Sets focus on the component's first focusable element.
 
+#### Parameters
+
+| Name      | Type       | Description |
+| --------- | ---------- | ----------- |
+| `focusId` | `"filter"` |             |
+
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot             | Description                                                                                                               |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+|                  | A slot for adding `calcite-pick-list-item` or `calcite-pick-list-group` elements. Items are displayed as a vertical list. |
+| `"menu-actions"` | A slot for adding a button and menu combination for performing actions, such as sorting.                                  |
 
 ## Dependencies
 
@@ -125,10 +138,12 @@ graph TD;
   calcite-filter --> calcite-input
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-input --> calcite-input-message
+  calcite-input-message --> calcite-icon
   calcite-scrim --> calcite-loader
   style calcite-pick-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

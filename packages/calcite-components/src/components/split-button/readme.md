@@ -9,11 +9,11 @@ The calcite-split-button control is one that combines a button with a dropdown m
 ### Basic
 
 ```html
-<calcite-split-button primary-icon-start="save" primary-text="Primary Option">
+<calcite-split-button primary-icon-start="addLayer" primary-text="Add a layer">
   <calcite-dropdown-group selection-mode="none">
-    <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-    <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-    <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+    <calcite-dropdown-item>Trails</calcite-dropdown-item>
+    <calcite-dropdown-item>Lakes</calcite-dropdown-item>
+    <calcite-dropdown-item>Rivers</calcite-dropdown-item>
   </calcite-dropdown-group>
 </calcite-split-button>
 ```
@@ -26,7 +26,7 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | `disabled`           | `disabled`              | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                                                                                                                                                    | `boolean`                                                 | `false`      |
 | `dropdownIconType`   | `dropdown-icon-type`    | Specifies the icon used for the dropdown menu.                                                                                                                                                                                                                                                                                                                              | `"caret" \| "chevron" \| "ellipsis" \| "overflow"`        | `"chevron"`  |
 | `dropdownLabel`      | `dropdown-label`        | Accessible name for the dropdown menu.                                                                                                                                                                                                                                                                                                                                      | `string`                                                  | `undefined`  |
-| `kind`               | `kind`                  | Specifies the kind of the component (will apply to border and background if applicable).                                                                                                                                                                                                                                                                                    | `"brand" \| "danger" \| "inverse" \| "neutral"`           | `"brand"`    |
+| `kind`               | `kind`                  | Specifies the kind of the component, which will apply to border and background, if applicable.                                                                                                                                                                                                                                                                              | `"brand" \| "danger" \| "inverse" \| "neutral"`           | `"brand"`    |
 | `loading`            | `loading`               | When `true`, a busy indicator is displayed on the primary button.                                                                                                                                                                                                                                                                                                           | `boolean`                                                 | `false`      |
 | `overlayPositioning` | `overlay-positioning`   | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`                                   | `"absolute"` |
 | `primaryIconEnd`     | `primary-icon-end`      | Specifies an icon to display at the end of the primary button.                                                                                                                                                                                                                                                                                                              | `string`                                                  | `undefined`  |
@@ -43,6 +43,16 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | ---------------------------------- | ----------------------------------------- | ------------------- |
 | `calciteSplitButtonPrimaryClick`   | Fires when the primary button is clicked. | `CustomEvent<void>` |
 | `calciteSplitButtonSecondaryClick` | Fires when the dropdown menu is clicked.  | `CustomEvent<void>` |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Slots
 
@@ -70,4 +80,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

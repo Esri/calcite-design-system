@@ -1,4 +1,6 @@
 {
   "next": "Neste",
-  "previous": "Forrige"
+  "previous": "Forrige",
+  "first": "Første",
+  "last": "Siste"
 }

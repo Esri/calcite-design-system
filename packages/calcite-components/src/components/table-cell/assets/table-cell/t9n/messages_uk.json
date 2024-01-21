@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Натисніть клавішу Enter або пробіл, щоб скасувати вибір рядка",
+  "keyboardSelect": "Натисніть клавішу Enter або пробіл, щоб вибрати рядок",
+  "row": "рядок",
+  "selected": "вибрані",
+  "unselected": "вибір скасовано"
 }

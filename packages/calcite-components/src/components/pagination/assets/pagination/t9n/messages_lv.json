@@ -1,4 +1,6 @@
 {
   "next": "Tālāk",
-  "previous": "Iepriekšējais"
+  "previous": "Iepriekšējais",
+  "first": "Pirmais",
+  "last": "Pēdējais"
 }

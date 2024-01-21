@@ -15,6 +15,11 @@ export interface OpenCloseComponent {
   open?: boolean;
 
   /**
+   * When true, the component is open.
+   */
+  opened?: boolean;
+
+  /**
    *  Specifies the name of transitionProp.
    */
   transitionProp?: string;
@@ -27,7 +32,7 @@ export interface OpenCloseComponent {
   /**
    * Specifies element that the transition is allowed to emit on.
    */
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLElement;
 
   /**
    * Defines method for `beforeOpen` event handler.
@@ -52,25 +57,29 @@ export interface OpenCloseComponent {
 
 const componentToTransitionListeners = new WeakMap<
   OpenCloseComponent,
-  [HTMLDivElement, typeof transitionStart, typeof transitionEnd]
+  [HTMLElement, typeof transitionStart, typeof transitionEnd]
 >();
 
-function transitionStart(event: TransitionEvent): void {
+function transitionStart(this: OpenCloseComponent, event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
-    this.open ? this.onBeforeOpen() : this.onBeforeClose();
+    isOpen(this) ? this.onBeforeOpen() : this.onBeforeClose();
   }
 }
-function transitionEnd(event: TransitionEvent): void {
+function transitionEnd(this: OpenCloseComponent, event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
-    this.open ? this.onOpen() : this.onClose();
+    isOpen(this) ? this.onOpen() : this.onClose();
   }
+}
+
+function isOpen(component: OpenCloseComponent): boolean {
+  return "opened" in component ? component.opened : component.open;
 }
 
 function emitImmediately(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
-  (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+  (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
     ? component.onBeforeOpen()
     : component.onBeforeClose();
-  (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+  (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
     ? component.onOpen()
     : component.onClose();
 }
@@ -99,7 +108,7 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
   readTask((): void => {
     if (component.transitionEl) {
       const { transitionDuration: allDurations, transitionProperty: allProps } = getComputedStyle(
-        component.transitionEl
+        component.transitionEl,
       );
       const allTransitionDurationsArray = allDurations.split(",");
       const allTransitionPropsArray = allProps.split(",");
@@ -116,12 +125,15 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
         return;
       }
 
-      const fallbackTimeoutId = setTimeout((): void => {
-        component.transitionEl.removeEventListener("transitionstart", onStart);
-        component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
-        component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
-        emitImmediately(component, nonOpenCloseComponent);
-      }, parseFloat(transitionDuration) * 1000);
+      const fallbackTimeoutId = setTimeout(
+        (): void => {
+          component.transitionEl.removeEventListener("transitionstart", onStart);
+          component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
+          component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
+          emitImmediately(component, nonOpenCloseComponent);
+        },
+        parseFloat(transitionDuration) * 1000,
+      );
 
       component.transitionEl.addEventListener("transitionstart", onStart);
       component.transitionEl.addEventListener("transitionend", onEndOrCancel);
@@ -131,7 +143,7 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
         if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
           clearTimeout(fallbackTimeoutId);
           component.transitionEl.removeEventListener("transitionstart", onStart);
-          (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+          (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
             ? component.onBeforeOpen()
             : component.onBeforeClose();
         }
@@ -139,7 +151,7 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
 
       function onEndOrCancel(event: TransitionEvent): void {
         if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
-          (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+          (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
             ? component.onOpen()
             : component.onClose();
 

@@ -61,6 +61,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
+import { getIconScale } from "../../utils/component";
 
 const manager = new PopoverManager();
 
@@ -93,7 +94,7 @@ export class Popover
    */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** When `true`, display a close button within the component. */
+  /** When `true`, displays a close button within the component. */
   @Prop({ reflect: true }) closable = false;
 
   /**
@@ -191,13 +192,9 @@ export class Popover
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
-
-    if (value) {
-      this.reposition(true);
-    }
-
+    this.reposition(true);
     this.setExpandedAttr();
   }
 
@@ -256,7 +253,7 @@ export class Popover
   @Element() el: HTMLCalcitePopoverElement;
 
   mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements()
+    this.updateFocusTrapElements(),
   );
 
   filteredFlipPlacements: EffectivePlacement[];
@@ -303,6 +300,7 @@ export class Popover
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -383,7 +381,7 @@ export class Popover
         arrowEl,
         type: "popover",
       },
-      delayed
+      delayed,
     );
   }
 
@@ -542,7 +540,7 @@ export class Popover
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         >
-          <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
+          <calcite-icon icon="x" scale={getIconScale(this.scale)} />
         </calcite-action>
       </div>
     ) : null;

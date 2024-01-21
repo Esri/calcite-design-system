@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resources";
-import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
+import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps } from "../../tests/utils";
 
@@ -29,7 +29,7 @@ describe("calcite-tooltip", () => {
         (event) => {
           (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled = event.defaultPrevented;
         },
-        { once: true }
+        { once: true },
       );
     });
   }
@@ -47,13 +47,13 @@ describe("calcite-tooltip", () => {
 
   describe("accessible when closed", () => {
     accessible(
-      `<calcite-tooltip reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`
+      `<calcite-tooltip reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
     );
   });
 
   describe("accessible when open", () => {
     accessible(
-      `<calcite-tooltip open reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`
+      `<calcite-tooltip open reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
     );
   });
 
@@ -90,11 +90,43 @@ describe("calcite-tooltip", () => {
     ]);
   });
 
+  const simpleTooltipHtml = html`
+    <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
+    ><button id="ref">referenceElement</button>
+  `;
+  const tooltipDisplayNoneHtml = html`
+    <div class="container">
+      <div class="template">
+        <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
+        ><button id="ref">referenceElement</button>
+      </div>
+    </div>
+    <button class="hoverOutsideContainer">some other content</button>
+    <style>
+      .container {
+        height: 100px;
+        width: 100px;
+        border: 1px solid red;
+      }
+      .container:hover .template {
+        display: initial;
+      }
+      .template {
+        display: none;
+      }
+    </style>
+  `;
+
+  describe("openClose", () => {
+    openClose(simpleTooltipHtml);
+    openClose(tooltipDisplayNoneHtml);
+  });
+
   it("should have zIndex of 901", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -112,7 +144,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-tooltip open></calcite-tooltip>
-        <div id="ref">referenceElement</div>`
+        <div id="ref">referenceElement</div>`,
     );
     const element = await page.find("calcite-tooltip");
 
@@ -161,7 +193,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -194,7 +226,7 @@ describe("calcite-tooltip", () => {
             right: 100,
             bottom: 100,
             left: 600,
-          } as DOMRect),
+          }) as DOMRect,
       };
 
       tooltip.referenceElement = virtualElement;
@@ -215,7 +247,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -237,7 +269,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref"><span>referenceElement<span></div>`
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref"><span>referenceElement<span></div>`,
     );
 
     await page.waitForChanges();
@@ -259,7 +291,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref" open>hi</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref" open>hi</calcite-tooltip><div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -274,13 +306,11 @@ describe("calcite-tooltip", () => {
   it("should honor tooltips on pointermove", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <button id="test">test</button>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <button id="test">test</button>
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
 
     await page.waitForChanges();
 
@@ -312,13 +342,11 @@ describe("calcite-tooltip", () => {
   it("should honor tooltips on focus/blur", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <button id="test">test</button>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <button id="test">test</button>
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
 
     await page.waitForChanges();
 
@@ -346,13 +374,11 @@ describe("calcite-tooltip", () => {
   it("should not open tooltip when clicked", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <button id="test">test</button>
-        <calcite-tooltip id="tooltip" reference-element="ref">Content</calcite-tooltip>
-        <div tabindex="0" id="ref">Button</div>
-      `
-    );
+    await page.setContent(html`
+      <button id="test">test</button>
+      <calcite-tooltip id="tooltip" reference-element="ref">Content</calcite-tooltip>
+      <div tabindex="0" id="ref">Button</div>
+    `);
 
     await page.waitForChanges();
 
@@ -373,12 +399,10 @@ describe("calcite-tooltip", () => {
   it("should honor focused tooltip closing with ESC key", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
 
     await page.waitForChanges();
 
@@ -406,12 +430,10 @@ describe("calcite-tooltip", () => {
   it("should honor hovered tooltip closing with ESC key", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
 
     await page.waitForChanges();
 
@@ -441,12 +463,10 @@ describe("calcite-tooltip", () => {
   it("should honor hovered and focused tooltip closing with ESC key", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
 
     await page.waitForChanges();
 
@@ -478,14 +498,12 @@ describe("calcite-tooltip", () => {
   it("should only open the last focused tooltip", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
-        <button id="focusRef">Button</button>
-        <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
-        <button id="hoverRef">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
+      <button id="focusRef">Button</button>
+      <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
+      <button id="hoverRef">Button</button>
+    `);
 
     await page.waitForChanges();
 
@@ -521,21 +539,19 @@ describe("calcite-tooltip", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
-      "open"
+      "open",
     );
   });
 
   it("should only open the last hovered tooltip", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
-        <button id="focusRef">Button</button>
-        <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
-        <button id="hoverRef">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
+      <button id="focusRef">Button</button>
+      <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
+      <button id="hoverRef">Button</button>
+    `);
 
     await page.waitForChanges();
 
@@ -571,12 +587,10 @@ describe("calcite-tooltip", () => {
   it("should close tooltip when closeOnClick is true and referenceElement is clicked", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
 
     await page.waitForChanges();
 
@@ -614,12 +628,10 @@ describe("calcite-tooltip", () => {
   it("should close tooltip when closeOnClick is true and referenceElement is clicked quickly", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-tooltip reference-element="ref" close-on-click>Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref" close-on-click>Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
 
     const tooltip = await page.find("calcite-tooltip");
 
@@ -647,7 +659,7 @@ describe("calcite-tooltip", () => {
         <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
         <button id="ref">Button</button>
         <p>Hello World 2</p>
-        <div id="transfer"></div>`
+        <div id="transfer"></div>`,
     );
 
     await page.waitForChanges();
@@ -753,7 +765,7 @@ describe("calcite-tooltip", () => {
     }): Promise<void> {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip><button id="ref">referenceElement</button>`
+        `<calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip><button id="ref">referenceElement</button>`,
       );
       const tooltip = await page.find("calcite-tooltip");
 
@@ -854,12 +866,10 @@ describe("calcite-tooltip", () => {
 
   it.skip("should open hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      html`
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <button id="ref">Button</button>
+    `);
 
     const tooltip = await page.find("calcite-tooltip");
     expect(await tooltip.getProperty("open")).toBe(false);
@@ -910,17 +920,15 @@ describe("calcite-tooltip", () => {
 
   it("should close non hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      html`
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <p>
-          <button id="ref">Button</button>
-        </p>
-        <p>
-          <button id="ref2">No tooltip button</button>
-        </p>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+      <p>
+        <button id="ref">Button</button>
+      </p>
+      <p>
+        <button id="ref2">No tooltip button</button>
+      </p>
+    `);
 
     const tooltip = await page.find("calcite-tooltip");
     expect(await tooltip.getProperty("open")).toBe(false);
@@ -997,7 +1005,7 @@ describe("calcite-tooltip", () => {
                 const shadow = this.attachShadow({ mode: "open" });
                 shadow.innerHTML = customComponents[i].html;
               }
-            }
+            },
           );
         }
 
@@ -1041,7 +1049,7 @@ describe("calcite-tooltip", () => {
       html`<p><button id="ref1">referenceElement 1</button></p>
         <p><button id="ref2">referenceElement 2</button></p>
         <calcite-tooltip class="test" id="tooltip1" reference-element="ref1">content</calcite-tooltip>
-        <calcite-tooltip class="test" id="tooltip2" reference-element="ref2">content 2</calcite-tooltip>`
+        <calcite-tooltip class="test" id="tooltip2" reference-element="ref2">content 2</calcite-tooltip>`,
     );
 
     await page.waitForChanges();

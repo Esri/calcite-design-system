@@ -1,9 +1,24 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
 import SpyInstance = jest.SpyInstance;
 import { getFocusedElementProp } from "../../tests/utils";
+import { SelectionMode } from "../interfaces";
+
+/**
+ * Helper to ensure an item is clicked and avoids clicking on any of its children
+ *
+ * @param page – the test page
+ * @param itemSelector – the selector for the item click target
+ * @param item
+ */
+async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
+  // Puppeteer's element click will happen in the center of a component,
+  // so we call the method to ensure it happens on the component of interest
+  await item.callMethod("click");
+  await page.waitForChanges();
+}
 
 describe("calcite-tree", () => {
   describe("renders", () => {
@@ -103,7 +118,7 @@ describe("calcite-tree", () => {
           <a href="#">Child 2</a>
           <calcite-tree slot="children">
             <calcite-tree-item>
-              <a href="http://www.google.com">Grandchild 1</a>
+              <a href="http://www.esri.com">Grandchild 1</a>
             </calcite-tree-item>
           </calcite-tree>
         </calcite-tree-item>
@@ -158,11 +173,7 @@ describe("calcite-tree", () => {
     expect(grandchildTwo).not.toHaveAttribute("selected");
     expect(greatgrandchild).not.toHaveAttribute("selected");
 
-    // Puppeteer's element click will happen in the center of a component,
-    // so we call the method to ensure it happens on the component of interest
-
-    await two.callMethod("click");
-    await page.waitForChanges();
+    await directItemClick(page, two);
 
     expect(one).not.toHaveAttribute("selected");
     expect(one).not.toHaveAttribute("indeterminate");
@@ -173,8 +184,7 @@ describe("calcite-tree", () => {
     expect(grandchildTwo).toHaveAttribute("selected");
     expect(greatgrandchild).toHaveAttribute("selected");
 
-    await childOne.callMethod("click");
-    await page.waitForChanges();
+    await directItemClick(page, childOne);
 
     expect(one).not.toHaveAttribute("selected");
     expect(one).not.toHaveAttribute("indeterminate");
@@ -188,8 +198,7 @@ describe("calcite-tree", () => {
 
     grandchildTwo.setProperty("disabled", true);
     await page.waitForChanges();
-    await two.callMethod("click");
-    await page.waitForChanges();
+    await directItemClick(page, two);
 
     expect(one).not.toHaveAttribute("selected");
     expect(one).not.toHaveAttribute("indeterminate");
@@ -203,8 +212,7 @@ describe("calcite-tree", () => {
 
     grandchildTwo.setProperty("disabled", false);
     await page.waitForChanges();
-    await two.callMethod("click");
-    await page.waitForChanges();
+    await directItemClick(page, two);
 
     expect(one).not.toHaveAttribute("selected");
     expect(two).toHaveAttribute("selected");
@@ -365,33 +373,33 @@ describe("calcite-tree", () => {
         await page.setContent(
           html`<calcite-tree lines selection-mode="multichildren" scale="s">
             <calcite-tree-item id="1"> Child 1 </calcite-tree-item>
-            <calcite-tree-item id="2">
+            <calcite-tree-item id="2" expanded>
               Child 2
               <calcite-tree slot="children">
                 <calcite-tree-item id="3" disabled> Grandchild 1 </calcite-tree-item>
                 <calcite-tree-item id="4"> Grandchild 2 </calcite-tree-item>
               </calcite-tree>
             </calcite-tree-item>
-          </calcite-tree>`
+          </calcite-tree>`,
         );
 
         const tree = await page.find("calcite-tree");
 
         const [item1, item2, item3, item4] = await page.findAll("calcite-tree-item");
 
-        await item1.click();
+        await directItemClick(page, item1);
 
         expect(await tree.getProperty("selectedItems")).toHaveLength(1);
 
-        await item2.click();
+        await directItemClick(page, item2);
 
         expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
-        await item3.click();
+        await directItemClick(page, item3);
 
         expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
-        await item4.click();
+        await directItemClick(page, item4);
 
         expect(await tree.getProperty("selectedItems")).toHaveLength(3);
       });
@@ -426,14 +434,14 @@ describe("calcite-tree", () => {
           `,
         });
         const checkbox = await page.find(
-          `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`
+          `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`,
         );
         expect(checkbox).not.toBeNull();
       });
     });
 
     describe(`when tree-item selection-mode is "none"`, () => {
-      it("allows selecting items without a selection", async () => {
+      it("emits selection event without updating selection", async () => {
         const page = await newE2EPage();
         await page.setContent(html`
           <calcite-tree selection-mode="none">
@@ -448,12 +456,12 @@ describe("calcite-tree", () => {
 
         await item1.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(1);
-        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(0);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
 
         await item2.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(2);
-        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(0);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
       });
     });
@@ -590,36 +598,38 @@ describe("calcite-tree", () => {
 
     it("supports navigating the entire tree structure", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` <calcite-tree id="root">
-        <calcite-tree-item id="root-item-1">
-          <span>Root Item 1</span>
-        </calcite-tree-item>
-        <calcite-tree-item id="parent">
-          <span>Parent</span>
-          <calcite-tree slot="children">
-            <calcite-tree-item id="child">
-              <span>Child</span>
-            </calcite-tree-item>
-            <calcite-tree-item id="child2">
-              <span>Child 2</span>
-              <calcite-tree slot="children">
-                <calcite-tree-item id="grandchild">
-                  <span>Grandchild</span>
-                </calcite-tree-item>
-                <calcite-tree-item id="grandchild2">
-                  <span>Grandchild 2</span>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-            <calcite-tree-item id="child3">
-              <span>Child 3</span>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item id="root-item-3">
-          <span>Root Item 3</span>
-        </calcite-tree-item>
-      </calcite-tree>`);
+      await page.setContent(
+        html` <calcite-tree id="root">
+          <calcite-tree-item id="root-item-1">
+            <span>Root Item 1</span>
+          </calcite-tree-item>
+          <calcite-tree-item id="parent">
+            <span>Parent</span>
+            <calcite-tree slot="children">
+              <calcite-tree-item id="child">
+                <span>Child</span>
+              </calcite-tree-item>
+              <calcite-tree-item id="child2">
+                <span>Child 2</span>
+                <calcite-tree slot="children">
+                  <calcite-tree-item id="grandchild">
+                    <span>Grandchild</span>
+                  </calcite-tree-item>
+                  <calcite-tree-item id="grandchild2">
+                    <span>Grandchild 2</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+              <calcite-tree-item id="child3">
+                <span>Child 3</span>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+          <calcite-tree-item id="root-item-3">
+            <span>Root Item 3</span>
+          </calcite-tree-item>
+        </calcite-tree>`,
+      );
 
       const root = await page.find("#root");
       const parent = await page.find("#parent");
@@ -848,7 +858,7 @@ describe("calcite-tree", () => {
           <calcite-tree-item id="child-4">
             <span>Child 4</span>
           </calcite-tree-item>
-        </calcite-tree>`
+        </calcite-tree>`,
       );
 
       const root = await page.find("#child-1");
@@ -1004,13 +1014,15 @@ describe("calcite-tree", () => {
 
     it("does prevent space/enter keyboard event on actions with selectionMode of single", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<div id="container">
-        <calcite-tree selection-mode="single">
-          <calcite-tree-item>
-            <button>My button</button>
-          </calcite-tree-item>
-        </calcite-tree>
-      </div>`);
+      await page.setContent(
+        html`<div id="container">
+          <calcite-tree selection-mode="single">
+            <calcite-tree-item>
+              <button>My button</button>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>`,
+      );
 
       const container = await page.find("#container");
       const button = await page.find("button");
@@ -1030,15 +1042,17 @@ describe("calcite-tree", () => {
       expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
     });
 
-    it("does not prevent space/enter keyboard event on actions with selectionMode of none", async () => {
+    it("does prevent space/enter keyboard event on actions with selectionMode of none", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<div id="container">
-        <calcite-tree selection-mode="none">
-          <calcite-tree-item>
-            <button>My button</button>
-          </calcite-tree-item>
-        </calcite-tree>
-      </div>`);
+      await page.setContent(
+        html`<div id="container">
+          <calcite-tree selection-mode="none">
+            <calcite-tree-item>
+              <button>My button</button>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>`,
+      );
 
       const container = await page.find("#container");
       const button = await page.find("button");
@@ -1050,12 +1064,12 @@ describe("calcite-tree", () => {
       await page.keyboard.press("Enter");
 
       expect(keydownSpy).toHaveReceivedEventTimes(1);
-      expect(keydownSpy.lastEvent.defaultPrevented).toBe(false);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
 
       await page.keyboard.press("Space");
 
       expect(keydownSpy).toHaveReceivedEventTimes(2);
-      expect(keydownSpy.lastEvent.defaultPrevented).toBe(false);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
     });
   });
 
@@ -1082,7 +1096,7 @@ describe("calcite-tree", () => {
                   <calcite-tree-item>Child</calcite-tree-item>
                 </calcite-tree>`;
             }
-          }
+          },
         );
       });
       await page.waitForChanges();
@@ -1090,5 +1104,216 @@ describe("calcite-tree", () => {
       // Stencil swallows the expected error, so we assert on the error message instead
       expect(consoleSpy).toHaveBeenCalledTimes(0);
     });
+  });
+
+  describe("parent node expansion", () => {
+    describe("keyboard", () => {
+      assertSelectionModes(
+        false,
+        async (_page, item) => {
+          await item.press("Enter");
+        },
+        async (_page, item, toggle) => {
+          const itemExpanded = await item.getProperty("expanded");
+          const toggleKey = itemExpanded ? "ArrowLeft" : "ArrowRight";
+          await toggle.press(toggleKey);
+        },
+        async (_page, item) => {
+          await item.press("Enter");
+        },
+      );
+    });
+
+    describe("mouse", () => {
+      assertSelectionModes(
+        true,
+        async (page, item) => {
+          await directItemClick(page, item);
+        },
+        async (page, _item, toggle) => {
+          await directItemClick(page, toggle);
+        },
+        async (page, item) => {
+          await directItemClick(page, item);
+        },
+      );
+    });
+
+    interface SelectionModeTest {
+      selectionMode: SelectionMode;
+      canDeselect: {
+        item: boolean;
+        child: boolean;
+      };
+      expandableItemClick: {
+        selectsItem: boolean;
+        selectsChildren: boolean;
+      };
+    }
+
+    async function assertSelectionModes(
+      childToggleTraversesParent: boolean,
+      selectItem: (page: E2EPage, item: E2EElement) => Promise<void>,
+      toggleItem: (page: E2EPage, item: E2EElement, toggle: E2EElement) => Promise<void>,
+      selectItemChild: (page: E2EPage, item: E2EElement) => Promise<void>,
+    ): Promise<void> {
+      const selectionModesTests: SelectionModeTest[] = [
+        {
+          selectionMode: "ancestors",
+          canDeselect: { item: true, child: true },
+          expandableItemClick: {
+            selectsItem: true,
+            selectsChildren: true,
+          },
+        },
+        {
+          selectionMode: "children",
+          canDeselect: { item: false, child: false },
+          expandableItemClick: {
+            selectsItem: true,
+            selectsChildren: false,
+          },
+        },
+        {
+          selectionMode: "multichildren",
+          canDeselect: { item: true, child: true },
+          expandableItemClick: {
+            selectsItem: true,
+            selectsChildren: false,
+          },
+        },
+        {
+          selectionMode: "multiple",
+          canDeselect: { item: true, child: true },
+          expandableItemClick: {
+            selectsItem: false,
+            selectsChildren: false,
+          },
+        },
+        {
+          selectionMode: "none",
+          canDeselect: { item: false, child: false },
+          expandableItemClick: {
+            selectsItem: false,
+            selectsChildren: false,
+          },
+        },
+        {
+          selectionMode: "single",
+          canDeselect: { item: true, child: false },
+          expandableItemClick: {
+            selectsItem: false,
+            selectsChildren: false,
+          },
+        },
+        {
+          selectionMode: "single-persist",
+          canDeselect: { item: false, child: false },
+          expandableItemClick: {
+            selectsItem: false,
+            selectsChildren: false,
+          },
+        },
+      ];
+
+      selectionModesTests.forEach(
+        ({ selectionMode, canDeselect, expandableItemClick: { selectsItem, selectsChildren } }) => {
+          it(`selection-mode = ${selectionMode}`, async () => {
+            const expandableItemId = "expandable-item";
+            const expandableItemChildId = "expandable-item-child";
+            const page = await newE2EPage();
+            await page.setContent(html`
+              <calcite-tree selection-mode="${selectionMode}">
+                <calcite-tree-item>Child 1</calcite-tree-item>
+
+                <calcite-tree-item id="${expandableItemId}">
+                  Child 2
+
+                  <calcite-tree slot="children">
+                    <calcite-tree-item id="${expandableItemChildId}">Grandchild 1</calcite-tree-item>
+
+                    <calcite-tree-item>Grandchild 2</calcite-tree-item>
+
+                    <calcite-tree-item>
+                      Grandchild 3
+                      <calcite-tree slot="children">
+                        <calcite-tree-item>Great-Grandchild 1</calcite-tree-item>
+                        <calcite-tree-item>Great-Grandchild 2</calcite-tree-item>
+                        <calcite-tree-item>Great-Grandchild 3</calcite-tree-item>
+                      </calcite-tree>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            `);
+
+            const tree = await page.find("calcite-tree");
+            expect(await tree.getProperty("selectedItems")).toHaveLength(0);
+
+            const expandableParentItem = await page.find(`#${expandableItemId}`);
+            const childItems = await expandableParentItem.findAll("calcite-tree-item");
+            expect(await expandableParentItem.getProperty("expanded")).toBe(false);
+
+            await selectItem(page, expandableParentItem);
+
+            expect(await expandableParentItem.getProperty("expanded")).toBe(!selectsItem);
+            const expectedSelectedItemsAfterExpanding =
+              (selectsItem ? 1 : 0) + (selectsChildren ? childItems.length : 0);
+            expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterExpanding);
+
+            await selectItem(page, expandableParentItem);
+
+            expect(await expandableParentItem.getProperty("expanded")).toBe(false);
+            const expectedSelectedItemsAfterCollapsing = canDeselect.item ? 0 : expectedSelectedItemsAfterExpanding;
+            expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
+
+            const expandableParentToggle = await page.find(`#${expandableItemId} >>> .${CSS.chevron}`);
+
+            await toggleItem(page, expandableParentItem, expandableParentToggle);
+
+            expect(await expandableParentItem.getProperty("expanded")).toBe(true);
+            expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
+
+            await toggleItem(page, expandableParentItem, expandableParentToggle);
+
+            expect(await expandableParentItem.getProperty("expanded")).toBe(false);
+            expect(await tree.getProperty("selectedItems")).toHaveLength(expectedSelectedItemsAfterCollapsing);
+
+            const expandableChildItem = await page.find(`#${expandableItemChildId}`);
+
+            await selectItemChild(page, expandableChildItem);
+
+            expect(await expandableParentItem.getProperty("expanded")).toBe(
+              !selectsItem && !childToggleTraversesParent,
+            );
+            expect(await tree.getProperty("selectedItems")).toHaveLength(
+              selectionMode === "none"
+                ? 0
+                : selectionMode === "ancestors" && !childToggleTraversesParent
+                  ? 7
+                  : !childToggleTraversesParent &&
+                      (selectionMode === "multiple" || selectionMode === "single" || selectionMode === "single-persist")
+                    ? 0
+                    : 1,
+            );
+
+            await selectItemChild(page, expandableChildItem);
+
+            expect(await expandableParentItem.getProperty("expanded")).toBe(
+              !selectsItem && !childToggleTraversesParent,
+            );
+            expect(await tree.getProperty("selectedItems")).toHaveLength(
+              selectionMode === "none"
+                ? 0
+                : !childToggleTraversesParent && selectionMode === "multiple"
+                  ? 1
+                  : canDeselect.child
+                    ? 0
+                    : 1,
+            );
+          });
+        },
+      );
+    }
   });
 });

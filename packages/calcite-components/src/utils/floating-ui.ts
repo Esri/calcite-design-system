@@ -27,6 +27,11 @@ import { offsetParent } from "composed-offset-position";
   }
 })();
 
+function roundByDPR(value: number): number {
+  const dpr = window.devicePixelRatio || 1;
+  return Math.round(value * dpr) / dpr;
+}
+
 /**
  * Positions the floating element relative to the reference element.
  *
@@ -91,7 +96,7 @@ export const positionFloatingUI =
       offsetSkidding?: number;
       arrowEl?: SVGElement;
       type: UIType;
-    }
+    },
   ): Promise<void> => {
     if (!referenceEl || !floatingEl) {
       return null;
@@ -145,15 +150,15 @@ export const positionFloatingUI =
 
     floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
 
-    const transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
+    const { open } = component;
 
     Object.assign(floatingEl.style, {
       visibility,
       pointerEvents,
       position,
-      top: "0",
-      left: "0",
-      transform,
+      transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
+      top: 0,
+      left: 0,
     });
   };
 
@@ -349,7 +354,7 @@ function getMiddleware({
 
     if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
       middleware.push(
-        autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null })
+        autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null }),
       );
     } else if (!flipDisabled) {
       middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
@@ -359,7 +364,7 @@ function getMiddleware({
       middleware.push(
         arrow({
           element: arrowEl,
-        })
+        }),
       );
     }
 
@@ -371,7 +376,7 @@ function getMiddleware({
 
 export function filterComputedPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
   const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
-    effectivePlacements.includes(placement)
+    effectivePlacements.includes(placement),
   ) as EffectivePlacement[];
 
   if (filteredPlacements.length !== placements.length) {
@@ -380,7 +385,7 @@ export function filterComputedPlacements(placements: string[], el: HTMLElement):
         .map((placement) => `"${placement}"`)
         .join(", ")
         .trim()}`,
-      { el }
+      { el },
     );
   }
 
@@ -402,24 +407,25 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  *
  * Note: this is not needed for components that use `calcite-popover`.
  *
- * @param component
- * @param options
- * @param options.referenceEl
- * @param options.floatingEl
- * @param options.overlayPositioning
- * @param options.placement
- * @param options.flipDisabled
- * @param options.flipPlacements
- * @param options.offsetDistance
- * @param options.offsetSkidding
- * @param options.arrowEl
- * @param options.type
- * @param delayed
+ * @param component - A floating-ui component.
+ * @param options - Reposition parameters.
+ * @param options.referenceEl - The `referenceElement` used to position the component according to its `placement` value.
+ * @param options.floatingEl - The `floatingElement` containing the floating ui.
+ * @param options.overlayPositioning - type of positioning to use for the overlaid content.
+ * @param options.placement - Determines where the component will be positioned relative to the `referenceElement`.
+ * @param options.flipDisabled - Prevents flipping the component's placement when overlapping its `referenceElement`.
+ * @param options.flipPlacements - Defines the available placements that can be used when a flip occurs.
+ * @param options.offsetDistance - Offsets the position of the popover away from the `referenceElement`.
+ * @param options.offsetSkidding - Offsets the position of the component along the `referenceElement`.
+ * @param options.arrowEl - A customizable arrow element.
+ * @param options.type - The type of floating UI.
+ * @param delayed - Reposition the component after a delay.
+ * @returns {Promise<void>}
  */
 export async function reposition(
   component: FloatingUIComponent,
   options: Parameters<typeof positionFloatingUI>[1],
-  delayed = false
+  delayed = false,
 ): Promise<void> {
   if (!component.open) {
     return;
@@ -466,14 +472,14 @@ const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, Debou
 /**
  * Helper to set up floating element interactions on connectedCallback.
  *
- * @param component
- * @param referenceEl
- * @param floatingEl
+ * @param component - A floating-ui component.
+ * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
+ * @param floatingEl - The `floatingElement` containing the floating ui.
  */
 export function connectFloatingUI(
   component: FloatingUIComponent,
   referenceEl: ReferenceElement,
-  floatingEl: HTMLElement
+  floatingEl: HTMLElement,
 ): void {
   if (!floatingEl || !referenceEl) {
     return;
@@ -487,13 +493,11 @@ export function connectFloatingUI(
 
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
     position: component.overlayPositioning,
-    top: "0",
-    left: "0",
   });
 
   const runAutoUpdate = Build.isBrowser
     ? autoUpdate
-    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: Function): (() => void) => {
+    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
         return () => {
           /* noop */
@@ -502,21 +506,21 @@ export function connectFloatingUI(
 
   cleanupMap.set(
     component,
-    runAutoUpdate(referenceEl, floatingEl, () => component.reposition())
+    runAutoUpdate(referenceEl, floatingEl, () => component.reposition()),
   );
 }
 
 /**
  * Helper to tear down floating element interactions on disconnectedCallback.
  *
- * @param component
- * @param referenceEl
- * @param floatingEl
+ * @param component - A floating-ui component.
+ * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
+ * @param floatingEl - The `floatingElement` containing the floating ui.
  */
 export function disconnectFloatingUI(
   component: FloatingUIComponent,
   referenceEl: ReferenceElement,
-  floatingEl: HTMLElement
+  floatingEl: HTMLElement,
 ): void {
   if (!floatingEl || !referenceEl) {
     return;

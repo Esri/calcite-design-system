@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS } from "./resources";
 import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { openClose } from "../../tests/commonTests";
 
 describe("calcite-block", () => {
   describe("renders", () => {
@@ -27,6 +28,10 @@ describe("calcite-block", () => {
         defaultValue: false,
       },
     ]);
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-block");
   });
 
   describe("slots", () => {
@@ -56,7 +61,7 @@ describe("calcite-block", () => {
         </calcite-block>`,
         {
           shadowFocusTargetSelector: `.${CSS.toggle}`,
-        }
+        },
       );
     });
 
@@ -73,7 +78,7 @@ describe("calcite-block", () => {
         </calcite-block>`,
         {
           focusTargetSelector: `.${blockSectionClass}`,
-        }
+        },
       );
     });
   });
@@ -143,6 +148,9 @@ describe("calcite-block", () => {
 
     const element = await page.find("calcite-block");
     const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
+    const openSpy = await element.spyOnEvent("calciteBlockOpen");
+    const closeSpy = await element.spyOnEvent("calciteBlockClose");
+
     const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
@@ -151,6 +159,7 @@ describe("calcite-block", () => {
     await toggle.click();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(true);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
     expect(toggle.getAttribute("title")).toBe(messages.collapse);
@@ -158,6 +167,7 @@ describe("calcite-block", () => {
     await toggle.click();
 
     expect(toggleSpy).toHaveReceivedEventTimes(2);
+    expect(closeSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(messages.expand);
@@ -191,9 +201,11 @@ describe("calcite-block", () => {
 
     it("allows users to add a control in a collapsible block", async () => {
       const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block heading="test-heading" collapsible><div class="nested-control" tabindex="0" slot=${SLOTS.control}>fake space/enter-bubbling control</div></calcite-block>`
-      );
+      await page.setContent(html`
+        <calcite-block heading="test-heading" collapsible>
+          <div class="nested-control" tabindex="0" slot=${SLOTS.control}>fake space/enter-bubbling control</div>
+        </calcite-block>
+      `);
       const control = await page.find(".nested-control");
       expect(await control.isVisible()).toBe(true);
 
@@ -202,26 +214,21 @@ describe("calcite-block", () => {
 
       const block = await page.find("calcite-block");
       const blockToggleSpy = await block.spyOnEvent("calciteBlockToggle");
+      const blockOpenSpy = await block.spyOnEvent("calciteBlockOpen");
+      const blockCloseSpy = await block.spyOnEvent("calciteBlockClose");
 
       await control.press("Space");
       await control.press("Enter");
       await control.click();
+      expect(blockOpenSpy).toHaveReceivedEventTimes(0);
       expect(blockToggleSpy).toHaveReceivedEventTimes(0);
+      expect(blockCloseSpy).toHaveReceivedEventTimes(0);
 
       await block.click();
       await block.click();
       expect(blockToggleSpy).toHaveReceivedEventTimes(2);
-    });
-
-    it("does not render collapsible icon when a control is added to the header", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block heading="test-heading" collapsible>
-          <calcite-action text="test" icon="banana" slot="${SLOTS.control}"></calcite-action>
-        </calcite-block>`
-      );
-      const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
-      expect(collapsibleIcon).toBeNull();
+      expect(blockOpenSpy).toHaveReceivedEventTimes(1);
+      expect(blockCloseSpy).toHaveReceivedEventTimes(1);
     });
 
     it("displays a status icon instead of a header icon when `status` is an accepted value", async () => {
@@ -229,7 +236,7 @@ describe("calcite-block", () => {
       await page.setContent(
         `<calcite-block status="invalid">
           <div class="header-icon" slot=${SLOTS.icon} /></calcite-block>
-        </calcite-block>`
+        </calcite-block>`,
       );
 
       const headerIcon = await page.find("calcite-block >>> .header-icon");
@@ -245,7 +252,7 @@ describe("calcite-block", () => {
       await page.setContent(
         `<calcite-block status="invalid" loading>
           <div class="${headerIcon}" slot=${SLOTS.icon} /></calcite-block>
-        </calcite-block>`
+        </calcite-block>`,
       );
 
       const headerIconEle = await page.find(`calcite-block >>> .${headerIcon}`);
@@ -271,18 +278,8 @@ describe("calcite-block", () => {
       const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
       expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
     });
-
-    it("does not render collapsible icon when actions are added to the header menu", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block heading="test-heading" collapsible>
-          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        </calcite-block>`
-      );
-      const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
-      expect(collapsibleIcon).toBeNull();
-    });
   });
+
   it("should allow the CSS custom property to be overridden when applied to :root", async () => {
     const overrideStyle = "0px";
     const page = await newE2EPage();
@@ -294,7 +291,7 @@ describe("calcite-block", () => {
       </style>
       <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-       </calcite-block>`
+       </calcite-block>`,
     );
     const content = await page.find(`calcite-block >>> .${CSS.content}`);
     const contentStyles = await content.getComputedStyle();
@@ -308,7 +305,7 @@ describe("calcite-block", () => {
     await page.setContent(
       `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
           <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        </calcite-block>`
+        </calcite-block>`,
     );
     const content = await page.find(`calcite-block >>> .${CSS.content}`);
     const contentStyles = await content.getComputedStyle();

@@ -1,45 +1,42 @@
+:host {
+  @apply flex;
+  writing-mode: horizontal-tb;
+}
+
 :host([scale="s"]) {
-  --calcite-pagination-spacing-internal: theme("spacing.1") theme("spacing.2");
-  & .previous,
-  & .next,
-  & .page {
-    @apply text-n2h h-6;
-  }
-  .previous,
-  .next {
-    @apply px-1;
+  & .chevron,
+  & .page,
+  & .ellipsis {
+    @apply text-n2h h-6 px-1;
+    min-inline-size: theme("width.6");
   }
 }
 
 :host([scale="m"]) {
-  --calcite-pagination-spacing-internal: theme("spacing.2") theme("spacing.3");
-  & .previous,
-  & .next,
-  & .page {
-    @apply text-n1h h-8;
-  }
-  .previous,
-  .next {
-    @apply px-2;
+  & .chevron,
+  & .page,
+  & .ellipsis {
+    @apply text-n1h h-8 px-2;
+    min-inline-size: theme("width.8");
   }
 }
 
 :host([scale="l"]) {
-  --calcite-pagination-spacing-internal: theme("spacing.3") theme("spacing.4");
-  & .previous,
-  & .next,
-  & .page {
+  & .chevron,
+  & .page,
+  & .ellipsis {
     @apply text-0h h-11;
+    min-inline-size: theme("width.11");
   }
-  .previous,
-  .next {
-    @apply px-4;
-  }
-}
 
-:host {
-  @apply flex;
-  writing-mode: horizontal-tb;
+  & .chevron {
+    @apply px-2.5;
+  }
+
+  & .page,
+  & .ellipsis {
+    @apply px-3;
+  }
 }
 
 // focus styles
@@ -50,34 +47,44 @@
   }
 }
 
-.previous,
-.next,
-.page {
-  @apply text-0h
+.chevron,
+.page,
+.ellipsis {
+  @apply p-0
+    m-0
+    text-0h
     text-color-3
     font-inherit
     box-border
     flex
-    cursor-pointer
     items-center
     border-none
     border-opacity-0
+    justify-center
+    align-baseline
     bg-transparent;
+}
+
+.chevron,
+.page {
+  @apply cursor-pointer;
   border-block: 2px solid transparent;
+
   &:hover {
     @apply text-color-1 transition-default;
   }
 }
+
 .page {
   &:hover {
     @apply border-b-color-2;
   }
-  &.is-selected {
+  &.selected {
     @apply text-color-1 border-b-color-brand font-medium;
   }
 }
-.previous,
-.next {
+
+.chevron {
   &:hover {
     @apply bg-foreground-2;
     color: theme("backgroundColor.brand");
@@ -85,22 +92,12 @@
   &:active {
     @apply bg-foreground-3;
   }
-  &.is-disabled {
+  &.disabled {
     @apply pointer-events-none bg-transparent;
     & > calcite-icon {
       @apply opacity-disabled;
     }
   }
-}
-.next {
-  margin-inline-end: theme("spacing.0");
-}
-.page,
-.ellipsis {
-  padding: var(--calcite-pagination-spacing-internal);
-}
-.ellipsis {
-  @apply text-color-3 flex items-end;
 }
 
 @include base-component();

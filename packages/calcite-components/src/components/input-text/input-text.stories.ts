@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
@@ -17,7 +17,6 @@ export const simple = (): string => html`
     <calcite-input-text
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
@@ -26,32 +25,10 @@ export const simple = (): string => html`
       ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     >
     </calcite-input-text>
-  </div>
-`;
-
-export const withInputMessage = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-input-text
-      id="input-with-label-and-input-message"
-      status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
-      alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-      prefix-text="${text("prefix-text", "", "Input")}"
-      suffix-text="${text("suffix-text", "", "Input")}"
-      ${boolean("loading", false)}
-      ${boolean("autofocus", false)}
-      ${boolean("required", false)}
-      value="${text("value", "", "Input")}"
-      placeholder="${text("placeholder", "Placeholder text", "Input")}"
-    >
-    </calcite-input-text>
-    <calcite-input-message
-      ${boolean("active", true)}
-      ${boolean("icon", false)}
-      icon="${select("icon", iconNames, "", "Input Message")}"
-      >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
-    >
   </div>
 `;
 
@@ -68,6 +45,8 @@ export const withSlottedAction = (): string => html`
       ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      validation-message="${text("validation-message", "")}"
+      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input-text>
@@ -87,11 +66,9 @@ export const darkModeRTL_TestOnly = (): string => html`
       ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
+      validation-message="My great input message"
     >
     </calcite-input-text>
-    <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-      >${text("input message text", "My great input message")}</calcite-input-message
-    >
   </div>
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
@@ -108,4 +85,58 @@ export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
       value="sample input to show x"
     ></calcite-input-text>
   </calcite-label>
+`;
+
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(html`
+    <style>
+      .breakpoint-story-container {
+        flex-wrap: wrap;
+      }
+      .breakpoint-story-container > * {
+        flex-basis: 100%;
+      }
+    </style>
+    <calcite-input-text
+      scale="{scale}"
+      placeholder="Placeholder: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
+    ></calcite-input-text>
+    <calcite-input-text
+      scale="{scale}"
+      value="Value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eu ultrices vitae auctor eu augue. Rhoncus dolor purus non enim praesent elementum facilisis."
+    ></calcite-input-text>
+  `);
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input-text
+      scale="s"
+      status="invalid"
+      validation-message="This field is required."
+      validation-icon="frown"
+    ></calcite-input-text>
+    <calcite-input-text
+      scale="m"
+      status="invalid"
+      validation-message="Value must be greater than 1337"
+      validation-icon
+      value="420"
+    ></calcite-input-text>
+    <calcite-input-text
+      scale="l"
+      status="invalid"
+      validation-message="Exceeds the maximum length of 2 characters"
+      validation-icon
+      value="test"
+    ></calcite-input-text>
+  </div>
 `;

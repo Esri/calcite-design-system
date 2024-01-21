@@ -5,4 +5,5 @@ export const CSS = {
   anchor: "anchor",
   image: "image",
   standalone: "standalone",
+  icon: "icon",
 };

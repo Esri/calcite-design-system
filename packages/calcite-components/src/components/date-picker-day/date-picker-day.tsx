@@ -11,16 +11,16 @@ import {
 } from "@stencil/core";
 import { dateToISO } from "../../utils/date";
 
-import { closestElementCrossShadowBoundary, getElementDir, toAriaBoolean } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 
 @Component({
@@ -54,7 +54,7 @@ export class DatePickerDay implements InteractiveComponent {
   /**  When `true`, the component is selected. */
   @Prop({ reflect: true }) selected = false;
 
-  /** Date is currently highlighted as part of the range */
+  /** Date is currently highlighted as part of the range, */
   @Prop({ reflect: true }) highlighted = false;
 
   /** When `true`, activates the component's range mode to allow a start and end date. */
@@ -67,13 +67,13 @@ export class DatePickerDay implements InteractiveComponent {
    */
   @Prop({ reflect: true }) rangeEdge: "start" | "end" | undefined;
 
-  /** Date is the start of date range */
+  /** Date is the start of date range. */
   @Prop({ reflect: true }) startOfRange = false;
 
-  /** Date is the end of date range */
+  /** Date is the end of date range. */
   @Prop({ reflect: true }) endOfRange = false;
 
-  /** Date is being hovered and within the set range */
+  /** Date is being hovered and within the set range. */
   @Prop({ reflect: true }) rangeHover = false;
 
   /** When `true`, the component is active. */
@@ -122,12 +122,12 @@ export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted when user selects day
+   * Fires when user selects day.
    */
   @Event({ cancelable: false }) calciteDaySelect: EventEmitter<void>;
 
   /**
-   * Emitted when user hovers over a day
+   * Fires when user hovers over a day.
    *
    * @internal
    */
@@ -142,7 +142,7 @@ export class DatePickerDay implements InteractiveComponent {
   componentWillLoad(): void {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(
       this.el,
-      "calcite-date-picker"
+      "calcite-date-picker",
     ) as HTMLCalciteDatePickerElement;
   }
 
@@ -158,7 +158,6 @@ export class DatePickerDay implements InteractiveComponent {
       };
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));
-    const dir = getElementDir(this.el);
     const dayLabel = this.dateTimeFormat.format(this.value);
 
     return (
@@ -170,14 +169,17 @@ export class DatePickerDay implements InteractiveComponent {
         onClick={this.onClick}
         onKeyDown={this.keyDownHandler}
         role="button"
+        tabIndex={this.active && !this.disabled ? 0 : -1}
       >
-        <div aria-hidden="true" class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          <div class="day-wrapper">
-            <span class="day">
-              <span class="text">{formattedDay}</span>
-            </span>
+        <InteractiveContainer disabled={this.disabled}>
+          <div aria-hidden="true" class={{ "day-v-wrapper": true }}>
+            <div class="day-wrapper">
+              <span class="day">
+                <span class="text">{formattedDay}</span>
+              </span>
+            </div>
           </div>
-        </div>
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -187,15 +189,11 @@ export class DatePickerDay implements InteractiveComponent {
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, this.isTabbable);
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
-  }
-
-  isTabbable(): boolean {
-    return this.active;
   }
 
   //--------------------------------------------------------------------------

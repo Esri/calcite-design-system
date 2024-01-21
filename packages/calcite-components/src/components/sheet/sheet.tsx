@@ -89,17 +89,21 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("open")
-  async toggleSheet(value: boolean): Promise<void> {
+  toggleSheet(value: boolean): void {
     if (this.ignoreOpenChange) {
       return;
     }
 
-    onToggleOpenCloseComponent(this);
     if (value) {
       this.openSheet();
     } else {
       this.closeSheet();
     }
+  }
+
+  @Watch("opened")
+  handleOpenedChange(): void {
+    onToggleOpenCloseComponent(this);
   }
 
   /**
@@ -138,7 +142,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     setUpLoadableComponent(this);
     // when sheet initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      onToggleOpenCloseComponent(this);
       requestAnimationFrame(() => this.openSheet());
     }
   }
@@ -212,7 +215,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private ignoreOpenChange = false;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver()
+    this.handleMutationObserver(),
   );
 
   //--------------------------------------------------------------------------
@@ -224,7 +227,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
     if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.closeSheet();
+      this.open = false;
       event.preventDefault();
     }
   }
@@ -254,7 +257,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component's "close" button (the first focusable item).
+   * Sets focus on the component's "close" button - the first focusable item.
    *
    */
   @Method()
@@ -306,20 +309,13 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   };
 
   private openSheet(): void {
-    if (this.ignoreOpenChange) {
-      return;
-    }
-
     this.el.addEventListener("calciteSheetOpen", this.openEnd);
-    this.open = true;
     this.opened = true;
     if (!this.slottedInShell) {
       this.initialOverflowCSS = document.documentElement.style.overflow;
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
-
-    this.ignoreOpenChange = false;
   }
 
   private handleOutsideClose = (): void => {
@@ -327,14 +323,10 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
       return;
     }
 
-    this.closeSheet();
+    this.open = false;
   };
 
   private closeSheet = async (): Promise<void> => {
-    if (this.ignoreOpenChange) {
-      return;
-    }
-
     if (this.beforeClose) {
       try {
         await this.beforeClose(this.el);
@@ -349,11 +341,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
       }
     }
 
-    this.ignoreOpenChange = true;
-    this.open = false;
     this.opened = false;
     this.removeOverflowHiddenClass();
-    this.ignoreOpenChange = false;
   };
 
   private removeOverflowHiddenClass(): void {

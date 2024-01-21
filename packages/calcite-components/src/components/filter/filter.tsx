@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -17,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -146,7 +146,7 @@ export class Filter
   // --------------------------------------------------------------------------
 
   /**
-   * This event fires when the filter text changes.
+   * Fires when the filter text changes.
    */
   @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
 
@@ -158,7 +158,9 @@ export class Filter
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.updateFiltered(filter(this.items, this.value));
+    if (this.items.length) {
+      this.updateFiltered(filter(this.items, this.value));
+    }
     await setUpMessages(this);
   }
 
@@ -221,8 +223,8 @@ export class Filter
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
-      this.updateFiltered(filter(this.items, value), emit, onFilter),
-    DEBOUNCE_TIMEOUT
+      this.items.length && this.updateFiltered(filter(this.items, value), emit, onFilter),
+    DEBOUNCE_TIMEOUT,
   );
 
   inputHandler = (event: CustomEvent): void => {
@@ -266,14 +268,14 @@ export class Filter
     const { disabled, scale } = this;
 
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         <div class={CSS.container}>
           <label>
             <calcite-input
-              aria-label={this.messages.label}
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
+              label={this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
@@ -288,7 +290,7 @@ export class Filter
             />
           </label>
         </div>
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

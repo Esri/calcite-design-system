@@ -9,12 +9,13 @@ const groupBufferPx = 2;
 const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.length;
 
 export const geActionDimensions = (
-  actions: HTMLCalciteActionElement[]
+  actions: HTMLCalciteActionElement[],
 ): { actionWidth: number; actionHeight: number } => {
-  const actionLen = actions?.length;
+  const actionsNotSlotted = actions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions);
+  const actionLen = actionsNotSlotted?.length;
   return {
-    actionWidth: actionLen ? getAverage(actions.map((action) => action.clientWidth || 0)) : 0,
-    actionHeight: actionLen ? getAverage(actions.map((action) => action.clientHeight || 0)) : 0,
+    actionWidth: actionLen ? getAverage(actionsNotSlotted.map((action) => action.clientWidth || 0)) : 0,
+    actionHeight: actionLen ? getAverage(actionsNotSlotted.map((action) => action.clientHeight || 0)) : 0,
   };
 };
 
@@ -60,7 +61,7 @@ export const getOverflowCount = ({
 
 export const queryActions = (el: HTMLElement): HTMLCalciteActionElement[] => {
   return Array.from(el.querySelectorAll("calcite-action")).filter((action) =>
-    action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true
+    action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true,
   );
 };
 

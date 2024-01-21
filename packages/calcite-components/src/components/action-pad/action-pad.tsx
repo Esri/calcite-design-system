@@ -59,7 +59,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Specifies the accessible label for the last action-group.
+   * Specifies the accessible label for the last `calcite-action-group`.
    */
   @Prop() actionsEndGroupLabel: string;
 
@@ -124,7 +124,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `expanded` property is toggled.
+   * Fires when the `expanded` property is toggled.
    */
   @Event({ cancelable: false }) calciteActionPadToggle: EventEmitter<void>;
 
@@ -139,7 +139,7 @@ export class ActionPad
   @State() expandTooltip: HTMLCalciteTooltipElement;
 
   mutationObserver = createObserver("mutation", () =>
-    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")))
+    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group"))),
   );
 
   expandToggleEl: HTMLCalciteActionElement;
@@ -233,16 +233,16 @@ export class ActionPad
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-group")
+    const groups = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-group"),
     ) as HTMLCalciteActionGroupElement[];
 
     this.setGroupLayout(groups);
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip")
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-tooltip"),
     ) as HTMLCalciteTooltipElement[];
 
     this.expandTooltip = tooltips[0];

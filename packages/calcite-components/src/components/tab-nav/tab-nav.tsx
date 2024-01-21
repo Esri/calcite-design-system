@@ -21,6 +21,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -48,16 +49,18 @@ export class TabNav {
   @Prop({ reflect: true }) syncId: string;
 
   /**
-   * Specifies the component's selected tab-title.
+   * Specifies the component's selected `calcite-tab-title`.
    *
    * @readonly
    */
   @Prop({ mutable: true }) selectedTitle: HTMLCalciteTabTitleElement = null;
 
   /**
+   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+  @Prop() scale: Scale = "m";
 
   /**
    * @internal
@@ -65,9 +68,11 @@ export class TabNav {
   @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
 
   /**
-   * @internal
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   *
+   *  @internal
    */
-  @Prop({ reflect: true, mutable: true }) position: TabPosition = "bottom";
+  @Prop() position: TabPosition = "bottom";
 
   /**
    * @internal
@@ -121,10 +126,6 @@ export class TabNav {
     this.resizeObserver?.observe(this.el);
   }
 
-  disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
-  }
-
   componentWillLoad(): void {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
@@ -137,8 +138,6 @@ export class TabNav {
     const { parentTabsEl } = this;
 
     this.layout = parentTabsEl?.layout;
-    this.position = parentTabsEl?.position;
-    this.scale = parentTabsEl?.scale;
     this.bordered = parentTabsEl?.bordered;
     // fix issue with active tab-title not lining up with blue indicator
     if (this.selectedTitle) {
@@ -161,6 +160,10 @@ export class TabNav {
     }
   }
 
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
     const width = `${this.indicatorWidth}px`;
@@ -169,7 +172,11 @@ export class TabNav {
     return (
       <Host role="tablist">
         <div
-          class="tab-nav"
+          class={{
+            [CSS.container]: true,
+            [`scale-${this.scale}`]: true,
+            [`position-${this.position}`]: true,
+          }}
           onScroll={this.handleContainerScroll}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
@@ -267,6 +274,7 @@ export class TabNav {
   @Listen("calciteInternalTabIconChanged")
   iconStartChangeHandler(): void {
     this.updateActiveWidth();
+    this.updateOffsetPosition();
   }
 
   //--------------------------------------------------------------------------
@@ -325,7 +333,7 @@ export class TabNav {
   handleTabFocus = (
     event: CustomEvent,
     el: HTMLCalciteTabTitleElement,
-    destination: FocusElementInGroupDestination
+    destination: FocusElementInGroupDestination,
   ): void => {
     focusElementInGroup(this.enabledTabTitles, el, destination);
 
@@ -371,31 +379,37 @@ export class TabNav {
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
     return filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
-      "calcite-tab-title:not([disabled])"
+      "calcite-tab-title:not([disabled])",
     ).filter((tabTitle) => !tabTitle.closed);
   }
 
   private handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
+    const selectionModified = closedTabTitleEl.selected;
 
     const visibleTabTitlesIndices = tabTitles.reduce(
-      (tabTitleIndices, tabTitle, index) =>
+      (tabTitleIndices: number[], tabTitle, index) =>
         !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
-      []
+      [],
     );
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
+
+      if (selectionModified) {
+        tabTitles[visibleTabTitlesIndices[0]].activateTab();
+      }
     } else if (totalVisibleTabTitles > 1) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
-        (value) => value > closedTabTitleIndex
+        (value) => value > closedTabTitleIndex,
       );
 
       if (this.selectedTabId === closedTabTitleIndex) {
         this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
+        tabTitles[this.selectedTabId].activateTab();
       }
     }
 

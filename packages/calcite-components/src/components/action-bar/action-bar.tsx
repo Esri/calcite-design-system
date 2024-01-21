@@ -71,7 +71,7 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   /**
-   * Specifies the accessible label for the last action-group.
+   * Specifies the accessible label for the last `calcite-action-group`.
    */
   @Prop() actionsEndGroupLabel: string;
 
@@ -98,7 +98,7 @@ export class ActionBar
   }
 
   /**
-   *  The layout direction of the actions.
+   *  Specifies the layout direction of the actions.
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
@@ -114,9 +114,13 @@ export class ActionBar
 
   @Watch("overflowActionsDisabled")
   overflowDisabledHandler(overflowActionsDisabled: boolean): void {
-    overflowActionsDisabled
-      ? this.resizeObserver.disconnect()
-      : this.resizeObserver.observe(this.el);
+    if (overflowActionsDisabled) {
+      this.resizeObserver?.disconnect();
+      return;
+    }
+
+    this.resizeObserver?.observe(this.el);
+    this.overflowActions();
   }
 
   /**
@@ -155,7 +159,7 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `expanded` property is toggled.
+   * Fires when the `expanded` property is toggled.
    */
   @Event({ cancelable: false }) calciteActionBarToggle: EventEmitter<void>;
 
@@ -348,7 +352,7 @@ export class ActionBar
 
   handleDefaultSlotChange = (event: Event): void => {
     const groups = slotChangeGetAssignedElements(event).filter((el) =>
-      el.matches("calcite-action-group")
+      el.matches("calcite-action-group"),
     ) as HTMLCalciteActionGroupElement[];
 
     this.setGroupLayout(groups);
@@ -363,8 +367,8 @@ export class ActionBar
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-tooltip")
+    const tooltips = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-tooltip"),
     ) as HTMLCalciteTooltipElement[];
 
     this.expandTooltip = tooltips[0];
@@ -407,8 +411,8 @@ export class ActionBar
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
-        label={actionsEndGroupLabel}
         hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
+        label={actionsEndGroupLabel}
         layout={layout}
         scale={scale}
       >

@@ -5,11 +5,16 @@ import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
-import { JSX } from "../components";
+import type { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
-import { GlobalTestProps, isElementFocused, skipAnimations } from "./utils";
-import { InteractiveHTMLElement } from "../utils/interactive";
+import {
+  GlobalTestProps,
+  IntrinsicElementsWithProp,
+  isElementFocused,
+  newProgrammaticE2EPage,
+  skipAnimations,
+} from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -17,9 +22,24 @@ type ComponentTag = keyof JSX.IntrinsicElements;
 type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
 type ComponentHTML = string;
 type TagOrHTML = ComponentTag | ComponentHTML;
-type TagAndPage = {
+type BeforeContent = (page: E2EPage) => Promise<void>;
+
+export type TagAndPage = {
   tag: ComponentTag;
   page: E2EPage;
+};
+
+type TagOrHTMLWithBeforeContent = {
+  tagOrHTML: TagOrHTML;
+
+  /**
+   * Allows for custom setup of the page.
+   *
+   * This is useful for test helpers that need to create and configure the test page before running tests.
+   *
+   * @param page
+   */
+  beforeContent: BeforeContent;
 };
 
 export const HYDRATED_ATTR = config.hydratedFlag.name;
@@ -30,9 +50,13 @@ function isHTML(tagOrHTML: string): boolean {
 
 function getTag(tagOrHTML: string): ComponentTag {
   if (isHTML(tagOrHTML)) {
-    const regex = /[>\s]/;
+    const calciteTagRegex = /<calcite-[a-z0-9-]+/i;
     const trimmedTag = tagOrHTML.trim();
-    return trimmedTag.substring(1, trimmedTag.search(regex)) as ComponentTag;
+    const calciteTagMatchResult = trimmedTag.match(calciteTagRegex);
+    if (calciteTagMatchResult) {
+      return calciteTagMatchResult[0].substring(1) as ComponentTag;
+    }
+    throw new Error(`Could not extract tag from HTML: ${trimmedTag}`);
   }
 
   return tagOrHTML as ComponentTag;
@@ -69,7 +93,7 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
     await page.waitForFunction(() => (window as AxeOwningWindow).axe);
 
     expect(
-      await page.evaluate(async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag), tag)
+      await page.evaluate(async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag), tag),
     ).toHaveNoViolations();
   });
 }
@@ -81,6 +105,7 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
  * describe("renders", () => {
  *    renders(`<calcite-tree></calcite-tree>`);
  * });
+ * @param componentTestSetup
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
@@ -88,15 +113,15 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
  * @param {string} options.display - is the component's display "inline"
  */
 export async function renders(
-  componentTagOrHTML: TagOrHTML,
+  componentTestSetup: ComponentTestSetup,
   options?: {
     visible?: boolean;
     display: string;
-  }
+  },
 ): Promise<void> {
   it(`renders`, async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    const element = await page.find(getTag(componentTagOrHTML));
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+    const element = await page.find(tag);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(await element.isVisible()).toBe(options?.visible ?? true);
@@ -125,23 +150,23 @@ export async function renders(
  * })
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param componentTestSetup
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value (if boolean, needs to be `true` to ensure reflection)
  */
 export function reflects(
-  componentTagOrHTML: TagOrHTML,
+  componentTestSetup: ComponentTestSetup,
   propsToTest: {
     propertyName: string;
     value: any;
-  }[]
+  }[],
 ): void {
   const cases = propsToTest.map(({ propertyName, value }) => [propertyName, value]);
 
   it.each(cases)("%p", async (propertyName, value) => {
-    const page = await simplePageSetup(componentTagOrHTML);
+    const { page, tag: componentTag } = await getTagAndPage(componentTestSetup);
     await skipAnimations(page);
-    const componentTag = getTag(componentTagOrHTML);
     const element = await page.find(componentTag);
 
     const attrName = propToAttr(propertyName);
@@ -193,25 +218,26 @@ function propToAttr(name: string): string {
  * })
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param componentTestSetup
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value
  */
 export function defaults(
-  componentTagOrHTML: TagOrHTML,
+  componentTestSetup: ComponentTestSetup,
   propsToTest: {
     propertyName: string;
     defaultValue: any;
-  }[]
+  }[],
 ): void {
   it.each(propsToTest.map(({ propertyName, defaultValue }) => [propertyName, defaultValue]))(
     "%p",
     async (propertyName, defaultValue) => {
-      const page = await simplePageSetup(componentTagOrHTML);
-      const element = await page.find(getTag(componentTagOrHTML));
+      const { page, tag } = await getTagAndPage(componentTestSetup);
+      const element = await page.find(tag);
       const prop = await element.getProperty(propertyName);
       expect(prop).toEqual(defaultValue);
-    }
+    },
   );
 }
 
@@ -221,16 +247,17 @@ export function defaults(
  * Note that this helper should be used within a describe block.
  *
  * @example
+ * @param componentTestSetup
  * describe("honors hidden attribute", () => {
  *    hidden("calcite-accordion")
  * });
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  */
-export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
+export async function hidden(componentTestSetup: ComponentTestSetup): Promise<void> {
   it("is hidden", async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    const element = await page.find(getTag(componentTagOrHTML));
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+    const element = await page.find(tag);
 
     element.setAttribute("hidden", "");
     await page.waitForChanges();
@@ -269,12 +296,12 @@ interface FocusableOptions {
  * });
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param componentTestSetup
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
-export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOptions): void {
+export function focusable(componentTestSetup: ComponentTestSetup, options?: FocusableOptions): void {
   it("is focusable", async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    const tag = getTag(componentTagOrHTML);
+    const { page, tag } = await getTagAndPage(componentTestSetup);
     const element = await page.find(tag);
     const focusTargetSelector = options?.focusTargetSelector || tag;
     await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
@@ -284,8 +311,8 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
         await page.$eval(
           tag,
           (element: HTMLElement, selector: string) => element.shadowRoot.activeElement?.matches(selector),
-          options?.shadowFocusTargetSelector
-        )
+          options?.shadowFocusTargetSelector,
+        ),
       ).toBe(true);
     }
 
@@ -293,7 +320,7 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
     await page.waitForChanges();
 
     expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
-      true
+      true,
     );
   });
 }
@@ -315,7 +342,7 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
 export function slots(
   componentTagOrHTML: TagOrHTML,
   slots: Record<string, string> | string[],
-  includeDefaultSlot = false
+  includeDefaultSlot = false,
 ): void {
   it("has slots", async () => {
     const page = await simplePageSetup(componentTagOrHTML);
@@ -346,7 +373,7 @@ export function slots(
         }
       },
       slotNames,
-      includeDefaultSlot
+      includeDefaultSlot,
     );
 
     await page.waitForChanges();
@@ -354,7 +381,7 @@ export function slots(
     const slotted = await page.evaluate(() =>
       Array.from(document.querySelectorAll(".slotted-into-named-slot"))
         .filter((slotted) => slotted.assignedSlot)
-        .map((slotted) => slotted.slot)
+        .map((slotted) => slotted.slot),
     );
 
     expect(slotNames).toEqual(slotted);
@@ -397,8 +424,8 @@ async function assertLabelable({
   expect(
     await page.evaluate(
       (focusTargetSelector: string): boolean => !!document.activeElement?.closest(focusTargetSelector),
-      focusTargetSelector
-    )
+      focusTargetSelector,
+    ),
   ).toBe(true);
 
   if (shadowFocusTargetSelector) {
@@ -406,8 +433,8 @@ async function assertLabelable({
       await page.$eval(
         componentTag,
         (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-        shadowFocusTargetSelector
-      )
+        shadowFocusTargetSelector,
+      ),
     ).toBe(true);
   }
 
@@ -416,7 +443,7 @@ async function assertLabelable({
     expect(await component.getProperty(propertyToToggle)).toBe(toggledPropertyValue);
 
     // assert that direct clicks on component toggle property correctly
-    await component.setProperty(propertyToToggle, initialPropertyValue); // we reset as not all components toggle when clicked
+    component.setProperty(propertyToToggle, initialPropertyValue); // we reset as not all components toggle when clicked
     await page.waitForChanges();
     await component.click();
     await page.waitForChanges();
@@ -450,16 +477,18 @@ interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" 
  * @param {string} componentTagOrHtml - The component tag or HTML used to test label support.
  * @param {LabelableOptions} [options] - Labelable options.
  */
-export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOptions): void {
+export function labelable(
+  componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
+  options?: LabelableOptions,
+): void {
   const id = "labelable-id";
   const labelTitle = "My Component";
   const propertyToToggle = options?.propertyToToggle;
   const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
   const shadowFocusTargetSelector = options?.shadowFocusTargetSelector;
-  const componentTag = getTag(componentTagOrHtml);
-  const componentHtml = isHTML(componentTagOrHtml)
-    ? ensureId(componentTagOrHtml)
-    : `<${componentTag} id="${id}"></${componentTag}>`;
+  const { beforeContent, tagOrHTML } = getTagOrHTMLWithBeforeContent(componentTagOrHtml);
+  const componentTag = getTag(tagOrHTML);
+  const componentHtml = isHTML(tagOrHTML) ? ensureId(tagOrHTML) : `<${componentTag} id="${id}"></${componentTag}>`;
 
   function ensureId(html: string): string {
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
@@ -468,7 +497,9 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
   describe("label wraps labelables", () => {
     it("is labelable when component is wrapped in a label", async () => {
       const wrappedHtml = html`<calcite-label>${labelTitle} ${componentHtml}</calcite-label>`;
-      const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
+      const wrappedPage: E2EPage = await newE2EPage();
+      beforeContent?.(wrappedPage);
+      await wrappedPage.setContent(wrappedHtml);
       await wrappedPage.waitForChanges();
 
       await assertLabelable({
@@ -482,14 +513,17 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
 
     it("is labelable when wrapping label is set prior to component", async () => {
       const labelFirstWrappedPage: E2EPage = await newE2EPage();
-      await labelFirstWrappedPage.setContent(`<calcite-label></calcite-label>`);
+      beforeContent?.(labelFirstWrappedPage);
+      await labelFirstWrappedPage.setContent(html`
+        <calcite-label></calcite-label>
+        <template>${componentHtml}</template>
+      `);
       await labelFirstWrappedPage.waitForChanges();
-      await labelFirstWrappedPage.evaluate((componentHtml: string) => {
-        const template = document.createElement("template");
-        template.innerHTML = `${componentHtml}`.trim();
-        const componentNode = template.content.firstChild;
+      await labelFirstWrappedPage.evaluate(() => {
+        const template = document.querySelector("template");
         const labelEl = document.querySelector("calcite-label");
-        labelEl.append(componentNode);
+
+        labelEl.append(template.content.cloneNode(true));
       }, componentHtml);
       await labelFirstWrappedPage.waitForChanges();
 
@@ -504,7 +538,8 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
 
     it("is labelable when a component is set first before being wrapped in a label", async () => {
       const componentFirstWrappedPage: E2EPage = await newE2EPage();
-      await componentFirstWrappedPage.setContent(`${componentHtml}`);
+      beforeContent?.(componentFirstWrappedPage);
+      await componentFirstWrappedPage.setContent(componentHtml);
       await componentFirstWrappedPage.waitForChanges();
       await componentFirstWrappedPage.evaluate((id: string) => {
         const componentEl = document.querySelector(`[id='${id}']`);
@@ -526,13 +561,16 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     it("only sets focus on the first labelable when label is clicked", async () => {
       const firstLabelableId = `${id}`;
       const componentFirstWrappedPage: E2EPage = await newE2EPage();
-      await componentFirstWrappedPage.setContent(html`
+      beforeContent?.(componentFirstWrappedPage);
+      const content = html`
         <calcite-label>
           <!-- duplicate tags should be fine as assertion uses first match -->
           ${componentHtml.replace(id, firstLabelableId)} ${componentHtml.replace(id, `${id}-2`)}
           ${componentHtml.replace(id, `${id}-3`)}
         </calcite-label>
-      `);
+      `;
+
+      await componentFirstWrappedPage.setContent(content);
       await componentFirstWrappedPage.waitForChanges();
 
       const firstLabelableSelector = `#${firstLabelableId}`;
@@ -555,7 +593,10 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
         <calcite-label for="${id}">${labelTitle}</calcite-label>
         ${componentHtml}
       `;
-      const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
+      const siblingPage: E2EPage = await newE2EPage();
+      beforeContent?.(siblingPage);
+
+      await siblingPage.setContent(siblingHtml);
       await siblingPage.waitForChanges();
 
       await assertLabelable({
@@ -569,13 +610,15 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
 
     it("is labelable when sibling label is set prior to component", async () => {
       const labelFirstSiblingPage: E2EPage = await newE2EPage();
-      await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
+      beforeContent?.(labelFirstSiblingPage);
+      await labelFirstSiblingPage.setContent(html`
+        <calcite-label for="${id}"></calcite-label>
+        <template>${componentHtml}</template>
+      `);
       await labelFirstSiblingPage.waitForChanges();
-      await labelFirstSiblingPage.evaluate((componentHtml: string) => {
-        const template = document.createElement("template");
-        template.innerHTML = `${componentHtml}`.trim();
-        const componentNode = template.content.firstChild;
-        document.body.append(componentNode);
+      await labelFirstSiblingPage.evaluate(() => {
+        const template = document.querySelector("template");
+        document.body.append(template.content.cloneNode(true));
       }, componentHtml);
       await labelFirstSiblingPage.waitForChanges();
 
@@ -589,7 +632,9 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     });
 
     it("is labelable for a component set before sibling label", async () => {
-      const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
+      const componentFirstSiblingPage: E2EPage = await newE2EPage();
+      beforeContent?.(componentFirstSiblingPage);
+      await componentFirstSiblingPage.setContent(componentHtml);
       await componentFirstSiblingPage.waitForChanges();
       await componentFirstSiblingPage.evaluate((id: string) => {
         const label = document.createElement("calcite-label");
@@ -600,6 +645,30 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
 
       await assertLabelable({
         page: componentFirstSiblingPage,
+        componentTag,
+        propertyToToggle,
+        focusTargetSelector,
+        shadowFocusTargetSelector,
+      });
+    });
+
+    it("is labelable when label's for is set after initialization", async () => {
+      const siblingHtml = html`
+        <calcite-label>${labelTitle}</calcite-label>
+        ${componentHtml}
+      `;
+      const siblingPage: E2EPage = await newE2EPage();
+      beforeContent?.(siblingPage);
+
+      await siblingPage.setContent(siblingHtml);
+      await siblingPage.waitForChanges();
+
+      const label = await siblingPage.find("calcite-label");
+      label.setProperty("for", id);
+      await siblingPage.waitForChanges();
+
+      await assertLabelable({
+        page: siblingPage,
         componentTag,
         propertyToToggle,
         focusTargetSelector,
@@ -644,29 +713,32 @@ interface FormAssociatedOptions {
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
  * @param {FormAssociatedOptions} options - form associated options
  */
-export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): void {
+export function formAssociated(
+  componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
+  options: FormAssociatedOptions,
+): void {
   it("supports association via ancestry", () => testAncestorFormAssociated());
   it("supports association via form ID", () => testIdFormAssociated());
 
   async function testAncestorFormAssociated(): Promise<void> {
-    const componentTag = getTag(componentTagOrHtml);
-    const componentHtml = ensureName(
-      isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`,
-      componentTag
-    );
+    const { beforeContent, tagOrHTML } = getTagOrHTMLWithBeforeContent(componentTagOrHtml);
+    const tag = getTag(tagOrHTML);
+    const componentHtml = ensureName(isHTML(tagOrHTML) ? tagOrHTML : `<${tag}></${tag}>`, tag);
 
-    const page = await newE2EPage({
-      html: html`<form>
-        ${componentHtml}
-        <!--
-          keeping things simple by using submit-type input
-          this should cover button and calcite-button submit cases
-          -->
-        <input id="submitter" type="submit" />
-      </form>`,
-    });
+    const page = await newE2EPage();
+    await beforeContent?.(page);
+
+    const content = html` <form>
+      ${componentHtml}
+      <!--
+        keeping things simple by using submit-type input
+        this should cover button and calcite-button submit cases
+      -->
+      <input id="submitter" type="submit" />
+    </form>`;
+    await page.setContent(content);
     await page.waitForChanges();
-    const component = await page.find(componentTag);
+    const component = await page.find(tag);
 
     await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
@@ -678,23 +750,23 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
   }
 
   async function testIdFormAssociated(): Promise<void> {
-    const componentTag = getTag(componentTagOrHtml);
-    const componentHtml = ensureForm(
-      ensureName(isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`, componentTag),
-      componentTag
-    );
+    const { beforeContent, tagOrHTML } = getTagOrHTMLWithBeforeContent(componentTagOrHtml);
+    const tag = getTag(tagOrHTML);
+    const componentHtml = ensureForm(ensureName(isHTML(tagOrHTML) ? tagOrHTML : `<${tag}></${tag}>`, tag), tag);
 
-    const page = await newE2EPage({
-      html: html`<form id="test-form"></form>
+    const page = await newE2EPage();
+    await beforeContent?.(page);
+    await page.setContent(
+      html` <form id="test-form"></form>
         ${componentHtml}
         <!--
         keeping things simple by using submit-type input
         this should cover button and calcite-button submit cases
         -->
         <input id="submitter" form="test-form" type="submit" />`,
-    });
+    );
     await page.waitForChanges();
-    const component = await page.find(componentTag);
+    const component = await page.find(tag);
 
     await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
@@ -727,7 +799,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
   async function assertValueSubmissionType(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions
+    options: FormAssociatedOptions,
   ): Promise<void> {
     const name = await component.getProperty("name");
     const inputType = options.inputType ?? "text";
@@ -735,13 +807,13 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
     const hiddenFormInputType = await page.evaluate(
       async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
         const hiddenFormInput = document.querySelector<HTMLInputElement>(
-          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
         );
 
         return hiddenFormInput.type;
       },
       name,
-      hiddenFormInputSlotName
+      hiddenFormInputSlotName,
     );
 
     if (await isCheckable(page, component, options)) {
@@ -754,7 +826,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
   async function assertValueResetOnFormReset(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions
+    options: FormAssociatedOptions,
   ): Promise<void> {
     const resettablePropName = (await isCheckable(page, component, options)) ? "checked" : "value";
     const initialValue = await component.getProperty(resettablePropName);
@@ -770,7 +842,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
   async function assertValueSubmittedOnFormSubmit(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions
+    options: FormAssociatedOptions,
   ): Promise<void> {
     const stringifiedTestValue = stringifyTestValue(options.testValue);
     const name = await component.getProperty("name");
@@ -806,7 +878,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
             ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
               // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
               "#000"
-            : undefined
+            : undefined,
         );
 
         component.setProperty("required", false);
@@ -845,10 +917,10 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
         async (
           form: HTMLFormElement,
           inputName: string,
-          hiddenFormInputSlotName: string
+          hiddenFormInputSlotName: string,
         ): Promise<SubmitValueResult> => {
           const hiddenFormInput = document.querySelector(
-            `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+            `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
           );
 
           let resolve: (value: SubmitValueResult) => void;
@@ -881,7 +953,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
           return submitPromise;
         },
         name,
-        hiddenFormInputSlotName
+        hiddenFormInputSlotName,
       );
     }
   }
@@ -889,7 +961,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
   async function assertFormSubmitOnEnter(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions
+    options: FormAssociatedOptions,
   ): Promise<void> {
     type TestWindow = GlobalTestProps<{
       called: boolean;
@@ -904,7 +976,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
 
     const stringifiedTestValue = stringifyTestValue(options.testValue);
 
-    await component.setProperty("value", stringifiedTestValue);
+    component.setProperty("value", stringifiedTestValue);
     await component.callMethod("setFocus");
     await page.keyboard.press("Enter");
     const called = await page.evaluate(() => (window as TestWindow).called);
@@ -934,12 +1006,13 @@ interface DisabledOptions {
   shadowAriaAttributeTargetSelector?: string;
 }
 
-type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
-type ComponentTestSetup = TagOrHTML | TagAndPage | ComponentTestSetupProvider;
+type ComponentTestContent = TagOrHTML | TagAndPage;
+type ComponentTestSetupProvider = (() => ComponentTestContent) | (() => Promise<ComponentTestContent>);
+type ComponentTestSetup = ComponentTestContent | ComponentTestSetupProvider;
 
 async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<TagAndPage> {
   if (typeof componentTestSetup === "function") {
-    componentTestSetup = componentTestSetup();
+    componentTestSetup = await componentTestSetup();
   }
 
   if (typeof componentTestSetup === "string") {
@@ -950,6 +1023,20 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
   }
 
   return componentTestSetup;
+}
+
+function getTagOrHTMLWithBeforeContent(componentTestSetup: TagOrHTML | TagOrHTMLWithBeforeContent): {
+  tagOrHTML: TagOrHTML;
+  beforeContent?: BeforeContent;
+} {
+  if (typeof componentTestSetup === "string") {
+    return { tagOrHTML: componentTestSetup };
+  }
+
+  return {
+    tagOrHTML: componentTestSetup.tagOrHTML,
+    beforeContent: componentTestSetup.beforeContent,
+  };
 }
 
 /**
@@ -981,7 +1068,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
             anchor.addEventListener("click", (event) => event.preventDefault(), { once: true });
           }
         },
-        true
+        true,
       );
     });
   };
@@ -1019,7 +1106,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
   const getTabAndClickFocusTarget = async (
     page: E2EPage,
     tag: string,
-    focusTarget: DisabledOptions["focusTarget"]
+    focusTarget: DisabledOptions["focusTarget"],
   ): Promise<string[]> => {
     if (typeof focusTarget === "object") {
       return [focusTarget.tab, focusTarget.click];
@@ -1089,7 +1176,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
       page,
-      tabFocusTarget
+      tabFocusTarget,
     );
 
     async function resetFocusOrder(): Promise<void> {
@@ -1166,17 +1253,19 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
     });
 
+    type InteractiveCalciteComponents = IntrinsicElementsWithProp<"disabled"> & HTMLElement;
+
     // this needs to run in the browser context to ensure disabling and events fire immediately after being set
     await page.$eval(
       tag,
-      (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
+      (component: InteractiveCalciteComponents, allExpectedEvents: string[]) => {
         component.disabled = false;
         allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
 
         component.disabled = true;
         allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
       },
-      allExpectedEvents
+      allExpectedEvents,
     );
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
@@ -1219,7 +1308,7 @@ export function floatingUIOwner(
      * Use this to specify the selector in the shadow DOM for the floating-ui element.
      */
     shadowSelector?: string;
-  }
+  },
 ): void {
   it("owns a floating-ui", async () => {
     const page = await simplePageSetup(componentTagOrHTML);
@@ -1247,7 +1336,7 @@ export function floatingUIOwner(
 
           return floatingUIEl.getAttribute("style");
         },
-        options?.shadowSelector
+        options?.shadowSelector,
       );
     }
 
@@ -1308,9 +1397,12 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   beforeEach(async () => {
     const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
     page = e2ePage;
+
+    type CalciteComponentsWithMessages = IntrinsicElementsWithProp<"messages"> & HTMLElement;
+
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
-      return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
+      return page.$eval(tag, (component: CalciteComponentsWithMessages) => component.messages);
     };
   });
 
@@ -1361,7 +1453,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
         };
       },
       enMessages,
-      fakeBundleIdentifier
+      fakeBundleIdentifier,
     );
 
     component.setAttribute("lang", "es");
@@ -1374,5 +1466,205 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     // reset test changes
     component.removeAttribute("lang");
     await page.waitForChanges();
+  }
+}
+
+interface BeforeToggle {
+  /**
+   * Function argument to simulate user input (mouse or keyboard), to open the component.
+   */
+  open: (page: E2EPage) => Promise<void>;
+
+  /**
+   * Function argument to simulate user input (mouse or keyboard), to close the component.
+   */
+  close: (page: E2EPage) => Promise<void>;
+}
+
+interface OpenCloseOptions {
+  /**
+   * Toggle property to test. Currently, either "open" or "expanded".
+   */
+  openPropName?: string;
+
+  /**
+   * Indicates the initial value of the toggle property.
+   */
+  initialToggleValue?: boolean;
+
+  /**
+   * Optional argument with functions to simulate user input (mouse or keyboard), to open or close the component.
+   */
+  beforeToggle?: BeforeToggle;
+}
+
+/**
+ * Helper to test openClose component setup.
+ *
+ * Note that this helper should be used within a `describe` block.
+ *
+ * @example
+ *
+ * describe("openClose", () => {
+ *   openClose("calcite-combobox opened with a tab", {
+ *     beforeToggle: {
+ *        open: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *        close: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *      }
+ *   });
+ *
+ *  openClose("open calcite-combobox closed with a tab", {
+ *        initialToggleValue: true,
+ *        beforeToggle: {
+ *          close: async (page) => {
+ *            await page.keyboard.press("Tab");
+ *            await page.waitForChanges();
+ *        },
+ *      }
+ *    }
+ * })
+ *
+ * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param {object} [options] - Additional options to assert.
+ */
+
+export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOptions): void {
+  const defaultOptions: OpenCloseOptions = {
+    initialToggleValue: false,
+    openPropName: "open",
+  };
+  const customizedOptions = { ...defaultOptions, ...options };
+
+  type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
+  const eventSequence = setUpEventSequence(componentTagOrHTML);
+
+  function setUpEventSequence(componentTagOrHTML: TagOrHTML): string[] {
+    const tag = getTag(componentTagOrHTML);
+
+    const camelCaseTag = tag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
+    const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
+
+    return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
+  }
+
+  async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
+    await page.evaluate(
+      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
+        const receivedEvents: string[] = [];
+
+        (window as EventOrderWindow).events = receivedEvents;
+
+        eventSequence.forEach((eventType) => {
+          document.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+        });
+
+        if (!initialToggleValue) {
+          return;
+        }
+
+        const component = document.createElement(componentTagOrHTML);
+        component[openPropName] = true;
+
+        document.body.append(component);
+      },
+      eventSequence,
+      customizedOptions.initialToggleValue,
+      customizedOptions.openPropName,
+      componentTagOrHTML,
+    );
+  }
+
+  async function testOpenCloseEvents(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
+    const tag = getTag(componentTagOrHTML);
+    const element = await page.find(tag);
+
+    const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((event) =>
+      page.waitForEvent(event),
+    );
+
+    const [beforeOpenSpy, openSpy, beforeCloseSpy, closeSpy] = await Promise.all(
+      eventSequence.map(async (event) => await element.spyOnEvent(event)),
+    );
+
+    await page.waitForChanges();
+
+    if (customizedOptions.beforeToggle) {
+      await customizedOptions.beforeToggle.open(page);
+    } else {
+      element.setProperty(customizedOptions.openPropName, true);
+    }
+
+    await page.waitForChanges();
+
+    await beforeOpenEvent;
+    await openEvent;
+
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+    expect(closeSpy).toHaveReceivedEventTimes(0);
+
+    if (customizedOptions.beforeToggle) {
+      await customizedOptions.beforeToggle.close(page);
+    } else {
+      element.setProperty(customizedOptions.openPropName, false);
+    }
+
+    await page.waitForChanges();
+
+    await beforeCloseEvent;
+    await closeEvent;
+
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(closeSpy).toHaveReceivedEventTimes(1);
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
+
+    expect(await page.evaluate(() => (window as EventOrderWindow).events)).toEqual(eventSequence);
+  }
+
+  /**
+   * `skipAnimations` utility sets the animation duration to 0.01. This is a workaround for an issue with the animation utility.
+   * Because this still leaves a very small duration, we can still test the animation events, but faster.
+   */
+
+  if (customizedOptions.initialToggleValue === true) {
+    it("emits on initialization with animations enabled", async () => {
+      const page = await newProgrammaticE2EPage();
+      await skipAnimations(page);
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
+
+    it("emits on initialization with animations disabled", async () => {
+      const page = await newProgrammaticE2EPage();
+      await page.addStyleTag({
+        content: `:root { --calcite-duration-factor: 0; }`,
+      });
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
+  } else {
+    it(`emits with animations enabled`, async () => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      await skipAnimations(page);
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
+
+    it(`emits with animations disabled`, async () => {
+      const page = await simplePageSetup(componentTagOrHTML);
+      await page.addStyleTag({
+        content: `:root { --calcite-duration-factor: 0; }`,
+      });
+      await setUpPage(componentTagOrHTML, page);
+      await testOpenCloseEvents(componentTagOrHTML, page);
+    });
   }
 }

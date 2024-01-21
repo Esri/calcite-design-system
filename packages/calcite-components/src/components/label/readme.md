@@ -10,9 +10,14 @@ Renders a `<label>` around its children and can be used with any [labelable nati
 
 ```html
 <calcite-label>
-  Invalid input
-  <calcite-input status="invalid" type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message icon status="invalid"> Something doesn't look right </calcite-input-message>
+  Email address
+  <calcite-input
+    status="invalid"
+    type="email"
+    placeholder="Enter your email address"
+    value="invalidemailformat.com"
+  ></calcite-input>
+  <calcite-input-message icon status="invalid">Enter a valid email address</calcite-input-message>
 </calcite-label>
 ```
 
@@ -52,16 +57,18 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 
 ### Used by
 
+- [calcite-block-section](../block-section)
 - [calcite-card](../card)
 
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-block-section --> calcite-label
   calcite-card --> calcite-label
   style calcite-label fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

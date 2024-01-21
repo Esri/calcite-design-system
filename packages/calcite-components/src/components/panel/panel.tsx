@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -21,6 +20,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -80,6 +80,23 @@ export class Panel
 
   /** When `true`, displays a close button in the trailing side of the header. */
   @Prop({ reflect: true }) closable = false;
+
+  /**
+   * When `true`, hides the component's content area.
+   */
+  @Prop({ reflect: true }) collapsed = false;
+
+  /**
+   * Specifies the direction of the collapse.
+   *
+   * @internal
+   */
+  @Prop() collapseDirection: "down" | "up" = "down";
+
+  /**
+   * When `true`, the component is collapsible.
+   */
+  @Prop({ reflect: true }) collapsible = false;
 
   /**
    * Specifies the number at which section headings should start.
@@ -163,10 +180,6 @@ export class Panel
 
   @Element() el: HTMLCalcitePanelElement;
 
-  backButtonEl: HTMLCalciteActionElement;
-
-  closeButtonEl: HTMLCalciteActionElement;
-
   containerEl: HTMLElement;
 
   panelScrollEl: HTMLElement;
@@ -212,6 +225,11 @@ export class Panel
   @Event({ cancelable: false }) calcitePanelClose: EventEmitter<void>;
 
   /**
+   * Fires when the collapse button is clicked.
+   */
+  @Event({ cancelable: false }) calcitePanelToggle: EventEmitter<void>;
+
+  /**
    * Fires when the content is scrolled.
    */
   @Event({ cancelable: false }) calcitePanelScroll: EventEmitter<void>;
@@ -240,14 +258,6 @@ export class Panel
     this.containerEl = node;
   };
 
-  setCloseRef = (node: HTMLCalciteActionElement): void => {
-    this.closeButtonEl = node;
-  };
-
-  setBackRef = (node: HTMLCalciteActionElement): void => {
-    this.backButtonEl = node;
-  };
-
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
       this.close();
@@ -258,6 +268,11 @@ export class Panel
   close = (): void => {
     this.closed = true;
     this.calcitePanelClose.emit();
+  };
+
+  collapse = (): void => {
+    this.collapsed = !this.collapsed;
+    this.calcitePanelToggle.emit();
   };
 
   panelScrollHandler = (): void => {
@@ -277,8 +292,8 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar")
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
@@ -326,7 +341,8 @@ export class Panel
    *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
-   * @param options
+   * @param options - allows specific coordinates to be defined.
+   * @returns - promise that resolves once the content is scrolled to.
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -365,9 +381,6 @@ export class Panel
     );
   }
 
-  /**
-   * Allows user to override the entire header-content node.
-   */
   renderHeaderSlottedContent(): VNode {
     return (
       <div class={CSS.headerContent} hidden={!this.hasHeaderContent} key="slotted-header-content">
@@ -394,19 +407,43 @@ export class Panel
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, messages, closable, hasMenuItems } = this;
-    const text = messages.close;
+    const {
+      hasEndActions,
+      messages,
+      closable,
+      collapsed,
+      collapseDirection,
+      collapsible,
+      hasMenuItems,
+    } = this;
+    const { collapse, expand, close } = messages;
 
-    const closableNode = closable ? (
+    const icons = [ICONS.expand, ICONS.collapse];
+
+    if (collapseDirection === "up") {
+      icons.reverse();
+    }
+
+    const collapseNode = collapsible ? (
       <calcite-action
-        aria-label={text}
+        aria-expanded={toAriaBoolean(!collapsed)}
+        aria-label={collapse}
+        data-test="collapse"
+        icon={collapsed ? icons[0] : icons[1]}
+        onClick={this.collapse}
+        text={collapse}
+        title={collapsed ? expand : collapse}
+      />
+    ) : null;
+
+    const closeNode = closable ? (
+      <calcite-action
+        aria-label={close}
         data-test="close"
         icon={ICONS.close}
-        onClick={close}
-        text={text}
-        title={text}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setCloseRef}
+        onClick={this.close}
+        text={close}
+        title={close}
       />
     ) : null;
 
@@ -414,7 +451,7 @@ export class Panel
       <slot name={SLOTS.headerActionsEnd} onSlotchange={this.handleHeaderActionsEndSlotChange} />
     );
 
-    const showContainer = hasEndActions || closableNode || hasMenuItems;
+    const showContainer = hasEndActions || collapseNode || closeNode || hasMenuItems;
 
     return (
       <div
@@ -424,7 +461,8 @@ export class Panel
       >
         {slotNode}
         {this.renderMenu()}
-        {closableNode}
+        {collapseNode}
+        {closeNode}
       </div>
     );
   }
@@ -460,6 +498,7 @@ export class Panel
       hasStartActions,
       hasEndActions,
       closable,
+      collapsible,
       hasMenuItems,
       hasActionBar,
     } = this;
@@ -471,6 +510,7 @@ export class Panel
       !!headerContentNode ||
       hasStartActions ||
       hasEndActions ||
+      collapsible ||
       closable ||
       hasMenuItems;
 
@@ -523,6 +563,7 @@ export class Panel
     return (
       <div
         class={CSS.contentWrapper}
+        hidden={this.collapsible && this.collapsed}
         onScroll={this.panelScrollHandler}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setPanelScrollEl}
@@ -542,7 +583,7 @@ export class Panel
   }
 
   render(): VNode {
-    const { loading, panelKeyDownHandler, closed, closable } = this;
+    const { disabled, loading, panelKeyDownHandler, closed, closable } = this;
 
     const panelNode = (
       <article
@@ -561,10 +602,10 @@ export class Panel
     );
 
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

@@ -13,9 +13,7 @@
   flex
   w-full
   flex-col
-  bg-transparent
-  relative
-  z-default;
+  bg-transparent;
   * {
     @apply box-border;
   }
@@ -31,11 +29,18 @@
 }
 
 ::slotted(calcite-list-item) {
-  @apply shadow-border-bottom mb-px;
+  @apply shadow-border-top;
+  margin-block-start: 1px;
 }
 
-::slotted(calcite-list-item:last-child) {
+::slotted(calcite-list-item:first-of-type) {
   @apply shadow-none;
+}
+
+// removes shadow for the first item in filteredItems of the list.
+::slotted(calcite-list-item[data-filter]) {
+  @apply shadow-none;
+  margin-block-start: 0px;
 }
 
 .sticky-pos {

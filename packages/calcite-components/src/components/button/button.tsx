@@ -1,9 +1,21 @@
-import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  Build,
+  Component,
+  Element,
+  forceUpdate,
+  h,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -15,6 +27,7 @@ import {
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
+import { getIconScale } from "../../utils/component";
 import {
   connectMessages,
   disconnectMessages,
@@ -26,6 +39,7 @@ import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
+import { toAriaBoolean } from "../../utils/dom";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -48,6 +62,17 @@ export class Button
 {
   //--------------------------------------------------------------------------
   //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("aria-expanded")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -64,7 +89,7 @@ export class Button
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
@@ -72,7 +97,7 @@ export class Button
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -125,7 +150,7 @@ export class Button
   @Prop({ reflect: true }) target: string;
 
   /**
-   * Specifies the default behavior of the button.
+   * Specifies the default behavior of the component.
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
@@ -228,7 +253,7 @@ export class Button
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -237,7 +262,7 @@ export class Button
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
 
@@ -248,32 +273,37 @@ export class Button
     );
 
     return (
-      <Tag
-        aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
-        aria-live="polite"
-        class={{
-          [CSS.buttonPadding]: noStartEndIcons,
-          [CSS.buttonPaddingShrunk]: !noStartEndIcons,
-          [CSS.contentSlotted]: this.hasContent,
-          [CSS.iconStartEmpty]: !this.iconStart,
-          [CSS.iconEndEmpty]: !this.iconEnd,
-        }}
-        disabled={this.disabled || this.loading}
-        href={childElType === "a" && this.href}
-        name={childElType === "button" && this.name}
-        onClick={this.handleClick}
-        ref={this.setChildEl}
-        rel={childElType === "a" && this.rel}
-        tabIndex={this.disabled || this.loading ? -1 : null}
-        target={childElType === "a" && this.target}
-        title={this.tooltipText}
-        type={childElType === "button" && this.type}
-      >
-        {loaderNode}
-        {this.iconStart ? iconStartEl : null}
-        {this.hasContent ? contentEl : null}
-        {this.iconEnd ? iconEndEl : null}
-      </Tag>
+      <InteractiveContainer disabled={this.disabled}>
+        <Tag
+          aria-disabled={childElType === "a" ? toAriaBoolean(this.disabled || this.loading) : null}
+          aria-expanded={this.el.getAttribute("aria-expanded")}
+          aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
+          aria-live="polite"
+          class={{
+            [CSS.buttonPadding]: noStartEndIcons,
+            [CSS.buttonPaddingShrunk]: !noStartEndIcons,
+            [CSS.contentSlotted]: this.hasContent,
+            [CSS.iconStartEmpty]: !this.iconStart,
+            [CSS.iconEndEmpty]: !this.iconEnd,
+          }}
+          disabled={childElType === "button" ? this.disabled || this.loading : null}
+          href={childElType === "a" && this.href}
+          name={childElType === "button" && this.name}
+          onClick={this.handleClick}
+          rel={childElType === "a" && this.rel}
+          tabIndex={this.disabled ? -1 : null}
+          target={childElType === "a" && this.target}
+          title={this.tooltipText}
+          type={childElType === "button" && this.type}
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+          ref={this.setChildEl}
+        >
+          {loaderNode}
+          {this.iconStart ? iconStartEl : null}
+          {this.hasContent ? contentEl : null}
+          {this.iconEnd ? iconEndEl : null}
+        </Tag>
+      </InteractiveContainer>
     );
   }
 
@@ -374,7 +404,8 @@ export class Button
   private setTooltipText = (): void => {
     const { contentEl } = this;
     if (contentEl) {
-      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText : null;
+      this.tooltipText =
+        contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || null : null;
     }
   };
 

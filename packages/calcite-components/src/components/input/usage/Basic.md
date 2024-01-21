@@ -1,3 +1,3 @@
 ```html
-<calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+<calcite-input placeholder="Enter your region"></calcite-input>
 ```

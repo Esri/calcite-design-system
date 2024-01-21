@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Sekundi murdosa",
+  "fractionalSecondDown": "Vähenda sekundi murdosa",
+  "fractionalSecondUp": "Suurenda sekundi murdosa",
   "hour": "Tund",
   "hourDown": "Vähenda tunde",
   "hourUp": "Suurenda tunde",

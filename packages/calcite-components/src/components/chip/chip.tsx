@@ -39,12 +39,14 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import { isActivationKey } from "../../utils/key";
 import { ChipMessages } from "./assets/chip/t9n";
+import { getIconScale } from "../../utils/component";
 
 /**
  * @slot - A slot for adding text.
@@ -76,7 +78,7 @@ export class Chip
   @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
     "solid";
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  /** Specifies the kind of the component, which will apply to border and background if applicable. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /** When `true`, a close button is added to the component. */
@@ -326,10 +328,10 @@ export class Chip
       this.selectionMode === "multiple" && this.selected
         ? ICONS.checked
         : this.selectionMode === "multiple"
-        ? ICONS.unchecked
-        : this.selected
-        ? ICONS.checkedSingle
-        : undefined;
+          ? ICONS.unchecked
+          : this.selected
+            ? ICONS.checkedSingle
+            : undefined;
 
     return (
       <div
@@ -338,7 +340,7 @@ export class Chip
           [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected,
         }}
       >
-        <calcite-icon icon={icon} scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon={icon} scale={getIconScale(this.scale)} />
       </div>
     );
   }
@@ -354,7 +356,7 @@ export class Chip
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
       >
-        <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
     );
   }
@@ -365,60 +367,63 @@ export class Chip
         class={CSS.chipIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={getIconScale(this.scale)}
       />
     );
   }
 
   render(): VNode {
-    const disableInteraction = this.disabled || (!this.disabled && !this.interactive);
+    const { disabled } = this;
+    const disableInteraction = disabled || (!disabled && !this.interactive);
     const role =
       this.selectionMode === "multiple" && this.interactive
         ? "checkbox"
         : this.selectionMode !== "none" && this.interactive
-        ? "radio"
-        : this.interactive
-        ? "button"
-        : undefined;
+          ? "radio"
+          : this.interactive
+            ? "button"
+            : undefined;
     return (
       <Host>
-        <div
-          aria-checked={
-            this.selectionMode !== "none" && this.interactive
-              ? toAriaBoolean(this.selected)
-              : undefined
-          }
-          aria-disabled={disableInteraction ? toAriaBoolean(this.disabled) : undefined}
-          aria-label={this.label}
-          class={{
-            [CSS.container]: true,
-            [CSS.textSlotted]: this.hasText,
-            [CSS.imageSlotted]: this.hasImage,
-            [CSS.selectable]: this.selectionMode !== "none",
-            [CSS.multiple]: this.selectionMode === "multiple",
-            [CSS.closable]: this.closable,
-            [CSS.nonInteractive]: !this.interactive,
-            [CSS.isCircle]:
-              !this.closable &&
-              !this.hasText &&
-              (!this.icon || !this.hasImage) &&
-              (this.selectionMode === "none" ||
-                (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected)),
-          }}
-          onClick={this.handleEmittingEvent}
-          role={role}
-          tabIndex={disableInteraction ? -1 : 0}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.containerEl = el)}
-        >
-          {this.selectionMode !== "none" && this.renderSelectionIcon()}
-          {this.renderChipImage()}
-          {this.icon && this.renderIcon()}
-          <span class={CSS.title}>
-            <slot />
-          </span>
-          {this.closable && this.renderCloseButton()}
-        </div>
+        <InteractiveContainer disabled={disabled}>
+          <div
+            aria-checked={
+              this.selectionMode !== "none" && this.interactive
+                ? toAriaBoolean(this.selected)
+                : undefined
+            }
+            aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
+            aria-label={this.label}
+            class={{
+              [CSS.container]: true,
+              [CSS.textSlotted]: this.hasText,
+              [CSS.imageSlotted]: this.hasImage,
+              [CSS.selectable]: this.selectionMode !== "none",
+              [CSS.multiple]: this.selectionMode === "multiple",
+              [CSS.closable]: this.closable,
+              [CSS.nonInteractive]: !this.interactive,
+              [CSS.isCircle]:
+                !this.closable &&
+                !this.hasText &&
+                (!this.icon || !this.hasImage) &&
+                (this.selectionMode === "none" ||
+                  (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected)),
+            }}
+            onClick={this.handleEmittingEvent}
+            role={role}
+            tabIndex={disableInteraction ? -1 : 0}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(el) => (this.containerEl = el)}
+          >
+            {this.selectionMode !== "none" && this.renderSelectionIcon()}
+            {this.renderChipImage()}
+            {this.icon && this.renderIcon()}
+            <span class={CSS.title}>
+              <slot />
+            </span>
+            {this.closable && this.renderCloseButton()}
+          </div>
+        </InteractiveContainer>
       </Host>
     );
   }

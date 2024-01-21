@@ -1,12 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tab-nav", () => {
-  const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
+  describe("defaults", () => {
+    defaults("calcite-tab-nav", [{ propertyName: "scale", defaultValue: "m" }]);
+  });
 
   describe("renders", () => {
-    renders(tabNavHtml, { display: "flex" });
+    renders("calcite-tab-nav", { display: "flex" });
   });
 
   describe("honors hidden attribute", () => {
@@ -14,14 +16,16 @@ describe("calcite-tab-nav", () => {
   });
 
   describe("accessible: checked", () => {
-    accessible(tabNavHtml);
+    accessible("calcite-tab-nav");
   });
 
   it("emits on user interaction", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-tab-nav>
-      <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-    </calcite-tab-nav>`);
+    await page.setContent(
+      html`<calcite-tab-nav>
+        <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+      </calcite-tab-nav>`,
+    );
     const activeEventSpy = await page.spyOnEvent("calciteTabChange");
     const firstTabTitle = await page.find("calcite-tab-title");
 
@@ -30,9 +34,11 @@ describe("calcite-tab-nav", () => {
     expect(activeEventSpy).toHaveReceivedEventTimes(0);
 
     await firstTabTitle.click();
+    await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(1);
 
     await page.keyboard.press("Enter");
+    await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
   });
 
@@ -78,103 +84,15 @@ describe("calcite-tab-nav", () => {
     });
   });
 
-  describe("scale property", () => {
-    describe("default", () => {
-      it("should render without scale", async () => {
-        const page = await newE2EPage({
-          html: `${tabNavHtml}`,
-        });
-        const element = await page.find("calcite-tab-nav");
-        expect(element).not.toHaveAttribute("scale");
-      });
-    });
-
-    describe("when scale is small", () => {
-      it("should render with small scale", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tab-nav scale='s'>
-            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`,
-        });
-        const element = await page.find("calcite-tab-nav");
-        expect(await (await element.getComputedStyle())["minHeight"]).toEqual("24px");
-        expect(element).toEqualAttribute("scale", "s");
-      });
-    });
-
-    describe("when scale is medium", () => {
-      it("should render with medium scale", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tab-nav scale='m'>
-            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`,
-        });
-        const element = await page.find("calcite-tab-nav");
-        expect(await (await element.getComputedStyle())["minHeight"]).toEqual("32px");
-        expect(element).toEqualAttribute("scale", "m");
-      });
-    });
-
-    describe("when scale is large", () => {
-      it("should render with medium scale", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tab-nav scale='l'>
-            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`,
-        });
-        const element = await page.find("calcite-tab-nav");
-        expect(await (await element.getComputedStyle())["minHeight"]).toEqual("44px");
-        expect(element).toEqualAttribute("scale", "l");
-      });
-    });
-
-    describe("when nested within tabs parent", () => {
-      it("should render with default medium scale", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tabs>${tabNavHtml}</calcite-tabs>`,
-        });
-        const element = await page.find("calcite-tab-nav");
-        expect(element).toEqualAttribute("scale", "m");
-      });
-
-      describe("when tabs scale is small", () => {
-        it("should render with small scale", async () => {
-          const page = await newE2EPage({
-            html: `<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`,
-          });
-          const element = await page.find("calcite-tab-nav");
-          expect(element).toEqualAttribute("scale", "s");
-        });
-      });
-
-      describe("when tabs scale is large", () => {
-        it("should render with large scale", async () => {
-          const page = await newE2EPage({
-            html: `<calcite-tabs scale="l">${tabNavHtml}</calcite-tabs>`,
-          });
-          const element = await page.find("calcite-tab-nav");
-          expect(element).toEqualAttribute("scale", "l");
-        });
-      });
-    });
-  });
-
   it("focuses on keyboard interaction", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-tab-nav>
-      <calcite-tab-title id="tab1">Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title id="tab2">Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title id="tab3">Tab 3 Title</calcite-tab-title>
-    </calcite-tab-nav>`);
+    await page.setContent(
+      html`<calcite-tab-nav>
+        <calcite-tab-title id="tab1">Tab 1 Title</calcite-tab-title>
+        <calcite-tab-title id="tab2">Tab 2 Title</calcite-tab-title>
+        <calcite-tab-title id="tab3">Tab 3 Title</calcite-tab-title>
+      </calcite-tab-nav>`,
+    );
 
     const tab1 = await page.find("#tab1");
     await tab1.focus();

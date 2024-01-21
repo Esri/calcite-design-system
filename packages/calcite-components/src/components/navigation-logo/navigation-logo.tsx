@@ -21,11 +21,17 @@ export class CalciteNavigationLogo implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is highlighted. */
+  /** When `true`, the component is highlighted. */
   @Prop({ reflect: true }) active: boolean;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/
   @Prop({ reflect: true }) href: string;
+
+  /** Specifies an icon to display. */
+  @Prop({ reflect: true }) icon: string;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies. */
   @Prop() label: string;
@@ -96,12 +102,18 @@ export class CalciteNavigationLogo implements LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
+  private renderIcon(): VNode {
+    /** Icon scale is not variable as the component does not have a scale property */
+    return <calcite-icon class={CSS.icon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="l" />;
+  }
+
   render(): VNode {
     const { heading, description, thumbnail } = this;
     return (
       <Host>
         <a class={CSS.anchor} href={this.href} rel={this.rel} target={this.target}>
           {thumbnail && <img alt={this.label || ""} class={CSS.image} src={thumbnail} />}
+          {this.icon && this.renderIcon()}
           {(heading || description) && (
             <div class={CSS.container}>
               {heading && (

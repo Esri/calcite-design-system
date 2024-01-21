@@ -30,9 +30,15 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-inline-editable disabled>
-  <calcite-input value="disabled"></calcite-input>
-</calcite-inline-editable>`;
+export const disabled_TestOnly = (): string => html`
+  <calcite-inline-editable disabled>
+    <calcite-input value="disabled"></calcite-input>
+  </calcite-inline-editable>
+  <br />
+  <calcite-inline-editable controls disabled editing-enabled loading>
+    <calcite-input value="disabled and loading"></calcite-input>
+  </calcite-inline-editable>
+`;
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;">
@@ -66,11 +72,12 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const longValue_TestOnly = (): string => html`<div style="width: 300px;">
-  <calcite-inline-editable>
-    <calcite-input
-      value="A flower, sometimes known as a bloom or blossom, is the reproductive structure found in flowering plants (plants of the division Angiospermae)."
-      placeholder="My placeholder"
-    ></calcite-input>
-  </calcite-inline-editable>
-</div>`;
+export const longValue_TestOnly = (): string =>
+  html`<div style="width: 300px;">
+    <calcite-inline-editable>
+      <calcite-input
+        value="A flower, sometimes known as a bloom or blossom, is the reproductive structure found in flowering plants (plants of the division Angiospermae)."
+        placeholder="My placeholder"
+      ></calcite-input>
+    </calcite-inline-editable>
+  </div>`;

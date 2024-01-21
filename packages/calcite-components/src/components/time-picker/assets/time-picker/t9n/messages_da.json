@@ -1,4 +1,7 @@
 {
+  "fractionalSecond": "Brøkdel af sekund",
+  "fractionalSecondDown": "Reducer brøkdel af sekund",
+  "fractionalSecondUp": "Forøg brøkdel af sekund",
   "hour": "Time",
   "hourDown": "Reducer time",
   "hourUp": "Forøg time",

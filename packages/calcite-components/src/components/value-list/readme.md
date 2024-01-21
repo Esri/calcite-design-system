@@ -48,6 +48,8 @@ Renders a value list with drag and drop capability between the items.
 
 | Property                | Attribute                 | Description                                                                                                                                                                                                                                                             | Type                                                                                          | Default     |
 | ----------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------- |
+| `canPull`               | --                        | When provided, the method will be called to determine whether the element can move from the list.                                                                                                                                                                       | `(detail: DragDetail) => boolean`                                                             | `undefined` |
+| `canPut`                | --                        | When provided, the method will be called to determine whether the element can be added from another list.                                                                                                                                                               | `(detail: DragDetail) => boolean`                                                             | `undefined` |
 | `disabled`              | `disabled`                | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                                                | `boolean`                                                                                     | `false`     |
 | `dragEnabled`           | `drag-enabled`            | When `true`, `calcite-value-list-item`s are sortable via a draggable button.                                                                                                                                                                                            | `boolean`                                                                                     | `false`     |
 | `filterEnabled`         | `filter-enabled`          | When `true`, an input appears at the top of the component that can be used by end users to filter list items.                                                                                                                                                           | `boolean`                                                                                     | `false`     |
@@ -73,7 +75,7 @@ Renders a value list with drag and drop capability between the items.
 
 ### `getSelectedItems() => Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
-Returns the currently selected items
+Returns the component's selected items.
 
 #### Returns
 
@@ -83,9 +85,22 @@ Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
 Sets focus on the component's first focusable element.
 
+#### Parameters
+
+| Name      | Type       | Description |
+| --------- | ---------- | ----------- |
+| `focusId` | `"filter"` |             |
+
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot             | Description                                                                                        |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
+|                  | A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list. |
+| `"menu-actions"` | A slot for adding a button and menu combination for performing actions, such as sorting.           |
 
 ## Dependencies
 
@@ -103,10 +118,12 @@ graph TD;
   calcite-filter --> calcite-input
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-input --> calcite-input-message
+  calcite-input-message --> calcite-icon
   calcite-scrim --> calcite-loader
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
