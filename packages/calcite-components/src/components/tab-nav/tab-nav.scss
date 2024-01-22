@@ -182,26 +182,24 @@
 }
 
 :host(:not([bordered])) {
-  .scroll-button-container--backward {
-    ::before {
-      inset-inline-end: 0;
-      position: absolute;
-      content: "";
+  .scroll-button-container--backward,
+  .scroll-button-container--forward {
+    &::before {
       background-color: var(--calcite-color-border-3);
-      inset-block: 6px;
-      inline-size: var(--calcite-border-width-md);
+      content: "";
+      inline-size: var(--calcite-border-width-sm);
+      inset-block-start: var(--calcite-border-width-md);
+      inset-block-end: var(--calcite-border-width-md);
+      position: absolute;
     }
   }
 
-  .scroll-button-container--forward {
-    ::before {
-      inset-inline-start: 0;
-      position: absolute;
-      content: "";
-      background-color: var(--calcite-color-border-3);
-      inset-block: 6px;
-      inline-size: var(--calcite-border-width-md);
-    }
+  .scroll-button-container--backward::before {
+    inset-inline-end: 0;
+  }
+
+  .scroll-button-container--forward::before {
+    inset-inline-start: 0;
   }
 }
 
