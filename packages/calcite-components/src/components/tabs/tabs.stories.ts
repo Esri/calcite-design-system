@@ -474,3 +474,34 @@ export const paddingDisabled_TestOnly = (): string => html`
     </calcite-tabs>
   </calcite-panel>
 `;
+
+export const paddingPropOverrideAtRootLevel = (): string => html`
+  <style>
+    :root {
+      --calcite-block-padding: 0;
+    }
+  </style>
+  <calcite-tabs>
+    <calcite-tabs>
+      <calcite-tab-nav slot="title-group">
+        <calcite-tab-title selected>Sandwiches</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab>
+        <div>Chicken with Pesto</div>
+      </calcite-tab>
+    </calcite-tabs>
+  </calcite-tabs>
+`;
+
+export const paddingPropOverrideAtElementLevel = (): string => html`
+  <calcite-tabs>
+    <calcite-tabs>
+      <calcite-tab-nav slot="title-group">
+        <calcite-tab-title selected>Sandwiches</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab style="--calcite-block-padding: 0;">
+        <div>Chicken with Pesto</div>
+      </calcite-tab>
+    </calcite-tabs>
+  </calcite-tabs>
+`;
