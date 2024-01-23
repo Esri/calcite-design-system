@@ -343,7 +343,7 @@ export class InputDatePicker
     if (
       this.shouldFocusRangeStart() ||
       this.shouldFocusRangeEnd() ||
-      (this.focusedInput === "start" && this.range)
+      this.rangeStartValueChangedByUser
     ) {
       return;
     }
@@ -1029,7 +1029,7 @@ export class InputDatePicker
     const focusedInput = restore && this.focusedInput === "start" ? this.startInput : this.endInput;
     focusedInput.setFocus();
 
-    //this is avoid delay in updating focusedInput value while the `blur` handler in `date-picker` causing update in activeDate.
+    //avoids delay in updating focusedInput value while the `blur` handler in `date-picker` causing update in activeDate's.
     this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
   }
 
