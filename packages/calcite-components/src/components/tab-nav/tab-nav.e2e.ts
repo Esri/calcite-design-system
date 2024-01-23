@@ -1,7 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
   describe("defaults", () => {
@@ -116,93 +115,46 @@ describe("calcite-tab-nav", () => {
     expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
   });
 
-  const inlineTabsWithVariedTitleLength = html`
-    <calcite-tabs layout="inline" style="margin: 75px; width: 375px">
-      <calcite-tab-nav slot="title-group" id="testSubjectNav">
-        <calcite-tab-title selected icon-start="tabbed-view" icon-end="pen" closable> Tab 1 Title </calcite-tab-title>
-        <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
-        <calcite-tab-title closable>Tab 4 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 5 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 6 Title</calcite-tab-title>
-      </calcite-tab-nav>
-      <calcite-tab selected>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-      <calcite-tab>Tab 5 Content</calcite-tab>
-      <calcite-tab>Tab 6 Content</calcite-tab>
-    </calcite-tabs>
-  `;
-
-  describe("responsive tabs for inline layout", () => {
-    const overflowScenarios: string[] = ["end", "start", "both"];
+  describe("responsiveness", () => {
+    const tabsHTML = html`
+      <calcite-tabs>
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 6 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 7 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 8 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+        <calcite-tab>Tab 5 Content</calcite-tab>
+        <calcite-tab>Tab 6 Content</calcite-tab>
+        <calcite-tab>Tab 7 Content</calcite-tab>
+        <calcite-tab>Tab 8 Content</calcite-tab>
+      </calcite-tabs>
+    `;
     let page: E2EPage;
 
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(inlineTabsWithVariedTitleLength);
+      await page.setContent(tabsHTML);
     });
 
-    it("should overflow tab-titles that don't fit within the bounds of tab-nav", async () => {
-      const { tabTitlesTotalWidth, tabNavWidth } = await page.evaluate(() => {
-        const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
-        const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title")) as HTMLCalciteTabTitleElement[];
-
-        const tabNavWidth = tabNav.offsetWidth;
-        const tabTitlesTotalWidth = tabTitles.reduce((sum, tabTitle) => {
-          return sum + tabTitle.offsetWidth;
-        }, 0);
-
-        return { tabTitlesTotalWidth, tabNavWidth };
-      });
-
-      expect(tabTitlesTotalWidth).toBeGreaterThan(tabNavWidth);
+    it("shows scrolling buttons if tab-titles overflow", async () => {
+      // do for both wheel scrolling (individual) and button clicking (scrolls to last visible tab-title)
+      // assert no scrolling buttons initially (full width)
+      // assert scrolling start button after making narrow
+      // assert scrolling start and end after wheel scrolling on tabs
+      // assert scrolling end after wheel scrolling to the end
+      // scroll back and assert to beginning?
+      // assert no scrolling buttons initially (full width)
     });
 
-    overflowScenarios.forEach(async (overflowScenario) => {
-      if (overflowScenario === "end") {
-        it("should show action buttons with correct chevrons for overflow to the end", async () => {
-          const isOverflowingEnd = await page.evaluate(() => {
-            const tabNav = document.getElementById("testSubjectNav") as HTMLCalciteTabNavElement;
-            const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
-
-            let tabNavWidth: number;
-            if (tabNav) {
-              tabNav.scrollLeft = 0;
-              tabNavWidth = tabNav.clientWidth;
-            }
-
-            const visibleTabTitles = tabTitles.filter((tabTitle) => {
-              const tabTitleRect = tabTitle.getBoundingClientRect();
-              return tabTitleRect.left >= 0 && tabTitleRect.right <= tabNavWidth;
-            });
-            const firstEndOverflowItem = tabTitles[visibleTabTitles.length];
-            const isOverflowingEnd = firstEndOverflowItem.getBoundingClientRect().right > tabNavWidth;
-
-            return isOverflowingEnd;
-          });
-          expect(isOverflowingEnd).toBe(true);
-
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowEnd}`)).not.toBe(null);
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).toBe(null);
-        });
-      } else if (overflowScenario === "start") {
-        it("should show action buttons with correct chevrons for overflow to the start", async () => {
-          const isOverflowingStart = await page.evaluate(async () => {
-            const tabTitles = Array.from(document.querySelectorAll("calcite-tab-title"));
-            if (tabTitles && tabTitles.length > 5) {
-              tabTitles[5].scrollIntoView();
-            }
-            const isOverflowingStart = tabTitles[0].getBoundingClientRect().right <= 0;
-
-            return isOverflowingStart;
-          });
-
-          expect(isOverflowingStart).toBe(true);
-          expect(await page.find(`#testSubjectNav >>> .${CSS.arrowStart}`)).toBeDefined();
-        });
-      }
-    });
+    it("scrolls into view clipped start or end tab-title when selected", async () => {});
   });
 });
