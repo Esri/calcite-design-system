@@ -38,6 +38,7 @@ import {
   calciteSize48,
   calciteSize64,
 } from "@esri/calcite-design-tokens/dist/es6/core";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -225,6 +226,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             [CSS.containerHasEndTabTitleOverflow]: !!this.hasOverflowingEndTabTitle,
             [`scale-${this.scale}`]: true,
             [`position-${this.position}`]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
           }}
           onScroll={this.handleContainerScroll}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)

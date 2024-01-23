@@ -1,4 +1,7 @@
 :host {
+  --calcite-internal-tab-nav-gradient-start-side: left;
+  --calcite-internal-tab-nav-gradient-end-side: right;
+
   @apply relative flex;
 }
 
@@ -17,13 +20,18 @@
   min-block-size: theme("spacing.11");
 }
 
+.calcite--rtl {
+  --calcite-internal-tab-nav-gradient-start-side: right;
+  --calcite-internal-tab-nav-gradient-end-side: left;
+}
+
 $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure the mask color stops overlap when both start and end are overflowing
 
 .tab-nav--start-overflow {
   .tab-nav-active-indicator-container,
   .tab-titles-slot-wrapper {
     mask-image: linear-gradient(
-      to right,
+      to var(--calcite-internal-tab-nav-gradient-end-side),
       transparent,
       transparent var(--calcite-internal-tab-nav-scroller-button-width),
       white var(--calcite-internal-tab-nav-scroller-button-width),
@@ -36,7 +44,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   .tab-nav-active-indicator-container,
   .tab-titles-slot-wrapper {
     mask-image: linear-gradient(
-      to left,
+      to var(--calcite-internal-tab-nav-gradient-start-side),
       transparent,
       transparent var(--calcite-internal-tab-nav-scroller-button-width),
       white var(--calcite-internal-tab-nav-scroller-button-width),
@@ -49,7 +57,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   .tab-nav-active-indicator-container,
   .tab-titles-slot-wrapper {
     mask-image: linear-gradient(
-        to right,
+        to var(--calcite-internal-tab-nav-gradient-end-side),
         transparent,
         transparent var(--calcite-internal-tab-nav-scroller-button-width),
         white var(--calcite-internal-tab-nav-scroller-button-width),
@@ -57,7 +65,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
         transparent $last-mask-color-stop-position
       ),
       linear-gradient(
-        to left,
+        to var(--calcite-internal-tab-nav-gradient-start-side),
         transparent,
         transparent var(--calcite-internal-tab-nav-scroller-button-width),
         white var(--calcite-internal-tab-nav-scroller-button-width),
