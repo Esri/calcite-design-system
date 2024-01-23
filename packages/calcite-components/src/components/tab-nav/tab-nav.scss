@@ -17,6 +17,8 @@
   min-block-size: theme("spacing.11");
 }
 
+$last-mask-color-stop-position: 51%; // we go beyond the half point to ensure the mask color stops overlap when both start and end are overflowing
+
 .tab-nav--start-overflow {
   .tab-nav-active-indicator-container,
   .tab-titles-slot-wrapper {
@@ -25,7 +27,7 @@
       transparent,
       transparent var(--calcite-internal-tab-nav-scroller-button-width),
       white var(--calcite-internal-tab-nav-scroller-button-width),
-      white 50%
+      white $last-mask-color-stop-position
     );
   }
 }
@@ -38,7 +40,7 @@
       transparent,
       transparent var(--calcite-internal-tab-nav-scroller-button-width),
       white var(--calcite-internal-tab-nav-scroller-button-width),
-      white 50%
+      white $last-mask-color-stop-position
     );
   }
 }
@@ -51,16 +53,16 @@
         transparent,
         transparent var(--calcite-internal-tab-nav-scroller-button-width),
         white var(--calcite-internal-tab-nav-scroller-button-width),
-        white 50%,
-        transparent 50%
+        white $last-mask-color-stop-position,
+        transparent $last-mask-color-stop-position
       ),
       linear-gradient(
         to left,
         transparent,
         transparent var(--calcite-internal-tab-nav-scroller-button-width),
         white var(--calcite-internal-tab-nav-scroller-button-width),
-        white 50%,
-        transparent 50%
+        white $last-mask-color-stop-position,
+        transparent $last-mask-color-stop-position
       );
   }
 }
