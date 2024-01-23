@@ -529,22 +529,31 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         const tabTitleBounds = tabTitle.getBoundingClientRect();
 
         if (direction === "forward") {
-          if (tabTitleBounds.x > containerBounds.x + containerBounds.width) {
+          const beyondContainer = tabTitleBounds.x > containerBounds.x + containerBounds.width;
+
+          if (beyondContainer) {
             closestToEdge = tabTitleBounds;
-          } else if (
-            tabTitleBounds.x + tabTitleBounds.width > containerBounds.x + containerBounds.width &&
-            tabTitleBounds.x > containerBounds.x
-          ) {
-            closestToEdge = tabTitleBounds;
+          } else {
+            const crossingContainer =
+              tabTitleBounds.x + tabTitleBounds.width > containerBounds.x + containerBounds.width &&
+              tabTitleBounds.x > containerBounds.x;
+
+            if (crossingContainer) {
+              closestToEdge = tabTitleBounds;
+            }
           }
         } else {
-          if (tabTitleBounds.x < containerBounds.x) {
+          const beyondContainer = tabTitleBounds.x + tabTitleBounds.width < containerBounds.x;
+          if (beyondContainer) {
             closestToEdge = tabTitleBounds;
-          } else if (
-            tabTitleBounds.x < containerBounds.x &&
-            tabTitleBounds.x + tabTitleBounds.width < containerBounds.x + containerBounds.width
-          ) {
-            closestToEdge = tabTitleBounds;
+          } else {
+            const crossingContainer =
+              tabTitleBounds.x < containerBounds.x &&
+              tabTitleBounds.x + tabTitleBounds.width < containerBounds.x + containerBounds.width;
+
+            if (crossingContainer) {
+              closestToEdge = tabTitleBounds;
+            }
           }
         }
       });
@@ -553,12 +562,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         const closestBounds = closestToEdge;
         const scrollBy: number =
           direction === "forward"
-            ? tabTitleContainer.scrollLeft + closestBounds.x - this.scrollerButtonWidth
-            : -(
-                tabTitleContainer.scrollLeft +
-                (closestBounds.x - closestBounds.width) -
-                this.scrollerButtonWidth
-              );
+            ? closestBounds.x - this.scrollerButtonWidth
+            : -containerBounds.width +
+              closestBounds.x +
+              closestBounds.width +
+              this.scrollerButtonWidth;
 
         tabTitleContainer.scrollBy({
           left: scrollBy,
@@ -573,13 +581,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     });
   };
 
-  private scrollToNextTabTitles = (): void => {
-    this.scrollToTabTitles("forward");
-  };
+  private scrollToNextTabTitles = (): void => this.scrollToTabTitles("forward");
 
-  private scrollToPreviousTabTitles = (): void => {
-    this.scrollToTabTitles("backward");
-  };
+  private scrollToPreviousTabTitles = (): void => this.scrollToTabTitles("backward");
 
   handleTabFocus = (
     event: CustomEvent,
