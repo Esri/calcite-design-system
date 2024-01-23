@@ -99,6 +99,13 @@
   }
 }
 
+:host([alignment="center"]) {
+  .tile {
+    justify-items: center;
+    text-align: center;
+  }
+}
+
 :host([scale="s"]) {
   .tile {
     gap: var(--calcite-spacing-sm);
@@ -165,11 +172,6 @@
 :host(:not([embed])[href]:active) {
   .tile {
     box-shadow: 0 0 0 3px var(--calcite-tile-border-color-active);
-  }
-}
-:host([icon][heading]:not([description]):not([embed])) {
-  .tile {
-    padding: 0px;
   }
 }
 

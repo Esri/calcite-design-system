@@ -7,7 +7,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { CSS, SLOTS } from "./resources";
-import { Scale } from "../interfaces";
+import { Alignment, Scale } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
@@ -30,6 +30,11 @@ export class Tile implements InteractiveComponent {
    * When `true`, the component is active.
    */
   @Prop({ reflect: true }) active = false;
+
+  /**
+   * Specifies the alignment of the Tile's content.
+   */
+  @Prop({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
   /**
    * A description for the component, which displays below the heading.
