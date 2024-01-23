@@ -1,5 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -27,6 +37,10 @@ describe("calcite-action-pad", () => {
         defaultValue: "vertical",
       },
       {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
         propertyName: "scale",
         defaultValue: undefined,
       },
@@ -47,7 +61,15 @@ describe("calcite-action-pad", () => {
         propertyName: "layout",
         value: "horizontal",
       },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
     ]);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent("calcite-pad", "calcite-action-group");
   });
 
   describe("expand functionality", () => {

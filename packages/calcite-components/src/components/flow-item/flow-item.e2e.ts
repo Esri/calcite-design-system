@@ -1,5 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -47,8 +58,57 @@ describe("calcite-flow-item", () => {
         defaultValue: false,
       },
       {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
         propertyName: "showBackButton",
         defaultValue: false,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-flow-item", [
+      {
+        propertyName: "closable",
+        value: true,
+      },
+      {
+        propertyName: "closed",
+        value: true,
+      },
+      {
+        propertyName: "collapsible",
+        value: true,
+      },
+      {
+        propertyName: "collapseDirection",
+        value: "up",
+      },
+      {
+        propertyName: "collapsed",
+        value: true,
+      },
+      {
+        propertyName: "disabled",
+        value: true,
+      },
+      {
+        propertyName: "loading",
+        value: true,
+      },
+      {
+        propertyName: "menuOpen",
+        value: true,
+      },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
+      {
+        propertyName: "showBackButton",
+        value: true,
       },
     ]);
   });
@@ -93,6 +153,10 @@ describe("calcite-flow-item", () => {
 
   describe("translation support", () => {
     t9n("calcite-flow-item");
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent("calcite-flow-item", "calcite-panel");
   });
 
   it("showBackButton", async () => {

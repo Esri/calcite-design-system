@@ -1,6 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
 import { getFocusedElementProp } from "../../tests/utils";
@@ -32,6 +42,10 @@ describe("calcite-action-bar", () => {
         propertyName: "layout",
         defaultValue: "vertical",
       },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
     ]);
   });
 
@@ -45,7 +59,15 @@ describe("calcite-action-bar", () => {
         propertyName: "expanded",
         value: true,
       },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
     ]);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent("calcite-bar", "calcite-action-group");
   });
 
   describe("expand functionality", () => {

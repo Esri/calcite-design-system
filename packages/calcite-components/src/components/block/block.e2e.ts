@@ -1,6 +1,17 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS } from "./resources";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 
@@ -26,6 +37,31 @@ describe("calcite-block", () => {
       {
         propertyName: "open",
         defaultValue: false,
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-block", [
+      {
+        propertyName: "collapsible",
+        value: true,
+      },
+      {
+        propertyName: "headingLevel",
+        value: 2,
+      },
+      {
+        propertyName: "open",
+        value: true,
+      },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
       },
     ]);
   });
@@ -85,6 +121,10 @@ describe("calcite-block", () => {
 
   describe("disabled", () => {
     disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent("calcite-block", "calcite-action-menu");
   });
 
   it("has a loading state", async () => {
