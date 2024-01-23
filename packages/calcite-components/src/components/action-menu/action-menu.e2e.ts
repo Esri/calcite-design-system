@@ -94,7 +94,12 @@ describe("calcite-action-menu", () => {
   });
 
   describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent("calcite-action-menu", "calcite-popover");
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-action-menu>
+        <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
+      </calcite-action-menu>`,
+      "calcite-popover",
+    );
   });
 
   it("should emit 'calciteActionMenuOpen' event", async () => {

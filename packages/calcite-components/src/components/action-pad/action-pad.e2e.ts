@@ -69,7 +69,12 @@ describe("calcite-action-pad", () => {
   });
 
   describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent("calcite-pad", "calcite-action-group");
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-action-pad>
+        <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+      </calcite-action-pad>`,
+      "calcite-action-group",
+    );
   });
 
   describe("expand functionality", () => {

@@ -156,7 +156,12 @@ describe("calcite-flow-item", () => {
   });
 
   describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent("calcite-flow-item", "calcite-panel");
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-flow-item>
+        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+      </calcite-flow-item>`,
+      "calcite-panel",
+    );
   });
 
   it("showBackButton", async () => {

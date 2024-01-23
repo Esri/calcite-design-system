@@ -104,7 +104,12 @@ describe("calcite-panel", () => {
   });
 
   describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent("calcite-panel", "calcite-flow-item");
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-panel>
+        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+      </calcite-panel>`,
+      "calcite-flow-item",
+    );
   });
 
   it("honors closed prop", async () => {

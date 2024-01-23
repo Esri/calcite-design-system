@@ -124,7 +124,12 @@ describe("calcite-block", () => {
   });
 
   describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent("calcite-block", "calcite-action-menu");
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-block>
+        <calcite-action label="Add" icon="plus" slot="header-menu-actions"></calcite-action>
+      </calcite-block>`,
+      "calcite-action-menu",
+    );
   });
 
   it("has a loading state", async () => {
