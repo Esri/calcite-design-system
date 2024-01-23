@@ -154,8 +154,6 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 
 .scroll-button-container {
   @apply absolute;
-  inset-block-start: 50%;
-  transform: translateY(-50%);
 }
 
 .scroll-button-container:not([hidden]) {
