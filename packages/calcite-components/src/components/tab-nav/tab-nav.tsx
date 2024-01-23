@@ -459,14 +459,15 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   private updateActiveIndicator(): void {
     const dir = getElementDir(this.el);
     const tabTitleScrollLeft = this.tabTitleContainerEl?.scrollLeft;
+    const containerScrollLeft = this.containerEl?.scrollLeft;
     const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
     const tabLeft = this.selectedTitle?.offsetLeft;
     const tabWidth = this.selectedTitle?.offsetWidth;
     const offsetRight = navWidth - tabLeft - tabWidth;
-    this.indicatorOffset =
-      (dir === "ltr"
-        ? tabLeft - this.containerEl?.scrollLeft
-        : offsetRight + this.containerEl?.scrollLeft) - tabTitleScrollLeft;
+    const offsetBase = dir === "ltr" ? tabLeft : offsetRight;
+    const multiplier = dir === "ltr" ? -1 : 1;
+
+    this.indicatorOffset = offsetBase + multiplier * (containerScrollLeft + tabTitleScrollLeft);
     this.indicatorWidth = this.selectedTitle?.offsetWidth;
   }
 
@@ -684,6 +685,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             [CSS.scrollButton]: true,
           }}
           icon={isEnd ? ICON.chevronRight : ICON.chevronLeft}
+          iconFlipRtl={true}
           onClick={isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
           scale={scale}
           text={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
