@@ -8,4 +8,4 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: benelan/milestone-action@v2.0.0
+      - uses: benelan/milestone-action@v3
