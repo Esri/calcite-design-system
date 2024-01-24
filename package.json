@@ -70,7 +70,7 @@
     "chokidar": "3.5.3",
     "chromatic": "6.24.1",
     "concurrently": "7.6.0",
-    "conventional-changelog-conventionalcommits": "5.0.0",
+    "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "11.0.0",
     "cpy-cli": "5.0.0",
     "dedent": "0.7.0",
