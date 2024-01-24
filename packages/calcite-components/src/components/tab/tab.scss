@@ -32,12 +32,12 @@
 }
 
 .scale-m {
-  --calcite-internal-tab-content-padding: var(--calcite-tab-content-block-padding, theme("spacing.2"));
+  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.2"));
   @apply text-n1h;
 }
 
 .scale-l {
-  --calcite-internal-tab-content-padding: var(--calcite-tab-content-block-padding, theme("spacing.[2.5]"));
+  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.[2.5]"));
   @apply text-0h;
 }
 
