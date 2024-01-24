@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.3.0-next.0...@esri/calcite-components@2.3.0-next.1) (2024-01-24)
+
+### Features
+
+- **tab:** add `--calcite-tab-content-block-padding` to override built-in block-padding ([#8629](https://github.com/Esri/calcite-design-system/issues/8629)) ([7dae525](https://github.com/Esri/calcite-design-system/commit/7dae525d45a429e7b5c2d1b285ff474525d3113b)), closes [#8413](https://github.com/Esri/calcite-design-system/issues/8413) [/github.com/Esri/calcite-design-system/issues/8139#issuecomment-1830397218](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/8139/issues/issuecomment-1830397218)
+
 ## [2.3.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.1-next.1...@esri/calcite-components@2.3.0-next.0) (2024-01-24)
 
 ### Features
