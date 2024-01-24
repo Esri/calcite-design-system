@@ -65,20 +65,12 @@ describe("calcite-panel", () => {
   describe("reflects", () => {
     reflects("calcite-panel", [
       {
-        propertyName: "widthScale",
-        value: "s",
-      },
-      {
         propertyName: "headingLevel",
         value: 2,
       },
       {
         propertyName: "collapsible",
         value: true,
-      },
-      {
-        propertyName: "collapseDirection",
-        value: "end",
       },
       {
         propertyName: "collapsed",
@@ -108,7 +100,7 @@ describe("calcite-panel", () => {
       html`<calcite-panel>
         <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
       </calcite-panel>`,
-      "calcite-flow-item",
+      "calcite-action-menu",
     );
   });
 

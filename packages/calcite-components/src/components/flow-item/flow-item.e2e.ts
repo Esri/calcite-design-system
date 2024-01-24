@@ -83,10 +83,6 @@ describe("calcite-flow-item", () => {
         value: true,
       },
       {
-        propertyName: "collapseDirection",
-        value: "up",
-      },
-      {
         propertyName: "collapsed",
         value: true,
       },
@@ -105,10 +101,6 @@ describe("calcite-flow-item", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
-      },
-      {
-        propertyName: "showBackButton",
-        value: true,
       },
     ]);
   });
