@@ -32,9 +32,11 @@
 
   .tile {
     background-color: var(--calcite-tile-background-color);
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: var(--calcite-spacing-md);
+    inline-size: 100%;
     pointer-events: none;
     transition-duration: 150ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
