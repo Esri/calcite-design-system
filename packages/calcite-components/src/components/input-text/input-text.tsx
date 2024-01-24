@@ -111,13 +111,6 @@ export class InputText
   form: string;
 
   /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
-
-  /**
    * Specifies an icon to display.
    *
    * @futureBreaking Remove boolean type as it is not supported.
@@ -499,13 +492,6 @@ export class InputText
       this.emitChangeIfUserModified();
     }
   };
-
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     if (this.minLength != null) {

@@ -403,10 +403,6 @@ export class TextArea
   //
   //--------------------------------------------------------------------------
 
-  onFormReset(): void {
-    this.value = this.defaultValue;
-  }
-
   onLabelClick(): void {
     this.setFocus();
   }

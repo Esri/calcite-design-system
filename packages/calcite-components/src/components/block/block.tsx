@@ -43,6 +43,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding custom content.
@@ -139,6 +140,16 @@ export class Block
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   //--------------------------------------------------------------------------
   //
@@ -364,7 +375,10 @@ export class Block
           </div>
         ) : null}
         {hasMenuActions ? (
-          <calcite-action-menu label={messages.options}>
+          <calcite-action-menu
+            label={messages.options}
+            overlayPositioning={this.overlayPositioning}
+          >
             <slot name={SLOTS.headerMenuActions} />
           </calcite-action-menu>
         ) : null}

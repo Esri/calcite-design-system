@@ -34,6 +34,17 @@ import { CSS } from "./resources";
 export class RadioButtonGroup implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("hidden")
+  handleHiddenChange(): void {
+    this.passPropsToRadioButtons();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -43,14 +54,6 @@ export class RadioButtonGroup implements LoadableComponent {
 
   @Watch("disabled")
   onDisabledChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
-  /** When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. */
-  @Prop({ reflect: true }) hidden = false;
-
-  @Watch("hidden")
-  onHiddenChange(): void {
     this.passPropsToRadioButtons();
   }
 
@@ -140,7 +143,7 @@ export class RadioButtonGroup implements LoadableComponent {
     if (this.radioButtons.length > 0) {
       this.radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
-        radioButton.hidden = this.hidden;
+        radioButton.hidden = this.el.hidden;
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;
