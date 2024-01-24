@@ -27,6 +27,8 @@
 
   box-sizing: border-box;
   display: inline-block;
+  max-inline-size: 460px;
+  min-inline-size: 140px;
 
   .tile {
     background-color: var(--calcite-tile-background-color);
@@ -107,6 +109,8 @@
 }
 
 :host([scale="s"]) {
+  max-inline-size: 400px;
+  min-inline-size: 100px;
   .tile {
     gap: var(--calcite-spacing-sm);
   }
@@ -121,6 +125,8 @@
 }
 
 :host([scale="l"]) {
+  max-inline-size: 520px;
+  min-inline-size: 160px;
   .tile {
     gap: var(--calcite-spacing-xl);
   }
