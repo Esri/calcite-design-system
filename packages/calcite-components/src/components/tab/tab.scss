@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tab-content-space: Specifies the padding of the block `default` slot.
+ * @prop --calcite-tab-content-space: Specifies the spacing of the component's content in the  `"default"` slot.
  */
 
 :host([selected]) {
