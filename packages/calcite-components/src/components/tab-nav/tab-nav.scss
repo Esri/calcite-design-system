@@ -114,7 +114,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 }
 
-:host([layout="center"]:not([bordered])) {
+:host(:not([bordered])) {
   .scale-l {
     --calcite-internal-tab-nav-gap: var(--calcite-size-lg);
   }
@@ -126,8 +126,13 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 
   .tab-titles-slot-wrapper {
-    padding-inline: var(--calcite-spacing-xxl);
     gap: var(--calcite-internal-tab-nav-gap);
+  }
+}
+
+:host([layout="center"]:not([bordered])) {
+  .tab-titles-slot-wrapper {
+    padding-inline: var(--calcite-spacing-xxl);
   }
 }
 

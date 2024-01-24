@@ -89,7 +89,7 @@
     flex
     h-full
     justify-between
-    px-0
+    px-1
     text-color-3
     text-n1h
     transition-default
@@ -225,12 +225,6 @@
 :host([bordered]) {
   .content {
     @apply px-3;
-  }
-}
-
-:host([bordered]) .scale-s {
-  .content {
-    @apply px-2;
   }
 }
 
