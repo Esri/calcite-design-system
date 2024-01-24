@@ -26,17 +26,17 @@
   padding-block: var(--calcite-internal-tab-content-block-padding);
 }
 
-.scale-s .content {
+.scale-s {
   --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.1"));
   @apply text-n2h;
 }
 
-.scale-m .content {
+.scale-m {
   --calcite-internal-tab-content-padding: var(--calcite-tab-content-block-padding, theme("spacing.2"));
   @apply text-n1h;
 }
 
-.scale-l .content {
+.scale-l {
   --calcite-internal-tab-content-padding: var(--calcite-tab-content-block-padding, theme("spacing.[2.5]"));
   @apply text-0h;
 }
