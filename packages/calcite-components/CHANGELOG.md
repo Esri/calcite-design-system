@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.1-next.1...@esri/calcite-components@2.3.0-next.0) (2024-01-24)
+
+### Features
+
+- **action-bar, action-pad, block, flow-item, panel:** add `overlayPositioning` prop for built-in menus ([#8633](https://github.com/Esri/calcite-design-system/issues/8633)) ([714b889](https://github.com/Esri/calcite-design-system/commit/714b88949cbb66c0acfd360a785e4af34ea54d3e)), closes [#8620](https://github.com/Esri/calcite-design-system/issues/8620)
+
 ## [2.2.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.1-next.0...@esri/calcite-components@2.2.1-next.1) (2024-01-19)
 
 ### Bug Fixes
