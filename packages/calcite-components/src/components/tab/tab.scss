@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tab-content-space: Specifies the spacing of the component's content in the  `"default"` slot.
+ * @prop --calcite-tab-content-block-padding: Specifies the block padding of the component's content in the `default` slot.
  */
 
 :host([selected]) {
@@ -23,21 +23,22 @@
 
 .content {
   @apply box-border;
+  padding-block: var(--calcite-internal-tab-content-block-padding);
 }
 
 .scale-s .content {
+  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.1"));
   @apply text-n2h;
-  padding-block: var(--calcite-tab-content-space, theme("spacing.1"));
 }
 
 .scale-m .content {
+  --calcite-internal-tab-content-padding: var(--calcite-tab-content-block-padding, theme("spacing.2"));
   @apply text-n1h;
-  padding-block: var(--calcite-tab-content-space, theme("spacing.2"));
 }
 
 .scale-l .content {
+  --calcite-internal-tab-content-padding: var(--calcite-tab-content-block-padding, theme("spacing.[2.5]"));
   @apply text-0h;
-  padding-block: var(--calcite-tab-content-space, theme("spacing[2.5]"));
 }
 
 section,
