@@ -6,6 +6,7 @@ import {
   EventEmitter,
   h,
   Host,
+  // Listen,
   Method,
   Prop,
   State,
@@ -100,7 +101,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   }
 
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
-  @Prop({ mutable: true }) minAsDate: Date;
+  @Prop({ mutable: true })
+  minAsDate: Date;
 
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
   @Prop({ mutable: true }) maxAsDate: Date;
@@ -259,13 +261,15 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         : this.minAsDate;
 
     const startCalendarActiveDate = this.range
-      ? this.activeRange === "end" && this.activeEndDate && !this.isStartDateHasSameMonthAsEndDate()
+      ? this.activeRange === "end" &&
+        this.activeEndDate &&
+        !this.hasSameMonthAndYear(this.activeStartDate, this.activeEndDate)
         ? prevMonth(this.activeEndDate)
         : this.activeStartDate
       : activeDate;
 
     return (
-      <Host onBlur={this.resetActiveDates} onKeyDown={this.keyDownHandler}>
+      <Host onBlur={this.blurHandler} onKeyDown={this.keyDownHandler}>
         <div class="container">
           <div class="start">
             {this.renderCalendar(
@@ -282,7 +286,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
               this.renderCalendar(
                 this.activeRange === "end" &&
                   this.activeEndDate &&
-                  !this.isStartDateHasSameMonthAsEndDate()
+                  !this.hasSameMonthAndYear(this.activeStartDate, this.activeEndDate)
                   ? this.activeEndDate
                   : nextMonth(this.activeStartDate),
                 this.maxAsDate,
@@ -569,15 +573,23 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     if (!Array.isArray(valueAsDate) && valueAsDate && valueAsDate !== this.activeDate) {
       this.activeDate = new Date(valueAsDate);
     }
-
     if (Array.isArray(valueAsDate)) {
       if (valueAsDate[0] && valueAsDate[0] !== this.activeStartDate) {
         this.activeStartDate = new Date(valueAsDate[0]);
       }
       if (valueAsDate[1] && valueAsDate[1] !== this.activeEndDate) {
-        this.activeEndDate = new Date(valueAsDate[1]);
+        this.activeEndDate =
+          this.hasSameMonthAndYear(valueAsDate[0], valueAsDate[1]) &&
+          !this.hasSameMonthAndYear(this.activeEndDate, valueAsDate[1])
+            ? nextMonth(valueAsDate[1])
+            : new Date(valueAsDate[1]);
+        //this.activeEndDate = new Date(valueAsDate[1]);
       }
     }
+  };
+
+  blurHandler = (): void => {
+    this.resetActiveDates();
   };
 
   private getEndDate(): Date {
@@ -711,15 +723,15 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     }
   }
 
-  private isStartDateHasSameMonthAsEndDate(): boolean {
+  private hasSameMonthAndYear(startDate: Date, endDate: Date): boolean {
     if (!Array.isArray(this.valueAsDate) || !this.valueAsDate[1]) {
       return false;
     }
-    const startYearMonth = this.activeStartDate.getMonth();
-    const startYearYear = this.activeStartDate.getFullYear();
+    const startYearMonth = startDate.getMonth();
+    const startYearYear = startDate.getFullYear();
 
-    const endYearMonth = this.activeEndDate.getMonth();
-    const endYearYear = this.activeEndDate.getFullYear();
+    const endYearMonth = endDate.getMonth();
+    const endYearYear = endDate.getFullYear();
     return endYearYear === startYearYear && startYearMonth === endYearMonth;
   }
 }
