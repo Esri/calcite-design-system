@@ -5,10 +5,8 @@
 *
 * @prop --calcite-popover-background-color: Specifies the background color of the component.
 * @prop --calcite-popover-border-color: The border color of the component.
-* @prop --calcite-popover-border-inline-end-color: The border color of the component.
-* @prop --calcite-popover-border-start-end-radius: The start end border radius of the component.
-* @prop --calcite-popover-border-end-end-radius: The end end border radius of the component.
-* @prop --calcite-popover-font-size: The font size of `calcite-option`s in the component.
+* @prop --calcite-popover-border-radius: The start end border radius of the component.
+* @prop --calcite-popover-font-size: The font size of the component.
 * @prop --calcite-popover-text-color: The text color of the component.
 * @prop --calcite-popover-z-index: Sets the z-index value for the component.
 */
@@ -25,7 +23,7 @@
     @apply px-3
     py-2;
 
-    --calcite-popover-font-size: theme("fontSize.n1-wrap");
+    --calcite-popover-font-size: var(--calcite-font-size-sm);
   }
 }
 
@@ -34,7 +32,7 @@
     @apply px-4
     py-3;
 
-    --calcite-popover-font-size: theme("fontSize.0-wrap");
+    --calcite-popover-font-size: var(--calcite-font-size-md);
   }
 }
 
@@ -43,7 +41,7 @@
     @apply px-5
     py-4;
 
-    --calcite-popover-font-size: theme("fontSize.1-wrap");
+    --calcite-popover-font-size: var(--calcite-font-size-lg);
   }
 }
 
@@ -77,7 +75,7 @@
     border-b
     border-solid;
 
-  --calcite-popover-border-inline-end-color: var(--calcite-color-border-3);
+  --calcite-popover-border-color: var(--calcite-color-border-3);
 }
 
 .heading {
@@ -119,8 +117,7 @@
 .close-button-container {
   @apply flex overflow-hidden;
   flex: 0 0 auto;
-  --calcite-popover-border-start-end-radius: : theme("borderRadius.DEFAULT");
-  --calcite-popover-border-end-end-radius: : theme("borderRadius.DEFAULT");
+  --calcite-popover-border-radius: : theme("borderRadius.DEFAULT");
 }
 
 ::slotted(calcite-panel),
