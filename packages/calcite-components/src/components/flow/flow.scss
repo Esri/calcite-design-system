@@ -1,61 +1,66 @@
 :host {
-  @extend %component-host;
-  @apply relative
-    flex
-    w-full
-    flex-auto
-    items-stretch
-    overflow-hidden
-    bg-transparent;
+  @include base-host();
+  position: relative;
+  display: flex;
+  inline-size: 100%;
+  flex: 1 1 auto;
+  align-items: stretch;
+  overflow: hidden;
+
+  --calcite-internal-flow-animation-opacity-start: var(--calcite-opacity-50);
+  --calcite-internal-flow-animation-opacity-end: var(--calcite-opacity-100);
+  --calcite-internal-flow-animation-timing: var(--calcite-animation-timing);
+  --calcite-internal-flow-animation-advance: calcite-frame-advance var(--calcite-internal-flow-animation-timing);
+  --calcite-internal-flow-animation-retreat: calcite-frame-retreat var(--calcite-internal-flow-animation-timing);
 
   .frame {
-    @apply relative
-      m-0
-      flex
-      w-full
-      flex-auto
-      flex-col
-      items-stretch
-      p-0;
+    position: relative;
+    display: flex;
+    margin: 0;
+    inline-size: 100%;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
   }
 
   ::slotted(calcite-flow-item),
   ::slotted(calcite-panel) {
-    @apply h-full;
+    block-size: 100%;
   }
 
   ::slotted(.calcite-match-height:last-child) {
-    @apply flex
-    flex-auto
-    overflow-hidden;
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
   }
 
   .frame--advancing {
-    animation: calcite-frame-advance var(--calcite-animation-timing);
+    animation: var(--calcite-internal-flow-animation-advance);
   }
 
   .frame--retreating {
-    animation: calcite-frame-retreat var(--calcite-animation-timing);
+    animation: var(--calcite-internal-flow-animation-retreat);
   }
 
   @keyframes calcite-frame-advance {
     0% {
-      @apply bg-opacity-50;
+      opacity: var(--calcite-internal-flow-animation-opacity-start);
       transform: translate3d(50px, 0, 0);
     }
     100% {
-      @apply bg-opacity-100;
+      opacity: var(--calcite-internal-flow-animation-opacity-end);
       transform: translate3d(0, 0, 0);
     }
   }
 
   @keyframes calcite-frame-retreat {
     0% {
-      @apply bg-opacity-50;
+      opacity: var(--calcite-internal-flow-animation-opacity-start);
       transform: translate3d(-50px, 0, 0);
     }
     100% {
-      @apply bg-opacity-100;
+      opacity: var(--calcite-internal-flow-animation-opacity-end);
       transform: translate3d(0, 0, 0);
     }
   }
