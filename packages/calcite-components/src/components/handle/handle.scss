@@ -9,10 +9,10 @@
     justify-center
     self-stretch
     border-none
-    bg-transparent;
+    bg-transparent
+    p-2;
+
   color: theme("borderColor.color.input");
-  padding-block: theme("spacing.3");
-  padding-inline: theme("spacing.1");
   line-height: 0;
 
   calcite-icon {
