@@ -4,16 +4,19 @@
 * These properties can be overridden using the component's tag as selector.
 *
 * @prop --calcite-tip-border-color: The border color of the component.
-* @prop --calcite-tip-color: The background color of the component.
+* @prop --calcite-tip-background-color: The background color of the component.
 * @prop --calcite-tip-font-size: The font size of the component.
 * @prop --calcite-tip-text-color: The text color of the component.
+*/
+
+/**
+* Internal CSS Custom Properties  
 *
 * @prop --calcite-internal-tip-padding: The paddings around component elements.
 * @prop --calcite-internal-tip-padding-block: The block paddings around component elements.
 * @prop --calcite-internal-tip-padding-inline: The inline paddings around component elements.
 * @prop --calcite-internal-tip-margin: The margins around component elements.
 * @prop --calcite-internal-tip-margin-block: The block margins around component elements.
-*
 */
 
 :host {
@@ -25,7 +28,7 @@
     border-solid;
 
   --calcite-tip-border-color: var(--calcite-color-border-2);
-  --calcite-tip-color: var(--calcite-color-foreground-1);
+  --calcite-tip-background-color: var(--calcite-color-foreground-1);
   --calcite-tip-text-color: var(--calcite-color-text-2);
   --calcite-tip-font-size: theme("fontSize.n1");
   --calcite-internal-tip-margin: 1rem /* 16px */;
