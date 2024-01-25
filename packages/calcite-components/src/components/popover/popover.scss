@@ -6,6 +6,8 @@
 * @prop --calcite-popover-background-color: Specifies the background color of the component.
 * @prop --calcite-popover-border-color: The border color of the component.
 * @prop --calcite-popover-border-inline-end-color: The border color of the component.
+* @prop --calcite-popover-border-start-end-radius: The start end border radius of the component.
+* @prop --calcite-popover-border-end-end-radius: The end end border radius of the component.
 * @prop --calcite-popover-font-size: The font size of `calcite-option`s in the component.
 * @prop --calcite-popover-text-color: The text color of the component.
 * @prop --calcite-popover-z-index: Sets the z-index value for the component.
@@ -38,8 +40,7 @@
 
 :host([scale="l"]) {
   .heading {
-    @apply text-1-wrap
-    px-5
+    @apply px-5
     py-4;
 
     --calcite-popover-font-size: theme("fontSize.1-wrap");
@@ -118,8 +119,8 @@
 .close-button-container {
   @apply flex overflow-hidden;
   flex: 0 0 auto;
-  border-start-end-radius: theme("borderRadius.DEFAULT");
-  border-end-end-radius: theme("borderRadius.DEFAULT");
+  --calcite-popover-border-start-end-radius: : theme("borderRadius.DEFAULT");
+  --calcite-popover-border-end-end-radius: : theme("borderRadius.DEFAULT");
 }
 
 ::slotted(calcite-panel),
