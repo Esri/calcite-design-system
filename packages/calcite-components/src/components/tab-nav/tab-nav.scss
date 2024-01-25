@@ -116,13 +116,13 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 
 :host(:not([bordered])) {
   .scale-l {
-    --calcite-internal-tab-nav-gap: var(--calcite-size-lg);
+    --calcite-internal-tab-nav-gap: var(--calcite-size-xxl);
   }
   .scale-m {
     --calcite-internal-tab-nav-gap: var(--calcite-size-xl);
   }
   .scale-s {
-    --calcite-internal-tab-nav-gap: var(--calcite-size-xxl);
+    --calcite-internal-tab-nav-gap: var(--calcite-size-lg);
   }
 
   .tab-titles-slot-wrapper {
