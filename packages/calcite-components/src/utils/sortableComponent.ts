@@ -1,4 +1,5 @@
 import Sortable from "sortablejs";
+import { getDepth } from "../components/list-item/utils";
 const sortableComponentSet = new Set<SortableComponent>();
 
 export interface DragDetail {
@@ -130,16 +131,22 @@ export function connectSortableComponent(component: SortableComponent): void {
     handle,
     filter: "[drag-disabled]",
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+      dragEl.style.setProperty("--calcite-indent-multiplier", `${getDepth(dragEl, true)}`);
       dragState.active = true;
       onGlobalDragStart();
       component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
     onEnd: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+      dragEl.style.setProperty("--calcite-indent-multiplier", `${getDepth(dragEl, true)}`);
       dragState.active = false;
       onGlobalDragEnd();
       component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
+    onChange: ({ item: dragEl }) => {
+      dragEl.style.setProperty("--calcite-indent-multiplier", `${getDepth(dragEl, true)}`);
+    },
     onSort: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
+      dragEl.style.setProperty("--calcite-indent-multiplier", `${getDepth(dragEl, true)}`);
       component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
   });

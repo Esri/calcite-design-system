@@ -5,6 +5,11 @@
     overflow: hidden;
   }
 
+  .calcite-sortable--ghost {
+    --calcite-indent: theme("spacing.4");
+    margin-inline-start: calc(var(--calcite-indent) * var(--calcite-indent-multiplier, 0));
+  }
+
   .calcite-sortable--ghost::before {
     content: "";
     @apply box-border
