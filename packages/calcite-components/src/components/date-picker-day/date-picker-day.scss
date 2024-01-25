@@ -21,8 +21,8 @@
   }
   &:after {
     inset-inline-start: 50%;
-    border-start-end-radius: var(--calcite-internal-day-size);
-    border-end-end-radius: var(--calcite-internal-day-size);
+    // border-start-end-radius: var(--calcite-internal-day-size);
+    // border-end-end-radius: var(--calcite-internal-day-size);
     inline-size: calc(var(--calcite-internal-day-size) / 2);
   }
 }
@@ -30,8 +30,8 @@
 @mixin range-part-edge-start() {
   &:before {
     inset-inline-end: 50%;
-    border-start-start-radius: var(--calcite-internal-day-size);
-    border-end-start-radius: var(--calcite-internal-day-size);
+    // border-start-start-radius: var(--calcite-internal-day-size);
+    // border-end-start-radius: var(--calcite-internal-day-size);
     inline-size: calc(var(--calcite-internal-day-size) / 2);
   }
   &:after {
@@ -75,7 +75,6 @@
     focus-base
     items-center
     justify-center
-    rounded-full
     leading-none
     transition-default
     z-default;

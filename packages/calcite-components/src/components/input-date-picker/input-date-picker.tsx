@@ -563,6 +563,7 @@ export class InputDatePicker
                   ref={this.setStartInput}
                 />
                 {!this.readOnly &&
+                  !this.range &&
                   this.renderToggleIcon(this.open && this.focusedInput === "start")}
                 <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
                   Date Format: {this.localeData?.placeholder}
@@ -615,15 +616,6 @@ export class InputDatePicker
                 </div>
               </div>
 
-              {this.range && this.layout === "horizontal" && (
-                <div class={CSS.horizontalArrowContainer}>
-                  <calcite-icon
-                    flipRtl={true}
-                    icon="arrow-right"
-                    scale={getIconScale(this.scale)}
-                  />
-                </div>
-              )}
               {this.range && this.layout === "vertical" && this.scale !== "s" && (
                 <div class={CSS.verticalArrowContainer}>
                   <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
@@ -660,8 +652,7 @@ export class InputDatePicker
                     // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                     ref={this.setEndInput}
                   />
-                  {!this.readOnly &&
-                    this.renderToggleIcon(this.open && this.focusedInput === "end")}
+                  {!this.readOnly && this.renderToggleIcon(this.open)}
                 </div>
               )}
             </div>
@@ -847,6 +838,7 @@ export class InputDatePicker
   };
 
   private blurHandler = (): void => {
+    console.log("blur handler");
     this.open = false;
   };
 
@@ -1030,7 +1022,7 @@ export class InputDatePicker
     focusedInput.setFocus();
 
     //avoids delay in updating focusedInput value while the `blur` handler in `date-picker` causing update in activeDate's.
-    this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
+    // this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
   }
 
   private localizeInputValues(): void {

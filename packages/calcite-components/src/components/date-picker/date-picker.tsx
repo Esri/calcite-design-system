@@ -94,8 +94,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("valueAsDate")
   valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
-    if (this.range && Array.isArray(newValueAsDate)) {
-    } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
+    if (newValueAsDate && newValueAsDate !== this.activeDate && !this.range) {
       this.activeDate = newValueAsDate as Date;
     }
   }
@@ -269,7 +268,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       : activeDate;
 
     return (
-      <Host onBlur={this.blurHandler} onKeyDown={this.keyDownHandler}>
+      <Host onKeyDown={this.keyDownHandler}>
         <div class="container">
           <div class="start">
             {this.renderCalendar(
@@ -403,29 +402,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   monthActiveDateChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
-    // const target = event.target as HTMLCalciteDatePickerMonthElement;
+
     if (!this.range) {
       this.activeDate = date;
-    } else {
-      // if (this.activeRange === "end" && target.position === "end") {
-      //   this.activeEndDate = date;
-      //   this.mostRecentActiveDateValue = null;
-      // } else if (this.activeRange === "start" && target.position === "start") {
-      //   this.activeStartDate = date;
-      //   this.mostRecentActiveDateValue = null;
-      // } else if (this.activeRange === "end" && target.position !== "end") {
-      //   this.mostRecentActiveDateValue = date;
-      //   this.activeStartDate = date;
-      // } else if (this.activeRange === "start" && target.position !== "start") {
-      //   this.mostRecentActiveDateValue = date;
-      //   this.activeEndDate = date;
-      // }
-      // if (this.activeRange === "end") {
-      //   this.activeEndDate = date;
-      // } else {
-      //   this.activeStartDate = date;
-      // }
-      // this.mostRecentRangeValue = date;
     }
   };
 
@@ -528,7 +507,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     endDate: Date,
     position?: "start" | "end"
   ) {
-    const selectedDate = position === "end" ? endDate : date;
     return (
       this.localeData && [
         <calcite-date-picker-month-header
@@ -559,8 +537,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             position={position}
             range={this.range}
             scale={this.scale}
-            // selectedDate={position === "end" ? endDate : date}
-            selectedDate={selectedDate}
+            selectedDate={this.activeRange === "end" ? endDate || date : date}
             startDate={this.range ? date : undefined}
           />
         ),
@@ -578,18 +555,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.activeStartDate = new Date(valueAsDate[0]);
       }
       if (valueAsDate[1] && valueAsDate[1] !== this.activeEndDate) {
-        this.activeEndDate =
-          this.hasSameMonthAndYear(valueAsDate[0], valueAsDate[1]) &&
-          !this.hasSameMonthAndYear(this.activeEndDate, valueAsDate[1])
-            ? nextMonth(valueAsDate[1])
-            : new Date(valueAsDate[1]);
-        //this.activeEndDate = new Date(valueAsDate[1]);
+        this.activeEndDate = new Date(valueAsDate[1]);
       }
     }
-  };
-
-  blurHandler = (): void => {
-    this.resetActiveDates();
   };
 
   private getEndDate(): Date {
