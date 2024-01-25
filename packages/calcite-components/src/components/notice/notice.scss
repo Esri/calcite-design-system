@@ -3,13 +3,24 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-notice-width: The width of the component.
+ * @prop --calcite-notice-background-color: Specifies the background color of the component.
+ * @prop --calcite-notice-border-color: Specifies the border color of the component.
+ * @prop --calcite-notice-box-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-notice-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-notice-icon-color: Specifies the color of the component's icon property.
+ * @prop --calcite-notice-close-icon-color: Specifies the color of the component's `closable` icon color;
+ * @prop --calcite-notice-close-background-color: Specifies the color of the component's `closable` background color;
+ * @prop --calcite-notice-close-background-color-hover: Specifies the hover color of the component's `closable` background color;
+ * @prop --calcite-notice-close-background-color-active: Specifies the active color of the component's `closable` background color;
+ * @prop --calcite-notice-close-background-color-focus: Specifies the focus color of the component's `closable` background color;
+ * @prop --calcite-notice-close-focus-color: Specifies the focus color of the component's `closable` background color;
+ *
  */
 
 // scale variables
 :host([scale="s"]) {
-  --calcite-notice-spacing-token-small: theme("spacing.2");
-  --calcite-notice-spacing-token-large: theme("spacing.3");
+  --calcite-internal-notice-spacing-token-small: theme("spacing.2");
+  --calcite-internal-notice-spacing-token-large: theme("spacing.3");
   @include slotted("title", "*", ".container") {
     @apply text-n1-wrap my-0.5;
   }
@@ -26,8 +37,8 @@
 }
 
 :host([scale="m"]) {
-  --calcite-notice-spacing-token-small: theme("spacing.3");
-  --calcite-notice-spacing-token-large: theme("spacing.4");
+  --calcite-internal-notice-spacing-token-small: theme("spacing.3");
+  --calcite-internal-notice-spacing-token-large: theme("spacing.4");
   @include slotted("title", "*", ".container") {
     @apply text-0-wrap my-0.5;
   }
@@ -40,8 +51,8 @@
 }
 
 :host([scale="l"]) {
-  --calcite-notice-spacing-token-small: theme("spacing.4");
-  --calcite-notice-spacing-token-large: theme("spacing.5");
+  --calcite-internal-notice-spacing-token-small: theme("spacing.4");
+  --calcite-internal-notice-spacing-token-large: theme("spacing.5");
   @include slotted("title", "*", ".container") {
     @apply text-1-wrap my-0.5;
   }
@@ -71,18 +82,18 @@
 }
 
 .container {
-  @apply bg-foreground-1
-    pointer-events-none
+  @apply pointer-events-none
     my-0
     box-border
     hidden
     w-full
     opacity-0
     transition-default;
+  background-color: var(--calcite-notice-background-color, var(--calcite-color-foreground-1));
+  border-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sharp));
   max-block-size: 0;
   text-align: start;
   border-inline-start: 0px solid;
-  box-shadow: 0 0 0 0 transparent;
 }
 
 // focus styles
@@ -98,13 +109,13 @@
 }
 
 :host([open]) .container {
-  @apply shadow-1
-    pointer-events-auto
+  @apply pointer-events-auto
     flex
     max-h-full
     items-center
     border-2
     opacity-100;
+  box-shadow: var(--calcite-notice-box-shadow, var(--calcite-shadow-sm));
 }
 
 @include slotted("title", "*", ".container") {
@@ -113,13 +124,13 @@
 
 @include slotted("message", "*", ".container") {
   @apply text-color-2 m-0 inline font-normal;
-  margin-inline-end: var(--calcite-notice-spacing-token-small);
+  margin-inline-end: var(--calcite-internal-notice-spacing-token-small);
 }
 
 @mixin notice-element-base() {
   @apply transition-default box-border;
-  padding-block: var(--calcite-notice-spacing-token-small);
-  padding-inline: var(--calcite-notice-spacing-token-large);
+  padding-block: var(--calcite-internal-notice-spacing-token-small);
+  padding-inline: var(--calcite-internal-notice-spacing-token-large);
   flex: 0 0 auto;
 }
 
@@ -127,15 +138,15 @@
   @include notice-element-base;
   @apply flex min-w-0 flex-col break-words;
   flex: 1 1 0;
-  padding-block: var(--calcite-notice-spacing-token-small);
-  padding-inline: 0 var(--calcite-notice-spacing-token-small);
+  padding-block: var(--calcite-internal-notice-spacing-token-small);
+  padding-inline: 0 var(--calcite-internal-notice-spacing-token-small);
 
   &:first-of-type:not(:only-child) {
-    padding-inline-start: var(--calcite-notice-spacing-token-large);
+    padding-inline-start: var(--calcite-internal-notice-spacing-token-large);
   }
   &:only-of-type {
-    padding-block: var(--calcite-notice-spacing-token-small);
-    padding-inline: var(--calcite-notice-spacing-token-large);
+    padding-block: var(--calcite-internal-notice-spacing-token-small);
+    padding-inline: var(--calcite-internal-notice-spacing-token-large);
   }
 }
 
@@ -146,6 +157,8 @@
 
 .notice-close {
   @apply text-color-3 flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
+  border-end-end-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sharp));
   @include notice-element-base;
   -webkit-appearance: none;
 
@@ -175,7 +188,7 @@ $noticeKinds:
   $kind: nth($noticeKind, 2);
 
   :host([kind="#{$name}"]) .container {
-    border-color: $kind;
+    border-color: var(--calcite-notice-border-color, $kind);
     & .notice-icon {
       color: $kind;
     }
