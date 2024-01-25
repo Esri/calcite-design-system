@@ -1377,6 +1377,40 @@ export function floatingUIOwner(
 }
 
 /**
+ * Helper to test if a component has a floating-UI-owning component wired up.
+ *
+ * Note: this performs a shallow test and assumes the underlying component has floating-ui properly configured.
+ *
+ * @example
+ * describe("delegates to floating-ui-owner component", () => {
+ *   delegatesToFloatingUiOwningComponent("calcite-pad", "calcite-action-group");
+ * });
+ *
+ * @param componentTagOrHTML
+ * @param floatingUiOwnerComponentTag
+ */
+export async function delegatesToFloatingUiOwningComponent(
+  componentTagOrHTML: TagOrHTML,
+  floatingUiOwnerComponentTag: ComponentTag,
+): Promise<void> {
+  it("delegates to floating-ui owning component", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const tag = getTag(componentTagOrHTML);
+
+    // we assume if `overlay-positioning` is used by an internal component that it is a floating-ui component
+
+    const floatingUiOwningComponent = await page.find(`${tag} >>> ${floatingUiOwnerComponentTag}`);
+    expect(await floatingUiOwningComponent.getProperty("overlayPositioning")).toBe("absolute");
+
+    const component = await page.find(tag);
+    await component.setProperty("overlayPositioning", "fixed");
+    await page.waitForChanges();
+
+    expect(await floatingUiOwningComponent.getProperty("overlayPositioning")).toBe("fixed");
+  });
+}
+
+/**
  * Helper to test t9n component setup.
  *
  * Note that this helper should be used within a describe block.
