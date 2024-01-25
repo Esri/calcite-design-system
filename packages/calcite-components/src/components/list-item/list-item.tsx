@@ -314,8 +314,6 @@ export class ListItem
 
   @State() level: number = null;
 
-  @State() visualLevel: number = null;
-
   @State() parentListEl: HTMLCalciteListElement;
 
   @State() openable = false;
@@ -357,7 +355,6 @@ export class ListItem
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
-    this.visualLevel = getDepth(el, true);
     this.setSelectionDefaults();
   }
 
@@ -556,13 +553,9 @@ export class ListItem
   }
 
   renderContentBottom(): VNode {
-    const { hasContentBottom, visualLevel } = this;
+    const { hasContentBottom } = this;
     return (
-      <div
-        class={CSS.contentBottom}
-        hidden={!hasContentBottom}
-        style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
-      >
+      <div class={CSS.contentBottom} hidden={!hasContentBottom}>
         <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
       </div>
     );
@@ -646,7 +639,6 @@ export class ListItem
       selectionAppearance,
       selectionMode,
       closed,
-      visualLevel,
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -675,7 +667,6 @@ export class ListItem
             onFocusin={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             role="row"
-            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
             tabIndex={active ? 0 : -1}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
@@ -687,8 +678,10 @@ export class ListItem
             {this.renderContentContainer()}
             {this.renderActionsEnd()}
           </tr>
-          {this.renderContentBottom()}
-          {this.renderDefaultContainer()}
+          <div class={CSS.indent}>
+            {this.renderContentBottom()}
+            {this.renderDefaultContainer()}
+          </div>
         </InteractiveContainer>
       </Host>
     );
