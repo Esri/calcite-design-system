@@ -37,7 +37,7 @@
     "@esri/calcite-colors": "6.1.0",
     "@prettier/sync": "0.3.0",
     "@rollup/plugin-node-resolve": "15.2.3",
-    "@rollup/plugin-typescript": "11.1.5",
+    "@rollup/plugin-typescript": "11.1.6",
     "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-docs": "6.5.16",
     "@storybook/addon-interactions": "6.5.16",
