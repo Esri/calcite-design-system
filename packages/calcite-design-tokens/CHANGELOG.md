@@ -3,29 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.1.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.3...@esri/calcite-design-tokens@2.1.1-next.4) (2024-01-05)
+## [2.1.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1...@esri/calcite-design-tokens@2.1.2-next.0) (2024-01-18)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
 
-## [2.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.2...@esri/calcite-design-tokens@2.1.1-next.3) (2023-12-21)
-
-### Reverts
-
-- chore(modal): remove e2e tests that are covered by dedicated openClose commonTests helper ([#8392](https://github.com/Esri/calcite-design-system/issues/8392)) ([#8471](https://github.com/Esri/calcite-design-system/issues/8471)) ([4bedf99](https://github.com/Esri/calcite-design-system/commit/4bedf99445e5eaeaa48596bee0c95f650db56260))
-
-## [2.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.1...@esri/calcite-design-tokens@2.1.1-next.2) (2023-12-20)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [2.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.0...@esri/calcite-design-tokens@2.1.1-next.1) (2023-12-20)
+## [2.1.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.0...@esri/calcite-design-tokens@2.1.1) (2024-01-17)
 
 ### Bug Fixes
 
-- allow users to control tabindex on interactive components ([#8166](https://github.com/Esri/calcite-design-system/issues/8166)) ([b15c052](https://github.com/Esri/calcite-design-system/commit/b15c052335b3c3bcba01cd3a0ec2dfe03588959c)), closes [#4970](https://github.com/Esri/calcite-design-system/issues/4970)
+- Allow users to control tabindex on interactive components ([#8166](https://github.com/Esri/calcite-design-system/issues/8166)) ([b15c052](https://github.com/Esri/calcite-design-system/commit/b15c052335b3c3bcba01cd3a0ec2dfe03588959c))
 
-## [2.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.0...@esri/calcite-design-tokens@2.1.1-next.0) (2023-12-19)
+### Reverts
 
-**Note:** Version bump only for package @esri/calcite-design-tokens
+- Chore(modal): remove e2e tests that are covered by dedicated openClose commonTests helper ([#8392](https://github.com/Esri/calcite-design-system/issues/8392)) ([#8471](https://github.com/Esri/calcite-design-system/issues/8471)) ([4bedf99](https://github.com/Esri/calcite-design-system/commit/4bedf99445e5eaeaa48596bee0c95f650db56260))
 
 ## [2.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.0.0...@esri/calcite-design-tokens@2.1.0) (2023-12-19)
 

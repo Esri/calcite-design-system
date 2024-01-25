@@ -137,7 +137,7 @@ Lerna generates a changelog section for each `next` version. Before `latest` rel
 To update a changelog entry, you must:
 
 1. Edit the entry in the `CHANGELOG.md` file and create a PR
-2. If the entry was in a `next` version section, edit the `release-please` PR following their [documented steps](https://github.com/googleapis/release-please#how-can-i-fix-release-notes)
+2. If the entry was in a `next` version section, edit the merged PR's body following the [steps documented by `release-please`](https://github.com/googleapis/release-please#how-can-i-fix-release-notes)
 
 ### CI
 
