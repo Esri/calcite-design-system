@@ -8,8 +8,13 @@
  * @prop --calcite-chip-box-shadow: Specifies the box shadow of the component.
  * @prop --calcite-chip-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-chip-icon-color: Specifies the color of the component's icon property.
- * @prop --calcite-chip-close-icon-color: Specifies the color of the component's `closable` button, when requested.
  * @prop --calcite-chip-text-color: Specifies the color of the component's `"default"` slot.
+ * @prop --calcite-chip-close-icon-color: Specifies the color of the component's `closable` icon.
+ * @prop --calcite-chip-close-background-color: Specifies the color of the component's `closable` background color;
+ * @prop --calcite-chip-close-background-color-hover: Specifies the hover color of the component's `closable` background color;
+ * @prop --calcite-chip-close-background-color-active: Specifies the active color of the component's `closable` background color;
+ * @prop --calcite-chip-close-background-color-focus: Specifies the focus color of the component's `closable` background color;
+ * @prop --calcite-chip-close-focus-color: Specifies the focus color of the component's `closable` background color;
  *
  */
 
@@ -166,8 +171,7 @@
     transition-default
     cursor-pointer
     items-center
-    border-none
-    bg-transparent;
+    border-none;
   -webkit-appearance: none;
   display: flex;
   border-radius: var(--calcite-chip-corner-radius, 9999px);
@@ -177,15 +181,17 @@
   color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-1));
   block-size: var(--calcite-internal-chip-icon-size);
   inline-size: var(--calcite-internal-chip-icon-size);
+  background-color: var(--calcite-chip-close-background-color, var(--calcite-color-transparent));
   &:hover {
-    background-color: var(--calcite-color-transparent-hover);
+    background-color: var(--calcite-chip-close-background-color-hover, var(--calcite-color-transparent-hover));
   }
   &:focus {
-    background-color: var(--calcite-color-transparent-hover);
+    background-color: var(--calcite-chip-close-background-color-focus, var(--calcite-color-transparent-hover));
     @apply focus-inset;
+    outline-color: var(--calcite-chip-close-focus-color, inherit);
   }
   &:active {
-    background-color: var(--calcite-color-transparent-press);
+    background-color: var(--calcite-chip-close-background-color-active, var(--calcite-color-transparent-press));
   }
   & calcite-icon {
     color: inherit;
@@ -313,7 +319,7 @@ slot[name="image"]::slotted(*) {
 :host([kind="brand"][appearance="solid"]),
 :host([kind="inverse"][appearance="solid"]) {
   button {
-    outline-color: var(--calcite-color-text-inverse);
+    outline-color: var(--calcite-chip-close-focus-color, var(--calcite-color-text-inverse));
   }
 }
 
