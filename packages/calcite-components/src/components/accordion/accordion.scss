@@ -27,11 +27,9 @@
     max-w-full;
 
   --calcite-accordion-space: unset;
-  --calcite-accordion-border-color: var(--calcite-color-border-2);
-  --calcite-accordion-background: var(--calcite-color-foreground-1);
-  --calcite-accordion-text-color: var(--calcite-color-text-3);
-  --calcite-accordion-text-color-selected: var(--calcite-color-text-1);
-  --calcite-accordion-secondary-text-color-highlight: var(--calcite-color-text-2);
+
+  --calcite-internal-accordion-icon-margin: calc(var(--calcite-accordion-space) + 4px);
+  --calcite-internal-accordion-padding: var(--calcite-accordion-space) calc(var(--calcite-accordion-space) + 4px);
 
   font-size: var(--calcite-internal-accordion-font-size);
   line-height: var(--calcite-internal-accordion-line-height, var(--calcite-font-size-xxl));
@@ -40,24 +38,18 @@
 // scale variants for child
 :host([scale="s"]) {
   --calcite-accordion-space: var(--calcite-spacing-xxs);
-  --calcite-internal-accordion-icon-margin: calc(var(--calcite-accordion-space) + 4px);
-  --calcite-internal-accordion-padding: var(--calcite-accordion-space) calc(var(--calcite-accordion-space) + 4px);
   --calcite-internal-accordion-font-size: var(--calcite-font-size-sm);
   --calcite-internal-accordion-line-height: var(--calcite-font-size-md);
 }
 
 :host([scale="m"]) {
   --calcite-accordion-space: var(--calcite-spacing-sm);
-  --calcite-internal-accordion-icon-margin: calc(var(--calcite-accordion-space) + 4px);
-  --calcite-internal-accordion-padding: var(--calcite-accordion-space) calc(var(--calcite-accordion-space) + 4px);
   --calcite-internal-accordion-font-size: var(--calcite-font-size);
   --calcite-internal-accordion-line-height: var(--calcite-font-size-md);
 }
 
 :host([scale="l"]) {
   --calcite-accordion-space: var(--calcite-spacing-md);
-  --calcite-internal-accordion-icon-margin: calc(var(--calcite-accordion-space) + 4px);
-  --calcite-internal-accordion-padding: var(--calcite-accordion-space) calc(var(--calcite-accordion-space) + 4px);
   --calcite-internal-accordion-font-size: var(--calcite-font-size-md);
   --calcite-internal-accordion-line-height: var(--calcite-font-line-height-relative-tight);
 }
@@ -68,10 +60,10 @@
 }
 
 .accordion {
-  border-width: var(--calcite-border-width-sm);
+  border-width: 1px;
   border-style: solid;
-  border-color: var(--calcite-accordion-border-color);
-  border-block-end-width: var(--calcite-border-width-none);
+  border-color: var(--calcite-color-border-2);
+  border-block-end-width: 0;
 }
 
 @include base-component();
