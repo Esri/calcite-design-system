@@ -8,7 +8,6 @@
 * @prop --calcite-tip-font-size: The font size of the component.
 * @prop --calcite-tip-text-color: The text color of the component.
 *
-* @prop --calcite-internal-tip-line-height: The line height of the component element text.
 * @prop --calcite-internal-tip-padding: The paddings around component elements.
 * @prop --calcite-internal-tip-padding-block: The block paddings around component elements.
 * @prop --calcite-internal-tip-padding-inline: The inline paddings around component elements.
@@ -28,8 +27,7 @@
   --calcite-tip-border-color: var(--calcite-color-border-2);
   --calcite-tip-color: var(--calcite-color-foreground-1);
   --calcite-tip-text-color: var(--calcite-color-text-2);
-  --calcite-tip-font-size: var(--calcite-font-size--1);
-  --calcite-internal-tip-line-height: 1rem /* 16px */;
+  --calcite-tip-font-size: theme("fontSize.n1");
   --calcite-internal-tip-margin: 1rem /* 16px */;
 
   * {
@@ -63,8 +61,7 @@
 
 .header .heading {
   --calcite-internal-tip-padding: 0;
-  --calcite-tip-font-size: var(--calcite-font-size-0);
-  --calcite-internal-tip-line-height: 1.25rem /* 20px */;
+  --calcite-tip-font-size: theme("fontSize.0h");
   --calcite-tip-text-color: var(--calcite-color-text-1);
 }
 
