@@ -62,7 +62,7 @@
     "@typescript-eslint/eslint-plugin": "6.16.0",
     "@typescript-eslint/parser": "6.16.0",
     "@whitespace/storybook-addon-html": "5.0.0",
-    "autoprefixer": "10.4.16",
+    "autoprefixer": "10.4.17",
     "axe-core": "4.8.3",
     "babel-loader": "8.3.0",
     "change-case": "4.1.2",
