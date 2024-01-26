@@ -228,6 +228,12 @@
   }
 }
 
+:host([bordered]) .scale-s {
+  .content {
+    @apply px-2;
+  }
+}
+
 :host([bordered]) .scale-l {
   .content {
     @apply px-4;
