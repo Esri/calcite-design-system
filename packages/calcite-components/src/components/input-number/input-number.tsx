@@ -135,13 +135,6 @@ export class InputNumber
   @Prop({ reflect: true }) groupSeparator = false;
 
   /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
-
-  /**
    * Specifies an icon to display.
    *
    * @futureBreaking Remove boolean type as it is not supported.
@@ -803,13 +796,6 @@ export class InputNumber
       this.nudgeNumberValue(direction, event);
     }
   };
-
-  onFormReset(): void {
-    this.setNumberValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "number";

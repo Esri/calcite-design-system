@@ -471,12 +471,18 @@ export class ListItem
   }
 
   renderOpen(): VNode {
-    const { el, open, openable } = this;
+    const { el, open, openable, messages } = this;
     const dir = getElementDir(el);
     const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
+    const tooltip = open ? messages.collapse : messages.expand;
 
     return openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.handleToggleClick}>
+      <td
+        class={CSS.openContainer}
+        key="open-container"
+        onClick={this.handleToggleClick}
+        title={tooltip}
+      >
         <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
@@ -665,7 +671,7 @@ export class ListItem
             aria-setsize={setSize}
             class={{
               [CSS.container]: true,
-              [CSS.containerHover]: selectionMode !== "none",
+              [CSS.containerHover]: true,
               [CSS.containerBorder]: showBorder,
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
