@@ -1,6 +1,17 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 const panelTemplate = (scrollable = false) =>
@@ -44,6 +55,31 @@ describe("calcite-panel", () => {
         propertyName: "collapsed",
         defaultValue: false,
       },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-panel", [
+      {
+        propertyName: "headingLevel",
+        value: 2,
+      },
+      {
+        propertyName: "collapsible",
+        value: true,
+      },
+      {
+        propertyName: "collapsed",
+        value: true,
+      },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
     ]);
   });
 
@@ -57,6 +93,15 @@ describe("calcite-panel", () => {
 
   describe("translation support", () => {
     t9n("calcite-panel");
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-panel>
+        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+      </calcite-panel>`,
+      "calcite-action-menu",
+    );
   });
 
   it("honors closed prop", async () => {

@@ -388,8 +388,6 @@ export class TextArea
 
   @State() effectiveLocale = "";
 
-  @State() localizedCharacterLengthObj: CharacterLengthObj;
-
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -397,15 +395,13 @@ export class TextArea
 
   private guid = guid();
 
+  private localizedCharacterLengthObj: CharacterLengthObj;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  onFormReset(): void {
-    this.value = this.defaultValue;
-  }
 
   onLabelClick(): void {
     this.setFocus();
@@ -538,7 +534,7 @@ export class TextArea
       }
     },
     RESIZE_TIMEOUT,
-    { leading: false },
+    { leading: false }
   );
 
   private isCharacterLimitExceeded(): boolean {

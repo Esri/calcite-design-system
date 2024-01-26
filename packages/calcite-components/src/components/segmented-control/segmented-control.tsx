@@ -35,8 +35,10 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { Appearance, Layout, Scale, Width } from "../interfaces";
+import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-segmented-control-item`s.
@@ -127,6 +129,15 @@ export class SegmentedControl
     }
   }
 
+  /** Specifies the status of the validation message. */
+  @Prop({ reflect: true }) status: Status = "idle";
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
+
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
@@ -169,10 +180,20 @@ export class SegmentedControl
   render(): VNode {
     return (
       <Host onClick={this.handleClick} role="radiogroup">
-        <InteractiveContainer disabled={this.disabled}>
-          <slot />
-          <HiddenFormInputSlot component={this} />
-        </InteractiveContainer>
+        <div class={CSS.itemWrapper}>
+          <InteractiveContainer disabled={this.disabled}>
+            <slot />
+            <HiddenFormInputSlot component={this} />
+          </InteractiveContainer>
+        </div>
+        {this.validationMessage ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }
