@@ -4,11 +4,15 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-link-text-color: Specifies the text color of the component.
+ * @prop --calcite-link-icon-start-color: Specifies the color of the component's start position icon.
+ * @prop --calcite-link-icon-end-color: Specifies the color of the component's end position icon.
  */
 
 :host {
   display: inline;
   --calcite-link-text-color: var(--calcite-color-brand);
+  --calcite-link-icon-start-color: var(--calcite-color-brand);
+  --calcite-link-icon-end-color: var(--calcite-color-brand);
 }
 
 // link base
@@ -57,10 +61,12 @@ calcite-icon {
 // icon positioning and styles
 :host .calcite-link--icon.icon-start {
   margin-inline-end: theme("margin.2");
+  color: var(--calcite-link-icon-start-color);
 }
 
 :host .calcite-link--icon.icon-end {
   margin-inline-start: theme("margin.2");
+  color: var(--calcite-link-icon-end-color);
 }
 
 :host {
