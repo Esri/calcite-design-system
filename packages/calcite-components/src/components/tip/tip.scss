@@ -1,3 +1,5 @@
+@import "../../assets/styles/header";
+
 /**
 * CSS Custom Properties  
 *
@@ -9,29 +11,19 @@
 * @prop --calcite-tip-text-color: The text color of the component.
 */
 
-/**
-* Internal CSS Custom Properties  
-*
-* @prop --calcite-internal-tip-padding: The paddings around component elements.
-* @prop --calcite-internal-tip-padding-block: The block paddings around component elements.
-* @prop --calcite-internal-tip-padding-inline: The inline paddings around component elements.
-* @prop --calcite-internal-tip-margin: The margins around component elements.
-* @prop --calcite-internal-tip-margin-block: The block margins around component elements.
-*/
-
 :host {
   @apply relative
     box-border
     flex
     flex-row
     border
-    border-solid;
+    border-solid
+    m-4;
 
   --calcite-tip-border-color: var(--calcite-color-border-2);
   --calcite-tip-background-color: var(--calcite-color-foreground-1);
   --calcite-tip-text-color: var(--calcite-color-text-2);
   --calcite-tip-font-size: theme("fontSize.n1");
-  --calcite-internal-tip-margin: 1rem /* 16px */;
 
   * {
     @apply box-border;
@@ -39,9 +31,9 @@
 }
 
 .container {
-  @apply w-full;
+  @apply p-4;
 
-  --calcite-internal-tip-padding: 1rem /* 16px */;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 :host([closed]),
@@ -50,20 +42,17 @@
 }
 
 :host([selected]) .container {
-  @apply border-none;
+  @apply border-none p-0;
 
   --calcite-internal-tip-margin: 0;
-  --calcite-internal-tip-padding: 0;
 }
-
-@import "../../assets/styles/header";
 
 .header {
   @apply mb-2;
 }
 
 .header .heading {
-  --calcite-internal-tip-padding: 0;
+  @apply p-0;
   --calcite-tip-font-size: theme("fontSize.0h");
   --calcite-tip-text-color: var(--calcite-color-text-1);
 }
@@ -77,13 +66,11 @@
 }
 
 .info {
+  @apply py-0 px-4;
   inline-size: 70%;
 
-  --calcite-internal-tip-padding-block: 0;
-  --calcite-internal-tip-padding-inline: 1rem /* 16px */;
-
   &:only-child {
-    --calcite-internal-tip-padding-inline: 0;
+    @apply px-0;
   }
 }
 
@@ -94,7 +81,7 @@
 ::slotted(a) {
   @apply focus-base;
 
-  --calcite-tip-color: var(--calcite-color-brand);
+  --calcite-tip-background-color: var(--calcite-color-brand);
 }
 
 ::slotted(a:focus) {
