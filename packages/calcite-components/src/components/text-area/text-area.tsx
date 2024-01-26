@@ -330,7 +330,7 @@ export class TextArea
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}
@@ -534,7 +534,7 @@ export class TextArea
       }
     },
     RESIZE_TIMEOUT,
-    { leading: false }
+    { leading: false },
   );
 
   private isCharacterLimitExceeded(): boolean {
