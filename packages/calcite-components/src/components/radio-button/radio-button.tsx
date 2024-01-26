@@ -48,6 +48,17 @@ export class RadioButton
 {
   //--------------------------------------------------------------------------
   //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("hidden")
+  handleHiddenChange(): void {
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -89,14 +100,6 @@ export class RadioButton
 
   /** The `id` of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
-
-  /** When `true`, the component is not displayed and is not focusable or checkable. */
-  @Prop({ reflect: true }) hidden = false;
-
-  @Watch("hidden")
-  hiddenChanged(): void {
-    this.updateTabIndexOfOtherRadioButtonsInGroup();
-  }
 
   /**
    * The hovered state of the component.
@@ -223,7 +226,7 @@ export class RadioButton
   };
 
   onLabelClick(event: CustomEvent): void {
-    if (this.disabled || this.hidden) {
+    if (this.disabled || this.el.hidden) {
       return;
     }
 
@@ -403,7 +406,7 @@ export class RadioButton
     }
 
     const radioButtons = Array.from(
-      this.rootNode.querySelectorAll("calcite-radio-button:not([hidden]"),
+      this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])"),
     ).filter(
       (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name,
     ) as HTMLCalciteRadioButtonElement[];

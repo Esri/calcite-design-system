@@ -31,6 +31,18 @@ describe("calcite-segmented-control", () => {
         propertyName: "width",
         defaultValue: "auto",
       },
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -51,6 +63,14 @@ describe("calcite-segmented-control", () => {
       {
         propertyName: "width",
         value: "auto",
+      },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
       },
     ]);
   });
