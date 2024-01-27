@@ -1221,7 +1221,7 @@ export class Combobox
       if (!this.isMulti()) {
         this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
       }
-      const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
+      const item = document.createElement("calcite-combobox-item");
       item.value = value;
       item.textLabel = value;
       item.selected = true;
