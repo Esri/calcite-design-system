@@ -13,6 +13,9 @@
 
 :host {
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
+  --calcite-popover-background-color: var(--calcite-color-foreground-1);
+  --calcite-popover-border-color: var(--calcite-color-border-3);
+  --calcite-popover-border-color: var(--calcite-color-border-3);
 }
 
 @include floatingUIHost();
@@ -54,12 +57,10 @@
 }
 
 .calcite-floating-ui-anim {
-  @apply rounded
-    border
+  @apply border
     border-solid;
 
-  --calcite-popover-background-color: var(--calcite-color-foreground-1);
-  --calcite-popover-border-color: var(--calcite-color-border-3);
+  border-radius: var(--calcite-corner-radius-round);
 }
 
 .arrow::before {
@@ -74,8 +75,6 @@
     border-0
     border-b
     border-solid;
-
-  --calcite-popover-border-color: var(--calcite-color-border-3);
 }
 
 .heading {
